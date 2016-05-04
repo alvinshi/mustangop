@@ -47,4 +47,8 @@
     <option name="SEND_ENVIRONMENT_VARIABLES_TO_SERVER" value="false" />
     <option name="SHOW_PATH" value="true" />
   </component>
+  <component name="NodeLocalInterpreterManager">
+    <node-interpreter path="/usr/local/bin/node" version="0.12.5" last-modified="1434997846000" />
+    <node-interpreter path="/usr/local/Cellar/node/0.12.5/bin/node" version="0.12.5" last-modified="1435072917000" />
+  </component>
 </application>
