@@ -759,6 +759,11 @@
         <option name="FONT_TYPE" value="1" />
       </value>
     </option>
+    <option name="JADE_JS_BLOCK">
+      <value>
+        <option name="FOREGROUND" value="9540c6" />
+      </value>
+    </option>
     <option name="JAVA_BLOCK_COMMENT">
       <value>
         <option name="FOREGROUND" value="75715e" />
@@ -820,6 +825,12 @@
     <option name="JS.ATTRIBUTE">
       <value>
         <option name="BACKGROUND" value="423535" />
+      </value>
+    </option>
+    <option name="JS.GLOBAL_VARIABLE">
+      <value>
+        <option name="FOREGROUND" value="869cff" />
+        <option name="FONT_TYPE" value="3" />
       </value>
     </option>
     <option name="JS.INSTANCE_MEMBER_FUNCTION">
