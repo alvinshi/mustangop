@@ -5,20 +5,19 @@
     <!-- 最新的 Angularjs 文件 -->
     <title>Test Angular</title>
     <script src="http://code.angularjs.org/angular-1.0.1.min.js"></script>
-
+    <script src="/javascripts/testAngular.js"></script>
 </head>
-<body>
-<div ng-app="myApp" ng-controller="namesCtrl">
+    <body>
+        <div ng-app="myApp" ng-controller="namesCtrl">
 
-    <ul>
-        <li ng-repeat="x in names">
-            {{ x.name + ', ' + x.country }}
-        </li>
-    </ul>
+            <ul>
+                <li ng-repeat="x in names">
+                    {{ x.name + ', ' + x.country }}
+                </li>
+            </ul>
 
-</div>
+            <example-directive></example-directive>
+        </div>
 
-<script src="/javascripts/testAngular.js"></script>
-
-</body>
+    </body>
 </html>
