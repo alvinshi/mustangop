@@ -5,8 +5,11 @@ var path = require('path');
 var ejs = require('ejs');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-var todos = require('./routes/todos');
 var cloud = require('./cloud');
+
+// 挂载子路由
+var todos = require('./routes/todos');
+var users = require('./routes/users')
 
 var app = express();
 
@@ -48,7 +51,7 @@ app.use(function(req, res, next) {
   d.run(next);
 });
 
-//test
+//test start
 
 // 没有挂载路径的中间件，应用的每个请求都会执行该中间件
 app.use(function (req, res, next) {
@@ -60,7 +63,6 @@ app.use(function (req, res, next) {
 app.get('/test/angular', function(req, res) {
     res.render('testAngular');
 });
-
 //end test
 
 app.get('/', function(req, res) {
@@ -69,6 +71,10 @@ app.get('/', function(req, res) {
 
 // 可以将一类的路由单独保存在一个文件中
 app.use('/todos', todos);
+
+
+app.use('/user', users);
+
 
 // 如果任何路由都没匹配到，则认为 404
 // 生成一个异常让后面的 err handler 捕获
