@@ -8,8 +8,10 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var cloud = require('./cloud');
 
+
 // 挂载子路由
 var todos = require('./routes/todos');
+var api = require('./routes/api')
 var users = require('./routes/users')
 
 var app = express();
@@ -73,7 +75,7 @@ app.get('/', function(req, res) {
 // 可以将一类的路由单独保存在一个文件中
 app.use('/todos', todos);
 
-
+app.use('/api', api);
 app.use('/user', users);
 
 
