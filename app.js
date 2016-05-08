@@ -3,6 +3,7 @@ var domain = require('domain');
 var express = require('express');
 var path = require('path');
 var ejs = require('ejs');
+var fs= require('fs')
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var cloud = require('./cloud');

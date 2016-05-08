@@ -1,9 +1,11 @@
 /**
  * Created by wujiangwei on 16/5/5.
  */
-var app=angular.module('myApp',[]);
 
-app.controller('namesCtrl', function($scope) {
+
+var app=angular.module('testAngularApp',[]);
+
+app.controller('testAngularCtrl', function($scope) {
     $scope.names = [
         {name:'Jani',country:'Test'},
         {name:'Hege',country:'Sweden'},
