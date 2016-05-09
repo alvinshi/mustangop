@@ -12,6 +12,8 @@ app.controller('itunesSearchControl', function($scope, $http) {
     $scope.searchApp = function(){
         if ($scope.searchUrl != ''){
 
+            {{ searchKey }}
+
             var searchUrl = 'api/itunes/search/' + $scope.searchKey;
 
             $http.get(searchUrl).success(function(response){
