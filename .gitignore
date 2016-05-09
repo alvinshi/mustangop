@@ -2,5 +2,9 @@ node_modules
 start.sh
 
 # VIM
-*~
 *.swp
+*/config/development
+*/logs/log-*.php
+*/logs/!index.html
+*/cache/*
+*/cache/!index.html
