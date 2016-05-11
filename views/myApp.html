@@ -92,7 +92,7 @@
     <div ng-app="itunesSearch" ng-controller="itunesSearchControl">
         <div class="col-lg-6">
             <div class="input-group">
-                <input type="text" class="form-control" ng-model="searchKey" placeholder="搜索你的App...">
+                <input type="text" class="form-control" ng-model="searchKey" placeholder="输入你想搜索的App名称...">
       <span class="input-group-btn">
         <button class="btn" ng-click="searchApp()">
             <span class="glyphicon glyphicon-search"></span>搜索
@@ -101,9 +101,6 @@
             </div><!-- /input-group -->
 
             <div >
-                <p>{{errorMsg}}</p>
-
-                <p>循环对象：{{ searchKey }}</p>
 
                 <ul class="list-group" ng-repeat="app in appResults">
 
@@ -121,8 +118,33 @@
                         <p>appid {{ app.appid }}</p>
 
                         <td>
-                            <button class="btn" ng-click="chooseRootApp(app.id)">
-                                <span class="glyphicon glyphicon-ok"></span>选择
+                            <button class="btn" ng-click="chooseMyApp(app.id)">
+                                <span class="glyphicon glyphicon-ok"></span>确认绑定
+                            </button>
+                        </td>
+
+                    </li>
+                </ul>
+
+
+                <ul class="list-group" ng-repeat="app in myApps">
+
+                    <li class="list-group-item ">
+
+
+                        <span class="label label-info">{{ app.name }}</span>
+
+                        <img ng-src="{{ app.icon }}" class="img-responsive" alt="App Icon">
+
+                        <h3>{{ app.lastReleaseDate }}<span class="label label-default">最近更新时间</span></h3>
+
+                        <p>开发商 {{ app.seller }}</p>
+
+                        <p>appid {{ app.appid }}</p>
+
+                        <td>
+                            <button class="btn" ng-click="releaseMyApp(app.id)">
+                                <span class="glyphicon glyphicon-ok"></span>解除绑定
                             </button>
                         </td>
 
@@ -132,14 +154,6 @@
             </div>
 
         </div>
-    </div>
-
-    <div>
-        <p>这是 LeanEngine 的示例应用 以下是Leancloud的示例</p>
-        <p>当前时间：<%= currentTime %></p>
-        <p>
-            <a href="/todos">一个简单的「TODO 列表」示例</a>
-        </p>
     </div>
 
 </div>

@@ -2,7 +2,7 @@
 var express = require('express');
 var router = express.Router();
 
-var Base64 = require('./base64.js').Base64;
+var Base64 = require('../public/javascripts/vendor/base64').Base64;
 
 router.get('/', function(req, res, next) {
   res.send('user xxxxx');

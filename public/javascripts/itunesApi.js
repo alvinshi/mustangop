@@ -17,17 +17,33 @@ app.controller('itunesSearchControl', function($scope, $http) {
             console.log(searchUrl);
 
             $http.get(searchUrl).success(function(response){
-                console.log('angular search end');
-                console.log(response);
                 $scope.appResults = response.appResults;
-                $scope.errorMsg = 'wwwwww沙盒';
-
-                $scope.testResults = ['test0', 'test1', 'test2'];
             });
         }
     };
 
+    $scope.chooseMyApp = function(appid){
+        //$cookieStore.get("name") == "my name";
 
+        var searchUrl = 'myapp/add';
+
+        console.log(searchUrl);
+        $http.post(searchUrl, {'appid':appid}).success(function(response){
+            $scope.myApps = response.myApps;
+            $scope.appResults = [];
+        });
+    };
+
+    $scope.releaseMyApp = function(appid){
+        //$cookieStore.get("name") == "my name";
+
+        var searchUrl = 'myapp/delete';
+
+        console.log(searchUrl);
+        $http.post(searchUrl, {'appid':appid}).success(function(response){
+            $scope.myApps = response.myApps;
+        });
+    };
 
 });
 
