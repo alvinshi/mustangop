@@ -33,7 +33,7 @@
 
         $http.get('api/test/todos').success(function(response) {
             $scope.title = response.title;
-            $scope.todos = response.todos;
+            $scope.todos = response.todos1;
             $scope.testTT = [0, 1, 2, 3, 4];
         });
 

@@ -82,11 +82,11 @@ router.get('/test/todos', function(req, res, next) {
             {
                 var todo = Object()
                 todo.content = results[i].get('content');
-                todos[i] = todo
+                todos.push(todo)
                 //todos[i] = results[i].get('content');
             }
 
-            res.json({'todos':todos, 'title':'Api Todo'});
+            res.json({'todos1':todos, 'title':'Api Todo'});
         },
         error: function(err) {
             if (err.code === 101) {
@@ -102,6 +102,5 @@ router.get('/test/todos', function(req, res, next) {
         }
     });
 });
-
 
 module.exports = router;

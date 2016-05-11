@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
+    <title>用户注册</title>
+</head>
+
+<body>
+<form action="/register" method="post">
+    <div class="row">
+        <div class="col-lg-4">
+            <div class="input-group">
+                <span class="input-group-addon" id="sizing-addon1">@手机号码:</span>
+                <input type="text" class="form-control" name="mobile" placeholder="输入手机号码" aria-describedby="sizing-addon2">
+            </div>
+        </div>
+    </div><!-- /.row -->
+
+    <div class="row">
+        <div class="col-lg-4">
+            <div class="input-group">
+                <span class="input-group-addon" id="sizing-addon2">@输入密码:</span>
+                <input type="text" class="form-control" name="password" placeholder="请输入密码" aria-describedby="sizing-addon2">
+            </div>
+        </div>
+    </div><!-- /.row -->
+</form>
+
+    <form class="form-inline">
+    <div class="form-group">
+
+        <div class="input-group">
+            <div class="input-group-addon">@验证码</div>
+            <input type="text" class="form-control" id="exampleInputAmount" placeholder="输入6位数验证码">
+
+        </div>
+    </div>
+    <button type="submit" class="btn btn-primary">获取手机验证码</button>
+    </form>
+
+<div class="row">
+    <div class="col-xs-6 col-sm-1"></div>
+    <button onclick="window.location='/user/login'" type="button" class="btn btn-primary btn-sm" >注册</button>
+</div>
+</body>
+<script>
+
+</script>
+
+</html>
