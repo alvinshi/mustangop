@@ -1,8 +1,4 @@
-
-<<<<<<< HEAD
 'use strict';
-=======
->>>>>>> 09189c5e9cf951db2dfd07f3c1b2ed86d026e171
 var express = require('express');
 var AV = require('leanengine');
 var router = express.Router();
@@ -14,21 +10,19 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/register', function(req, res, next) {
-<<<<<<< HEAD
-  res.render('register');
-=======
 
-  user_id = 'aaaaa'
+  var user_id = 'aaaaa';
 
   //encode userid
-  encodeUserId = Base64.encode(user_id);
+  var encodeUserId = Base64.encode(user_id);
 
   //login succeed,response cookie to browser
   //cookie 30天有效期
   res.cookie('userIdCookie',encodeUserId,{ maxAge: 1000*60*60*24*30,httpOnly:true, path:'/'});
 
   res.send('user register :' + encodeUserId);
->>>>>>> 09189c5e9cf951db2dfd07f3c1b2ed86d026e171
+
+  res.render('register');
 });
 
 router.get('/login', function(req, res, next) {
@@ -45,7 +39,7 @@ router.get('/forget', function(req, res, next) {
     res.send('cookie not exist,need relogin');
   }
 
-  user_id = Base64.decode(encodeUserId);
+  var user_id = Base64.decode(encodeUserId);
 
   //do the case
 
