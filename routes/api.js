@@ -20,7 +20,7 @@ router.get('/itunes/search/:searchkey', function(req, res, next) {
     //https://itunes.apple.com/search?term=美丽约&country=cn&entity=software
     var searchUrl = 'https://itunes.apple.com/search?term=' + req.params.searchkey +'&country=cn&entity=software&media=software'
     searchUrl = encodeURI(searchUrl)
-    
+
     https.get(searchUrl, function(httpRes) {
 
         console.log('statusCode: ', httpRes.statusCode);
