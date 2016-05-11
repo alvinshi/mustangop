@@ -7,7 +7,7 @@ var app=angular.module('itunesSearch',[]);
 
 app.controller('itunesSearchControl', function($scope, $http) {
 
-    $scope.searchKey = '';
+    $scope.searchKey = '11';
 
     $scope.searchApp = function(){
         if ($scope.searchUrl != ''){
