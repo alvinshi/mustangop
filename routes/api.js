@@ -39,7 +39,7 @@ router.get('/itunes/search/:searchkey', function(req, res, next) {
             httpRes.on('end', function(){
                 var dataStr = totalData.toString()
 
-                var dataObject = eval("(" + dataStr + ")")
+                var dataObject = eval("(" + dataStr + ")");
 
                 var appResults = Array();
 
@@ -48,7 +48,7 @@ router.get('/itunes/search/:searchkey', function(req, res, next) {
                     var appResult = Object();
                     appResult.name = appInfo['trackCensoredName'];
                     appResult.icon = appInfo['artworkUrl100'];
-                    appResult.appid = appInfo['artistId'];
+                    appResult.appid = appInfo['trackId'];
                     appResult.lastReleaseDate = appInfo['currentVersionReleaseDate'];
                     appResult.seller = appInfo['sellerName'];
 

@@ -7,7 +7,12 @@ var app=angular.module('itunesSearch',[]);
 
 app.controller('itunesSearchControl', function($scope, $http) {
 
-    $scope.searchKey = '11';
+    //TODO:
+    var appsUrl = 'myapp/angular';
+
+    $http.get(appsUrl).success(function(response){
+        $scope.myApps = response.myApps;
+    });
 
     $scope.searchApp = function(){
         if ($scope.searchUrl != ''){
@@ -15,7 +20,6 @@ app.controller('itunesSearchControl', function($scope, $http) {
             var searchUrl = 'api/itunes/search/' + $scope.searchKey;
 
             console.log(searchUrl);
-
             $http.get(searchUrl).success(function(response){
                 $scope.appResults = response.appResults;
             });
@@ -27,9 +31,27 @@ app.controller('itunesSearchControl', function($scope, $http) {
 
         var searchUrl = 'myapp/add';
 
-        console.log(searchUrl);
+        console.log(appid);
         $http.post(searchUrl, {'appid':appid}).success(function(response){
-            $scope.myApps = response.myApps;
+
+            if (response.errorId == 0){
+                var flag = 0;
+                for (var i = o; i < $scope.myApps.length; i++){
+                    var app = $scope.myApps[i];
+                    if (app.appleId == appid){
+                        flag = 1;
+                        break;
+                    }
+                }
+
+                if (flag == 0){
+                    $scope.myApps.push(response.newApp);
+                }
+                $scope.errorMsg = '';
+            }else {
+                $scope.errorMsg = response.errorMsg;
+            }
+
             $scope.appResults = [];
         });
     };
@@ -41,7 +63,21 @@ app.controller('itunesSearchControl', function($scope, $http) {
 
         console.log(searchUrl);
         $http.post(searchUrl, {'appid':appid}).success(function(response){
-            $scope.myApps = response.myApps;
+            if (response.errorId == 0){
+                for (var i = o; i < $scope.myApps.length; i++){
+                    var app = $scope.myApps[i];
+                    if (app.appleId == appid){
+                        $scope.myApps.splice(i, 1);
+                        break;
+                    }
+                }
+
+                $scope.errorMsg = '';
+            }else {
+                $scope.errorMsg = response.errorMsg;
+            }
+
+            $scope.appResults = [];
         });
     };
 
