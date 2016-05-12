@@ -95,7 +95,21 @@ function blindAppToUser(res, userId, appObject, appInfoObject){
     query.find({
         success: function(results) {
             //has blinded
-            res.json({'myApps':appInfoObject});
+            if (results.length < 1){
+                var appBlindObject = new IOSAppBinder();
+                appBlindObject.set('appObject', appObject);
+                appBlindObject.set('userObject', user);
+
+                appBlindObject.save().then(function(post) {
+                    // 实例已经成功保存.
+                    res.json({'newApp':appInfoObject});
+                }, function(err) {
+                    // 失败了.
+                    res.json({'errorMsg':err.message, 'errorId': err.code});
+                });
+            }else {
+                res.json({'myApps':appInfoObject});
+            }
         },
         error: function(err) {
             var appBlindObject = new IOSAppBinder();
@@ -147,15 +161,28 @@ router.post('/add', function(req, res, next) {
                 query.descending('updatedAt');
                 query.find({
                     success: function(results) {
-                        var appObject = results[0];
-                        var appInfoObject = updateIOSAppInfo(appInfo, appObject);
-                        appObject.save().then(function() {
-                            // 实例已经成功保存.
-                            blindAppToUser(res, userId, appObject, appInfoObject);
-                        }, function(err) {
-                            // 失败了.
-                            res.json({'errorMsg':err.message, 'errorId': err.code});
-                        });
+                        if (results.length < 1){
+                            var appObject = new IOSAppSql();
+                            var appInfoObject = updateIOSAppInfo(appInfo, appObject);
+                            appObject.save().then(function(post) {
+                                // 实例已经成功保存.
+                                blindAppToUser(res, userId, appObject, appInfoObject);
+                            }, function(err) {
+                                // 失败了.
+                                res.json({'errorMsg':err.message, 'errorId': err.code});
+                            });
+                        }else {
+                            var appObject = results[0];
+                            var appInfoObject = updateIOSAppInfo(appInfo, appObject);
+                            appObject.save().then(function() {
+                                // 实例已经成功保存.
+                                blindAppToUser(res, userId, appObject, appInfoObject);
+                            }, function(err) {
+                                // 失败了.
+                                res.json({'errorMsg':err.message, 'errorId': err.code});
+                            });
+                        }
+
                     },
                     error: function(err) {
                         var appObject = new IOSAppSql();
