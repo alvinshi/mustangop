@@ -5,23 +5,58 @@ var router = express.Router();
 
 var Base64 = require('../public/javascripts/vendor/base64').Base64;
 
+// 用户注册
+router.post('/getSmsCode', function(req, res) {
+  var userphone = req.body.mobile;
+
+  AV.Cloud.requestSmsCode(userphone).then(function() {
+    //发送成功
+    res.json({'errorId':0, 'errorMsg':''});
+  }, function(error) {
+    //发送失败
+    res.json({'errorId':error.code, 'errorMsg':error.message});
+  });
+});
+
+router.post('/register', function(req, res, next) {
+  var userphone = req.body.mobile;
+  var password = req.body.password;
+  var smsCode = req.body.smsCode;
+
+  var user = new AV.User();
+  user.signUpOrlogInWithMobilePhone({
+    mobilePhoneNumber: userphone,
+    smsCode: smsCode,
+    password:password,
+    username:userphone,
+  }).then(function(user) {
+    //注册或者登录成功
+
+    var user_id = user.id;
+    //encode userid
+    var encodeUserId = Base64.encode(user_id);
+    //login succeed,response cookie to browser
+    //cookie 30天有效期
+    res.cookie('userIdCookie',encodeUserId,{ maxAge: 1000*60*60*24*30,httpOnly:true, path:'/'});
+
+    //return res.render('myApp');
+
+    res.json({'errorId':0, 'errorMsg':''});
+
+  }, function(error) {
+    // 失败
+    res.json({'errorId':error.code, 'errorMsg':error.message});
+  });
+
+});
+
+//test code
 router.get('/', function(req, res, next) {
   res.send('user xxxxx');
 });
 
 router.get('/register', function(req, res, next) {
-
-  var user_id = 'aaaaa';
-
-  //encode userid
-  var encodeUserId = Base64.encode(user_id);
-
-  //login succeed,response cookie to browser
-  //cookie 30天有效期
-  res.cookie('userIdCookie',encodeUserId,{ maxAge: 1000*60*60*24*30,httpOnly:true, path:'/'});
-
-  res.send('user register :' + encodeUserId);
-
+  //res.send('user register :' + encodeUserId);
   res.render('register');
 });
 
@@ -44,26 +79,6 @@ router.get('/forget', function(req, res, next) {
   //do the case
 
   res.send('user id =' + user_id);
-});
-
-// 用户注册
-router.post('/register', function(req) {
-  var userphone = req.body.mobile;
-  var password = req.body.password;
-  var user = new AV.User();
-  user.set('username', userphone);
-  user.set('password', password);
-  user.set('phone', userphone);
-  user.setMobilePhoneNumber(userphone);
-
-  user.signUp().then(function(user) {
-
-    console.log(user);
-  }, function(err) {
-
-    console.log('Error: ' + error.code + ' ' + error.message);
-  });
-
 });
 
 
