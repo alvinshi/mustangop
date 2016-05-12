@@ -34,9 +34,11 @@ app.controller('itunesSearchControl', function($scope, $http) {
         console.log(appid);
         $http.post(searchUrl, {'appid':appid}).success(function(response){
 
-            if (response.errorId == 0){
+            console.log(response.errorId);
+
+            if (response.errorId == 0 || response.errorId === undefined){
                 var flag = 0;
-                for (var i = o; i < $scope.myApps.length; i++){
+                for (var i = 0; i < $scope.myApps.length; i++){
                     var app = $scope.myApps[i];
                     if (app.appleId == appid){
                         flag = 1;
@@ -45,6 +47,7 @@ app.controller('itunesSearchControl', function($scope, $http) {
                 }
 
                 if (flag == 0){
+                    console.log('add app to ui');
                     $scope.myApps.push(response.newApp);
                 }
                 $scope.errorMsg = '';
@@ -64,9 +67,11 @@ app.controller('itunesSearchControl', function($scope, $http) {
         console.log(searchUrl);
         $http.post(searchUrl, {'appid':appid}).success(function(response){
             if (response.errorId == 0){
-                for (var i = o; i < $scope.myApps.length; i++){
+                console.log('remove app if');
+                for (var i = 0; i < $scope.myApps.length; i++){
                     var app = $scope.myApps[i];
                     if (app.appleId == appid){
+                        console.log('remove app to ui');
                         $scope.myApps.splice(i, 1);
                         break;
                     }
@@ -74,6 +79,7 @@ app.controller('itunesSearchControl', function($scope, $http) {
 
                 $scope.errorMsg = '';
             }else {
+                console.log('remove app else');
                 $scope.errorMsg = response.errorMsg;
             }
 
