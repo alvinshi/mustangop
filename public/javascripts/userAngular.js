@@ -31,6 +31,7 @@ app.controller('userAccountCtrl', function($scope, $http) {
 
             if (response.errorId == 0){
                 //return to my App
+                location.href='/myapp';
             }
         });
     };
@@ -46,6 +47,7 @@ app.controller('userAccountCtrl', function($scope, $http) {
 
             if (response.errorId == 0){
                 //return to my App
+                location.href='/myapp';
             }
         });
     };
