@@ -20,7 +20,7 @@ app.controller('userAccountCtrl', function($scope, $http) {
         }
     };
 
-    $scope.userRegister = function(appid){
+    $scope.userRegister = function(){
         var registerUrl = '/user/register';
 
         console.log($scope.userSmsCode);
