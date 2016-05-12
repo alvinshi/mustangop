@@ -2,7 +2,7 @@ node_modules
 start.sh
 
 # VIM
-*/.idea
+.idea
 *.swp
 */config/development
 */logs/log-*.php
