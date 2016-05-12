@@ -52,4 +52,35 @@ app.controller('userAccountCtrl', function($scope, $http) {
         });
     };
 
+    $scope.getNewSmsCode = function(){
+        if ($scope.searchUrl != ''){
+
+            var registerUrl = '/user/getNewSmsCode';
+
+            console.log(registerUrl);
+
+            $http.post(registerUrl, {'mobile': $scope.userMobile, 'password': $scope.userSecret}).success(function(response){
+                $scope.errorId = response.errorId;
+                $scope.errorMsg = response.errorMsg;
+            });
+        }
+    };
+
+    $scope.newSecret = function(){
+        var registerUrl = '/user/forgetSecret';
+
+        console.log($scope.userSmsCode);
+
+        $http.post(registerUrl, {'mobile': $scope.userMobile, 'smsCode':$scope.newSmsCode, 'newPassword':$scope.usernewSecret}).success(function(response){
+            $scope.errorId = response.errorId;
+            $scope.errorMsg = response.errorMsg;
+
+            if (response.errorId == 0){
+                //return to my App
+                location.href='/myApp';
+            }
+        });
+    };
+
+
 });

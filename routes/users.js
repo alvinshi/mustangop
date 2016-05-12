@@ -99,6 +99,35 @@ router.get('/forget', function(req, res, next) {
   res.send('user id =' + user_id);
 });
 
+router.get('/forgetSecret', function(req, res, next) {
+  res.render('forgetSecret');
+});
 
+router.post('/getNewSmsCode', function(req, res, next) {
+  var userphone = req.body.mobile;
+  AV.User.requestPasswordResetBySmsCode(userphone).then(function() {
+    // 密码重置请求已成功发送
+    res.json({'errorId':0, 'errorMsg':''});
+  }, function(error) {
+    // 记录失败信息
+    console.log('Error: ' + error.code + ' ' + error.message);
+  });
+
+});
+
+router.post('/forgetSecret', function(req, res, next) {
+  var smsCode = req.body.smsCode;
+  var newSecret = req.body.newPassword;
+  AV.User.resetPasswordBySmsCode(smsCode, newSecret, {
+    success: function() {
+      // 密码被成功更新
+      res.json({'errorId':0, 'errorMsg':''});
+    },
+    error: function(error) {
+      // 记录失败信息
+      console.log('Error: ' + error.code + ' ' + error.message);
+    }
+  });
+});
 
 module.exports = router;
