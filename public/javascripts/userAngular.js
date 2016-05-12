@@ -30,11 +30,24 @@ app.controller('userAccountCtrl', function($scope, $http) {
             $scope.errorMsg = response.errorMsg;
 
             if (response.errorId == 0){
-                //
+                //return to my App
             }
         });
     };
 
+    $scope.userLogin = function(){
+        var registerUrl = '/user/login';
 
+        console.log($scope.userSmsCode);
+
+        $http.post(registerUrl, {'mobile': $scope.userMobile, 'password': $scope.userSecret}).success(function(response){
+            $scope.errorId = response.errorId;
+            $scope.errorMsg = response.errorMsg;
+
+            if (response.errorId == 0){
+                //return to my App
+            }
+        });
+    };
 
 });

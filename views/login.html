@@ -2,33 +2,53 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <!-- 引入 AngularJS Mini 文件 -->
+    <script src="/javascripts/vendor/angular.min.js"></script>
+
+    <!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+    <script src="//cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
+    <!-- Bootstrap core CSS -->
     <link href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
-    <title>登陆界面</title>
+
+    <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+    <script src="//cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+
+    <script src="/javascripts/userAngular.js"></script>
+
+    <title>登陆</title>
 </head>
 
+<body>
+<div ng-app="userAccountApp" ng-controller="userAccountCtrl">
     <div class="row">
-        <div class="col-lg-5">
+        <div class="col-lg-4">
             <div class="input-group">
-                <span class="input-group-addon" id="sizing-addon1">@手机号码:</span>
-                <input type="text" class="form-control" placeholder="输入手机号码" aria-describedby="sizing-addon2">
+                <span class="input-group-addon">手机号码:</span>
+                <input type="text" class="form-control" ng-model="userMobile" placeholder="输入手机号码">
             </div>
         </div>
     </div><!-- /.row -->
 
     <div class="row">
-        <div class="col-lg-5">
+        <div class="col-lg-4">
             <div class="input-group">
-                <span class="input-group-addon" id="sizing-addon2">@输入密码:</span>
-                <input type="text" class="form-control" placeholder="请输入密码" aria-describedby="sizing-addon2">
+                <span class="input-group-addon" >输入密码:</span>
+                <input type="text" class="form-control" ng-model="userSecret" placeholder="请输入密码">
             </div>
         </div>
     </div><!-- /.row -->
 
 
     <div class="row">
-        <div class="col-xs-6 col-sm-4"></div>
-            <button type="button" class="btn btn-primary btn-sm">登陆</button>
+        <div class="col-xs-6 col-sm-1"></div>
+        <button type="button" ng-click="userLogin()" class="btn btn-primary btn-sm">登陆</button>
+
+        <div class="alert alert-danger alert-dismissible" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <p>{{ errorMsg }}</p>
+        </div>
     </div>
 
+</div>
 </body>
 </html>

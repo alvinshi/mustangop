@@ -28,7 +28,7 @@ router.post('/register', function(req, res, next) {
     mobilePhoneNumber: userphone,
     smsCode: smsCode,
     password:password,
-    username:userphone,
+    username:userphone
   }).then(function(user) {
     //注册或者登录成功
 
@@ -39,9 +39,9 @@ router.post('/register', function(req, res, next) {
     //cookie 30天有效期
     res.cookie('userIdCookie',encodeUserId,{ maxAge: 1000*60*60*24*30,httpOnly:true, path:'/'});
 
-    //return res.render('myApp');
+    return res.render('myApp');
 
-    res.json({'errorId':0, 'errorMsg':''});
+    //res.json({'errorId':0, 'errorMsg':''});
 
   }, function(error) {
     // 失败
@@ -62,6 +62,19 @@ router.get('/register', function(req, res, next) {
 
 router.get('/login', function(req, res, next) {
   res.render('login');
+});
+
+router.post('/login', function(req, res, next) {
+  var userphone = req.body.mobile;
+  var password = req.body.password;
+
+  AV.User.logIn(userphone, password).then(function() {
+    // 成功了，现在可以做其他事情了
+    return res.render('myApp');
+  }, function(error) {
+    // 失败了
+    res.json({'errorId':error.code, 'errorMsg':error.message});
+  });
 });
 
 router.get('/forget', function(req, res, next) {
