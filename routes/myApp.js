@@ -149,7 +149,7 @@ router.post('/add', function(req, res, next) {
             });
 
             httpRes.on('end', function(){
-                var dataStr = totalData.toString()
+                var dataStr = totalData.toString();
                 var dataObject = eval("(" + dataStr + ")");
 
                 //appid just 1 result
