@@ -77,7 +77,7 @@ app.controller('userAccountCtrl', function($scope, $http) {
 
             if (response.errorId == 0){
                 //return to my App
-                location.href='/myApp';
+                location.href='/login';
             }
         });
     };
