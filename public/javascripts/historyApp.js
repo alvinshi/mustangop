@@ -23,7 +23,11 @@ app.controller('historyAppCtrl', function($scope, $http) {
         $scope.myApps = response.myApps;
 
         //多个App时,增加历史记录需要选择
-        //$scope.selectedApp = $scope.myApps[0];
+        if ($scope.myApps.length < 1){
+            //location
+        }else {
+            $scope.selectedApp = $scope.myApps[0];
+        }
     });
 
     $scope.selectedApp = function(index){
@@ -31,14 +35,14 @@ app.controller('historyAppCtrl', function($scope, $http) {
         $scope.selectedApp = $scope.myApps[index];
 
         //TODO: All history logic
-        var historyUrl = 'history/angular/' + $scope.selectedApp.appleId;
+        var historyUrl = '/myapp/history/angular/' + $scope.selectedApp.appleId;
         $http.get(historyUrl).success(function(response){
             $scope.myExcAllApps = response.myExcAllApps;
         });
     };
 
     //TODO: more my app?
-    var historyUrl = 'history/angular';
+    var historyUrl = '/myapp/history/angular';
     $http.get(historyUrl).success(function(response){
         $scope.myExcAllApps = response.myExcAllApps;
     });
@@ -55,7 +59,7 @@ app.controller('historyAppCtrl', function($scope, $http) {
 
     $scope.addHistory = function(appid, appversion){
 
-        var addHistoryUrl = 'myapp/history/add';
+        var addHistoryUrl = '/myapp/history/add';
 
         var myAppId = $scope.selectedApp.appleId;
         var myAppVersion = $scope.selectedApp.version;
@@ -91,7 +95,7 @@ app.controller('historyAppCtrl', function($scope, $http) {
     };
 
     $scope.releaseHistory = function(appid, appversion){
-        var releaseHistoryUrl = 'myapp/history/delete';
+        var releaseHistoryUrl = '/myapp/history/delete';
 
         var myAppId = $scope.selectedApp.appleId;
         var myAppVersion = $scope.selectedApp.version;

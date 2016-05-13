@@ -6,7 +6,9 @@ var express = require('express');
 var router = express.Router();
 var AV = require('leanengine');
 var https = require('https');
+var util = require('./util');
 
+var IOSAppSql = AV.Object.extend('IOSAppInfo');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -44,7 +46,38 @@ router.get('/itunes/search/:searchkey', function(req, res, next) {
                 var appResults = Array();
 
                 for (var i = 0; i < dataObject.results.length; i++){
-                    var appInfo = dataObject.results[i];
+                    var appleObject = dataObject.results[i];
+                    var appleId = appleObject.trackId;
+
+                    //query did it exist
+                    var query = new AV.Query(IOSAppSql);
+                    query.equalTo('appleId', appleId);
+                    query.find({
+                        success: function(results) {
+                            if (results.length >= 1){
+
+                                console.log(appleId + 'exist in SQL');
+
+                            }else {
+                                //appid store to app sql
+                                var appObject = new IOSAppSql();
+                                var appInfoObject = util.updateIOSAppInfo(appleObject, appObject);
+                                appObject.save().then(function(post) {
+                                    // 实例已经成功保存.
+                                    //blindAppToUser(res, userId, appObject, appInfoObject);
+                                    console.log(appInfoObject.appleId + 'save to SQL succeed');
+                                }, function(err) {
+                                    // 失败了.
+                                    console.log(appInfoObject.appleId + 'save to SQL failed');
+                                });
+                            }
+                        },
+                        error: function(err) {
+                            console.log(appleId + 'error in query');
+                        }
+                    });
+
+                    var appInfo = appleObject;
                     var appResult = Object();
                     appResult.name = appInfo['trackCensoredName'];
                     appResult.icon = appInfo['artworkUrl100'];
@@ -58,7 +91,6 @@ router.get('/itunes/search/:searchkey', function(req, res, next) {
                     appResults.push(appResult);
                 }
 
-                console.log(appResults);
                 res.json({'appResults':appResults, 'title':'Api Todo'});
             })
         }

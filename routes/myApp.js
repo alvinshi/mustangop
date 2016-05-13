@@ -56,33 +56,6 @@ router.get('/angular', function(req, res, next) {
     });
 });
 
-function updateIOSAppInfo(appstoreObject, leanAppObject){
-    var genres = appstoreObject['genres'];
-    var appInfoObject = new Object();
-
-    leanAppObject.set('trackName', appstoreObject['trackName']);
-    leanAppObject.set('artworkUrl100', appstoreObject['artworkUrl100']);
-    leanAppObject.set('artworkUrl512', appstoreObject['artworkUrl512']);
-    leanAppObject.set('appleId', appstoreObject['trackId']);
-    leanAppObject.set('appleKind', genres[0]);
-    leanAppObject.set('formattedPrice', appstoreObject['formattedPrice']);
-    leanAppObject.set('latestReleaseDate', appstoreObject['currentVersionReleaseDate']);
-    leanAppObject.set('sellerName', appstoreObject['sellerName']);
-    leanAppObject.set('version', appstoreObject['version']);
-
-    appInfoObject.trackName = appstoreObject['trackName'];
-    appInfoObject.artworkUrl100 = appstoreObject['artworkUrl100'];
-    appInfoObject.artworkUrl512 = appstoreObject['artworkUrl512'];
-    appInfoObject.appleId = appstoreObject['artistId'];
-    appInfoObject.appleKind = genres[0];
-    appInfoObject.formattedPrice = appstoreObject['formattedPrice'];
-    appInfoObject.latestReleaseDate = appstoreObject['currentVersionReleaseDate'];
-    appInfoObject.sellerName = appstoreObject['sellerName'];
-    appInfoObject.version = appstoreObject['version'];
-
-    return appInfoObject;
-}
-
 function blindAppToUser(res, userId, appObject, appInfoObject){
     //bind app to userid
     //query did it exist
@@ -133,76 +106,31 @@ router.post('/add', function(req, res, next) {
     var appid = req.body.appid;
     var userId = util.useridInReq(req);
 
-    var appInfoUrl = 'https://itunes.apple.com/lookup?id=' + appid +'&country=cn&entity=software';
+    //query did it exist
+    var query = new AV.Query(IOSAppSql);
+    query.equalTo('appleId', appid);
+    query.descending('updatedAt');
+    query.find({
+        success: function(results) {
+            if (results.length >= 1){
 
-    https.get(appInfoUrl, function(httpRes) {
-
-        console.log('statusCode: ', httpRes.statusCode);
-        console.log('headers: ', httpRes.headers);
-        var totalData = '';
-
-        if (httpRes.statusCode != 200){
-            console.log("Add app error: " + httpRes.statusMessage);
-            res.json({'appInfo':[], 'errorMsg' : httpRes.statusCode + httpRes.statusMessage})
-        }else {
-            httpRes.on('data', function(data) {
-                totalData += data;
-            });
-
-            httpRes.on('end', function(){
-                var dataStr = totalData.toString();
-                var dataObject = eval("(" + dataStr + ")");
-
-                //appid just 1 result
-                var appInfo = dataObject.results[0];
-
-                //query did it exist
-                var query = new AV.Query(IOSAppSql);
-                query.equalTo('appleId', appid);
-                query.descending('updatedAt');
-                query.find({
-                    success: function(results) {
-                        if (results.length < 1){
-                            var appObject = new IOSAppSql();
-                            var appInfoObject = updateIOSAppInfo(appInfo, appObject);
-                            appObject.save().then(function(post) {
-                                // 实例已经成功保存.
-                                blindAppToUser(res, userId, appObject, appInfoObject);
-                            }, function(err) {
-                                // 失败了.
-                                res.json({'errorMsg':err.message, 'errorId': err.code});
-                            });
-                        }else {
-                            var appObject = results[0];
-                            var appInfoObject = updateIOSAppInfo(appInfo, appObject);
-                            appObject.save().then(function() {
-                                // 实例已经成功保存.
-                                blindAppToUser(res, userId, appObject, appInfoObject);
-                            }, function(err) {
-                                // 失败了.
-                                res.json({'errorMsg':err.message, 'errorId': err.code});
-                            });
-                        }
-
-                    },
-                    error: function(err) {
-                        var appObject = new IOSAppSql();
-                        var appInfoObject = updateIOSAppInfo(appInfo, appObject);
-                        appObject.save().then(function(post) {
-                            // 实例已经成功保存.
-                            blindAppToUser(res, userId, appObject, appInfoObject);
-                        }, function(err) {
-                            // 失败了.
-                            res.json({'errorMsg':err.message, 'errorId': err.code});
-                        });
-                    }
+                var appObject = results[0];
+                var appInfoObject = util.updateIOSAppInfo(appInfo, appObject);
+                appObject.save().then(function() {
+                    // 实例已经成功保存.
+                    blindAppToUser(res, userId, appObject, appInfoObject);
+                }, function(err) {
+                    // 失败了.
+                    res.json({'errorMsg':err.message, 'errorId': err.code});
                 });
-            })
-        }
 
-    }).on('error', function(e) {
-        console.log("Got appInfo with appid error: " + e.message);
-        res.json({'errorMsg':e.message, 'errorId': e.code});
+            }else {
+                util.findAppidInItunes(res, appid);
+            }
+        },
+        error: function(err) {
+            util.findAppidInItunes(res, appid);
+        }
     });
 });
 
@@ -335,7 +263,7 @@ function addExcHistory(appExcObject, userId, myAppId, myAppVersion, hisAppId, hi
 
     query.find({
         success: function(results) {
-            if (results.length == 2){
+            if (results.length >= 2){
                 for (var i = 0; i < results.length; i++){
                     var appObject = results[i];
                     if (appObject.get('appleId') == myAppId){
@@ -363,6 +291,8 @@ function addExcHistory(appExcObject, userId, myAppId, myAppVersion, hisAppId, hi
                     // 失败了.
                     res.json({'errorMsg':err.message, 'errorId': err.code});
                 });
+            }else {
+
             }
 
         },
@@ -400,7 +330,7 @@ router.post('/history/add', function(req, res, next) {
         },
         error: function(err) {
             var appExcObject = new IOSAppExcLogger();
-            addExcHistory(appExcObject, myAppId, myAppVersion, hisAppId, hisAppVersion);
+            addExcHistory(appExcObject, userId, myAppId, myAppVersion, hisAppId, hisAppVersion);
         }
     });
 });
