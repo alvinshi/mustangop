@@ -38,13 +38,14 @@
 
     <!--网站内部js-->
     <script src="/javascripts/historyApp.js"></script>
+    <script src="/javascripts/itunesApi.js"></script>
 </head>
 <body>
 <!--[if lt IE 8]>
 <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">更新您的浏览器</a> 从而获得更好的体验.</p>
 <![endif]-->
 
-<div class="container" ng-app="historyApp" ng-controller="historyAppCtrl">
+<div class="container"  ng-app="historyApp" ng-controller="historyAppCtrl">
 
     <!--导航栏-->
     <nav class="navbar navbar-default nav-collapse">
@@ -65,19 +66,6 @@
 
                     <li><a href="/myapp">我的应用</a></li>
 
-                    <!--<li class="dropdown">-->
-                    <!--<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>-->
-                    <!--<ul class="dropdown-menu">-->
-                    <!--<li><a href="#">Action</a></li>-->
-                    <!--<li><a href="#">Another action</a></li>-->
-                    <!--<li><a href="#">Something else here</a></li>-->
-                    <!--<li role="separator" class="divider"></li>-->
-                    <!--<li class="dropdown-header">Nav header</li>-->
-                    <!--<li><a href="#">Separated link</a></li>-->
-                    <!--<li><a href="#">One more separated link</a></li>-->
-                    <!--</ul>-->
-                    <!--</li>-->
-
                 </ul>
 
                 <ul class="nav navbar-nav navbar-right">
@@ -90,17 +78,14 @@
 
     <!--我的应用-->
     <div>
-        <h2> 我的应用 </h2>
-
-        <li><a href="/myapp/addHistory">添加交换记录</a></li>
 
         <!--搜索组建-->
         <div>
             <div class="col-lg-6">
                 <div class="input-group">
-                    <input type="text" class="form-control" ng-model="searchKey" placeholder="输入你想搜索的App名称...">
+                    <input type="text" class="form-control" ng-model="searchKey" placeholder="填写与你最新版本交换过的产品名称">
                       <span class="input-group-btn">
-                        <button class="btn" ng-click="searchHistoryApp()">
+                        <button class="btn" ng-click="searchApp()">
                             <span class="glyphicon glyphicon-search"></span>搜索
                         </button>
                       </span>
@@ -108,24 +93,27 @@
 
                 <div >
 
-                    <ul class="list-group" ng-repeat="app in myApps">
+                    <ul class="list-group" ng-repeat="app in appResults">
 
                         <li class="list-group-item ">
 
 
-                            <span class="label label-info">{{ app.trackName }}</span>
+                            <span class="label label-info">{{ app.name }}</span>
 
-                            <img ng-src="{{ app.artworkUrl100 }}" class="img-responsive" alt="App Icon">
+                            <img ng-src="{{ app.icon }}" class="img-responsive" alt="App Icon">
 
-                            <h3>{{ app.latestReleaseDate }}<span class="label label-default">最近更新时间</span></h3>
+                            <h3>{{ app.lastReleaseDate }}<span class="label label-default">最近更新时间</span></h3>
 
-                            <p>开发商 {{ app.sellerName }}</p>
-                            <!--<p>类型 {{ app.appleKind }}</p>-->
+                            <p>开发商 {{ app.seller }}</p>
 
-                            <p>appid {{ app.appleId }}</p>
+                            <p>appid {{ app.appid }}</p>
 
-                            <!--<p>价格 {{ app.formattedPrice }}</p>-->
-                            <p>版本号 {{ app.version }}</p>
+                            <td>
+                                <!-- TODO 需要检测哪些是已经添加的-->
+                                <button class="btn" ng-click="chooseMyApp(app.appid, app.)">
+                                    <span class="glyphicon glyphicon-ok"></span>添加到交换历史
+                                </button>
+                            </td>
 
                         </li>
                     </ul>

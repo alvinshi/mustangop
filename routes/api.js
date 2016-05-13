@@ -51,6 +51,7 @@ router.get('/itunes/search/:searchkey', function(req, res, next) {
                     appResult.appid = appInfo['trackId'];
                     appResult.lastReleaseDate = appInfo['currentVersionReleaseDate'];
                     appResult.seller = appInfo['sellerName'];
+                    appResult.version = appInfo['version'];
 
                     //类别 平台信息
 

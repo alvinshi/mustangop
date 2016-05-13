@@ -7,7 +7,6 @@ var app=angular.module('itunesSearch',[]);
 
 app.controller('itunesSearchControl', function($scope, $http) {
 
-    //TODO:
     var appsUrl = 'myapp/angular';
 
     $http.get(appsUrl).success(function(response){
