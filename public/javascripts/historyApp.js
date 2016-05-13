@@ -9,7 +9,7 @@ app.controller('historyAppCtrl', function($scope, $http) {
     $scope.searchApp = function(){
         if ($scope.searchUrl != ''){
 
-            var searchUrl = 'api/itunes/search/' + $scope.searchKey;
+            var searchUrl = '/api/itunes/search/' + $scope.searchKey;
 
             console.log(searchUrl);
             $http.get(searchUrl).success(function(response){
@@ -18,12 +18,12 @@ app.controller('historyAppCtrl', function($scope, $http) {
         }
     };
 
-    var appsUrl = 'myapp/angular';
+    var appsUrl = '/myapp/angular';
     $http.get(appsUrl).success(function(response){
         $scope.myApps = response.myApps;
 
         //多个App时,增加历史记录需要选择
-        $scope.selectedApp = $scope.myApps[0];
+        //$scope.selectedApp = $scope.myApps[0];
     });
 
     $scope.selectedApp = function(index){

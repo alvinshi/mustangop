@@ -115,6 +115,7 @@ router.post('/getNewSmsCode', function(req, res, next) {
 
 });
 
+// 重置密码
 router.post('/forgetSecret', function(req, res, next) {
   var smsCode = req.body.smsCode;
   var newSecret = req.body.newPassword;
