@@ -40,28 +40,38 @@ router.get('/itunes/search/:searchkey', function(req, res, next) {
 
             httpRes.on('end', function(){
                 var dataStr = totalData.toString()
-
                 var dataObject = eval("(" + dataStr + ")");
-
                 var appResults = Array();
 
-                for (var i = 0; i < dataObject.results.length; i++){
+                //paser appleId
+                var appleIdArray = new Array();
+                var appleIdObject = new Object();
+                for (var i = 0; i < dataObject.results.length; i++) {
                     var appleObject = dataObject.results[i];
-                    var appleId = appleObject.trackId;
+                    appleIdArray.push(appleObject.trackId);
+                    appleIdObject[appleObject.trackId] = appleObject;
+                }
 
-                    //query did it exist
-                    var query = new AV.Query(IOSAppSql);
-                    query.equalTo('appleId', appleId);
-                    query.find({
-                        success: function(results) {
-                            if (results.length >= 1){
+                //query appid not in SQL
+                //query did it exist
+                var query = new AV.Query(IOSAppSql);
+                query.containedIn('appleId', appleIdArray);
+                query.find({
+                    success: function(results) {
+                        for (var j = 0; j < appleIdArray.length; j++){
+                            var flag = 0;
+                            for (var i = 0; i < results.length; i++) {
+                                if (appleIdArray[j] == results[i].get('appleId')){
+                                    flag = 1;
+                                    break;
+                                }
+                            }
 
-                                console.log(appleId + 'exist in SQL');
-
-                            }else {
+                            if(flag == 0){
+                                console.log(appleIdArray[j] + 'not exist in SQL');
                                 //appid store to app sql
                                 var appObject = new IOSAppSql();
-                                var appInfoObject = util.updateIOSAppInfo(appleObject, appObject);
+                                var appInfoObject = util.updateIOSAppInfo(appleIdObject[appleIdArray[j]], appObject);
                                 appObject.save().then(function(post) {
                                     // 实例已经成功保存.
                                     //blindAppToUser(res, userId, appObject, appInfoObject);
@@ -71,14 +81,20 @@ router.get('/itunes/search/:searchkey', function(req, res, next) {
                                     console.log(appInfoObject.appleId + 'save to SQL failed');
                                 });
                             }
-                        },
-                        error: function(err) {
-                            console.log(appleId + 'error in query');
                         }
-                    });
+                    },
+                    error: function(err) {
+                        console.log(appleId + 'error in query');
+                    }
+                });
 
+
+                for (var i = 0; i < dataObject.results.length; i++){
+                    var appleObject = dataObject.results[i];
+                    var appleId = appleObject.trackId;
                     var appInfo = appleObject;
                     var appResult = Object();
+
                     appResult.name = appInfo['trackCensoredName'];
                     appResult.icon = appInfo['artworkUrl100'];
                     appResult.appid = appInfo['trackId'];
