@@ -16,7 +16,7 @@ exports.useridInReq = function(req){
     return Base64.decode(encodeUserId);
 };
 
-exports.updateIOSAppInfo = function(appstoreObject, leanAppObject){
+function updateIOSAppInfo (appstoreObject, leanAppObject){
     var genres = appstoreObject['genres'];
     var appInfoObject = new Object();
 
@@ -41,47 +41,8 @@ exports.updateIOSAppInfo = function(appstoreObject, leanAppObject){
     appInfoObject.version = appstoreObject['version'];
 
     return appInfoObject;
-};
+}
 
-exports.findAppidInItunes = function(res, appid){
-    //not need
-    var appInfoUrl = 'https://itunes.apple.com/lookup?id=' + appid +'&country=cn&entity=software';
+exports.updateIOSAppInfo = updateIOSAppInfo;
 
-    https.get(appInfoUrl, function(httpRes) {
 
-        console.log('statusCode: ', httpRes.statusCode);
-        console.log('headers: ', httpRes.headers);
-        var totalData = '';
-
-        if (httpRes.statusCode != 200){
-            console.log("Add app error: " + httpRes.statusMessage);
-            res.json({'appInfo':[], 'errorMsg' : httpRes.statusCode + httpRes.statusMessage})
-        }else {
-            httpRes.on('data', function(data) {
-                totalData += data;
-            });
-
-            httpRes.on('end', function(){
-                var dataStr = totalData.toString();
-                var dataObject = eval("(" + dataStr + ")");
-
-                //appid just 1 result
-                var appInfo = dataObject.results[0];
-
-                var appObject = new IOSAppSql();
-                var appInfoObject = updateIOSAppInfo(appInfo, appObject);
-                appObject.save().then(function(post) {
-                    // 实例已经成功保存.
-                    blindAppToUser(res, userId, appObject, appInfoObject);
-                }, function(err) {
-                    // 失败了.
-                    res.json({'errorMsg':err.message, 'errorId': err.code});
-                });
-            })
-        }
-
-    }).on('error', function(e) {
-        console.log("Got appInfo with appid error: " + e.message);
-        res.json({'errorMsg':e.message, 'errorId': e.code});
-    });
-};

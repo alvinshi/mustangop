@@ -28,7 +28,7 @@ router.get('/itunes/search/:searchkey', function(req, res, next) {
         console.log('statusCode: ', httpRes.statusCode);
         console.log('headers: ', httpRes.headers);
         var totalLen = 0;
-        var totalData = ''
+        var totalData = '';
 
         if (httpRes.statusCode != 200){
             console.log("Got error: " + httpRes.statusMessage);

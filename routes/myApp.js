@@ -101,6 +101,49 @@ function blindAppToUser(res, userId, appObject, appInfoObject){
     });
 }
 
+ function findAppidInItunes(res, userId, appid){
+    //not need
+    var appInfoUrl = 'https://itunes.apple.com/lookup?id=' + appid +'&country=cn&entity=software';
+
+    https.get(appInfoUrl, function(httpRes) {
+
+        console.log('statusCode: ', httpRes.statusCode);
+        console.log('headers: ', httpRes.headers);
+        var totalData = '';
+
+        if (httpRes.statusCode != 200){
+            console.log("Add app error: " + httpRes.statusMessage);
+            res.json({'appInfo':[], 'errorMsg' : httpRes.statusCode + httpRes.statusMessage})
+        }else {
+            httpRes.on('data', function(data) {
+                totalData += data;
+            });
+
+            httpRes.on('end', function(){
+                var dataStr = totalData.toString();
+                var dataObject = eval("(" + dataStr + ")");
+
+                //appid just 1 result
+                var appInfo = dataObject.results[0];
+
+                var appObject = new IOSAppSql();
+                var appInfoObject = util.updateIOSAppInfo(appInfo, appObject);
+                appObject.save().then(function(post) {
+                    // 实例已经成功保存.
+                    blindAppToUser(res, userId, appObject, appInfoObject);
+                }, function(err) {
+                    // 失败了.
+                    res.json({'errorMsg':err.message, 'errorId': err.code});
+                });
+            })
+        }
+
+    }).on('error', function(e) {
+        console.log("Got appInfo with appid error: " + e.message);
+        res.json({'errorMsg':e.message, 'errorId': e.code});
+    });
+};
+
 // 新增 我的 App
 router.post('/add', function(req, res, next) {
     var appid = req.body.appid;
@@ -115,9 +158,20 @@ router.post('/add', function(req, res, next) {
             if (results.length >= 1){
 
                 var appObject = results[0];
-                var appInfoObject = util.updateIOSAppInfo(appInfo, appObject);
                 appObject.save().then(function() {
                     // 实例已经成功保存.
+                    var appInfoObject = new Object();
+
+                    appInfoObject.trackName = appObject.get('trackName');
+                    appInfoObject.artworkUrl100 = appObject.get('artworkUrl100');
+                    appInfoObject.artworkUrl512 = appObject.get('artworkUrl512');
+                    appInfoObject.appleId = appObject.get('artistId');
+                    appInfoObject.appleKind = appObject.get('appleKind');
+                    appInfoObject.formattedPrice = appObject.get('formattedPrice');
+                    appInfoObject.latestReleaseDate = appObject.get('currentVersionReleaseDate');
+                    appInfoObject.sellerName = appObject.get('sellerName');
+                    appInfoObject.version = appObject.get('version');
+
                     blindAppToUser(res, userId, appObject, appInfoObject);
                 }, function(err) {
                     // 失败了.
@@ -125,11 +179,11 @@ router.post('/add', function(req, res, next) {
                 });
 
             }else {
-                util.findAppidInItunes(res, appid);
+                findAppidInItunes(res, userId, appid);
             }
         },
         error: function(err) {
-            util.findAppidInItunes(res, appid);
+            findAppidInItunes(res, userId, appid);
         }
     });
 });
