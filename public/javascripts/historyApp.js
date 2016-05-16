@@ -125,5 +125,4 @@ app.controller('historyAppCtrl', function($scope, $http) {
             //$scope.appResults = [];
         });
     };
-
 });
