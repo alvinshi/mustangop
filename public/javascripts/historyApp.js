@@ -104,20 +104,6 @@ app.controller('historyAppCtrl', function($scope, $http) {
                     }
                 }
 
-                //do other thing
-                var flag = 0;
-                for (var i = 0; i < $scope.myExcAllApps.length; i++){
-                    var app = $scope.myApps[i];
-                    if (app.appleId == appid && app.version == appversion){
-                        flag = 1;
-                        break;
-                    }
-                }
-
-                if (flag == 0){
-                    console.log('add app to ui');
-                    $scope.myExcAllApps.push(response.newApp);
-                }
                 $scope.errorMsg = '';
             }else {
                 $scope.errorMsg = response.errorMsg;
