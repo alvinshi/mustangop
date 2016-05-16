@@ -111,8 +111,8 @@ app.controller('historyAppCtrl', function($scope, $http) {
 
                 if ($scope.appResults != undefined){
                     //change ui
-                    for (var i = 0; i < $scope.appResults.length; i++){
-                        var appRe = $scope.appResults[i];
+                    for (var q = 0; q < $scope.appResults.length; q++){
+                        var appRe = $scope.appResults[q];
 
                         if (appRe.appid === appid){
                             appRe.isExced = false;
