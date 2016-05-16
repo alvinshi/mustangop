@@ -125,4 +125,30 @@ app.controller('historyAppCtrl', function($scope, $http) {
             //$scope.appResults = [];
         });
     };
-})
+
+    $scope.releaseHistory = function(appid){
+        var searchUrl = '/myapp/delete';
+
+        console.log(searchUrl);
+        $http.post(searchUrl, {'appid':appid}).success(function(response){
+            if (response.errorId == 0){
+                console.log('remove app if');
+                for (var i = 0; i < $scope.myExcAllApps.length; i++){
+                    var app = $scope.myExcAllApps[i];
+                    if (app.appleId == appid){
+                        console.log('remove app to ui');
+                        $scope.myExcAllApps.splice(i, 1);
+                        break;
+                    }
+                }
+
+                $scope.errorMsg = '';
+            }else {
+                console.log('remove app else');
+                $scope.errorMsg = response.errorMsg;
+            }
+
+            $scope.myApps = [];
+        });
+    };
+});
