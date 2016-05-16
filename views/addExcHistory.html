@@ -107,10 +107,15 @@
 
                             <p>appid {{ app.appid }}</p>
 
+                            <p>isExc {{ app.isExced }}</p>
+
                             <td>
                                 <!-- TODO 需要检测哪些是已经添加的-->
-                                <button class="btn" ng-click="addHistory(app.appid, app.version)">
+                                <button class="excBtn" ng-click="addHistory(app.appid, app.version)" ng-hide="app.isExced">
                                     <span class="glyphicon glyphicon-ok"></span>添加到交换历史
+                                </button>
+                                <button class="excedBtn" ng-hide="!app.isExced">
+                                    <span class="glyphicon glyphicon-ok"></span>已添加交换历史
                                 </button>
                             </td>
 
@@ -121,34 +126,6 @@
 
             </div>
         </div>
-    </div>
-
-    <div>
-        <h2>当前版本交换历史记录</h2>
-
-
-        <!--本地搜索交换历史记录-->
-        <ul class="list-group" ng-repeat="app in myExcAllApps">
-
-            <li class="list-group-item ">
-
-                <p>交换日期 {{ app.excHisDate }}</p>
-
-                <span class="label label-info">{{ app.trackName }}</span>
-
-                <img ng-src="{{ app.artworkUrl100 }}" class="img-responsive" alt="App Icon">
-
-                <h3>{{ app.latestReleaseDate }}<span class="label label-default">最近更新时间</span></h3>
-
-                <p>开发商 {{ app.sellerName }}</p>
-
-                <p>appid {{ app.appleId }}</p>
-
-                <button class="btn" ng-click="releaseHistory(app.appleId, app.hisAppVersion)">
-                    <span class="glyphicon glyphicon-ok"></span>确认绑定
-                </button>
-            </li>
-        </ul>
     </div>
 
 </div>

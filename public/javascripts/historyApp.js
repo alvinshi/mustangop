@@ -5,6 +5,14 @@ var app=angular.module('historyApp',[]);
 
 app.controller('historyAppCtrl', function($scope, $http) {
 
+    //TODO: more my app?
+    var historyUrl = '/myapp/history/angular';
+    $http.get(historyUrl).success(function(response){
+        $scope.myExcAllApps = response.myExcAllApps;
+
+        console.log($scope.myExcAllApps);
+    });
+
     //搜索iTunes
     $scope.searchApp = function(){
         if ($scope.searchUrl != ''){
@@ -14,7 +22,25 @@ app.controller('historyAppCtrl', function($scope, $http) {
             console.log(searchUrl);
             $http.get(searchUrl).success(function(response){
                 $scope.appResults = response.appResults;
+
+                for (var i = 0; i < $scope.appResults.length; i++){
+                    var appRe = $scope.appResults[i];
+
+                    appRe.isExced = false;
+                    for (var j = 0; j < $scope.myExcAllApps.length; j++){
+                        var appExRe = $scope.myExcAllApps[j];
+                        if (appRe.appid === appExRe.appleId){
+                            appRe.isExced = true;
+                            console.log(appRe.appid + 'is exchanged');
+                            break;
+                        }
+                    }
+                }
+
+                console.log($scope.appResults);
             });
+
+
         }
     };
 
@@ -41,12 +67,6 @@ app.controller('historyAppCtrl', function($scope, $http) {
         });
     };
 
-    //TODO: more my app?
-    var historyUrl = '/myapp/history/angular';
-    $http.get(historyUrl).success(function(response){
-        $scope.myExcAllApps = response.myExcAllApps;
-    });
-
     //TODO: not support now
     $scope.searchHistory = function(){
         if ($scope.searchHisKey != ''){
@@ -72,6 +92,19 @@ app.controller('historyAppCtrl', function($scope, $http) {
             console.log(response.errorId);
 
             if (response.errorId == 0 || response.errorId === undefined){
+
+                //change ui
+                for (var i = 0; i < $scope.appResults.length; i++){
+                    var appRe = $scope.appResults[i];
+
+                    if (appRe.appid === appid){
+                        appRe.isExced = true;
+                        console.log(appRe.appid + 'is exchanged');
+                        break;
+                    }
+                }
+
+                //do other thing
                 var flag = 0;
                 for (var i = 0; i < $scope.myExcAllApps.length; i++){
                     var app = $scope.myApps[i];
@@ -107,6 +140,19 @@ app.controller('historyAppCtrl', function($scope, $http) {
         $http.post(releaseHistoryUrl, postParam).success(function(response){
             if (response.errorId == 0){
                 console.log('remove app if');
+
+                //change ui
+                for (var i = 0; i < $scope.appResults.length; i++){
+                    var appRe = $scope.appResults[i];
+
+                    if (appRe.appid === appid){
+                        appRe.isExced = false;
+                        console.log(appRe.appid + 'is exchanged');
+                        break;
+                    }
+                }
+
+                //other thing
                 for (var i = 0; i < $scope.myApps.length; i++){
                     var app = $scope.myApps[i];
                     if (app.appleId == appid && app.version == appversion){

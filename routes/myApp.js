@@ -303,7 +303,7 @@ router.get('/addHistory', function(req, res, next) {
     res.render('addExcHistory')
 });
 
-function addExcHistory(appExcObject, userId, myAppId, myAppVersion, hisAppId, hisAppVersion){
+function addExcHistory(res, appExcObject, userId, myAppId, myAppVersion, hisAppId, hisAppVersion){
 
     var myDate = new Date();
     var myDateStr = myDate.toLocaleDateString();     //获取当前日期
@@ -380,11 +380,11 @@ router.post('/history/add', function(req, res, next) {
             }else {
                 appExcObject = results[0];
             }
-            addExcHistory(appExcObject, userId, myAppId, myAppVersion, hisAppId, hisAppVersion);
+            addExcHistory(res, appExcObject, userId, myAppId, myAppVersion, hisAppId, hisAppVersion);
         },
         error: function(err) {
             var appExcObject = new IOSAppExcLogger();
-            addExcHistory(appExcObject, userId, myAppId, myAppVersion, hisAppId, hisAppVersion);
+            addExcHistory(res, appExcObject, userId, myAppId, myAppVersion, hisAppId, hisAppVersion);
         }
     });
 });
