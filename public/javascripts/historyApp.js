@@ -47,25 +47,8 @@ app.controller('historyAppCtrl', function($scope, $http) {
     var appsUrl = '/myapp/angular';
     $http.get(appsUrl).success(function(response){
         $scope.myApps = response.myApps;
-
-        //多个App时,增加历史记录需要选择
-        if ($scope.myApps.length < 1){
-            //location
-        }else {
-            $scope.selectedApp = $scope.myApps[0];
-        }
+        $scope.selectedApp = $scope.myApps[0];
     });
-
-    $scope.selectedApp = function(index){
-        //TODO: refresh history area
-        $scope.selectedApp = $scope.myApps[index];
-
-        //TODO: All history logic
-        var historyUrl = '/myapp/history/angular/' + $scope.selectedApp.appleId;
-        $http.get(historyUrl).success(function(response){
-            $scope.myExcAllApps = response.myExcAllApps;
-        });
-    };
 
     //TODO: not support now
     $scope.searchHistory = function(){
@@ -109,7 +92,6 @@ app.controller('historyAppCtrl', function($scope, $http) {
                 $scope.errorMsg = response.errorMsg;
             }
 
-            $scope.appResults = [];
         });
     };
 
@@ -156,7 +138,6 @@ app.controller('historyAppCtrl', function($scope, $http) {
                 $scope.errorMsg = response.errorMsg;
             }
 
-            $scope.myApps = [];
         });
     };
 });
