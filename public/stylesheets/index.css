@@ -1,0 +1,55 @@
+*{
+    margin:0;
+    padding:0;
+}
+#div1{
+    position:fixed;
+    top:0;
+    left:0;
+    bottom:0;
+    right:0;
+    z-index:-1;
+}
+#div1 > img {
+    height:100%;
+    width:100%;
+    border:0;
+}
+.container{
+    width: 100%;
+
+
+}
+.content{
+    margin-top: 15%;
+    color:white;
+
+}
+
+ /*.content{
+     margin-top:295px ;
+
+ }*/
+
+/* a{
+     margin-top:1.2em ;
+
+ }*/
+.button{
+    margin-left: 47%;
+}
+#foot{
+    margin-top:20%;
+}
+.col-xs-6 {
+    text-align: center;
+}
+#button {
+
+    margin-left: 46%;
+
+}
+.navbar{
+    margin-top: 0;
+}
+
