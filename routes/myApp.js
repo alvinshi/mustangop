@@ -298,6 +298,64 @@ router.get('/history/angular', function(req, res, next) {
     });
 });
 
+router.get('/historys/angular', function(req, res, next) {
+    //get data
+    var userId = util.useridInReq(req);
+    var appId = req.body.myAppId;
+
+    var user = new AV.User();
+    user.id = userId;
+
+    var query = new AV.Query(IOSAppExcLogger);
+    query.equalTo('userId', userId);
+
+    var flag = 0;
+    if (typeof appId != undefined){
+        //TODO: support singel app query
+        flag = 1;
+    }
+
+    query.include('myAppObject');
+    query.include('hisAppObject');
+
+    query.addDescending('excDateStr');
+    query.find({
+        success: function(results) {
+            //has blinded
+            var retApps = new Array();
+            //date merge by excDateStr for more group
+            for (var i = 0; i < results.length; i++){
+                var appHisObject = new Object();
+                var appExcHisObject = results[i].get('hisAppObject');
+                var AppVersion = appExcHisObject.get('myAppVersion');
+
+                var myAppVersion = results[i].get('myAppVersion');
+                if (AppVersion != myAppVersion){
+                    appHisObject.hisAppVersion = results[i].get('hisAppVersion');
+                    appHisObject.trackName = appExcHisObject.get('trackName');
+                    appHisObject.artworkUrl100 = appExcHisObject.get('artworkUrl100');
+                    appHisObject.artworkUrl512 = appExcHisObject.get('artworkUrl512');
+                    appHisObject.appleId = appExcHisObject.get('appleId');
+                    appHisObject.appleKind = appExcHisObject.get('appleKind');
+                    appHisObject.formattedPrice = appExcHisObject.get('formattedPrice');
+                    appHisObject.latestReleaseDate = appExcHisObject.get('latestReleaseDate');
+                    appHisObject.sellerName = appExcHisObject.get('sellerName');
+                    appHisObject.hisAppVersion = results[i].get('hisAppVersion');
+
+                    appHisObject.excHisDate = results[i].get('excDateStr');
+
+                    retApps.push(appHisObject);
+                }
+                res.json({'myHistoryApps':retApps});
+            }
+
+        },
+        error: function(err) {
+            res.json({'errorMsg':err.message, 'errorId': err.code, 'myApps':[]});
+        }
+    });
+});
+
 // 添加搜索 我的历史记录
 router.get('/addHistory', function(req, res, next) {
     res.render('addExcHistory')

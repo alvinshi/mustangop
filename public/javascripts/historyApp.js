@@ -9,8 +9,13 @@ app.controller('historyAppCtrl', function($scope, $http) {
     var historyUrl = '/myapp/history/angular';
     $http.get(historyUrl).success(function(response){
         $scope.myExcAllApps = response.myExcAllApps;
-
         console.log($scope.myExcAllApps);
+    });
+
+    var oldhistoryUrl = '/myapp/historys/angular';
+    $http.get(oldhistoryUrl).success(function(response){
+        $scope.myHistoryApps = response.myHistoryApps;
+        console.log($scope.myHistoryApps);
     });
 
     //搜索iTunes

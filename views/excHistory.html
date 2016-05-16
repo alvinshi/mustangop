@@ -164,6 +164,34 @@
         </ul>
     </div>
 
+    <div>
+        <h2>以往版本交换记录</h2>
+
+
+        <!--本地搜索交换历史记录-->
+        <ul class="list-group" ng-repeat="app in myHistoryApps">
+
+            <li class="list-group-item ">
+
+                <p>交换日期 {{ app.excHisDate }}</p>
+
+                <span class="label label-info">{{ app.trackName }}</span>
+
+                <img ng-src="{{ app.artworkUrl100 }}" class="img-responsive" alt="App Icon">
+
+                <h3>{{ app.latestReleaseDate }}<span class="label label-default">最近更新时间</span></h3>
+
+                <p>开发商 {{ app.sellerName }}</p>
+
+                <p>appid {{ app.appleId }}</p>
+
+                <button class="btn" ng-click="History(app.appleId, app.hisAppVersion)">
+                    <span class="glyphicon glyphicon-ok"></span>删除历史记录
+                </button>
+            </li>
+        </ul>
+    </div>
+
 </div>
 
 </body>
