@@ -135,50 +135,26 @@ app.controller('historyAppCtrl', function($scope, $http) {
 
         var postParam = {'myAppId' : myAppId, 'myAppVersion' : myAppVersion,
             'hisAppId' : appid, 'hisAppVersion' : appversion};
-        console.log('add history' + postParam);
+        //console.log('add history' + postParam);
 
         $http.post(releaseHistoryUrl, postParam).success(function(response){
             if (response.errorId == 0){
                 console.log('remove app if');
 
-                //change ui
-                for (var i = 0; i < $scope.appResults.length; i++){
-                    var appRe = $scope.appResults[i];
+                if ($scope.appResults != undefined){
+                    //change ui
+                    for (var i = 0; i < $scope.appResults.length; i++){
+                        var appRe = $scope.appResults[i];
 
-                    if (appRe.appid === appid){
-                        appRe.isExced = false;
-                        console.log(appRe.appid + 'is exchanged');
-                        break;
+                        if (appRe.appid === appid){
+                            appRe.isExced = false;
+                            console.log(appRe.appid + 'is exchanged');
+                            break;
+                        }
                     }
                 }
 
                 //other thing
-                for (var i = 0; i < $scope.myApps.length; i++){
-                    var app = $scope.myApps[i];
-                    if (app.appleId == appid && app.version == appversion){
-                        console.log('remove app to ui');
-                        $scope.myExcAllApps.splice(i, 1);
-                        break;
-                    }
-                }
-
-                $scope.errorMsg = '';
-            }else {
-                console.log('remove app else');
-                $scope.errorMsg = response.errorMsg;
-            }
-
-            //$scope.appResults = [];
-        });
-    };
-
-    $scope.releaseHistory = function(appid){
-        var searchUrl = '/myapp/delete';
-
-        console.log(searchUrl);
-        $http.post(searchUrl, {'appid':appid}).success(function(response){
-            if (response.errorId == 0){
-                console.log('remove app if');
                 for (var i = 0; i < $scope.myExcAllApps.length; i++){
                     var app = $scope.myExcAllApps[i];
                     if (app.appleId == appid){
