@@ -68,7 +68,6 @@ app.controller('userAccountCtrl', function($scope, $http) {
 
     $scope.newSecret = function(){
         var registerUrl = '/user/forgetSecret';
-
         console.log($scope.userSmsCode);
 
         $http.post(registerUrl, {'mobile': $scope.userMobile, 'smsCode':$scope.newSmsCode, 'newPassword':$scope.usernewSecret}).success(function(response){
@@ -77,7 +76,7 @@ app.controller('userAccountCtrl', function($scope, $http) {
 
             if (response.errorId == 0){
                 //return to my App
-                location.href='/login';
+                location.href='/user/login';
             }
         });
     };

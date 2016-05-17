@@ -15,41 +15,45 @@
 
     <script src="/javascripts/userAngular.js"></script>
 
+    <link rel="stylesheet" href="../stylesheets/register.css">
+
     <title>登陆</title>
 </head>
 
 <body>
-<div ng-app="userAccountApp" ng-controller="userAccountCtrl">
-    <div class="row">
-        <div class="col-lg-4">
-            <div class="input-group">
-                <span class="input-group-addon">手机号码:</span>
-                <input type="text" class="form-control" ng-model="userMobile" placeholder="输入手机号码">
+<div class="container content">
+    <div ng-app="userAccountApp" ng-controller="userAccountCtrl">
+        <div class="register-content ">
+            <div class="register-main">
+                <h2 class="register-title">登陆野马账号</h2>
+                <p class="register-subheading"></p>
+                <div class="register-input-group">
+                    <p class="input-title">手机号码：<span class="login">没有账号？ 去<a href="/user/register">注册</a></span></p>
+                    <div class="input-fill">
+                        <input type="text" ng-model="userMobile" class="phone-input" autofocus="true">
+                    </div>
+                </div>
+
+                <div class="register-input-group">
+                    <p class="input-title">密码： <span class="login"><a href="/user/forgetSecret">忘记密码</a></span></p>
+                    <div class="input-fill">
+                        <input type="password" ng-model="userSecret" class="phone-input">
+                    </div>
+                </div>
+
+                <div class="register-sub text-center">
+                    <button class="btn btn-org-empty" ng-click="userLogin()" id="register-btn">登&nbsp;&nbsp;陆</button>
+                </div>
+
+                <div class="pro">
+                    <div class="agree text-center">
+                        <div class="secrecy">我们采用符合业界标准的加密技术保密信息</div>
+                    </div>
+                </div>
+
             </div>
-        </div>
-    </div><!-- /.row -->
-
-    <div class="row">
-        <div class="col-lg-4">
-            <div class="input-group">
-                <p class="input-group-addon" >输入密码:</p>
-                <span class="forgetSecret"><a href="/user/forgetSecret">忘记密码</a> </span>
-                <input type="text" class="form-control" ng-model="userSecret" placeholder="请输入密码">
-            </div>
-        </div>
-    </div><!-- /.row -->
-
-
-    <div class="row">
-        <div class="col-xs-6 col-sm-1"></div>
-        <button type="button" ng-click="userLogin()" class="btn btn-primary btn-sm">登陆</button>
-
-        <div class="alert alert-danger alert-dismissible" role="alert">
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            <p>{{ errorMsg }}</p>
         </div>
     </div>
-
 </div>
 </body>
 </html>

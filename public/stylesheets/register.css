@@ -31,6 +31,10 @@ body{
     width:334px;
 }
 
+.wildhorse{
+    margin-left: 78px;
+}
+
 .register-title{
     margin-top:48px;
     margin-bottom:12px;
@@ -39,11 +43,21 @@ body{
     font-weight:500
 }
 
+.password-title{
+    text-align: center;
+}
+
 .register-subheading{
     margin:0;
     padding-bottom:26px;
     font-size:13px;
     color: #666666;
+    border-bottom:1px solid #e5e5e5
+}
+
+.solid-subheading{
+    margin-top: 26px;
+    margin-bottom: 56px;
     border-bottom:1px solid #e5e5e5
 }
 
