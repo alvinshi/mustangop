@@ -9,8 +9,13 @@ app.controller('historyAppCtrl', function($scope, $http) {
     var historyUrl = '/myapp/history/angular';
     $http.get(historyUrl).success(function(response){
         $scope.myExcAllApps = response.myExcAllApps;
-
         console.log($scope.myExcAllApps);
+    });
+
+    var oldhistoryUrl = '/myapp/historys/angular';
+    $http.get(oldhistoryUrl).success(function(response){
+        $scope.myHistoryApps = response.myHistoryApps;
+        console.log($scope.myHistoryApps);
     });
 
     //搜索iTunes
@@ -111,8 +116,8 @@ app.controller('historyAppCtrl', function($scope, $http) {
 
                 if ($scope.appResults != undefined){
                     //change ui
-                    for (var i = 0; i < $scope.appResults.length; i++){
-                        var appRe = $scope.appResults[i];
+                    for (var q = 0; q < $scope.appResults.length; q++){
+                        var appRe = $scope.appResults[q];
 
                         if (appRe.appid === appid){
                             appRe.isExced = false;
