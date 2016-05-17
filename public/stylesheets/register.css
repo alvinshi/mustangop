@@ -169,33 +169,5 @@ body{
 
 
 
-@media screen and (max-width:767px){
-    body{
-        background:0 0
-    }
-    .content{
-        padding-top:0;
-        min-height:670px
-    }
-    .register-subheading{
-        line-height:2
-    }
-    
-    .register-content{
-        width:90%;
-        border:none;
-        background:0 0;
-        margin-top:10px;
-        box-shadow:none;
-        -webkit-box-shadow:none
-    }
-    .register-main,.register-sub button{
-        width:100%
-    }
-    .party-link-transform .wd-icon{
-        opacity:1
-    }
-}
-
 
 
