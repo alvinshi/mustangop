@@ -16,6 +16,63 @@ exports.useridInReq = function(req){
     return Base64.decode(encodeUserId);
 };
 
+exports.updateUserAppVersion = function (req) {
+    //parse appleId
+    var appleIdArray = new Array();
+    var appleIdObject = new Object();
+    for (var i = 0; i < dataObject.results.length; i++) {
+        var appleObject = dataObject.results[i];
+        appleIdArray.push(appleObject.trackId);
+        appleIdObject[appleObject.trackId] = appleObject;
+    }
+
+    //query appid not in SQL
+    //query did it exist
+    var query = new AV.Query(IOSAppSql);
+    query.containedIn('appleId', appleIdArray);
+    query.find({
+        success: function(results) {
+            for (var j = 0; j < appleIdArray.length; j++){
+
+                var appObject = '';
+
+                var flag = 0;
+                for (var i = 0; i < results.length; i++) {
+                    if (appleIdArray[j] == results[i].get('appleId')){
+                        flag = 1;
+                        appObject = results[i];
+                        break;
+                    }
+                }
+
+                if(flag == 0){
+                    console.log(appleIdArray[j] + 'not exist in SQL');
+                    //appid store to app sql
+                    appObject = new IOSAppSql();
+                }
+
+                if (flag == 1 && appleIdObject[appleIdArray[j]]['version'] != appObject.get('version'))
+                {
+
+                }
+
+                var appInfoObject = util.updateIOSAppInfo(appleIdObject[appleIdArray[j]], appObject);
+                appObject.save().then(function(post) {
+                    // 实例已经成功保存.
+                    //blindAppToUser(res, userId, appObject, appInfoObject);
+                    console.log(appInfoObject.appleId + 'save to SQL succeed');
+                }, function(err) {
+                    // 失败了.
+                    console.log(appInfoObject.appleId + 'save to SQL failed');
+                });
+            }
+        },
+        error: function(err) {
+            console.log(appleId + 'error in query');
+        }
+    });
+}
+
 function updateIOSAppInfo (appstoreObject, leanAppObject){
     var genres = appstoreObject['genres'];
     var appInfoObject = new Object();
@@ -33,7 +90,7 @@ function updateIOSAppInfo (appstoreObject, leanAppObject){
     appInfoObject.trackName = appstoreObject['trackName'];
     appInfoObject.artworkUrl100 = appstoreObject['artworkUrl100'];
     appInfoObject.artworkUrl512 = appstoreObject['artworkUrl512'];
-    appInfoObject.appleId = appstoreObject['artistId'];
+    appInfoObject.appleId = appstoreObject['trackId'];
     appInfoObject.appleKind = genres[0];
     appInfoObject.formattedPrice = appstoreObject['formattedPrice'];
     appInfoObject.latestReleaseDate = appstoreObject['currentVersionReleaseDate'];

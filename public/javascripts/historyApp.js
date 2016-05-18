@@ -19,7 +19,7 @@ app.controller('historyAppCtrl', function($scope, $http) {
     });
 
     //搜索iTunes
-    $scope.searchApp = function(){
+    $scope.searchHistoryApp = function(){
         if ($scope.searchUrl != ''){
 
             var searchUrl = '/api/itunes/search/' + $scope.searchKey;
@@ -34,9 +34,9 @@ app.controller('historyAppCtrl', function($scope, $http) {
                     appRe.isExced = false;
                     for (var j = 0; j < $scope.myExcAllApps.length; j++){
                         var appExRe = $scope.myExcAllApps[j];
-                        if (appRe.appid === appExRe.appleId){
+                        if (appRe.appleId === appExRe.appleId){
                             appRe.isExced = true;
-                            console.log(appRe.appid + 'is exchanged');
+                            console.log(appRe.appleId + 'is exchanged');
                             break;
                         }
                     }
@@ -65,7 +65,7 @@ app.controller('historyAppCtrl', function($scope, $http) {
         }
     };
 
-    $scope.addHistory = function(appid, appversion){
+    $scope.addHistory = function(hisAppInfo){
 
         var addHistoryUrl = '/myapp/history/add';
 
@@ -73,7 +73,7 @@ app.controller('historyAppCtrl', function($scope, $http) {
         var myAppVersion = $scope.selectedApp.version;
 
         var postParam = {'myAppId' : myAppId, 'myAppVersion' : myAppVersion,
-                        'hisAppId' : appid, 'hisAppVersion' : appversion};
+                        'hisAppInfo' : hisAppInfo};
         console.log('add history' + postParam);
         $http.post(addHistoryUrl, postParam).success(function(response){
 

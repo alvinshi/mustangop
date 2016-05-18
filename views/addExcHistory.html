@@ -99,21 +99,21 @@
                         <li class="list-group-item ">
 
 
-                            <span class="label label-info">{{ app.name }}</span>
+                            <span class="label label-info">{{ app.trackName }}</span>
 
-                            <img ng-src="{{ app.icon }}" class="img-responsive" alt="App Icon">
+                            <img ng-src="{{ app.artworkUrl100 }}" class="img-responsive" alt="App Icon">
 
                             <h3>{{ app.lastReleaseDate }}<span class="label label-default">最近更新时间</span></h3>
 
-                            <p>开发商 {{ app.seller }}</p>
+                            <p>开发商 {{ app.sellerName }}</p>
 
-                            <p>appid {{ app.appid }}</p>
+                            <p>appid {{ app.appleId }}</p>
 
                             <p>isExc {{ app.isExced }}</p>
 
                             <td>
                                 <!-- TODO 需要检测哪些是已经添加的-->
-                                <button class="excBtn" ng-click="addHistory(app.appid, app.version)" ng-hide="app.isExced">
+                                <button class="excBtn" ng-click="addHistory(app)" ng-hide="app.isExced">
                                     <span class="glyphicon glyphicon-ok"></span>添加到交换历史
                                 </button>
                                 <button class="excedBtn" ng-hide="!app.isExced">

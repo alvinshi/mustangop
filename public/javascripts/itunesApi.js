@@ -25,13 +25,13 @@ app.controller('itunesSearchControl', function($scope, $http) {
         }
     };
 
-    $scope.chooseMyApp = function(appid){
+    $scope.chooseMyApp = function(appInfo){
         //$cookieStore.get("name") == "my name";
 
         var searchUrl = 'myapp/add';
 
-        console.log(appid);
-        $http.post(searchUrl, {'appid':appid}).success(function(response){
+        console.log(appInfo);
+        $http.post(searchUrl, {'appInfo':appInfo}).success(function(response){
 
             console.log(response.errorId);
 
@@ -39,7 +39,7 @@ app.controller('itunesSearchControl', function($scope, $http) {
                 var flag = 0;
                 for (var i = 0; i < $scope.myApps.length; i++){
                     var app = $scope.myApps[i];
-                    if (app.appleId == appid){
+                    if (app.appleId == appInfo.appleId){
                         flag = 1;
                         break;
                     }
@@ -47,6 +47,7 @@ app.controller('itunesSearchControl', function($scope, $http) {
 
                 if (flag == 0){
                     console.log('add app to ui');
+                    //第一个不是最后一个
                     $scope.myApps.push(response.newApp);
                 }
                 $scope.errorMsg = '';
