@@ -78,7 +78,6 @@
                 <!--<li><a href="#">One more separated link</a></li>-->
                 <!--</ul>-->
                 <!--</li>-->
-
             </ul>
 
             <ul class="nav navbar-nav navbar-right">
@@ -96,6 +95,7 @@
             <img class="myapp_icon" src="/images/exch_history/myapp_icon.png">
             <p class="myapp_title">我的应用</p>
         </div>
+
         <p class="text-right"><a class="add_exc_history_title" href="/myapp/addHistory">添加交换记录</a></p>
         <!--我的应用部分-->
         <div class="myapp_content media">
@@ -176,12 +176,12 @@
 
                         <div class="media-body media-right">
                             <h4 class="media-heading">{{ app.trackName }}</h4>
-                            <p class="col-xs-8 col-sm-3">开发者: {{ app.sellerName }}</p>
-                            <p class="col-xs-8 col-sm-3">App ID: {{ app.appleId }}</p>
-                            <p class="col-xs-8 col-sm-3">更新时间:{{ app.latestReleaseDate }}</p>
+                            <p class="col-md-3">开发者: {{ app.sellerName }}</p>
+                            <p class="col-md-3">App ID: {{ app.appleId }}</p>
+                            <p class="col-md-4">更新时间:{{ app.latestReleaseDate }}</p>
 
                             <button class="btn" ng-click="History(app.appleId, app.hisAppVersion)">
-                                <img src="/images/exch_history/no_click_remove.png">
+                                <img id="remove_icon" src="/images/exch_history/no_click_remove.png">
                             </button>
                             <!--<p>类型 {{ app.appleKind }}</p>-->
                             <!--<p>价格 {{ app.formattedPrice }}</p>-->
@@ -195,5 +195,4 @@
     </div>
 </div>
 </body>
-
 </html>

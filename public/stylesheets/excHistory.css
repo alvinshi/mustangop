@@ -36,9 +36,12 @@ body{
 }
 
 .exchang_pattern{
-    margin-top: 48px;
+    margin-top: 78px;
     margin-bottom: 24px;
-    position: relative;
+    border: 1px solid #e0e0e0;
+    border-bottom-style: none;
+    border-left-style: none;
+    border-right-style: none;
 }
 
 .exchang_pattern .exc_record_icon{
