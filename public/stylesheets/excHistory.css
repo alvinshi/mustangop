@@ -1,0 +1,53 @@
+body{
+    height:100%;
+    background-color:#f0f0f0
+}
+
+.container-fluid{
+    width: 100%;
+    max-width: 1001px;
+}
+
+#mainbar {
+    background-color: black;
+}
+
+.content{
+    margin-top:0; /*设置元素上内边距*/
+    height:100%;
+    width: 100%;
+    max-width: 1001px;
+}
+
+.top{
+    margin-top: 48px;
+    margin-bottom: 24px;
+}
+
+
+.top .myapp_title{
+    font-size: 1.5em;
+    color: #333333;
+    padding-left: 1.875em;
+    margin-top: -25px;
+}
+
+.myapp_content{
+    margin-top: 24px;
+}
+
+.exchang_pattern{
+    margin-top: 48px;
+    margin-bottom: 24px;
+}
+
+.exchang_pattern .exc_record_icon{
+    margin-top: 32px;
+}
+
+.exchang_pattern .exc__record_title{
+    font-size: 1.5em;
+    color: #333333;
+    padding-left: 1.875em;
+    margin-top: -23px;
+}

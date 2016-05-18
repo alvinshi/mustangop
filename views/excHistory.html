@@ -38,63 +38,85 @@
 
     <!--网站内部js-->
     <script src="/javascripts/historyApp.js"></script>
+
+    <link rel="stylesheet" href="../stylesheets/excHistory.css">
+
 </head>
 <body>
 <!--[if lt IE 8]>
 <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">更新您的浏览器</a> 从而获得更好的体验.</p>
 <![endif]-->
 
-<div class="container" ng-app="historyApp" ng-controller="historyAppCtrl">
+<!--导航栏-->
+<nav class="navbar navbar-default nav-collapse navbar-fixed-top" id="mainbar">
+    <div class="container-fluid">
 
-    <!--导航栏-->
-    <nav class="navbar navbar-default nav-collapse">
-        <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="#">
+                <img alt="Brand" src="/images/home/logo1.png">
 
-            <div class="navbar-header">
-                <a class="navbar-brand" href="#">
-                    <!--<img alt="Brand" src="/images/yema_small.png">-->
-                    野马运营
-                </a>
-            </div>
-
-            <div id="navbar" >
-                <ul class="nav navbar-nav">
-                    <li><a href="/">首页</a></li>
-
-                    <li class="active"><a href="/myapp/history">交换历史</a></li>
-
-                    <li><a href="/myapp">我的应用</a></li>
-
-                    <!--<li class="dropdown">-->
-                    <!--<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>-->
-                    <!--<ul class="dropdown-menu">-->
-                    <!--<li><a href="#">Action</a></li>-->
-                    <!--<li><a href="#">Another action</a></li>-->
-                    <!--<li><a href="#">Something else here</a></li>-->
-                    <!--<li role="separator" class="divider"></li>-->
-                    <!--<li class="dropdown-header">Nav header</li>-->
-                    <!--<li><a href="#">Separated link</a></li>-->
-                    <!--<li><a href="#">One more separated link</a></li>-->
-                    <!--</ul>-->
-                    <!--</li>-->
-
-                </ul>
-
-                <ul class="nav navbar-nav navbar-right">
-                    <li><a href="/user">某某用户</a></li>
-                </ul>
-            </div><!--/.nav-collapse -->
-
+            </a>
         </div>
-    </nav>
+
+        <div id="navbar" >
+            <ul class="nav navbar-nav">
+                <li><a href="/">首页</a></li>
+
+                <li class="active"><a href="/myapp/history">交换历史</a></li>
+
+                <li><a href="/myapp">我的应用</a></li>
+
+                <!--<li class="dropdown">-->
+                <!--<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>-->
+                <!--<ul class="dropdown-menu">-->
+                <!--<li><a href="#">Action</a></li>-->
+                <!--<li><a href="#">Another action</a></li>-->
+                <!--<li><a href="#">Something else here</a></li>-->
+                <!--<li role="separator" class="divider"></li>-->
+                <!--<li class="dropdown-header">Nav header</li>-->
+                <!--<li><a href="#">Separated link</a></li>-->
+                <!--<li><a href="#">One more separated link</a></li>-->
+                <!--</ul>-->
+                <!--</li>-->
+
+            </ul>
+
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="/user">某某用户</a></li>
+            </ul>
+        </div><!--/.nav-collapse -->
+
+    </div>
+</nav>
 
     <!--我的应用-->
-    <div>
-        <h2> 我的应用 </h2>
+<div class="container content" ng-app="historyApp" ng-controller="historyAppCtrl">
+    <div class="exchhistory_content">
+        <div class="top">
+            <img class="myapp_icon" src="/images/exch_history/myapp_icon.png">
+            <p class="myapp_title">我的应用</p>
+        </div>
+        <p class="text-right"><a class="add_exc_history_title" href="/myapp/addHistory">添加交换记录</a></p>
+        <!--我的应用部分-->
+        <div class="myapp_content media">
+            <div class="list-group" ng-repeat="app in myApps">
+                <div class="media-left">
+                    <img class="media-object" ng-src="{{ app.artworkUrl100 }}" alt="App Icon">
+                </div>
 
-        <li><a href="/myapp/addHistory">添加交换记录</a></li>
+                <div class="media-body media-right">
+                    <h4 class="media-heading">{{ app.trackName }}</h4>
+                    <p>开发商 {{ app.sellerName }}</p>
+                    <p>appid {{ app.appleId }}</p>
+                    <p><span class="change_time">更新时间</span>{{ app.latestReleaseDate }}</p>
+                    <!--<p>类型 {{ app.appleKind }}</p>-->
+                    <!--<p>价格 {{ app.formattedPrice }}</p>-->
+                    <!--<p>版本号 {{ app.version }}</p>-->
+                </div>
+            </div>
+        </div>
 
-        <!--搜索组建-->
+    <!--搜索组建-->
         <div>
             <div class="col-lg-6">
                 <div class="input-group">
@@ -105,95 +127,71 @@
                         </button>
                       </span>
                 </div><!-- /input-group -->
-
-                <div >
-
-                    <ul class="list-group" ng-repeat="app in myApps">
-
-                        <li class="list-group-item ">
-
-
-                            <span class="label label-info">{{ app.trackName }}</span>
-
-                            <img ng-src="{{ app.artworkUrl100 }}" class="img-responsive" alt="App Icon">
-
-                            <h3>{{ app.latestReleaseDate }}<span class="label label-default">最近更新时间</span></h3>
-
-                            <p>开发商 {{ app.sellerName }}</p>
-                            <!--<p>类型 {{ app.appleKind }}</p>-->
-
-                            <p>appid {{ app.appleId }}</p>
-
-                            <!--<p>价格 {{ app.formattedPrice }}</p>-->
-                            <p>版本号 {{ app.version }}</p>
-
-                        </li>
-                    </ul>
-
-                </div>
-
             </div>
+        </div>
+
+        <div class="exchang_pattern">
+            <img class="exc_record_icon" src="/images/exch_history/exchang_icon.png">
+            <h2 class="exc__record_title">交换记录</h2>
+        </div>
+
+        <div class="list-group" ng-repeat="app in myExcAllApps">
+
+            <p>交换日期: {{ app.excHisDate }}</p>
+
+            <div class="current_exchange_record media">
+
+                    <div class="media-left">
+                        <img class="media-object" ng-src="{{ app.artworkUrl100 }}" alt="App Icon">
+                    </div>
+
+                    <div class="media-body media-right">
+                        <h4 class="media-heading">{{ app.trackName }}</h4>
+                        <p>开发商: {{ app.sellerName }}</p>
+                        <p>appid: {{ app.appleId }}</p>
+                        <p><span class="change_time">更新时间:</span>{{ app.latestReleaseDate }}</p>
+
+                        <button class="btn" ng-click="releaseHistory(app.appleId, app.hisAppVersion)">
+                            <span class="glyphicon glyphicon-ok"></span>删除历史记录
+                        </button>
+                        <!--<p>类型 {{ app.appleKind }}</p>-->
+                        <!--<p>价格 {{ app.formattedPrice }}</p>-->
+                        <!--<p>版本号 {{ app.version }}</p>-->
+                        <!--<p>交换日期 {{ app.excHisDate }}</p>-->
+                    </div>
+            </div>
+        </div>
+
+        <div>
+            <h2>以往版本交换记录</h2>
+
+
+            <!--本地搜索交换历史记录-->
+            <ul class="list-group" ng-repeat="app in myHistoryApps">
+
+                <li class="list-group-item ">
+
+                    <p>交换日期 {{ app.excHisDate }}</p>
+
+                    <span class="label label-info">{{ app.trackName }}</span>
+
+                    <img ng-src="{{ app.artworkUrl100 }}" class="img-responsive" alt="App Icon">
+
+                    <h3>{{ app.latestReleaseDate }}<span class="label label-default">最近更新时间</span></h3>
+
+                    <p>开发商 {{ app.sellerName }}</p>
+
+                    <p>appid {{ app.appleId }}</p>
+
+                    <button class="btn" ng-click="History(app.appleId, app.hisAppVersion)">
+                        <span class="glyphicon glyphicon-ok"></span>删除历史记录
+                    </button>
+                </li>
+            </ul>
         </div>
     </div>
 
-    <div>
-        <h2>当前版本交换历史记录</h2>
-
-
-        <!--本地搜索交换历史记录-->
-        <ul class="list-group" ng-repeat="app in myExcAllApps">
-
-            <li class="list-group-item ">
-
-                <p>交换日期 {{ app.excHisDate }}</p>
-
-                <span class="label label-info">{{ app.trackName }}</span>
-
-                <img ng-src="{{ app.artworkUrl100 }}" class="img-responsive" alt="App Icon">
-
-                <h3>{{ app.latestReleaseDate }}<span class="label label-default">最近更新时间</span></h3>
-
-                <p>开发商 {{ app.sellerName }}</p>
-
-                <p>appid {{ app.appleId }}</p>
-
-                <button class="btn" ng-click="releaseHistory(app.appleId, app.hisAppVersion)">
-                    <span class="glyphicon glyphicon-ok"></span>删除历史记录
-                </button>
-            </li>
-        </ul>
-    </div>
-
-    <div>
-        <h2>以往版本交换记录</h2>
-
-
-        <!--本地搜索交换历史记录-->
-        <ul class="list-group" ng-repeat="app in myHistoryApps">
-
-            <li class="list-group-item ">
-
-                <p>交换日期 {{ app.excHisDate }}</p>
-
-                <span class="label label-info">{{ app.trackName }}</span>
-
-                <img ng-src="{{ app.artworkUrl100 }}" class="img-responsive" alt="App Icon">
-
-                <h3>{{ app.latestReleaseDate }}<span class="label label-default">最近更新时间</span></h3>
-
-                <p>开发商 {{ app.sellerName }}</p>
-
-                <p>appid {{ app.appleId }}</p>
-
-                <button class="btn" ng-click="History(app.appleId, app.hisAppVersion)">
-                    <span class="glyphicon glyphicon-ok"></span>删除历史记录
-                </button>
-            </li>
-        </ul>
-    </div>
-
 </div>
-
 </body>
 
 </html>
