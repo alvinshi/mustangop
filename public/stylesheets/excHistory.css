@@ -1,6 +1,6 @@
 body{
     height:100%;
-    background-color:#f0f0f0
+    background-color:#ffffff;
 }
 
 .container-fluid{
@@ -13,7 +13,6 @@ body{
 }
 
 .content{
-    margin-top:0; /*设置元素上内边距*/
     height:100%;
     width: 100%;
     max-width: 1001px;
@@ -39,6 +38,7 @@ body{
 .exchang_pattern{
     margin-top: 48px;
     margin-bottom: 24px;
+    position: relative;
 }
 
 .exchang_pattern .exc_record_icon{
@@ -50,4 +50,25 @@ body{
     color: #333333;
     padding-left: 1.875em;
     margin-top: -23px;
+}
+
+
+.edition_record{
+    margin-left: 72px;
+}
+
+.now_edition{
+    margin-left: -35px;
+    font-size: 20px;
+    color: #333333;
+}
+
+.now_time{
+    font-size: 20px;
+    color: #333333;
+
+}
+
+.remove_icon{
+
 }

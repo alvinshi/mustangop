@@ -116,8 +116,8 @@
             </div>
         </div>
 
-    <!--搜索组建-->
-        <div>
+        <!--搜索组建-->
+        <div class="search_pattern">
             <div class="col-lg-6">
                 <div class="input-group">
                     <input type="text" class="form-control" ng-model="searchKey" placeholder="输入你想搜索的App名称...">
@@ -133,64 +133,66 @@
         <div class="exchang_pattern">
             <img class="exc_record_icon" src="/images/exch_history/exchang_icon.png">
             <h2 class="exc__record_title">交换记录</h2>
-        </div>
 
-        <div class="list-group" ng-repeat="app in myExcAllApps">
+            <div class="edition_record">
+                <span class="now_edition">当前版本</span>
+                <div class="list-group" ng-repeat="app in myExcAllApps">
+                    <p class="now_time">{{ app.excHisDate }}</p>
 
-            <p>交换日期: {{ app.excHisDate }}</p>
+                    <div class="current_exchange_record media">
 
-            <div class="current_exchange_record media">
+                        <div class="media-left">
+                            <img class="media-object" ng-src="{{ app.artworkUrl100 }}" alt="App Icon">
+                        </div>
 
-                    <div class="media-left">
-                        <img class="media-object" ng-src="{{ app.artworkUrl100 }}" alt="App Icon">
+                        <div class="media-body media-right">
+                            <h4 class="media-heading">{{ app.trackName }}</h4>
+                            <p class="col-md-3">开发者: {{ app.sellerName }}</p>
+                            <p class="col-md-3">App ID: {{ app.appleId }}</p>
+                            <p class="col-md-4">更新日期:{{ app.latestReleaseDate }}</p>
+
+                            <button class="btn remove_icon" ng-click="releaseHistory(app.appleId, app.hisAppVersion)">
+                                <img src="/images/exch_history/no_click_remove.png">
+                            </button>
+                            <!--<p>类型 {{ app.appleKind }}</p>-->
+                            <!--<p>价格 {{ app.formattedPrice }}</p>-->
+                            <!--<p>版本号 {{ app.version }}</p>-->
+                            <!--<p>交换日期 {{ app.excHisDate }}</p>-->
+                        </div>
                     </div>
+                </div>
 
-                    <div class="media-body media-right">
-                        <h4 class="media-heading">{{ app.trackName }}</h4>
-                        <p>开发商: {{ app.sellerName }}</p>
-                        <p>appid: {{ app.appleId }}</p>
-                        <p><span class="change_time">更新时间:</span>{{ app.latestReleaseDate }}</p>
+                <span class="now_edition">以往版本</span>
 
-                        <button class="btn" ng-click="releaseHistory(app.appleId, app.hisAppVersion)">
-                            <span class="glyphicon glyphicon-ok"></span>删除历史记录
-                        </button>
-                        <!--<p>类型 {{ app.appleKind }}</p>-->
-                        <!--<p>价格 {{ app.formattedPrice }}</p>-->
-                        <!--<p>版本号 {{ app.version }}</p>-->
-                        <!--<p>交换日期 {{ app.excHisDate }}</p>-->
+                <div class="list-group" ng-repeat="app in myHistoryApps">
+
+                    <p class="now_time">{{ app.excHisDate }}</p>
+
+                    <div class="current_exchange_record media">
+
+                        <div class="media-left">
+                            <img class="media-object" ng-src="{{ app.artworkUrl100 }}" alt="App Icon">
+                        </div>
+
+                        <div class="media-body media-right">
+                            <h4 class="media-heading">{{ app.trackName }}</h4>
+                            <p class="col-xs-8 col-sm-3">开发者: {{ app.sellerName }}</p>
+                            <p class="col-xs-8 col-sm-3">App ID: {{ app.appleId }}</p>
+                            <p class="col-xs-8 col-sm-3">更新时间:{{ app.latestReleaseDate }}</p>
+
+                            <button class="btn" ng-click="History(app.appleId, app.hisAppVersion)">
+                                <img src="/images/exch_history/no_click_remove.png">
+                            </button>
+                            <!--<p>类型 {{ app.appleKind }}</p>-->
+                            <!--<p>价格 {{ app.formattedPrice }}</p>-->
+                            <!--<p>版本号 {{ app.version }}</p>-->
+                            <!--<p>交换日期 {{ app.excHisDate }}</p>-->
+                        </div>
                     </div>
+                </div>
             </div>
         </div>
-
-        <div>
-            <h2>以往版本交换记录</h2>
-
-
-            <!--本地搜索交换历史记录-->
-            <ul class="list-group" ng-repeat="app in myHistoryApps">
-
-                <li class="list-group-item ">
-
-                    <p>交换日期 {{ app.excHisDate }}</p>
-
-                    <span class="label label-info">{{ app.trackName }}</span>
-
-                    <img ng-src="{{ app.artworkUrl100 }}" class="img-responsive" alt="App Icon">
-
-                    <h3>{{ app.latestReleaseDate }}<span class="label label-default">最近更新时间</span></h3>
-
-                    <p>开发商 {{ app.sellerName }}</p>
-
-                    <p>appid {{ app.appleId }}</p>
-
-                    <button class="btn" ng-click="History(app.appleId, app.hisAppVersion)">
-                        <span class="glyphicon glyphicon-ok"></span>删除历史记录
-                    </button>
-                </li>
-            </ul>
-        </div>
     </div>
-
 </div>
 </body>
 
