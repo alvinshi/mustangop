@@ -24,22 +24,25 @@ body{
 #logoimage{
     margin-left: 5%;
 }
-/*.form-control{*/
-    /*margin:20% 50%  ;*/
 
-/*}*/
-
-.content{
+#addExchistory_content{
     width: 100%;
     max-width: 1001px;
     margin-top: 48px;
+    margin-left: 14%;
+
 }
 
-.search_app{
-    width: 100%;
-    max-width: 1001px;
-    list-style: none;
+#button{
+    padding-left: 78%;
+    margin-top: -10%;
+
 }
-.list-group-item{
-    border-style: none;
+#media{
+    border: 1px solid #e0e0e0;
+    padding-top: 6%;
+    margin-top: 32px;
+    border-bottom-style: none;
+    border-left-style: none;
+    border-right-style: none;
 }
