@@ -19,6 +19,23 @@ router.get('/', function(req, res, next) {
     return res.render('myApp');
 });
 
+
+function dealiTunesAppFailed(retApps, appObject){
+    var appInfoObject = new Object();
+
+    appInfoObject.trackName = appObject.get('trackName');
+    appInfoObject.artworkUrl100 = appObject.get('artworkUrl100');
+    appInfoObject.artworkUrl512 = appObject.get('artworkUrl512');
+    appInfoObject.appleId = appObject.get('appleId');
+    appInfoObject.appleKind = appObject.get('appleKind');
+    appInfoObject.formattedPrice = appObject.get('formattedPrice');
+    appInfoObject.latestReleaseDate = appObject.get('latestReleaseDate');
+    appInfoObject.sellerName = appObject.get('sellerName');
+    appInfoObject.version = appObject.get('version');
+
+    retApps.push(appInfoObject);
+}
+
 router.get('/angular', function(req, res, next) {
     var userId = util.useridInReq(req);
 
@@ -32,23 +49,78 @@ router.get('/angular', function(req, res, next) {
         success: function(results) {
             //has blinded
             var retApps = new Array();
+
+            //check update apps
+
+            var judgeLength = results.length;
+
             for (var i = 0; i < results.length; i++){
-                var appObject = new Object();
-                var appInfoObject = results[i].get('appObject');
+                var appObject = results[i].get('appObject');
+                if (appObject == undefined){
+                    judgeLength -= 1;
+                    continue;
+                }
+                var appid = appObject.get('appleId');
 
-                appObject.trackName = appInfoObject.get('trackName');
-                appObject.artworkUrl100 = appInfoObject.get('artworkUrl100');
-                appObject.artworkUrl512 = appInfoObject.get('artworkUrl512');
-                appObject.appleId = appInfoObject.get('appleId');
-                appObject.appleKind = appInfoObject.get('appleKind');
-                appObject.formattedPrice = appInfoObject.get('formattedPrice');
-                appObject.latestReleaseDate = appInfoObject.get('latestReleaseDate');
-                appObject.sellerName = appInfoObject.get('sellerName');
-                appObject.version = appInfoObject.get('version');
+                var appInfoUrl = 'https://itunes.apple.com/lookup?id=' + appid +'&country=cn&entity=software';
 
-                retApps.push(appObject);
+                (function(tempAppObject){
+                    https.get(appInfoUrl, function(httpRes) {
+
+                        var totalData = '';
+
+                        if (httpRes.statusCode != 200){
+                            console.log("Add app error: " + httpRes.statusMessage);
+
+                            //未检测到App的更新信息
+                            dealiTunesAppFailed(retApps, tempAppObject);
+
+                            if (retApps.length == judgeLength){
+                                res.json({'myApps':retApps});
+                            }
+
+                        }else {
+                            httpRes.on('data', function(data) {
+                                totalData += data;
+                            });
+
+                            httpRes.on('end', function(){
+                                var dataStr = totalData.toString();
+                                var dataObject = eval("(" + dataStr + ")");
+
+                                //appid just 1 result
+                                var appInfo = dataObject.results[0];
+
+                                var appInfoObject = util.updateIOSAppInfo(appInfo, tempAppObject);
+                                tempAppObject.save().then(function(post) {
+                                    // 实例已经成功保存.
+                                    retApps.push(appInfoObject);
+
+                                    if (retApps.length == judgeLength){
+                                        res.json({'myApps':retApps});
+                                    }
+                                }, function(err) {
+                                    // 失败了.
+                                    dealiTunesAppFailed(retApps, tempAppObject);
+
+                                    if (retApps.length == judgeLength){
+                                        res.json({'myApps':retApps});
+                                    }
+                                });
+                            })
+                        }
+
+                    }).on('error', function(e) {
+                        dealiTunesAppFailed(retApps, appObject);
+
+                        if (retApps.length == results.length){
+                            res.json({'myApps':retApps});
+                        }
+                    });
+                })(appObject);
+
+
             }
-            res.json({'myApps':retApps});
         },
         error: function(err) {
             res.json({'errorMsg':err.message, 'errorId': err.code, 'myApps':[]});
@@ -101,49 +173,6 @@ function blindAppToUser(res, userId, appObject, appInfoObject){
     });
 }
 
-function findAppIniTunes(res, userId, appid){
-    //not need
-    var appInfoUrl = 'https://itunes.apple.com/lookup?id=' + appid +'&country=cn&entity=software';
-
-    https.get(appInfoUrl, function(httpRes) {
-
-        console.log('statusCode: ', httpRes.statusCode);
-        console.log('headers: ', httpRes.headers);
-        var totalData = '';
-
-        if (httpRes.statusCode != 200){
-            console.log("Add app error: " + httpRes.statusMessage);
-            res.json({'appInfo':[], 'errorMsg' : httpRes.statusCode + httpRes.statusMessage})
-        }else {
-            httpRes.on('data', function(data) {
-                totalData += data;
-            });
-
-            httpRes.on('end', function(){
-                var dataStr = totalData.toString();
-                var dataObject = eval("(" + dataStr + ")");
-
-                //appid just 1 result
-                var appInfo = dataObject.results[0];
-
-                var appObject = new IOSAppSql();
-                var appInfoObject = util.updateIOSAppInfo(appInfo, appObject);
-                appObject.save().then(function(post) {
-                    // 实例已经成功保存.
-                    blindAppToUser(res, userId, appObject, appInfoObject);
-                }, function(err) {
-                    // 失败了.
-                    res.json({'errorMsg':err.message, 'errorId': err.code});
-                });
-            })
-        }
-
-    }).on('error', function(e) {
-        console.log("Got appInfo with appid error: " + e.message);
-        res.json({'errorMsg':e.message, 'errorId': e.code});
-    });
-};
-
 // 新增 我的 App
 router.post('/add', function(req, res, next) {
     var appInfo = req.body.appInfo;
@@ -155,35 +184,34 @@ router.post('/add', function(req, res, next) {
     query.descending('updatedAt');
     query.find({
         success: function(results) {
+            var appObject = '';
             if (results.length >= 1){
-
                 //update
-                var appObject = results[0];
-
-                appObject.set('trackName', appInfo.trackName);
-                appObject.set('artworkUrl100', appInfo.artworkUrl100);
-                appObject.set('artworkUrl512', appInfo.artworkUrl512);
-                appObject.set('appleId', appInfo.trackId);
-                appObject.set('appleKind', appInfo.appleKind);
-                appObject.set('formattedPrice', appInfo.formattedPrice);
-                appObject.set('latestReleaseDate', appInfo.currentVersionReleaseDate);
-                appObject.set('sellerName', appInfo.sellerName);
-                appObject.set('version', appInfo.version);
-
-                appObject.save().then(function() {
-                    // 实例已经成功保存.
-                    blindAppToUser(res, userId, appObject, appInfo);
-                }, function(err) {
-                    // 失败了.
-                    res.json({'errorMsg':err.message, 'errorId': err.code});
-                });
-
+                appObject = results[0];
             }else {
-                findAppIniTunes(res, userId, appInfo.appleId);
+                appObject = new IOSAppSql();
             }
+
+            appObject.set('trackName', appInfo.trackName);
+            appObject.set('artworkUrl100', appInfo.artworkUrl100);
+            appObject.set('artworkUrl512', appInfo.artworkUrl512);
+            appObject.set('appleId', appInfo.appleId);
+            appObject.set('appleKind', appInfo.appleKind);
+            appObject.set('formattedPrice', appInfo.formattedPrice);
+            appObject.set('latestReleaseDate', appInfo.latestReleaseDate);
+            appObject.set('sellerName', appInfo.sellerName);
+            appObject.set('version', appInfo.version);
+
+            appObject.save().then(function() {
+                // 实例已经成功保存.
+                blindAppToUser(res, userId, appObject, appInfo);
+            }, function(err) {
+                // 失败了.
+                res.json({'errorMsg':err.message, 'errorId': err.code});
+            });
         },
         error: function(err) {
-            findAppIniTunes(res, userId, appInfo.appleId);
+            res.json({'errorMsg':err.message, 'errorId': err.code});
         }
     });
 });

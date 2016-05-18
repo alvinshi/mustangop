@@ -52,7 +52,7 @@ app.controller('historyAppCtrl', function($scope, $http) {
                             break;
                         }
                     }
-                }
+            }
 
                 console.log($scope.appResults);
             });
