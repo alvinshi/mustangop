@@ -1,0 +1,23 @@
+
+
+
+body{
+    width: 100%;
+    height: 100%;
+    margin: 0 auto;
+}
+#mainbar{
+    background-color: #030000;
+    height: 48px;
+
+}
+.container-fluid{
+    margin: 0 auto;
+    width: 1001px;
+}
+#Li{
+    margin-left: 140px;
+}
+#logoimage{
+    margin-left: 50px;
+}
