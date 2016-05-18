@@ -45,90 +45,81 @@
 <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">更新您的浏览器</a> 从而获得更好的体验.</p>
 <![endif]-->
 
-<div class="container"  ng-app="historyApp" ng-controller="historyAppCtrl">
+<!--导航栏-->
+<nav id="mainbar" class="navbar navbar-default nav-collapse navbar-fixed-top"  role="navigation">
+    <div class="container-fluid">
 
-    <!--导航栏-->
-    <nav id="mainbar" class="navbar navbar-default nav-collapse navbar-fixed-top"  role="navigation">
-        <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="#">
+                <img id="logoimage" src="/images/home/logo1.png" alt="">
+            </a>
+        </div>
 
-            <div class="navbar-header">
-                <a class="navbar-brand" href="#">
-                            <img id="logoimage" src="/images/home/logo1.png" alt="">
+        <div id="navbar" >
+            <ul class="nav navbar-nav">
+                <li  class="navbar_li"><a style="color:white" href="/myapp/history">交换记录</a></li>
 
-                </a>
-            </div>
+                <li class=""><a style="color:white" href="/myapp">我的应用</a></li>
 
-            <div id="navbar" >
-                <ul class="nav navbar-nav">
+            </ul>
+
+            <ul class="nav navbar-nav navbar-right">
+                <li><a  style="color:white"href="/user">某某用户</a></li>
+            </ul>
+        </div>
+    </div><!--/.nav-collapse -->
+</nav>
 
 
-                    <li  id="Li"><a href="/myapp/history">交换记录</a></li>
+<div class="container content"  ng-app="historyApp" ng-controller="historyAppCtrl">
+    <!--搜索组建-->
+    <div class="search_app">
+        <div class="col-lg-6">
+            <div class="input-group">
+                <input type="text" class="form-control" ng-model="searchKey" placeholder="填写与你最新版本交换过的产品名称">
+                  <span class="input-group-btn">
+                    <button class="btn" ng-click="searchApp()">
+                        <span class="glyphicon glyphicon-search"></span>搜索
+                    </button>
+                  </span>
+            </div><!-- /input-group -->
 
-                    <li><a href="/myapp">我的应用</a></li>
+            <div >
+                <ul class="list-group" ng-repeat="app in appResults">
 
+                    <li class="list-group-item ">
+
+
+                        <span class="label label-info">{{ app.name }}</span>
+
+                        <img ng-src="{{ app.icon }}" class="img-responsive" alt="App Icon">
+
+                        <h3>{{ app.lastReleaseDate }}<span class="label label-default">最近更新时间</span></h3>
+
+                        <p>开发商 {{ app.seller }}</p>
+
+                        <p>appid {{ app.appid }}</p>
+
+                        <p>isExc {{ app.isExced }}</p>
+
+                        <td>
+                            <!-- TODO 需要检测哪些是已经添加的-->
+                            <button class="excBtn" ng-click="addHistory(app.appid, app.version)" ng-hide="app.isExced">
+                                <span class="glyphicon glyphicon-ok"></span>添加到交换历史
+                            </button>
+                            <button class="excedBtn" ng-hide="!app.isExced">
+                                <span class="glyphicon glyphicon-ok"></span>已添加交换历史
+                            </button>
+                        </td>
+
+                    </li>
                 </ul>
 
-                <ul class="nav navbar-nav navbar-right">
-                    <li><a href="/user">某某用户</a></li>
-                </ul>
             </div>
-            </div><!--/.nav-collapse -->
 
-
-    </nav>
-
-    <!--我的应用-->
-    <div>
-
-        <!--搜索组建-->
-        <div>
-            <div class="col-lg-6">
-                <div class="input-group">
-                    <input type="text" class="form-control" ng-model="searchKey" placeholder="填写与你最新版本交换过的产品名称">
-                      <span class="input-group-btn">
-                        <button class="btn" ng-click="searchApp()">
-                            <span class="glyphicon glyphicon-search"></span>搜索
-                        </button>
-                      </span>
-                </div><!-- /input-group -->
-
-                <div >
-
-                    <ul class="list-group" ng-repeat="app in appResults">
-
-                        <li class="list-group-item ">
-
-
-                            <span class="label label-info">{{ app.name }}</span>
-
-                            <img ng-src="{{ app.icon }}" class="img-responsive" alt="App Icon">
-
-                            <h3>{{ app.lastReleaseDate }}<span class="label label-default">最近更新时间</span></h3>
-
-                            <p>开发商 {{ app.seller }}</p>
-
-                            <p>appid {{ app.appid }}</p>
-
-                            <p>isExc {{ app.isExced }}</p>
-
-                            <td>
-                                <!-- TODO 需要检测哪些是已经添加的-->
-                                <button class="excBtn" ng-click="addHistory(app.appid, app.version)" ng-hide="app.isExced">
-                                    <span class="glyphicon glyphicon-ok"></span>添加到交换历史
-                                </button>
-                                <button class="excedBtn" ng-hide="!app.isExced">
-                                    <span class="glyphicon glyphicon-ok"></span>已添加交换历史
-                                </button>
-                            </td>
-
-                        </li>
-                    </ul>
-
-                </div>
-
-            </div>
         </div>
     </div>
+
 
 </div>
 
