@@ -59,10 +59,14 @@ router.get('/itunes/search/:searchkey', function(req, res, next) {
                 query.find({
                     success: function(results) {
                         for (var j = 0; j < appleIdArray.length; j++){
+
+                            var appObject = '';
+
                             var flag = 0;
                             for (var i = 0; i < results.length; i++) {
                                 if (appleIdArray[j] == results[i].get('appleId')){
                                     flag = 1;
+                                    appObject = results[i];
                                     break;
                                 }
                             }
@@ -70,17 +74,18 @@ router.get('/itunes/search/:searchkey', function(req, res, next) {
                             if(flag == 0){
                                 console.log(appleIdArray[j] + 'not exist in SQL');
                                 //appid store to app sql
-                                var appObject = new IOSAppSql();
-                                var appInfoObject = util.updateIOSAppInfo(appleIdObject[appleIdArray[j]], appObject);
-                                appObject.save().then(function(post) {
-                                    // 实例已经成功保存.
-                                    //blindAppToUser(res, userId, appObject, appInfoObject);
-                                    console.log(appInfoObject.appleId + 'save to SQL succeed');
-                                }, function(err) {
-                                    // 失败了.
-                                    console.log(appInfoObject.appleId + 'save to SQL failed');
-                                });
+                                appObject = new IOSAppSql();
                             }
+
+                            var appInfoObject = util.updateIOSAppInfo(appleIdObject[appleIdArray[j]], appObject);
+                            appObject.save().then(function(post) {
+                                // 实例已经成功保存.
+                                //blindAppToUser(res, userId, appObject, appInfoObject);
+                                console.log(appInfoObject.appleId + 'save to SQL succeed');
+                            }, function(err) {
+                                // 失败了.
+                                console.log(appInfoObject.appleId + 'save to SQL failed');
+                            });
                         }
                     },
                     error: function(err) {
