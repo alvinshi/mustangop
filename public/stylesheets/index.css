@@ -9,8 +9,8 @@ body{
 
 .navbar{
     border-style: none;
-    margin-left: 10%;
-    width: 80%;
+    margin-left: 5%;
+    width: 90%;
     background-color: rgba(1, 1, 1, 0);
 }
 
@@ -23,7 +23,7 @@ body{
     /*font-size: 28px;*/
     color: white;
     display: block;
-    margin-top: 15em;
+    margin-top: 12em;
     margin-right: auto;
 }
 
