@@ -50,72 +50,46 @@
 <![endif]-->
 
 
-<div id="div1" style="position: relative;width: 100%;height: 100%;margin-top: 0">
+<div id="div1">
     <!--<img src="images/home/index.png"  id="img1" class="img-responsive container-fluid" alt="Responsive image" style="z-index: 1">-->
     <!--<div  style="position: absolute;z-index:  ..  2">-->
 
     <nav class="navbar navbar-default nav-collapse navbar-fixed-top"  role="navigation">
-        <div class="container-fluid">
+        <div id="navbar">
+            <ul class="nav navbar-nav" >
 
-            <div class="navbar-header">
-                <a class="navbar-brand" href="#">
+                <li><a href="/"><img src="images/home/logo1.png" alt=""></a></li>
 
-                </a>
-            </div>
+                <li><a style="color:white" href="/myapp/history">交换记录</a></li>
 
-            <div id="navbar">
-                <ul class="nav navbar-nav" >
-                    <li><a href="/"><img src="images/home/logo1.png" alt=""></a></li>
+                <li><a style="color:white" href="/myapp">我的应用</a></li>
 
-                    <li><a href="/myapp/history">交换记录</a></li>
-
-                    <li><a href="/myapp">我的应用</a></li>
-
-                    <!--<li class="dropdown">-->
-                    <!--<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>-->
-                    <!--<ul class="dropdown-menu">-->
-                    <!--<li><a href="#">Action</a></li>-->
-                    <!--<li><a href="#">Another action</a></li>-->
-                    <!--<li><a href="#">Something else here</a></li>-->
-                    <!--<li role="separator" class="divider"></li>-->
-                    <!--<li class="dropdown-header">Nav header</li>-->
-                    <!--<li><a href="#">Separated link</a></li>-->
-                    <!--<li><a href="#">One more separated link</a></li>-->
-                    <!--</ul>-->
-                    <!--</li>-->
-
-                </ul>
-                <ul class="nav navbar-nav navbar-right">
-                    <li><a href="/user/login">登录</a></li>
-                    <li><a href="/user/register"> <button type="button" class="btn btn-primary btn-sm">快速注册</button></a></li>
-                </ul>
-            </div><!--/.nav-collapse -->
-
-        </div>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li><a style="color:white" href="/user/login">登录</a></li>
+                <button type="button" class="btn btn-primary btn-sm navbar-btn" onclick="javascript:window.location.href='/user/login'">快速注册</button>
+            </ul>
+        </div><!--/.nav-collapse -->
     </nav>
 
-   <div class="content">
-       <h1 class="text-center">我们希望互联网产品运营</h1>
-       <h1 class="text-center">可以更加便捷</h1>
-   </div>
-        <!--content end-->
+    <div class="content">
+        <h1 class="text-center">我们希望互联网产品运营</h1>
+        <h1 class="text-center">可以更加便捷</h1>
 
-
-
-    <div id="button">
-        <button type="button" class="btn btn-primary btn-lg active" >start&nbsp;&nbsp;&nbsp;&nbsp; now</button>
+        <button id="content-button" class="btn btn-primary btn-lg"
+                onclick="javascript:window.location.href='/myapp'">
+            &nbsp;&nbsp;START&nbsp;&nbsp;&nbsp;NOW&nbsp;&nbsp;
+        </button>
     </div>
-        <!--button end-->
-    <img src="images/home/logo2.png" alt="" class="logo2">
-    <div class="row" id="foot">
-        <div class="div2">QQ交流群</div>
-        <div class="div2">趣恋爱@All Rights Reserved</div>
-        <div class="div2">服务协议</div>
-    </div>
-       <!--foot end-->
 
+    <nav class="navbar navbar-default navbar-fixed-bottom">
 
-    </div>
+        <div class="div-bottom-nav">产品交流 768826903</div>
+        <div class="div-bottom-nav">© 无锡上熙联合科技有限公司 2016</div>
+        <div class="div-bottom-nav"><u>服务协议</u></div>
+    </nav>
+
+</div>
 
 <!--</div>-->
 
