@@ -12,6 +12,18 @@ app.controller('historyAppCtrl', function($scope, $http) {
         console.log($scope.myExcAllApps);
     });
 
+    $scope.searchApp = function(){
+        if ($scope.searchUrl != ''){
+
+            var searchUrl = '/api/itunes/search/' + $scope.searchKey;
+
+            console.log(searchUrl);
+            $http.get(searchUrl).success(function(response){
+                $scope.appResults = response.appResults;
+            });
+        }
+    };
+
     var oldhistoryUrl = '/myapp/historys/angular';
     $http.get(oldhistoryUrl).success(function(response){
         $scope.myHistoryApps = response.myHistoryApps;
