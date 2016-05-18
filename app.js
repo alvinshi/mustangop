@@ -6,6 +6,7 @@ var ejs = require('ejs');
 var fs= require('fs')
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var multipart = require('connect-multiparty');
 var cloud = require('./cloud');
 
 
@@ -16,6 +17,13 @@ var users = require('./routes/users')//user account and info center
 var userapps = require('./routes/myApp')//user app related center
 
 var app = express();
+
+// 上传文件
+var multipartMiddleware = multipart();
+app.post('/upload', multipartMiddleware, function(req, resp) {
+  console.log(req.body, req.files);
+  // don't forget to delete all req.files when done
+});
 
 // 设置 view 引擎
 app.set('views', path.join(__dirname, 'views'));

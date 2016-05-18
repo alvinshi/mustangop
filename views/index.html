@@ -1,6 +1,7 @@
 <!doctype html>
 <html lang="zh-CN">
 <head>
+    <link rel="stylesheet" type="text/css" href="public/stylesheets/index.css"/>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -13,7 +14,7 @@
 
     <title>野马运营</title>
 
-    <meta name="keywords" content="ASO优化,极速运营,换评,App Store榜单排名,中小企业,移动互联网"/>
+    <meta name="keywords" content="ASO优化,极速高效运营,IOS换评,App Store榜单排名,中小企业,移动互联网"/>
     <meta name="description" content="野马运营是服务于中小移动互联网创业企业的网站,帮助你们的App做更好的ASO优化,评论等"/>
 
 
@@ -36,61 +37,61 @@
     <!--第三方 CSS JS-->
     <link rel="stylesheet" href="../stylesheets/vendor/font-awesome.min.css">
 
+    <link rel="stylesheet" href="../stylesheets/index.css">
+
+    <!--<link rel=”stylesheet” type=”text/css” href="../stylesheets/index.css">-->
+
 </head>
-<body>
+
+
+<body >
 <!--[if lt IE 8]>
 <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">更新您的浏览器</a> 从而获得更好的体验.</p>
 <![endif]-->
 
-<div class="container">
 
-    <nav class="navbar navbar-default nav-collapse">
-        <div class="container-fluid">
+<div id="div1">
+    <!--<img src="images/home/index.png"  id="img1" class="img-responsive container-fluid" alt="Responsive image" style="z-index: 1">-->
+    <!--<div  style="position: absolute;z-index:  ..  2">-->
 
-            <div class="navbar-header">
-                <a class="navbar-brand" href="#">
-                    <!--<img alt="Brand" src="/images/yema_small.png">-->
-                    野马运营
-                </a>
-            </div>
+    <nav class="navbar navbar-default nav-collapse navbar-fixed-top"  role="navigation">
+        <div id="navbar">
+            <ul class="nav navbar-nav" >
 
-            <div id="navbar" >
-                <ul class="nav navbar-nav">
-                    <li class="active"><a href="/">首页</a></li>
+                <li><a href="/"><img src="images/home/logo1.png" alt=""></a></li>
 
-                    <li><a href="/myapp/history">交换历史</a></li>
+                <li><a style="color:white" href="/myapp/history">交换记录</a></li>
 
-                    <li><a href="/myapp">我的应用</a></li>
+                <li><a style="color:white" href="/myapp">我的应用</a></li>
 
-                    <!--<li class="dropdown">-->
-                        <!--<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>-->
-                        <!--<ul class="dropdown-menu">-->
-                            <!--<li><a href="#">Action</a></li>-->
-                            <!--<li><a href="#">Another action</a></li>-->
-                            <!--<li><a href="#">Something else here</a></li>-->
-                            <!--<li role="separator" class="divider"></li>-->
-                            <!--<li class="dropdown-header">Nav header</li>-->
-                            <!--<li><a href="#">Separated link</a></li>-->
-                            <!--<li><a href="#">One more separated link</a></li>-->
-                        <!--</ul>-->
-                    <!--</li>-->
-
-                </ul>
-                <ul class="nav navbar-nav navbar-right">
-                    <li><a href="/user/login">登陆</a></li>
-                    <li><a href="/user/register">快速注册</a></li>
-                </ul>
-            </div><!--/.nav-collapse -->
-
-        </div>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li><a style="color:white" href="/user/login">登录</a></li>
+                <button type="button" class="btn btn-primary btn-sm navbar-btn" onclick="javascript:window.location.href='/user/login'">快速注册</button>
+            </ul>
+        </div><!--/.nav-collapse -->
     </nav>
 
-    <h1>我们希望互联网产品的运营可以更佳方便便捷</h1>
+    <div class="content">
+        <h1 class="text-center">我们希望互联网产品运营</h1>
+        <h1 class="text-center">可以更加便捷</h1>
 
-    <br>
+        <button id="content-button" class="btn btn-primary btn-lg"
+                onclick="javascript:window.location.href='/myapp'">
+            &nbsp;&nbsp;START&nbsp;&nbsp;&nbsp;NOW&nbsp;&nbsp;
+        </button>
+    </div>
+
+    <nav class="navbar navbar-default navbar-fixed-bottom">
+
+        <div class="div-bottom-nav">产品交流 768826903</div>
+        <div class="div-bottom-nav">© 无锡上熙联合科技有限公司 2016</div>
+        <div class="div-bottom-nav"><u>服务协议</u></div>
+    </nav>
 
 </div>
 
+<!--</div>-->
 
 <!-- Google Analytics -->
 <script>

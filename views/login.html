@@ -2,33 +2,58 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <!-- 引入 AngularJS Mini 文件 -->
+    <script src="/javascripts/vendor/angular.min.js"></script>
+
+    <!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+    <script src="//cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
+    <!-- Bootstrap core CSS -->
     <link href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
-    <title>登陆界面</title>
+
+    <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+    <script src="//cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+
+    <script src="/javascripts/userAngular.js"></script>
+
+    <link rel="stylesheet" href="../stylesheets/register.css">
+
+    <title>登陆</title>
 </head>
 
-    <div class="row">
-        <div class="col-lg-5">
-            <div class="input-group">
-                <span class="input-group-addon" id="sizing-addon1">@手机号码:</span>
-                <input type="text" class="form-control" placeholder="输入手机号码" aria-describedby="sizing-addon2">
+<body>
+<div class="container content">
+    <div ng-app="userAccountApp" ng-controller="userAccountCtrl">
+        <div class="register-content ">
+            <div class="register-main">
+                <h2 class="register-title">登陆野马账号</h2>
+                <p class="register-subheading"></p>
+                <div class="register-input-group">
+                    <p class="input-title">手机号码：<span class="login">没有账号？ 去<a href="/user/register">注册</a></span></p>
+                    <div class="input-fill">
+                        <input type="text" ng-model="userMobile" class="phone-input" autofocus="true">
+                    </div>
+                </div>
+
+                <div class="register-input-group">
+                    <p class="input-title">密码： <span class="login"><a href="/user/forgetSecret">忘记密码</a></span></p>
+                    <div class="input-fill">
+                        <input type="password" ng-model="userSecret" class="phone-input">
+                    </div>
+                </div>
+
+                <div class="register-sub text-center">
+                    <button class="btn btn-org-empty" ng-click="userLogin()" id="register-btn">登&nbsp;&nbsp;陆</button>
+                </div>
+
+                <div class="pro">
+                    <div class="agree text-center">
+                        <div class="secrecy">我们采用符合业界标准的加密技术保密信息</div>
+                    </div>
+                </div>
+
             </div>
         </div>
-    </div><!-- /.row -->
-
-    <div class="row">
-        <div class="col-lg-5">
-            <div class="input-group">
-                <span class="input-group-addon" id="sizing-addon2">@输入密码:</span>
-                <input type="text" class="form-control" placeholder="请输入密码" aria-describedby="sizing-addon2">
-            </div>
-        </div>
-    </div><!-- /.row -->
-
-
-    <div class="row">
-        <div class="col-xs-6 col-sm-4"></div>
-            <button type="button" class="btn btn-primary btn-sm">登陆</button>
     </div>
-
+</div>
 </body>
 </html>

@@ -6,7 +6,9 @@ var express = require('express');
 var router = express.Router();
 var AV = require('leanengine');
 var https = require('https');
+var util = require('./util');
 
+var IOSAppSql = AV.Object.extend('IOSAppInfo');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -19,14 +21,14 @@ router.get('/itunes/search/:searchkey', function(req, res, next) {
 
     //https://itunes.apple.com/search?term=美丽约&country=cn&entity=software
     var searchUrl = 'https://itunes.apple.com/search?term=' + req.params.searchkey +'&country=cn&entity=software&media=software'
-    searchUrl = encodeURI(searchUrl)
+    searchUrl = encodeURI(searchUrl);
 
     https.get(searchUrl, function(httpRes) {
 
         console.log('statusCode: ', httpRes.statusCode);
         console.log('headers: ', httpRes.headers);
         var totalLen = 0;
-        var totalData = ''
+        var totalData = '';
 
         if (httpRes.statusCode != 200){
             console.log("Got error: " + httpRes.statusMessage);
@@ -38,26 +40,29 @@ router.get('/itunes/search/:searchkey', function(req, res, next) {
 
             httpRes.on('end', function(){
                 var dataStr = totalData.toString()
-
-                var dataObject = eval("(" + dataStr + ")")
-
+                var dataObject = eval("(" + dataStr + ")");
                 var appResults = Array();
 
                 for (var i = 0; i < dataObject.results.length; i++){
-                    var appInfo = dataObject.results[i];
+                    var appleObject = dataObject.results[i];
+
                     var appResult = Object();
-                    appResult.name = appInfo['trackCensoredName'];
-                    appResult.icon = appInfo['artworkUrl100'];
-                    appResult.appid = appInfo['artistId'];
-                    appResult.lastReleaseDate = appInfo['currentVersionReleaseDate'];
-                    appResult.seller = appInfo['sellerName'];
+
+                    appResult.trackName = appleObject['trackName'];
+                    appResult.artworkUrl512 = appleObject['artworkUrl512'];
+                    appResult.artworkUrl100 = appleObject['artworkUrl100'];
+                    appResult.appleId = appleObject['trackId'];
+                    appResult.latestReleaseDate = appleObject['currentVersionReleaseDate'];
+                    appResult.sellerName = appleObject['sellerName'];
+                    appResult.version = appleObject['version'];
+                    appResult.appleKind = appleObject['genres'][0];
+                    appResult.formattedPrice = appleObject['formattedPrice'];
 
                     //类别 平台信息
 
                     appResults.push(appResult);
                 }
 
-                console.log(appResults);
                 res.json({'appResults':appResults, 'title':'Api Todo'});
             })
         }
@@ -68,39 +73,6 @@ router.get('/itunes/search/:searchkey', function(req, res, next) {
     });
 });
 
-//test code
-router.get('/test/todos', function(req, res, next) {
 
-    var Todo = AV.Object.extend('Todo');
-
-    var query = new AV.Query(Todo);
-    query.descending('createdAt');
-    query.find({
-        success: function(results) {
-            var todos = new Array();
-            for (var i = 0; i < results.length; i++)
-            {
-                var todo = Object()
-                todo.content = results[i].get('content');
-                todos.push(todo)
-                //todos[i] = results[i].get('content');
-            }
-
-            res.json({'todos1':todos, 'title':'Api Todo'});
-        },
-        error: function(err) {
-            if (err.code === 101) {
-
-                res.json({'title':'101 Error'});
-                res.render('todos', {
-                    title: 'TODO 列表',
-                    todos: []
-                });
-            } else {
-                next(err);
-            }
-        }
-    });
-});
 
 module.exports = router;

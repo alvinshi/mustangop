@@ -1,0 +1,45 @@
+
+body{
+    margin: 0 auto;
+
+}
+#mainbar{
+    background-color: #030000;
+    height: 48px;
+    border-style: none;
+    width: 100%;
+
+}
+.container-fluid{
+    margin: 0 auto;
+    width: 1001px;
+}
+/*.navbar_li{*/
+    /*margin-left: 50%;*/
+/*}*/
+
+/*.navbar-right{*/
+    /*width: 20%;*/
+/*}*/
+#logoimage{
+    margin-left: 5%;
+}
+/*.form-control{*/
+    /*margin:20% 50%  ;*/
+
+/*}*/
+
+.content{
+    width: 100%;
+    max-width: 1001px;
+    margin-top: 48px;
+}
+
+.search_app{
+    width: 100%;
+    max-width: 1001px;
+    list-style: none;
+}
+.list-group-item{
+    border-style: none;
+}

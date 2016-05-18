@@ -20,7 +20,7 @@ app.controller('userAccountCtrl', function($scope, $http) {
         }
     };
 
-    $scope.userRegister = function(appid){
+    $scope.userRegister = function(){
         var registerUrl = '/user/register';
 
         console.log($scope.userSmsCode);
@@ -30,11 +30,56 @@ app.controller('userAccountCtrl', function($scope, $http) {
             $scope.errorMsg = response.errorMsg;
 
             if (response.errorId == 0){
-                //
+                //return to my App
+                location.href='/myapp';
             }
         });
     };
 
+    $scope.userLogin = function(){
+        var registerUrl = '/user/login';
+
+        console.log($scope.userSmsCode);
+
+        $http.post(registerUrl, {'mobile': $scope.userMobile, 'password': $scope.userSecret}).success(function(response){
+            $scope.errorId = response.errorId;
+            $scope.errorMsg = response.errorMsg;
+
+            if (response.errorId == 0){
+                //return to my App
+                location.href='/myapp';
+            }
+        });
+    };
+
+    $scope.getNewSmsCode = function(){
+        if ($scope.searchUrl != ''){
+
+            var registerUrl = '/user/getNewSmsCode';
+
+            console.log(registerUrl);
+
+            $http.post(registerUrl, {'mobile': $scope.userMobile, 'password': $scope.userSecret}).success(function(response){
+                $scope.errorId = response.errorId;
+                $scope.errorMsg = response.errorMsg;
+            });
+        }
+    };
+
+    $scope.newSecret = function(){
+        var registerUrl = '/user/forgetSecret';
+        console.log($scope.userSmsCode);
+
+        $http.post(registerUrl, {'mobile': $scope.userMobile, 'smsCode':$scope.newSmsCode, 'newPassword':$scope.usernewSecret}).success(function(response){
+            $scope.errorId = response.errorId;
+            $scope.errorMsg = response.errorMsg;
+
+            if (response.errorId == 0){
+                //return to my App
+                location.href='/user/login';
+            }
+        });
+    };
 
 
 });
