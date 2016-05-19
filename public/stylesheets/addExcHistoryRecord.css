@@ -48,13 +48,32 @@ body{
     border: 1px solid #e0e0e0;
     padding-top: 6%;
     margin-top: 32px;
+    margin-left: -13px;
     border-style: solid none  none none;
 }
 .button_bottom{
+    border:1px solid #3498db;
+    margin-top:60px;
     width: 144px;
     height: 40px;
-    border-color: #3498db;
-    background-color: white;
+    text-align: center;
     border-radius: 6px;
     color: #3498db;
+    background-color: white;
+}
+.appid{
+    color: #999999;
+    font-size: 12px;
+    margin-top: 20px;
+}
+
+
+.search_color{
+    background-color: white;
+    border: 1px solid #aab2bd;
+    border-left-style: none;
+}
+.changedate{
+    font-size: 14px;
+    color: #333333;
 }

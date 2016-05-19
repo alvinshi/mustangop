@@ -81,33 +81,33 @@
         <div class="input-group col-lg-5">
             <input  type="text" class="form-control forn" ng-model="searchKey" placeholder="填写与你最新版本交换过的产品名称">
               <span class="input-group-btn ">
-                <button class="btn" ng-click="searchApp()">
+                <button class="btn search_color" ng-click="searchApp()">
                     <span class="glyphicon glyphicon-search"></span>
                 </button>
               </span>
     </div><!-- /input-group -->
-
-    <div class="media col-lg-10 "id="media">
+<div class="col-lg-12">
+    <div class="media  "id="media">
         <div class="list-group" ng-repeat="app in appResults" >
             <!--<span class="label label-info">{{ app.trackName }}</span>-->
            <div class="media-left ">
                 <img  class="media-object img_icon" ng-src="{{ app.artworkUrl100 }}" alt="App Icon">
            </div>
 
-            <div class="media-body" >
+            <div class="media-body media-right" >
                 <h4 class="media-heading">{{ app.trackName }}</h4>
-                <p >开发者:{{ app.sellerName }}</p>
-                <p >App Id:{{ app.appleId }}</p>
-                <p >更新日期:{{ app.lastReleaseDate }}</p>
+                <!--<p >{{ app.sellerName }}</p>-->
+                <p class="appid">App Id:&nbsp;&nbsp;{{ app.appleId }}</p>
+                <!--<p class="changedate">更新日期:{{ app.lastReleaseDate }}</p>-->
 
                 <!-- TODO 需要检测哪些是已经添加的-->
                 <div id="button">
-                <button  class="button_bottom" ng-click="addHistory(app)" ng-hide="app.isExced">
+                <button class="button_bottom" ng-click="addHistory(app)" ng-hide="app.isExced">
                     <span  id="exchistory" class=""></span>添加到交换记录
                 </button>
-                <button class="excedBtn" ng-hide="!app.isExced">
+                <div class="excedBtn" ng-hide="!app.isExced">
                     <span class=""></span>已添加交换历史
-                </button>
+                </div>
             </div>
 
                 <!--<p>isExc {{ app.isExced }}</p>-->
