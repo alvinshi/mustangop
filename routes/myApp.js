@@ -311,7 +311,7 @@ router.get('/history/angular', function(req, res, next) {
                     appHisObject.appleId = appExcHisObject.get('appleId');
                     appHisObject.appleKind = appExcHisObject.get('appleKind');
                     appHisObject.formattedPrice = appExcHisObject.get('formattedPrice');
-                    appHisObject.latestReleaseDate = appExcHisObject.get('latestReleaseDate');
+                    appHisObject.latestReleaseDate = appExcHisObject.get('latestReleaseDate').substr(0, 10);
                     appHisObject.sellerName = appExcHisObject.get('sellerName');
 
                     appHisObject.myAppVersion = results[i].get('myAppVersion');
@@ -371,7 +371,7 @@ router.get('/historys/angular', function(req, res, next) {
                     appHisObject.appleId = appExcHisObject.get('appleId');
                     appHisObject.appleKind = appExcHisObject.get('appleKind');
                     appHisObject.formattedPrice = appExcHisObject.get('formattedPrice');
-                    appHisObject.latestReleaseDate = appExcHisObject.get('latestReleaseDate');
+                    appHisObject.latestReleaseDate = appExcHisObject.get('latestReleaseDate').substr(0, 10);
                     appHisObject.sellerName = appExcHisObject.get('sellerName');
                     appHisObject.hisAppVersion = results[i].get('hisAppVersion');
 

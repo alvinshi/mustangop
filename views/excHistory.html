@@ -141,7 +141,6 @@
                     </div><!-- /input-group
                 </div>
             </div>-->
-
             <div class="edition_record">
                 <span class="now_edition">当前版本</span>
                 <div class="list-group" ng-repeat="app in myExcAllApps">
@@ -155,11 +154,10 @@
 
                         <div class="media-body media-right">
                             <h4 class="media-heading">{{ app.trackName }}</h4>
-                            <p class="col-md-3">开发者: {{ app.sellerName }}</p>
-                            <p class="col-md-3">App ID: {{ app.appleId }}</p>
-                            <p class="col-md-4">更新日期:{{ app.latestReleaseDate }}</p>
-
-                            <button class="btn remove_icon" ng-click="releaseHistory(app.appleId, app.hisAppVersion)">
+                            <p class="">{{ app.sellerName }}</p>
+                            <p class="">App ID: {{ app.appleId }}</p>
+                            <p class="">更新日期:{{ app.latestReleaseDate }}</p>
+                            <button class="btn remove_icon pull-right" ng-click="releaseHistory(app.appleId, app.hisAppVersion)">
                                 <img src="/images/exch_history/no_click_remove.png">
                             </button>
                             <!--<p>类型 {{ app.appleKind }}</p>-->
@@ -169,29 +167,25 @@
                         </div>
                     </div>
                 </div>
+            </div>
 
-                <span class="carve_up"></span>
-
-                <span class="now_edition">以往版本</span>
-
+            <div class="the_previous_version">
+                <span class="old_edition">以往版本</span>
                 <div class="list-group" ng-repeat="app in myHistoryApps">
-
-                    <p class="now_time">{{ app.excHisDate }}</p>
-
+                    <p class="old_time">{{ app.excHisDate }}</p>
                     <div class="current_exchange_record media">
-
                         <div class="media-left">
                             <img class="media-object app_icon" ng-src="{{ app.artworkUrl100 }}" alt="App Icon">
                         </div>
 
                         <div class="media-body">
                             <h4 class="media-heading">{{ app.trackName }}</h4>
-                            <p class="col-md-3">开发者: {{ app.sellerName }}</p>
-                            <p class="col-md-3">App ID: {{ app.appleId }}</p>
-                            <p class="col-md-4">更新时间:{{ app.latestReleaseDate }}</p>
+                            <p class=""> {{ app.sellerName }}</p>
+                            <p class="">App ID:{{ app.appleId }}</p>
+                            <p class="">更新时间:{{ app.latestReleaseDate }}</p>
 
-                            <button class="btn" ng-click="History(app.appleId, app.hisAppVersion)">
-                                <img id="remove_icon" src="/images/exch_history/no_click_remove.png">
+                            <button class="btn remove_icon pull-right" ng-click="History(app.appleId, app.hisAppVersion)">
+                                <img src="/images/exch_history/no_click_remove.png">
                             </button>
                             <!--<p>类型 {{ app.appleKind }}</p>-->
                             <!--<p>价格 {{ app.formattedPrice }}</p>-->
