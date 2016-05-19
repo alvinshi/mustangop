@@ -55,9 +55,9 @@ body{
     margin-top: -23px;
 }
 
-
 .edition_record{
     margin-left: 72px;
+    margin-top: 70px;
 }
 
 .now_edition{
@@ -69,9 +69,23 @@ body{
 .now_time{
     font-size: 20px;
     color: #333333;
+    margin-top: 24px;
+    margin-bottom: 24px;
 
 }
 
-.remove_icon{
+.app_icon{
+    width: 100px;
+    height: 100px;
+    border: 1px solid #e0e0e0;
+    border-radius: 10px;
+}
 
+.media-heading{
+    margin-left: 16px;
+    margin-bottom: 12px;
+}
+
+.carve_up{
+    border: 1px solid #e0e0e0;
 }
