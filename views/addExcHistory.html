@@ -88,10 +88,10 @@
     </div><!-- /input-group -->
 
     <div class="media col-lg-10 "id="media">
-        <div class="list-group" ng-repeat="app in appResults">
+        <div class="list-group" ng-repeat="app in appResults" >
             <!--<span class="label label-info">{{ app.trackName }}</span>-->
            <div class="media-left ">
-                <img class="media-object" ng-src="{{ app.artworkUrl100 }}" alt="App Icon">
+                <img  class="media-object img_icon" ng-src="{{ app.artworkUrl100 }}" alt="App Icon">
            </div>
 
             <div class="media-body" >
@@ -102,11 +102,11 @@
 
                 <!-- TODO 需要检测哪些是已经添加的-->
                 <div id="button">
-                <button  class="excBtn" ng-click="addHistory(app)" ng-hide="app.isExced">
-                    <span  id="exchistory" class="glyphicon glyphicon-ok"></span>添加到交换记录
+                <button  class="button_bottom" ng-click="addHistory(app)" ng-hide="app.isExced">
+                    <span  id="exchistory" class=""></span>添加到交换记录
                 </button>
                 <button class="excedBtn" ng-hide="!app.isExced">
-                    <span class="glyphicon glyphicon-ok"></span>已添加交换历史
+                    <span class=""></span>已添加交换历史
                 </button>
             </div>
 
