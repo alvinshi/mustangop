@@ -1,0 +1,31 @@
+.container-fluid{
+    width: 100%;
+    max-width: 1001px;
+}
+
+#mainbar {
+    background-color: black;
+}
+
+body{
+    background-color: #e0e0e0;
+}
+
+.user_center{
+    width: 100%;
+    max-width: 1001px;
+}
+
+.user_inter{
+    margin-top: 13px;
+    background-color: #ffffff;
+}
+
+.content{
+    width: 100%;
+    max-width: 200px;
+    height: 100%;
+    min-height: 35em;
+    /*background-color: #ffffff;*/
+}
+

@@ -50,7 +50,7 @@ router.post('/register', function(req, res, next) {
 
 //test code
 router.get('/', function(req, res, next) {
-  res.send('user xxxxx');
+  res.render('personalCenter');
 });
 
 router.get('/register', function(req, res, next) {
