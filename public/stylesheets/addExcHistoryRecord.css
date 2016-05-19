@@ -39,8 +39,8 @@ body{
 
 }
 .img_icon{
-    width: 100px;
-    height: 100px;
+    width: 80px;
+    height: 80px;
     border: 1px solid #e0e0e0;
     border-radius: 10px;
 }
@@ -53,7 +53,7 @@ body{
 }
 .button_bottom{
     border:1px solid #3498db;
-    margin-top:60px;
+    margin-top:40px;
     width: 144px;
     height: 40px;
     text-align: center;
@@ -64,7 +64,8 @@ body{
 .appid{
     color: #999999;
     font-size: 12px;
-    margin-top: 20px;
+    margin-top: 30px;
+    font-weight: 200;
 }
 
 .form-control{
@@ -81,7 +82,11 @@ body{
 
 .changedate{
     font-size: 14px;
-    color: #333333;
+    margin-left: 200px;
+    margin-top: -30px;
+    color: #999999;
+    font-size: 12px;
+    font-weight: 300;
 }
 
 .excedBtn{
@@ -94,4 +99,9 @@ body{
     border-radius: 6px;
     color: #ffffff;
     background-color: #e0e0e0;
+}
+
+.header{
+    padding-top: 10px;
+
 }
