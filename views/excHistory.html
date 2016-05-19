@@ -116,23 +116,31 @@
             </div>
         </div>
 
-        <!--搜索组建-->
-        <div class="search_pattern">
-            <div class="col-lg-6">
+        <div class="exchang_pattern">
+            <img class="exc_record_icon" src="/images/exch_history/exchang_icon.png">
+            <h2 class="exc__record_title">交换记录</h2>
+            <div class="col-md-6 col-md-offset-6">
                 <div class="input-group">
-                    <input type="text" class="form-control" ng-model="searchKey" placeholder="输入你想搜索的App名称...">
+                    <input type="text" class="form-control" ng-model="searchKey" placeholder="输入App名称">
+                      <span class="input-group-btn" ng-click="searchHistoryApp()">
+                        <button class="btn btn-default" type="button">搜索</button>
+                      </span>
+                </div><!-- /input-group -->
+            </div>
+
+            <!--搜索组建
+            <div class="search_pattern">
+                <div class="col-lg-6">
+                    <div class="input-group">
+                        <input type="text" class="form-control" ng-model="searchKey" placeholder="输入你想搜索的App名称...">
                       <span class="input-group-btn">
                         <button class="btn" ng-click="searchHistoryApp()">
                             <span class="glyphicon glyphicon-search"></span>搜索
                         </button>
                       </span>
-                </div><!-- /input-group -->
-            </div>
-        </div>
-
-        <div class="exchang_pattern">
-            <img class="exc_record_icon" src="/images/exch_history/exchang_icon.png">
-            <h2 class="exc__record_title">交换记录</h2>
+                    </div><!-- /input-group
+                </div>
+            </div>-->
 
             <div class="edition_record">
                 <span class="now_edition">当前版本</span>
@@ -142,7 +150,7 @@
                     <div class="current_exchange_record media">
 
                         <div class="media-left">
-                            <img class="media-object" ng-src="{{ app.artworkUrl100 }}" alt="App Icon">
+                            <img class="media-object app_icon" ng-src="{{ app.artworkUrl100 }}" alt="App Icon">
                         </div>
 
                         <div class="media-body media-right">
@@ -162,6 +170,8 @@
                     </div>
                 </div>
 
+                <span class="carve_up"></span>
+
                 <span class="now_edition">以往版本</span>
 
                 <div class="list-group" ng-repeat="app in myHistoryApps">
@@ -171,10 +181,10 @@
                     <div class="current_exchange_record media">
 
                         <div class="media-left">
-                            <img class="media-object" ng-src="{{ app.artworkUrl100 }}" alt="App Icon">
+                            <img class="media-object app_icon" ng-src="{{ app.artworkUrl100 }}" alt="App Icon">
                         </div>
 
-                        <div class="media-body media-right">
+                        <div class="media-body">
                             <h4 class="media-heading">{{ app.trackName }}</h4>
                             <p class="col-md-3">开发者: {{ app.sellerName }}</p>
                             <p class="col-md-3">App ID: {{ app.appleId }}</p>
