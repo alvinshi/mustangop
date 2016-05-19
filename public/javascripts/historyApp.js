@@ -97,9 +97,9 @@ app.controller('historyAppCtrl', function($scope, $http) {
                 for (var i = 0; i < $scope.appResults.length; i++){
                     var appRe = $scope.appResults[i];
 
-                    if (appRe.appid === appid){
+                    if (appRe.appleId === hisAppInfo.appleId){
                         appRe.isExced = true;
-                        console.log(appRe.appid + 'is exchanged');
+                        console.log(appRe.appleId + 'is exchanged');
                         break;
                     }
                 }
@@ -131,9 +131,9 @@ app.controller('historyAppCtrl', function($scope, $http) {
                     for (var q = 0; q < $scope.appResults.length; q++){
                         var appRe = $scope.appResults[q];
 
-                        if (appRe.appid === appid){
+                        if (appRe.appleId === appid){
                             appRe.isExced = false;
-                            console.log(appRe.appid + 'is exchanged');
+                            console.log(appRe.appleId + 'is exchanged');
                             break;
                         }
                     }
