@@ -87,8 +87,11 @@
           </span>
     </div><!-- /input-group -->
 
-    <div class="placehold-line" ng-bind-html="progressBH">
-        <div class="alert alert-warning alert-dismissible" role="alert" ng-hide="isError">
+    <div class="placehold-line">
+        <div ng-bind-html="progressBH">
+
+        </div>
+        <div class="alert alert-warning alert-dismissible" role="alert" ng-hide="!isError">
             <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
             {{ errorMsg }}
         </div>
