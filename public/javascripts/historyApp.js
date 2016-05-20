@@ -15,11 +15,6 @@ app.controller('historyAppCtrl', function($scope, $http) {
         //console.log($scope.myExcAllApps);
     });
 
-    function timerFunc(){
-        console.log('timerFunc call');
-        $scope.progressNum += 20;
-    }
-
     $scope.searchApp = function(){
         if ($scope.searchUrl != ''){
 
@@ -59,6 +54,8 @@ app.controller('historyAppCtrl', function($scope, $http) {
 
                 $scope.appResults = response.appResults;
 
+                $scope.progressNum = 0;
+
                 if (response.errorMsg.length > 0){
                     $scope.isError = 1;
                     $scope.errorMsg = response.errorMsg;
@@ -68,8 +65,6 @@ app.controller('historyAppCtrl', function($scope, $http) {
                         $scope.isError = 1;
                         $scope.errorMsg = '未找到你搜索的App';
                     }
-
-                    $scope.progressNum = 0;
 
                     for (var i = 0; i < $scope.appResults.length; i++){
                         var appRe = $scope.appResults[i];

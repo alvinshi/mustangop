@@ -92,15 +92,15 @@
 
     <div class="placehold-line">
 
-        <div ng-class="{progress: true, 'progress-striped':true, active:true}" ng-hide="!progressNum">
-            <div ng-class="['progress-bar']" ng-style="{width: progressNum + '%'}">
+        <div class="progress" ng-hide="!progressNum">
+            <div ng-class="{'progress-bar': true, 'progress-bar-striped':true, active:true}" ng-style="{width: progressNum + '%'}">
             </div>
         </div>
 
-        <div class="alert alert-warning alert-dismissible" role="alert" ng-hide="!isError">
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <div class="alert alert-warning" role="alert" ng-hide="!isError">
             {{ errorMsg }}
         </div>
+        
     </div>
 
     <div class="media" ng-repeat="app in appResults" >
