@@ -409,56 +409,77 @@ function addExcHistory(res, appExcObject, userId, myAppId, myAppVersion, hisAppI
 
     query.find({
         success: function(results) {
-            if (results.length >= 2){
-                for (var i = 0; i < results.length; i++){
-                    var appObject = results[i];
-                    if (appObject.get('appleId') == myAppId){
-                        myAppObject = appObject;
-                    }
-                    if (appObject.get('appleId') == hisAppId){
-                        hisAppObject = appObject;
-                    }
+
+            for (var i = 0; i < results.length; i++){
+                var appObject = results[i];
+                if (appObject.get('appleId') == myAppId){
+                    myAppObject = appObject;
                 }
+                if (appObject.get('appleId') == hisAppId){
+                    hisAppObject = appObject;
+                }
+            }
+
+            if (results.length >= 2){
+
+                appExcObject.set('myAppObject', myAppObject);
+                appExcObject.set('hisAppObject', hisAppObject);
+
+                appExcObject.set('userId', userId);
+                appExcObject.set('myAppId', myAppId);
+                appExcObject.set('myAppVersion', myAppVersion);
+                appExcObject.set('hisAppId', hisAppId);
+                appExcObject.set('hisAppVersion', hisAppVersion);
+
+                appExcObject.set('excDateStr', myDateStr);
+                appExcObject.save().then(function(object) {
+                    // 添加成功
+                    res.json({'errorMsg':'', 'errorId': 0});
+                }, function(err) {
+                    // 失败了.
+                    res.json({'errorMsg':err.message, 'errorId': err.code});
+                });
             }else {
                 // app his app to SQL
-                var hisAppObject = new IOSAppSql();
+                hisAppObject = new IOSAppSql();
 
                 hisAppObject.set('trackName', hisAppInfo.trackName);
                 hisAppObject.set('artworkUrl100', hisAppInfo.artworkUrl100);
                 hisAppObject.set('artworkUrl512', hisAppInfo.artworkUrl512);
-                hisAppObject.set('appleId', hisAppInfo.trackId);
+                hisAppObject.set('appleId', hisAppInfo.appleId);
                 hisAppObject.set('appleKind', hisAppInfo.appleKind);
                 hisAppObject.set('formattedPrice', hisAppInfo.formattedPrice);
-                hisAppObject.set('latestReleaseDate', hisAppInfo.currentVersionReleaseDate);
+                hisAppObject.set('latestReleaseDate', hisAppInfo.latestReleaseDate);
                 hisAppObject.set('sellerName', hisAppInfo.sellerName);
                 hisAppObject.set('version', hisAppInfo.version);
 
                 hisAppObject.save().then(function() {
                     // 实例已经成功保存.
-                    blindAppToUser(res, userId, appObject, appInfo);
+
+                    appExcObject.set('myAppObject', myAppObject);
+                    appExcObject.set('hisAppObject', hisAppObject);
+
+                    appExcObject.set('userId', userId);
+                    appExcObject.set('myAppId', myAppId);
+                    appExcObject.set('myAppVersion', myAppVersion);
+                    appExcObject.set('hisAppId', hisAppId);
+                    appExcObject.set('hisAppVersion', hisAppVersion);
+
+                    appExcObject.set('excDateStr', myDateStr);
+                    appExcObject.save().then(function(object) {
+                        // 添加成功
+                        res.json({'errorMsg':'', 'errorId': 0});
+                    }, function(err) {
+                        // 失败了.
+                        res.json({'errorMsg':err.message, 'errorId': err.code});
+                    });
+
                 }, function(err) {
                     // 失败了.
                     res.json({'errorMsg':err.message, 'errorId': err.code});
                 });
             }
 
-            appExcObject.set('myAppObject', myAppObject);
-            appExcObject.set('hisAppObject', hisAppObject);
-
-            appExcObject.set('userId', userId);
-            appExcObject.set('myAppId', myAppId);
-            appExcObject.set('myAppVersion', myAppVersion);
-            appExcObject.set('hisAppId', hisAppId);
-            appExcObject.set('hisAppVersion', hisAppVersion);
-
-            appExcObject.set('excDateStr', myDateStr);
-            appExcObject.save().then(function(object) {
-                // 添加成功
-                res.json({'errorMsg':'', 'errorId': 0});
-            }, function(err) {
-                // 失败了.
-                res.json({'errorMsg':err.message, 'errorId': err.code});
-            });
         },
         error: function(err) {
             res.json({'errorMsg':err.message, 'errorId': err.code});

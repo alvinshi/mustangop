@@ -93,7 +93,9 @@
             <p class="myapp_title">我的应用</p>
         </div>
 
-        <p class="text-right"><a class="add_exc_history_title" href="/myapp/addHistory">添加交换记录</a></p>
+        <p class="text-right" ng-hide="!myApps.length"><a class="add_exc_history_title" href="/myapp/addHistory">添加交换记录</a></p>
+        <p class="text-right" ng-hide="myApps.length"><a class="add_exc_history_title" href="/myapp">请先添加我的应用</a></p>
+
         <!--我的应用部分-->
         <div class="myapp_content media">
             <div class="list-group" ng-repeat="app in myApps">
