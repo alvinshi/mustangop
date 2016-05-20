@@ -73,9 +73,14 @@ app.controller('historyAppCtrl', function($scope, $http) {
                 $scope.appResults = response.appResults;
 
                 if (response.errorMsg.length > 0){
+                    $scope.isError = 1;
                     $scope.errorMsg = response.errorMsg;
                 }else {
                     $scope.errorMsg = '';
+                    if ($scope.appResults.length == 0){
+                        $scope.isError = 1;
+                        $scope.errorMsg = '未找到你搜索的App';
+                    }
 
                     //100%进度
                     progressNum = 100;
