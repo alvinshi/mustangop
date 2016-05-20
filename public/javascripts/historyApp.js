@@ -129,6 +129,10 @@ app.controller('historyAppCtrl', function($scope, $http) {
 
             if (response.errorId == 0 || response.errorId === undefined){
 
+                if ($scope.myExcAllApps == undefined){
+                    $scope.myExcAllApps = new Array();
+                }
+
                 //change ui
                 for (var i = 0; i < $scope.appResults.length; i++){
                     var appRe = $scope.appResults[i];
