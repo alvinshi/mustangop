@@ -125,6 +125,7 @@ app.controller('historyAppCtrl', function($scope, $http) {
         console.log('add history' + postParam);
         $http.post(addHistoryUrl, postParam).success(function(response){
 
+            $scope.isError = response.errorId;
             console.log(response.errorId);
 
             if (response.errorId == 0 || response.errorId === undefined){

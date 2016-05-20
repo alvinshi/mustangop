@@ -404,7 +404,7 @@ function addExcHistory(res, appExcObject, userId, myAppId, myAppVersion, hisAppI
     var hisAppVersion = hisAppInfo.version;
 
     if (hisAppId == myAppId){
-        res.json({'errorMsg':'不能添加自己和自己的交换记录', 'errorId': -1});
+        res.json({'errorMsg':'不能添加自己和自己的交换记录', 'errorId': 1});
         return;
     }
 
@@ -425,26 +425,7 @@ function addExcHistory(res, appExcObject, userId, myAppId, myAppVersion, hisAppI
                 }
             }
 
-            if (results.length >= 2){
-
-                appExcObject.set('myAppObject', myAppObject);
-                appExcObject.set('hisAppObject', hisAppObject);
-
-                appExcObject.set('userId', userId);
-                appExcObject.set('myAppId', myAppId);
-                appExcObject.set('myAppVersion', myAppVersion);
-                appExcObject.set('hisAppId', hisAppId);
-                appExcObject.set('hisAppVersion', hisAppVersion);
-
-                appExcObject.set('excDateStr', myDateStr);
-                appExcObject.save().then(function(object) {
-                    // 添加成功
-                    res.json({'errorMsg':'', 'errorId': 0});
-                }, function(err) {
-                    // 失败了.
-                    res.json({'errorMsg':err.message, 'errorId': err.code});
-                });
-            }else {
+            if (hisAppObject == ''){
                 // app his app to SQL
                 hisAppObject = new IOSAppSql();
 
@@ -479,6 +460,24 @@ function addExcHistory(res, appExcObject, userId, myAppId, myAppVersion, hisAppI
                         res.json({'errorMsg':err.message, 'errorId': err.code});
                     });
 
+                }, function(err) {
+                    // 失败了.
+                    res.json({'errorMsg':err.message, 'errorId': err.code});
+                });
+            }else {
+                appExcObject.set('myAppObject', myAppObject);
+                appExcObject.set('hisAppObject', hisAppObject);
+
+                appExcObject.set('userId', userId);
+                appExcObject.set('myAppId', myAppId);
+                appExcObject.set('myAppVersion', myAppVersion);
+                appExcObject.set('hisAppId', hisAppId);
+                appExcObject.set('hisAppVersion', hisAppVersion);
+
+                appExcObject.set('excDateStr', myDateStr);
+                appExcObject.save().then(function(object) {
+                    // 添加成功
+                    res.json({'errorMsg':'', 'errorId': 0});
                 }, function(err) {
                     // 失败了.
                     res.json({'errorMsg':err.message, 'errorId': err.code});
