@@ -395,7 +395,8 @@ router.get('/addHistory', function(req, res, next) {
 
 function addExcHistory(res, appExcObject, userId, myAppId, myAppVersion, hisAppInfo){
     var myDate = new Date();
-    var myDateStr = myDate.toLocaleDateString();     //获取当前日期
+    var myDateStr = myDate.getFullYear() + '-' + myDate.getMonth() + '-' + myDate.getDate() + ' ' +
+                    myDate.getHours() + ':' + myDate.getMinutes() + ':' + myDate.getSeconds();     //获取当前日期
 
     var myAppObject = '';
     var hisAppObject = '';
