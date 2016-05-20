@@ -1,23 +1,42 @@
 /**
  * Created by wujiangwei on 16/5/13.
  */
-var app=angular.module('historyApp',[]);
+var app=angular.module('historyApp',['ngSanitize']);
 
 app.controller('historyAppCtrl', function($scope, $http) {
+
+    var progressTimerHandle = undefined;
+    var progressNum = 0;
 
     //TODO: more my app?
     var historyUrl = '/myapp/history/angular';
     $http.get(historyUrl).success(function(response){
         $scope.myExcAllApps = response.myExcAllApps;
-        console.log($scope.myExcAllApps);
+        //console.log($scope.myExcAllApps);
     });
+
+    function progressTimer () {
+        console.log('progressNum:' + progressNum);
+        if (progressNum > 0) {
+            $scope.progressBH =
+                "<div class=\"progress-bar progress-bar-striped active\" role=\"progressbar\" " +
+                "aria-valuenow=\"" + progressNum + "\"" +
+                "aria-valuemin=\"0\" aria-valuemax=\"100\" </div>";
+        }else {
+            $scope.progressBH = "";
+        }
+    }
+
+    function timerFunc(){
+        console.log('timerFunc call');
+        progressNum += 20;
+        progressTimer();
+    }
 
     $scope.searchApp = function(){
         if ($scope.searchUrl != ''){
 
             var searchUrl = '/api/itunes/search/' + $scope.searchKey;
-
-            console.log(searchUrl);
             $http.get(searchUrl).success(function(response){
                 $scope.appResults = response.appResults;
             });
@@ -32,32 +51,71 @@ app.controller('historyAppCtrl', function($scope, $http) {
 
     //搜索iTunes
     $scope.searchHistoryApp = function(){
+        $scope.isError = 0;
+
         if ($scope.searchUrl != ''){
 
             var searchUrl = '/api/itunes/search/' + $scope.searchKey;
 
-            console.log(searchUrl);
-            $http.get(searchUrl).success(function(response){
-                $scope.appResults = response.appResults;
+            $scope.progressNum = 1;
 
-                for (var i = 0; i < $scope.appResults.length; i++){
-                    var appRe = $scope.appResults[i];
-
-                    appRe.isExced = false;
-                    for (var j = 0; j < $scope.myExcAllApps.length; j++){
-                        var appExRe = $scope.myExcAllApps[j];
-                        if (appRe.appleId === appExRe.appleId){
-                            appRe.isExced = true;
-                            console.log(appRe.appleId + 'is exchanged');
-                            break;
-                        }
-                    }
+            //timer
+            if (progressTimerHandle != undefined){
+                clearTimeout(progressTimerHandle);
             }
 
-                console.log($scope.appResults);
+            progressTimerHandle = setTimeout(timerFunc(), 4);
+
+            $http.get(searchUrl).success(function(response){
+
+                console.log(response);
+
+                $scope.appResults = response.appResults;
+
+                if (response.errorMsg.length > 0){
+                    $scope.errorMsg = response.errorMsg;
+                }else {
+                    $scope.errorMsg = '';
+
+                    //100%进度
+                    progressNum = 100;
+                    progressTimer();
+
+                    //移除progress
+                    clearTimeout(progressTimerHandle);
+                    progressTimerHandle = undefined;
+
+                    progressNum = 0;
+                    setTimeout(progressTimer(), 1);
+
+                    for (var i = 0; i < $scope.appResults.length; i++){
+                        var appRe = $scope.appResults[i];
+
+                        appRe.isExced = false;
+                        for (var j = 0; j < $scope.myExcAllApps.length; j++){
+                            var appExRe = $scope.myExcAllApps[j];
+                            if (appRe.appleId === appExRe.appleId){
+                                appRe.isExced = true;
+                                console.log(appRe.appleId + 'is exchanged');
+                                break;
+                            }
+                        }
+                    }
+                }
+
+                //console.log($scope.appResults);
             });
 
 
+        }
+    };
+
+    $scope.keySearchApp = function(e){
+        var keycode = window.event?e.keyCode:e.which;
+        //console.log('keycode ' + keycode);
+        //enter or space
+        if(keycode==13 || keycode==32){
+            $scope.searchHistoryApp();
         }
     };
 
