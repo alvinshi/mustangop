@@ -3,7 +3,7 @@ body{
     margin: 0 auto;
 
 }
-#mainbar{
+.navbar{
     background-color: #030000;
     height: 48px;
     border-style: none;
@@ -14,43 +14,36 @@ body{
     margin: 0 auto;
     width: 1001px;
 }
-/*.navbar_li{*/
-    /*margin-left: 50%;*/
-/*}*/
 
-/*.navbar-right{*/
-    /*width: 20%;*/
-/*}*/
 #logoimage{
     margin-left: 5%;
 }
 
-#addExchistory_content{
-    width: 100%;
-    max-width: 1001px;
-    margin-top: 48px;
-    margin-left: 14%;
-
+.media-right{
+    padding-right: 4em;
+    /*margin-top: -10%;*/
 }
 
-#button{
-    padding-left: 78%;
-    margin-top: -10%;
-
-}
-.img_icon{
+.media img{
+    margin-top: 14px;
     width: 80px;
     height: 80px;
     border: 1px solid #e0e0e0;
     border-radius: 10px;
 }
-#media{
+
+.media{
+    margin-top: 0em;
     border: 1px solid #e0e0e0;
-    padding-top: 6%;
-    margin-top: 32px;
-    margin-left: -13px;
-    border-style: solid none none none;
+    height: 8em;
+    border-style: none none solid none ;
 }
+
+.media-info-{
+    margin-top: 5px;
+    width: 40%;
+}
+
 .button_bottom{
     border:1px solid #3498db;
     margin-top:55px;
@@ -60,12 +53,6 @@ body{
     border-radius: 6px;
     color: #3498db;
     background-color: white;
-}
-.appid{
-    color: #999999;
-    font-size: 12px;
-    margin-top: 30px;
-    font-weight: 200;
 }
 
 .form-control{
@@ -80,13 +67,31 @@ body{
     border-left-style: none;
 }
 
-.changedate{
-    font-size: 14px;
-    margin-left: 200px;
-    margin-top: -30px;
+.media-heading{
+    margin-top: 10px;
+    margin-left: 12px;
+}
+
+.media-body{
+    width: 44em;
+}
+
+.media-body div{
+    margin-top: 8px;
+    margin-left: 12px;
+}
+
+.media-info-updateDate{
+    font-size: 13px;
+}
+
+.media-info-appId{
+    margin-left: 16px;
+}
+
+.media-body div, span{
     color: #999999;
     font-size: 12px;
-    font-weight: 300;
 }
 
 .excedBtn{
@@ -101,7 +106,19 @@ body{
     background-color: #e0e0e0;
 }
 
-.header{
+.appName{
     padding-top: 10px;
+}
 
+.input-group
+{
+    margin-top: 2em;
+    /*margin-bottom: 1em;*/
+}
+
+.placehold-line{
+    margin-top: 2em;
+    width: 80%;
+    border: 1px solid #aab2bd;
+    border-style: none none solid none ;
 }

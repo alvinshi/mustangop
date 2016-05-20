@@ -23,7 +23,7 @@
     <link rel="stylesheet" href="/stylesheets/style.css">
 
     <!-- 引入 AngularJS Mini 文件 -->
-    <script src="/javascripts/vendor/angular.min.js"></script>
+    <script src="/javascripts/vendor/AngularJS/angular.min.js"></script>
 
     <!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
     <script src="//cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
@@ -128,19 +128,6 @@
                 </div><!-- /input-group -->
             </div>
 
-            <!--搜索组建
-            <div class="search_pattern">
-                <div class="col-lg-6">
-                    <div class="input-group">
-                        <input type="text" class="form-control" ng-model="searchKey" placeholder="输入你想搜索的App名称...">
-                      <span class="input-group-btn">
-                        <button class="btn" ng-click="searchHistoryApp()">
-                            <span class="glyphicon glyphicon-search"></span>搜索
-                        </button>
-                      </span>
-                    </div><!-- /input-group
-                </div>
-            </div>-->
             <div class="edition_record">
                 <span class="now_edition">当前版本</span>
                 <div class="list-group" ng-repeat="app in myExcAllApps">

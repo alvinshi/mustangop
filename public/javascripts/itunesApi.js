@@ -18,8 +18,12 @@ app.controller('itunesSearchControl', function($scope, $http) {
 
             var searchUrl = 'api/itunes/search/' + $scope.searchKey;
 
-            console.log(searchUrl);
+            console.log('--------- searchApp searchApp');
+
             $http.get(searchUrl).success(function(response){
+
+                console.log('searchApp' + response);
+
                 $scope.appResults = response.appResults;
             });
         }

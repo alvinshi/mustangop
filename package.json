@@ -14,6 +14,7 @@
     "express"
   ],
   "dependencies": {
+    "underscore":"^1.8.3",
     "body-parser": "^1.15.1",
     "connect-multiparty": "^2.0.0",
     "cookie-parser": "^1.4.1",
