@@ -11,21 +11,88 @@ body{
     background-color: #e0e0e0;
 }
 
-.user_center{
+.container{
+    margin-top: 13px;
     width: 100%;
     max-width: 1001px;
 }
 
-.user_inter{
-    margin-top: 13px;
+.personal{
+    width:200px;
+    margin-bottom:15px;
+    border:1px solid #ccc;
+
+    width:200px;
+    height:644px;
     background-color: #ffffff;
 }
 
-.content{
-    width: 100%;
-    max-width: 200px;
-    height: 100%;
-    min-height: 35em;
-    /*background-color: #ffffff;*/
+.menu .personal-title{
+    font-size:16px;
+    line-height:2;
+    cursor:pointer;
+    margin-top: 38px;
 }
+
+.title{
+    margin-left: 16px;
+    color: #333333;
+}
+
+.img-normal{
+    padding-left: 26px;
+}
+
+.content{
+    padding-top:32px;
+    letter-spacing:.5px
+}
+
+.personal_content{
+    margin-left: -20px;
+    border:1px solid #ccc;
+    width:780px;
+    height:644px;
+    box-shadow:0 0 8px #ccc;
+    background-color: #ffffff;
+    -webkit-box-shadow:0 0 8px #ccc;
+}
+
+.content-text ul li{
+    border-bottom:1px solid #e5e5e5
+}
+
+.content-text ul{
+    margin-top:54px
+}
+
+.content-text ul li{
+    padding-bottom:25px;
+    margin-bottom:25px
+}
+
+.question{
+    font-size:17px;
+    color:#333333;
+    line-height:1
+}
+
+.question i{
+    font-size:17px;
+    color:#3498db;
+    margin-left: 152px;
+    /*position:relative;*/
+    /*cursor:pointer*/
+}
+
+.text_content{
+    font-size: 13px;
+    color: #555555;
+    margin-top: 13px;
+}
+
+
+
+
+
 
