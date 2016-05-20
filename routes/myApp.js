@@ -403,6 +403,11 @@ function addExcHistory(res, appExcObject, userId, myAppId, myAppVersion, hisAppI
     var hisAppId = hisAppInfo.appleId;
     var hisAppVersion = hisAppInfo.version;
 
+    if (hisAppId == myAppId){
+        res.json({'errorMsg':'不能添加自己和自己的交换记录', 'errorId': -1});
+        return;
+    }
+
     //query did it exist
     var query = new AV.Query(IOSAppSql);
     query.containedIn('appleId', [myAppId, hisAppId]);
