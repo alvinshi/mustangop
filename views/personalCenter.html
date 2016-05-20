@@ -59,7 +59,7 @@
         <div id="navbar" >
             <ul class="nav navbar-nav">
                 <li><a href="/">首页</a></li>
-                <li class="active"><a href="/myapp/history">交换历史</a></li>
+                <li class="active"><a href="/myapp/history">交换记录</a></li>
                 <li><a href="/myapp">我的应用</a></li>
 
                 <!--<li class="dropdown">-->
@@ -83,21 +83,50 @@
 </nav>
 
 <!--个人中心主界面-->
-<div class="container user_center" ng-app="userCenterAPP" ng-controller="userCenterCtrl">
-    <div class="user_inter">
-        <div class="content">
-            <div class="nav nav-pills nav-stacked">
-                <img src="/images/home/user_center.png">
-                <p class="">账号中心</p>
+<div class="container main-body" ng-app="personCenterAPP" ng-controller="personCenterCtrl">
+    <div class="col-md-2 menu">
+        <div class="personal">
+            <div class="personal-title">
+                <span class="solid"></span>
+                <img src="/images/home/user_center.png" alt="" class="img-normal"><a class="title" href="#">账号中心</a>
             </div>
         </div>
+    </div>
 
-        <div class="user_center_content col-md-6 col-md-offset-3">
+    <div class="col-md-9 col-md-offset-1">
+        <section class="content personal_content" ng-repeat="app in personAPP">
+            <div class="content-text">
+                <ul>
+                    <li>
+                        <h4 class="personalContent">手机号&nbsp;<i class="icon-520">&nbsp;&nbsp;&nbsp;{{app.userPhone}}</i></h4>
+                    </li>
 
-        </div>
+                    <li>
+                        <h4 class="personalContent">用户名&nbsp;<i class="icon-520">
+                            <input type="text" ng-model=""></i>
+                            <button class="btn btn-default" ng-click="getInput()">编辑</button>
+                        </h4>
+                        <p class="text_content">建议使用主产品加昵称</p>
+                    </li>
+
+                    <li>
+                        <h4 class="personalContent">登陆密码<i class="icon-520">{{app.userPassWord}}</i>
+                            <button class="btn btn-default">编辑</button>
+                        </h4>
+                        <p class="text_content">&nbsp;</p>
+                    </li>
+
+                    <li>
+                        <h4 class="personalContent">QQ号&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="icon-520">{{app.userQQ}}</i>
+                            <button class="btn btn-default">编辑</button>
+                        </h4>
+                        <p class="text_content">建议绑定QQ,方便与交换对象沟通</p>
+                    </li>
+                </ul>
+            </div>
+        </section>
     </div>
 </div>
-
 </body>
 </html>
 
