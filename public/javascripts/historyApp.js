@@ -1,12 +1,12 @@
 /**
  * Created by wujiangwei on 16/5/13.
  */
-var app=angular.module('historyApp',[]);
+var app=angular.module('historyApp',['ngSanitize']);
 
 app.controller('historyAppCtrl', function($scope, $http) {
 
     var progressTimerHandle = undefined;
-    var progressNum = 0;
+    $scope.progressNum = 0;
 
     //TODO: more my app?
     var historyUrl = '/myapp/history/angular';
@@ -14,24 +14,6 @@ app.controller('historyAppCtrl', function($scope, $http) {
         $scope.myExcAllApps = response.myExcAllApps;
         //console.log($scope.myExcAllApps);
     });
-
-    function progressTimer () {
-        console.log('progressNum:' + progressNum);
-        if (progressNum > 0) {
-            $scope.progressBH =
-                "<div class=\"progress-bar progress-bar-striped active\" role=\"progressbar\" " +
-                "aria-valuenow=\"" + progressNum + "\"" +
-                "aria-valuemin=\"0\" aria-valuemax=\"100\" </div>";
-        }else {
-            $scope.progressBH = "";
-        }
-    }
-
-    function timerFunc(){
-        console.log('timerFunc call');
-        progressNum += 20;
-        progressTimer();
-    }
 
     $scope.searchApp = function(){
         if ($scope.searchUrl != ''){
@@ -57,20 +39,22 @@ app.controller('historyAppCtrl', function($scope, $http) {
 
             var searchUrl = '/api/itunes/search/' + $scope.searchKey;
 
-            $scope.progressNum = 1;
+            $scope.progressNum = 100;
 
             //timer
             if (progressTimerHandle != undefined){
-                clearTimeout(progressTimerHandle);
+                //clearTimeout(progressTimerHandle);
             }
 
-            progressTimerHandle = setTimeout(timerFunc(), 4);
+            //progressTimerHandle = setTimeout(timerFunc(), 1);
 
             $http.get(searchUrl).success(function(response){
 
                 console.log(response);
 
                 $scope.appResults = response.appResults;
+
+                $scope.progressNum = 0;
 
                 if (response.errorMsg.length > 0){
                     $scope.isError = 1;
@@ -81,17 +65,6 @@ app.controller('historyAppCtrl', function($scope, $http) {
                         $scope.isError = 1;
                         $scope.errorMsg = '未找到你搜索的App';
                     }
-
-                    //100%进度
-                    progressNum = 100;
-                    progressTimer();
-
-                    //移除progress
-                    clearTimeout(progressTimerHandle);
-                    progressTimerHandle = undefined;
-
-                    progressNum = 0;
-                    setTimeout(progressTimer(), 1);
 
                     for (var i = 0; i < $scope.appResults.length; i++){
                         var appRe = $scope.appResults[i];
@@ -152,9 +125,14 @@ app.controller('historyAppCtrl', function($scope, $http) {
         console.log('add history' + postParam);
         $http.post(addHistoryUrl, postParam).success(function(response){
 
+            $scope.isError = response.errorId;
             console.log(response.errorId);
 
             if (response.errorId == 0 || response.errorId === undefined){
+
+                if ($scope.myExcAllApps == undefined){
+                    $scope.myExcAllApps = new Array();
+                }
 
                 //change ui
                 for (var i = 0; i < $scope.appResults.length; i++){

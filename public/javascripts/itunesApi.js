@@ -41,6 +41,11 @@ app.controller('itunesSearchControl', function($scope, $http) {
 
             if (response.errorId == 0 || response.errorId === undefined){
                 var flag = 0;
+
+                if ($scope.myApps == undefined){
+                    $scope.myApps = new Array();
+                }
+
                 for (var i = 0; i < $scope.myApps.length; i++){
                     var app = $scope.myApps[i];
                     if (app.appleId == appInfo.appleId){

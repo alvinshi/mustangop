@@ -24,6 +24,7 @@
 
     <!-- 引入 AngularJS Mini 文件 -->
     <script src="/javascripts/vendor/AngularJS/angular.min.js"></script>
+    <script src="/javascripts/vendor/AngularJS/angular-sanitize.min.js"></script>
 
     <!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
     <script src="//cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
@@ -50,11 +51,9 @@
 <!--导航栏-->
 <nav class="navbar navbar-default nav-collapse navbar-fixed-top" id="mainbar">
     <div class="container-fluid">
-
         <div class="navbar-header">
             <a class="navbar-brand" href="#">
                 <img alt="Brand" src="/images/home/logo1.png">
-
             </a>
         </div>
 
@@ -79,12 +78,10 @@
                 <!--</ul>-->
                 <!--</li>-->
             </ul>
-
             <ul class="nav navbar-nav navbar-right">
                 <li><a href="/user">某某用户</a></li>
             </ul>
         </div><!--/.nav-collapse -->
-
     </div>
 </nav>
 
@@ -96,7 +93,9 @@
             <p class="myapp_title">我的应用</p>
         </div>
 
-        <p class="text-right"><a class="add_exc_history_title" href="/myapp/addHistory">添加交换记录</a></p>
+        <p class="text-right" ng-hide="!myApps.length"><a class="add_exc_history_title" href="/myapp/addHistory">添加交换记录</a></p>
+        <p class="text-right" ng-hide="myApps.length"><a class="add_exc_history_title" href="/myapp">请先添加我的应用</a></p>
+
         <!--我的应用部分-->
         <div class="myapp_content media">
             <div class="list-group" ng-repeat="app in myApps">
