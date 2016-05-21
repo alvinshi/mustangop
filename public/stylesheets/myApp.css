@@ -1,0 +1,100 @@
+body{
+    margin: 0 auto;
+}
+.navbar{
+    background-color: #030000;
+    height: 48px;
+    border-style: none;
+    width: 100%;  }
+
+
+.container-fluid{
+    margin: 0 auto;
+    width: 1001px;
+}
+#logoimage{
+    margin-left: 5%;
+}
+.main_content{
+    width: 1001px;
+    margin: 20px auto;
+}
+.input-group{
+    margin: 2em 48px;
+    width:480px ;
+}
+.search_color{
+    background-color: white;
+    border: 1px solid #aab2bd;
+    border-left-style: none;
+}
+.form-control{
+    background-color: white;
+    border: 1px solid #aab2bd;
+    border-right-style: none;
+
+}
+.placehold-line{
+    margin: 2em 48px;
+    width: 80%;
+    border: 1px solid #aab2bd;
+    border-style: none none solid none ;
+}
+
+.media{
+    /*margin-top: 0em;*/
+    border: 1px solid #e0e0e0;
+    height: 8em;
+    margin-left: 48px;
+    border-style: none none solid none ;
+}
+.media img{
+    margin-top: 14px;
+    width: 80px;
+    height: 80px;
+    border: 1px solid #e0e0e0;
+    border-radius: 10px;
+}
+.media-heading{
+    margin-top: 10px;
+    margin-left: 12px;
+}
+
+.media-body{
+    width: 44em;
+
+}
+
+.media-body div{
+    margin-top:9px;
+    margin-left: 12px;
+}
+.media-body h4{
+    margin-top: 20px;
+}
+
+.media-info-updateDate{
+    font-size: 13px;
+}
+
+.media-info-appId{
+    margin-left: 16px;
+}
+.media-body div, span{
+    color: #999999;
+    font-size: 12px;
+}
+.media-right{
+    padding-right: 4em;
+
+}
+.button_bottom{
+    border:1px solid #3498db;
+    margin-top:55px;
+    width: 144px;
+    height: 40px;
+    text-align: center;
+    border-radius: 6px;
+    color: #3498db;
+    background-color: white;
+}
