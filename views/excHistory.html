@@ -93,38 +93,41 @@
             <p class="myapp_title">我的应用</p>
         </div>
 
-        <p class="text-right" ng-hide="!myApps.length"><a class="add_exc_history_title" href="/myapp/addHistory">添加交换记录</a></p>
-        <p class="text-right" ng-hide="myApps.length"><a class="add_exc_history_title" href="/myapp">请先添加我的应用</a></p>
-
         <!--我的应用部分-->
-        <div class="myapp_content media">
-            <div class="list-group" ng-repeat="app in myApps">
-                <div class="media-left">
-                    <img class="media-object" ng-src="{{ app.artworkUrl100 }}" alt="App Icon">
-                </div>
+        <div class="row myapp_content" ng-repeat="app in myApps">
+            <div class="col-md-2">
+                <div class="thumbnail">
+                    <img class="app_icon" ng-src="{{ app.artworkUrl100 }}" alt="App Icon">
 
-                <div class="media-body media-right">
-                    <h4 class="media-heading">{{ app.trackName }}</h4>
-                    <p>开发商 {{ app.sellerName }}</p>
-                    <p>appid {{ app.appleId }}</p>
-                    <p><span class="change_time">更新时间</span>{{ app.latestReleaseDate }}</p>
-                    <!--<p>类型 {{ app.appleKind }}</p>-->
-                    <!--<p>价格 {{ app.formattedPrice }}</p>-->
-                    <!--<p>版本号 {{ app.version }}</p>-->
+                    <div class="caption pull-left">
+                        <h5 class="AppName">{{ app.trackName }}</h5>
+                        <!--<p>开发商 {{ app.sellerName }}</p>-->
+                        <p class="change">App ID:&nbsp;&nbsp;{{ app.appleId }}</p>
+                        <p class="change">更新时间:&nbsp;&nbsp;{{ app.latestReleaseDate }}</p>
+                        <!--<p>类型 {{ app.appleKind }}</p>-->
+                        <!--<p>价格 {{ app.formattedPrice }}</p>-->
+                        <!--<p>版本号 {{ app.version }}</p>-->
+                    </div>
                 </div>
             </div>
         </div>
+    </div>
 
         <div class="exchang_pattern">
             <img class="exc_record_icon" src="/images/exch_history/exchang_icon.png">
             <h2 class="exc__record_title">交换记录</h2>
             <div class="col-md-6 col-md-offset-6">
                 <div class="input-group">
-                    <input type="text" class="form-control" ng-model="searchKey" placeholder="输入App名称">
+                    <input type="text" class="form-control" ng-model="searchKey" placeholder="搜索指定产品的交换历史纪录…">
                       <span class="input-group-btn" ng-click="searchHistoryApp()">
                         <button class="btn btn-default" type="button">搜索</button>
                       </span>
-                </div><!-- /input-group -->
+
+                    <p class="text-right" ng-hide="!myApps.length"><a class="add_exc_history_title" href="/myapp/addHistory">添加交换记录</a></p>
+                    <p class="text-right" ng-hide="myApps.length"><a class="add_exc_history_title" href="/myapp">请先添加我的应用</a></p>
+
+                </div>
+
             </div>
 
             <div class="edition_record">
@@ -182,7 +185,7 @@
                 </div>
             </div>
         </div>
-    </div>
+
 </div>
 </body>
 </html>

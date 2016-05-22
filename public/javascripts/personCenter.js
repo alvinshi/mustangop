@@ -4,5 +4,5 @@
 
 var app=angular.module('personCenterAPP', []);
 app.controller('personCenterCtrl', function($scope,$http){
-    $scope.getInput()
-})
+
+});
