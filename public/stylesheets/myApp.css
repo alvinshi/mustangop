@@ -16,7 +16,8 @@ body{
     margin-left: 5%;
 }
 .main_content{
-    width: 1001px;
+
+    width:90%;
     margin: 20px auto;
 }
 .input-group{
@@ -100,7 +101,7 @@ body{
     background-color: white;
 }
 .add-app{
-    margin-left: 48px;
+    margin-left: 40px;
 }
 .list-group{
     width: 200px;
