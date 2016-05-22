@@ -33,40 +33,13 @@ body{
     margin-top: -25px;
 }
 
-.edition_record{
-    margin-left: 72px;
-    margin-top: 70px;
-}
 
-.now_edition{
-    margin-left: -35px;
-    font-size: 20px;
-    color: #333333;
-}
 
 .now_time{
     font-size: 20px;
     color: #333333;
     margin-top: 24px;
     margin-bottom: 24px;
-
-}
-
-.app_icon{
-    margin-left: 25px;
-    border: 1px solid #e0e0e0;
-    border-radius: 10px;
-}
-
-.remove_icon{
-    background-color: #ffffff;
-    margin-top: -100px;
-
-}
-
-.the_previous_version{
-    margin-left: 72px;
-    margin-top: 70px;
 
 }
 
@@ -115,10 +88,6 @@ body{
 
 }
 
-.exchang_pattern .top_title{
-    border: 1px solid #3498db;
-}
-
 .exchang_pattern{
     margin-top: 372px;
     border: 1px solid #e0e0e0;
@@ -126,6 +95,105 @@ body{
     border-left-style: none;
     border-right-style: none;
 }
+
+
+.top_title{
+    margin-top: 32px;
+    margin-bottom: 32px;
+    width: 100%;
+    max-width: 1001px;
+}
+
+.top_title .exc__record_title{
+    font-size: 1.5em;
+    color: #333333;
+    padding-left: 1.875em;
+    margin-top: -25px;
+}
+
+.top_title .input-group{
+    padding-left: 150px;
+    margin-top: -38px;
+    width: 100%;
+    max-width: 600px;
+}
+
+.top_title .btn-default{
+    padding-left: 10px;
+    margin-top: -15px;
+}
+
+.search_color{
+    background-color: #ffffff;
+    border: 1px solid #aab2bd;
+    border-left-style: none;
+}
+
+.text-a{
+    margin-top: -24px;
+}
+
+.btn-default{
+    border: 1px solid #3498db;
+    width: 148px;
+}
+
+.title{
+    padding-top: 32px;
+    padding-bottom: 30px;
+    margin-left: 120px;
+}
+
+.app_list{
+    padding-top: 30px;
+    padding-bottom: 20px;
+    border: 1px solid #e0e0e0;
+    border-top-style: none;
+    border-left-style: none;
+    border-right-style: none;
+
+}
+
+.media-object{
+    margin-left: 20px;
+    border: 1px solid #e0e0e0;
+    border-radius: 10px;
+    width: 70px;
+    height: 70px;
+}
+
+.media-heading{
+    font-size: 16px;
+    color: #000000;
+}
+
+.remove_icon{
+    background-color: #ffffff;
+    margin: 0 auto;
+}
+
+.top_back{
+    display: none;
+    position: fixed;
+    bottom: 160px;
+    right: 40px;
+    width: 50px;
+    height: 50px;
+    background-color: #3498db;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    z-index: 9999;
+}
+
+.glyphicon-rocket{
+
+    display:inline-block;
+    width: 20px;
+    height: 35px;
+    background-position: 0 -100px;
+}
+
 
 
 
