@@ -33,26 +33,6 @@ body{
     margin-top: -25px;
 }
 
-.exchang_pattern{
-    margin-top: 78px;
-    margin-bottom: 24px;
-    border: 1px solid #e0e0e0;
-    border-bottom-style: none;
-    border-left-style: none;
-    border-right-style: none;
-}
-
-.exchang_pattern .exc_record_icon{
-    margin-top: 32px;
-}
-
-.exchang_pattern .exc__record_title{
-    font-size: 1.5em;
-    color: #333333;
-    padding-left: 1.875em;
-    margin-top: -23px;
-}
-
 .edition_record{
     margin-left: 72px;
     margin-top: 70px;
@@ -114,7 +94,6 @@ body{
 }
 
 .AppName{
-    border: 1px solid #3498db;
     font-size: 16px;
 }
 
@@ -135,6 +114,23 @@ body{
     border: none;
 
 }
+
+.exchang_pattern .top_title{
+    border: 1px solid #3498db;
+}
+
+.exchang_pattern{
+    margin-top: 372px;
+    border: 1px solid #e0e0e0;
+    border-bottom-style: none;
+    border-left-style: none;
+    border-right-style: none;
+}
+
+
+
+
+
 
 
 

@@ -58,11 +58,11 @@
             </div>
             <div id="navbar" >
                 <ul class="nav navbar-nav">
-                    <li  id="Li"><a style="color:white"href="/myapp/history">交换记录</a></li>
+                    <li  id="Li"><a style="color:white" href="/myapp/history">交换记录</a></li>
                     <li><a  style="color:white" href="/myapp">我的应用</a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
-                    <li><a style="color:white"href="/user">某某用户</a></li>
+                    <li><a style="color:white" href="/user">某某用户</a></li>
                 </ul>
             </div>
         </div><!--/.nav-collapse -->
@@ -71,7 +71,7 @@
     <!--搜索组建-->
     <div  class="main_content" ng-app="itunesSearch" ng-controller="itunesSearchControl">
         <div class="col-lg-6 col-sm-12 input-group">
-                <input type="text" class="form-control" ng-model="searchKey" placeholder="输入你想搜索的App名称...">
+                <input type="text" class="form-control" ng-model="searchKey" ng-keyup="keySearchApp($event)" placeholder="输入你想搜索的App名称...">
                     <span class="input-group-btn">
                          <button class="btn search_color" ng-click="searchApp()">
                              <span class="glyphicon glyphicon-search"></span>
@@ -79,7 +79,8 @@
                    </span>
         </div>
             <!-- /input-group -->
-        <!--<div class="placehold-line">
+        <div class="placehold-line">
+
             <div class="progress" ng-hide="!progressNum">
                 <div ng-class="{'progress-bar': true, 'progress-bar-striped':true, active:true}" ng-style="{width: progressNum + '%'}">
                 </div>
@@ -89,7 +90,7 @@
                 {{ errorMsg }}
             </div>
 
-        </div>-->
+        </div>
 
         <div class="media" ng-repeat="app in appResults" >
                 <div class="media-left">

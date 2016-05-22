@@ -176,3 +176,10 @@ body{
     font-weight:lighter;
     /*border: 1px solid red;*/
 }
+
+.placehold-line{
+    margin-top: 2em;
+    width: 80%;
+    border: 1px solid #aab2bd;
+    border-style: none none solid none ;
+}
