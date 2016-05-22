@@ -25,36 +25,11 @@ body{
     margin-bottom: 24px;
 }
 
-
 .top .myapp_title{
     font-size: 1.5em;
     color: #333333;
     padding-left: 1.875em;
     margin-top: -25px;
-}
-
-
-
-.now_time{
-    font-size: 20px;
-    color: #333333;
-    margin-top: 24px;
-    margin-bottom: 24px;
-
-}
-
-.old_edition{
-    margin-left: -35px;
-    font-size: 20px;
-    color: #333333;
-}
-
-.old_time{
-    font-size: 20px;
-    color: #333333;
-    margin-top: 24px;
-    margin-bottom: 24px;
-
 }
 
 /*修改后的*/
