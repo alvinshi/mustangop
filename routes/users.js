@@ -53,6 +53,26 @@ router.get('/', function(req, res, next) {
   res.render('personalCenter');
 });
 
+//个人中心
+router.get('/user',function(req, res, next){
+  var userId = util.useridInReq(req);
+  var user = new AV.User();
+  user.id = userId;
+
+  var query = new AV.Query(user);
+  query.equalTo('userId', userId);
+  query.first().then(function(results){
+    var retApps = new Array();
+    var userInfo = new Object();
+    userInfo.PhoneNumber = results.get('mobilePhoneNumber');
+    userInfo.password = results.get('password');
+    retApps.push(userInfo);
+    res.json({'personAPP':retApps});
+  },function(error){
+    console.log({'errorMsg':err.message, 'errorId': err.code, 'myApps':[]})
+  });
+});
+
 router.get('/register', function(req, res, next) {
   //res.send('user register :' + encodeUserId);
   res.render('register');

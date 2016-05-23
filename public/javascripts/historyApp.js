@@ -17,7 +17,6 @@ app.controller('historyAppCtrl', function($scope, $http) {
 
     $scope.searchApp = function(){
         if ($scope.searchUrl != ''){
-
             var searchUrl = '/api/itunes/search/' + $scope.searchKey;
             $http.get(searchUrl).success(function(response){
                 $scope.appResults = response.appResults;
@@ -83,8 +82,6 @@ app.controller('historyAppCtrl', function($scope, $http) {
 
                 //console.log($scope.appResults);
             });
-
-
         }
     };
 

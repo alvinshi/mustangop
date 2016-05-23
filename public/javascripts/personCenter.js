@@ -3,6 +3,6 @@
  */
 
 var app=angular.module('personCenterAPP', []);
-app.controller('personCenterCtrl', function($scope,$http){
+app.controller('personCenterCtrl', function($scope, $http){
 
 });

@@ -93,7 +93,7 @@
     </div>
 
     <!--我的应用部分-->
-    <div class="row myapp_content col-md-3" ng-repeat="app in myApps">
+    <div class="row myapp_content col-md-3 " ng-repeat="app in myApps">
         <div class="thumbnail">
             <img class="app_icon" ng-src="{{ app.artworkUrl100 }}" alt="App Icon">
 
@@ -120,7 +120,7 @@
             <div class="input-group">
                 <input  type="text" class="form-control" ng-model="searchKey" ng-keyup="keySearchApp($event)" placeholder="搜索指定产品的交换历史纪录…">
             <span class="input-group-btn ">
-                <button class="btn search_color" ng-click="searchHistoryApp()">
+                <button class="btn search_color" ng-click="searchLocalHistoryApp()">
                     <span class="glyphicon glyphicon-search"></span>
                 </button>
             </span>
@@ -172,13 +172,12 @@
                     </div>
                 </div>
             </div>
-        </div>
-
         <nav>
-            <ul class="pager">
-                <li><a href="#">下一页</a></li>
+            <ul class="pager" id="changpage">
+                <li><a href="/myapp/history">下一页</a></li>
             </ul>
         </nav>
+        </div>
 
         <div class="title">
             <h4>以往版本</h4>
