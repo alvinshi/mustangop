@@ -32,7 +32,6 @@ body{
     margin-top: -25px;
 }
 
-/*修改后的*/
 .thumbnail{
     width: 190px;
     height: 284px;
@@ -43,9 +42,6 @@ body{
 
 .AppName{
     font-size: 16px;
-}
-
-.caption .AppName{
     overflow: hidden;
     width: 165px;
     height: 36px;
@@ -53,7 +49,7 @@ body{
 }
 
 .change{
-    font-size: 14px;
+    font-size: 13px;
     color: #999999;
 }
 
@@ -162,12 +158,43 @@ body{
 }
 
 .glyphicon-rocket{
-
     display:inline-block;
     width: 20px;
     height: 35px;
     background-position: 0 -100px;
 }
+
+.media-info{
+    padding-top: 5px;
+    font-size: 12px;
+    color: #7a7a7a;
+}
+
+.media-info-id{
+    float: left;
+}
+
+.media-info-name{
+    float: left;
+    margin-left: 200px;
+}
+
+.media-info-a{
+    clear: both;
+    padding-top: 5px;
+    font-size: 12px;
+    color: #7a7a7a;
+}
+
+.media-info-lg{
+    float: left;
+}
+
+.media-info-time{
+    float: left;
+    margin-left: 78px;
+}
+
 
 
 
