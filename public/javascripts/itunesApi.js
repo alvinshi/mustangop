@@ -52,12 +52,12 @@ app.controller('itunesSearchControl', function($scope, $http) {
                     for (var i = 0; i < $scope.appResults.length; i++){
                         var appRe = $scope.appResults[i];
 
-                        appRe.isExced = false;
-                        for (var j = 0; j < $scope.myExcAllApps.length; j++){
-                            var appExRe = $scope.myExcAllApps[j];
-                            if (appRe.appleId === appExRe.appleId){
-                                appRe.isExced = true;
-                                console.log(appRe.appleId + 'is exchanged');
+                        appRe.isMine = false;
+                        for (var j = 0; j < $scope.myApps.length; j++){
+                            var myApp = $scope.myApps[j];
+                            if (myApp.appleId === appRe.appleId){
+                                appRe.isMine = true;
+                                console.log(appRe.appleId + 'isMine');
                                 break;
                             }
                         }
