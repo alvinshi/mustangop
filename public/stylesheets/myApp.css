@@ -170,19 +170,19 @@ body{
     font-size: 180px;
     line-height: 200px;
     display: block;
-    margin-top: 1px;
+    margin-top: 10px;
     margin-left: 37px;
     color: #dbdbdb;
 }
 .app_bottom{
-    margin-top: 10px;
+    margin-top: 40px;
     font-size: 14px;
     color:#999999;
     font-weight:lighter;width: 1001px;
     height: 20px ;border: 1px solid #999999;
     float: left;
     border-style: none none  solid none ;
-    
+
 }
 
 .placehold-line{

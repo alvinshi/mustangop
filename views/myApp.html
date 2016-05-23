@@ -71,14 +71,14 @@
     <!--搜索组建-->
     <div  class="main_content" ng-app="itunesSearch" ng-controller="itunesSearchControl">
         <div class="col-lg-6 col-sm-12 input-group">
-                <input type="text" class="form-control" ng-model="searchKey" ng-keyup="keySearchApp($event)" placeholder="输入你想搜索的App名称...">
+            <input type="text" class="form-control" ng-model="searchKey" ng-keyup="keySearchApp($event)" placeholder="输入你想绑定的App名称...">
                     <span class="input-group-btn">
                          <button class="btn search_color" ng-click="searchApp()">
                              <span class="glyphicon glyphicon-search"></span>
-                        </button>
+                         </button>
                    </span>
         </div>
-            <!-- /input-group -->
+        <!-- /input-group -->
         <div class="placehold-line">
 
             <div class="progress" ng-hide="!progressNum">
@@ -93,25 +93,25 @@
         </div>
 
         <div class="media" ng-repeat="app in appResults" >
-                <div class="media-left">
-                    <img class="media-object" ng-src="{{ app.artworkUrl512 }}" alt="App Icon">
+            <div class="media-left">
+                <img class="media-object" ng-src="{{ app.artworkUrl512 }}" alt="App Icon">
+            </div>
+            <div class="media-body">
+                <h4 class="media-heading appName">{{ app.trackName }}</h4>
+                <div class="media-object">{{ app.sellerName }}</div>
+                <div class="media-info">
+                    <span class="media-info-updateDate">更新日期:{{ app.latestReleaseDate }}</span>
+                    <span class="media-info-appId">App Id:&nbsp;&nbsp;{{ app.appleId }}</span>
                 </div>
-                <div class="media-body">
-                    <h4 class="media-heading appName">{{ app.trackName }}</h4>
-                    <div class="media-object">{{ app.sellerName }}</div>
-                    <div class="media-info">
-                        <span class="media-info-updateDate">更新日期:{{ app.latestReleaseDate }}</span>
-                        <span class="media-info-appId">App Id:&nbsp;&nbsp;{{ app.appleId }}</span>
-                    </div>
-                </div>
-                <div class="media-right">
-                    <button class="button_bottom" ng-click="chooseMyApp(app)">
-                        <span class="bind"></span>确认绑定
-                    </button>
-                    <!--<button class="btn" ng-click="releaseMyApp(app.appleId)">-->
-                        <!--<span class="glyphicon glyphicon-ok"></span>解除绑定-->
-                    <!--</button>-->
-                </div>
+            </div>
+            <div class="media-right">
+                <button class="button_bottom" ng-click="chooseMyApp(app)">
+                    <span class="bind"></span>确认绑定
+                </button>
+                <!--<button class="btn" ng-click="releaseMyApp(app.appleId)">-->
+                <!--<span class="glyphicon glyphicon-ok"></span>解除绑定-->
+                <!--</button>-->
+            </div>
         </div>
 
         <div class="col-lg-12 col-sm-12 add-app ">
@@ -121,18 +121,18 @@
                 <p class="app_version">版本号 {{ app.version }}</p>
                 <p class="app_update">更新日期{{ app.latestReleaseDate.substr(0,10) }}</p>
                 <button  class="app_button_bottom" ng-click="releaseMyApp(app.appleId)">
-                       解绑
+                    解绑
                 </button>
-             </div>
+            </div>
             <div class="app_add_main"  >
                 <div  class="app_add">
-                   <span>+</span>
+                    <span>+</span>
                 </div>
 
             </div>
             <div style="clear: both"></div>
 
-            <div  class="app_bottom" > 注：很抱歉，暂时每个账号只能绑定一款产品，我们将陆续添加功能，以便一个账号可同时管理多个产品。</div>
+            <div  class="app_bottom" > <!--注：很抱歉，暂时每个账号只能绑定一款产品，我们将陆续添加功能，以便一个账号可同时管理多个产品。--></div>
         </div>
 
     </div>
