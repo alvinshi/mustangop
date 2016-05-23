@@ -102,6 +102,9 @@ body{
 }
 .add-app{
     margin-left: 40px;
+    margin-top: 20px;
+    /*position: fixed;*/
+    /*top: 200px;*/
 }
 .list-group{
     width: 200px;
@@ -121,6 +124,8 @@ body{
     font-size: 20px;
     color:#666666;
     font-weight: 300;
+    width: 180px;height: 52px;
+    /*border: 1px solid red;*/
 
     margin-top: 14px;
 }
@@ -151,10 +156,11 @@ body{
     height: 300px;
 }
 .app_add {
-    width: 200px;
-    height: 250px;
-    margin-left: 56px;
+    width: 180px;
+    height: 290px;
+    margin-left:0px;
     border: 2px dashed #dbdbdb;
+
 
 }
 .app_add span{
@@ -169,12 +175,14 @@ body{
     color: #dbdbdb;
 }
 .app_bottom{
-    margin-top: 24px;
+    margin-top: 10px;
     font-size: 14px;
     color:#999999;
-    margin-left: 55px;
-    font-weight:lighter;
-    /*border: 1px solid red;*/
+    font-weight:lighter;width: 1001px;
+    height: 20px ;border: 1px solid #999999;
+    float: left;
+    border-style: none none  solid none ;
+    
 }
 
 .placehold-line{
