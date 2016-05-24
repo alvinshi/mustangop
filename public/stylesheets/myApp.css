@@ -184,6 +184,18 @@ body{
     border-style: none none  solid none ;
 
 }
+.excedBtn{
+    background-color: #e0e0e0;
+    border:1px solid #e0e0e0;
+    margin-top:50px;
+    width: 144px;
+    height: 40px;
+    text-align: center;
+    border-radius: 6px;
+    color: #ffffff;
+    background-color: #e0e0e0;
+}
+
 
 .placehold-line{
     margin-top: 2em;
