@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="zh-CN">
 <head>
-    <link rel="stylesheet" type="text/css" href="public/stylesheets/index.css"/>
+
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -65,9 +65,12 @@
                 <li><a style="color:white" href="/myapp">我的应用</a></li>
 
             </ul>
-            <ul class="nav navbar-nav navbar-right">
-                <li><a style="color:white" href="/user/login">登录</a></li>
-                <button type="button" class="btn btn-primary btn-sm navbar-btn" onclick="javascript:window.location.href='/user/register'">快速注册</button>
+            <ul id="nav-right-id" class="nav navbar-nav navbar-right">
+
+                <!--<li><a id="nav-username-display" href="/user" style="color:#17ddaa"></a></li>-->
+
+                <!--<li><a style="color:white" href="/user/login">登录</a></li>-->
+                <!--<button type="button" class="btn btn-primary btn-sm navbar-btn" onclick="javascript:window.location.href='/user/register'">快速注册</button>-->
             </ul>
         </div><!--/.nav-collapse -->
     </nav>
@@ -105,6 +108,8 @@
     ga('send', 'pageview');
 
 </script>
+
+<script src="/javascripts/cookieHelper.js"></script>
 
 </body>
 

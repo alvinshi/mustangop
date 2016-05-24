@@ -96,7 +96,11 @@ app.use(function (req, res, next) {
     if ('undefined' === (typeof req.cookies.userIdCookie)){
       res.render('login');
     }else {
-      next();
+      if (encodeUserId.length > 0){
+        next();
+      }else {
+        res.render('login');
+      }
     }
   }else {
     next();

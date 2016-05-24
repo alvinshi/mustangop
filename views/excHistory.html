@@ -80,7 +80,7 @@
                 <!--</li>-->
             </ul>
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="/user" style="color:white" >某某用户</a></li>
+                <li><a id="nav-username-display" href="/user" style="color:#17ddaa"></a></li>
             </ul>
         </div><!--/.nav-collapse -->
     </div>
@@ -99,6 +99,7 @@
         <div class="double-bounce1"></div>
         <div class="double-bounce2"></div>
     </div>
+
     <div class="mainapp">
     <button class="row myapp_content col-md-3 thumbnail" ng-repeat="app in myApps" ng-click="selectedAppFunc(app.appleId)">
         <!--<div class="thumbnail">-->
@@ -232,5 +233,9 @@
         </div>
     </div>
 </div>
+
+<script src="/javascripts/cookieHelper.js"></script>
+
 </body>
+
 </html>
