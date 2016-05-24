@@ -83,7 +83,7 @@
 </nav>
 
 <!--个人中心主界面-->
-<div class="container main-body" ng-app="personCenterAPP" ng-controller="personCenterCtrl">
+<div class="container main-body" ng-app="userCenterAPP" ng-controller="userCenterCtrl">
     <div class="col-md-2 menu">
         <div class="personal">
             <div class="personal-title">
@@ -122,6 +122,10 @@
                         </h4>
                         <p class="text_content">建议绑定QQ,方便与交换对象沟通</p>
                     </li>
+
+                    <li>
+                        <button type="button" onclick="logout()" class="btn btn-danger">退出登陆</button>
+                    </li>
                 </ul>
             </div>
         </section>
@@ -129,6 +133,7 @@
 </div>
 
 <script src="/javascripts/cookieHelper.js"></script>
+<script src="/java"></script>
 
 </body>
 

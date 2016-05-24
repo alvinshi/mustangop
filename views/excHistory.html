@@ -138,11 +138,13 @@
             </div>
 
             <div class="text-a col-md-3 col-md-offset-10">
-                <button type="button" class="btn btn-default hvr-float-shadow" ng-hide="!myApps.length">
-                    <a class="add_exc_history_title " href="/myapp/addHistory">手动添加交换记录</a>
+                <button type="button add_exc_history_title" class="btn btn-default hvr-float-shadow"
+                        onclick="javascript:window.location.href='/myapp/addHistory'" ng-hide="!myApps.length">
+                    手动添加交换记录
                 </button>
-                <button type="button" class="btn btn-default hvr-float-shadow" ng-hide="myApps.length">
-                    <a class="add_exc_history_title" href="/myapp">请先添加我的应用</a>
+                <button type="button add_exc_history_title" class="btn btn-default hvr-float-shadow"
+                        onclick="javascript:window.location.href='/myapp'" ng-hide="myApps.length">
+                    请先添加我的应用
                 </button>
             </div>
 

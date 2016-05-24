@@ -49,9 +49,8 @@ router.post('/register', function(req, res, next) {
 
 });
 
-//test code
 router.get('/', function(req, res, next) {
-  res.render('personalCenter');
+  res.render('userCenter');
 });
 
 //个人中心
