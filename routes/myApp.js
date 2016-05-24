@@ -276,7 +276,7 @@ router.get('/history', function(req, res, next) {
 router.get('/history/angular/:appleId/:pageIndex', function(req, res, next) {
     //get data
     var userId = util.useridInReq(req);
-    var appId = req.params.appleId;
+    var appId = parseInt(req.params.appleId);
     var pageIndex = req.params.pageIndex;
 
     var user = new AV.User();
@@ -289,7 +289,15 @@ router.get('/history/angular/:appleId/:pageIndex', function(req, res, next) {
         var query_ex = new AV.Query(IOSAppExcLogger);
         query_ex.equalTo('myAppId', appId);
         query = AV.Query.and(query, query_ex);
+
     }
+
+    var totalCount = 0;
+    query.count().then(function(count){
+        totalCount = count;
+    });
+
+    var hasmore = 0;
 
     query.skip(pageIndex);
     query.limit(20);
@@ -299,6 +307,7 @@ router.get('/history/angular/:appleId/:pageIndex', function(req, res, next) {
     query.addDescending('excDateStr');
     query.find({
         success: function(results) {
+
             //has blinded
             var retApps = new Array();
             //date merge by excDateStr for more group
@@ -319,8 +328,12 @@ router.get('/history/angular/:appleId/:pageIndex', function(req, res, next) {
                 appHisObject.excHisDate = results[i].get('excDateStr');
 
                 retApps.push(appHisObject);
+
             }
-            res.json({'myExcAllApps':retApps});
+            if (totalCount > retApps.length + parseInt(pageIndex)){
+                hasmore = 1
+            }
+            res.json({'myExcAllApps':retApps, 'hasMore':hasmore});
         },
         error: function(err) {
             res.json({'errorMsg':err.message, 'errorId': err.code, 'myApps':[]});
