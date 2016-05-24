@@ -32,7 +32,7 @@ app.controller('historyAppCtrl', function($scope, $http) {
             //
         }
 
-            var oldhistoryUrl = '/myapp//oldhistory/angular/' + $scope.selectedApp.appleId + '/' + $scope.selectedApp.version;
+            var oldhistoryUrl = '/myapp/oldhistory/angular/' + $scope.selectedApp.appleId + '/' + $scope.selectedApp.version;
             $http.get(oldhistoryUrl).success(function(response){
                 $scope.myHistoryApps = response.myHistoryApps;
                 console.log($scope.myHistoryApps);
@@ -142,17 +142,15 @@ app.controller('historyAppCtrl', function($scope, $http) {
         }
     };
 
-    //TODO: not support now
-    $scope.searchHistory = function(){
-        if ($scope.searchHisKey != ''){
+    $scope.searchLocalHistoryApp = function(){
+        if ($scope.searchUrl != ''){
+            var searchUrl = '/myapp/historySearch/angular/' + $scope.searchKey;
+            $http.get(searchUrl).success(function(response){
+                $scope.myTotalApps = response.myTotalApps;
 
-            for (var i = 0; i < $scope.myExcAllApps.length; i++){
-                //name contain search match
-            }
+            });
         }
     };
-
-    //搜索本地我的交换历史
 
     $scope.addHistory = function(hisAppInfo){
 

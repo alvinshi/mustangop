@@ -583,24 +583,49 @@ router.post('/history/delete', function(req, res, next) {
 
 
 // 搜索本地添加的历史记录
-router.get('/historySearch/angular', function(req, res, next) {
+router.get('/historySearch/angular/:searchkey', function(req, res, next) {
     var userId = util.useridInReq(req);
-    var hisappId = parseInt(req.body.hisAppId);
-
+    
     var user = new AV.User();
     user.id = userId;
 
     var query = new AV.Query(IOSAppExcLogger);
     query.equalTo('userId', userId);
 
-    var query_hisappId = new AV.Query(IOSAppExcLogger);
-    query_hisappId.equalTo('hisAppId', hisappId);
+    query.include('myAppObject');
+    query.include('hisAppObject');
+    query.find({
+        success: function(results) {
 
-    if (hisappId != undefined){
+            //has blinded
+            var retApps = new Array();
+            //date merge by excDateStr for more group
+            for (var i = 0; i < results.length; i++){
+                var appHisObject = new Object();
+                var appExcHisObject = results[i].get('hisAppObject');
+                appHisObject.trackName = appExcHisObject.get('trackName');
+                appHisObject.artworkUrl100 = appExcHisObject.get('artworkUrl100');
+                appHisObject.artworkUrl512 = appExcHisObject.get('artworkUrl512');
+                appHisObject.appleId = appExcHisObject.get('appleId');
+                appHisObject.appleKind = appExcHisObject.get('appleKind');
+                appHisObject.formattedPrice = appExcHisObject.get('formattedPrice');
+                appHisObject.latestReleaseDate = appExcHisObject.get('latestReleaseDate').substr(0, 10);
+                appHisObject.sellerName = appExcHisObject.get('sellerName');
 
-    }
+                appHisObject.myAppVersion = results[i].get('myAppVersion');
+                appHisObject.hisAppVersion = results[i].get('hisAppVersion');
+                appHisObject.excHisDate = results[i].get('excDateStr');
 
-    query.include('hisAppObject')
+                retApps.push(appHisObject);
+
+            }
+            res.json({'myTotalApps':retApps});
+        },
+        error: function(err) {
+            res.json({'errorMsg':err.message, 'errorId': err.code, 'myApps':[]});
+        }
+    });
+
 });
 
 module.exports = router;
