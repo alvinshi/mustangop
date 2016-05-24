@@ -8,11 +8,13 @@ var app=angular.module('itunesSearch',[]);
 app.controller('itunesSearchControl', function($scope, $http) {
 
     var appsUrl = 'myapp/angular';
+    $scope.isLoadingMyApp = true;
 
     var progressTimerHandle = undefined;
     $scope.progressNum = 0;
 
     $http.get(appsUrl).success(function(response){
+        $scope.isLoadingMyApp = false;
         $scope.myApps = response.myApps;
     });
 

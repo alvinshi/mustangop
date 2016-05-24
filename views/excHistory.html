@@ -40,6 +40,7 @@
     <!--网站内部js-->
     <script src="/javascripts/historyApp.js"></script>
 
+    <link rel="stylesheet" href="../stylesheets/loading.css">
     <link rel="stylesheet" href="../stylesheets/excHistory.css">
 
 </head>
@@ -93,6 +94,12 @@
     </div>
 
     <!--我的应用部分-->
+
+    <div class="spinner" ng-hide="!isLoadingMyApp">
+        <div class="double-bounce1"></div>
+        <div class="double-bounce2"></div>
+    </div>
+
     <button class="row myapp_content col-md-3" ng-repeat="app in myApps" ng-click="selectedAppFunc(app.appleId)">
         <div class="thumbnail">
 
@@ -175,7 +182,8 @@
             </div>
         <nav>
             <ul class="pager" id="changpage">
-                <li><a href="/myapp/history">下一页</a></li>
+                <li ng-hide="!hasMore"><button ng-click = "nextPage()">下一页</button></li>
+                <li ng-hide="hasMore">没有更多数据</li>
             </ul>
         </nav>
         </div>
