@@ -11,7 +11,6 @@ var cloud = require('./cloud');
 
 
 // 挂载子路由
-var todos = require('./routes/todos');//demo
 var api = require('./routes/api')//for html js api request
 var users = require('./routes/users')//user account and info center
 var userapps = require('./routes/myApp')//user app related center
@@ -63,8 +62,6 @@ app.use(function(req, res, next) {
   d.run(next);
 });
 
-//test start
-
 function routeHasPrefix(originalUrl, judgeArray){
   for (var i = 0; i < judgeArray.length; i++){
     var judgeStr = judgeArray[i];
@@ -81,7 +78,7 @@ function routeHasPrefix(originalUrl, judgeArray){
 
 // 没有挂载路径的中间件，应用的每个请求都会执行该中间件
 app.use(function (req, res, next) {
-  console.log('Time:', Date.now());
+  console.log('Time Debug:', Date.now());
 
   var loginWhiteList  = new Array();
   loginWhiteList[0] = "/user";
@@ -109,12 +106,6 @@ app.use(function (req, res, next) {
 
 });
 
-// angular 测试
-app.get('/test/angular', function(req, res) {
-    res.render('testAngular');
-});
-//end test
-
 app.get('/', function(req, res) {
   res.render('index', { currentTime: new Date() });
 });
@@ -125,8 +116,6 @@ app.get('/userProtocol', function(req, res) {
 
 
 // 可以将一类的路由单独保存在一个文件中
-app.use('/todos', todos);
-
 app.use('/api', api);
 app.use('/user', users);
 app.use('/myapp', userapps);
