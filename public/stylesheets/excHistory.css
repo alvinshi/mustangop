@@ -9,15 +9,27 @@ body{
     width: 100%;
     max-width: 1001px;
 }
-
-#mainbar {
-    background-color: black;
-}
-
 .content{
-    height:100%;
+ width: 1001px;
+    margin: auto auto;
+}
+.navbar{
+    background-color: #030000;
+    height: 48px;
+    border-style: none;
     width: 100%;
+    font-size: 18px;
+}
+#logoimage{
+    margin-left: 5%;
+}
+.mainapp{
+    margin-left: 48px;
+    margin-top: 10px;
+    /*height:320px;*//*高度写死,目前只能显示一行,第二版本改高度*/
+
     max-width: 1001px;
+    /*overflow: hidden;*/
 }
 
 .top{
@@ -32,12 +44,15 @@ body{
     margin-top: -25px;
 }
 
+
 .thumbnail{
     width: 190px;
     height: 284px;
     background-color: #ffffff;
     border: 1px solid #dddddd;
     border-radius: 4px;
+    margin-right: 48px;
+    float: left;
 }
 
 .AppName{
