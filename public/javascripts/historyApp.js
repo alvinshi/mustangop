@@ -7,6 +7,7 @@ app.controller('historyAppCtrl', function($scope, $http) {
 
     $scope.pageIndex = 0;
     $scope.progressNum = 0;
+    $scope.hasMore = 0;
 
     var appsUrl = '/myapp/angular';
     $http.get(appsUrl).success(function(response){
@@ -19,6 +20,7 @@ app.controller('historyAppCtrl', function($scope, $http) {
             var historyUrl = '/myapp/history/angular/' + $scope.selectedApp.appleId + '/' + $scope.pageIndex;
             $http.get(historyUrl).success(function(response){
                 $scope.myExcAllApps = response.myExcAllApps;
+                $scope.hasMore = response.hasMore;
                 //console.log($scope.myExcAllApps);
             });
         }else {
@@ -26,6 +28,16 @@ app.controller('historyAppCtrl', function($scope, $http) {
         }
 
     });
+
+    $scope.nextPage = function(){
+        $scope.pageIndex = $scope.pageIndex + 20;
+        var historyUrl = '/myapp/history/angular/' + $scope.selectedApp.appleId + '/' + $scope.pageIndex;
+        $http.get(historyUrl).success(function(response){
+            $scope.hasMore = response.hasMore;
+            $scope.myExcAllApps = $scope.myExcAllApps.concat(response.myExcAllApps);
+            //console.log($scope.myExcAllApps);
+        });
+    };
 
     $scope.selectedAppFunc = function(appleId){
 
@@ -45,7 +57,7 @@ app.controller('historyAppCtrl', function($scope, $http) {
         $scope.pageIndex = 0;
         var historyUrl = '/myapp/history/angular/' + $scope.selectedApp.appleId + '/' + $scope.pageIndex;
         $http.get(historyUrl).success(function(response){
-            $scope.myExcAllApps = response.myExcAllApps;
+                $scope.myExcAllApps = response.myExcAllApps;
             //console.log($scope.myExcAllApps);
         });
     };
