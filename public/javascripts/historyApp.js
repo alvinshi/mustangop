@@ -11,6 +11,8 @@ app.controller('historyAppCtrl', function($scope, $http) {
 
     $scope.isLoadingMyApp = true;
 
+    console.log('loading historyApp.js');
+
     var appsUrl = '/myapp/angular';
     $http.get(appsUrl).success(function(response){
         $scope.myApps = response.myApps;
@@ -63,7 +65,7 @@ app.controller('historyAppCtrl', function($scope, $http) {
         }
 
         $scope.pageIndex = 0;
-        var historyUrl = '/myapp/history/angular/' + $scope.selectedApp.appleId + '/' + $scope.pageIndex;
+        var historyUrl = '/myapp/history/angular/' + $scope.selectedApp.appleId + '/' + $scope.selectedApp.version + '/' + $scope.pageIndex;
         $http.get(historyUrl).success(function(response){
                 $scope.myExcAllApps = response.myExcAllApps;
             //console.log($scope.myExcAllApps);
@@ -152,15 +154,19 @@ app.controller('historyAppCtrl', function($scope, $http) {
         }
     };
 
+    $scope.addAppHistory = function(){
+        var addHistoryHtmlUrl = '/myapp/addHistory/' + $scope.selectedApp.appleId + '/' + $scope.selectedApp.version;
+        location.href = addHistoryHtmlUrl;
+    }
+
     $scope.addHistory = function(hisAppInfo){
 
-        var addHistoryUrl = '/myapp/history/add';
+        console.log('-----* ' + location.href);
 
-        var myAppId = $scope.selectedApp.appleId;
-        var myAppVersion = $scope.selectedApp.version;
+        //var addHistoryUrl = '/myapp/history/add';
+        var addHistoryUrl = location.href;
 
-        var postParam = {'myAppId' : myAppId, 'myAppVersion' : myAppVersion,
-                        'hisAppInfo' : hisAppInfo};
+        var postParam = {'hisAppInfo' : hisAppInfo};
         console.log('add history' + postParam);
         $http.post(addHistoryUrl, postParam).success(function(response){
 

@@ -407,7 +407,7 @@ router.get('/historys/angular', function(req, res, next) {
 });
 
 // 添加搜索 我的历史记录
-router.get('/addHistory', function(req, res, next) {
+router.get('/addHistory/:appleId/:version', function(req, res, next) {
     res.render('addExcHistory')
 });
 
@@ -429,7 +429,7 @@ function addExcHistory(res, appExcObject, userId, myAppId, myAppVersion, hisAppI
 
     //query did it exist
     var query = new AV.Query(IOSAppSql);
-    query.containedIn('appleId', [myAppId, hisAppId]);
+    query.containedIn('appleId', [parseInt(myAppId), hisAppId]);
 
     query.find({
         success: function(results) {
@@ -511,11 +511,13 @@ function addExcHistory(res, appExcObject, userId, myAppId, myAppVersion, hisAppI
 }
 
 // 新增 我的 历史记录
-router.post('/history/add', function(req, res, next) {
+router.post('/addHistory/:appleId/:version', function(req, res, next) {
+//router.post('/history/add', function(req, res, next) {
     var userId = util.useridInReq(req);
 
-    var myAppId = req.body.myAppId;
-    var myAppVersion = req.body.myAppVersion;
+
+    var myAppId = req.params.appleId;
+    var myAppVersion = req.params.version;
 
     var hisAppInfo = req.body.hisAppInfo;
     var hisAppId = hisAppInfo.appleId;
@@ -536,11 +538,11 @@ router.post('/history/add', function(req, res, next) {
             }else {
                 appExcObject = results[0];
             }
-            addExcHistory(res, appExcObject, userId, myAppId, myAppVersion, hisAppInfo);
+            addExcHistory(res, appExcObject, userId, parseInt(myAppId), myAppVersion, hisAppInfo);
         },
         error: function(err) {
             var appExcObject = new IOSAppExcLogger();
-            addExcHistory(res, appExcObject, userId, myAppId, myAppVersion, hisAppInfo);
+            addExcHistory(res, appExcObject, userId, parseInt(myAppId), myAppVersion, hisAppInfo);
         }
     });
 });
