@@ -285,18 +285,14 @@ router.get('/history/angular/:appleId/:pageIndex', function(req, res, next) {
     var query = new AV.Query(IOSAppExcLogger);
     query.equalTo('userId', userId);
 
-    var query_ex = new AV.Query(IOSAppExcLogger);
-    query_ex.equalTo('myAppId', appId)
+    if (appId != undefined){
+        var query_ex = new AV.Query(IOSAppExcLogger);
+        query_ex.equalTo('myAppId', appId);
+        query = AV.Query.and(query, query_ex);
+    }
 
-    query = AV.Query.and(query, query_ex);
     query.skip(pageIndex);
     query.limit(20);
-
-    //var flag = 0;
-    //if (typeof appId != undefined){
-    //    //TODO: support singel app query
-    //    flag = 1;
-    //}
 
     query.include('myAppObject');
     query.include('hisAppObject');
@@ -309,25 +305,20 @@ router.get('/history/angular/:appleId/:pageIndex', function(req, res, next) {
             for (var i = 0; i < results.length; i++){
                 var appHisObject = new Object();
                 var appExcHisObject = results[i].get('hisAppObject');
-                var ExcHisObject = results[i].get('myAppObject');
-                var AppVersion = ExcHisObject.get('version');
-                var myAppVersion = results[i].get('myAppVersion');
-                if (AppVersion == myAppVersion){
-                    appHisObject.trackName = appExcHisObject.get('trackName');
-                    appHisObject.artworkUrl100 = appExcHisObject.get('artworkUrl100');
-                    appHisObject.artworkUrl512 = appExcHisObject.get('artworkUrl512');
-                    appHisObject.appleId = appExcHisObject.get('appleId');
-                    appHisObject.appleKind = appExcHisObject.get('appleKind');
-                    appHisObject.formattedPrice = appExcHisObject.get('formattedPrice');
-                    appHisObject.latestReleaseDate = appExcHisObject.get('latestReleaseDate').substr(0, 10);
-                    appHisObject.sellerName = appExcHisObject.get('sellerName');
+                appHisObject.trackName = appExcHisObject.get('trackName');
+                appHisObject.artworkUrl100 = appExcHisObject.get('artworkUrl100');
+                appHisObject.artworkUrl512 = appExcHisObject.get('artworkUrl512');
+                appHisObject.appleId = appExcHisObject.get('appleId');
+                appHisObject.appleKind = appExcHisObject.get('appleKind');
+                appHisObject.formattedPrice = appExcHisObject.get('formattedPrice');
+                appHisObject.latestReleaseDate = appExcHisObject.get('latestReleaseDate').substr(0, 10);
+                appHisObject.sellerName = appExcHisObject.get('sellerName');
 
-                    appHisObject.myAppVersion = results[i].get('myAppVersion');
-                    appHisObject.hisAppVersion = results[i].get('hisAppVersion');
-                    appHisObject.excHisDate = results[i].get('excDateStr');
+                appHisObject.myAppVersion = results[i].get('myAppVersion');
+                appHisObject.hisAppVersion = results[i].get('hisAppVersion');
+                appHisObject.excHisDate = results[i].get('excDateStr');
 
-                    retApps.push(appHisObject);
-                }
+                retApps.push(appHisObject);
             }
             res.json({'myExcAllApps':retApps});
         },
