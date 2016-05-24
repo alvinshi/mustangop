@@ -31,6 +31,12 @@ app.controller('historyAppCtrl', function($scope, $http) {
             //
         }
 
+            var oldhistoryUrl = '/myapp//oldhistory/angular/' + $scope.selectedApp.appleId + '/' + $scope.selectedApp.version;
+            $http.get(oldhistoryUrl).success(function(response){
+                $scope.myHistoryApps = response.myHistoryApps;
+                console.log($scope.myHistoryApps);
+            });
+
     }).error(function(error){
         console.log('error' + error);
         $scope.isLoadingMyApp = false;
@@ -77,12 +83,6 @@ app.controller('historyAppCtrl', function($scope, $http) {
             });
         }
     };
-
-    var oldhistoryUrl = '/myapp/historys/angular';
-    $http.get(oldhistoryUrl).success(function(response){
-        $scope.myHistoryApps = response.myHistoryApps;
-        console.log($scope.myHistoryApps);
-    });
 
     //搜索iTunes
     $scope.searchHistoryApp = function(){
@@ -150,6 +150,8 @@ app.controller('historyAppCtrl', function($scope, $http) {
             }
         }
     };
+
+    //搜索本地我的交换历史
 
     $scope.addHistory = function(hisAppInfo){
 
