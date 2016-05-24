@@ -93,9 +93,9 @@ router.post('/login', function(req, res, next) {
     var encodeUserId = Base64.encode(user_id);
     //login succeed,response cookie to browser
     //cookie 30天有效期
-    res.cookie('username', user.get('username'));
+    res.cookie('username', user.get('username'), { maxAge: 1000*60*60*24*30, path:'/'});
     //res.cookie('wjwtest', 'wujiangweiLucy');
-    res.cookie('userIdCookie',encodeUserId, { maxAge: 1000*60*60*24*30,httpOnly:true, path:'/'});
+    res.cookie('userIdCookie',encodeUserId, { maxAge: 1000*60*60*24*30, path:'/'});
     //res.cookie['username'] = user.username;
 
     res.json({'errorId':0, 'errorMsg':''});

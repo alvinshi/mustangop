@@ -2,6 +2,12 @@
  * Created by cailong on 16/5/20.
  */
 
+var app=angular.module('userCenterAPP', []);
+
+app.controller('userCenterCtrl', function($scope, $http){
+
+});
+
 function logout(){
 
     clearCookie('userIdCookie');
@@ -9,9 +15,3 @@ function logout(){
 
     location.href='/';
 }
-
-var app=angular.module('userCenterAPP', []);
-
-app.controller('userCenterCtrl', function($scope, $http){
-
-});
