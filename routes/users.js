@@ -37,7 +37,8 @@ router.post('/register', function(req, res, next) {
     var encodeUserId = Base64.encode(user_id);
     //login succeed,response cookie to browser
     //cookie 30天有效期
-    res.cookie('userIdCookie',encodeUserId,{ maxAge: 1000*60*60*24*30,httpOnly:true, path:'/'});
+    res.cookie('username', user.get('username'));
+    res.cookie('userIdCookie',encodeUserId, { maxAge: 1000*60*60*24*30,httpOnly:true, path:'/'});
 
     res.json({'errorId':0, 'errorMsg':''});
 
@@ -48,9 +49,8 @@ router.post('/register', function(req, res, next) {
 
 });
 
-//test code
 router.get('/', function(req, res, next) {
-  res.render('personalCenter');
+  res.render('userCenter');
 });
 
 //个人中心
@@ -93,7 +93,10 @@ router.post('/login', function(req, res, next) {
     var encodeUserId = Base64.encode(user_id);
     //login succeed,response cookie to browser
     //cookie 30天有效期
-    res.cookie('userIdCookie',encodeUserId,{ maxAge: 1000*60*60*24*30,httpOnly:true, path:'/'});
+    res.cookie('username', user.get('username'));
+    //res.cookie('wjwtest', 'wujiangweiLucy');
+    res.cookie('userIdCookie',encodeUserId, { maxAge: 1000*60*60*24*30,httpOnly:true, path:'/'});
+    //res.cookie['username'] = user.username;
 
     res.json({'errorId':0, 'errorMsg':''});
   }, function(error) {

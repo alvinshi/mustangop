@@ -21,6 +21,7 @@
     <!-- Place favicon.ico in the root directory -->
 
     <link rel="stylesheet" href="/stylesheets/style.css">
+    <link rel="stylesheet" href="/stylesheets/vendor/hover/hover-min.css">
 
     <!-- 引入 AngularJS Mini 文件 -->
     <script src="/javascripts/vendor/AngularJS/angular.min.js"></script>
@@ -62,7 +63,7 @@
             <ul class="nav navbar-nav">
                 <li><a href="/" style="color:white" >首页</a></li>
 
-                <li><a style="color:#17ddaa" href="/myapp/history">交换记录</a></li>
+                <li><a style="color:deepskyblue" href="/myapp/history">交换记录</a></li>
 
                 <li><a href="/myapp"style="color:white">我的应用</a></li>
 
@@ -80,7 +81,7 @@
                 <!--</li>-->
             </ul>
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="/user" style="color:white" >某某用户</a></li>
+                <li><a id="nav-username-display" href="/user" style="color:#17ddaa"></a></li>
             </ul>
         </div><!--/.nav-collapse -->
     </div>
@@ -99,13 +100,14 @@
         <div class="double-bounce1"></div>
         <div class="double-bounce2"></div>
     </div>
+
     <div class="mainapp">
-    <button class="row myapp_content col-md-3 thumbnail" ng-repeat="app in myApps" ng-click="selectedAppFunc(app.appleId)">
+         <button class="row myapp_content col-md-3 thumbnail "  ng-repeat="app in myApps" ng-click="selectedAppFunc(app.appleId)">
         <!--<div class="thumbnail">-->
 
-            <img class="app_icon" ng-src="{{ app.artworkUrl100 }}" alt="App Icon">
+              <img class="app_icon" ng-src="{{ app.artworkUrl100 }}" alt="App Icon">
 
-            <div class="caption">
+              <div class="caption">
                 <h5 class="AppName">{{ app.trackName }}</h5>
                 <!--<p>开发商 {{ app.sellerName }}</p>-->
                 <div class="caption-info">
@@ -116,9 +118,9 @@
                 <!--<p>类型 {{ app.appleKind }}</p>-->
                 <!--<p>价格 {{ app.formattedPrice }}</p>-->
                 <!--<p>版本号 {{ app.version }}</p>-->
-            </div>
+             </div>
         <!--</div>-->
-    </button>
+         </button>
     </div>
 
     <div class="row exchang_pattern">
@@ -136,11 +138,13 @@
             </div>
 
             <div class="text-a col-md-3 col-md-offset-10">
-                <button type="button" class="btn btn-default" ng-hide="!myApps.length">
-                    <a class="add_exc_history_title " href="/myapp/addHistory">手动添加交换记录</a>
+                <button type="button add_exc_history_title" class="btn btn-default hvr-float-shadow"
+                        onclick="javascript:window.location.href='/myapp/addHistory'" ng-hide="!myApps.length">
+                    手动添加交换记录
                 </button>
-                <button type="button" class="btn btn-default" ng-hide="myApps.length">
-                    <a class="add_exc_history_title" href="/myapp">请先添加我的应用</a>
+                <button type="button add_exc_history_title" class="btn btn-default hvr-float-shadow"
+                        onclick="javascript:window.location.href='/myapp'" ng-hide="myApps.length">
+                    请先添加我的应用
                 </button>
             </div>
 
@@ -175,7 +179,7 @@
                     </div>
 
                     <div class="media-right">
-                        <button class="btn remove_icon" ng-click="releaseHistory(app.appleId, app.hisAppVersion)">
+                        <button class="btn remove_icon hvr-box-shadow-inset" ng-click="releaseHistory(app.appleId, app.hisAppVersion)">
                             <img src="/images/exch_history/no_click_remove.png">
                         </button>
                     </div>
@@ -217,7 +221,7 @@
                     </div>
 
                     <div class="media-right">
-                        <button class="btn remove_icon" ng-click="History(app.appleId, app.hisAppVersion)">
+                        <button class="btn remove_icon hvr-box-shadow-inset" ng-click="History(app.appleId, app.hisAppVersion)">
                             <img src="/images/exch_history/no_click_remove.png">
                         </button>
                     </div>
@@ -232,5 +236,9 @@
         </div>
     </div>
 </div>
+
+<script src="/javascripts/cookieHelper.js"></script>
+
 </body>
+
 </html>

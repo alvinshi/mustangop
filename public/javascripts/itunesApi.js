@@ -7,6 +7,8 @@ var app=angular.module('itunesSearch',[]);
 
 app.controller('itunesSearchControl', function($scope, $http) {
 
+    //$scope.isError = 0;
+
     var appsUrl = 'myapp/angular';
     $scope.isLoadingMyApp = true;
 

@@ -33,9 +33,9 @@
 
     <!--第三方 CSS JS-->
     <link rel="stylesheet" href="../stylesheets/vendor/font-awesome.min.css">
+    <link rel="stylesheet" href="/stylesheets/vendor/hover/hover-min.css">
 
     <!--网站内部js-->
-    <script src="/javascripts/historyApp.js"></script>
 
     <link rel="stylesheet" href="../stylesheets/pers_center.css">
 
@@ -52,7 +52,7 @@
     <div class="container-fluid">
         <div class="navbar-header">
             <a class="navbar-brand" href="/">
-                <img alt="Brand" src="/images/home/wildhorse_icon.png">
+                <img id="logoimage" alt="Brand" src="/images/home/wildhorse_icon.png">
             </a>
         </div>
 
@@ -76,14 +76,14 @@
                 <!--</li>-->
             </ul>
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="/user" style="color:#17ddaa">某某用户</a></li>
+                <li><a id="nav-username-display" href="/user" style="color:deepskyblue"></a></li>
             </ul>
         </div><!--/.nav-collapse -->
     </div>
 </nav>
 
 <!--个人中心主界面-->
-<div class="container main-body" ng-app="personCenterAPP" ng-controller="personCenterCtrl">
+<div class="container main-body" ng-app="userCenterAPP" ng-controller="userCenterCtrl">
     <div class="col-md-2 menu">
         <div class="personal">
             <div class="personal-title">
@@ -104,7 +104,7 @@
                     <li>
                         <h4 class="personalContent">用户名&nbsp;<i class="icon-520">
                             <input type="text" ng-model=""></i>
-                            <button class="btn btn-default" ng-click="getInput()">编辑</button>
+                            <button class="btn btn-default hvr-grow-shadow" ng-click="getInput()">编辑</button>
                         </h4>
                         <p class="text_content">建议使用主产品加昵称</p>
                     </li>
@@ -122,11 +122,20 @@
                         </h4>
                         <p class="text_content">建议绑定QQ,方便与交换对象沟通</p>
                     </li>
+
+                    <li>
+                        <button type="button" onclick="logout()" class="btn btn-danger">退出登陆</button>
+                    </li>
                 </ul>
             </div>
         </section>
     </div>
 </div>
+
+<script src="/javascripts/cookieHelper.js"></script>
+<script src="/java"></script>
+
 </body>
+
 </html>
 

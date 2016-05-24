@@ -33,6 +33,7 @@
     <script src="//cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
     <!-- Bootstrap core CSS -->
     <link href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/stylesheets/vendor/hover/hover-min.css">
 
     <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
     <script src="//cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
@@ -70,7 +71,7 @@
                 </ul>
 
                 <ul class="nav navbar-nav navbar-right">
-                    <li><a style="color:white" href="/user">某某用户</a></li>
+                    <li><a id="nav-username-display" href="/user" style="color:#17ddaa"></a></li>
                 </ul>
             </div>
         </div><!--/.nav-collapse -->
@@ -117,7 +118,7 @@
         </div>
 
         <div class="media-right" id="button">
-            <button class="button_bottom" ng-click="addHistory(app)" ng-hide="app.isExced">
+            <button class="button_bottom hvr-float-shadow" ng-click="addHistory(app)" ng-hide="app.isExced">
                 <span  id="exchistory" class=""></span>添加到交换记录
             </button>
             <button class="excedBtn" ng-hide="!app.isExced">
@@ -129,6 +130,9 @@
 </div>
 
 </div>
+
+<script src="/javascripts/cookieHelper.js"></script>
+
 </body>
 
 </html>

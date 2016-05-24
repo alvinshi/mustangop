@@ -18,7 +18,7 @@ body{
     height: 48px;
     border-style: none;
     width: 100%;
-    font-size: 18px;
+    font-size: 17px;
 }
 #logoimage{
     margin-left: 5%;
@@ -30,7 +30,9 @@ body{
 
     max-width: 1001px;
     /*overflow: hidden;*/
+
 }
+
 
 .top{
     margin-top: 48px;
