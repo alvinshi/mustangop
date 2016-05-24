@@ -5,15 +5,50 @@ var app=angular.module('historyApp',['ngSanitize']);
 
 app.controller('historyAppCtrl', function($scope, $http) {
 
-    var progressTimerHandle = undefined;
+    $scope.pageIndex = 0;
     $scope.progressNum = 0;
 
-    //TODO: more my app?
-    var historyUrl = '/myapp/history/angular';
-    $http.get(historyUrl).success(function(response){
-        $scope.myExcAllApps = response.myExcAllApps;
-        //console.log($scope.myExcAllApps);
+    var appsUrl = '/myapp/angular';
+    $http.get(appsUrl).success(function(response){
+        $scope.myApps = response.myApps;
+
+        if ($scope.myApps.length > 0){
+            $scope.selectedApp = $scope.myApps[0];
+            $scope.selectedApp.isSelected = true;
+
+            var historyUrl = '/myapp/history/angular/' + $scope.selectedApp.appleId + '/' + $scope.pageIndex;
+            $http.get(historyUrl).success(function(response){
+                $scope.myExcAllApps = response.myExcAllApps;
+                //console.log($scope.myExcAllApps);
+            });
+        }else {
+            //
+        }
+
     });
+
+    $scope.selectedApp = function(appleId){
+
+        console.log('selected' +  appleId);
+
+        for (var i = 0; i < $scope.myApps.length; i++){
+            var tempApp = $scope.myApps[i];
+            if (tempApp.appleId == appleId){
+                $scope.selectedApp.isSelected = false;
+
+                $scope.selectedApp = tempApp;
+                $scope.selectedApp.isSelected = true;
+                break;
+            }
+        }
+
+        $scope.pageIndex = 0;
+        var historyUrl = '/myapp/history/angular/' + $scope.selectedApp.appleId + '/' + $scope.pageIndex;
+        $http.get(historyUrl).success(function(response){
+            $scope.myExcAllApps = response.myExcAllApps;
+            //console.log($scope.myExcAllApps);
+        });
+    };
 
     $scope.searchApp = function(){
         if ($scope.searchUrl != ''){
@@ -39,13 +74,6 @@ app.controller('historyAppCtrl', function($scope, $http) {
             var searchUrl = '/api/itunes/search/' + $scope.searchKey;
 
             $scope.progressNum = 100;
-
-            //timer
-            if (progressTimerHandle != undefined){
-                //clearTimeout(progressTimerHandle);
-            }
-
-            //progressTimerHandle = setTimeout(timerFunc(), 1);
 
             $http.get(searchUrl).success(function(response){
 
@@ -93,12 +121,6 @@ app.controller('historyAppCtrl', function($scope, $http) {
             $scope.searchHistoryApp();
         }
     };
-
-    var appsUrl = '/myapp/angular';
-    $http.get(appsUrl).success(function(response){
-        $scope.myApps = response.myApps;
-        $scope.selectedApp = $scope.myApps[0];
-    });
 
     //TODO: not support now
     $scope.searchHistory = function(){

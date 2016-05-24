@@ -93,8 +93,13 @@
     </div>
 
     <!--我的应用部分-->
-    <div class="row myapp_content col-md-3 " ng-repeat="app in myApps">
+    <div class="row myapp_content col-md-3" ng-repeat="app in myApps">
         <div class="thumbnail">
+
+            <button class="btn search_color" ng-click="selectedApp(app.appleId)">
+                <span class="glyphicon glyphicon-search"></span>
+            </button>
+
             <img class="app_icon" ng-src="{{ app.artworkUrl100 }}" alt="App Icon">
 
             <div class="caption">

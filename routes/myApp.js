@@ -45,6 +45,7 @@ router.get('/angular', function(req, res, next) {
     var query = new AV.Query(IOSAppBinder);
     query.equalTo('userObject', user);
     query.include('appObject');
+    query.addDescending('updatedAt')
     query.find({
         success: function(results) {
             //has blinded
@@ -272,10 +273,11 @@ router.get('/history', function(req, res, next) {
     res.render('excHistory')
 });
 
-router.get('/history/angular', function(req, res, next) {
+router.get('/history/angular/:appleId/:pageIndex', function(req, res, next) {
     //get data
     var userId = util.useridInReq(req);
-    var appId = req.body.myAppId;
+    var appId = '444934666';//req.params.appleId;
+    var pageIndex = req.params.pageIndex;
 
     var user = new AV.User();
     user.id = userId;
@@ -283,11 +285,18 @@ router.get('/history/angular', function(req, res, next) {
     var query = new AV.Query(IOSAppExcLogger);
     query.equalTo('userId', userId);
 
-    var flag = 0;
-    if (typeof appId != undefined){
-        //TODO: support singel app query
-        flag = 1;
-    }
+    var query_ex = new AV.Query(IOSAppExcLogger);
+    query_ex.equalTo('myAppId', appId)
+
+    query = AV.Query.or(query, query_ex);
+    query.skip(pageIndex);
+    query.limit(20);
+
+    //var flag = 0;
+    //if (typeof appId != undefined){
+    //    //TODO: support singel app query
+    //    flag = 1;
+    //}
 
     query.include('myAppObject');
     query.include('hisAppObject');
@@ -339,6 +348,10 @@ router.get('/historys/angular', function(req, res, next) {
 
     var query = new AV.Query(IOSAppExcLogger);
     query.equalTo('userId', userId);
+
+    //1.appleId
+    //2.查询AppInfo表,拿到当前的appversion
+    //3.not equal appversion
 
     var flag = 0;
     if (typeof appId != undefined){
