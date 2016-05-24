@@ -8,9 +8,13 @@ app.controller('historyAppCtrl', function($scope, $http) {
     $scope.pageIndex = 0;
     $scope.progressNum = 0;
 
+    $scope.isLoadingMyApp = true;
+
     var appsUrl = '/myapp/angular';
     $http.get(appsUrl).success(function(response){
         $scope.myApps = response.myApps;
+
+        $scope.isLoadingMyApp = false;
 
         if ($scope.myApps.length > 0){
             $scope.selectedApp = $scope.myApps[0];
@@ -25,6 +29,9 @@ app.controller('historyAppCtrl', function($scope, $http) {
             //
         }
 
+    }).error(function(error){
+        console.log('error' + error);
+        $scope.isLoadingMyApp = false;
     });
 
     $scope.selectedAppFunc = function(appleId){
