@@ -276,7 +276,7 @@ router.get('/history', function(req, res, next) {
 router.get('/history/angular/:appleId/:pageIndex', function(req, res, next) {
     //get data
     var userId = util.useridInReq(req);
-    var appId = '444934666';//req.params.appleId;
+    var appId = req.params.appleId;
     var pageIndex = req.params.pageIndex;
 
     var user = new AV.User();
@@ -288,7 +288,7 @@ router.get('/history/angular/:appleId/:pageIndex', function(req, res, next) {
     var query_ex = new AV.Query(IOSAppExcLogger);
     query_ex.equalTo('myAppId', appId)
 
-    query = AV.Query.or(query, query_ex);
+    query = AV.Query.and(query, query_ex);
     query.skip(pageIndex);
     query.limit(20);
 

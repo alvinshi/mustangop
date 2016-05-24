@@ -27,7 +27,7 @@ app.controller('historyAppCtrl', function($scope, $http) {
 
     });
 
-    $scope.selectedApp = function(appleId){
+    $scope.selectedAppFunc = function(appleId){
 
         console.log('selected' +  appleId);
 

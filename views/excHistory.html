@@ -93,12 +93,8 @@
     </div>
 
     <!--我的应用部分-->
-    <div class="row myapp_content col-md-3" ng-repeat="app in myApps">
+    <button class="row myapp_content col-md-3" ng-repeat="app in myApps" ng-click="selectedAppFunc(app.appleId)">
         <div class="thumbnail">
-
-            <button class="btn search_color" ng-click="selectedApp(app.appleId)">
-                <span class="glyphicon glyphicon-search"></span>
-            </button>
 
             <img class="app_icon" ng-src="{{ app.artworkUrl100 }}" alt="App Icon">
 
@@ -115,7 +111,7 @@
                 <!--<p>版本号 {{ app.version }}</p>-->
             </div>
         </div>
-    </div>
+    </button>
 
     <div class="row exchang_pattern">
         <div class="top_title col-lg-6 col-sm-12">
