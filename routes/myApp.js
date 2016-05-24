@@ -271,11 +271,12 @@ router.get('/history', function(req, res, next) {
     res.render('excHistory')
 });
 
-router.get('/history/angular/:appleId/:pageIndex', function(req, res, next) {
+router.get('/history/angular/:appleId/:version/:pageIndex', function(req, res, next) {
     //get data
     var userId = util.useridInReq(req);
     var appId = parseInt(req.params.appleId);
     var pageIndex = req.params.pageIndex;
+    var version = req.params.version;
 
     var user = new AV.User();
     user.id = userId;
@@ -283,11 +284,15 @@ router.get('/history/angular/:appleId/:pageIndex', function(req, res, next) {
     var query = new AV.Query(IOSAppExcLogger);
     query.equalTo('userId', userId);
 
+    var query_version = new AV.Query(IOSAppExcLogger);
+    query_version.equalTo('myAppVersion', version);
+
     if (appId != undefined){
         var query_ex = new AV.Query(IOSAppExcLogger);
         query_ex.equalTo('myAppId', appId);
-        query = AV.Query.and(query, query_ex);
-
+        query = AV.Query.and(query, query_ex, query_version);
+    }else {
+        query = AV.Query.and(query, query_version);
     }
 
     var totalCount = 0;
