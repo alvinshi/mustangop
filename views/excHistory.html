@@ -99,9 +99,9 @@
         <div class="double-bounce1"></div>
         <div class="double-bounce2"></div>
     </div>
-
-    <button class="row myapp_content col-md-3" ng-repeat="app in myApps" ng-click="selectedAppFunc(app.appleId)">
-        <div class="thumbnail">
+    <div class="mainapp">
+    <button class="row myapp_content col-md-3 thumbnail" ng-repeat="app in myApps" ng-click="selectedAppFunc(app.appleId)">
+        <!--<div class="thumbnail">-->
 
             <img class="app_icon" ng-src="{{ app.artworkUrl100 }}" alt="App Icon">
 
@@ -117,8 +117,9 @@
                 <!--<p>价格 {{ app.formattedPrice }}</p>-->
                 <!--<p>版本号 {{ app.version }}</p>-->
             </div>
-        </div>
-    <button>
+        <!--</div>-->
+    </button>
+    </div>
 
     <div class="row exchang_pattern">
         <div class="top_title col-lg-6 col-sm-12">

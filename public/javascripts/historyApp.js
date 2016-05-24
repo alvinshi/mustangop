@@ -21,7 +21,7 @@ app.controller('historyAppCtrl', function($scope, $http) {
             $scope.selectedApp = $scope.myApps[0];
             $scope.selectedApp.isSelected = true;
 
-            var historyUrl = '/myapp/history/angular/' + $scope.selectedApp.appleId + '/' + $scope.pageIndex;
+            var historyUrl = '/myapp/history/angular/' + $scope.selectedApp.appleId + '/' + $scope.selectedApp.version + '/' + $scope.pageIndex;
             $http.get(historyUrl).success(function(response){
                 $scope.myExcAllApps = response.myExcAllApps;
                 $scope.hasMore = response.hasMore;
@@ -38,7 +38,7 @@ app.controller('historyAppCtrl', function($scope, $http) {
 
     $scope.nextPage = function(){
         $scope.pageIndex = $scope.pageIndex + 20;
-        var historyUrl = '/myapp/history/angular/' + $scope.selectedApp.appleId + '/' + $scope.pageIndex;
+        var historyUrl = '/myapp/history/angular/' + $scope.selectedApp.appleId + '/' + $scope.selectedApp.version + '/' + $scope.pageIndex;
         $http.get(historyUrl).success(function(response){
             $scope.hasMore = response.hasMore;
             $scope.myExcAllApps = $scope.myExcAllApps.concat(response.myExcAllApps);
