@@ -10,10 +10,16 @@ body{
     max-width: 1001px;
 }
 
-#mainbar {
-    background-color: black;
+.navbar{
+    background-color: #030000;
+    height: 48px;
+    border-style: none;
+    width: 100%;
+    font-size: 18px;
 }
-
+#logoimage{
+    margin-left: 5%;
+}
 .content{
     height:100%;
     width: 100%;

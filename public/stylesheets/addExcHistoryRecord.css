@@ -3,11 +3,11 @@ body{
 
 }
 .navbar{
-    background-color: #030000;
-    height: 48px;
-    border-style: none;
-    width: 100%;
-
+     background-color: #030000;
+     height: 48px;
+     border-style: none;
+     width: 100%;
+     font-size: 18px
 }
 .container-fluid{
     margin: 0 auto;
