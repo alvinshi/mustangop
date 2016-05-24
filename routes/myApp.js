@@ -119,9 +119,9 @@ router.get('/angular', function(req, res, next) {
                         }
                     });
                 })(appObject);
-
-
             }
+
+            res.json({'myApps':[]});
         },
         error: function(err) {
             res.json({'errorMsg':err.message, 'errorId': err.code, 'myApps':[]});
