@@ -62,7 +62,7 @@
             <ul class="nav navbar-nav">
                 <li><a href="/" style="color:white" >首页</a></li>
 
-                <li><a style="color:#17ddaa" href="/myapp/history">交换记录</a></li>
+                <li><a style="color:deepskyblue" href="/myapp/history">交换记录</a></li>
 
                 <li><a href="/myapp"style="color:white">我的应用</a></li>
 
@@ -100,12 +100,12 @@
         <div class="double-bounce2"></div>
     </div>
     <div class="mainapp">
-    <button class="row myapp_content col-md-3 thumbnail" ng-repeat="app in myApps" ng-click="selectedAppFunc(app.appleId)">
+         <button class="row myapp_content col-md-3 thumbnail "  ng-repeat="app in myApps" ng-click="selectedAppFunc(app.appleId)">
         <!--<div class="thumbnail">-->
 
-            <img class="app_icon" ng-src="{{ app.artworkUrl100 }}" alt="App Icon">
+              <img class="app_icon" ng-src="{{ app.artworkUrl100 }}" alt="App Icon">
 
-            <div class="caption">
+              <div class="caption">
                 <h5 class="AppName">{{ app.trackName }}</h5>
                 <!--<p>开发商 {{ app.sellerName }}</p>-->
                 <div class="caption-info">
@@ -116,9 +116,9 @@
                 <!--<p>类型 {{ app.appleKind }}</p>-->
                 <!--<p>价格 {{ app.formattedPrice }}</p>-->
                 <!--<p>版本号 {{ app.version }}</p>-->
-            </div>
+             </div>
         <!--</div>-->
-    </button>
+         </button>
     </div>
 
     <div class="row exchang_pattern">

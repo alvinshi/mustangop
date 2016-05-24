@@ -21,6 +21,7 @@ app.controller('historyAppCtrl', function($scope, $http) {
             $scope.selectedApp = $scope.myApps[0];
             $scope.selectedApp.isSelected = true;
 
+
             var historyUrl = '/myapp/history/angular/' + $scope.selectedApp.appleId + '/' + $scope.selectedApp.version + '/' + $scope.pageIndex;
             $http.get(historyUrl).success(function(response){
                 $scope.myExcAllApps = response.myExcAllApps;
