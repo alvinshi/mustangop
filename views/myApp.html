@@ -37,6 +37,7 @@
     <link rel="stylesheet" href="../stylesheets/vendor/font-awesome.min.css">
     <link rel="stylesheet" href="../stylesheets/myApp.css">
     <link rel="stylesheet" href="../stylesheets/loading.css">
+    <link rel="stylesheet" href="/stylesheets/vendor/hover/hover-min.css">
 
     <!--网站内部js-->
     <script src="/javascripts/itunesApi.js"></script>
@@ -112,7 +113,7 @@
                 </div>
             </div>
             <div class="media-right">
-                <button class="button_bottom" ng-click="chooseMyApp(app)" ng-hide="app.isMine">
+                <button class="button_bottom hvr-float-shadow" ng-click="chooseMyApp(app)" ng-hide="app.isMine">
                     <span class="bind"></span>确认绑定
                 </button>
                 <button class="excedBtn"> <!--ng-click="releaseMyApp(app.appleId)" ng-hide="!app.isMine"-->
@@ -127,7 +128,7 @@
                 <p class="app_name ">{{ app.trackName.substr(0,16) }}</p>
                 <p class="app_version">版本号 {{ app.version }}</p>
                 <p class="app_update">更新日期{{ app.latestReleaseDate.substr(0,10) }}</p>
-                <button  class="app_button_bottom" ng-click="releaseMyApp(app.appleId)">
+                <button  class="app_button_bottom hvr-box-shadow-inset" ng-click="releaseMyApp(app.appleId)">
                     解绑
                 </button>
             </div>

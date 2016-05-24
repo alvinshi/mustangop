@@ -21,6 +21,7 @@
     <!-- Place favicon.ico in the root directory -->
 
     <link rel="stylesheet" href="/stylesheets/style.css">
+    <link rel="stylesheet" href="/stylesheets/vendor/hover/hover-min.css">
 
     <!-- 引入 AngularJS Mini 文件 -->
     <script src="/javascripts/vendor/AngularJS/angular.min.js"></script>
@@ -137,10 +138,10 @@
             </div>
 
             <div class="text-a col-md-3 col-md-offset-10">
-                <button type="button" class="btn btn-default" ng-hide="!myApps.length">
+                <button type="button" class="btn btn-default hvr-float-shadow" ng-hide="!myApps.length">
                     <a class="add_exc_history_title " href="/myapp/addHistory">手动添加交换记录</a>
                 </button>
-                <button type="button" class="btn btn-default" ng-hide="myApps.length">
+                <button type="button" class="btn btn-default hvr-float-shadow" ng-hide="myApps.length">
                     <a class="add_exc_history_title" href="/myapp">请先添加我的应用</a>
                 </button>
             </div>
@@ -176,7 +177,7 @@
                     </div>
 
                     <div class="media-right">
-                        <button class="btn remove_icon" ng-click="releaseHistory(app.appleId, app.hisAppVersion)">
+                        <button class="btn remove_icon hvr-box-shadow-inset" ng-click="releaseHistory(app.appleId, app.hisAppVersion)">
                             <img src="/images/exch_history/no_click_remove.png">
                         </button>
                     </div>
@@ -218,7 +219,7 @@
                     </div>
 
                     <div class="media-right">
-                        <button class="btn remove_icon" ng-click="History(app.appleId, app.hisAppVersion)">
+                        <button class="btn remove_icon hvr-box-shadow-inset" ng-click="History(app.appleId, app.hisAppVersion)">
                             <img src="/images/exch_history/no_click_remove.png">
                         </button>
                     </div>
