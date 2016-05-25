@@ -365,7 +365,7 @@ router.get('/oldhistory/angular/:appleId/:version/', function(req, res, next) {
         query = AV.Query.and(query, query_version, query_ex);
     }
 
-    query.limit(20);
+    query.limit(100);
 
     query.include('myAppObject');
     query.include('hisAppObject');
@@ -585,49 +585,54 @@ router.post('/history/delete', function(req, res, next) {
 
 
 // 搜索本地添加的历史记录
-router.get('/historySearch/angular/:searchkey', function(req, res, next) {
-    var userId = util.useridInReq(req);
-    
-    var user = new AV.User();
-    user.id = userId;
-
-    var query = new AV.Query(IOSAppExcLogger);
-    query.equalTo('userId', userId);
-
-    query.include('myAppObject');
-    query.include('hisAppObject');
-    query.find({
-        success: function(results) {
-
-            //has blinded
-            var retApps = new Array();
-            //date merge by excDateStr for more group
-            for (var i = 0; i < results.length; i++){
-                var appHisObject = new Object();
-                var appExcHisObject = results[i].get('hisAppObject');
-                appHisObject.trackName = appExcHisObject.get('trackName');
-                appHisObject.artworkUrl100 = appExcHisObject.get('artworkUrl100');
-                appHisObject.artworkUrl512 = appExcHisObject.get('artworkUrl512');
-                appHisObject.appleId = appExcHisObject.get('appleId');
-                appHisObject.appleKind = appExcHisObject.get('appleKind');
-                appHisObject.formattedPrice = appExcHisObject.get('formattedPrice');
-                appHisObject.latestReleaseDate = appExcHisObject.get('latestReleaseDate').substr(0, 10);
-                appHisObject.sellerName = appExcHisObject.get('sellerName');
-
-                appHisObject.myAppVersion = results[i].get('myAppVersion');
-                appHisObject.hisAppVersion = results[i].get('hisAppVersion');
-                appHisObject.excHisDate = results[i].get('excDateStr');
-
-                retApps.push(appHisObject);
-
-            }
-            res.json({'myTotalApps':retApps});
-        },
-        error: function(err) {
-            res.json({'errorMsg':err.message, 'errorId': err.code, 'myApps':[]});
-        }
-    });
-
-});
+//router.get('/historySearch/angular/:searchkey', function(req, res, next) {
+//    var userId = util.useridInReq(req);
+//    var search = req.params.searchkey;
+//
+//    var user = new AV.User();
+//    user.id = userId;
+//
+//    var query = new AV.Query(IOSAppExcLogger);
+//    query.equalTo('userId', userId);
+//
+//    var innerQuery = new AV.Query(IOSAppSql);
+//    innerQuery.contains('trackName', search);
+//    innerQuery.limit(1000);
+//    query.matchesQuery('hisAppObject', innerQuery);
+//
+//    query.include('myAppObject');
+//    query.include('hisAppObject');
+//
+//    query.find({
+//        success: function(results) {
+//            var retApps = new Array();
+//
+//            for (var i = 0; i < results.length; i++){
+//                var appHisObject = new Object();
+//                var appExcHisObject = results[i].get('hisAppObject');
+//                appHisObject.trackName = appExcHisObject.get('trackName');
+//                appHisObject.artworkUrl100 = appExcHisObject.get('artworkUrl100');
+//                appHisObject.artworkUrl512 = appExcHisObject.get('artworkUrl512');
+//                appHisObject.appleId = appExcHisObject.get('appleId');
+//                appHisObject.appleKind = appExcHisObject.get('appleKind');
+//                appHisObject.formattedPrice = appExcHisObject.get('formattedPrice');
+//                appHisObject.latestReleaseDate = appExcHisObject.get('latestReleaseDate').substr(0, 10);
+//                appHisObject.sellerName = appExcHisObject.get('sellerName');
+//
+//                appHisObject.myAppVersion = results[i].get('myAppVersion');
+//                appHisObject.hisAppVersion = results[i].get('hisAppVersion');
+//                appHisObject.excHisDate = results[i].get('excDateStr');
+//
+//                retApps.push(appHisObject);
+//
+//            }
+//            res.json({'myTotalApps':retApps});
+//        },
+//        error: function(err) {
+//            res.json({'errorMsg':err.message, 'errorId': err.code, 'myApps':[]});
+//        }
+//    });
+//
+//});
 
 module.exports = router;

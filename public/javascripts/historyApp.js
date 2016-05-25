@@ -30,15 +30,18 @@ app.controller('historyAppCtrl', function($scope, $http) {
                 $scope.hasMore = response.hasMore;
                 //console.log($scope.myExcAllApps);
             });
-        }else {
-            //
-        }
 
             var oldhistoryUrl = '/myapp/oldhistory/angular/' + $scope.selectedApp.appleId + '/' + $scope.selectedApp.version;
             $http.get(oldhistoryUrl).success(function(response){
                 $scope.myHistoryApps = response.myHistoryApps;
                 console.log($scope.myHistoryApps);
             });
+
+        }else {
+            //
+        }
+
+
 
     }).error(function(error){
         console.log('error' + error);
@@ -75,6 +78,12 @@ app.controller('historyAppCtrl', function($scope, $http) {
         $http.get(historyUrl).success(function(response){
                 $scope.myExcAllApps = response.myExcAllApps;
             //console.log($scope.myExcAllApps);
+        });
+
+        var oldhistoryUrl = '/myapp/oldhistory/angular/' + $scope.selectedApp.appleId + '/' + $scope.selectedApp.version;
+        $http.get(oldhistoryUrl).success(function(response){
+            $scope.myHistoryApps = response.myHistoryApps;
+            console.log($scope.myHistoryApps);
         });
     };
 
@@ -135,6 +144,18 @@ app.controller('historyAppCtrl', function($scope, $http) {
         }
     };
 
+    //$scope.searchLocalHistoryApp = function(){
+    //    if ($scope.searchUrl != ''){
+    //        var searchUrl = '/myapp/historySearch/angular/' + $scope.searchkey;
+    //        $http.get(searchUrl).success(function(response){
+    //
+    //            console.log('searchLocalHistoryApp ' + response.myTotalApps);
+    //            $scope.myTotalApps = response.myTotalApps;
+    //
+    //        });
+    //    }
+    //};
+
     $scope.keySearchApp = function(e){
         var keycode = window.event?e.keyCode:e.which;
         //console.log('keycode ' + keycode);
@@ -144,20 +165,10 @@ app.controller('historyAppCtrl', function($scope, $http) {
         }
     };
 
-    $scope.searchLocalHistoryApp = function(){
-        if ($scope.searchUrl != ''){
-            var searchUrl = '/myapp/historySearch/angular/' + $scope.searchKey;
-            $http.get(searchUrl).success(function(response){
-                $scope.myTotalApps = response.myTotalApps;
-
-            });
-        }
-    };
-
     $scope.addAppHistory = function(){
         var addHistoryHtmlUrl = '/myapp/addHistory/' + $scope.selectedApp.appleId + '/' + $scope.selectedApp.version;
         location.href = addHistoryHtmlUrl;
-    }
+    };
 
     $scope.addHistory = function(hisAppInfo){
 

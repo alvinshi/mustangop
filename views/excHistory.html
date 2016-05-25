@@ -128,14 +128,14 @@
             <img class="exc_record_icon " src="/images/exch_history/exchang_icon.png">
             <h2 class="exc__record_title">交换记录</h2>
 
-            <div class="input-group">
-                <input  type="text" class="form-control" ng-model="searchKey" ng-keyup="keySearchApp($event)" placeholder="搜索指定产品的交换历史纪录…">
-            <span class="input-group-btn ">
-                <button class="btn search_color" ng-click="searchLocalHistoryApp()">
-                    <span class="glyphicon glyphicon-search"></span>
-                </button>
-            </span>
-            </div>
+            <!--<div class="input-group">-->
+                <!--<input  type="text" class="form-control" ng-model="searchkey" ng-keyup="keySearchApp($event)" placeholder="搜索指定产品的交换历史纪录…">-->
+            <!--<span class="input-group-btn ">-->
+                <!--<button class="btn search_color" ng-click="searchLocalHistoryApp()">-->
+                    <!--<span class="glyphicon glyphicon-search"></span>-->
+                <!--</button>-->
+            <!--</span>-->
+            <!--</div>-->
 
             <div class="text-a col-md-3 col-md-offset-10">
                 <button type="button add_exc_history_title" class="btn btn-default hvr-float-shadow"
@@ -195,7 +195,7 @@
 
         <div class="title">
             <h4>以往版本</h4>
-            <div class="app_list" ng-repeat="app in myHistoryApps">
+            <div class="app_list" ng-repeat="app in appResults">
                 <div class="media">
                     <div class="media-left">
                         <img class="media-object" ng-src="{{ app.artworkUrl100 }}" alt="App Icon">
