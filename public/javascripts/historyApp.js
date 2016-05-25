@@ -22,13 +22,7 @@ app.controller('historyAppCtrl', function($scope, $http) {
 
         if ($scope.myApps.length > 0){
             $scope.selectedApp = $scope.myApps[0];
-            $scope.selectMyAppIndex = 0;
-
-            var myAppElemment = document.getElementsByClassName('thumbnail_wrap')[$scope.selectMyAppIndex];
-            //myAppElemment.style.border = '1px solid red';
-            myAppElemment.style.border = ' 1px solid gray';
-
-            //$scope.selectedApp.isSelected = true;
+            $scope.selectedApp.isSelected = true;
 
 
             var historyUrl = '/myapp/history/angular/' + $scope.selectedApp.appleId + '/' + $scope.selectedApp.version + '/' + $scope.pageIndex;
@@ -37,9 +31,18 @@ app.controller('historyAppCtrl', function($scope, $http) {
                 $scope.hasMore = response.hasMore;
                 //console.log($scope.myExcAllApps);
             });
+
+            var oldhistoryUrl = '/myapp/oldhistory/angular/' + $scope.selectedApp.appleId + '/' + $scope.selectedApp.version;
+            $http.get(oldhistoryUrl).success(function(response){
+                $scope.myHistoryApps = response.myHistoryApps;
+                console.log($scope.myHistoryApps);
+            });
+
         }else {
             //
         }
+
+
 
     }).error(function(error){
         console.log('error' + error);
@@ -88,6 +91,12 @@ app.controller('historyAppCtrl', function($scope, $http) {
                 $scope.myExcAllApps = response.myExcAllApps;
             //console.log($scope.myExcAllApps);
         });
+
+        var oldhistoryUrl = '/myapp/oldhistory/angular/' + $scope.selectedApp.appleId + '/' + $scope.selectedApp.version;
+        $http.get(oldhistoryUrl).success(function(response){
+            $scope.myHistoryApps = response.myHistoryApps;
+            console.log($scope.myHistoryApps);
+        });
     };
 
     $scope.searchApp = function(){
@@ -98,12 +107,6 @@ app.controller('historyAppCtrl', function($scope, $http) {
             });
         }
     };
-
-    var oldhistoryUrl = '/myapp/historys/angular';
-    $http.get(oldhistoryUrl).success(function(response){
-        $scope.myHistoryApps = response.myHistoryApps;
-        console.log($scope.myHistoryApps);
-    });
 
     //搜索iTunes
     $scope.searchHistoryApp = function(){
@@ -153,6 +156,18 @@ app.controller('historyAppCtrl', function($scope, $http) {
         }
     };
 
+    //$scope.searchLocalHistoryApp = function(){
+    //    if ($scope.searchUrl != ''){
+    //        var searchUrl = '/myapp/historySearch/angular/' + $scope.searchkey;
+    //        $http.get(searchUrl).success(function(response){
+    //
+    //            console.log('searchLocalHistoryApp ' + response.myTotalApps);
+    //            $scope.myTotalApps = response.myTotalApps;
+    //
+    //        });
+    //    }
+    //};
+
     $scope.keySearchApp = function(e){
         var keycode = window.event?e.keyCode:e.which;
         //console.log('keycode ' + keycode);
@@ -162,20 +177,10 @@ app.controller('historyAppCtrl', function($scope, $http) {
         }
     };
 
-    //TODO: not support now
-    $scope.searchHistory = function(){
-        if ($scope.searchHisKey != ''){
-
-            for (var i = 0; i < $scope.myExcAllApps.length; i++){
-                //name contain search match
-            }
-        }
-    };
-
     $scope.addAppHistory = function(){
         var addHistoryHtmlUrl = '/myapp/addHistory/' + $scope.selectedApp.appleId + '/' + $scope.selectedApp.version;
         location.href = addHistoryHtmlUrl;
-    }
+    };
 
     $scope.addHistory = function(hisAppInfo){
 
