@@ -64,7 +64,7 @@
 
             </ul>
             <ul class="nav navbar-nav navbar-right">
-                <li><a id="nav-username-display" href="/user" style="color:deepskyblue"></a></li>
+                <li><a id="nav-username-display" href="/user" style="color:#3498db"></a></li>
             </ul>
         </div><!--/.nav-collapse -->
     </div>
@@ -90,23 +90,25 @@
                     </li>
 
                     <li>
-                        <h4 class="personalContent">用户名&nbsp;<i class="icon-520">
-                            <input type="text" ng-model=""></i>
-                            <button class="btn btn-default hvr-grow-shadow" ng-click="getInput()">编辑</button>
+                        <h4 class="personalContent">用户名&nbsp;&nbsp;&nbsp;<i class="icon-520">{{app.username}}</i>
+                            <input type="text" ng-model="">
+                            <button class="user_button hvr-box-shadow-inset" ng-click="getInput()">编辑</button>
                         </h4>
                         <p class="text_content">建议使用主产品加昵称</p>
                     </li>
 
                     <li>
                         <h4 class="personalContent">登陆密码<i class="icon-520">{{app.PassWord}}</i>
-                            <button class="btn btn-default">编辑</button>
+                            <input type="text" ng-model="">
+                            <button class=" user_button hvr-box-shadow-inset">编辑</button>
                         </h4>
                         <p class="text_content">&nbsp;</p>
                     </li>
 
                     <li>
                         <h4 class="personalContent">QQ号&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="icon-520">{{app.userQQ}}</i>
-                            <button class="btn btn-default">编辑</button>
+                            <input type="text" ng-model="">
+                            <button class=" user_button hvr-box-shadow-inset">编辑</button>
                         </h4>
                         <p class="text_content">建议绑定QQ,方便与交换对象沟通</p>
                     </li>

@@ -143,7 +143,8 @@ body{
     border:1px solid #3498db;
     width: 58px;
     height: 26px;
-    text-align: center;
+    /*text-align: center;*/
+    /*line-height: 26px;*/
     border-radius: 6px;
     color: #3498db;
     background-color: white;
