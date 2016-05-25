@@ -2,6 +2,8 @@
 var express = require('express');
 var AV = require('leanengine');
 var router = express.Router();
+var util = require('./util');
+var https = require('https');
 
 var Base64 = require('../public/javascripts/vendor/base64').Base64;
 
@@ -53,24 +55,42 @@ router.get('/', function(req, res, next) {
   res.render('userCenter');
 });
 
-//个人中心
-router.get('/user',function(req, res, next){
-  var userId = util.useridInReq(req);
-  var user = new AV.User();
-  user.id = userId;
+var User = AV.Object.extend('_User');
 
-  var query = new AV.Query(user);
-  query.equalTo('userId', userId);
-  query.first().then(function(results){
-    var retApps = new Array();
-    var userInfo = new Object();
-    userInfo.PhoneNumber = results.get('mobilePhoneNumber');
-    userInfo.password = results.get('password');
-    retApps.push(userInfo);
-    res.json({'personAPP':retApps});
+//个人中心
+router.get('/userCenter',function(req, res, next){
+  var userId = util.useridInReq(req);
+  var userNickname = req.body.usernickname;
+  var userQQ = req.body.userQQ;
+
+  var query = new AV.Query(User);
+  query.get(userId).then(function(relstu){
+    var PhoneNumber = relstu.get('mobilePhoneNumber');
+    var userName = relstu.get('userNickname');
+    var userQQ = relstu.get('userQQ');
+
+
+    res.json({'personAPP':PhoneNumber, 'userName':userName, 'userQQ':userQQ});
+  }), function(error){
+    //失败
+    res.json({'errorId':error.code, 'errorMsg':error.message});
+  }
+});
+
+router.post('/userCenter',function(req, res, next){
+  var userId = util.useridInReq(req);
+  var userNickname = req.body.userNickname;
+  var userQQ = req.body.userQQ;
+
+  var user = AV.Object.createWithoutData('User', userId);
+  user.set('userNickname', userNickname);
+  user.set('userQQ',userQQ);
+  user.save().then(function(){
+    //保存成功
   },function(error){
-    console.log({'errorMsg':err.message, 'errorId': err.code, 'myApps':[]})
-  });
+
+  })
+
 });
 
 router.get('/register', function(req, res, next) {

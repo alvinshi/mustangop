@@ -24,12 +24,13 @@ body{
 }
 .user_button{
     border:1px solid #3498db;
-    width: 50px;
+    width: 100%;
+    max-width: 50px;
     height: 25px;
     font-size: 14px;
     font-weight: 100;
     text-align: center;
-    margin-left: 40px;
+    margin-right: 64px;
     border-radius: 4px;
     color: #3498db;
     background-color: white;;
@@ -55,6 +56,10 @@ body{
     font-size:16px;
     line-height:2;
     margin-top: 48px;
+
+}
+.menu{
+    float: left;
 }
 
 .img-normal{
@@ -62,73 +67,59 @@ body{
 }
 
 .title{
-    margin-left: 16px;
+    margin-left: 30px;
+    margin-top: 30px;
     color: #333333;
     cursor:pointer;
 }
 
-.content{
-    padding-top:32px;
-    letter-spacing:.5px
+.setting-content{
 
-}
-
-.personal_content{
-    margin-left: -20px;
-    border:1px solid #ccc;
-    width:780px;
-    height:644px;
-    border-radius: 6px;
-    box-shadow:0 0 8px #ccc;
     background-color: #ffffff;
-    -webkit-box-shadow:0 0 8px #ccc;
+    margin-left:15px;
+    width: 753px;
+    height: 644px;
+    float: left;
+    border-radius: 6px;
 }
 
-.content-text ul li{
-    border-bottom:1px solid #e5e5e5;
+.form-control{
+    margin-left: 100px;
+    width: 360px;
 }
 
-.content-text ul{
-    margin-top:20px;
+.control-label{
+    float: left;
 }
 
-.content-text ul li{
-    padding-bottom:25px;
-    margin-bottom:25px;
-    list-style: none;
+.form-group{
+    margin-left: 80px;
+    margin-top: 40px;
 }
 
-.personalContent{
-    font-size:17px;
-    color:#333333;
-    line-height:1
+.save{
+    margin-left: 320px;
 }
 
-.icon-520{
-    padding-left: 152px;
-    color:#3498db;
-    font-size:17px;
+.solid-pull{
+    margin-top:40px;
 }
 
-.text_content{
-    font-size: 13px;
-    color: #555555;
-    margin-top: 13px;
+.button{
+    border-style: none;
+    background-color:#d43f3a;
+    margin-left: 70px;
+    font-size:16px;
+    line-height:2;
+    margin-top: 10px;
+    color: #333;
+    border-radius: 6px;
 }
 
-.btn-default{
-    float: right;
-    margin-right: 64px;
-    width: 70px;
-    height: 30px;
-    margin-top: 14px;
-    font-size: 14px;
+.btn-danger{
+    background-color: #3498db;
     border: 1px solid #3498db;
-    color: #3498db;
 }
-
-
-
 
 
 
