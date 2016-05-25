@@ -21,9 +21,11 @@
     <!-- Place favicon.ico in the root directory -->
 
     <link rel="stylesheet" href="/stylesheets/style.css">
+    <link rel="stylesheet" href="/stylesheets/vendor/hover/hover-min.css">
 
     <!-- 引入 AngularJS Mini 文件 -->
-    <script src="/javascripts/vendor/angular.min.js"></script>
+    <script src="/javascripts/vendor/AngularJS/angular.min.js"></script>
+    <script src="/javascripts/vendor/AngularJS/angular-sanitize.min.js"></script>
 
     <!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
     <script src="//cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
@@ -39,6 +41,7 @@
     <!--网站内部js-->
     <script src="/javascripts/historyApp.js"></script>
 
+    <link rel="stylesheet" href="../stylesheets/loading.css">
     <link rel="stylesheet" href="../stylesheets/excHistory.css">
 
 </head>
@@ -50,21 +53,19 @@
 <!--导航栏-->
 <nav class="navbar navbar-default nav-collapse navbar-fixed-top" id="mainbar">
     <div class="container-fluid">
-
         <div class="navbar-header">
-            <a class="navbar-brand" href="#">
-                <img alt="Brand" src="/images/home/logo1.png">
-
+            <a class="navbar-brand" href="/">
+                <img id="logoimage" alt="Brand" src="/images/home/wildhorse_icon.png" >
             </a>
         </div>
 
         <div id="navbar" >
             <ul class="nav navbar-nav">
-                <li><a href="/">首页</a></li>
+                <li><a href="/" style="color:white" >首页</a></li>
 
-                <li class="active"><a href="/myapp/history">交换历史</a></li>
+                <li><a style="color:deepskyblue" href="/myapp/history">交换记录</a></li>
 
-                <li><a href="/myapp">我的应用</a></li>
+                <li><a href="/myapp"style="color:white">我的应用</a></li>
 
                 <!--<li class="dropdown">-->
                 <!--<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>-->
@@ -78,120 +79,166 @@
                 <!--<li><a href="#">One more separated link</a></li>-->
                 <!--</ul>-->
                 <!--</li>-->
-
             </ul>
-
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="/user">某某用户</a></li>
+                <li><a id="nav-username-display" href="/user" style="color:#17ddaa"></a></li>
             </ul>
         </div><!--/.nav-collapse -->
-
     </div>
 </nav>
 
     <!--我的应用-->
 <div class="container content" ng-app="historyApp" ng-controller="historyAppCtrl">
-    <div class="exchhistory_content">
-        <div class="top">
-            <img class="myapp_icon" src="/images/exch_history/myapp_icon.png">
-            <p class="myapp_title">我的应用</p>
-        </div>
-        <p class="text-right"><a class="add_exc_history_title" href="/myapp/addHistory">添加交换记录</a></p>
-        <!--我的应用部分-->
-        <div class="myapp_content media">
-            <div class="list-group" ng-repeat="app in myApps">
-                <div class="media-left">
-                    <img class="media-object" ng-src="{{ app.artworkUrl100 }}" alt="App Icon">
+    <div class="top">
+        <img class="myapp_icon" src="/images/exch_history/myapp_icon.png">
+        <p class="myapp_title">我的应用</p>
+    </div>
+
+    <!--我的应用部分-->
+
+    <div class="spinner" ng-hide="!isLoadingMyApp">
+        <div class="double-bounce1"></div>
+        <div class="double-bounce2"></div>
+    </div>
+
+    <div class="mainapp">
+         <button class="row myapp_content col-md-3 thumbnail "  ng-repeat="app in myApps" ng-click="selectedAppFunc(app.appleId)">
+        <!--<div class="thumbnail">-->
+
+              <img class="app_icon" ng-src="{{ app.artworkUrl100 }}" alt="App Icon">
+
+              <div class="caption">
+                <h5 class="AppName">{{ app.trackName }}</h5>
+                <!--<p>开发商 {{ app.sellerName }}</p>-->
+                <div class="caption-info">
+                    <p class="change">App ID:&nbsp;&nbsp;{{ app.appleId }}</p>
+                    <p class="change">更新时间:&nbsp;&nbsp;{{ app.latestReleaseDate }}</p>
                 </div>
 
-                <div class="media-body media-right">
-                    <h4 class="media-heading">{{ app.trackName }}</h4>
-                    <p>开发商 {{ app.sellerName }}</p>
-                    <p>appid {{ app.appleId }}</p>
-                    <p><span class="change_time">更新时间</span>{{ app.latestReleaseDate }}</p>
-                    <!--<p>类型 {{ app.appleKind }}</p>-->
-                    <!--<p>价格 {{ app.formattedPrice }}</p>-->
-                    <!--<p>版本号 {{ app.version }}</p>-->
-                </div>
-            </div>
-        </div>
+                <!--<p>类型 {{ app.appleKind }}</p>-->
+                <!--<p>价格 {{ app.formattedPrice }}</p>-->
+                <!--<p>版本号 {{ app.version }}</p>-->
+             </div>
+        <!--</div>-->
+         </button>
+    </div>
 
-    <!--搜索组建-->
-        <div>
-            <div class="col-lg-6">
-                <div class="input-group">
-                    <input type="text" class="form-control" ng-model="searchKey" placeholder="输入你想搜索的App名称...">
-                      <span class="input-group-btn">
-                        <button class="btn" ng-click="searchHistoryApp()">
-                            <span class="glyphicon glyphicon-search"></span>搜索
-                        </button>
-                      </span>
-                </div><!-- /input-group -->
-            </div>
-        </div>
-
-        <div class="exchang_pattern">
-            <img class="exc_record_icon" src="/images/exch_history/exchang_icon.png">
+    <div class="row exchang_pattern">
+        <div class="top_title col-lg-6 col-sm-12">
+            <img class="exc_record_icon " src="/images/exch_history/exchang_icon.png">
             <h2 class="exc__record_title">交换记录</h2>
+
+            <div class="input-group">
+                <input  type="text" class="form-control" ng-model="searchKey" ng-keyup="keySearchApp($event)" placeholder="搜索指定产品的交换历史纪录…">
+            <span class="input-group-btn ">
+                <button class="btn search_color" ng-click="searchLocalHistoryApp()">
+                    <span class="glyphicon glyphicon-search"></span>
+                </button>
+            </span>
+            </div>
+
+            <div class="text-a col-md-3 col-md-offset-10">
+                <button type="button add_exc_history_title" class="btn btn-default hvr-float-shadow"
+                        ng-click="addAppHistory()" ng-hide="!myApps.length">
+                    手动添加交换记录
+                </button>
+                <button type="button add_exc_history_title" class="btn btn-default hvr-float-shadow"
+                        onclick="javascript:window.location.href='/myapp'" ng-hide="myApps.length">
+                    请先添加我的应用
+                </button>
+            </div>
+
         </div>
-        
-        <div class="list-group" ng-repeat="app in myExcAllApps">
 
-            <p>交换日期: {{ app.excHisDate }}</p>
 
-            <div class="current_exchange_record media">
-
+        <div class="title">
+            <h4>当前版本</h4>
+            <div class="app_list" ng-repeat="app in myExcAllApps">
+                <div class="media">
                     <div class="media-left">
                         <img class="media-object" ng-src="{{ app.artworkUrl100 }}" alt="App Icon">
                     </div>
 
-                    <div class="media-body media-right">
+                    <div class="media-body">
                         <h4 class="media-heading">{{ app.trackName }}</h4>
-                        <p>开发商: {{ app.sellerName }}</p>
-                        <p>appid: {{ app.appleId }}</p>
-                        <p><span class="change_time">更新时间:</span>{{ app.latestReleaseDate }}</p>
 
-                        <button class="btn" ng-click="releaseHistory(app.appleId, app.hisAppVersion)">
-                            <span class="glyphicon glyphicon-ok"></span>删除历史记录
-                        </button>
+                    <div class="media-info">
+                        <p class="media-info-id">App ID: {{ app.appleId }}</p>
+                        <p class="media-info-name">{{ app.sellerName }}</p>
+                    </div>
+
+                    <div class="media-info-a">
+                        <p class="media-info-lg">手动添加</p>
+                        <p class="media-info-time">添加日期:{{ app.excHisDate }}</p>
+                    </div>
+                        <!--<p class="">更新日期:{{ app.latestReleaseDate }}</p>-->
                         <!--<p>类型 {{ app.appleKind }}</p>-->
                         <!--<p>价格 {{ app.formattedPrice }}</p>-->
                         <!--<p>版本号 {{ app.version }}</p>-->
                         <!--<p>交换日期 {{ app.excHisDate }}</p>-->
                     </div>
+
+                    <div class="media-right">
+                        <button class="btn remove_icon hvr-box-shadow-inset" ng-click="releaseHistory(app.appleId, app.hisAppVersion)">
+                            <img src="/images/exch_history/no_click_remove.png">
+                        </button>
+                    </div>
+                </div>
             </div>
+        <nav>
+            <ul class="pager" id="changpage">
+                <li ng-hide="!hasMore"><button ng-click = "nextPage()">下一页</button></li>
+                <li ng-hide="hasMore">没有更多数据</li>
+            </ul>
+        </nav>
         </div>
 
-        <div>
-            <h2>以往版本交换记录</h2>
+        <div class="title">
+            <h4>以往版本</h4>
+            <div class="app_list" ng-repeat="app in myHistoryApps">
+                <div class="media">
+                    <div class="media-left">
+                        <img class="media-object" ng-src="{{ app.artworkUrl100 }}" alt="App Icon">
+                    </div>
 
+                    <div class="media-body">
+                        <h4 class="media-heading">{{ app.trackName }}</h4>
+                    <div class="media-info">
+                        <p class="media-info-id">App ID: {{ app.appleId }}</p>
+                        <p class="media-info-name">{{ app.sellerName }}</p>
+                    </div>
 
-            <!--本地搜索交换历史记录-->
-            <ul class="list-group" ng-repeat="app in myHistoryApps">
+                    <div class="media-info-a">
+                        <p class="media-info-lg">手动添加</p>
+                        <p class="media-info-time">添加日期:{{ app.excHisDate }}</p>
+                    </div>
 
-                <li class="list-group-item ">
+                        <!--<p class="">更新日期:{{ app.latestReleaseDate }}</p>-->
+                        <!--<p>类型 {{ app.appleKind }}</p>-->
+                        <!--<p>价格 {{ app.formattedPrice }}</p>-->
+                        <!--<p>版本号 {{ app.version }}</p>-->
+                        <!--<p>交换日期 {{ app.excHisDate }}</p>-->
+                    </div>
 
-                    <p>交换日期 {{ app.excHisDate }}</p>
-
-                    <span class="label label-info">{{ app.trackName }}</span>
-
-                    <img ng-src="{{ app.artworkUrl100 }}" class="img-responsive" alt="App Icon">
-
-                    <h3>{{ app.latestReleaseDate }}<span class="label label-default">最近更新时间</span></h3>
-
-                    <p>开发商 {{ app.sellerName }}</p>
-
-                    <p>appid {{ app.appleId }}</p>
-
-                    <button class="btn" ng-click="History(app.appleId, app.hisAppVersion)">
-                        <span class="glyphicon glyphicon-ok"></span>删除历史记录
-                    </button>
-                </li>
-            </ul>
+                    <div class="media-right">
+                        <button class="btn remove_icon hvr-box-shadow-inset" ng-click="History(app.appleId, app.hisAppVersion)">
+                            <img src="/images/exch_history/no_click_remove.png">
+                        </button>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
+    <div class="top_back" style="display: block">
+        <div class="glyphicon-rocket">
+            <a href="#"><img src="/images/home/top_back.png"></a>
+        </div>
+    </div>
 </div>
+
+<script src="/javascripts/cookieHelper.js"></script>
+
 </body>
 
 </html>

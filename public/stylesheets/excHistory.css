@@ -1,29 +1,43 @@
 body{
     height:100%;
-    background-color:#f0f0f0
+    background-color:#ffffff;
+    border: 6px solid #000000;
+    border-left-style: none;
 }
 
 .container-fluid{
     width: 100%;
     max-width: 1001px;
 }
-
-#mainbar {
-    background-color: black;
-}
-
 .content{
-    margin-top:0; /*设置元素上内边距*/
-    height:100%;
-    width: 100%;
-    max-width: 1001px;
+ width: 1001px;
+    margin: auto auto;
 }
+.navbar{
+    background-color: #030000;
+    height: 48px;
+    border-style: none;
+    width: 100%;
+    font-size: 17px;
+}
+#logoimage{
+    margin-left: 5%;
+}
+.mainapp{
+    margin-left: 48px;
+    margin-top: 10px;
+    /*height:320px;*//*高度写死,目前只能显示一行,第二版本改高度*/
+
+    max-width: 1001px;
+    /*overflow: hidden;*/
+
+}
+
 
 .top{
     margin-top: 48px;
     margin-bottom: 24px;
 }
-
 
 .top .myapp_title{
     font-size: 1.5em;
@@ -32,22 +46,178 @@ body{
     margin-top: -25px;
 }
 
-.myapp_content{
-    margin-top: 24px;
+
+.thumbnail{
+    width: 190px;
+    height: 284px;
+    background-color: #ffffff;
+    border: 1px solid #dddddd;
+    border-radius: 4px;
+    margin-right: 48px;
+    float: left;
+}
+
+.AppName{
+    font-size: 16px;
+    overflow: hidden;
+    width: 165px;
+    height: 36px;
+    text-overflow: ellipsis;
+}
+
+.change{
+    font-size: 13px;
+    color: #999999;
+}
+
+.app_icon{
+    margin-top: 20px;
+    border: none;
+
 }
 
 .exchang_pattern{
-    margin-top: 48px;
-    margin-bottom: 24px;
+    margin-top: 372px;
+    border: 1px solid #e0e0e0;
+    border-bottom-style: none;
+    border-left-style: none;
+    border-right-style: none;
 }
 
-.exchang_pattern .exc_record_icon{
+
+.top_title{
     margin-top: 32px;
+    margin-bottom: 32px;
+    width: 100%;
+    max-width: 1001px;
 }
 
-.exchang_pattern .exc__record_title{
+.top_title .exc__record_title{
     font-size: 1.5em;
     color: #333333;
     padding-left: 1.875em;
-    margin-top: -23px;
+    margin-top: -25px;
 }
+
+.top_title .input-group{
+    padding-left: 150px;
+    margin-top: -38px;
+    width: 100%;
+    max-width: 600px;
+}
+
+.top_title .btn-default{
+    padding-left: 10px;
+    margin-top: -15px;
+}
+
+.search_color{
+    background-color: #ffffff;
+    border: 1px solid #aab2bd;
+    border-left-style: none;
+}
+
+.text-a{
+    margin-top: -24px;
+}
+
+.btn-default{
+    border: 1px solid #3498db;
+    width: 148px;
+}
+
+.title{
+    padding-top: 32px;
+    padding-bottom: 30px;
+    margin-left: 120px;
+}
+
+.app_list{
+    padding-top: 30px;
+    padding-bottom: 20px;
+    border: 1px solid #e0e0e0;
+    border-top-style: none;
+    border-left-style: none;
+    border-right-style: none;
+
+}
+
+.media-object{
+    margin-left: 20px;
+    border: 1px solid #e0e0e0;
+    border-radius: 10px;
+    width: 70px;
+    height: 70px;
+}
+
+.media-heading{
+    font-size: 16px;
+    color: #000000;
+}
+
+.remove_icon{
+    background-color: #ffffff;
+    margin: 0 auto;
+}
+
+.top_back{
+    display: none;
+    position: fixed;
+    bottom: 160px;
+    right: 40px;
+    width: 50px;
+    height: 50px;
+    background-color: #3498db;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    z-index: 9999;
+}
+
+.glyphicon-rocket{
+    display:inline-block;
+    width: 20px;
+    height: 35px;
+    background-position: 0 -100px;
+}
+
+.media-info{
+    padding-top: 5px;
+    font-size: 12px;
+    color: #7a7a7a;
+}
+
+.media-info-id{
+    float: left;
+}
+
+.media-info-name{
+    float: left;
+    margin-left: 200px;
+}
+
+.media-info-a{
+    clear: both;
+    padding-top: 5px;
+    font-size: 12px;
+    color: #7a7a7a;
+}
+
+.media-info-lg{
+    float: left;
+}
+
+.media-info-time{
+    float: left;
+    margin-left: 78px;
+}
+
+
+
+
+
+
+
+
+
+

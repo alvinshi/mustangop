@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <meta name="theme-color" content="#19B5FE">
+
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="favicon.ico">
+
+    <meta name="keywords" content="ASO优化,极速运营,换评,App Store榜单排名,中小企业,移动互联网"/>
+    <meta name="description" content="野马运营是服务于中小移动互联网创业企业的网站,帮助你们的App做更好的ASO优化,评论等"/>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="apple-touch-icon" href="apple-touch-icon.png">
+    <!-- Place favicon.ico in the root directory -->
+
+    <link rel="stylesheet" href="/stylesheets/style.css">
+
+    <!-- 引入 AngularJS Mini 文件 -->
+    <script src="/javascripts/vendor/AngularJS/angular.min.js"></script>
+
+    <!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+    <script src="//cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
+    <!-- Bootstrap core CSS -->
+    <link href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+    <script src="//cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+
+    <!--第三方 CSS JS-->
+    <link rel="stylesheet" href="../stylesheets/vendor/font-awesome.min.css">
+    <link rel="stylesheet" href="/stylesheets/vendor/hover/hover-min.css">
+
+    <!--网站内部js-->
+
+    <link rel="stylesheet" href="../stylesheets/pers_center.css">
+
+    <title>个人中心</title>
+
+</head>
+<body>
+<!--[if lt IE 8]>
+<p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">更新您的浏览器</a> 从而获得更好的体验.</p>
+<![endif]-->
+
+<!--导航栏-->
+<nav class="navbar navbar-default nav-collapse navbar-fixed-top" id="mainbar">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="/">
+                <img id="logoimage" alt="Brand" src="/images/home/wildhorse_icon.png">
+            </a>
+        </div>
+
+        <div id="navbar" >
+            <ul class="nav navbar-nav">
+                <li><a href="/" style="color:white">首页</a></li>
+                <li ><a href="/myapp/history" style="color:white">交换记录</a></li>
+                <li><a href="/myapp" style="color:white">我的应用</a></li>
+
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li><a id="nav-username-display" href="/user" style="color:deepskyblue"></a></li>
+            </ul>
+        </div><!--/.nav-collapse -->
+    </div>
+</nav>
+
+<!--个人中心主界面-->
+<div class="container main-body" ng-app="userCenterAPP" ng-controller="userCenterCtrl">
+    <div class="col-md-2 menu">
+        <div class="personal">
+            <div class="personal-title">
+                <span class="solid"></span>
+                <img src="/images/home/user_center.png" alt="" class="img-normal"><a class="title" href="#">账号中心</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-9 col-md-offset-1">
+        <section class="content personal_content">
+            <div class="content-text">
+                <ul>
+                    <li>
+                        <h4 class="personalContent">手机号&nbsp;<i class="icon-520">&nbsp;&nbsp;&nbsp;{{app.PhoneNumber}}</i></h4>
+                    </li>
+
+                    <li>
+                        <h4 class="personalContent">用户名&nbsp;<i class="icon-520">
+                            <input type="text" ng-model=""></i>
+                            <button class="btn btn-default hvr-grow-shadow" ng-click="getInput()">编辑</button>
+                        </h4>
+                        <p class="text_content">建议使用主产品加昵称</p>
+                    </li>
+
+                    <li>
+                        <h4 class="personalContent">登陆密码<i class="icon-520">{{app.PassWord}}</i>
+                            <button class="btn btn-default">编辑</button>
+                        </h4>
+                        <p class="text_content">&nbsp;</p>
+                    </li>
+
+                    <li>
+                        <h4 class="personalContent">QQ号&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="icon-520">{{app.userQQ}}</i>
+                            <button class="btn btn-default">编辑</button>
+                        </h4>
+                        <p class="text_content">建议绑定QQ,方便与交换对象沟通</p>
+                    </li>
+
+                    <li>
+                        <button type="button" onclick="logout()" class="btn btn-danger">退出登陆</button>
+                    </li>
+                </ul>
+            </div>
+        </section>
+    </div>
+</div>
+
+<script src="/javascripts/cookieHelper.js"></script>
+<script src="/javascripts/userCenter.js"></script>
+
+</body>
+
+</html>
+

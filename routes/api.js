@@ -63,7 +63,7 @@ router.get('/itunes/search/:searchkey', function(req, res, next) {
                     appResults.push(appResult);
                 }
 
-                res.json({'appResults':appResults, 'title':'Api Todo'});
+                res.json({'appResults':appResults, 'errorMsg':''});
             })
         }
 

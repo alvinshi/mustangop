@@ -23,7 +23,7 @@
     <link rel="stylesheet" href="/stylesheets/style.css">
 
     <!-- 引入 AngularJS Mini 文件 -->
-    <script src="/javascripts/vendor/angular.min.js"></script>
+    <script src="/javascripts/vendor/AngularJS/angular.min.js"></script>
 
     <!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
     <script src="//cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
@@ -35,6 +35,9 @@
 
     <!--第三方 CSS JS-->
     <link rel="stylesheet" href="../stylesheets/vendor/font-awesome.min.css">
+    <link rel="stylesheet" href="../stylesheets/myApp.css">
+    <link rel="stylesheet" href="../stylesheets/loading.css">
+    <link rel="stylesheet" href="/stylesheets/vendor/hover/hover-min.css">
 
     <!--网站内部js-->
     <script src="/javascripts/itunesApi.js"></script>
@@ -47,120 +50,103 @@
 <div class="container">
 
     <!--导航栏-->
-    <nav class="navbar navbar-default nav-collapse">
+    <nav class="navbar navbar-default nav-collapse navbar-fixed-top" id="mainbar" role="navigation">
         <div class="container-fluid">
 
             <div class="navbar-header">
-                <a class="navbar-brand" href="#">
-                    <!--<img alt="Brand" src="/images/yema_small.png">-->
-                    野马运营
+                <a class="navbar-brand" href="/">
+                    <img id="logoimage" src="/images/home/wildhorse_icon.png" alt="">
                 </a>
             </div>
-
             <div id="navbar" >
                 <ul class="nav navbar-nav">
-                    <li><a href="/">首页</a></li>
-
-                    <li><a href="/myapp/history">交换历史</a></li>
-
-                    <li class="active"><a href="/myapp">我的应用</a></li>
-
-                    <!--<li class="dropdown">-->
-                    <!--<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>-->
-                    <!--<ul class="dropdown-menu">-->
-                    <!--<li><a href="#">Action</a></li>-->
-                    <!--<li><a href="#">Another action</a></li>-->
-                    <!--<li><a href="#">Something else here</a></li>-->
-                    <!--<li role="separator" class="divider"></li>-->
-                    <!--<li class="dropdown-header">Nav header</li>-->
-                    <!--<li><a href="#">Separated link</a></li>-->
-                    <!--<li><a href="#">One more separated link</a></li>-->
-                    <!--</ul>-->
-                    <!--</li>-->
-
+                    <li><a style="color:white"href="/">首页</a></li>
+                    <li  id="Li"><a style="color:white" href="/myapp/history">交换记录</a></li>
+                    <li><a  style="color:deepskyblue" href="/myapp">我的应用</a></li>
                 </ul>
-
                 <ul class="nav navbar-nav navbar-right">
-                    <li><a href="/user">某某用户</a></li>
+                    <li><a id="nav-username-display" href="/user" style="color:#17ddaa"></a></li>
                 </ul>
-            </div><!--/.nav-collapse -->
-
-        </div>
+            </div>
+        </div><!--/.nav-collapse -->
     </nav>
 
     <!--搜索组建-->
-    <div ng-app="itunesSearch" ng-controller="itunesSearchControl">
-        <div class="col-lg-6">
-            <div class="input-group">
-                <input type="text" class="form-control" ng-model="searchKey" placeholder="输入你想搜索的App名称...">
-      <span class="input-group-btn">
-        <button class="btn" ng-click="searchApp()">
-            <span class="glyphicon glyphicon-search"></span>搜索
-        </button>
-      </span>
-            </div><!-- /input-group -->
+    <div  class="main_content" ng-app="itunesSearch" ng-controller="itunesSearchControl">
+        <div class="col-lg-6 col-sm-12 input-group">
+            <input type="text" class="form-control" ng-model="searchKey" ng-keyup="keySearchApp($event)" placeholder="搜索添加你想绑定的App名称...">
+                    <span class="input-group-btn">
+                         <button class="btn search_color" ng-click="searchApp()">
+                             <span class="glyphicon glyphicon-plus"></span>
+                         </button>
+                   </span>
+        </div>
+        <!-- /input-group -->
+        <div class="placehold-line">
 
-            <div >
+            <div class="progress" ng-hide="!progressNum">
+                <div ng-class="{'progress-bar': true, 'progress-bar-striped':true, active:true}" ng-style="{width: progressNum + '%'}">
+                </div>
+            </div>
 
-                <ul class="list-group" ng-repeat="app in appResults">
-
-                    <li class="list-group-item ">
-
-
-                        <span class="label label-info">{{ app.trackName }}</span>
-
-                        <img ng-src="{{ app.artworkUrl512 }}" class="img-responsive" alt="App Icon">
-
-                        <h3>{{ app.latestReleaseDate }}<span class="label label-default">最近更新时间</span></h3>
-
-                        <p>开发商 {{ app.sellerName }}</p>
-
-                        <p>appid {{ app.appleId }}</p>
-
-                        <td>
-                            <button class="btn" ng-click="chooseMyApp(app)">
-                                <span class="glyphicon glyphicon-ok"></span>确认绑定
-                            </button>
-                        </td>
-
-                    </li>
-                </ul>
-
-
-                <ul class="list-group" ng-repeat="app in myApps">
-
-                    <li class="list-group-item ">
-
-
-                        <span class="label label-info">{{ app.trackName }}</span>
-
-                        <img ng-src="{{ app.artworkUrl512 }}" class="img-responsive" alt="App Icon">
-
-                        <h3>{{ app.latestReleaseDate }}<span class="label label-default">最近更新时间</span></h3>
-
-                        <p>开发商 {{ app.sellerName }}</p>
-                        <p>类型 {{ app.appleKind }}</p>
-
-                        <p>appid {{ app.appleId }}</p>
-
-                        <p>价格 {{ app.formattedPrice }}</p>
-                        <p>版本号 {{ app.version }}</p>
-
-                        <td>
-                            <button class="btn" ng-click="releaseMyApp(app.appleId)">
-                                <span class="glyphicon glyphicon-ok"></span>解除绑定
-                            </button>
-                        </td>
-
-                    </li>
-                </ul>
-
+            <div class="alert alert-warning" role="alert" ng-hide="!isError">
+                {{ errorMsg }}
             </div>
 
         </div>
-    </div>
 
+        <div class="spinner" ng-hide="!isLoadingMyApp">
+            <div class="double-bounce1"></div>
+            <div class="double-bounce2"></div>
+        </div>
+
+        <div class="media" ng-repeat="app in appResults" >
+            <div class="media-left">
+                <img class="media-object" ng-src="{{ app.artworkUrl512 }}" alt="App Icon">
+            </div>
+            <div class="media-body">
+                <h4 class="media-heading appName">{{ app.trackName }}</h4>
+                <div class="media-object">{{ app.sellerName }}</div>
+                <div class="media-info">
+                    <span class="media-info-updateDate">更新日期:{{ app.latestReleaseDate }}</span>
+                    <span class="media-info-appId">App Id:&nbsp;&nbsp;{{ app.appleId }}</span>
+                </div>
+            </div>
+            <div class="media-right">
+                <button class="button_bottom hvr-float-shadow" ng-click="chooseMyApp(app)" ng-hide="app.isMine">
+                    <span class="bind"></span>确认绑定
+                </button>
+                <button class="excedBtn"> <!--ng-click="releaseMyApp(app.appleId)" ng-hide="!app.isMine"-->
+                <span class="bind"></span>已绑定
+                </button>
+            </div>
+        </div>
+
+        <div class="col-lg-12 col-sm-12 add-app ">
+            <div   class="list-group" ng-repeat="app in myApps">
+                <img ng-src="{{ app.artworkUrl512 }}" class="img-responsive" alt="App Icon">
+                <p class="app_name ">{{ app.trackName.substr(0,16) }}</p>
+                <p class="app_version">版本号 {{ app.version }}</p>
+                <p class="app_update">更新日期{{ app.latestReleaseDate.substr(0,10) }}</p>
+                <button  class="app_button_bottom hvr-box-shadow-inset" ng-click="releaseMyApp(app.appleId)">
+                    解绑
+                </button>
+            </div>
+            <!--<div class="app_add_main"  >-->
+                <!--<div  class="app_add">-->
+                    <!--<span>+</span>-->
+                <!--</div>-->
+
+            <!--</div>-->
+            <!--<div style="clear: both"></div>-->
+
+            <!--<div  class="app_bottom" > &lt;!&ndash;注：很抱歉，暂时每个账号只能绑定一款产品，我们将陆续添加功能，以便一个账号可同时管理多个产品。&ndash;&gt;</div>-->
+        </div>
+
+    </div>
 </div>
+
+<script src="/javascripts/cookieHelper.js"></script>
 
 </body>
 

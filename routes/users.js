@@ -37,7 +37,8 @@ router.post('/register', function(req, res, next) {
     var encodeUserId = Base64.encode(user_id);
     //login succeed,response cookie to browser
     //cookie 30天有效期
-    res.cookie('userIdCookie',encodeUserId,{ maxAge: 1000*60*60*24*30,httpOnly:true, path:'/'});
+    res.cookie('username', user.get('username'));
+    res.cookie('userIdCookie',encodeUserId, { maxAge: 1000*60*60*24*30,httpOnly:true, path:'/'});
 
     res.json({'errorId':0, 'errorMsg':''});
 
@@ -48,9 +49,28 @@ router.post('/register', function(req, res, next) {
 
 });
 
-//test code
 router.get('/', function(req, res, next) {
-  res.send('user xxxxx');
+  res.render('userCenter');
+});
+
+//个人中心
+router.get('/user',function(req, res, next){
+  var userId = util.useridInReq(req);
+  var user = new AV.User();
+  user.id = userId;
+
+  var query = new AV.Query(user);
+  query.equalTo('userId', userId);
+  query.first().then(function(results){
+    var retApps = new Array();
+    var userInfo = new Object();
+    userInfo.PhoneNumber = results.get('mobilePhoneNumber');
+    userInfo.password = results.get('password');
+    retApps.push(userInfo);
+    res.json({'personAPP':retApps});
+  },function(error){
+    console.log({'errorMsg':err.message, 'errorId': err.code, 'myApps':[]})
+  });
 });
 
 router.get('/register', function(req, res, next) {
@@ -73,7 +93,10 @@ router.post('/login', function(req, res, next) {
     var encodeUserId = Base64.encode(user_id);
     //login succeed,response cookie to browser
     //cookie 30天有效期
-    res.cookie('userIdCookie',encodeUserId,{ maxAge: 1000*60*60*24*30,httpOnly:true, path:'/'});
+    res.cookie('username', user.get('username'), { maxAge: 1000*60*60*24*30, path:'/'});
+    //res.cookie('wjwtest', 'wujiangweiLucy');
+    res.cookie('userIdCookie',encodeUserId, { maxAge: 1000*60*60*24*30, path:'/'});
+    //res.cookie['username'] = user.username;
 
     res.json({'errorId':0, 'errorMsg':''});
   }, function(error) {

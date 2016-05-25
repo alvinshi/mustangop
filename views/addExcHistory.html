@@ -23,19 +23,23 @@
     <link rel="stylesheet" href="/stylesheets/style.css">
 
     <!-- 引入 AngularJS Mini 文件 -->
-    <script src="/javascripts/vendor/angular.min.js"></script>
+    <script src="/javascripts/vendor/AngularJS/angular.min.js"></script>
+    <script src="/javascripts/vendor/AngularJS/angular-sanitize.min.js"></script>
+
+    <!--<script src="http://apps.bdimg.com/libs/angular.js/1.4.6/angular.min.js"></script>-->
+    <!--<script src="http://apps.bdimg.com/libs/angular.js/1.4.6/angular-sanitize.min.js"></script>-->
 
     <!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
     <script src="//cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
     <!-- Bootstrap core CSS -->
     <link href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/stylesheets/vendor/hover/hover-min.css">
 
     <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
     <script src="//cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 
     <!--第三方 CSS JS-->
-    <link rel="stylesheet" href="../stylesheets/vendor/font-awesome.min.css">
-    <link rel="stylesheet" href="../stylesheets/addExcHistoryRecord.css">
+    <link rel="stylesheet" href="/stylesheets/addExcHistoryRecord.css">
 
     <!--网站内部js-->
     <script src="/javascripts/historyApp.js"></script>
@@ -45,92 +49,88 @@
 <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">更新您的浏览器</a> 从而获得更好的体验.</p>
 <![endif]-->
 
-<div class="container"  ng-app="historyApp" ng-controller="historyAppCtrl">
+<div class="container" ng-app="historyApp" ng-controller="historyAppCtrl">
 
     <!--导航栏-->
-    <nav id="mainbar" class="navbar navbar-default nav-collapse navbar-fixed-top"  role="navigation">
+    <nav class="navbar navbar-default nav-collapse navbar-fixed-top"  role="navigation">
         <div class="container-fluid">
 
             <div class="navbar-header">
-                <a class="navbar-brand" href="#">
-                            <img id="logoimage" src="/images/home/logo1.png" alt="">
-
+                <a class="navbar-brand" href="/">
+                    <img id="logoimage" src="/images/home/wildhorse_icon.png" alt="">
                 </a>
             </div>
 
             <div id="navbar" >
                 <ul class="nav navbar-nav">
+                    <li><a style="color:white"href="/">首页</a></li>
+                    <li id="Li"><a style="color:white" href="/myapp/history">交换记录</a></li>
 
-
-                    <li  id="Li"><a href="/myapp/history">交换记录</a></li>
-
-                    <li><a href="/myapp">我的应用</a></li>
-
+                    <li><a  style="color:white" href="/myapp">我的应用</a></li>
                 </ul>
 
                 <ul class="nav navbar-nav navbar-right">
-                    <li><a href="/user">某某用户</a></li>
+                    <li><a id="nav-username-display" href="/user" style="color:#17ddaa"></a></li>
                 </ul>
             </div>
-            </div><!--/.nav-collapse -->
-
-
+        </div><!--/.nav-collapse -->
     </nav>
 
-    <!--我的应用-->
-    <div>
 
-        <!--搜索组建-->
-        <div>
-            <div class="col-lg-6">
-                <div class="input-group">
-                    <input type="text" class="form-control" ng-model="searchKey" placeholder="填写与你最新版本交换过的产品名称">
-                      <span class="input-group-btn">
-                        <button class="btn" ng-click="searchApp()">
-                            <span class="glyphicon glyphicon-search"></span>搜索
-                        </button>
-                      </span>
-                </div><!-- /input-group -->
+    <!--搜索组建-->
 
-                <div >
+    <div class="input-group col-lg-6 col-sm-12">
+        <input  type="text" class="form-control" ng-model="searchKey" ng-keyup="keySearchApp($event)" placeholder="填写与你最新版本交换过的产品名称">
+          <span class="input-group-btn ">
+            <button class="btn search_color" ng-click="searchHistoryApp()">
+                <span class="glyphicon glyphicon-search"></span>
+            </button>
+          </span>
+    </div><!-- /input-group -->
 
-                    <ul class="list-group" ng-repeat="app in appResults">
+    <div class="placehold-line">
 
-                        <li class="list-group-item ">
-
-
-                            <span class="label label-info">{{ app.trackName }}</span>
-
-                            <img ng-src="{{ app.artworkUrl100 }}" class="img-responsive" alt="App Icon">
-
-                            <h3>{{ app.lastReleaseDate }}<span class="label label-default">最近更新时间</span></h3>
-
-                            <p>开发商 {{ app.sellerName }}</p>
-
-                            <p>appid {{ app.appleId }}</p>
-
-                            <p>isExc {{ app.isExced }}</p>
-
-                            <td>
-                                <!-- TODO 需要检测哪些是已经添加的-->
-                                <button class="excBtn" ng-click="addHistory(app)" ng-hide="app.isExced">
-                                    <span class="glyphicon glyphicon-ok"></span>添加到交换历史
-                                </button>
-                                <button class="excedBtn" ng-hide="!app.isExced">
-                                    <span class="glyphicon glyphicon-ok"></span>已添加交换历史
-                                </button>
-                            </td>
-
-                        </li>
-                    </ul>
-
-                </div>
-
+        <div class="progress" ng-hide="!progressNum">
+            <div ng-class="{'progress-bar': true, 'progress-bar-striped':true, active:true}" ng-style="{width: progressNum + '%'}">
             </div>
+        </div>
+
+        <div class="alert alert-warning" role="alert" ng-hide="!isError">
+            {{ errorMsg }}
+        </div>
+
+    </div>
+
+    <div class="media" ng-repeat="app in appResults" >
+
+        <div class="media-left">
+            <img class="media-object" ng-src="{{ app.artworkUrl512 }}" alt="App Icon">
+        </div>
+
+        <div class="media-body">
+            <h4 class="media-heading appName">{{ app.trackName }}</h4>
+            <div class="media-object">{{ app.sellerName }}</div>
+            <div class="media-info">
+                <span class="media-info-updateDate">更新日期:{{ app.latestReleaseDate }}</span>
+                <span class="media-info-appId">App Id:&nbsp;&nbsp;{{ app.appleId }}</span>
+            </div>
+        </div>
+
+        <div class="media-right" id="button">
+            <button class="button_bottom hvr-float-shadow" ng-click="addHistory(app)" ng-hide="app.isExced">
+                <span  id="exchistory" class=""></span>添加到交换记录
+            </button>
+            <button class="excedBtn" ng-hide="!app.isExced">
+                <span class=""></span>已添加交换记录
+            </button>
         </div>
     </div>
 
 </div>
+
+</div>
+
+<script src="/javascripts/cookieHelper.js"></script>
 
 </body>
 
