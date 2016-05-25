@@ -12,6 +12,7 @@ body{
 .container-fluid{
     margin: 0 auto;
     width: 1001px;
+
 }
 
 #logoimage{
@@ -33,6 +34,7 @@ body{
 
 .media{
     margin-top: 0em;
+    margin-left: 100px;
     border: 1px solid #e0e0e0;
     height: 8em;
     border-style: none none solid none ;
@@ -111,11 +113,13 @@ body{
 
 .input-group
 {
+    margin-left: 100px;
     margin-top: 2em;
     /*margin-bottom: 1em;*/
 }
 
 .placehold-line{
+    margin-left: 100px;
     margin-top: 2em;
     width: 80%;
     border: 1px solid #aab2bd;

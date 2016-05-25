@@ -31,11 +31,16 @@ body{
     overflow: hidden;/*超过高度隐藏*/
     max-width: 1001px;
     margin: auto;
-
-    /*overflow: hidden;*/
+}
+.thumbnail_wrap{
+    width: 220px;
+    height: 300px;
+    float: left;
+    background-color: #ffffff;
+    margin-left: 30px;
+    outline:none;
 
 }
-
 
 .top{
     margin-top: 48px;
@@ -57,7 +62,7 @@ body{
     border: 1px solid #dddddd;
     border-radius: 4px;
     margin-right: 20px;
-    margin-left: 20px;
+    margin-left: 8px;
     margin-top:10px;
     float: left;
 }
@@ -166,6 +171,7 @@ body{
     border-top-style: none;
     border-left-style: none;
     border-right-style: none;
+
 
 }
 
