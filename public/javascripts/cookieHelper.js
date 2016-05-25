@@ -44,7 +44,7 @@ if (username == undefined || username.length == 0){
     if (userNameHtmlEle == undefined){
         console.log('has username 1' + username);
         document.getElementsByClassName('navbar-right')[0].innerHTML =
-            '<li><a id="nav-username-display" href="/user" style="color:#17ddaa"></a></li>';
+            '<li><a id="nav-username-display" href="/user" style="color:#3498db"></a></li>';
     }
 
     document.getElementById('nav-username-display').innerHTML = username;

@@ -22,7 +22,18 @@ body{
     width: 100%;
     max-width: 1001px;
 }
-
+.user_button{
+    border:1px solid #3498db;
+    width: 50px;
+    height: 25px;
+    font-size: 14px;
+    font-weight: 100;
+    text-align: center;
+    margin-left: 40px;
+    border-radius: 4px;
+    color: #3498db;
+    background-color: white;;
+}
 .personal{
     width:200px;
     margin-bottom:15px;

@@ -63,7 +63,7 @@
             <ul class="nav navbar-nav">
                 <li><a href="/" style="color:white" >首页</a></li>
 
-                <li><a style="color:deepskyblue" href="/myapp/history">交换记录</a></li>
+                <li><a style="color:#3498db" href="/myapp/history">交换记录</a></li>
 
                 <li><a href="/myapp"style="color:white">我的应用</a></li>
 
@@ -81,7 +81,7 @@
                 <!--</li>-->
             </ul>
             <ul class="nav navbar-nav navbar-right">
-                <li><a id="nav-username-display" href="/user" style="color:#17ddaa"></a></li>
+                <li><a id="nav-username-display" href="/user" style="color:#3498db"></a></li>
             </ul>
         </div><!--/.nav-collapse -->
     </div>
@@ -129,7 +129,7 @@
             <h2 class="exc__record_title">交换记录</h2>
 
             <div class="input-group">
-                <input  type="text" class="form-control" ng-model="searchKey" ng-keyup="keySearchApp($event)" placeholder="搜索指定产品的交换历史纪录…">
+                <input  type="text" class="form-control" ng-model="searchKey" ng-keyup="keySearchApp($event)" placeholder="搜索指定产品的交换历史记录…">
             <span class="input-group-btn ">
                 <button class="btn search_color" ng-click="searchLocalHistoryApp()">
                     <span class="glyphicon glyphicon-search"></span>
@@ -138,7 +138,7 @@
             </div>
 
             <div class="text-a col-md-3 col-md-offset-10">
-                <button type="button add_exc_history_title" class="btn btn-default hvr-float-shadow"
+                <button type="button add_exc_history_title" class=" add_exc_history_title hvr-float-shadow"
                         ng-click="addAppHistory()" ng-hide="!myApps.length">
                     手动添加交换记录
                 </button>

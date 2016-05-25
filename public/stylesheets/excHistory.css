@@ -84,7 +84,16 @@ body{
     border-right-style: none;
 }
 
-
+.add_exc_history_title{
+    border:1px solid #3498db;
+    width: 180px;
+    height: 40px;
+    font-size: 16px;
+    text-align: center;
+    border-radius: 4px;
+    color: #3498db;
+    background-color: white;;
+}
 .top_title{
     margin-top: 32px;
     margin-bottom: 32px;
