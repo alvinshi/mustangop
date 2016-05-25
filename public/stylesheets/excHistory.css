@@ -24,11 +24,14 @@ body{
     margin-left: 5%;
 }
 .mainapp{
-    margin-left: 48px;
-    margin-top: 10px;
-    /*height:320px;*//*高度写死,目前只能显示一行,第二版本改高度*/
-
+    /*border: 1px solid red;*/
+    margin-left: 100px;
+    margin-top: 12px;
+    height:300px;/*高度写死,目前只能显示一行,第二版本改高度*/
+    overflow: hidden;/*超过高度隐藏*/
     max-width: 1001px;
+    margin: auto;
+
     /*overflow: hidden;*/
 
 }
@@ -53,7 +56,9 @@ body{
     background-color: #ffffff;
     border: 1px solid #dddddd;
     border-radius: 4px;
-    margin-right: 48px;
+    margin-right: 20px;
+    margin-left: 20px;
+    margin-top:10px;
     float: left;
 }
 
@@ -77,7 +82,7 @@ body{
 }
 
 .exchang_pattern{
-    margin-top: 372px;
+    margin-top: 50px;
     border: 1px solid #e0e0e0;
     border-bottom-style: none;
     border-left-style: none;
@@ -86,14 +91,27 @@ body{
 
 .add_exc_history_title{
     border:1px solid #3498db;
-    width: 180px;
+    width: 160px;
     height: 40px;
     font-size: 16px;
     text-align: center;
     border-radius: 4px;
     color: #3498db;
-    background-color: white;;
+    background-color: white;
+    margin-top: -10px;
 }
+/*.add_exchange_history_title{*/
+    /*border:1px solid #3498db;*/
+    /*width: 180px;*/
+    /*height: 40px;*/
+    /*margin-top: 100px;*/
+    /*font-size: 16px;*/
+    /*text-align: center;*/
+    /*border-radius: 4px;*/
+    /*color: #3498db;*/
+    /*background-color: white;;*/
+
+/*}*/
 .top_title{
     margin-top: 32px;
     margin-bottom: 32px;
