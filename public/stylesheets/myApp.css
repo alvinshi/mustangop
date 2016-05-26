@@ -9,6 +9,11 @@ body{
     font-size: 17px;
 }
 
+/*
+button{
+    outline: none;
+}
+*/
 
 .container-fluid{
     margin: 0 auto;
