@@ -70,6 +70,7 @@ body{
 .AppName{
     font-size: 16px;
     overflow: hidden;
+    margin-left: 15px;
     width: 165px;
     height: 36px;
     text-overflow: ellipsis;

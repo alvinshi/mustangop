@@ -24,11 +24,13 @@ app.controller('historyAppCtrl', function($scope, $http) {
             $scope.selectedApp = $scope.myApps[0];
             $scope.selectedApp.isSelected = true;
 
-
             var historyUrl = '/myapp/history/angular/' + $scope.selectedApp.appleId + '/' + $scope.selectedApp.version + '/' + $scope.pageIndex;
             $http.get(historyUrl).success(function(response){
                 $scope.myExcAllApps = response.myExcAllApps;
                 $scope.hasMore = response.hasMore;
+
+                var myAppElemment = document.getElementsByClassName('thumbnail_wrap')[$scope.selectMyAppIndex];
+                myAppElemment.style.border = '2px solid #3498db';
                 //console.log($scope.myExcAllApps);
             });
 
@@ -65,8 +67,7 @@ app.controller('historyAppCtrl', function($scope, $http) {
 
         //remove border in old
         var myAppElemment = document.getElementsByClassName('thumbnail_wrap')[$scope.selectMyAppIndex];
-        myAppElemment.style.border = '1px solid gray';
-        //myAppElemment.style.border = '0px solid red';
+        myAppElemment.style.border = '2px solid gray';
 
         for (var i = 0; i < $scope.myApps.length; i++){
             var tempApp = $scope.myApps[i];
@@ -83,7 +84,6 @@ app.controller('historyAppCtrl', function($scope, $http) {
         //add border in new
         myAppElemment = document.getElementsByClassName('thumbnail_wrap')[$scope.selectMyAppIndex];
         myAppElemment.style.border = '2px solid #3498db';
-        //myAppElemment.style.border = '1px solid red';
 
         $scope.pageIndex = 0;
         var historyUrl = '/myapp/history/angular/' + $scope.selectedApp.appleId + '/' + $scope.selectedApp.version + '/' + $scope.pageIndex;
