@@ -102,7 +102,7 @@
     </div>
 
     <div class="mainapp">
-        <button class="row myapp_content col-md-3 thumbnail_wrap " style="border: 1px solid gray" ng-repeat="app in myApps" ng-click="selectedAppFunc(app.appleId)">
+        <button class="row myapp_content col-md-3 thumbnail_wrap " style="border: 2px solid gray" ng-repeat="app in myApps" ng-click="selectedAppFunc(app.appleId)">
               <img class="app_icon" ng-src="{{ app.artworkUrl100 }}" alt="App Icon">
 
               <div class="caption">
@@ -110,7 +110,7 @@
                 <!--<p>开发商 {{ app.sellerName }}</p>-->
                 <div class="caption-info">
                     <p class="change">App ID:&nbsp;&nbsp;{{ app.appleId }}</p>
-                    <p class="change">更新时间:&nbsp;&nbsp;{{ app.latestReleaseDate }}</p>
+                    <p class="change">更新时间:&nbsp;&nbsp;{{ app.latestReleaseDate.substr(0,10) }}</p>
                 </div>
               </div>
            </button>
