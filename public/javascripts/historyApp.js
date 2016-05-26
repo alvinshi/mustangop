@@ -34,8 +34,9 @@ app.controller('historyAppCtrl', function($scope, $http) {
 
             var oldhistoryUrl = '/myapp/oldhistory/angular/' + $scope.selectedApp.appleId + '/' + $scope.selectedApp.version;
             $http.get(oldhistoryUrl).success(function(response){
+                console.log('ccccccc' + $scope.myHistoryApps);
                 $scope.myHistoryApps = response.myHistoryApps;
-                console.log($scope.myHistoryApps);
+                //console.log($scope.myHistoryApps);
             });
 
         }else {
@@ -95,7 +96,7 @@ app.controller('historyAppCtrl', function($scope, $http) {
         var oldhistoryUrl = '/myapp/oldhistory/angular/' + $scope.selectedApp.appleId + '/' + $scope.selectedApp.version;
         $http.get(oldhistoryUrl).success(function(response){
             $scope.myHistoryApps = response.myHistoryApps;
-            console.log($scope.myHistoryApps);
+            //console.log($scope.myHistoryApps);
         });
     };
 
