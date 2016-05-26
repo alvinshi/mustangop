@@ -3,7 +3,7 @@
  */
 var app=angular.module('historyApp',['ngSanitize']);
 
-app.controller('historyAppCtrl', function($scope, $http) {
+app.controller('historyAppCtrl', function($scope, $http, $location) {
 
     $scope.pageIndex = 0;
     $scope.progressNum = 0;
@@ -14,42 +14,46 @@ app.controller('historyAppCtrl', function($scope, $http) {
 
     console.log('loading historyApp.js');
 
-    var appsUrl = '/myapp/angular';
-    $http.get(appsUrl).success(function(response){
-        $scope.myApps = response.myApps;
+    console.log($location.absUrl());
+    var webUrl = $location.absUrl();
+    if (webUrl.indexOf('addHistory') == -1){
+        var appsUrl = '/myapp/angular';
+        $http.get(appsUrl).success(function(response){
+            $scope.myApps = response.myApps;
 
-        $scope.isLoadingMyApp = false;
+            $scope.isLoadingMyApp = false;
 
-        if ($scope.myApps.length > 0){
-            $scope.selectedApp = $scope.myApps[0];
-            $scope.selectedApp.isSelected = true;
+            if ($scope.myApps.length > 0){
+                $scope.selectedApp = $scope.myApps[0];
+                $scope.selectedApp.isSelected = true;
 
-            var historyUrl = '/myapp/history/angular/' + $scope.selectedApp.appleId + '/' + $scope.selectedApp.version + '/' + $scope.pageIndex;
-            $http.get(historyUrl).success(function(response){
-                $scope.myExcAllApps = response.myExcAllApps;
-                $scope.hasMore = response.hasMore;
+                var historyUrl = '/myapp/history/angular/' + $scope.selectedApp.appleId + '/' + $scope.selectedApp.version + '/' + $scope.pageIndex;
+                $http.get(historyUrl).success(function(response){
+                    $scope.myExcAllApps = response.myExcAllApps;
+                    $scope.hasMore = response.hasMore;
 
-                var myAppElemment = document.getElementsByClassName('thumbnail_wrap')[$scope.selectMyAppIndex];
-                myAppElemment.style.border = '2px solid #3498db';
-                //console.log($scope.myExcAllApps);
-            });
+                    var myAppElemment = document.getElementsByClassName('thumbnail_wrap')[$scope.selectMyAppIndex];
+                    if (myAppElemment != undefined){
+                        myAppElemment.style.border = '2px solid #3498db';
+                        console.log($scope.myExcAllApps);
+                    }
+                });
 
-            var oldhistoryUrl = '/myapp/oldhistory/angular/' + $scope.selectedApp.appleId + '/' + $scope.selectedApp.version;
-            $http.get(oldhistoryUrl).success(function(response){
-                $scope.myHistoryApps = response.myHistoryApps;
-                //console.log($scope.myHistoryApps);
-            });
+                var oldhistoryUrl = '/myapp/oldhistory/angular/' + $scope.selectedApp.appleId + '/' + $scope.selectedApp.version;
+                $http.get(oldhistoryUrl).success(function(response){
+                    $scope.myHistoryApps = response.myHistoryApps;
+                    //console.log($scope.myHistoryApps);
+                });
 
-        }else {
-            //
-        }
+            }else {
+                //
+            }
 
-
-
-    }).error(function(error){
-        console.log('error' + error);
-        $scope.isLoadingMyApp = false;
-    });
+        }).error(function(error){
+            console.log('error' + error);
+            $scope.isLoadingMyApp = false;
+        });
+    }
 
     $scope.nextPage = function(){
         $scope.pageIndex = $scope.pageIndex + 20;
@@ -114,7 +118,7 @@ app.controller('historyAppCtrl', function($scope, $http) {
 
         if ($scope.searchUrl != ''){
 
-            var searchUrl = '/api/itunes/search/' + $scope.searchKey;
+            var searchUrl = $location.absUrl() + '/' + $scope.searchKey;
 
             $scope.progressNum = 100;
 
@@ -134,20 +138,6 @@ app.controller('historyAppCtrl', function($scope, $http) {
                     if ($scope.appResults.length == 0){
                         $scope.isError = 1;
                         $scope.errorMsg = '未找到你搜索的App';
-                    }
-
-                    for (var i = 0; i < $scope.appResults.length; i++){
-                        var appRe = $scope.appResults[i];
-
-                        appRe.isExced = false;
-                        for (var j = 0; j < $scope.myExcAllApps.length; j++){
-                            var appExRe = $scope.myExcAllApps[j];
-                            if (appRe.appleId === appExRe.appleId){
-                                appRe.isExced = true;
-                                console.log(appRe.appleId + 'is exchanged');
-                                break;
-                            }
-                        }
                     }
                 }
 

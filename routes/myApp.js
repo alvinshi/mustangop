@@ -583,6 +583,94 @@ router.post('/history/delete', function(req, res, next) {
     });
 });
 
+router.get('/addHistory/:appleId/:version/:searchkey', function(req, res, next) {
+
+    //https://itunes.apple.com/search?term=美丽约&country=cn&entity=software
+    var searchUrl = 'https://itunes.apple.com/search?term=' + req.params.searchkey +'&country=cn&entity=software&media=software'
+    searchUrl = encodeURI(searchUrl);
+
+    https.get(searchUrl, function(httpRes) {
+
+        console.log('statusCode: ', httpRes.statusCode);
+        console.log('headers: ', httpRes.headers);
+        var totalLen = 0;
+        var totalData = '';
+
+        if (httpRes.statusCode != 200){
+            console.log("Got error: " + httpRes.statusMessage);
+            res.json({'appResults':[], 'errorMsg' : httpRes.statusCode + httpRes.statusMessage})
+        }else {
+            httpRes.on('data', function(data) {
+                totalData += data;
+            });
+
+            httpRes.on('end', function(){
+                var dataStr = totalData.toString();
+                var dataObject = eval("(" + dataStr + ")");
+                var appResults = Array();
+
+                var appidList = Array();
+                for (var i = 0; i < dataObject.results.length; i++){
+                    var appleObject = dataObject.results[i];
+                    appidList.push(appleObject['trackId']);
+                }
+
+                //查询哪些是已经交换过的
+                var userId = util.useridInReq(req);
+                var myAppId = req.params.appleId;
+                var myAppVersion = req.params.version;
+
+                var query = new AV.Query(IOSAppExcLogger);
+                query.equalTo('userId', userId);
+                query.equalTo('myAppId', parseInt(myAppId));
+                query.equalTo('myAppVersion', myAppVersion);
+
+                query.containedIn('hisAppId', appidList);
+
+                query.find({
+                    success:function(results){
+
+                        for (var i = 0; i < dataObject.results.length; i++){
+                            var appleObject = dataObject.results[i];
+
+                            var appResult = Object();
+
+                            appResult.trackName = appleObject['trackName'];
+                            appResult.artworkUrl512 = appleObject['artworkUrl512'];
+                            appResult.artworkUrl100 = appleObject['artworkUrl100'];
+                            appResult.appleId = appleObject['trackId'];
+                            appResult.latestReleaseDate = appleObject['currentVersionReleaseDate'];
+                            appResult.sellerName = appleObject['sellerName'];
+                            appResult.version = appleObject['version'];
+                            appResult.appleKind = appleObject['genres'][0];
+                            appResult.formattedPrice = appleObject['formattedPrice'];
+
+                            //isExced
+                            for (var j = 0; j < results.length; j++) {
+                                var excedAppObject = results[j];
+                                var excedAppid = excedAppObject.get('hisAppId');
+
+                                if (excedAppid === appResult.appleId){
+                                    appResult.isExced = 1;
+                                }
+                            }
+
+                            appResults.push(appResult);
+                        }
+
+                        res.json({'appResults':appResults, 'errorMsg':''});
+                    }
+                });
+            })
+        }
+
+    }).on('error', function(e) {
+        console.log("Got error: " + e.message);
+        res.json({'appResults':[], 'errorMsg' : e.message})
+    });
+});
+
+
 // 删除 我的 以往历史记录
 router.post('/oldhistory/delete', function(req, res, next) {
     var userId = util.useridInReq(req);

@@ -9,6 +9,7 @@ var https = require('https');
 var util = require('./util');
 
 var IOSAppSql = AV.Object.extend('IOSAppInfo');
+var IOSAppExcLogger = AV.Object.extend('IOSAppExcLogger');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -39,7 +40,7 @@ router.get('/itunes/search/:searchkey', function(req, res, next) {
             });
 
             httpRes.on('end', function(){
-                var dataStr = totalData.toString()
+                var dataStr = totalData.toString();
                 var dataObject = eval("(" + dataStr + ")");
                 var appResults = Array();
 
@@ -61,6 +62,7 @@ router.get('/itunes/search/:searchkey', function(req, res, next) {
                     //类别 平台信息
 
                     appResults.push(appResult);
+
                 }
 
                 res.json({'appResults':appResults, 'errorMsg':''});
@@ -72,7 +74,5 @@ router.get('/itunes/search/:searchkey', function(req, res, next) {
         res.json({'appResults':[], 'errorMsg' : e.message})
     });
 });
-
-
 
 module.exports = router;
