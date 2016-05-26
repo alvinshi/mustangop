@@ -36,7 +36,7 @@ app.controller('historyAppCtrl', function($scope, $http) {
 
             var oldhistoryUrl = '/myapp/oldhistory/angular/' + $scope.selectedApp.appleId + '/' + $scope.selectedApp.version;
             $http.get(oldhistoryUrl).success(function(response){
-                console.log('ccccccc' + $scope.myHistoryApps);
+                console.log('--------' + response.myHistoryApps);
                 $scope.myHistoryApps = response.myHistoryApps;
                 //console.log($scope.myHistoryApps);
             });
