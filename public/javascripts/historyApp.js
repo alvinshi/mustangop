@@ -36,7 +36,6 @@ app.controller('historyAppCtrl', function($scope, $http) {
 
             var oldhistoryUrl = '/myapp/oldhistory/angular/' + $scope.selectedApp.appleId + '/' + $scope.selectedApp.version;
             $http.get(oldhistoryUrl).success(function(response){
-                console.log('--------' + response.myHistoryApps);
                 $scope.myHistoryApps = response.myHistoryApps;
                 //console.log($scope.myHistoryApps);
             });
@@ -222,6 +221,7 @@ app.controller('historyAppCtrl', function($scope, $http) {
         });
     };
 
+    //删除当前交换记录
     $scope.releaseHistory = function(appid, appversion){
         var releaseHistoryUrl = '/myapp/history/delete';
 
@@ -255,6 +255,52 @@ app.controller('historyAppCtrl', function($scope, $http) {
                     if (app.appleId == appid){
                         console.log('remove app to ui');
                         $scope.myExcAllApps.splice(i, 1);
+                        break;
+                    }
+                }
+
+                $scope.errorMsg = '';
+            }else {
+                console.log('remove app else');
+                $scope.errorMsg = response.errorMsg;
+            }
+
+        });
+    };
+
+    //删除以往交换记录
+    $scope.History = function(appid, appversion){
+        var HistoryUrl = '/myapp/oldhistory/delete';
+
+        var myAppId = $scope.selectedApp.appleId;
+        var myAppVersion = $scope.selectedApp.version;
+
+        var postParam = {'myAppId' : myAppId, 'myAppVersion' : myAppVersion,
+            'hisAppId' : appid, 'hisAppVersion' : appversion};
+
+        $http.post(HistoryUrl, postParam).success(function(response){
+            if (response.errorId == 0){
+                console.log('remove app if');
+
+                if ($scope.appResults != undefined){
+                    //change ui
+                    for (var q = 0; q < $scope.appResults.length; q++){
+                        var appRe = $scope.appResults[q];
+
+                        if (appRe.appleId === appid){
+                            appRe.isExced = false;
+                            console.log(appRe.appleId + 'is exchanged');
+                            break;
+                        }
+                    }
+                }
+
+                //other thing
+                for (var i = 0; i < $scope.myHistoryApps.length; i++){
+                    var app = $scope.myHistoryApps[i];
+                    if (app.appleId == appid){
+                        console.log('remove app to ui');
+                        $scope.myHistoryApps.splice(i, 1);
                         break;
                     }
                 }

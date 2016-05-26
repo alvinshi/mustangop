@@ -409,7 +409,7 @@ router.get('/addHistory/:appleId/:version', function(req, res, next) {
 
 function addExcHistory(res, appExcObject, userId, myAppId, myAppVersion, hisAppInfo){
     var myDate = new Date();
-    var myDateStr = myDate.getFullYear() + '-' + myDate.getMonth() + '-' + myDate.getDate() + ' ' +
+    var myDateStr = myDate.getFullYear() + '-' + (parseInt(myDate.getMonth())+1) + '-' + myDate.getDate() + ' ' +
                     myDate.getHours() + ':' + myDate.getMinutes() + ':' + myDate.getSeconds();     //获取当前日期
 
     var myAppObject = '';
@@ -543,7 +543,7 @@ router.post('/addHistory/:appleId/:version', function(req, res, next) {
     });
 });
 
-// 删除 我的 历史记录
+// 删除 我的 当前历史记录
 router.post('/history/delete', function(req, res, next) {
     var userId = util.useridInReq(req);
 
@@ -557,6 +557,46 @@ router.post('/history/delete', function(req, res, next) {
     query.equalTo('userId', userId);
     query.equalTo('myAppId', myAppId);
     query.equalTo('myAppVersion', myAppVersion);
+    query.equalTo('hisAppId', hisAppId);
+    query.equalTo('hisAppVersion', hisAppVersion);
+    query.descending('updatedAt');
+    query.find({
+        success: function(results) {
+            if (results.length < 1){
+                res.json({'errorMsg':'已经删除', 'errorId': 0});
+            }else {
+                var appExcObject = results[0];
+
+                appExcObject.destroy().then(function() {
+                    // 删除成功
+                    res.json({'errorMsg':'' , 'errorId': 0});
+                }, function(err) {
+                    // 失败
+                    res.json({'errorMsg':err.message , 'errorId': err.code});
+                });
+            }
+
+        },
+        error: function(err) {
+            res.json({'errorMsg':err.message, 'errorId': err.code});
+        }
+    });
+});
+
+// 删除 我的 以往历史记录
+router.post('/oldhistory/delete', function(req, res, next) {
+    var userId = util.useridInReq(req);
+
+    var myAppId = req.body.myAppId;
+    var myAppVersion = req.body.myAppVersion;
+    var hisAppId = req.body.hisAppId;
+    var hisAppVersion = req.body.hisAppVersion;
+
+    //query did it exist
+    var query = new AV.Query(IOSAppExcLogger);
+    query.equalTo('userId', userId);
+    query.equalTo('myAppId', myAppId);
+    query.notEqualTo('myAppVersion', myAppVersion);
     query.equalTo('hisAppId', hisAppId);
     query.equalTo('hisAppVersion', hisAppVersion);
     query.descending('updatedAt');

@@ -105,15 +105,14 @@ body{
     margin-top:40px;
 }
 
-.button{
-    border-style: none;
-    background-color:#d43f3a;
-    margin-left: 70px;
+.back-out{
     font-size:16px;
-    line-height:2;
-    margin-top: 10px;
-    color: #333;
-    border-radius: 6px;
+    margin-left: 82px;
+    margin-top: 60px;
+}
+
+.button{
+    color: #d43f3a;
 }
 
 .btn-danger{
