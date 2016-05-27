@@ -9,12 +9,20 @@ body{
     font-size: 17px;
 }
 
-/*
 button{
     outline: none;
 }
-*/
+.btn:focus,
+.btn:active:focus,
+.btn.active:focus,
+.btn.focus,
+.btn:active.focus,
+.btn.active.focus {
 
+}
+.hvr-float-shadow{
+    outline-color: white;
+}
 .container-fluid{
     margin: 0 auto;
     width: 1001px;
@@ -106,7 +114,9 @@ button{
     border-radius: 6px;
     color: #3498db;
     background-color: white;
+    outline:none;
 }
+
 .add-app{
     margin-left: 40px;
     margin-top: 20px;
