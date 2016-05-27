@@ -35,12 +35,16 @@ router.post('/register', function(req, res, next) {
     //注册或者登录成功
 
     var user_id = user.id;
+    var userNickname = user.get('userNickname');
     //encode userid
     var encodeUserId = Base64.encode(user_id);
     //login succeed,response cookie to browser
     //cookie 30天有效期
     res.cookie('username', user.get('username'));
     res.cookie('userIdCookie',encodeUserId, { maxAge: 1000*60*60*24*30,httpOnly:true, path:'/'});
+    if (userNickname != undefined && userNickname != ''){
+      res.cookie('username', userNickname)
+    }
 
     res.json({'errorId':0, 'errorMsg':''});
 
@@ -60,23 +64,24 @@ var User = AV.Object.extend('_User');
 //个人中心
 router.get('/userCenter',function(req, res, next){
   var userId = util.useridInReq(req);
-  var userNickname = req.body.usernickname;
+  var userNickname = req.body.userNickname;
   var userQQ = req.body.userQQ;
 
   var query = new AV.Query(User);
   query.get(userId).then(function(relstu){
     var PhoneNumber = relstu.get('mobilePhoneNumber');
-    var userName = relstu.get('userNickname');
+    var userNickname = relstu.get('userNickname');
     var userQQ = relstu.get('userQQ');
 
 
-    res.json({'personAPP':PhoneNumber, 'userName':userName, 'userQQ':userQQ});
+    res.json({'personAPP':PhoneNumber, 'userNickname':userNickname, 'userQQ':userQQ});
   }), function(error){
     //失败
     res.json({'errorId':error.code, 'errorMsg':error.message});
   }
 });
 
+//个人中心用户保存信息
 router.post('/userCenter',function(req, res, next){
   var userId = util.useridInReq(req);
   var userNickname = req.body.userNickname;
@@ -87,8 +92,16 @@ router.post('/userCenter',function(req, res, next){
   user.set('userQQ',userQQ);
   user.save().then(function(){
     //保存成功
-  },function(error){
 
+    //cookie 30天有效期
+    res.cookie('username', user.get('username'), { maxAge: 1000*60*60*24*30, path:'/'});
+    if (userNickname != undefined && userNickname != ''){
+      res.cookie('username',userNickname);
+    }
+
+    res.json({'errorId':0, 'errorMsg':''});
+  },function(error){
+    res.json({'errorId':-1, 'errorMsg':error.message});
   })
 
 });
@@ -111,12 +124,16 @@ router.post('/login', function(req, res, next) {
     var user_id = user.id;
     //encode userid
     var encodeUserId = Base64.encode(user_id);
+    var userNickname = user.get('userNickname');
     //login succeed,response cookie to browser
     //cookie 30天有效期
     res.cookie('username', user.get('username'), { maxAge: 1000*60*60*24*30, path:'/'});
     //res.cookie('wjwtest', 'wujiangweiLucy');
     res.cookie('userIdCookie',encodeUserId, { maxAge: 1000*60*60*24*30, path:'/'});
     //res.cookie['username'] = user.username;
+    if (userNickname != undefined && userNickname != ''){
+      res.cookie('username',userNickname);
+    }
 
     res.json({'errorId':0, 'errorMsg':''});
   }, function(error) {

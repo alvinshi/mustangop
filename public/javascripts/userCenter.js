@@ -10,7 +10,7 @@ app.controller('userCenterCtrl', function($scope, $http){
     var userUrl = '/user/userCenter';
     $http.get(userUrl).success(function(request){
         $scope.PhoneNumber = request.personAPP;
-        $scope.username = request.userName;
+        $scope.userNickname = request.userNickname;
         $scope.userQQ = request.userQQ;
 
     });

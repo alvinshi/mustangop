@@ -27,7 +27,7 @@ function clearCookie(name) {
     setCookie(name, "", -1);
 }
 
-var username = getCookie('username');
+var username = decodeURI(getCookie('username'));
 
 console.log(username);
 
