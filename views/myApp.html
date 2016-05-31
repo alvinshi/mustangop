@@ -128,10 +128,29 @@
                 <p class="app_name ">{{ app.trackName.substr(0,16) }}</p>
                 <p class="app_version">版本号 {{ app.version }}</p>
                 <p class="app_update">更新日期{{ app.latestReleaseDate.substr(0,10) }}</p>
-                <button  class="app_button_bottom hvr-box-shadow-inset" ng-click="releaseMyApp(app.appleId)">
-                    解绑
+                <button  class="app_button_bottom hvr-box-shadow-inset" >
+                    <a href="" data-toggle="modal" data-target="#mymodal">解绑</a>
                 </button>
+
             </div>
+            <div class="modal fade" id="mymodal">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+                            <h4 class="modal-title">模态弹出窗标题</h4>
+                        </div>
+                        <div class="modal-body">
+                            <p>确认删除此应用?</p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="releaseMyApp(app.appleId)" >删除</button>
+                            <button type="button" class="btn btn-primary" data-dismiss="modal">取消</button>
+                        </div>
+                    </div><!-- /.modal-content -->
+                </div><!-- /.modal-dialog -->
+            </div><!-- /.modal -->
+
             <!--<div class="app_add_main"  >-->
                 <!--<div  class="app_add">-->
                     <!--<span>+</span>-->
@@ -143,8 +162,12 @@
             <!--<div  class="app_bottom" > &lt;!&ndash;注：很抱歉，暂时每个账号只能绑定一款产品，我们将陆续添加功能，以便一个账号可同时管理多个产品。&ndash;&gt;</div>-->
         </div>
 
-    </div>
+
+
+
+
 </div>
+
 
 <script src="/javascripts/cookieHelper.js"></script>
 
