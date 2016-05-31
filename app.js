@@ -14,11 +14,10 @@ var cloud = require('./cloud');
 var api = require('./routes/api')//for html js api request
 var users = require('./routes/users')//user account and info center
 var userapps = require('./routes/myApp')//user app related center
-<<<<<<< HEAD
+
 var loadhtml = require('./routes/loadHtml')//load static html
-=======
 var routes = require('./routes/');
->>>>>>> cc9b088622338040d26f0ab7826272a0765520e4
+
 
 var app = express();
 
@@ -127,13 +126,9 @@ app.get('/userProtocol', function(req, res) {
 app.use('/api', api);
 app.use('/user', users);
 app.use('/myapp', userapps);
-<<<<<<< HEAD
 //静态html组建
 app.use('/html', loadhtml);;
-=======
 app.use('/', routes);
-
->>>>>>> cc9b088622338040d26f0ab7826272a0765520e4
 
 // 如果任何路由都没匹配到，则认为 404
 // 生成一个异常让后面的 err handler 捕获
