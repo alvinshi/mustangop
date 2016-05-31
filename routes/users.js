@@ -5,6 +5,8 @@ var router = express.Router();
 var util = require('./util');
 var https = require('https');
 
+var User = AV.Object.extend('_User');
+
 var Base64 = require('../public/javascripts/vendor/base64').Base64;
 
 // 用户注册
@@ -59,7 +61,6 @@ router.get('/', function(req, res, next) {
   res.render('userCenter');
 });
 
-var User = AV.Object.extend('_User');
 
 //个人中心
 router.get('/userCenter',function(req, res, next){

@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <meta name="theme-color" content="#19B5FE">
+
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="favicon.ico">
+
+    <title>野马运营</title>
+
+    <meta name="keywords" content="ASO优化,极速运营,换评,App Store榜单排名,中小企业,移动互联网"/>
+    <meta name="description" content="野马运营是服务于中小移动互联网创业企业的网站,帮助你们的App做更好的ASO优化,评论等"/>
+
+
+    <link rel="apple-touch-icon" href="apple-touch-icon.png">
+    <!-- Place favicon.ico in the root directory -->
+
+    <link rel="stylesheet" href="/stylesheets/style.css">
+
+    <!-- 引入 AngularJS Mini 文件 -->
+    <script src="/javascripts/vendor/AngularJS/angular.min.js"></script>
+
+    <!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+    <script src="//cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
+    <!-- Bootstrap core CSS -->
+    <link href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+    <script src="//cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+
+    <!--第三方 CSS JS-->
+    <link rel="stylesheet" href="../stylesheets/vendor/font-awesome.min.css">
+    <link rel="stylesheet" href="../stylesheets/myApp.css">
+    <link rel="stylesheet" href="../stylesheets/loading.css">
+    <link rel="stylesheet" href="/stylesheets/vendor/hover/hover-min.css">
+
+    <!--网站内部js-->
+    <script src=""></script>
+</head>
+<body>
+<!--[if lt IE 8]>
+<p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">更新您的浏览器</a> 从而获得更好的体验.</p>
+<![endif]-->
+
+<div class="container">
+    <!--导航栏-->
+<nav class="navbar navbar-default nav-collapse navbar-fixed-top" id="mainbar" role="navigation">
+    <div class="container-fluid">
+
+        <div class="navbar-header">
+            <a class="navbar-brand" href="/">
+                <img id="logoimage" src="/images/home/wildhorse_icon.png" alt="">
+            </a>
+        </div>
+        <div id="navbar" >
+            <ul class="nav navbar-nav">
+                <li><a style="color:white" href="/">首页</a></li>
+                <li  id="Li"><a style="color:white" href="/myapp/history">交换记录</a></li>
+                <li><a  style="color:#3498db" href="/myapp">我的应用</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li><a id="nav-username-display" href="/user" style="color:#3498db"></a></li>
+            </ul>
+        </div>
+    </div><!--/.nav-collapse -->
+</nav>
+</div>
+
+<div  class="main_content" ng-app="myAppContent" ng-controller="myAppControl">
+    <div class="media" ng-repeat="app in mytieAPP" >
+        <div class="media-left">
+            <img class="media-object" ng-src="{{ app.artworkUrl512 }}" alt="App Icon">
+        </div>
+        <div class="media-body">
+            <h4 class="media-heading appName">{{ app.trackName }}</h4>
+            <div class="media-info">
+                <span class="media-object">开发商:{{ app.sellerName }}</span>
+                <span class="">分类:{{ app.appleKind }}</span>
+                <span class="media-info-appId">App ID:{{ app.appleId }}</span>
+                <span class="">价格:{{ app.formattedPrice }}</span>
+                <span class="media-info-updateDate">更新日期:{{ app.latestReleaseDate }}</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="">
+        <div class="">
+            <span class="">需求编辑</span>
+            <span class="">任务添加</span>
+        </div>
+
+        <div class="">
+            <button class="">内部匹配</button>
+            <p>注：与野马用户直接匹配交换</p>
+            <button class="" >外部交换</button>
+            <p>注：添加非野马用户的交换任务</p>
+        </div>
+    </div>
+
+
+
+</div>
+<script src="/javascripts/cookieHelper.js"></script>
+
+</body>
+
+</html>

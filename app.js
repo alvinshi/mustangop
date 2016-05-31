@@ -14,7 +14,11 @@ var cloud = require('./cloud');
 var api = require('./routes/api')//for html js api request
 var users = require('./routes/users')//user account and info center
 var userapps = require('./routes/myApp')//user app related center
+<<<<<<< HEAD
 var loadhtml = require('./routes/loadHtml')//load static html
+=======
+var routes = require('./routes/');
+>>>>>>> cc9b088622338040d26f0ab7826272a0765520e4
 
 var app = express();
 
@@ -83,6 +87,7 @@ app.use(function (req, res, next) {
 
   var loginWhiteList  = new Array();
   loginWhiteList[0] = "/user";
+  loginWhiteList[1] = "/task";
   var needLogin = !routeHasPrefix(req.originalUrl, loginWhiteList);
   console.log(needLogin);
   //不是主页,也不是以白名单开头的网页,则是需要用户先登陆的网站
@@ -122,8 +127,13 @@ app.get('/userProtocol', function(req, res) {
 app.use('/api', api);
 app.use('/user', users);
 app.use('/myapp', userapps);
+<<<<<<< HEAD
 //静态html组建
 app.use('/html', loadhtml);;
+=======
+app.use('/', routes);
+
+>>>>>>> cc9b088622338040d26f0ab7826272a0765520e4
 
 // 如果任何路由都没匹配到，则认为 404
 // 生成一个异常让后面的 err handler 捕获
