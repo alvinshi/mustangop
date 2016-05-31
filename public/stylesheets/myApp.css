@@ -28,7 +28,8 @@ button{
     width: 1001px;
 }
 #logoimage{
-    margin-left: 5%;
+    position:relative;
+left:20%;
 }
 .main_content{
 

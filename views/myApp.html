@@ -50,27 +50,64 @@
 <div class="container">
 
     <!--导航栏-->
-    <nav class="navbar navbar-default nav-collapse navbar-fixed-top" id="mainbar" role="navigation">
-        <div class="container-fluid">
+    <!--<nav class="navbar navbar-default nav-collapse navbar-fixed-top" id="mainbar" role="navigation">-->
+        <!--<div class="container">-->
 
+            <!--<div class="navbar-header">-->
+                <!--<a class="navbar-brand" href="/">-->
+                    <!--<img id="logoimage" src="/images/home/wildhorse_icon.png" alt="">-->
+                <!--</a>-->
+            <!--</div>-->
+            <!--<div id="navbar" >-->
+                <!--<ul class="nav navbar-nav">-->
+                    <!--<li><a style="color:white"href="/">首页</a></li>-->
+                    <!--<li  id="Li"><a style="color:white" href="/myapp/history">交换记录</a></li>-->
+                    <!--<li><a  style="color:#3498db" href="/myapp">我的应用</a></li>-->
+                <!--</ul>-->
+                <!--<ul class="nav navbar-nav navbar-right">-->
+                    <!--<li><a id="nav-username-display" href="/user" style="color:#3498db"></a></li>-->
+                <!--</ul>-->
+            <!--</div>-->
+        <!--</div>&lt;!&ndash;/.nav-collapse &ndash;&gt;-->
+    <!--</nav>-->
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container-fluid" style="width: 75%;margin: auto">
             <div class="navbar-header">
-                <a class="navbar-brand" href="/">
-                    <img id="logoimage" src="/images/home/wildhorse_icon.png" alt="">
-                </a>
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#example-navbar-collapse-1" aria-expanded="false">
+                    <span class="sr-only"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <li><a  class="navbar-brand"href="/"><img id="logoimage" src="/images/home/wildhorse_icon.png" alt=""></li>
             </div>
-            <div id="navbar" >
+            <div class="collapse navbar-collapse" id="example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
-                    <li><a style="color:white"href="/">首页</a></li>
-                    <li  id="Li"><a style="color:white" href="/myapp/history">交换记录</a></li>
-                    <li><a  style="color:#3498db" href="/myapp">我的应用</a></li>
+                    <li style="margin-left: -10%"><a style="color:white" href="/">首页</a></li>
+                    <li><a style="color:white" href="/myapp/history">交换记录</a></li>
+                    <li><a style="color:white" href="/myapp/history">今日任务</a></li>
+                    <li class="dropdown">
+                        <a  style="color:white"href="/myapp" data-toggle="dropdown" class="dropdown">我的应用<span class="caret"></span></a>
+                        <ul class="dropdown-menu" style="background: rgba(0,0,0,.3)">
+                            <li><a href="##">APP1</a></li>
+                            <li><a href="##">APP2</a></li>
+                            <li><a href="##">管理我的应用</a></li>
+                        </ul>
+                    </li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
-                    <li><a id="nav-username-display" href="/user" style="color:#3498db"></a></li>
+                <li class="dropdown">
+                    <a id="nav-username-display" href="/user" data-toggle="dropdown" class="dropdown"style="color:#3498db"><span class="caret"></span></a>
+                    <ul class="dropdown-menu" style="background: rgba(0,0,0,.3)">
+                        <li><a href="#">个人中心</a></li>
+                        <li><a href="#">退出登录</a></li>
+
+                    </ul>
+                </li>
                 </ul>
             </div>
-        </div><!--/.nav-collapse -->
+        </div><!--container -->
     </nav>
-
     <!--搜索组建-->
     <div  class="main_content" ng-app="itunesSearch" ng-controller="itunesSearchControl">
         <div class="col-lg-6 col-sm-12 input-group">
@@ -83,7 +120,6 @@
         </div>
         <!-- /input-group -->
         <div class="placehold-line">
-
             <div class="progress" ng-hide="!progressNum">
                 <div ng-class="{'progress-bar': true, 'progress-bar-striped':true, active:true}" ng-style="{width: progressNum + '%'}">
                 </div>
@@ -167,6 +203,7 @@
 
 
 </div>
+ </div>
 
 
 <script src="/javascripts/cookieHelper.js"></script>
