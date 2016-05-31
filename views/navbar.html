@@ -39,6 +39,7 @@
 
     <!--网站内部js-->
     <!--<script src="/javascripts/itunesApi.js"></script>-->
+    <script src="/javascripts/indexApp.js"></script>
 </head>
 <body>
 <!--[if lt IE 8]>
@@ -46,7 +47,7 @@
 <![endif]-->
 
     <nav class="navbar navbar-inverse navbar-fixed-top" style="height: 48px;font-size: 17px;width: 100%">
-        <div class="container">
+        <div class="container" ng-app="indexApp" ng-controller="indexAppCtrl">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#example-navbar-collapse-1" aria-expanded="false">
                     <span class="sr-only"></span>
@@ -65,9 +66,10 @@
                     <li class="dropdown">
                         <a  style="color:white" href="/myapp" data-toggle="dropdown" class="dropdown">我的应用<span class="caret"></span></a>
                         <ul class="dropdown-menu" style="background: rgba(0,0,0,.3)">
-                            <li><a href="##">APP1</a></li>
-                            <li><a href="##">APP2</a></li>
-                            <li><a href="##">管理我的应用</a></li>
+                            <li class="myapp-list" ng-repeat="app in tracknameAPP">
+                                <a href="/app" ng-click="">{{ app.trackName }}</a>
+                            </li>
+                            <li><a href="/myapp">管理我的应用</a></li>
                         </ul>
                     </li>
                 </ul>
@@ -75,7 +77,7 @@
                     <li class="dropdown">
                         <a id="nav-username-display" href="/user" data-toggle="dropdown" class="dropdown" style="color:white"><span class="caret"></span></a>
                         <ul class="dropdown-menu" style="background: rgba(0,0,0,.3)">
-                            <li><a href="#">个人中心</a></li>
+                            <li><a href="/user">个人中心</a></li>
                             <li><a href="#">退出登录</a></li>
 
                         </ul>
