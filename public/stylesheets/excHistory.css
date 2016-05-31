@@ -1,8 +1,10 @@
 body{
-    height:100%;
-    background-color:#ffffff;
+    /*height:100%;*/
+    /*background-color:#ffffff;*/
     /*border: 6px solid #000000;*/
     /*border-left-style: none;*/
+    margin: 0;
+    padding: 0px;
 }
 
 .container-fluid{
