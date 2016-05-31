@@ -1,8 +1,8 @@
 body{
     height:100%;
     background-color:#ffffff;
-    border: 6px solid #000000;
-    border-left-style: none;
+    /*border: 6px solid #000000;*/
+    /*border-left-style: none;*/
 }
 
 .container-fluid{

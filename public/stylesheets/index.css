@@ -27,6 +27,8 @@ body{
 }
 
 .a{
-    height: 20px;
-    color: #d43f3a;
+    font-size: 16px;
+}
+.dropdown-menu{
+    background-color: rgba(0,0,0,.3);
 }
