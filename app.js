@@ -18,7 +18,6 @@ var userapps = require('./routes/myApp')//user app related center
 var loadhtml = require('./routes/loadHtml')//load static html
 var routes = require('./routes/');
 
-
 var app = express();
 
 // 上传文件
@@ -126,9 +125,10 @@ app.get('/userProtocol', function(req, res) {
 app.use('/api', api);
 app.use('/user', users);
 app.use('/myapp', userapps);
-//静态html组建
-app.use('/html', loadhtml);;
 app.use('/', routes);
+//静态html组建
+app.use('/html', loadhtml);
+
 
 // 如果任何路由都没匹配到，则认为 404
 // 生成一个异常让后面的 err handler 捕获

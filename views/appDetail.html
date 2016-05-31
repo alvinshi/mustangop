@@ -40,7 +40,7 @@
     <link rel="stylesheet" href="/stylesheets/vendor/hover/hover-min.css">
 
     <!--网站内部js-->
-    <script src=""></script>
+    <script src="/javascripts/appDetail.js"></script>
 </head>
 <body>
 <!--[if lt IE 8]>
@@ -74,7 +74,7 @@
 <div  class="main_content" ng-app="myAppContent" ng-controller="myAppControl">
     <div class="media" ng-repeat="app in mytieAPP" >
         <div class="media-left">
-            <img class="media-object" ng-src="{{ app.artworkUrl512 }}" alt="App Icon">
+            <img class="media-object" ng-src="{{ app.artworkUrl100 }}" alt="App Icon">
         </div>
         <div class="media-body">
             <h4 class="media-heading appName">{{ app.trackName }}</h4>
