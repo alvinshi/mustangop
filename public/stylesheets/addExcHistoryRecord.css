@@ -1,14 +1,9 @@
 body{
-    margin: 0 auto;
+    margin: 0 ;
+    padding: 0;
 
 }
-.navbar{
-     background-color: #030000;
-     height: 48px;
-     border-style: none;
-     width: 100%;
-     font-size: 17px
-}
+
 .container-fluid{
     margin: 0 auto;
     width: 1001px;

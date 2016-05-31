@@ -46,6 +46,7 @@
 <!--[if lt IE 8]>
 <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">更新您的浏览器</a> 从而获得更好的体验.</p>
 <![endif]-->
+<iframe src="/html/navbar.html "  width="100%" height="100%" scrolling="no" frameborder="0"></iframe>
 
 <div class="container">
 
@@ -70,45 +71,46 @@
             <!--</div>-->
         <!--</div>&lt;!&ndash;/.nav-collapse &ndash;&gt;-->
     <!--</nav>-->
-    <nav class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container-fluid" style="width: 75%;margin: auto">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#example-navbar-collapse-1" aria-expanded="false">
-                    <span class="sr-only"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <li><a  class="navbar-brand"href="/"><img id="logoimage" src="/images/home/wildhorse_icon.png" alt=""></li>
-            </div>
-            <div class="collapse navbar-collapse" id="example-navbar-collapse-1">
-                <ul class="nav navbar-nav">
-                    <li style="margin-left: -10%"><a style="color:white" href="/">首页</a></li>
-                    <li><a style="color:white" href="/myapp/history">交换记录</a></li>
-                    <li><a style="color:white" href="/myapp/history">今日任务</a></li>
-                    <li class="dropdown">
-                        <a  style="color:white"href="/myapp" data-toggle="dropdown" class="dropdown">我的应用<span class="caret"></span></a>
-                        <ul class="dropdown-menu" style="background: rgba(0,0,0,.3)">
-                            <li><a href="##">APP1</a></li>
-                            <li><a href="##">APP2</a></li>
-                            <li><a href="##">管理我的应用</a></li>
-                        </ul>
-                    </li>
-                </ul>
-                <ul class="nav navbar-nav navbar-right">
-                <li class="dropdown">
-                    <a id="nav-username-display" href="/user" data-toggle="dropdown" class="dropdown"style="color:#3498db"><span class="caret"></span></a>
-                    <ul class="dropdown-menu" style="background: rgba(0,0,0,.3)">
-                        <li><a href="#">个人中心</a></li>
-                        <li><a href="#">退出登录</a></li>
+    <!--<nav class="navbar navbar-inverse navbar-fixed-top">-->
+        <!--<div class="container-fluid" style="width: 75%;margin: auto">-->
+            <!--<div class="navbar-header">-->
+                <!--<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#example-navbar-collapse-1" aria-expanded="false">-->
+                    <!--<span class="sr-only"></span>-->
+                    <!--<span class="icon-bar"></span>-->
+                    <!--<span class="icon-bar"></span>-->
+                    <!--<span class="icon-bar"></span>-->
+                <!--</button>-->
+                <!--<li><a  class="navbar-brand"href="/"><img id="logoimage" src="/images/home/wildhorse_icon.png" alt=""></li>-->
+            <!--</div>-->
+            <!--<div class="collapse navbar-collapse" id="example-navbar-collapse-1">-->
+                <!--<ul class="nav navbar-nav">-->
+                    <!--<li style="margin-left: -10%"><a style="color:white" href="/">首页</a></li>-->
+                    <!--<li><a style="color:white" href="/myapp/history">交换记录</a></li>-->
+                    <!--<li><a style="color:white" href="/myapp/history">今日任务</a></li>-->
+                    <!--<li class="dropdown">-->
+                        <!--<a  style="color:white"href="/myapp" data-toggle="dropdown" class="dropdown">我的应用<span class="caret"></span></a>-->
+                        <!--<ul class="dropdown-menu" style="background: rgba(0,0,0,.3)">-->
+                            <!--<li><a href="##">APP1</a></li>-->
+                            <!--<li><a href="##">APP2</a></li>-->
+                            <!--<li><a href="##">管理我的应用</a></li>-->
+                        <!--</ul>-->
+                    <!--</li>-->
+                <!--</ul>-->
+                <!--<ul class="nav navbar-nav navbar-right">-->
+                <!--<li class="dropdown">-->
+                    <!--<a id="nav-username-display" href="/user" data-toggle="dropdown" class="dropdown"style="color:#3498db"><span class="caret"></span></a>-->
+                    <!--<ul class="dropdown-menu" style="background: rgba(0,0,0,.3)">-->
+                        <!--<li><a href="#">个人中心</a></li>-->
+                        <!--<li><a href="#">退出登录</a></li>-->
 
-                    </ul>
-                </li>
-                </ul>
-            </div>
-        </div><!--container -->
-    </nav>
+                    <!--</ul>-->
+                <!--</li>-->
+                <!--</ul>-->
+            <!--</div>-->
+        <!--</div>&lt;!&ndash;container &ndash;&gt;-->
+    <!--</nav>-->
     <!--搜索组建-->
+
     <div  class="main_content" ng-app="itunesSearch" ng-controller="itunesSearchControl">
         <div class="col-lg-6 col-sm-12 input-group">
             <input type="text" class="form-control" ng-model="searchKey" ng-keyup="keySearchApp($event)" placeholder="搜索添加你想绑定的App名称...">
