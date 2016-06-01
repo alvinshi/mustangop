@@ -2,10 +2,10 @@
  * Created by cailong on 16/5/31.
  */
 
-var app = angular.module('indexApp', ['ngRoute']);
+var app = angular.module('indexApp', []);
 
 
-app.controller('indexAppCtrl', function($scope, $http, $location, $routeParams){
+app.controller('indexAppCtrl', function($scope, $http, $location){
 
     var paramsList = $location.absUrl().split('/');
     var index = paramsList[paramsList.length - 1];
