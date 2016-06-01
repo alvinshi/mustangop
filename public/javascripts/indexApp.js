@@ -7,6 +7,6 @@ var app = angular.module('indexApp', []);
 app.controller('indexAppCtrl', function($scope, $http){
     var indexUrl = '/index';
     $http.get(indexUrl).success(function(request){
-        $scope.tracknameAPP = request.tracknameAPP;
+        $scope.tracknameAPPs = request.tracknameAPPs;
     })
 });

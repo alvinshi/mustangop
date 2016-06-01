@@ -15,9 +15,9 @@ router.get('/', function(req, res, next) {
     res.render('appDetail')
 });
 
-router.get('app/:appid', function(req, res){
+router.get('/:appid', function(req, res){
     var userId = util.useridInReq(req);
-    var appid = req.params.appid;
+    var appleid = req.params.appid;
 
     var user = new AV.User();
     user.id = userId;
@@ -27,24 +27,25 @@ router.get('app/:appid', function(req, res){
     query.include('appObject');
     query.find({
         success:function(results){
-            var retApps = new Array();
-            var hisappObject = results.get('appObject');
-            var appleId = hisappObject.get('appleId');
-            if (appleId == appid){
-                var appContent = new Object();
-                appContent.artworkUrl100 = hisappObject.get('artworkUrl100');
-                appContent.trackName = hisappObject.get('trackName');
-                appContent.sellerName = hisappObject.get('sellerName');
-                appContent.appleKind = hisappObject.get('appleKind');
-                appContent.appleId = hisappObject.get('appleId');
-                appContent.formattedPrice = hisappObject.get('formattedPrice');
-                appContent.latestReleaseDate = hisappObject.get('latestReleaseDate');
+            for (var i = 0; i< results.length; i++){
+                var hisappObject = results[i].get('appObject');
+                var appleId = hisappObject.get('appleId');
+                if (appleId == appleid){
+                    var appContent = new Object();
+                    appContent.artworkUrl100 = hisappObject.get('artworkUrl100');
+                    appContent.trackName = hisappObject.get('trackName');
+                    appContent.sellerName = hisappObject.get('sellerName');
+                    appContent.appleKind = hisappObject.get('appleKind');
+                    appContent.appleId = hisappObject.get('appleId');
+                    appContent.formattedPrice = hisappObject.get('formattedPrice');
+                    appContent.latestReleaseDate = hisappObject.get('latestReleaseDate');
 
-                retApps.push(appContent)
+                }
             }
-            res.json({'mytieAPP':retApps});
+            res.json({'AppDetail':appContent});
         }
     })
-    
 });
+
+module.exports = router;
 

@@ -29,10 +29,10 @@ router.get('/index', function(req, res){
         var appNameObject = new Object();
         var hisappObject = results[i].get('appObject');
         appNameObject.trackName = hisappObject.get('trackName');
-        appNameObject.appid = hisappObject.get('appleId')
+        appNameObject.appid = hisappObject.get('appleId');
         retApps.push(appNameObject);
       }
-      res.json({'tracknameAPP':retApps});
+      res.json({'tracknameAPPs':retApps});
     }
   }),function (error){
     res.json({'errorId':error.code, 'errorMsg':error.message})

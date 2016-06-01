@@ -16,7 +16,8 @@ var users = require('./routes/users')//user account and info center
 var userapps = require('./routes/myApp')//user app related center
 
 var loadhtml = require('./routes/loadHtml')//load static html
-var routes = require('./routes/');
+var index = require('./routes/index');
+var appDetail = require('./routes/appDetail');
 
 var app = express();
 
@@ -125,9 +126,10 @@ app.get('/userProtocol', function(req, res) {
 app.use('/api', api);
 app.use('/user', users);
 app.use('/myapp', userapps);
-app.use('/', routes);
+app.use('/', index);
 //静态html组建
 app.use('/html', loadhtml);
+app.use('/app', appDetail);
 
 
 // 如果任何路由都没匹配到，则认为 404
