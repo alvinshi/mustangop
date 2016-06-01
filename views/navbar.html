@@ -24,6 +24,7 @@
 
     <!-- 引入 AngularJS Mini 文件 -->
     <script src="/javascripts/vendor/AngularJS/angular.min.js"></script>
+    <script src="/javascripts/vendor/AngularJS/angular-route.min.js"></script>
 
     <!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
     <script src="//cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
@@ -56,30 +57,29 @@
                     <span class="icon-bar"></span>
                 </button>
 
-                <li><a  class="navbar-brand" href="/"><img  src="/images/home/wildhorse_icon.png" ></a></li>
+                <li><a  class="navbar-brand" href="/" target="_top"><img  src="/images/home/wildhorse_icon.png" ></a></li>
             </div>
             <div class="collapse navbar-collapse" id="example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
-                    <li ><a style="color:white" href="/">首页</a></li>
-                    <li><a style="color:white" href="/myapp/history">交换记录</a></li>
-                    <li><a style="color:white" href="/myapp/history">今日任务</a></li>
+                    <li ><a ng-style="{color:myColors[0]}" href="/" target="_top">首页</a></li>
+                    <li><a ng-style="{color:myColors[1]}" href="/myapp/history" target="_top">交换记录</a></li>
+                    <li><a ng-style="{color:myColors[2]}" href="#" target="_top">今日任务</a></li>
                     <li class="dropdown">
-                        <a  style="color:white" href="/myapp" data-toggle="dropdown" class="dropdown">我的应用<span class="caret"></span></a>
+                        <a  ng-style="{color:myColors[3]}" href="/myapp" data-toggle="dropdown" class="dropdown">我的应用<span class="caret"></span></a>
                         <ul class="dropdown-menu" style="background: rgba(0,0,0,.3)">
                             <li class="myapp-list" ng-repeat="app in tracknameAPPs">
                                 <a href="/app" ng-click="">{{ app.trackName }}</a>
                             </li>
-                            <li><a href="/myapp">管理我的应用</a></li>
+                            <li><a href="/myapp" target="_top">管理我的应用</a></li>
                         </ul>
                     </li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                     <li class="dropdown">
-                        <a id="nav-username-display" href="/user" data-toggle="dropdown" class="dropdown" style="color:white"><span class="caret"></span></a>
+                        <a id="nav-username-display" href="/user" data-toggle="dropdown" class="dropdown" ng-style="{color:myColors[4]}"><span class="caret"></span></a>
                         <ul class="dropdown-menu" style="background: rgba(0,0,0,.3)">
-                            <li><a href="/user">个人中心</a></li>
-                            <li><a href="#">退出登录</a></li>
-
+                            <li><a href="/user" target="_top">个人中心</a></li>
+                            <li><a href="/user" target="_top">退出登录</a></li>
                         </ul>
                     </li>
                 </ul>
