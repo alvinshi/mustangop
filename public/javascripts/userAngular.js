@@ -13,6 +13,22 @@ app.controller('userAccountCtrl', function($scope, $http) {
 
             console.log(registerUrl);
 
+            $("#button1").prop("disabled", true);
+            var seconds = 5;
+            function countdown(seconds) {
+                /* Exit if nothing to do */
+                if (seconds === 0) {
+                    $("#button1").attr("disabled", false);
+                    $("#button1").text("获取验证码");
+                    return;
+                }
+
+                $("#button1").text(seconds);
+                seconds--;
+                setTimeout(function () {countdown(seconds);}, 1000);
+            }
+            countdown(seconds);
+
             $http.post(registerUrl, {'mobile': $scope.userMobile, 'password': $scope.userSecret}).success(function(response){
                 $scope.errorId = response.errorId;
                 $scope.errorMsg = response.errorMsg;
@@ -58,6 +74,22 @@ app.controller('userAccountCtrl', function($scope, $http) {
             var registerUrl = '/user/getNewSmsCode';
 
             console.log(registerUrl);
+
+            $("#button1").prop("disabled", true);
+            var seconds = 5;
+            function countdown(seconds) {
+                /* Exit if nothing to do */
+                if (seconds === 0) {
+                    $("#button1").attr("disabled", false);
+                    $("#button1").text("重获验证码");
+                    return;
+                }
+
+                $("#button1").text(seconds);
+                seconds--;
+                setTimeout(function () {countdown(seconds);}, 1000);
+            }
+            countdown(seconds);
 
             $http.post(registerUrl, {'mobile': $scope.userMobile, 'password': $scope.userSecret}).success(function(response){
                 $scope.errorId = response.errorId;
