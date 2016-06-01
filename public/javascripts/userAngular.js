@@ -14,7 +14,7 @@ app.controller('userAccountCtrl', function($scope, $http) {
             console.log(registerUrl);
 
             $("#button1").prop("disabled", true);
-            var seconds = 5;
+            var seconds = 60;
             function countdown(seconds) {
                 /* Exit if nothing to do */
                 if (seconds === 0) {
@@ -76,7 +76,7 @@ app.controller('userAccountCtrl', function($scope, $http) {
             console.log(registerUrl);
 
             $("#button1").prop("disabled", true);
-            var seconds = 5;
+            var seconds = 60;
             function countdown(seconds) {
                 /* Exit if nothing to do */
                 if (seconds === 0) {
