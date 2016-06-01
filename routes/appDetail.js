@@ -11,11 +11,11 @@ var IOSAppSql = AV.Object.extend('IOSAppInfo');
 var IOSAppBinder = AV.Object.extend('IOSAppBinder');
 var IOSAppExcLogger = AV.Object.extend('IOSAppExcLogger');
 
-router.get('/', function(req, res, next) {
+router.get('/:appid', function(req, res, next) {
     res.render('appDetail')
 });
 
-router.get('/:appid', function(req, res){
+router.get('baseinfo/:appid', function(req, res){
     var userId = util.useridInReq(req);
     var appleid = req.params.appid;
 
@@ -32,6 +32,7 @@ router.get('/:appid', function(req, res){
                 var appleId = hisappObject.get('appleId');
                 if (appleId == appleid){
                     var appContent = new Object();
+                    appContent.appObject = hisappObject.id;
                     appContent.artworkUrl100 = hisappObject.get('artworkUrl100');
                     appContent.trackName = hisappObject.get('trackName');
                     appContent.sellerName = hisappObject.get('sellerName');
@@ -39,6 +40,7 @@ router.get('/:appid', function(req, res){
                     appContent.appleId = hisappObject.get('appleId');
                     appContent.formattedPrice = hisappObject.get('formattedPrice');
                     appContent.latestReleaseDate = hisappObject.get('latestReleaseDate');
+                    appContent.myAppVersion = hisappObject.get('version')
 
                 }
             }
