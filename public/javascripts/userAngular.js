@@ -23,7 +23,7 @@ app.controller('userAccountCtrl', function($scope, $http) {
                     return;
                 }
 
-                $("#button1").text(seconds);
+                $("#button1").text(seconds+"s后重试");
                 seconds--;
                 setTimeout(function () {countdown(seconds);}, 1000);
             }
@@ -85,7 +85,7 @@ app.controller('userAccountCtrl', function($scope, $http) {
                     return;
                 }
 
-                $("#button1").text(seconds);
+                $("#button1").text(seconds+"s后重试");
                 seconds--;
                 setTimeout(function () {countdown(seconds);}, 1000);
             }
