@@ -50,66 +50,7 @@
 
 <div class="container">
 
-    <!--导航栏-->
-    <!--<nav class="navbar navbar-default nav-collapse navbar-fixed-top" id="mainbar" role="navigation">-->
-        <!--<div class="container">-->
 
-            <!--<div class="navbar-header">-->
-                <!--<a class="navbar-brand" href="/">-->
-                    <!--<img id="logoimage" src="/images/home/wildhorse_icon.png" alt="">-->
-                <!--</a>-->
-            <!--</div>-->
-            <!--<div id="navbar" >-->
-                <!--<ul class="nav navbar-nav">-->
-                    <!--<li><a style="color:white"href="/">首页</a></li>-->
-                    <!--<li  id="Li"><a style="color:white" href="/myapp/history">交换记录</a></li>-->
-                    <!--<li><a  style="color:#3498db" href="/myapp">我的应用</a></li>-->
-                <!--</ul>-->
-                <!--<ul class="nav navbar-nav navbar-right">-->
-                    <!--<li><a id="nav-username-display" href="/user" style="color:#3498db"></a></li>-->
-                <!--</ul>-->
-            <!--</div>-->
-        <!--</div>&lt;!&ndash;/.nav-collapse &ndash;&gt;-->
-    <!--</nav>-->
-    <!--<nav class="navbar navbar-inverse navbar-fixed-top">-->
-        <!--<div class="container-fluid" style="width: 75%;margin: auto">-->
-            <!--<div class="navbar-header">-->
-                <!--<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#example-navbar-collapse-1" aria-expanded="false">-->
-                    <!--<span class="sr-only"></span>-->
-                    <!--<span class="icon-bar"></span>-->
-                    <!--<span class="icon-bar"></span>-->
-                    <!--<span class="icon-bar"></span>-->
-                <!--</button>-->
-                <!--<li><a  class="navbar-brand"href="/"><img id="logoimage" src="/images/home/wildhorse_icon.png" alt=""></li>-->
-            <!--</div>-->
-            <!--<div class="collapse navbar-collapse" id="example-navbar-collapse-1">-->
-                <!--<ul class="nav navbar-nav">-->
-                    <!--<li style="margin-left: -10%"><a style="color:white" href="/">首页</a></li>-->
-                    <!--<li><a style="color:white" href="/myapp/history">交换记录</a></li>-->
-                    <!--<li><a style="color:white" href="/myapp/history">今日任务</a></li>-->
-                    <!--<li class="dropdown">-->
-                        <!--<a  style="color:white"href="/myapp" data-toggle="dropdown" class="dropdown">我的应用<span class="caret"></span></a>-->
-                        <!--<ul class="dropdown-menu" style="background: rgba(0,0,0,.3)">-->
-                            <!--<li><a href="##">APP1</a></li>-->
-                            <!--<li><a href="##">APP2</a></li>-->
-                            <!--<li><a href="##">管理我的应用</a></li>-->
-                        <!--</ul>-->
-                    <!--</li>-->
-                <!--</ul>-->
-                <!--<ul class="nav navbar-nav navbar-right">-->
-                <!--<li class="dropdown">-->
-                    <!--<a id="nav-username-display" href="/user" data-toggle="dropdown" class="dropdown"style="color:#3498db"><span class="caret"></span></a>-->
-                    <!--<ul class="dropdown-menu" style="background: rgba(0,0,0,.3)">-->
-                        <!--<li><a href="#">个人中心</a></li>-->
-                        <!--<li><a href="#">退出登录</a></li>-->
-
-                    <!--</ul>-->
-                <!--</li>-->
-                <!--</ul>-->
-            <!--</div>-->
-        <!--</div>&lt;!&ndash;container &ndash;&gt;-->
-    <!--</nav>-->
-    <!--搜索组建-->
 
     <div  class="main_content" ng-app="itunesSearch" ng-controller="itunesSearchControl">
         <div class="col-lg-6 col-sm-12 input-group">
@@ -161,33 +102,35 @@
         </div>
 
         <div class="col-lg-12 col-sm-12 add-app ">
-            <div   class="list-group" ng-repeat="app in myApps">
+
+            <div class="list-group" ng-repeat="app in myApps">
                 <img ng-src="{{ app.artworkUrl512 }}" class="img-responsive" alt="App Icon">
                 <p class="app_name ">{{ app.trackName.substr(0,16) }}</p>
                 <p class="app_version">版本号 {{ app.version }}</p>
                 <p class="app_update">更新日期{{ app.latestReleaseDate.substr(0,10) }}</p>
                 <button  class="app_button_bottom hvr-box-shadow-inset" >
-                    <a href="" data-toggle="modal" data-target="#mymodal">解绑</a>
+                    <a ng-click="releaseBtnClick(app.appleId)" data-toggle="modal" data-target="#mymodal">解绑</a>
                 </button>
-
             </div>
+
             <div class="modal fade" id="mymodal">
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
                             <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
-                            <h4 class="modal-title">模态弹出窗标题</h4>
+                            <h4 class="modal-title">删除提示</h4>
                         </div>
                         <div class="modal-body">
                             <p>确认删除此应用?</p>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="releaseMyApp(app.appleId)" >删除</button>
+                            <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="releaseMyApp()" >删除</button>
                             <button type="button" class="btn btn-primary" data-dismiss="modal">取消</button>
                         </div>
                     </div><!-- /.modal-content -->
                 </div><!-- /.modal-dialog -->
             </div><!-- /.modal -->
+
 
             <!--<div class="app_add_main"  >-->
                 <!--<div  class="app_add">-->

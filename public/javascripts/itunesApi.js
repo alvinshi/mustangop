@@ -119,12 +119,14 @@ app.controller('itunesSearchControl', function($scope, $http) {
         });
     };
 
-    $scope.releaseMyApp = function(appid){
-        //$cookieStore.get("name") == "my name";
+    $scope.releaseBtnClick = function(appid){
+        $scope.prepareReleaseAppid = appid;
+    };
 
+    $scope.releaseMyApp = function(){
         var searchUrl = 'myapp/delete';
-
-        console.log(searchUrl);
+        var appid = $scope.prepareReleaseAppid
+        console.log('releaseMyApp' + appid);
         $http.post(searchUrl, {'appid':appid}).success(function(response){
             if (response.errorId == 0){
                 console.log('remove app if');

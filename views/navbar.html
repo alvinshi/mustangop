@@ -5,23 +5,6 @@
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <meta name="theme-color" content="#19B5FE">
-
-    <meta name="description" content="">
-    <meta name="author" content="">
-    <link rel="icon" href="favicon.ico">
-
-    <title>野马运营</title>
-
-    <meta name="keywords" content="ASO优化,极速运营,换评,App Store榜单排名,中小企业,移动互联网"/>
-    <meta name="description" content="野马运营是服务于中小移动互联网创业企业的网站,帮助你们的App做更好的ASO优化,评论等"/>
-
-
-    <link rel="apple-touch-icon" href="apple-touch-icon.png">
-    <!-- Place favicon.ico in the root directory -->
-
-    <link rel="stylesheet" href="/stylesheets/style.css">
-
     <!-- 引入 AngularJS Mini 文件 -->
     <script src="/javascripts/vendor/AngularJS/angular.min.js"></script>
     <script src="/javascripts/vendor/AngularJS/angular-route.min.js"></script>
@@ -33,10 +16,6 @@
 
     <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
     <script src="//cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-
-    <!--第三方 CSS JS-->
-    <link rel="stylesheet" href="../stylesheets/vendor/font-awesome.min.css">
-    <link rel="stylesheet" href="/stylesheets/vendor/hover/hover-min.css">
 
     <!--网站内部js-->
     <!--<script src="/javascripts/itunesApi.js"></script>-->
@@ -68,7 +47,9 @@
                         <a  ng-style="{color:myColors[3]}" href="/myapp" data-toggle="dropdown" class="dropdown">我的应用<span class="caret"></span></a>
                         <ul class="dropdown-menu" style="background: rgba(0,0,0,.3)">
                             <li class="myapp-list" ng-repeat="app in tracknameAPPs">
-                                <a href="app/{{app.appid}}" target="_top">{{ app.trackName }}</a>
+
+                                <a href="/app/{{app.appid}}"target="_top">{{ app.trackName }}</a>
+
                             </li>
                             <li><a href="/myapp" target="_top">管理我的应用</a></li>
                         </ul>
