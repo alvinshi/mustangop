@@ -177,7 +177,7 @@
                     </div>
 
                     <div class="media-right">
-                        <button class="btn remove_icon hvr-box-shadow-inset" ng-click="releaseHistory(app.appleId, app.hisAppVersion)">
+                        <button class="btn remove_icon hvr-box-shadow-inset" ng-click="releaseHistory(app.appleId, app.hisAppVersion)" data-target="#myhistorydelete" data-toggle="modal">
                             <img src="/images/exch_history/no_click_remove.png">
                         </button>
                     </div>
@@ -234,6 +234,23 @@
         </div>
     </div>
 </div>
+<div class="modal fade" id="myhistorydelete">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title">删除提示</h4>
+            </div>
+            <div class="modal-body">
+                <p>确认删除此条交换纪录?一旦删除将无法恢复.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="releaseMyApp()" >删除</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal">取消</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
 
 <script src="/javascripts/cookieHelper.js"></script>
 
