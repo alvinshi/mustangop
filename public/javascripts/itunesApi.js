@@ -125,7 +125,7 @@ app.controller('itunesSearchControl', function($scope, $http) {
 
     $scope.releaseMyApp = function(){
         var searchUrl = 'myapp/delete';
-        var appid = $scope.prepareReleaseAppid
+        var appid = $scope.prepareReleaseAppid;
         console.log('releaseMyApp' + appid);
         $http.post(searchUrl, {'appid':appid}).success(function(response){
             if (response.errorId == 0){
