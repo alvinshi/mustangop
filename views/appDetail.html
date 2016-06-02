@@ -54,48 +54,99 @@
 
 <iframe src="/html/navbar.html/3 "  width="100%" height="100%" scrolling="no" frameborder="0" ></iframe>
 
-<div class="container">
+<div class="container"ng-app="myAppContent" ng-controller="myAppControl">
     <div class="row">
-        <div class="col-lg-2"></div>
-        <div class="col-lg-2"></div>
+        <div class="col-lg-3 col-xs-3" style="height: 1000px;border: 1px solid red">
+              <div> 图标<img class="media-object" ng-src="{{ artworkUrl100 }}" alt="App Icon"></div>
+            <h3>{{ trackName }}</h3>
+            <p>需求编辑</p>
+            <p>任务添加</p>
+        </div><!--col-lg-3-->
+        <div class="col-lg-9 col-xs-9" style="height: 1000px;border: 1px solid black">
+            <div class="row" style="height: 200px">
+                <div class="col-lg-12">
+                    <div class="trackName">{{ trackName }}</div>
+                    <div>
+                        <span class="sellerName">开发商:{{ sellerName }}</span>
+                        <span class="AppId">AppId:{{ appleId }}</span>
+                        <span class="update">更新日期:{{ latestReleaseDate }}</span>
+                    </div>
+                </div>
+            </div><!--第一行-->
 
 
-    </div>
-</div>
-<div  class="main_content" ng-app="myAppContent" ng-controller="myAppControl">
-    <div class="media">
-        <div class="media-left">
-            <img class="media-object" ng-src="{{ artworkUrl100 }}" alt="App Icon">
-        </div>
-        <div class="media-body">
-            <h4 class="media-heading appName">{{ trackName }}</h4>
-            <div class="media-info">
-                <span class="media-object">开发商:{{ sellerName }}</span>
-                <span class="">分类:{{ appleKind }}</span>
-                <span class="media-info-appId">App ID:{{ appleId }}</span>
-                <span class="">价格:{{ formattedPrice }}</span>
-                <span class="media-info-updateDate">更新日期:{{ latestReleaseDate }}</span>
+            <div class="row" style="height: 200px";>
+                <div class="col-lg-12">
+                    <h2>外部交换</h2>
+                    <button class="btn">
+                        <a  data-toggle="modal" data-target="#mymodal">添加交换</a>
+                    </button>
+                    <p>注:添加非野马用户的交换任务</p>
+                </div>
+            </div><!--第二行-->
+
+
+            <div class="row"  style="height: 200px";>
+                <div class="col-lg-12">
+                    <div class="media" ng-repeat="app in appResults" >
+                        <div class="media-left">
+                            <img class="media-object" ng-src="{{ app.artworkUrl512 }}" alt="App Icon">
+                        </div>
+                        <div class="media-body">
+                            <h4 class="media-heading appName">{{ app.trackName }}</h4>
+                            <div class="media-object">{{ app.sellerName }}</div>
+                            <div class="media-info">
+                                <span class="media-info-updateDate">更新日期:{{ app.latestReleaseDate }}</span>
+                                <span class="media-info-appId">App Id:&nbsp;&nbsp;{{ app.appleId }}</span>
+                                <span>去除图标</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <span>评论</span>
+                        <span>下载</span>
+                        <span>交换</span>
+                        <button class="btn">上传需求截图</button>
+                        <button class="btn">保存</button>
+                    </div>
+                </div>
+            </div><!--第三行-->
+
+
+            <div class="row">
+                <div class="col-lg-12">
+                    fffff
+                </div>
+            </div><!--第四行-->
+
+
+        </div><!--col-lg-9-->
+
+
+    </div> <!--first row end-->
+</div><!--container end-->
+<div class="modal fade" id="mymodal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title">删除提示</h4>
             </div>
-        </div>
-    </div>
-
-    <div class="">
-        <div class="">
-            <span class="">需求编辑</span>
-            <span class="">任务添加</span>
-        </div>
-
-        <div class="">
-            <button class="">内部匹配</button>
-            <p>注：与野马用户直接匹配交换</p>
-            <button class="" >外部交换</button>
-            <p>注：添加非野马用户的交换任务</p>
-        </div>
-    </div>
-
-
+            <div class="modal-body">
+                <p>
+                    <iframe src="/html/add_task.html" frameborder="0" ></iframe>
+                </p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="releaseMyApp()" >删除</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal">取消</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
 
 </div>
+
 <script src="/javascripts/cookieHelper.js"></script>
 
 </body>
