@@ -103,15 +103,14 @@
 
         <div class="col-lg-12 col-sm-12 add-app ">
 
-            <div   class="list-group" ng-repeat="app in myApps">
+            <div class="list-group" ng-repeat="app in myApps">
                 <img ng-src="{{ app.artworkUrl512 }}" class="img-responsive" alt="App Icon">
                 <p class="app_name ">{{ app.trackName.substr(0,16) }}</p>
                 <p class="app_version">版本号 {{ app.version }}</p>
                 <p class="app_update">更新日期{{ app.latestReleaseDate.substr(0,10) }}</p>
                 <button  class="app_button_bottom hvr-box-shadow-inset" >
-                    <a href="" data-toggle="modal" data-target="#mymodal">解绑</a>
+                    <a ng-click="releaseBtnClick(app.appleId)" data-toggle="modal" data-target="#mymodal">解绑</a>
                 </button>
-
             </div>
 
             <div class="modal fade" id="mymodal">
@@ -119,18 +118,19 @@
                     <div class="modal-content">
                         <div class="modal-header">
                             <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
-                            <h4 class="modal-title">模态弹出窗标题</h4>
+                            <h4 class="modal-title">删除提示</h4>
                         </div>
                         <div class="modal-body">
                             <p>确认删除此应用?</p>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="releaseMyApp(app.appleId)" >删除</button>
+                            <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="releaseMyApp()" >删除</button>
                             <button type="button" class="btn btn-primary" data-dismiss="modal">取消</button>
                         </div>
                     </div><!-- /.modal-content -->
                 </div><!-- /.modal-dialog -->
             </div><!-- /.modal -->
+
 
             <!--<div class="app_add_main"  >-->
                 <!--<div  class="app_add">-->
