@@ -5,7 +5,13 @@
 var router = require('express').Router();
 var util = require('./util');
 
-// 查询 我的App
+// 加载静态html
+router.get('/:htmlName', function(req, res) {
+    var htmlName = req.params.htmlName;
+    return res.render(htmlName);
+});
+
+// 导航栏
 router.get('/:htmlName/:index', function(req, res) {
     var htmlName = req.params.htmlName;
     return res.render(htmlName);
