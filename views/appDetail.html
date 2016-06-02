@@ -35,55 +35,46 @@
 
     <!--第三方 CSS JS-->
     <link rel="stylesheet" href="../stylesheets/vendor/font-awesome.min.css">
-    <link rel="stylesheet" href="../stylesheets/myApp.css">
     <link rel="stylesheet" href="../stylesheets/loading.css">
     <link rel="stylesheet" href="/stylesheets/vendor/hover/hover-min.css">
+    <link rel="stylesheet" href="/stylesheets/appDetail.css">
+
 
     <!--网站内部js-->
     <script src="/javascripts/appDetail.js"></script>
+
+
 </head>
 <body>
 <!--[if lt IE 8]>
 <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">更新您的浏览器</a> 从而获得更好的体验.</p>
 <![endif]-->
 
+<!--导航栏-->
+
+<iframe src="/html/navbar.html/3 "  width="100%" height="100%" scrolling="no" frameborder="0" ></iframe>
+
 <div class="container">
-    <!--导航栏-->
-<nav class="navbar navbar-default nav-collapse navbar-fixed-top" id="mainbar" role="navigation">
-    <div class="container-fluid">
+    <div class="row">
+        <div class="col-lg-2"></div>
+        <div class="col-lg-2"></div>
 
-        <div class="navbar-header">
-            <a class="navbar-brand" href="/">
-                <img id="logoimage" src="/images/home/wildhorse_icon.png" alt="">
-            </a>
-        </div>
-        <div id="navbar" >
-            <ul class="nav navbar-nav">
-                <li><a style="color:white" href="/">首页</a></li>
-                <li  id="Li"><a style="color:white" href="/myapp/history">交换记录</a></li>
-                <li><a  style="color:#3498db" href="/myapp">我的应用</a></li>
-            </ul>
-            <ul class="nav navbar-nav navbar-right">
-                <li><a id="nav-username-display" href="/user" style="color:#3498db"></a></li>
-            </ul>
-        </div>
-    </div><!--/.nav-collapse -->
-</nav>
+
+    </div>
 </div>
-
 <div  class="main_content" ng-app="myAppContent" ng-controller="myAppControl">
-    <div class="media" ng-repeat="app in mytieAPP" >
+    <div class="media">
         <div class="media-left">
-            <img class="media-object" ng-src="{{ app.artworkUrl100 }}" alt="App Icon">
+            <img class="media-object" ng-src="{{ artworkUrl100 }}" alt="App Icon">
         </div>
         <div class="media-body">
-            <h4 class="media-heading appName">{{ app.trackName }}</h4>
+            <h4 class="media-heading appName">{{ trackName }}</h4>
             <div class="media-info">
-                <span class="media-object">开发商:{{ app.sellerName }}</span>
-                <span class="">分类:{{ app.appleKind }}</span>
-                <span class="media-info-appId">App ID:{{ app.appleId }}</span>
-                <span class="">价格:{{ app.formattedPrice }}</span>
-                <span class="media-info-updateDate">更新日期:{{ app.latestReleaseDate }}</span>
+                <span class="media-object">开发商:{{ sellerName }}</span>
+                <span class="">分类:{{ appleKind }}</span>
+                <span class="media-info-appId">App ID:{{ appleId }}</span>
+                <span class="">价格:{{ formattedPrice }}</span>
+                <span class="media-info-updateDate">更新日期:{{ latestReleaseDate }}</span>
             </div>
         </div>
     </div>

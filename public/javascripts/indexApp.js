@@ -3,10 +3,15 @@
  */
 
 var app = angular.module('indexApp', []);
+app.controller('indexAppCtrl', function($scope, $http, $location){
 
-app.controller('indexAppCtrl', function($scope, $http){
+    var paramsList = $location.absUrl().split('/');
+    var index = paramsList[paramsList.length - 1];
+    $scope.myColors = ['white', 'white', 'white', 'white','white'];
+    $scope.myColors[index] = '#3498db';
+
     var indexUrl = '/index';
     $http.get(indexUrl).success(function(request){
-        $scope.tracknameAPP = request.tracknameAPP;
+        $scope.tracknameAPPs = request.tracknameAPPs;
     })
 });

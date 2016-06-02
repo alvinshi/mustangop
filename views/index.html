@@ -70,8 +70,8 @@
                 <li class="dropdown">
                     <a  style="color:white" href="/myapp" data-toggle="dropdown" class="dropdown">我的应用<span class="caret"></span></a>
                     <ul class="dropdown-menu" style="background: rgba(0,0,0,.7)">
-                        <li class="myapp-list" ng-repeat="app in tracknameAPP">
-                            <a href="/app" ng-click="">{{ app.trackName }}</a>
+                        <li class="myapp-list" ng-repeat="app in tracknameAPPs">
+                            <a ng-href="app/{{app.appid}}">{{ app.trackName }}</a>
                         </li>
                         <li><a href="/myapp">管理我的应用</a></li>
                     </ul>

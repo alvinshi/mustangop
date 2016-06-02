@@ -124,7 +124,7 @@ app.controller('itunesSearchControl', function($scope, $http) {
 
         var searchUrl = 'myapp/delete';
 
-        console.log(searchUrl);
+        console.log(appid);
         $http.post(searchUrl, {'appid':appid}).success(function(response){
             if (response.errorId == 0){
                 console.log('remove app if');
