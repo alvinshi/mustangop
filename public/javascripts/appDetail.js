@@ -9,7 +9,12 @@ app.controller('myAppControl', function($scope, $http, $location){
     var myappUrl = 'baseinfo/' + appid;
 
     $http.get(myappUrl).success(function(request){
-        $scope.AppDetail = request.AppDetail;
+        $scope.artworkUrl100 = request.artworkUrl100;
+        $scope.trackName = request.trackName;
+        $scope.sellerName = request.sellerName;
+        $scope.appleId = request.appleId;
+        $scope.latestReleaseDate = request.latestReleaseDate;
+
     });
 
 });

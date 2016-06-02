@@ -32,7 +32,6 @@ router.get('/baseinfo/:appid', function(req, res){
                 var hisappObject = results[i].get('appObject');
                 var appleId = hisappObject.get('appleId');
                 if (appid == appleId){
-                    //var appContent = new Object();
                     var appObject = hisappObject.id;
                     var artworkUrl100 = hisappObject.get('artworkUrl100');
                     var trackName = hisappObject.get('trackName');
@@ -45,7 +44,7 @@ router.get('/baseinfo/:appid', function(req, res){
 
                 }
             }
-            res.json({'AppDetail':appContent});
+            res.json({'artworkUrl100':artworkUrl100, 'trackName':trackName, 'sellerName':sellerName, 'appleId':appleId, 'latestReleaseDate':latestReleaseDate});
         },
         error: function(err) {
             res.json({'errorMsg':err.message, 'errorId': err.code});
