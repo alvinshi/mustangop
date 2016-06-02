@@ -10,6 +10,7 @@ var https = require('https');
 var IOSAppSql = AV.Object.extend('IOSAppInfo');
 var IOSAppBinder = AV.Object.extend('IOSAppBinder');
 var IOSAppExcLogger = AV.Object.extend('IOSAppExcLogger');
+var File = AV.Object.extend('_File');
 
 router.get('/:appid', function(req, res, next) {
     res.render('appDetail')
@@ -17,7 +18,7 @@ router.get('/:appid', function(req, res, next) {
 
 router.get('baseinfo/:appid', function(req, res){
     var userId = util.useridInReq(req);
-    var appleid = req.params.appid;
+    var appid = req.params.appid;
 
     var user = new AV.User();
     user.id = userId;
@@ -30,7 +31,7 @@ router.get('baseinfo/:appid', function(req, res){
             for (var i = 0; i< results.length; i++){
                 var hisappObject = results[i].get('appObject');
                 var appleId = hisappObject.get('appleId');
-                if (appleId == appleid){
+                if (appid == appleId){
                     var appContent = new Object();
                     appContent.appObject = hisappObject.id;
                     appContent.artworkUrl100 = hisappObject.get('artworkUrl100');
@@ -45,9 +46,27 @@ router.get('baseinfo/:appid', function(req, res){
                 }
             }
             res.json({'AppDetail':appContent});
+        },
+        error: function(err) {
+            res.json({'errorMsg':err.message, 'errorId': err.code});
         }
     })
 });
+
+
+router.post('add/', function(req, res, next){
+    var userId = util.useridInReq(req);
+
+    var totalExcCount = req.body.totalExcCount;
+    var excKinds = req.body.excKinds;
+
+    var IOSAppExcLogger = AV.Object.createWithoutData('IOSAppExcLogger', userId);
+    IOSAppExcLogger.set('totalExcCount', totalExcCount);
+    IOSAppExcLogger.set('excKinds', excKinds);
+    IOSAppExcLogger.save().then(function(){
+        
+    })
+})
 
 module.exports = router;
 
