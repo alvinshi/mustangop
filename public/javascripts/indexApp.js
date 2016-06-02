@@ -3,13 +3,10 @@
  */
 
 var app = angular.module('indexApp', []);
-
-
 app.controller('indexAppCtrl', function($scope, $http, $location){
 
     var paramsList = $location.absUrl().split('/');
     var index = paramsList[paramsList.length - 1];
-
     $scope.myColors = ['white', 'white', 'white', 'white','white'];
     $scope.myColors[index] = '#3498db';
 
