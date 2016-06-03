@@ -2,3 +2,42 @@ body{
     margin: 0;
     padding: 0;
 }
+.left_content{
+    text-align: center;
+}
+.appname{
+    margin-top: 10%;
+    font-weight: 300;
+    font-size: 20px;
+    color: #666666;
+}
+.appicon{
+    width: 40%;
+    height: 40%;
+    border: 1px solid blue;
+    text-align: center;
+    margin-top: 10%;
+}
+.addtask{
+    display: inline-block;
+}
+.rewrite{
+    display: inline-block;
+}
+.trackName{
+    font-size: 24px;
+    color: #666666;
+    margin-top: 4%;
+}
+.appinfor-author,.appinfor-id,.appinfor-time{
+    margin-top: 24px;
+    display: inline-block;
+    margin-right: 70px;
+    font-size: 14px;
+    color: #333333;
+}
+.hr{
+    width: 100px;
+    height: 1px;
+    border: 1px solid red;
+}
