@@ -302,8 +302,14 @@ router.get('/history/angular/:appleId/:version/:pageIndex', function(req, res, n
 
     var hasmore = 0;
 
-    query.skip(pageIndex);
-    query.limit(20);
+    if (pageIndex != -1) {
+        query.skip(pageIndex);
+        query.limit(20);
+    }else {
+        //
+        query.limit(100);
+    }
+
 
     query.include('myAppObject');
     query.include('hisAppObject');

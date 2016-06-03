@@ -28,7 +28,7 @@ router.get('/index', function(req, res){
       for (var i= 0; i < results.length; i++){
         var appNameObject = new Object();
         var hisappObject = results[i].get('appObject');
-        appNameObject.trackName = hisappObject.get('trackName');
+        appNameObject.trackName = hisappObject.get('trackName').substring(0, 8) + '...';
         appNameObject.appid = hisappObject.get('appleId');
         retApps.push(appNameObject);
       }
