@@ -52,66 +52,6 @@ router.get('/baseinfo/:appid', function(req, res){
     })
 });
 
-// 获取我的记录
-router.get('/:appleId/', function(req, res, next) {
-    var userId = util.useridInReq(req);
-
-    var appId = parseInt(req.params.appleId);
-
-    var user = new AV.User();
-    user.id = userId;
-
-    var query = new AV.Query(IOSAppExcLogger);
-    query.equalTo('userId', userId);
-
-    if (appId != undefined){
-        var query_ex = new AV.Query(IOSAppExcLogger);
-        query_ex.equalTo('myAppId', appId);
-        query = AV.Query.and(query, query_ex);
-    }
-
-    query.limit(20);
-
-    query.include('myAppObject');
-    query.include('hisAppObject');
-    query.addDescending('excDateStr');
-    query.find({
-        success: function(results) {
-
-            //has blinded
-            var retApps = new Array();
-            //date merge by excDateStr for more group
-            for (var i = 0; i < results.length; i++){
-                var appHisObject = new Object();
-                var appExcHisObject = results[i].get('hisAppObject');
-                appHisObject.trackName = appExcHisObject.get('trackName');
-                appHisObject.artworkUrl100 = appExcHisObject.get('artworkUrl100');
-                appHisObject.artworkUrl512 = appExcHisObject.get('artworkUrl512');
-                appHisObject.appleId = appExcHisObject.get('appleId');
-                appHisObject.appleKind = appExcHisObject.get('appleKind');
-                appHisObject.formattedPrice = appExcHisObject.get('formattedPrice');
-                appHisObject.latestReleaseDate = appExcHisObject.get('latestReleaseDate').substr(0, 10);
-                appHisObject.sellerName = appExcHisObject.get('sellerName');
-
-                appHisObject.myAppVersion = results[i].get('myAppVersion');
-                appHisObject.hisAppVersion = results[i].get('hisAppVersion');
-                appHisObject.excHisDate = results[i].get('excDateStr');
-
-                appHisObject.totalExcCount = appExcHisObject.get('totalExcCount');
-                appHisObject.excKinds = appExcHisObject.get('excKinds');
-
-                retApps.push(appHisObject);
-
-            }
-            res.json({'myExcAllApps':retApps});
-        },
-        error: function(err) {
-            res.json({'errorMsg':err.message, 'errorId': err.code});
-        }
-    });
-});
-
-
 router.post('/:appleId', function(req, res, next){
     var userId = util.useridInReq(req);
     var myAppId = req.params.appleId;
@@ -123,6 +63,7 @@ router.post('/:appleId', function(req, res, next){
     var excKinds = req.body.excKinds;
 
     var query = new AV.Query(IOSAppExcLogger);
+    query.equalTo('userId', userId);
     query.equalTo('myAppId', myAppId);
     query.equalTo('hisAppId', hisAppId);
     query.equalTo('hisAppVersion', hisAppVersion);
@@ -136,7 +77,7 @@ router.post('/:appleId', function(req, res, next){
                 IOSAppExcLogger.save().then(function(){
                     //成功
                 }),function(error){
-                    res.json({'errorMsg':err.message, 'errorId': err.code});
+                    res.json({'errorMsg':error.message, 'errorId': error.code});
                 }
             }
 
