@@ -8,17 +8,17 @@ app.controller('myAppControl', function($scope, $http, $location){
     var appid = appurlList[appurlList.length - 1];
     var myappUrl = 'baseinfo/' + appid;
 
-    $http.get(myappUrl).success(function(request){
-        $scope.artworkUrl100 = request.artworkUrl100;
-        $scope.trackName = request.trackName;
-        $scope.sellerName = request.sellerName;
-        $scope.appleId = request.appleId;
-        $scope.latestReleaseDate = request.latestReleaseDate;
+    $http.get(myappUrl).success(function(response){
+        $scope.appBaseInfo = response.appBaseInfo;
 
+        var historyUrl = '/myapp/history/angular/' + appid + '/' + $scope.appBaseInfo.version + '/' + -1;
+        $http.get(historyUrl).success(function(response){
+            $scope.appResults = response.myExcAllApps;
+        });
     });
 
     $scope.needSave = function(){
-        var appUrl = 'baseinfo/' + appid;
+        var appUrl = 'baseinfo/' + excTaskId;
         $http.post(appUrl, {'excKinds':$scope.excKinds,'totalExcCount':$scope.totalExcCount}).success(function(response){
             $scope.errorId = response.errorId;
             $scope.errorMsg = response.errorMsg;

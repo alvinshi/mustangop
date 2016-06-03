@@ -57,19 +57,19 @@
 <div class="container" ng-app="myAppContent" ng-controller="myAppControl">
     <div class="row">
         <div class="col-lg-3 col-xs-3" style="height: 1000px;border: 1px solid red">
-              <div> 图标<img class="media-object" ng-src="{{ artworkUrl100 }}" alt="App Icon"></div>
-            <h3>{{ trackName }}</h3>
+              <div> 图标<img class="media-object" ng-src="{{ appBaseInfo.artworkUrl100 }}" alt="App Icon"></div>
+            <h3>{{ appBaseInfo.trackName }}</h3>
             <p>需求编辑</p>
             <p>任务添加</p>
         </div><!--col-lg-3-->
         <div class="col-lg-9 col-xs-9" style="height: 1000px;border: 1px solid black">
             <div class="row" style="height: 200px">
                 <div class="col-lg-12">
-                    <div class="trackName">{{ trackName }}</div>
+                    <div class="trackName">{{ appBaseInfo.trackName }}</div>
                     <div>
-                        <span class="sellerName">开发商:{{ sellerName }}</span>
-                        <span class="AppId">AppId:{{ appleId }}</span>
-                        <span class="update">更新日期:{{ latestReleaseDate }}</span>
+                        <span class="sellerName">开发商:{{ appBaseInfo.sellerName }}</span>
+                        <span class="AppId">AppId:{{ appBaseInfo.appleId }}</span>
+                        <span class="update">更新日期:{{ appBaseInfo.latestReleaseDate }}</span>
                     </div>
                 </div>
             </div><!--第一行-->

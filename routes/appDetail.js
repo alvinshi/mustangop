@@ -32,19 +32,19 @@ router.get('/baseinfo/:appid', function(req, res){
                 var hisappObject = results[i].get('appObject');
                 var appleId = hisappObject.get('appleId');
                 if (appid == appleId){
-                    var appObject = hisappObject.id;
-                    var artworkUrl100 = hisappObject.get('artworkUrl100');
-                    var trackName = hisappObject.get('trackName');
-                    var sellerName = hisappObject.get('sellerName');
-                    var appleKind = hisappObject.get('appleKind');
-                    var appleId = hisappObject.get('appleId');
-                    var formattedPrice = hisappObject.get('formattedPrice');
-                    var latestReleaseDate = hisappObject.get('latestReleaseDate');
-                    var myAppVersion = hisappObject.get('version')
-
+                    var retObject = Object()
+                    retObject.appObjectId = hisappObject.id;
+                    retObject.artworkUrl100 = hisappObject.get('artworkUrl100');
+                    retObject.trackName = hisappObject.get('trackName');
+                    retObject.sellerName = hisappObject.get('sellerName');
+                    retObject.appleKind = hisappObject.get('appleKind');
+                    retObject.appleId = hisappObject.get('appleId');
+                    retObject.formattedPrice = hisappObject.get('formattedPrice');
+                    retObject.latestReleaseDate = hisappObject.get('latestReleaseDate');
+                    retObject.version = hisappObject.get('version')
                 }
             }
-            res.json({'artworkUrl100':artworkUrl100, 'trackName':trackName, 'sellerName':sellerName, 'appleId':appleId, 'latestReleaseDate':latestReleaseDate});
+            res.json({'appBaseInfo':retObject});
         },
         error: function(err) {
             res.json({'errorMsg':err.message, 'errorId': err.code});
@@ -52,37 +52,17 @@ router.get('/baseinfo/:appid', function(req, res){
     })
 });
 
-router.post('/:appleId', function(req, res, next){
-    var userId = util.useridInReq(req);
-    var myAppId = req.params.appleId;
+router.post('/:excTaskId', function(req, res){
+    var excTaskId = req.body.excTaskId;
 
-    var hisAppId = req.body.hisAppId;
-    var hisAppVersion = req.body.hisAppVersion;
-
-    var totalExcCount = req.body.totalExcCount;
-    var excKinds = req.body.excKinds;
-
-    var query = new AV.Query(IOSAppExcLogger);
-    query.equalTo('userId', userId);
-    query.equalTo('myAppId', myAppId);
-    query.equalTo('hisAppId', hisAppId);
-    query.equalTo('hisAppVersion', hisAppVersion);
-
-    query.find({
-        success: function(results) {
-            if (results.length > 0){
-                var IOSAppExcLogger = new IOSAppExcLogger();
-                IOSAppExcLogger.set('totalExcCount', totalExcCount);
-                IOSAppExcLogger.set('excKinds', excKinds);
-                IOSAppExcLogger.save().then(function(){
-                    //成功
-                }),function(error){
-                    res.json({'errorMsg':error.message, 'errorId': error.code});
-                }
-            }
-
-        }
-    });
+    var newExcContent = AV.Object.createWithoutData('IOSAppExcLogger', excTaskId);
+    newExcContent.set('totalExcCount', totalExcCount);
+    newExcContent.set('excKinds', excKinds);
+    newExcContent.save().then(function(){
+        res.json({'errorId':0, 'errorMsg':''});
+    }),function(error){
+        //失败
+    }
 });
 
 module.exports = router;
