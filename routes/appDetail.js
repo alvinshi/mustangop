@@ -53,7 +53,9 @@ router.get('/baseinfo/:appid', function(req, res){
 });
 
 router.post('/:excTaskId', function(req, res){
-    var excTaskId = req.body.excTaskId;
+    var excTaskId = req.body.appObjectID;
+    var totalExcCount = req.body.totalExcCount;
+    var excKinds = req.body.excKinds;
 
     var newExcContent = AV.Object.createWithoutData('IOSAppExcLogger', excTaskId);
     newExcContent.set('totalExcCount', totalExcCount);

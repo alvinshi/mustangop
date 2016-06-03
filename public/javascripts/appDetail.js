@@ -18,7 +18,7 @@ app.controller('myAppControl', function($scope, $http, $location){
     });
 
     $scope.needSave = function(){
-        var appUrl = 'baseinfo/' + excTaskId;
+        var appUrl = 'baseinfo/' + $scope.excTaskId;
         $http.post(appUrl, {'excKinds':$scope.excKinds,'totalExcCount':$scope.totalExcCount}).success(function(response){
             $scope.errorId = response.errorId;
             $scope.errorMsg = response.errorMsg;
