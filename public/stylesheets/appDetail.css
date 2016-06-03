@@ -42,13 +42,51 @@ body{
     font-weight: 200;
     margin-top: 5%;
 }
-.btn{
+.add-botton{
     margin-top:20px;
     margin-left: 45%;
+    background-color: #3498db;
 }
 .notice{
     margin-left: 40%;
     font-size: 13px;
     color: #999999;
     margin-top: 10px;
+}
+.media-object{
+    width: 70px;
+    height: 70px;
+    border: 1px solid #eeeeee;
+    border-radius: 8px;
+    margin-top: 20px;
+}
+.appName{
+    font-size: 14px;
+    color: #333333;
+    margin-top: 30px;
+}
+.media-info{
+    margin-top: 20px;
+}
+.media-info span{
+    margin-right: 30px;
+    font-size: 12px;
+    color: #666666;
+
+}
+.choose{
+    margin-top: 20px;
+    margin-left: 80px;
+}
+.choose span{
+    margin-right: 60px;
+}
+.choose .picture{
+    height: 30px;
+    background-color: white;
+    border: 1px solid #3498db;
+}
+.choose .save{
+    background-color: #3498db;
+    height: 30px;
 }
