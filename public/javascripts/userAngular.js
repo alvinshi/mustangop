@@ -5,6 +5,12 @@
 var app=angular.module('userAccountApp',[]);
 
 app.controller('userAccountCtrl', function($scope, $http) {
+    $scope.displayMsg = function(){
+        console.log("$scope.errorMsg");
+        if ($scope.errorMsg === "Could not find user") $(".alert").text("无法找到用户");
+        else if($scope.errorMsg === "The username and password mismatch.") $(".alert").text("用户名与密码不符");
+        else $(".alert").text($scope.errorMsg);
+    }
 
     $scope.getSmsCode = function(){
         if ($scope.searchUrl != ''){
@@ -32,6 +38,8 @@ app.controller('userAccountCtrl', function($scope, $http) {
             $http.post(registerUrl, {'mobile': $scope.userMobile, 'password': $scope.userSecret}).success(function(response){
                 $scope.errorId = response.errorId;
                 $scope.errorMsg = response.errorMsg;
+                $scope.displayMsg();
+
             });
         }
     };
@@ -44,6 +52,8 @@ app.controller('userAccountCtrl', function($scope, $http) {
         $http.post(registerUrl, {'mobile': $scope.userMobile, 'password': $scope.userSecret, 'smsCode':$scope.userSmsCode}).success(function(response){
             $scope.errorId = response.errorId;
             $scope.errorMsg = response.errorMsg;
+            $scope.displayMsg();
+
 
             if (response.errorId == 0){
                 //return to my App
@@ -60,6 +70,7 @@ app.controller('userAccountCtrl', function($scope, $http) {
         $http.post(registerUrl, {'mobile': $scope.userMobile, 'password': $scope.userSecret}).success(function(response){
             $scope.errorId = response.errorId;
             $scope.errorMsg = response.errorMsg;
+            $scope.displayMsg();
 
             if (response.errorId == 0){
                 //return to my App
@@ -94,6 +105,8 @@ app.controller('userAccountCtrl', function($scope, $http) {
             $http.post(registerUrl, {'mobile': $scope.userMobile, 'password': $scope.userSecret}).success(function(response){
                 $scope.errorId = response.errorId;
                 $scope.errorMsg = response.errorMsg;
+                $scope.displayMsg();
+
             });
         }
     };
@@ -105,7 +118,8 @@ app.controller('userAccountCtrl', function($scope, $http) {
         $http.post(registerUrl, {'mobile': $scope.userMobile, 'smsCode':$scope.newSmsCode, 'newPassword':$scope.usernewSecret}).success(function(response){
             $scope.errorId = response.errorId;
             $scope.errorMsg = response.errorMsg;
-
+            $scope.displayMsg();
+            
             if (response.errorId == 0){
                 //return to my App
                 location.href='/user/login';
