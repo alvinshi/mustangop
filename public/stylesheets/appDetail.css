@@ -6,9 +6,9 @@ body{
     text-align: center;
 }
 .appname{
-    margin-top: 10%;
+    margin-top: 5%;
     font-weight: 300;
-    font-size: 20px;
+    font-size: 14px;
     color: #666666;
 }
 .appicon{
@@ -26,7 +26,7 @@ body{
 }
 .trackName{
     font-size: 24px;
-    color: #666666;
+    color: #333333;
     margin-top: 4%;
 }
 .appinfor-author,.appinfor-id,.appinfor-time{
@@ -36,8 +36,19 @@ body{
     font-size: 14px;
     color: #333333;
 }
-.hr{
-    width: 100px;
-    height: 1px;
-    border: 1px solid red;
+.outchange{
+    font-size: 20px;
+    color: #3498db;
+    font-weight: 200;
+    margin-top: 5%;
+}
+.btn{
+    margin-top:20px;
+    margin-left: 45%;
+}
+.notice{
+    margin-left: 40%;
+    font-size: 13px;
+    color: #999999;
+    margin-top: 10px;
 }
