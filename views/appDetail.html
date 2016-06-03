@@ -56,22 +56,50 @@
 
 <div class="container" ng-app="myAppContent" ng-controller="myAppControl">
     <div class="row">
+<<<<<<< HEAD
         <div class="col-lg-3 col-xs-3" style="height: 1000px;border: 1px solid red">
               <div> 图标<img class="media-object" ng-src="{{ appBaseInfo.artworkUrl100 }}" alt="App Icon"></div>
             <h3>{{ appBaseInfo.trackName }}</h3>
             <p>需求编辑</p>
             <p>任务添加</p>
+=======
+        <div class="col-lg-3 col-xs-3 " style="height: 1000px;border: 1px solid red">
+              <div class="left_content">
+                  <img class="appicon" ng-src="{{ artworkUrl100 }}" alt="App Icon">
+                  <p class="appname">{{ trackName }}</p>
+                  <div><img src="images/appDetail/rewrite.png" alt=""> <p class="rewrite">需求编辑</p></div>
+                  <div><img src="images/appDetail/delete.png" alt=""> <p class="addtask">任务添加</p></div>
+              </div>
+>>>>>>> 749e75d15d807bdf8a18a59a21d17e6a749762d9
         </div><!--col-lg-3-->
         <div class="col-lg-9 col-xs-9" style="height: 1000px;border: 1px solid black">
             <div class="row" style="height: 200px">
                 <div class="col-lg-12">
+<<<<<<< HEAD
                     <div class="trackName">{{ appBaseInfo.trackName }}</div>
                     <div>
                         <span class="sellerName">开发商:{{ appBaseInfo.sellerName }}</span>
                         <span class="AppId">AppId:{{ appBaseInfo.appleId }}</span>
                         <span class="update">更新日期:{{ appBaseInfo.latestReleaseDate }}</span>
+=======
+                    <div class="appinfo">
+                        <div class="trackName">{{ trackName }}</div>
+                        <div class="appinfor-author">
+                            <p class="name">开发商</p>
+                            <p class="content">{{ sellerName }}</p>
+                        </div>
+                        <div class="appinfor-id">
+                            <p class="name">AppId</p>
+                            <p class="content">{{ appleId }}</p>
+                        </div>
+                        <div class="appinfor-time">
+                            <p class="name">更新日期</p>
+                            <p class="content">{{ latestReleaseDate }}</p>
+                        </div>
+>>>>>>> 749e75d15d807bdf8a18a59a21d17e6a749762d9
                     </div>
                 </div>
+                <div class="hr"></div>
             </div><!--第一行-->
 
 
@@ -103,9 +131,20 @@
                         </div>
                     </div>
                     <div>
+<<<<<<< HEAD
                         <span>评论</span>
                         <span>下载</span>
                         <input type="">交换</input>
+=======
+                        <form>
+
+                            <input type="radio" checked="checked" name="Sex" value="male" /><span>评论</span>
+                            <input type="radio" name="Sex" value="female"/> <span>下载</span>
+                            交换 <input type="text"> 条
+                        </form>
+
+
+>>>>>>> 749e75d15d807bdf8a18a59a21d17e6a749762d9
                         <button class="btn">上传需求截图</button>
                         <button class="btn">保存</button>
                     </div>
@@ -113,11 +152,7 @@
             </div><!--第三行-->
 
 
-            <div class="row">
-                <div class="col-lg-12">
-                    fffff
-                </div>
-            </div><!--第四行-->
+
 
 
         </div><!--col-lg-9-->
@@ -133,7 +168,7 @@
 
             </div>
             <div class="modal-body">
-                    <iframe src="/html/add_task.html" frameborder="0" width="500px" height="500px" ></iframe>
+                    <iframe src="/html/addTask.html" frameborder="0" width="500px" height="500px" ></iframe>
             </div>
 
         </div><!-- /.modal-content -->
