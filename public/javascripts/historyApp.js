@@ -92,7 +92,7 @@ app.controller('historyAppCtrl', function($scope, $http, $location) {
         $scope.pageIndex = 0;
         var historyUrl = '/myapp/history/angular/' + $scope.selectedApp.appleId + '/' + $scope.selectedApp.version + '/' + $scope.pageIndex;
         $http.get(historyUrl).success(function(response){
-                $scope.myExcAllApps = response.myExcAllApps;
+            $scope.myExcAllApps = response.myExcAllApps;
             //console.log($scope.myExcAllApps);
         });
 
@@ -212,14 +212,19 @@ app.controller('historyAppCtrl', function($scope, $http, $location) {
     };
 
     //删除当前交换记录
-    $scope.releaseHistory = function(appid, appversion){
+    $scope.releaseBtnClick = function(appid,appversion){
+        $scope.prepareReleaseAppid = appid;
+        $scope.prepareReleaseVersion = appversion;
+    };
+
+    $scope.releaseHistory = function(){
         var releaseHistoryUrl = '/myapp/history/delete';
 
         var myAppId = $scope.selectedApp.appleId;
         var myAppVersion = $scope.selectedApp.version;
 
         var postParam = {'myAppId' : myAppId, 'myAppVersion' : myAppVersion,
-            'hisAppId' : appid, 'hisAppVersion' : appversion};
+            'hisAppId' : $scope.prepareReleaseAppid, 'hisAppVersion' :  $scope.prepareReleaseVersion};
         //console.log('add history' + postParam);
 
         $http.post(releaseHistoryUrl, postParam).success(function(response){
@@ -231,7 +236,7 @@ app.controller('historyAppCtrl', function($scope, $http, $location) {
                     for (var q = 0; q < $scope.appResults.length; q++){
                         var appRe = $scope.appResults[q];
 
-                        if (appRe.appleId === appid){
+                        if (appRe.appleId === $scope.prepareReleaseAppid){
                             appRe.isExced = false;
                             console.log(appRe.appleId + 'is exchanged');
                             break;
@@ -242,7 +247,7 @@ app.controller('historyAppCtrl', function($scope, $http, $location) {
                 //other thing
                 for (var i = 0; i < $scope.myExcAllApps.length; i++){
                     var app = $scope.myExcAllApps[i];
-                    if (app.appleId == appid){
+                    if (app.appleId == $scope.prepareReleaseAppid){
                         console.log('remove app to ui');
                         $scope.myExcAllApps.splice(i, 1);
                         break;
@@ -259,6 +264,8 @@ app.controller('historyAppCtrl', function($scope, $http, $location) {
     };
 
     //删除以往交换记录
+
+
     $scope.History = function(appid, appversion){
         var HistoryUrl = '/myapp/oldhistory/delete';
 
