@@ -121,6 +121,7 @@ app.controller('itunesSearchControl', function($scope, $http) {
 
     $scope.releaseBtnClick = function(appid){
         $scope.prepareReleaseAppid = appid;
+
     };
 
     $scope.releaseMyApp = function(){
