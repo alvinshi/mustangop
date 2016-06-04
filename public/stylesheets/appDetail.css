@@ -2,19 +2,41 @@ body{
     margin: 0;
     padding: 0;
 }
+.left{
+    border: 0.5px solid #e0e0e0;
+    border-style: solid none solid solid;
+    height: 3000px;
+    background-color:#f4f4f4;
+}
+.right{
+    border: 0.5px solid #e0e0e0;
+    border-style: solid solid solid none;
+}
 .left_content{
     text-align: center;
 }
+.left_content div{
+    margin-top: 20px;
+}
+#inner{
+    margin-top: 40px;
+}
+.write ,.task{
+    background-color:#f4f4f4;
+    border-style: none;
+}
 .appname{
-    margin-top: 5%;
+    margin-top: 15%;
     font-weight: 300;
     font-size: 14px;
     color: #666666;
+    line-height: 24px;
 }
 .appicon{
-    width: 40%;
-    height: 40%;
-    border: 1px solid blue;
+    width: 50%;
+    height: 50%;
+    border: 1px solid #eeeeee;
+    border-radius: 4px;
     text-align: center;
     margin-top: 10%;
 }
@@ -29,6 +51,9 @@ body{
     color: #333333;
     margin-top: 4%;
 }
+.appinfo{
+    margin-left: 48px;
+}
 .appinfor-author,.appinfor-id,.appinfor-time{
     margin-top: 24px;
     display: inline-block;
@@ -41,6 +66,7 @@ body{
     color: #3498db;
     font-weight: 200;
     margin-top: 5%;
+    margin-left: 48px;
 }
 .add-botton{
     margin-top:20px;
@@ -54,11 +80,12 @@ body{
     margin-top: 10px;
 }
 .media-object{
-    width: 70px;
-    height: 70px;
+    width: 65px;
+    height: 65px;
     border: 1px solid #eeeeee;
     border-radius: 8px;
     margin-top: 20px;
+    margin-left: 40px;
 }
 .appName{
     font-size: 14px;
@@ -67,26 +94,41 @@ body{
 }
 .media-info{
     margin-top: 20px;
+    /*float: left;*/
 }
-.media-info span{
+.media-sellername,
+.media-info-updateDate,
+.media-info-appId
+{
+
     margin-right: 30px;
-    font-size: 12px;
+    font-size: 14px;
     color: #666666;
 
 }
-.choose{
-    margin-top: 20px;
-    margin-left: 80px;
+.delete{
+    background-color: white;
+    float: right;
+    margin-right: 30px;
+    border-style: none;
+    margin-top: -30px;
+    /*border: 1px solid red;*/
 }
-.choose span{
+.choose{
+    margin-top: 25px;
+    margin-left: 115px;
+}
+.form_change{
     margin-right: 60px;
 }
 .choose .picture{
     height: 30px;
     background-color: white;
     border: 1px solid #3498db;
+
 }
 .choose .save{
     background-color: #3498db;
     height: 30px;
+    margin-left:10px;
 }
