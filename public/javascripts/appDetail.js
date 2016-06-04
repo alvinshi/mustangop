@@ -23,7 +23,8 @@ app.controller('myAppControl', function($scope, $http, $location, FileUploader){
 
     //upload file
     var uploader = $scope.uploader = new FileUploader({
-        url : '/upload/img'
+        url : '/upload/img',
+        queueLimit : 1
     });
 
     $scope.saveTask = function(app){
@@ -33,7 +34,7 @@ app.controller('myAppControl', function($scope, $http, $location, FileUploader){
             $scope.saveMgs = '';
 
             prepareSaveApp = app;
-            uploader.uploadItem(prepareUploadFile);
+            uploader.uploadItem(uploader.queue[uploader.queue.length - 1]);
 
             //上传成功的回掉里,保存换评参数
         }else {
@@ -42,18 +43,21 @@ app.controller('myAppControl', function($scope, $http, $location, FileUploader){
 
     };
 
+    $scope.deletFile = function(){
+        uploader.clearQueue();
+    };
+
     uploader.filters.push({
         name: 'imageFilter',
         fn: function(item /*{File|FileLikeObject}*/, options) {
             var type = '|' + item.type.slice(item.type.lastIndexOf('/') + 1) + '|';
-            return '|jpg|png|jpeg'.indexOf(type) !== -1;
+            return '|jpg|png|jpeg|'.indexOf(type) !== -1;
         }
     });
     // CALLBACKS
 
     uploader.onAfterAddingFile = function(fileItem) {
         console.info('onAfterAddingFile', fileItem);
-        prepareUploadFile = fileItem;
     };
     uploader.onAfterAddingAll = function(addedFileItems) {
         $scope.files = addedFileItems;
@@ -90,8 +94,8 @@ app.controller('myAppControl', function($scope, $http, $location, FileUploader){
                 $scope.errorMsg = response.errorMsg;
             });
     };
-    uploader.onCompleteAll = function(response) {
-        console.info('onCompleteAll', response);
+    uploader.onCompleteAll = function() {
+        console.info('onCompleteAll');
     };
 
     console.info('uploader', uploader);

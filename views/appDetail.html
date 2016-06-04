@@ -118,7 +118,16 @@
                         <span>交换 <input type="text" style="width: 50px;height: 28px" ng-model="app.totalExcCount"> 条</span>
 
                             <span>
-                                <input type="file" nv-file-select uploader="uploader" multiple="" accept="image/*"/>
+                                <input type="file" nv-file-select="" uploader="uploader" accept="image/*"/>
+
+                                <button class="btn" ng-hide="!uploader.queue.length" style="color: white" ng-click="deletFile(app)">删除文件</button>
+
+                                <ul>
+                                    <li ng-repeat="item in uploader.queue">
+                                        Name: <span ng-bind="item.file.name"></span><br/>
+                                    </li>
+                                </ul>
+
                                 <button class="btn save  hvr-pulse-grow"style="color: white" ng-click="saveTask(app)">保存</button>
                             </span>
                     </div>
