@@ -7,10 +7,8 @@ var AV = require('leanengine');
 var util = require('./util');
 var https = require('https');
 
-var IOSAppSql = AV.Object.extend('IOSAppInfo');
 var IOSAppBinder = AV.Object.extend('IOSAppBinder');
 var IOSAppExcLogger = AV.Object.extend('IOSAppExcLogger');
-var File = AV.Object.extend('_File');
 
 router.get('/:appid', function(req, res, next) {
     res.render('appDetail')
@@ -32,7 +30,7 @@ router.get('/baseinfo/:appid', function(req, res){
                 var hisappObject = results[i].get('appObject');
                 var appleId = hisappObject.get('appleId');
                 if (appid == appleId){
-                    var retObject = Object()
+                    var retObject = Object();
                     retObject.appObjectId = hisappObject.id;
                     retObject.artworkUrl100 = hisappObject.get('artworkUrl100');
                     retObject.trackName = hisappObject.get('trackName');
@@ -55,17 +53,20 @@ router.get('/baseinfo/:appid', function(req, res){
 router.post('/excTaskId/:excTaskId', function(req, res){
     var excTaskId = req.params.excTaskId;
     var excKinds = req.body.excKinds;
-    var totalExcCount = req.body.totalExcCount;
+    var totalExcCount = parseInt(req.body.totalExcCount);
+    var requirementImg = req.body.requirementImg;
 
     var newExcContent = AV.Object.createWithoutData('IOSAppExcLogger', excTaskId);
     newExcContent.set('excKinds', excKinds);
     newExcContent.set('totalExcCount', totalExcCount);
+    newExcContent.set('requirementImg', requirementImg);
     newExcContent.save().then(function(){
         //成功
         res.json({'errorId':0, 'errorMsg':''});
     }),function(error){
         //失败
-    }
+        res.json({'errorId':-1, 'errorMsg':error.message});
+    };
 });
 
 module.exports = router;
