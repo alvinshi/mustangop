@@ -7,7 +7,7 @@ var AV = require('leanengine');
 var https = require('https');
 
 var Base64 = require('../public/javascripts/vendor/base64').Base64;
-
+var rf = require("fs");
 var IOSAppSql = AV.Object.extend('IOSAppInfo');
 
 exports.useridInReq = function(req){
@@ -16,7 +16,57 @@ exports.useridInReq = function(req){
     return Base64.decode(encodeUserId);
 };
 
+exports.postFile = function (req, res) {
 
+    if (req.busboy) {
+        var base64dataList = Array();
+        var pubFileNameList = Array();
+        var pubMimeTypeList = Array();
+        req.busboy.on('file', function (fieldName, file, fileName, encoding, mimeType) {
+            var buffer = '';
+            file.setEncoding('base64');
+            file.on('data', function(data) {
+                buffer += data;
+            }).on('end', function() {
+                pubFileNameList.push(fileName);
+                pubMimeTypeList.push(mimeType);
+                base64dataList.push(buffer);
+            });
+        }).on('finish', function() {
+
+            var totalData = base64dataList.length;
+            var fileUrlList = Array();
+
+            for (var i = 0; i < base64dataList.length; i++){
+                (function (index){
+                    var f = new AV.File(pubFileNameList[index], {
+                        // 仅上传第一个文件（多个文件循环创建）
+                        base64: base64dataList[index]
+                    });
+                    try {
+                        f.save().then(function(fileObj) {
+                            fileUrlList.push(fileObj.url());
+                            if (fileUrlList.length == totalData){
+                                res.json({'fileUrlList':fileUrlList, 'totalCount':base64dataList.length});
+                            }
+                        });
+                    } catch (error) {
+                        totalData--;
+                        console.log('------ upload img failed ------ requirement img ' + error);
+                    }
+                }(i))
+            }
+        });
+        req.pipe(req.busboy);
+    } else {
+        console.log('uploadFile - busboy undefined.');
+        res.status(502);
+    }
+};
+
+
+// --------
+// iTunes Api deal
 function findAppIniTunes(res, userId){
     //not need
     var appInfoUrl = 'https://itunes.apple.com/lookup?id=' + appid +'&country=cn&entity=software';
