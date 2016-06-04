@@ -97,7 +97,7 @@
             </div><!--第二行-->
 
 
-            <div class="row"  style="height: 180px;border: 0.5px solid #dddddd "; ng-repeat="app in appResults">
+            <div class="row"  style="height: 180px;border: 0.5px solid #dddddd "; ng-repeat="app in myExcAllApps">
                 <div class="col-lg-12">
                     <div class="media" >
                         <div class="media-left">
@@ -138,13 +138,52 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
-
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">×</span>
+                        <span class="sr-only">Close</span>
+                    </button>
                 </div>
                 <div class="modal-body">
-                    <iframe src="/html/addTask.html" frameborder="0" width="500px" height="500px" ></iframe>
-                </div>
+                    <div class="input-group col-lg-6 col-sm-12">
+                        <input  type="text" class="form-control" ng-model="searchKey" placeholder="填写与你最新版本交换过的产品名称">
+                          <span class="input-group-btn ">
+                              <button class="btn-search" type="submit" class="btn btn-default" ng-click="searchHistoryApp()">搜索</button>
+                          </span>
+                    </div>
 
+                    <hr/>
+
+                    <div class="media" ng-repeat="app in appResults" >
+
+                        <div class="media-left">
+                            <img class="media-object" ng-src="{{ app.artworkUrl512 }}" alt="App Icon">
+                        </div>
+
+                        <div class="media-body">
+                            <h4 class="media-heading appName">{{ app.trackName }}</h4>
+                            <div class="">{{ app.sellerName }}</div>
+                            <div class="media-info">
+                                <span class="media-info-updateDate">更新日期:{{ app.latestReleaseDate }}</span>
+                                <span class="media-info-appId">App Id:&nbsp;&nbsp;{{ app.appleId }}</span>
+                            </div>
+                        </div>
+
+                        <div class="media-right" id="button">
+                            <button class="button_bottom hvr-float-shadow" ng-click="addHistory(app)" ng-hide="app.isExced">
+                                <span  id="exchistory" class=""></span>添加
+                            </button>
+                            <button class="excedBtn" ng-hide="!app.isExced">
+                                <span class=""></span>已添加
+                            </button>
+                        </div>
+                    </div>
+            <nav>
+                <ul class="pager">
+                    <li ng-hide="hasMore"><button ng-click = "nextPage()">下一页</button></li>
+                    <li ng-hide="hasMore"></li>
+                </ul>
+            </nav>
+                    <!--<iframe src="/html/addTask.html" frameborder="0" width="500px" height="500px" ></iframe>-->
             </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->
     </div><!-- /.modal -->

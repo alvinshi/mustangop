@@ -13,10 +13,44 @@ app.controller('myAppControl', function($scope, $http, $location){
 
         var historyUrl = '/myapp/history/angular/' + appid + '/' + $scope.appBaseInfo.version + '/' + -1;
         $http.get(historyUrl).success(function(response){
-            $scope.appResults = response.myExcAllApps;
+            $scope.myExcAllApps = response.myExcAllApps;
         });
-    });
 
+        //搜索iTunes
+        $scope.searchHistoryApp = function(){
+            $scope.isError = 0;
+
+            if ($scope.searchUrl != ''){
+
+                var searchUrl = '/myapp/addHistory/' + appid + '/' + $scope.appBaseInfo.version + '/' + $scope.searchKey;
+
+                $scope.progressNum = 100;
+
+                $http.get(searchUrl).success(function(response){
+
+                    console.log(response);
+
+                    $scope.appResults = response.appResults;
+
+                    $scope.progressNum = 0;
+
+                    if (response.errorMsg.length > 0){
+                        $scope.isError = 1;
+                        $scope.errorMsg = response.errorMsg;
+                    }else {
+                        $scope.errorMsg = '';
+                        if ($scope.appResults.length == 0){
+                            $scope.isError = 1;
+                            $scope.errorMsg = '未找到你搜索的App';
+                        }
+                    }
+
+                    //console.log($scope.appResults);
+                });
+            }
+        };
+
+    });
 
     $scope.saveTask = function(app){
         var appUrl = 'excTaskId/' + app.appObjectID;
