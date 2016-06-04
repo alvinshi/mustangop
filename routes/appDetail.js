@@ -54,10 +54,7 @@ router.post('/excTaskId/:excTaskId', function(req, res){
     var excTaskId = req.params.excTaskId;
     var excKinds = req.body.excKinds;
     var totalExcCount = parseInt(req.body.totalExcCount);
-<<<<<<< HEAD
-=======
     var requirementImg = req.body.requirementImg;
->>>>>>> 90028aa3d7b5c6df8c0ea7ca4e0506713758e3f1
 
     var newExcContent = AV.Object.createWithoutData('IOSAppExcLogger', excTaskId);
     newExcContent.set('excKinds', excKinds);
