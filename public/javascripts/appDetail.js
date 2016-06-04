@@ -17,16 +17,15 @@ app.controller('myAppControl', function($scope, $http, $location){
         });
     });
 
-    $scope.needSave = function(){
-        var appUrl = 'baseinfo/' + $scope.excTaskId;
-        $http.post(appUrl, {'excKinds':$scope.excKinds,'totalExcCount':$scope.totalExcCount}).success(function(response){
+
+    $scope.saveTask = function(app){
+        var appUrl = 'excTaskId/' + app.appObjectID;
+
+        $scope.files;
+
+        $http.post(appUrl, {'excKinds':app.excKinds, 'totalExcCount':app.totalExcCount}).success(function(response){
             $scope.errorId = response.errorId;
             $scope.errorMsg = response.errorMsg;
-
-            if (response.errorId == 0){
-                //return to my App
-                location.href='/:appid';
-            }
         })
     }
 

@@ -43,6 +43,8 @@
     <!--网站内部js-->
     <script src="/javascripts/appDetail.js"></script>
 
+    <script src="/javascripts/vendor/AngularJS/angular-file-upload-shim.min.js"></script>
+    <script src="/javascripts/vendor/AngularJS/angular-file-upload.min.js"></script>
 
 </head>
 <body>
@@ -115,12 +117,21 @@
                     </div>
                     <div class="choose" >
                         <form>
+<<<<<<< HEAD
                             <span class="form_change"> <input type="radio" checked="checked"  ng-model="excKinds" ng-value=1 >评论</span>
                             <span class="form_change"> <input type="radio"   ng-model="excKinds" ng-value=2 > 下载</span>
                             <span class="form_change">交换 <input type="text" class="" style="width: 50px;height: 28px" ng-model="totalExcCount" placeholder={{totalExcCount}}> 条</span>
                             <span class="form_change"> <button class="btn picture  hvr-pulse-grow" style="color:#3498db">上传需求截图</button></span>
                             <span > <button class="btn picture  hvr-pulse-grow" style="color:#3498db;display: none">重新上传截图</button></span>
                             <span><button class="btn save  hvr-pulse-grow"style="color: white" ng-click="needSave()">保存</button></span>
+=======
+                            <span> <input type="radio" checked="checked" name="Sex" value="male" ng-model="app.excKinds" ng-value=1 >评论</span>
+                            <span> <input type="radio" name="Sex" value="female" ng-model="app.excKinds" ng-value=2 > 下载</span>
+                            <span>交换 <input type="text" style="width: 50px;height: 28px" ng-model="app.totalExcCount"> 条</span>
+
+                            <span> <input type="file" onchange="fileSelected(files)" multiple accept="image/*"></span>
+                            <span><button class="btn save  hvr-pulse-grow"style="color: white" ng-click="saveTask(app)">保存</button></span>
+>>>>>>> 558a6048a917011210fe3006d2195962c2883e5c
                         </form>
                     </div>
                 </div>

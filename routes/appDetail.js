@@ -52,15 +52,16 @@ router.get('/baseinfo/:appid', function(req, res){
     })
 });
 
-router.post('/:excTaskId', function(req, res){
-    var excTaskId = req.body.appObjectID;
-    var totalExcCount = req.body.totalExcCount;
+router.post('/excTaskId/:excTaskId', function(req, res){
+    var excTaskId = req.params.excTaskId;
     var excKinds = req.body.excKinds;
+    var totalExcCount = req.body.totalExcCount;
 
     var newExcContent = AV.Object.createWithoutData('IOSAppExcLogger', excTaskId);
-    newExcContent.set('totalExcCount', totalExcCount);
     newExcContent.set('excKinds', excKinds);
+    newExcContent.set('totalExcCount', totalExcCount);
     newExcContent.save().then(function(){
+        //成功
         res.json({'errorId':0, 'errorMsg':''});
     }),function(error){
         //失败
