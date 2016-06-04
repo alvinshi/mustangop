@@ -34,12 +34,12 @@
     <script src="//cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 
     <!--第三方 CSS JS-->
-    <link rel="stylesheet" href="../stylesheets/vendor/font-awesome.min.css">
     <link rel="stylesheet" href="../stylesheets/loading.css">
     <link rel="stylesheet" href="/stylesheets/vendor/hover/hover-min.css">
 
     <!--网站内部js-->
-    <script src="/javascripts/itunesApi.js"></script>
+    <script src="/javascripts/testDemo.js"></script>
+
 </head>
 
 <body>
@@ -70,6 +70,15 @@
         </div><!-- /.navbar-collapse -->
     </div><!-- /.container-fluid -->
 </nav>
+
+<form>
+    <h3>测试选单个图片进行上传</h3>
+    <input type="file" id="testUploadFile" onchange="handleUploadFiles(this.files)"/>
+    <h3>测试选中多个图片进行上传</h3>
+    <input type="file" id="testUploadFiles" multiple="" onchange="handleFiles(this.files)"/>
+</form>
+
+
 <iframe src="navbar.html "  width="100%" height="100%"  scrolling="no" frameborder="0"></iframe>
 <div class="container">
     <div class="row">

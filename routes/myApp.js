@@ -336,7 +336,7 @@ router.get('/history/angular/:appleId/:version/:pageIndex', function(req, res, n
                 appHisObject.hisAppVersion = results[i].get('hisAppVersion');
                 appHisObject.excHisDate = results[i].get('excDateStr');
 
-                appHisObject.appObjectID = results[i].id;
+                appHisObject.appExcTaskObjectID = results[i].id;
                 appHisObject.totalExcCount = results[i].get('totalExcCount');
                 appHisObject.excKinds = results[i].get('excKinds');
                 appHisObject.requirementImg = results[i].get('requirementImg');

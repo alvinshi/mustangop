@@ -4,29 +4,25 @@ var express = require('express');
 var path = require('path');
 var ejs = require('ejs');
 var fs= require('fs');
+
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-var multipart = require('connect-multiparty');
+var busboy = require('connect-busboy');
+
 var cloud = require('./cloud');
 
 
+var customUtil = require('./routes/util');
 // 挂载子路由
-var api = require('./routes/api')//for html js api request
-var users = require('./routes/users')//user account and info center
-var userapps = require('./routes/myApp')//user app related center
+var api = require('./routes/api');//for html js api request
+var users = require('./routes/users');//user account and info center
+var userApps = require('./routes/myApp');//user app related center
 
-var loadhtml = require('./routes/loadHtml')//load static html
+var loadHtml = require('./routes/loadHtml');//load static html
 var index = require('./routes/index');
 var appDetail = require('./routes/appDetail');
 
 var app = express();
-
-// 上传文件
-var multipartMiddleware = multipart();
-app.post('/upload', multipartMiddleware, function(req, resp) {
-  console.log(req.body, req.files);
-  // don't forget to delete all req.files when done
-});
 
 // 设置 view 引擎
 app.set('views', path.join(__dirname, 'views'));
@@ -41,6 +37,7 @@ app.use(cloud);
 // （如果没有加载云代码方法请使用此方法，否则会导致部署失败，详细请阅读 LeanEngine 文档。）
 // app.use(AV.Cloud);
 
+app.use(busboy());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
@@ -107,12 +104,14 @@ app.use(function (req, res, next) {
   }else {
     next();
   }
-
-
 });
 
 app.get('/', function(req, res) {
   res.render('index', { currentTime: new Date() });
+});
+
+app.post('/upload/img', function(req, resp) {
+    customUtil.postFile(req, resp);
 });
 
 app.get('/userProtocol', function(req, res) {
@@ -120,17 +119,15 @@ app.get('/userProtocol', function(req, res) {
 });
 
 
-
-
 // 可以将一类的路由单独保存在一个文件中
 app.use('/api', api);
 app.use('/user', users);
-app.use('/myapp', userapps);
+app.use('/myapp', userApps);
 app.use('/', index);
-//静态html组建
-app.use('/html', loadhtml);
 app.use('/app', appDetail);
 
+//静态html组建
+app.use('/html', loadHtml);
 
 // 如果任何路由都没匹配到，则认为 404
 // 生成一个异常让后面的 err handler 捕获
