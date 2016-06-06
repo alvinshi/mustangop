@@ -26,13 +26,10 @@ app.controller('myAppControl', function($scope, $http, $location, FileUploader) 
 
             var searchUrl = '/myapp/addHistory/' + appid + '/' + $scope.appBaseInfo.version + '/' + $scope.searchKey;
 
-            $scope.progressNum = 100;
-
             $http.get(searchUrl).success(function (response) {
 
-                console.log(response);
-
                 $scope.appResults = response.appResults;
+
 
                 $scope.progressNum = 0;
 
@@ -50,6 +47,44 @@ app.controller('myAppControl', function($scope, $http, $location, FileUploader) 
                 //console.log($scope.appResults);
             });
         }
+    };
+
+
+    // 添加交换的应用
+    $scope.addHistory = function(hisAppInfo){
+
+        var addHistoryUrl = '/myapp/addHistory/' + appid + '/' + $scope.appBaseInfo.version;
+
+        var postParam = {'hisAppInfo' : hisAppInfo};
+        console.log('add history' + postParam);
+        $http.post(addHistoryUrl, postParam).success(function(response){
+
+            $scope.isError = response.errorId;
+            console.log(response.errorId);
+
+            if (response.errorId == 0 || response.errorId === undefined){
+
+                if ($scope.myExcAllApps == undefined){
+                    $scope.myExcAllApps = new Array();
+                }
+
+                //change ui
+                for (var i = 0; i < $scope.appResults.length; i++){
+                    var appRe = $scope.appResults[i];
+
+                    if (appRe.appleId === hisAppInfo.appleId){
+                        appRe.isExced = true;
+                        console.log(appRe.appleId + 'is exchanged');
+                        break;
+                    }
+                }
+
+                $scope.errorMsg = '';
+            }else {
+                $scope.errorMsg = response.errorMsg;
+            }
+
+        });
     };
 
     var prepareUploadFile = undefined;

@@ -161,7 +161,7 @@
 
                     <hr/>
 
-                    <div class="media" ng-repeat="app in appResults" >
+                    <div class="media" ng-repeat="app in appResults">
 
                         <div class="media-left">
                             <img class="media-object" ng-src="{{ app.artworkUrl512 }}" alt="App Icon">
@@ -185,12 +185,12 @@
                             </button>
                         </div>
                     </div>
-            <nav>
-                <ul class="pager">
-                    <li ng-hide="hasMore"><button ng-click = "nextPage()">下一页</button></li>
-                    <li ng-hide="hasMore"></li>
-                </ul>
-            </nav>
+                    <nav>
+                        <ul class="pager">
+                            <li ng-hide="hasMore"><button ng-click = "higherPage()">上一页</button></li>
+                            <li ng-hide="hasMore"><button ng-click = "nextPage()">下一页</button></li>
+                        </ul>
+                    </nav>
                     <!--<iframe src="/html/addTask.html" frameborder="0" width="500px" height="500px" ></iframe>-->
             </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->
@@ -202,7 +202,7 @@
 
 
 
-
+</div>
 <script src="/javascripts/cookieHelper.js"></script>
 
 </body>
