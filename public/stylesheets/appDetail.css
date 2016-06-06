@@ -20,6 +20,10 @@ body{
     height: 180px;
     border: 0.5px solid #dddddd ;
 }
+.row_third_column{
+    height: 180px;
+    /*border: 0.5px solid #dddddd ;*/
+}
 #inner{
     margin-top: 40px;
 }
