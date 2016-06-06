@@ -2,19 +2,47 @@ body{
     margin: 0;
     padding: 0;
 }
+.left{
+    height: 2000px;
+    background-color:#f4f4f4;
+}
+.right,.left{
+    border: 0.5px solid #e0e0e0;
+    border-style: solid solid solid none;
+}
 .left_content{
     text-align: center;
 }
+.left_content div{
+    margin-top: 20px;
+}
+.row_first,.row_second,.row_third{
+    height: 180px;
+    border: 0.5px solid #dddddd ;
+}
+.row_third_column{
+    height: 180px;
+    /*border: 0.5px solid #dddddd ;*/
+}
+#inner{
+    margin-top: 40px;
+}
+.write ,.task{
+    background-color:#f4f4f4;
+    border-style: none;
+}
 .appname{
-    margin-top: 5%;
+    margin-top: 15%;
     font-weight: 300;
     font-size: 14px;
     color: #666666;
+    line-height: 24px;
 }
 .appicon{
-    width: 40%;
-    height: 40%;
-    border: 1px solid blue;
+    width: 50%;
+    height: 50%;
+    border: 1px solid #eeeeee;
+    border-radius: 4px;
     text-align: center;
     margin-top: 10%;
 }
@@ -29,6 +57,9 @@ body{
     color: #333333;
     margin-top: 4%;
 }
+.appinfo{
+    margin-left: 48px;
+}
 .appinfor-author,.appinfor-id,.appinfor-time{
     margin-top: 24px;
     display: inline-block;
@@ -41,6 +72,7 @@ body{
     color: #3498db;
     font-weight: 200;
     margin-top: 5%;
+    margin-left: 48px;
 }
 .add-botton{
     margin-top:20px;
@@ -53,12 +85,15 @@ body{
     color: #999999;
     margin-top: 10px;
 }
+
+
 .media-object{
-    width: 70px;
-    height: 70px;
+    width: 65px;
+    height: 65px;
     border: 1px solid #eeeeee;
     border-radius: 8px;
     margin-top: 20px;
+    margin-left: 40px;
 }
 .appName{
     font-size: 14px;
@@ -67,26 +102,81 @@ body{
 }
 .media-info{
     margin-top: 20px;
+    /*float: left;*/
 }
-.media-info span{
+.media-sellername,
+.media-info-updateDate,
+.media-info-appId
+{
+
     margin-right: 30px;
     font-size: 12px;
     color: #666666;
 
 }
-.choose{
-    margin-top: 20px;
-    margin-left: 80px;
-}
-.choose span{
-    margin-right: 60px;
-}
-.choose .picture{
-    height: 30px;
+.delete{
     background-color: white;
-    border: 1px solid #3498db;
+    float: right;
+    margin-right: 30px;
+    border-style: none;
+    margin-top: -30px;
+    /*border: 1px solid red;*/
 }
+.choose{
+    margin-top: 25px;
+    margin-left: 115px;
+    margin-right: 2px;
+}
+.form{
+    margin-right: 60px;
+
+}
+.exchange {
+    width: 50px;
+    height: 26px;
+    /*border-radius: 2px;*/
+
+}
+
 .choose .save{
     background-color: #3498db;
+    height: 28px;
+    margin-right: 18px;
+    margin-top:-35px;
+    float: right;
+    color:white;
+}
+/*按钮美化*/
+.a-upload {
+    padding: 5px 10px;
     height: 30px;
+    line-height: 20px;
+    position: relative;
+    top: 10px;
+    cursor: pointer;
+    color: #3498db;
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    overflow: hidden;
+    display: inline-block;
+    *display: inline;
+    bottom: 10px;
+    *zoom: 1
+}
+
+.a-upload  input {
+    position: absolute;
+    font-size: 10px;
+    right: 0;
+    opacity: 0;
+    filter: alpha(opacity=0);
+    cursor: pointer
+}
+
+.a-upload:hover {
+    color: #3498db;
+    background: white;
+    border-color: #3498db;
+    text-decoration: none
 }
