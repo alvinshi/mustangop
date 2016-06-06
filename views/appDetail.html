@@ -68,7 +68,7 @@
               </div>
         </div><!--col-lg-2-->
         <div class="col-lg-8 col-xs-10 right">
-            <div class="row" style="height: 180px;border: 0.5px solid #dddddd">
+            <div class="row row_first" >
                 <div class="col-lg-12">
                     <div class="appinfo">
                         <div class="trackName">{{ appBaseInfo.trackName }}</div>
@@ -89,7 +89,7 @@
             </div><!--第一行-->
 
 
-            <div class="row" style="height: 180px;border: 1px solid #dddddd";>
+            <div class="row row_second">
                 <div class="col-lg-12">
                     <h2 class="outchange">外部交换</h2>
                     <button  class="btn  hvr-pulse-grow add-botton" style="color: white" data-toggle="modal" data-target="#mymodal">添加交换</button>
@@ -98,7 +98,7 @@
             </div><!--第二行-->
 
 
-            <div class="row"  style="height: 180px;border: 0.5px solid #dddddd "; ng-repeat="app in appResults">
+            <div class="row row_third"   ng-repeat="app in appResults">
                 <div class="col-lg-12">
                     <div class="media" >
                         <div class="media-left">
@@ -114,59 +114,42 @@
                             <button class="delete" ><img  src="/images/appDetail/delete.png" alt=""></span></button>
                         </div>
                     </div>
-<<<<<<< HEAD
                     <div class="choose" >
-                            <span  class="form"> <input type="radio" checked="checked" ng-model="app.excKinds" ng-value=1 > 评论</span>
-                            <span  class="form"> <input type="radio" ng-model="app.excKinds" ng-value=2 > 下载</span>
-                            <span  class="form  ">交换 <input class="exchange" type="text"  ng-model="app.totalExcCount"> 条</span>
-                            <a href="javascript:;" class="a-upload form_change "><input type="file" onchange="fileSelected(files)" multiple accept="image/*">上传需求截图 </a>
-                            <a href="javascript:;" class="a-upload form_change " style="display: none"><input type="file" onchange="fileSelected(files)" multiple accept="image/*">重新上传截图 </a>
-                            <span><button class="btn save  hvr-pulse-grow"style="color: white" ng-click="saveTask(app)">保存</button></span>
-
-
-=======
-                    <div class="choose">
-                        <span> <input type="radio" checked="checked" name="Sex" value="male" ng-model="app.excKinds" ng-value=1 >评论</span>
-                        <span> <input type="radio" name="Sex" value="female" ng-model="app.excKinds" ng-value=2 > 下载</span>
-                        <span>交换 <input type="text" style="width: 50px;height: 28px" ng-model="app.totalExcCount"> 条</span>
-
-                            <span>
-                                <input type="file" nv-file-select="" uploader="uploader" accept="image/*"/>
-
-                                <button class="btn" ng-hide="!uploader.queue.length" style="color: white" ng-click="deletFile(app)">删除文件</button>
-
-                                <ul>
-                                    <li ng-repeat="item in uploader.queue">
-                                        Name: <span ng-bind="item.file.name"></span><br/>
-                                    </li>
-                                </ul>
-
-                                <button class="btn save  hvr-pulse-grow"style="color: white" ng-click="saveTask(app)">保存</button>
+                            <span  class="form">
+                                <input type="radio" checked="checked" ng-model="app.excKinds" ng-value=1 > 评论
                             </span>
->>>>>>> 90028aa3d7b5c6df8c0ea7ca4e0506713758e3f1
+                            <span  class="form">
+                                <input type="radio" ng-model="app.excKinds" ng-value=2 > 下载
+                            </span>
+                            <span  class="form  ">交换
+                                <input class="exchange" type="text"  ng-model="app.totalExcCount"> 条
+                            </span>
+                            <a href="javascript:;" class="a-upload form_change ">
+                                <!--<input type="file" onchange="fileSelected(files)" multiple accept="image/*">上传需求截图--><!--一开始的-->
+                                <input type="file" nv-file-select="" uploader="uploader" accept="image/*"/>上传需求截图
+                            </a>
+
+
+                            <span style="position: relative;left: -100px">
+                                <button  ng-hide="!uploader.queue.length"  ng-click="deletFile(app)">删除文件</button>
+                                   <ul>
+                                      <li ng-repeat="item in uploader.queue">
+                                        Name: <span ng-bind="item.file.name"></span><br/>
+                                      </li>
+                                   </ul>
+                            </span>
+
+
+                                <button class="btn save  hvr-pulse-grow" ng-click="saveTask(app)">保存</button>
                     </div>
                 </div>
             </div><!--第三行-->
-
-
-
-            
-
-
-
-
-
-
-
-
-
-
-
-
         </div><!--col-lg-9-->
-
-
     </div><!--first row end-->
+
+
+
+
     <div class="modal fade" id="mymodal">
         <div class="modal-dialog">
             <div class="modal-content">
