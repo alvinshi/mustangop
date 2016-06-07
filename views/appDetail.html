@@ -109,48 +109,68 @@
                         </div>
                         <div class="media-body">
                             <h4 class="media-heading appName">{{app.trackName }}</h4>
+
                             <div class="media-info">
-                                <span class="media-sellername">{{app.sellerName.substring(0,15) }}</span>
+                                <span class="media-sellername">{{app.sellerName.substring(0,15)+'...' }}</span>
                                 <span class="media-info-appId">App Id:&nbsp;&nbsp;{{ app.appleId }}</span>
                                 <span class="media-info-updateDate">更新日期:{{app.latestReleaseDate }}</span>
                             </div>
-                            <button class="delete" ><img  src="/images/appDetail/delete.png" alt=""></span></button>
+
+                            <button class="delete" ng-click="releaseBtnClick(app.appleId, app.hisAppVersion)" data-target="#myhistorydelete" data-toggle="modal">
+                                <img src="/images/appDetail/delete.png" alt="">
+                            </button>
+
                         </div>
                     </div>
                     <div class="choose" >
-                            <span  class="form">
-                                <input type="radio" checked="checked" ng-model="app.excKinds" ng-value=1 > 评论
-                            </span>
-                            <span  class="form">
-                                <input type="radio" ng-model="app.excKinds" ng-value=2 > 下载
-                            </span>
-                            <span  class="form  ">交换
-                                <input class="exchange" type="text"  ng-model="app.totalExcCount"> 条
-                            </span>
-                            <a href="javascript:;" class="a-upload form_change ">
-                                <!--<input type="file" onchange="fileSelected(files)" multiple accept="image/*">上传需求截图--><!--一开始的-->
-                                <input type="file" nv-file-select="" uploader="uploader" accept="image/*"/>上传需求截图
-                            </a>
+                        <span  class="form">
+                            <input type="radio" checked="checked" ng-model="app.excKinds" ng-value=1 > 评论
+                        </span>
+                        <span  class="form">
+                            <input type="radio" ng-model="app.excKinds" ng-value=2 > 下载
+                        </span>
+                        <span  class="form  ">交换
+                            <input class="exchange" type="text"  ng-model="app.totalExcCount"> 条
+                        </span>
+                        <a href="javascript:;" class="a-upload form_change ">
+                            <!--<input type="file" onchange="fileSelected(files)" multiple accept="image/*">上传需求截图--><!--一开始的-->
+                            <input type="file" nv-file-select="" uploader="uploader" accept="image/*"/>上传需求截图
+                        </a>
 
 
-                            <span style="position: relative;left: -100px">
-                                <button  ng-hide="!uploader.queue.length"  ng-click="deletFile(app)">删除文件</button>
-                                   <ul>
-                                      <li ng-repeat="item in uploader.queue">
-                                        Name: <span ng-bind="item.file.name"></span><br/>
-                                      </li>
-                                   </ul>
-                            </span>
-
-
-                                <button class="btn save  hvr-pulse-grow" ng-click="saveTask(app)">保存</button>
+                        <span style="position: relative;left: -100px">
+                            <button  ng-hide="!uploader.queue.length"  ng-click="deletFile(app)">删除文件</button>
+                            <ul>
+                                <li ng-repeat="item in uploader.queue">
+                                    Name: <span ng-bind="item.file.name"></span><br/>
+                                </li>
+                            </ul>
+                        </span>
+                        <button class="btn save  hvr-pulse-grow" ng-click="saveTask(app)">保存</button>
                     </div>
                 </div>
-            </div><!--第三行-->
+            </div>
+
+            <div class="modal fade" id="myhistorydelete">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+                            <h4 class="modal-title">删除提示</h4>
+                        </div>
+                        <div class="modal-body">
+                            <p>确认删除此条交换纪录?一但删除将无法恢复.</p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn" data-dismiss="modal" ng-click="removeHistory()">删除</button>
+                            <button type="button" class="btn btn-primary" data-dismiss="modal">取消</button>
+                        </div>
+                    </div><!-- /.modal-content -->
+                </div><!-- /.modal-dialog -->
+            </div>
+
         </div><!--col-lg-9-->
     </div><!--first row end-->
-
-
 
 
     <div class="modal fade" id="mymodal">
@@ -164,15 +184,26 @@
                 </div>
                 <div class="modal-body">
                     <div class="input-group col-lg-6 col-sm-12">
-                        <input  type="text" class="form-control" ng-model="searchKey" placeholder="填写与你最新版本交换过的产品名称">
+                        <input  type="text" class="form-control" ng-model="searchKey" ng-keyup="keySearchApp($event)" placeholder="填写与你最新版本交换过的产品名称">
                           <span class="input-group-btn ">
-                              <button class="btn-search" type="submit" class="btn btn-default" ng-click="searchHistoryApp()">搜索</button>
+                              <button class="btn-search" type="submit" ng-click="searchHistoryApp()">搜索</button>
                           </span>
+                    </div>
+
+                    <div class="placehold-line">
+                        <div class="progress" ng-hide="!progressNum">
+                            <div ng-class="{'progress-bar': true, 'progress-bar-striped':true, active:true}" ng-style="{width: progressNum + '%'}">
+                            </div>
+                        </div>
+
+                        <div class="alert alert-warning" role="alert" ng-hide="!isError">
+                            {{ errorMsg }}
+                        </div>
                     </div>
 
                     <hr/>
 
-                    <div class="media" ng-repeat="app in appResults">
+                    <div class="media" ng-repeat="app in pagedItems[currentPage]">
 
                         <div class="media-left">
                             <img class="media-object" ng-src="{{ app.artworkUrl512 }}" alt="App Icon">
@@ -196,12 +227,19 @@
                             </button>
                         </div>
                     </div>
-                    <nav>
-                        <ul class="pager">
-                            <li ng-hide="hasMore"><button ng-click = "higherPage()">上一页</button></li>
-                            <li ng-hide="hasMore"><button ng-click = "nextPage()">下一页</button></li>
-                        </ul>
-                    </nav>
+                    <tfoot>
+                        <div class="pagination">
+
+                            <div ng-class="{disabled: currentPage == 0}">
+                                <a href ng-click="prevPage()">上一页</a>
+                            </div>
+
+                            <div ng-class="{disabled: currentPage == pagedItems.length - 1}">
+                                <a href ng-click="nextPage()">下一页</a>
+                            </div>
+
+                        </div>
+                    </tfoot>
                     <!--<iframe src="/html/addTask.html" frameborder="0" width="500px" height="500px" ></iframe>-->
             </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->
