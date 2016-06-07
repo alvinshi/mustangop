@@ -1,9 +1,17 @@
+
 body{
     margin: 0;
     padding: 0;
 }
+.main_row{
+    overflow: hidden;
+}
+[class*="col-"]{
+    margin-bottom:-9999px;
+    padding-bottom: 9999px;
+}
 .left{
-    height: 2000px;
+    /*height: 2000px;*/
     background-color:#f4f4f4;
 }
 .right,.left{
@@ -20,16 +28,27 @@ body{
     height: 180px;
     border: 0.5px solid #dddddd ;
 }
-.row_third_column{
-    height: 180px;
-    /*border: 0.5px solid #dddddd ;*/
-}
+
 #inner{
     margin-top: 40px;
 }
-.write ,.task{
+.inner_button{
+    background-color: white;
+    /*border: 1px solid red;*/
+    width: 200px;
+    margin-left: -14px;
+    height: 46px;
+}
+.write {
     background-color:#f4f4f4;
     border-style: none;
+}
+.task{
+ background-color: white;
+    border-style: none;
+    text-align: center;
+    margin-top: 10px;
+    margin-left: -10px;
 }
 .appname{
     margin-top: 15%;
@@ -140,11 +159,13 @@ body{
 
 .choose .save{
     background-color: #3498db;
-    height: 28px;
+    height: 26px;
     margin-right: 18px;
     margin-top:-35px;
     float: right;
     color:white;
+    line-height: 6px;
+    text-align: center;
 }
 /*按钮美化*/
 .a-upload {

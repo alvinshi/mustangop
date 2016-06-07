@@ -18,6 +18,9 @@ app.controller('myAppControl', function($scope, $http, $location, FileUploader) 
         });
     });
 
+
+
+
     //搜索iTunes
     $scope.searchHistoryApp = function () {
         $scope.isError = 0;
@@ -135,4 +138,4 @@ app.controller('myAppControl', function($scope, $http, $location, FileUploader) 
     };
 
     console.info('uploader', uploader);
-})
+});

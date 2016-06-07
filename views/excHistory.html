@@ -1,5 +1,5 @@
 <!doctype html>
-<div lang="zh-CN">
+<html lang="zh-CN">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
@@ -7,8 +7,6 @@
 
     <meta name="theme-color" content="#19B5FE">
 
-    <meta name="description" content="">
-    <meta name="author" content="">
     <link rel="icon" href="favicon.ico">
 
     <title>野马运营</title>
@@ -61,9 +59,7 @@
         <img class="myapp_icon" src="/images/exch_history/myapp_icon.png">
         <p class="myapp_title">我的应用</p>
     </div>
-
     <!--我的应用部分-->
-
     <div class="spinner" ng-hide="!isLoadingMyApp">
         <div class="double-bounce1"></div>
         <div class="double-bounce2"></div>
@@ -72,21 +68,17 @@
     <div class="mainapp">
         <button class="row myapp_content col-md-3 thumbnail_wrap " style="border: 2px solid gray" ng-repeat="app in myApps" ng-click="selectedAppFunc(app.appleId)">
               <img class="app_icon" ng-src="{{ app.artworkUrl100 }}" alt="App Icon">
-
               <div class="caption">
-                <h5 class="AppName">{{ app.trackName }}</h5>
-                <!--<p>开发商 {{ app.sellerName }}</p>-->
-                <div class="caption-info">
+                 <h5 class="AppName">{{ app.trackName }}</h5>
+                 <!--<p>开发商 {{ app.sellerName }}</p>-->
+                 <div class="caption-info">
                     <p class="change">App ID:&nbsp;&nbsp;{{ app.appleId }}</p>
                     <p class="change">更新时间:&nbsp;&nbsp;{{ app.latestReleaseDate.substr(0,10) }}</p>
-                </div>
+                  </div>
               </div>
-           </button>
-
-
+       </button>
     </div>
     <div style="clear: both"></div>
-
     <div class="row exchang_pattern">
         <div class="top_title col-lg-6 col-sm-12">
             <img class="exc_record_icon " src="/images/exch_history/exchang_icon.png">
@@ -111,7 +103,6 @@
                     请先添加我的应用
                 </button>
             </div>
-
         </div>
 
 
@@ -122,15 +113,12 @@
                     <div class="media-left">
                         <img class="media-object" ng-src="{{ app.artworkUrl100 }}" alt="App Icon">
                     </div>
-
                     <div class="media-body">
                         <h4 class="media-heading">{{ app.trackName }}</h4>
-
                     <div class="media-info">
                         <p class="media-info-id">App ID: {{ app.appleId }}</p>
                         <p class="media-info-name">{{ app.sellerName }}</p>
                     </div>
-
                     <div class="media-info-a">
                         <p class="media-info-lg">手动添加</p>
                         <p class="media-info-time">添加日期:{{ app.excHisDate }}</p>
@@ -149,7 +137,6 @@
                     </div>
                 </div>
             </div>
-        <nav>
             <ul class="pager">
                 <li ng-hide="!hasMore"><button ng-click = "nextPage()">下一页</button></li>
                 <li ng-hide="hasMore">没有更多数据</li>
@@ -177,11 +164,6 @@
                         <p class="media-info-time">添加日期:{{ app.excHisDate }}</p>
                     </div>
 
-                        <!--<p class="">更新日期:{{ app.latestReleaseDate }}</p>-->
-                        <!--<p>类型 {{ app.appleKind }}</p>-->
-                        <!--<p>价格 {{ app.formattedPrice }}</p>-->
-                        <!--<p>版本号 {{ app.version }}</p>-->
-                        <!--<p>交换日期 {{ app.excHisDate }}</p>-->
                     </div>
 
                     <div class="media-right">
@@ -189,9 +171,9 @@
                             <img src="/images/exch_history/no_click_remove.png">
                         </button>
                     </div>
-                </div>
-            </div>
-        </div>
+                </div><!--media end-->
+         </div><!--app_list end-->
+        </div><!--title end -->
     </div>
 
     <div class="top_back" style="display: block">

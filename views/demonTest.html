@@ -103,7 +103,7 @@
 
         </div>
     </div>
-
+<hr style="border-top:1px dashed red;margin-top: 100px;width: 300px;margin-left: 10px">
 </div>
 <div class="container">
     <div class="col-lg-4 col-md-4 col-xs-4">
@@ -143,6 +143,71 @@
         </div>
     </div>
 </div>
+<hr style="background-color: red">
+
+
+<table class="table table-hover">
+      <tr class="info">
+          <div class="media" >
+              <div class="media-left">
+                  <img class="media-object" ng-src="{{app.artworkUrl512 }}" alt="App Icon">
+              </div>
+              <div class="media-body">
+                  <h4 class="media-heading appName">{{app.trackName }}</h4>
+                  <div class="media-info">
+                      <span class="media-sellername">{{app.sellerName.substring(0,15) }}</span>
+                      <span class="media-info-appId">App Id:&nbsp;&nbsp;{{ app.appleId }}</span>
+                      <span class="media-info-updateDate">更新日期:{{app.latestReleaseDate }}</span>
+                  </div>
+
+              </div>
+          </div>
+      </tr>
+</table>
+
+
+
+<table class="table  table-bordered table-hover" style="margin: auto;width: 1001px">
+    <tbody>
+    <tr>
+        <td >
+            <div class="media" >
+                 <div class="media-left">
+                    <img class="media-object" ng-src="{{app.artworkUrl512 }}" alt="App Icon">
+                 </div>
+                <div class="media-body">
+                   <h4 class="media-heading appName">{{app.trackName }}</h4>
+                  <div class="media-info">
+                    <span class="media-sellername">{{app.sellerName.substring(0,15) }}</span>
+                    <span class="media-info-appId">App Id:&nbsp;&nbsp;{{ app.appleId }}</span>
+                    <span class="media-info-updateDate">更新日期:{{app.latestReleaseDate }}</span>
+                  </div>
+
+               </div>
+          </div>
+        </td>
+
+    </tr>
+        <td>表格单元格</td>
+        <td>表格单元格</td>
+    </tr>
+    <tr>
+        <td>表格单元格</td>
+        <td>表格单元格</td>
+        <td>表格单元格</td>
+    </tr>
+    <tr>
+        <td>表格单元格</td>
+        <td>表格单元格</td>
+        <td>表格单元格</td>
+    </tr>
+    <tr>
+        <td>表格单元格</td>
+        <td>表格单元格</td>
+        <td>表格单元格</td>
+    </tr>
+    </tbody>
+</table>
 </body>
 
 </html>
