@@ -1,76 +1,79 @@
-
 body{
     margin: 0;
     padding: 0;
 }
-.main_row{
-    overflow: hidden;
-}
-[class*="col-"]{
-    margin-bottom:-9999px;
-    padding-bottom: 9999px;
-}
-.left{
-    /*height: 2000px;*/
-    background-color:#f4f4f4;
-}
-.right,.left{
-    border: 0.5px solid #e0e0e0;
-    border-style: solid solid solid none;
-}
-.left_content{
-    text-align: center;
-}
-.left_content div{
-    margin-top: 20px;
-}
-.row_first,.row_second,.row_third{
-    height: 180px;
-    border: 0.5px solid #dddddd ;
-}
 
-#inner{
-    margin-top: 40px;
-}
-.inner_button{
-    background-color: white;
+
+.container{
+    width: 1001px;
+    margin: auto;
     /*border: 1px solid red;*/
-    width: 200px;
-    margin-left: -14px;
-    height: 46px;
 }
-.write {
-    background-color:#f4f4f4;
-    border-style: none;
+.head_left,.body_left,.content_left{
+    float: left;
+    border: 1px solid #dddddd;
+    width: 25%;
+    height: 180px;
+    background-color: #f4f4f4;
 }
-.task{
- background-color: white;
-    border-style: none;
-    text-align: center;
-    margin-top: 10px;
-    margin-left: -10px;
+.head_right,.body_right,.content_right{
+    float: right;
+    border: 1px solid #dddddd;
+    width: 75%;
+    height: 180px;
+}
+.head_left{
+    border-style:solid none none solid;
+}
+.body_left,.content_left{
+    border-style:none none none solid;
+}
+.head_right{
+    border-style:solid solid solid none;
+}
+.body_right,.content_right{
+    border-style:none  solid solid none;
+}
+.appicon{
+    width: 75px;
+    height: 75px;
+    border: 1px solid #eeeeee;
+    border-radius: 8px;
+    margin-top: 20px;
+    margin-left: 80px;
 }
 .appname{
-    margin-top: 15%;
+    margin-top: 20px;
+    text-align: center;
     font-weight: 300;
     font-size: 14px;
     color: #666666;
-    line-height: 24px;
 }
-.appicon{
-    width: 50%;
-    height: 50%;
-    border: 1px solid #eeeeee;
-    border-radius: 4px;
-    text-align: center;
-    margin-top: 10%;
+
+.write ,.task{
+    background-color:#f4f4f4;
+    border-style: none;
+    margin-left: 70px;
+}
+.task{
+    background-color: white;
+}
+.add{
+    margin-top: 10px;
+    height: 40px;
+    background-color: white;
+
+}
+
+
+.addtask,.rewrite{
+    display: inline-block;
+
 }
 .addtask{
-    display: inline-block;
+    margin-top: 10px;
 }
-.rewrite{
-    display: inline-block;
-}
+
 .trackName{
     font-size: 24px;
     color: #333333;
@@ -121,7 +124,6 @@ body{
 }
 .media-info{
     margin-top: 20px;
-    /*float: left;*/
 }
 .media-sellername,
 .media-info-updateDate,
@@ -159,13 +161,12 @@ body{
 
 .choose .save{
     background-color: #3498db;
-    height: 26px;
+    height: 28px;
     margin-right: 18px;
     margin-top:-35px;
     float: right;
     color:white;
-    line-height: 6px;
-    text-align: center;
+    line-height:6px;
 }
 /*按钮美化*/
 .a-upload {
