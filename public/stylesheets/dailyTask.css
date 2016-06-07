@@ -1,0 +1,145 @@
+.header-wrapper{
+    margin-top: 79px;
+}
+
+.header{
+    font-size: 30px;
+    color: #3498db;
+    margin-bottom: 9px;
+}
+
+.hr-header{
+    margin-top: 0px;
+    background-color: #3498db;
+    border-top: 2px solid #3498db;
+    margin-bottom: 15px;
+}
+
+.logo{
+    display: inline-block;
+    height: 70px;
+    width: 70px;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+    margin: 0px 0px 0px 40px;
+    vertical-align: top;
+}
+
+.description{
+    margin-left: 24px;
+    display: inline-block;
+    height: 70px;
+    display: inline-block;
+    vertical-align: top;
+}
+
+.task-link {
+    margin-top: 6px;
+    font-size:16px;
+    color:#000000;
+    margin-bottom: 10px;
+}
+
+.task-link:hover{
+    text-decoration: none;
+    color: #3498db;
+}
+
+.checkTask {
+    background-color:#3498db;
+    color: #ffffff;
+    border: 0px;
+    border-radius: 4px;
+    height: 28px;
+    margin-top: 21px;
+    margin-bottom: 21px;
+    font-size: 12px;
+}
+
+.row{
+    padding-top: 15px;
+    padding-bottom: 15px;
+}
+
+.hr-task{
+    margin: 0px 0px 0px 0px;
+}
+
+.id{
+    font-size: 12px;
+    margin-bottom: 8px;
+    color: #7a7a7a;
+}
+
+.company{
+    font-size: 12px;
+    margin-bottom: 8px;
+    color: #7a7a7a;
+    margin-left:56px;
+}
+
+.download{
+    font-size:12px;
+    color: red;
+    margin-bottom: 6px;
+}
+
+.left{
+    font-size: 12px;
+    margin-left: 56px;
+    color: #7a7a7a;
+}
+
+.num{
+    font-size: 14px;
+    color: #3498db;
+}
+
+@media (max-width: 768px) {
+    .logo{
+        width: 112px;
+        height: 112px;
+        border-radius: 20px;
+        margin-left: 20px;
+        border: 2px solid #e0e0e0;
+    }
+
+    .description{
+        margin-left: 20px;
+    }
+
+    .task-link{
+        font-size: 28px;
+        margin-bottom: 14px;
+    }
+
+    .id{
+        font-size: 22px;
+        margin-bottom: 14px;
+    }
+
+    .company{
+        font-size: 22px;
+        margin-bottom: 14px;
+        margin-left: 40px;
+    }
+
+    .left{
+        font-size: 22px;
+        margin-left: 40px;
+    }
+
+    .download{
+        font-size: 22px;
+    }
+
+    .num{
+        font-size: 22px;
+    }
+
+    .row{
+        margin-top: 24px;
+        margin-bottom: 24px;
+    }
+}
+

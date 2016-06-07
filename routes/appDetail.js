@@ -55,11 +55,15 @@ router.post('/excTaskId/:excTaskId', function(req, res){
     var excKinds = req.body.excKinds;
     var totalExcCount = parseInt(req.body.totalExcCount);
     var requirementImg = req.body.requirementImg;
+    var myDate = new Date();
+    var myDateStr = myDate.getFullYear() + '-' + (parseInt(myDate.getMonth())+1) + '-' + myDate.getDate() + ' ' +
+        myDate.getHours() + ':' + myDate.getMinutes() + ':' + myDate.getSeconds();     //获取当前日期
 
     var newExcContent = AV.Object.createWithoutData('IOSAppExcLogger', excTaskId);
     newExcContent.set('excKinds', excKinds);
     newExcContent.set('totalExcCount', totalExcCount);
     newExcContent.set('requirementImg', requirementImg);
+    newExcContent.set('excDateStr', myDateStr);
     newExcContent.save().then(function(){
         //成功
         res.json({'errorId':0, 'errorMsg':''});
