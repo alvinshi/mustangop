@@ -22,6 +22,7 @@ var loadHtml = require('./routes/loadHtml');//load static html
 var index = require('./routes/index');
 var appDetail = require('./routes/appDetail');
 var dailyTask = require('./routes/dailyTask');
+var taskDetail = require('./routes/taskDetail');
 
 var app = express();
 
@@ -127,6 +128,7 @@ app.use('/myapp', userApps);
 app.use('/', index);
 app.use('/app', appDetail);
 app.use('/dailyTask', dailyTask);
+app.use('/taskDetail', taskDetail);
 
 //静态html组建
 app.use('/html', loadHtml);

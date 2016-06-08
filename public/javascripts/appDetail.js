@@ -157,8 +157,8 @@ app.controller('myAppControl', function($scope, $http, $location, FileUploader) 
                 }
 
                 //change ui
-                for (var i = 0; i < $scope.appResults.length; i++){
-                    var appRe = $scope.appResults[i];
+                for (var i = 0; i < $scope.pagedItems.length; i++){
+                    var appRe = $scope.pagedItems[i];
 
                     if (appRe.appleId === hisAppInfo.appleId){
                         appRe.isExced = true;
