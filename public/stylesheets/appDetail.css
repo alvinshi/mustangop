@@ -232,6 +232,7 @@ body{
     background-color: #3498db;
     width: 60px;
     color: white;
+    outline: none;
 
 }
 .button_add{

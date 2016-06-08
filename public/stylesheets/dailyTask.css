@@ -24,7 +24,9 @@
     margin: 0px 0px 0px 40px;
     vertical-align: top;
 }
-
+.buttom_btn{
+    float: right;
+}
 .description{
     margin-left: 24px;
     display: inline-block;

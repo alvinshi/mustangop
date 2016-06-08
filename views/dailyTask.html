@@ -58,22 +58,22 @@
 
     <!--angularJs的ng-repeat-->
     <div>
-        <div class="row">
-            <div class="col-sm-10 col-xs-12" ng-repeat="app in dailyTask">
+        <div class="row" ng-repeat="app in dailyTask">
+            <div class="col-lg-12 col-xs-12 content">
                 <a href="#"><img class="logo" ng-src="{{app.artworkUrl100}}" alt="app-icon" class="img-thumbnail"/></a>
-                    <span class="description">
-                        <div><a class="task-link" href="#">{{app.trackName}}</a></div>
+                    <div class="description">
+                        <div><a class="task-link" href="#">{{app.trackName.substr(0,6)+'...'}}</a></div>
                         <div>
                             <span class="id">App ID: {{app.appleId}}</span>
-                            <span class="company">{{app.sellerName}}</span>
+                            <span class="company hidden-xs">{{app.sellerName}}</span>
                         </div>
                         <div>
                             <span><a class="download" href="#">{{app.excKinds}}</a></span>
                             <span class="left">剩余<em class="num">{{app.totalExcCount}}</em>条</span>
                         </div>
-                    </span>
+                    </div>
 
-                    <div class="col-sm-2 hidden-xs">
+                    <div class="col-lg-2 hidden-xs buttom_btn">
                         <button class="checkTask" type="button" class="btn btn-default">查看任务</button>
                     </div>
             </div>
