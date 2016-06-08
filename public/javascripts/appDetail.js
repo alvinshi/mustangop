@@ -87,7 +87,7 @@ app.controller('myAppControl', function($scope, $http, $location, FileUploader) 
 
                 var totalCount = response.appResults; //获取总数list
 
-                // 处理每页获取的数据逻辑
+                 //处理每页获取的数据逻辑
                 for (var e = 0; e < totalCount.length; e++) {
                     if (e % $scope.pageSize === 0) {
                         $scope.pagedItems[Math.floor(e / $scope.pageSize)] = [ totalCount[e] ];
@@ -95,6 +95,9 @@ app.controller('myAppControl', function($scope, $http, $location, FileUploader) 
                         $scope.pagedItems[Math.floor(e / $scope.pageSize)].push(totalCount[e]);
                     }
                 }
+
+
+
 
                 // 上一页
                 $scope.prevPage = function () {

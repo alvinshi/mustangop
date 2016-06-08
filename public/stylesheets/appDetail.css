@@ -202,3 +202,49 @@ body{
     border-color: #3498db;
     text-decoration: none
 }
+/*弹窗部分*/
+.input-group{
+    width: 500px;
+}
+.placehold-line{
+    margin-top: 15px;
+}
+.btn-search{
+    background-color: white;
+    border: 1px solid #aab2bd;
+    border-left-style: none;
+}
+.app_info{
+    border: 1px solid #e0e0e0 ;
+
+    float: left;
+    width: 360px;
+    height: 120px;
+    margin-left: 10px;
+    margin-bottom: 15px;
+}
+.media_right{
+    float: right;
+    margin-top: -50px;
+    margin-right: 20px;
+}
+.button_bottom{
+    background-color: #3498db;
+    width: 60px;
+    color: white;
+
+}
+.button_add{
+    color:white;
+    width: 60px;
+    background-color: #dddddd;
+
+}
+.pagination {
+    width: 150px;
+    /*border: 1px solid red;*/
+    margin:  10px 330px;
+}
+.pagination span{
+    margin-right: 20px;
+}
