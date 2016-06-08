@@ -74,7 +74,7 @@
                 </div>
                 <div class="appinfor-time">
                     <p class="name">更新日期</p>
-                    <p class="content">{{ appBaseInfo.latestReleaseDate }}</p>
+                    <p class="content">{{ appBaseInfo.latestReleaseDate.substring(0,10) }}</p>
                 </div>
             </div>
         </div>
@@ -203,7 +203,7 @@
                         <img class="media-object" ng-src="{{ app.artworkUrl512 }}" alt="App Icon">
                     </div>
                     <div class="media-body">
-                        <h4 class="media-heading appName">{{ app.trackName.substr(0,12)+"..." }}</h4>
+                        <h4 class="media-heading appName">{{ app.trackName.substr(0,10)+"..." }}</h4>
                         <!--<div class="">{{ app.sellerName }}</div>-->
                         <div class="media-info">
                             <!--<span class="media-info-updateDate">更新日期:{{ app.latestReleaseDate }}</span>-->

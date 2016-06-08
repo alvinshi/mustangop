@@ -32,19 +32,18 @@
     <link rel="stylesheet" href="../stylesheets/vendor/font-awesome.min.css">
     <link rel="stylesheet" href="../stylesheets/loading.css">
     <link rel="stylesheet" href="/stylesheets/vendor/hover/hover-min.css">
+    <link rel="stylesheet" href="../stylesheets/dailyTask.css">
 
     <!--网站内部js-->
-    <script src="/javascripts/itunesApi.js"></script>
+    <script src="/javascripts/todayTask.js"></script>
 </head>
-<script>
 
-</script>
 <body>
 <!--[if lt IE 8]>
 <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">更新您的浏览器</a> 从而获得更好的体验.</p>
 <![endif]-->
 <iframe src="/html/navbar.html/2 "  width="100%" height="100%" scrolling="auto" frameborder="0" style="z-index: 1" ></iframe>
-<div class="container" ng-app="dailyTaskContent" ng-controller="dailytaskControl">
+<div class="container" ng-app="dailyTaskContent" ng-controller="dailyTaskControl">
     <!--导航栏AngularJs封装,引入后替代下面导航栏-->
     <!--navbar></navbar-->
 
@@ -58,9 +57,9 @@
     <!--任务列表-->
 
     <!--angularJs的ng-repeat-->
-    <div ng-repeat="app in dailyTask">
+    <div>
         <div class="row">
-            <div class="col-sm-10 col-xs-12">
+            <div class="col-sm-10 col-xs-12" ng-repeat="app in dailyTask">
                 <a href="#"><img class="logo" ng-src="{{app.artworkUrl100}}" alt="app-icon" class="img-thumbnail"/></a>
                     <span class="description">
                         <div><a class="task-link" href="#">{{app.trackName}}</a></div>
@@ -69,13 +68,14 @@
                             <span class="company">{{app.sellerName}}</span>
                         </div>
                         <div>
-                            <span><a  class="download" href="#">{{app.excKinds}}</a></span>
+                            <span><a class="download" href="#">{{app.excKinds}}</a></span>
                             <span class="left">剩余<em class="num">{{app.totalExcCount}}</em>条</span>
                         </div>
                     </span>
-            </div>
-            <div class="col-sm-2 hidden-xs">
-                <button class="checkTask" type="button" class="btn btn-default">查看任务</button>
+
+                    <div class="col-sm-2 hidden-xs">
+                        <button class="checkTask" type="button" class="btn btn-default">查看任务</button>
+                    </div>
             </div>
         </div>
 

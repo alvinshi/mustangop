@@ -96,9 +96,6 @@ app.controller('myAppControl', function($scope, $http, $location, FileUploader) 
                     }
                 }
 
-
-
-
                 // 上一页
                 $scope.prevPage = function () {
                     if ($scope.currentPage > 0) {
