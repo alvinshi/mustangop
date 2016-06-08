@@ -19,6 +19,9 @@ router.get('/daily', function(req, res){
     var myDateStr = myDate.getFullYear() + '-' + (parseInt(myDate.getMonth())+1) + '-' + myDate.getDate();
     var query = new AV.Query(IOSAppExcLogger);
     query.equalTo('userId', userId);
+    query.exists('totalExcCount');
+    query.exists('excKinds');
+    query.exists('requirementImg');
     query.startsWith('excDateStr', myDateStr);
     query.include('hisAppObject');
     query.find().then(function(results){
@@ -43,7 +46,7 @@ router.get('/daily', function(req, res){
             if (appHisObject.excKinds == 1){
                 appHisObject.excKinds = '评论'
             }else
-                appHisObject.excKinds = '下载'
+                appHisObject.excKinds = '下载';
 
             retApps.push(appHisObject);
 

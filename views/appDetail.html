@@ -69,7 +69,7 @@
                     <p class="content">{{ appBaseInfo.sellerName.substring(0,15) }}</p>
                 </div>
                 <div class="appinfor-id">
-                    <p class="name">AppId</p>
+                    <p class="name">App ID</p>
                     <p class="content">{{ appBaseInfo.appleId }}</p>
                 </div>
                 <div class="appinfor-time">
@@ -109,7 +109,7 @@
                     <h4 class="media-heading appName">{{app.trackName }}</h4>
                     <div class="media-info">
                         <span class="media-sellername">{{app.sellerName.substring(0,15)+'...' }}</span>
-                        <span class="media-info-appId">App Id:&nbsp;&nbsp;{{ app.appleId }}</span>
+                        <span class="media-info-appId">App ID:&nbsp;&nbsp;{{ app.appleId }}</span>
                         <span class="media-info-updateDate">更新日期:{{app.latestReleaseDate }}</span>
                     </div>
                     <button class="delete" ng-click="releaseBtnClick(app.appleId, app.hisAppVersion)"
@@ -207,7 +207,7 @@
                         <!--<div class="">{{ app.sellerName }}</div>-->
                         <div class="media-info">
                             <!--<span class="media-info-updateDate">更新日期:{{ app.latestReleaseDate }}</span>-->
-                            <span class="media-info-appId">App Id:&nbsp;&nbsp;{{ app.appleId }}</span>
+                            <span class="media-info-appId">App ID:&nbsp;&nbsp;{{ app.appleId }}</span>
                         </div>
                     </div>
                     <div class=" media_right">
