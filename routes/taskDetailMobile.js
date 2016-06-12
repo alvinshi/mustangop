@@ -10,7 +10,7 @@ var https = require('https');
 var IOSAppBinder = AV.Object.extend('IOSAppBinder');
 var IOSAppExcLogger = AV.Object.extend('IOSAppExcLogger');
 
-router.get('/', function(req, res, next) {
+router.get('/:appleId', function(req, res) {
     res.render('taskDetailMobile')
 });
 

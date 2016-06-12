@@ -27,6 +27,7 @@
     <link rel="stylesheet" href="../stylesheets/taskDetail.css">
 
     <!--网站内部js-->
+    <script src="/javascripts/taskDetail.js"></script>
 
 </head>
 
@@ -45,17 +46,17 @@
 
 
     <!--任务列表-->
-    <div class="page-wrapper">
-        <a href="#"><img class="logo" src="http://img1.gamersky.com/image2014/09/20140922zy_2/gamersky_13small_26_2014922103927A.jpg" alt="" class="img-thumbnail"/></a>
+    <div class="page-wrapper" ng-app="taskDetailContent" ng-controller="taskDetailControl">
+        <a href="#"><img class="logo" ng-src="{{ oneAppInfo.artworkUrl100 }}" alt="" class="img-thumbnail"/></a>
         <span class="description">
-            <div><a class="task-link" href="#"> QQ</a></div>
+            <div class="task-link"> {{ oneAppInfo.trackName }}</div>
             <div>
-                <span class="id">App ID: 12345678</span>
-                <span class="company hidden-xs">Tencent Technology (Shenzhen) Company Limited</span>
+                <span class="id">App ID: {{ oneAppInfo.appleId }}</span>
+                <span class="company hidden-xs">{{ oneAppInfo.sellerName }}</span>
             </div>
             <div>
-                <span><a  class="download" href="#">下载</a></span>
-                <span class="left">共<span class="num">  5  </span>条</span>
+                <span class="download" >{{ oneAppInfo.excKinds }}</span>
+                <span class="left">共<span class="num">{{ oneAppInfo.totalExcCount }}</span>条</span>
             </div>
         </span>
 
@@ -63,7 +64,7 @@
 
         <div class="text-center" style="font-size: 16px; margin-top: 20px;">需求截图</div>
         <div class="text-center">
-            <img class="img-responsive screenshot" src="http://www.theskinnyconfidential.com/wp-content/uploads/2016/03/6f0921f1d186c4a1510d83cfcdd75c7e_large-1.jpeg"/>
+            <img class="img-responsive screenshot" ng-src="{{ oneAppInfo.requirementImg }}">
         </div>
 
         <hr/>

@@ -60,10 +60,10 @@
     <div>
         <div class="row" ng-repeat="app in dailyTask">
             <div class="col-lg-12 col-xs-12 content">
-                <a href="taskDetailMobile"><img class="logo" ng-src="{{app.artworkUrl100}}" alt="app-icon" class="img-thumbnail"/></a>
+                <a href="/taskDetailMobile/{{app.appleId}}"><img class="logo" ng-src="{{app.artworkUrl100}}" alt="app-icon" class="img-thumbnail"/></a>
                     <div class="description">
 
-                        <div><a class="task-link" href="taskDetailMobile">{{app.trackName.substr(0,6)+'...'}}</a></div>
+                        <div><a class="task-link" href="/taskDetailMobile/{{app.appleId}}">{{app.trackName.substr(0,6)+'...'}}</a></div>
 
                         <div>
                             <span class="id">App ID: {{app.appleId}}</span>
@@ -76,9 +76,10 @@
                     </div>
 
                     <div class="col-lg-2 hidden-xs buttom_btn">
-                        <a href="taskDetail">  <button class="checkTask" type="button" class="btn btn-default">
+                        <a href="/taskDetail/{{app.appleId}}">
+                            <button class="checkTask" type="button" class="btn btn-default">
                             查看任务
-                        </button>
+                            </button>
                         </a>
                     </div>
             </div>
