@@ -97,8 +97,9 @@
 .row{
     margin-top: 30px;
     margin-bottom: 30px;
-    margin-left: 0px;
-    margin-right: 0px;
+    /*margin-left: 0px;*/
+    /*margin-right: 0px;*/
+
 }
 
 .submission-info{
@@ -116,7 +117,7 @@
     border: 1px solid #e0e0e0;
 }
 
-[class*="col-"]{
-    padding-left:0px;
-    padding-right:0px;
-}
+/*[class*="col-"]{*/
+    /*padding-left:0px;*/
+    /*padding-right:0px;*/
+/*}*/
