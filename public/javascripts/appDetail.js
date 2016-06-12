@@ -70,6 +70,24 @@ app.controller('myAppControl', function($scope, $http, $location, FileUploader) 
         });
     };
 
+    $scope.pageSize = 6; //每页显示条数
+    $scope.pagedItems = [];
+    $scope.currentPage = 0; // 当前页
+
+    // 上一页
+    $scope.prevPage = function () {
+        if ($scope.currentPage > 0) {
+            $scope.currentPage--;
+        }
+    };
+
+    // 下一页
+    $scope.nextPage = function () {
+        if ($scope.currentPage < $scope.pagedItems.length - 1) {
+            $scope.currentPage++;
+        }
+    };
+
     //搜索iTunes
     $scope.searchHistoryApp = function () {
         $scope.isError = 0;
@@ -81,34 +99,16 @@ app.controller('myAppControl', function($scope, $http, $location, FileUploader) 
 
             $http.get(searchUrl).success(function (response) {
 
-                $scope.pageSize = 6; //每页显示条数
-                $scope.pagedItems = [];
-                $scope.currentPage = 0; // 当前页
+                var totalList = response.appResults; //获取总数list
 
-                var totalCount = response.appResults; //获取总数list
-
-                 //处理每页获取的数据逻辑
-                for (var e = 0; e < totalCount.length; e++) {
+                //处理每页获取的数据逻辑
+                for (var e = 0; e < totalList.length; e++) {
                     if (e % $scope.pageSize === 0) {
-                        $scope.pagedItems[Math.floor(e / $scope.pageSize)] = [ totalCount[e] ];
+                        $scope.pagedItems[Math.floor(e / $scope.pageSize)] = [ totalList[e] ];
                     } else {
-                        $scope.pagedItems[Math.floor(e / $scope.pageSize)].push(totalCount[e]);
+                        $scope.pagedItems[Math.floor(e / $scope.pageSize)].push(totalList[e]);
                     }
                 }
-
-                // 上一页
-                $scope.prevPage = function () {
-                    if ($scope.currentPage > 0) {
-                        $scope.currentPage--;
-                    }
-                };
-
-                // 下一页
-                $scope.nextPage = function () {
-                    if ($scope.currentPage < $scope.pagedItems.length - 1) {
-                        $scope.currentPage++;
-                    }
-                };
 
                 $scope.progressNum = 0;
 
@@ -258,4 +258,4 @@ app.controller('myAppControl', function($scope, $http, $location, FileUploader) 
     };
 
     console.info('uploader', uploader);
-})
+});
