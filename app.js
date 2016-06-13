@@ -23,7 +23,7 @@ var index = require('./routes/index');
 var appDetail = require('./routes/appDetail');
 var dailyTask = require('./routes/dailyTask');
 var taskDetail = require('./routes/taskDetail');
-var taskDetailMobile = require('./routes/taskDetailMobile');
+var taskDetailMobile = require('./routes/taskDetailMobApi');
 
 
 var app = express();

@@ -175,7 +175,6 @@ app.controller('myAppControl', function($scope, $http, $location, FileUploader) 
         });
     };
 
-    var prepareUploadFile = undefined;
     var prepareSaveApp = undefined;
 
     //upload file
