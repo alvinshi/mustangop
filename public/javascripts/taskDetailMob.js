@@ -14,7 +14,22 @@ app.controller('taskDetailMobControl', function($scope, $http, $location){
 
 
     
+    $scope.normalBtnShow = 0;
+    if(getCookie('uploadImgName').length == 0){
+        normalBtnShow = 0;
+    }else {
+        normalBtnShow = 1;
+    }
+
+    console.log('start' + getCookie('uploadImgName'));
+    setCookie('uploadImgName', 'wujiangwei', 365);
+    console.log('end' + getCookie('uploadImgName'))
+    
 });
+
+
+
+
 
 
 
