@@ -12,6 +12,7 @@ app.controller('taskDetailMobControl', function($scope, $http, $location){
         $scope.oneAppInfo = response.oneAppInfo;
     });
 
+
     var prepareSaveApp = undefined;
 
     //upload file
@@ -68,5 +69,30 @@ app.controller('taskDetailMobControl', function($scope, $http, $location){
         console.info('onCompleteAll');
     };
 
+    $scope.normalBtnShow = 0;
+    if(getCookie('uploadImgName').length == 0){
+        normalBtnShow = 0;
+    }else {
+        normalBtnShow = 1;
+    }
+
+    console.log('start' + getCookie('uploadImgName'));
+    setCookie('uploadImgName', 'wujiangwei', 365);
+    console.log('end' + getCookie('uploadImgName'))
+
 
 });
+
+
+    
+
+
+
+
+
+
+
+
+
+
+

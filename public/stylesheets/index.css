@@ -1,8 +1,7 @@
 body{
     background-image: url(/images/home/index.png);
     background-size: 100% auto;
-    background-size: 100% auto;
-    /*background-repeat: no-repeat;*/
+
 }
 
 .navbar{
@@ -10,6 +9,9 @@ body{
     height: 48px;
     border-style: none;
     background-color: rgba(1, 1, 1, 0);
+}
+.navigation >li > a{
+    color: white;
 }
 .middle{
     margin-top: 12%;

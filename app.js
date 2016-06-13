@@ -122,7 +122,6 @@ app.get('/userProtocol', function(req, res) {
   res.render('userProtocol');
 });
 
-
 // 可以将一类的路由单独保存在一个文件中
 app.use('/api', api);
 app.use('/user', users);
@@ -132,6 +131,7 @@ app.use('/app', appDetail);
 app.use('/dailyTask', dailyTask);
 app.use('/taskDetail', taskDetail);
 app.use('/taskDetailMobile', taskDetailMobile);
+
 
 //静态html组建
 app.use('/html', loadHtml);

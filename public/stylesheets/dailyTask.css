@@ -63,8 +63,9 @@
     padding-bottom: 15px;
 }
 
-.hr-task{
-    margin: 0px 0px 0px 0px;
+.hr_bottom{
+    border-color:#e0e0e0;
+    height: 0.2px;
 }
 
 .id{

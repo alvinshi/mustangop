@@ -117,7 +117,7 @@ app.controller('myAppControl', function($scope, $http, $location, FileUploader) 
                     $scope.errorMsg = response.errorMsg;
                 } else {
                     $scope.errorMsg = '';
-                    if (totalCount.length == 0) {
+                    if (totalList.length == 0) {
                         $scope.isError = 1;
                         $scope.errorMsg = '未找到你搜索的App';
                     }
