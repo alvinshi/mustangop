@@ -4,7 +4,6 @@ var AV = require('leanengine');
 var router = express.Router();
 var util = require('./util');
 var https = require('https');
-
 var User = AV.Object.extend('_User');
 
 var Base64 = require('../public/javascripts/vendor/base64').Base64;

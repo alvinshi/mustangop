@@ -10,5 +10,12 @@ app.controller('taskDetailMobControl', function($scope, $http, $location){
     var detailUrl = '/taskDetail/detail' + '/' + appleId;
     $http.get(detailUrl).success(function(response){
         $scope.oneAppInfo = response.oneAppInfo;
-    })
+    });
+
+
+    
 });
+
+
+
+

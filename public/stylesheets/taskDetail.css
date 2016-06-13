@@ -32,24 +32,20 @@
     display: inline-block;
     vertical-align: top;
 }
-
 .task-link {
     margin-top: 6px;
     font-size:16px;
     color:#000000;
     margin-bottom: 10px;
 }
-
 .task-link:hover{
     text-decoration: none;
     color: #3498db;
 }
-
-
-.hr-task{
-    margin: 0px 0px 0px 0px;
+.text-right {
+    font-size: 16px;
+    margin-top: 20px;
 }
-
 .id{
     font-size: 12px;
     margin-bottom: 8px;
@@ -89,17 +85,13 @@
 }
 
 .screenshot{
-    margin-bottom: 15px;
-    margin-top: 13px;
+    margin:15px auto;
     border: 1px solid #e0e0e0;
 }
 
 .row{
     margin-top: 30px;
     margin-bottom: 30px;
-    /*margin-left: 0px;*/
-    /*margin-right: 0px;*/
-
 }
 
 .submission-info{

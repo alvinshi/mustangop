@@ -42,8 +42,23 @@
     <script src="swiper-3.3.1.min.js"></script>
 
 </head>
+<script>
+//    alert('hello')
+    function openwin(){
+        window.open ("index.html", "newwindow", "height=100, width=400, toolbar=no, menubar=no",
+                "scrollbars=no, resizable=no, location=no, status=no")
 
-<body>
+
+    }
+</script>
+<style>
+    .div {
+        border: 1px solid #0094ff;
+        background-color: rebeccapurple;
+    }
+</style>
+
+<body onload="openwin()">
 <!--[if lt IE 8]>
 <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">更新您的浏览器</a> 从而获得更好的体验.</p>
 <![endif]-->
@@ -169,6 +184,14 @@
 
 
 
+<div ng-controller="showHideController">
+    <div ng-show="isShow" class="div">this is a div which is show</div>
+    <!--<div ng-show="!isShow" class="div">this is a div which is hide</div>-->
+    <button ng-click="showorhide()">按钮</button>
+</div>
+
+<button type="button" class="btn btn-lg btn-danger" data-toggle="popover" title="Popover title" data-content="And here's some amazing content. It's very engaging. Right?">
+    点我弹出/隐藏弹出框</button>
 
 
 </body>

@@ -32,6 +32,7 @@
     <!--网站内部js-->
     <script src="/javascripts/taskDetailMob.js"></script>
 
+
 </head>
 
 <body>
@@ -43,7 +44,6 @@
     <!--导航栏AngularJs封装,引入后替代下面导航栏-->
     <!--navbar></navbar-->
     <iframe src="/html/navbar.html/2 "  width="100%" height="100%" scrolling="auto" frameborder="0" style="z-index: 1" ></iframe>
-
     <!--任务列表-->
     <div class="page-wrapper">
         <a href="#"><img class="logo" ng-src="{{ oneAppInfo.artworkUrl100 }}" alt="" class="img-thumbnail"/></a>
@@ -78,6 +78,28 @@
             <span><img src="http://img5.imgtn.bdimg.com/it/u=3777290151,3583257864&fm=21&gp=0.jpg"/></span>
         </div>
 
+    </div>
+
+
+    <div class="container" ng-hide="">
+        <div class="row">
+            <div class="col-lg-8 col-xs-8">
+                请输入提交者昵称
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-10 col-xs-10">
+                <input  type="text" class="form-control" placeholder={{Nickname}} >
+                <!--<input type="text" placeholder="提交者昵称只需输入一次">-->
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-8 col-xs-8">
+                <button class="btn ">确认</button>
+            </div>
+        </div>
     </div>
 </div>
 </body>
