@@ -10,6 +10,7 @@ app.controller('taskDetailMobControl', function($scope, $http, $location, FileUp
     var detailUrl = '/taskDetail/detail' + '/' + appleId;
     $http.get(detailUrl).success(function (response) {
         $scope.oneAppInfo = response.oneAppInfo;
+
     });
 
     //upload file
@@ -18,18 +19,6 @@ app.controller('taskDetailMobControl', function($scope, $http, $location, FileUp
         queueLimit: 3
     });
 
-    $scope.saveImage = function () {
-
-        //一次只能保存一个任务,不支持多个同时保存
-        if (!uploader.isUploading) {
-            $scope.saveMgs = '';
-
-            //上传成功的回掉里,保存换评参数
-        } else {
-            $scope.saveMgs = '请等待上个任务保存成功';
-        }
-
-    };
 
     uploader.filters.push({
         name: 'imageFilter',
@@ -40,7 +29,7 @@ app.controller('taskDetailMobControl', function($scope, $http, $location, FileUp
     });
 
     uploader.onAfterAddingAll = function (addedFileItems) {
-        $scope.files = addedFileItems;
+        uploader.uploadAll();
         console.info('onAfterAddingAll', addedFileItems);
     };
 
@@ -56,39 +45,29 @@ app.controller('taskDetailMobControl', function($scope, $http, $location, FileUp
     uploader.onCancelItem = function (fileItem, response, status, headers) {
         console.info('onCancelItem', fileItem, response, status, headers);
     };
-    uploader.onCompleteItem = function (fileItem, response, status, headers) {
-        console.info('onCompleteItem', fileItem, response, status, headers);
 
-        var appUrl = '/taskDetailMobile/addTask/' + appleId;
+    var fileUrls = new Array();
+
+    uploader.onCompleteItem = function (fileItem, response, status, headers) {
+        fileUrls.push(response.fileUrlList[0]);
+        console.info('onCompleteItem', fileItem, response, status, headers);
+    };
+    uploader.onCompleteAll = function () {
+        console.info('onCompleteAll');
+
+        var appUrl = '/taskDetailMobile/addTask/' + $scope.oneAppInfo.taskObjectId;
 
         $http.post(appUrl, {
-                'requirementImg': response.fileUrlList[0]
+                'uploadName':getCookie('uploadImgName'),
+                'requirementImgs': fileUrls
             })
             .success(function (response) {
                 $scope.errorId = response.errorId;
                 $scope.errorMsg = response.errorMsg;
             });
     };
-    uploader.onCompleteAll = function () {
-        console.info('onCompleteAll');
-    };
 
     console.info('uploader', uploader);
-
-    var userUrl = '/taskDetailMobile/task/' + appleId;
-    $http.get(userUrl).success(function(response){
-        $scope.extUserTask = response.extUserTask;
-    })
-
-
-
-    var extTaskUrl = '/taskDetailMobile/add/' + appleId;
-    $http.post(extTaskUrl,{'hisAppId':appleId}).success(function(response){
-        $scope.errorId = response.errorId;
-        $scope.errorMsg = response.errorMsg;
-
-    })
-
 
     $scope.normalBtnShow = 0;
     if (getCookie('uploadImgName').length > 0) {

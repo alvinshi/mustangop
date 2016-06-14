@@ -10,67 +10,63 @@ var https = require('https');
 var IOSAppBinder = AV.Object.extend('IOSAppBinder');
 var IOSAppExcLogger = AV.Object.extend('IOSAppExcLogger');
 var mackTaskInfo = AV.Object.extend('mackTaskInfo');
+var File = AV.Object.extend('_File');
 
 router.get('/:appleId', function(req, res) {
     res.render('taskDetailMobile')
 });
 
-router.get('/task/:appleId', function(req, res){
-    var appid = req.params.appleId;
-
-    var query = new AV.Query(mackTaskInfo);
-    query.equalTo('hisAppId', appid);
-    query.find().then(function(results){
-        for (var i = 0; i<results.length; i++){
-            var userObject = new Object();
-            userObject.requirementImg = results[i].get('requirementImg')
-        }
-        res.json({'extUserTask':userObject});
-    })
-})
-
-router.post('/add/:appleId', function(req, res){
-    var appleid = req.params.appleId;
-    var myDate = new Date();
-    var myDateStr = myDate.getFullYear() + '-' + (parseInt(myDate.getMonth())+1) + '-' + myDate.getDate() + ' ' +
-        myDate.getHours() + ':' + myDate.getMinutes() + ':' + myDate.getSeconds();     //获取当前日期
-
-    var query = new AV.Query(mackTaskInfo);
-    query.startsWith('excDateStr', myDateStr);
-    query.equalTo('hisAppId', appleid);
-    query.find().then(function(results){
-        if (results.length < 1){
-            var mackTaskObject = new mackTaskInfo();
-            mackTaskObject.set('hisAppId', appleid);
-            mackTaskObject.set('excDateStr', myDateStr);
-            mackTaskObject.save().then(function(){
-                //成功
-
-            })
-        }
-    });
-});
-
 // 新增 做任务详情
-router.post('/addTask/:appleId', function(req, res){
-    var requirementImg = req.body.requirementImg;
+router.post('/addTask/:excTaskId', function(req, res){
+    var excTaskId = req.params.excTaskId;
+    var uploadName = req.body.uploadName;
+    var requirementImgs = req.body.requirementImgs;
 
-    var myDate = new Date();
-    var myDateStr = myDate.getFullYear() + '-' + (parseInt(myDate.getMonth())+1) + '-' + myDate.getDate() + ' ' +
-        myDate.getHours() + ':' + myDate.getMinutes() + ':' + myDate.getSeconds();     //获取当前日期
-
-    var query = new AV.Query(mackTaskInfo);
-    query.startsWith('excDateStr', myDateStr);
-    query.exists('requirementImg');
-    query.find().then(function(results){
-        if (results.length < 1){
-            var mackTaskObject = new mackTaskInfo();
-            mackTaskObject.set('requirementImg', [requirementImg]);
-            mackTaskObject.save().then(function(){
-                //成功
+    var taskFolder = AV.Object.createWithoutData('IOSAppExcLogger', excTaskId);
+    var relation = taskFolder.relation('mackTask');
+    var query = relation.query();
+    query.equalTo('uploadName', uploadName);
+    query.find().then(function (results) {
+        for (var i = 0; i<results.length; i++){
+            var taskId = results[i].id;
+            var IMages = results[i].get('requirementImg');
+            var IMage = IMages[0];
+            var query = new AV.Query(File);
+            query.equalTo('url', IMage);
+            query.find().then(function(result){
+                for (var e = 0; e<result.length; e++){
+                    var imagesId = result[e].id;
+                    var todo = AV.Object.createWithoutData('_File', imagesId);
+                    todo.destroy().then(function(){
+                        //
+                    });
+                }
             })
         }
-    })
+        if (results.length > 0){
+            var newTaskObject = AV.Object.createWithoutData('mackTaskInfo', taskId);
+            newTaskObject.set('requirementImg', requirementImgs);
+            newTaskObject.save().then(function(){
+                //
+            })
+        }else {
+            var newTaskObject = new mackTaskInfo();
+            newTaskObject.set('uploadName', uploadName);
+            newTaskObject.set('requirementImg', requirementImgs);
+            newTaskObject.save().then(function(){
+
+            });
+
+            AV.Object.saveAll(newTaskObject).then(function(){
+                var relation = taskFolder.relation('mackTask');
+                relation.add(newTaskObject);// 建立针对每一个 Todo 的 Relation
+                taskFolder.save();// 保存到云端
+            });
+
+        }
+
+    }, function (error) {
+    });
 
 });
 

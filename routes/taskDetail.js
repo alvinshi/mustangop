@@ -41,6 +41,7 @@ router.get('/detail/:appleId', function(req, res){
                 retObject.totalExcCount = results[i].get('totalExcCount');
                 retObject.requirementImg = results[i].get('requirementImg');
                 retObject.excKinds = results[i].get('excKinds');
+                retObject.taskObjectId = results[i].id;
 
                 if (retObject.excKinds == 1){
                     retObject.excKinds = '评论'
