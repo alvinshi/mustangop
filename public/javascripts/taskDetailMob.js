@@ -75,6 +75,21 @@ app.controller('taskDetailMobControl', function($scope, $http, $location, FileUp
 
     console.info('uploader', uploader);
 
+    var userUrl = '/taskDetailMobile/task/' + appleId;
+    $http.get(userUrl).success(function(response){
+        $scope.extUserTask = response.extUserTask;
+    })
+
+
+
+    var extTaskUrl = '/taskDetailMobile/add/' + appleId;
+    $http.post(extTaskUrl,{'hisAppId':appleId}).success(function(response){
+        $scope.errorId = response.errorId;
+        $scope.errorMsg = response.errorMsg;
+
+    })
+
+
     $scope.normalBtnShow = 0;
     if (getCookie('uploadImgName').length > 0) {
         $scope.normalBtnShow = 0;
@@ -91,14 +106,6 @@ app.controller('taskDetailMobControl', function($scope, $http, $location, FileUp
         }
     };
 
-    $scope.saveUploadName = function(){
-        var userUrl = '/taskDetailMobile/add/' + appleId;
-        $http.post(userUrl,{'extUserName':$scope.extUserName}).success(function(response){
-            $scope.errorId = response.errorId;
-            $scope.errorMsg = response.errorMsg;
-
-        })
-    };
 });
 
 
