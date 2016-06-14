@@ -73,15 +73,16 @@
         </div>
 
         <div class="text-center">
-            <button class="btn btn-default cust2">上传图片
-                <a href="javascript:;" class="a-upload form_change ">
-                    <input type="file" nv-file-select="" uploader="uploader" accept="image/*"/>
-                </a>
+            <a href="javascript:;" class="a-upload form_change ">
+                <input type="file" nv-file-select="" uploader="uploader" accept="image/*"/>
+            </a>
+            <button class="btn btn-default cust2" ng-click="saveImage()">上传图片
+
             </button>
         </div>
 
         <hr/>
-        <div style="text-align: right; font-size: 28px; margin: 30px 0 24px 0;">提交人: XXX</div>
+        <div style="text-align: right; font-size: 28px; margin: 30px 0 24px 0;">提交人: {{extUserName}}</div>
 
         <div class="submission-screenshot">
             <span><img src="http://img5.imgtn.bdimg.com/it/u=3777290151,3583257864&fm=21&gp=0.jpg"/></span>
