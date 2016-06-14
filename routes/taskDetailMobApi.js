@@ -15,22 +15,37 @@ router.get('/:appleId', function(req, res) {
     res.render('taskDetailMobile')
 });
 
+router.get('/task/:appleId', function(req, res){
+    var appid = req.params.appleId;
+
+    var query = new AV.Query(mackTaskInfo);
+    query.equalTo('hisAppId', appid);
+    query.find().then(function(results){
+        for (var i = 0; i<results.length; i++){
+            var userObject = new Object();
+            userObject.requirementImg = results[i].get('requirementImg')
+        }
+        res.json({'extUserTask':userObject});
+    })
+})
+
 router.post('/add/:appleId', function(req, res){
-    var extUserName = req.body.extUserName;
+    var appleid = req.params.appleId;
     var myDate = new Date();
     var myDateStr = myDate.getFullYear() + '-' + (parseInt(myDate.getMonth())+1) + '-' + myDate.getDate() + ' ' +
         myDate.getHours() + ':' + myDate.getMinutes() + ':' + myDate.getSeconds();     //获取当前日期
 
     var query = new AV.Query(mackTaskInfo);
     query.startsWith('excDateStr', myDateStr);
-    query.exists('extUserName');
+    query.equalTo('hisAppId', appleid);
     query.find().then(function(results){
         if (results.length < 1){
             var mackTaskObject = new mackTaskInfo();
-            mackTaskObject.set('extUserName', extUserName);
+            mackTaskObject.set('hisAppId', appleid);
             mackTaskObject.set('excDateStr', myDateStr);
             mackTaskObject.save().then(function(){
                 //成功
+
             })
         }
     });
