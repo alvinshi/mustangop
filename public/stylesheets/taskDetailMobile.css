@@ -100,7 +100,7 @@
     border: 2px solid #3498db;
 }
 
-.cust2,.cust3{
+.cust2{
     width: 559px;
     height: 80px;
     font-size: 34px;
@@ -108,6 +108,52 @@
     color: #3498db;
     border: 2px solid #3498db;
     margin-bottom: 50px;
+    background-color: white;
+}
+.modal-dialog{
+    width: 500px;
+    height: 400px;
+    text-align: center;
+}
+.uploaname{
+    width: 380px;
+    height: 40px;
+
+}
+  /*按钮美化*/
+.a-upload {
+    padding: 5px 10px;
+    width: 559px;
+    height: 80px;
+    font-size: 34px;
+    line-height: 60px;
+    position: relative;
+    top: 10px;
+    cursor: pointer;
+    color: #3498db;
+    background: white;
+    border: 2px solid #3498db;
+    border-radius: 8px;
+    overflow: hidden;
+    display: inline-block;
+    *display: inline;
+    bottom: 10px;
+    *zoom: 1
 }
 
+.a-upload  input {
+    position: absolute;
+    font-size: 34px;
+    /*right: 0;*/
+    opacity: 0;
+    filter: alpha(opacity=0);
+    cursor: pointer;
+    background-color: black;
+}
 
+.a-upload:hover {
+    color: #3498db;
+    background: white;
+    border-color: #3498db;
+    text-decoration: none
+}
