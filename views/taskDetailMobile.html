@@ -77,20 +77,16 @@
 
 
         <div class="text-center">
-            <button class="btn btn-default cust2" data-toggle="modal" data-target="#mymodal" ng-hide="!normalBtnShow">上传图片
-                <a href="javascript:;" class="a-upload form_change ">
-                    <!--<input type="file" nv-file-select="" uploader="uploader" accept="image/*"/>-->
-                </a>
+            <button class="btn btn-default cust2" data-toggle="modal" data-target="#mymodal" ng-hide="!normalBtnShow">
+                上传图片
             </button>
         </div>
 
 
-        <div class="text-center">
-            <button class="btn btn-default cust3" ng-hide="normalBtnShow">上传图片
-                <a href="javascript:;" class="a-upload form_change ">
-                    <input type="file" nv-file-select="" uploader="uploader" accept="image/*"/>
+        <div class="text-center" ng-hide="normalBtnShow">
+                <a href="javascript:;"  class="a-upload form_change ">
+                    <input type="file" nv-file-select="" uploader="uploader" accept="image/*"/>上传图片
                 </a>
-            </button>
         </div>
 
         <hr/>
@@ -114,7 +110,6 @@
                 <div class="modal-body">
                     <h3>请输入提交者昵称</h3>
                     <input type="text" class="uploaname" ng-model="uploadName" placeholder="提交者昵称只需提交一次">
-                    <input ng-model="uploadNameError">
                 </div>
                 <div class="modal-footer">
                     <button type="button"class="btn btn-primary"  data-dismiss="modal"
