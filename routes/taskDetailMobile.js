@@ -13,8 +13,6 @@ var IOSAppExcLogger = AV.Object.extend('IOSAppExcLogger');
 router.get('/:appleId', function(req, res) {
     res.render('taskDetailMobile')
 });
-router.get('/:appleId', function(req, res) {
-    res.render('inputName')
-});
+
 
 module.exports = router;
