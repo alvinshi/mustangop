@@ -106,7 +106,7 @@
 
 
     <div class="modal fade" id="mymodal">
-        <div class="modal-dialog">
+        <div class="modal-dialog" >
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal">
@@ -114,17 +114,15 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <h2>请输入提交者昵称</h2>
-                    <input type="text"  ng-model="uploadName" placeholder="提交者昵称只需提交一次">
-                    <div>
-                        <button class="btn">确认</button>
-                    </div>
+                    <h3>请输入提交者昵称</h3>
+                    <input type="text" class="uploaname" ng-model="uploadName" placeholder="提交者昵称只需提交一次">
+                    <input ng-model="uploadNameError">
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal"
+                    <button type="button"class="btn btn-primary"  data-dismiss="modal"
                             ng-click="saveUploadName()">保存
                     </button>
-                    <button type="button" class="btn btn-primary" data-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
                 </div>
             </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->
