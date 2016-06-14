@@ -100,7 +100,7 @@
     border: 2px solid #3498db;
 }
 
-.cust2{
+.cust2,.cust3{
     width: 559px;
     height: 80px;
     font-size: 34px;
@@ -109,4 +109,5 @@
     border: 2px solid #3498db;
     margin-bottom: 50px;
 }
+
 

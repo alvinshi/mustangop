@@ -12,16 +12,6 @@ app.controller('taskDetailMobControl', function($scope, $http, $location, FileUp
         $scope.oneAppInfo = response.oneAppInfo;
     });
 
-    $scope.Confirm = function(){
-        var userUrl = '/taskDetailMobile/add/' + appleId;
-        $http.post(userUrl,{'extUserName':$scope.extUserName}).success(function(response){
-            $scope.errorId = response.errorId;
-            $scope.errorMsg = response.errorMsg;
-
-        })
-    };
-
-
     //upload file
     var uploader = $scope.uploader = new FileUploader({
         url: '/upload/img',
@@ -86,16 +76,29 @@ app.controller('taskDetailMobControl', function($scope, $http, $location, FileUp
     console.info('uploader', uploader);
 
     $scope.normalBtnShow = 0;
-    if (getCookie('uploadImgName').length == 0) {
-        normalBtnShow = 0;
+    if (getCookie('uploadImgName').length > 0) {
+        $scope.normalBtnShow = 0;
     } else {
-        normalBtnShow = 1;
+        $scope.normalBtnShow = 1;
     }
 
-    console.log('start' + getCookie('uploadImgName'));
-    setCookie('uploadImgName', 'wujiangwei', 365);
-    console.log('end' + getCookie('uploadImgName'))
+    $scope.saveUploadName = function() {
+        if ($scope.uploadName != undefined && $scope.uploadName.length > 0) {
+            setCookie('uploadImgName', $scope.uploadName, 365);
+            $scope.uploadNameError = '';
+        }else {
+            $scope.uploadNameError = '昵称不能为空';
+        }
+    };
 
+    $scope.saveUploadName = function(){
+        var userUrl = '/taskDetailMobile/add/' + appleId;
+        $http.post(userUrl,{'extUserName':$scope.extUserName}).success(function(response){
+            $scope.errorId = response.errorId;
+            $scope.errorMsg = response.errorMsg;
+
+        })
+    };
 });
 
 

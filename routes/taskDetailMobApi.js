@@ -16,7 +16,6 @@ router.get('/:appleId', function(req, res) {
 });
 
 router.post('/add/:appleId', function(req, res){
-    var appleid = req.params.appleId;
     var extUserName = req.body.extUserName;
     var myDate = new Date();
     var myDateStr = myDate.getFullYear() + '-' + (parseInt(myDate.getMonth())+1) + '-' + myDate.getDate() + ' ' +
