@@ -71,12 +71,15 @@
     margin-right: 20px;
 }
 
-.screenshot{
-    margin-bottom: 30px;
-    margin-top: 24px;
-    border: 1px solid #e0e0e0;
-}
 
+.text-center{
+    font-size: 26px;
+    margin-top: 23px;
+
+}
+.image-center img{
+    margin: 10px auto;
+}
 .submission-screenshot{
     text-align: center;
     clear: both;
@@ -105,10 +108,10 @@
     height: 80px;
     font-size: 34px;
     border-radius: 10px;
-    color: #3498db;
+    color: white;
     border: 2px solid #3498db;
     margin-bottom: 50px;
-    background-color: white;
+    background-color: #3498db;
 }
 .modal-dialog{
     width: 500px;
@@ -130,8 +133,8 @@
     position: relative;
     top: 10px;
     cursor: pointer;
-    color: #3498db;
-    background: white;
+    color:white ;
+    background:#3498db ;
     border: 2px solid #3498db;
     border-radius: 8px;
     overflow: hidden;
@@ -144,16 +147,15 @@
 .a-upload  input {
     position: absolute;
     font-size: 34px;
-    /*right: 0;*/
+    right: 0;
     opacity: 0;
     filter: alpha(opacity=0);
     cursor: pointer;
-    background-color: black;
 }
 
 .a-upload:hover {
-    color: #3498db;
-    background: white;
-    border-color: #3498db;
+    color: black;
+    background: #e0e0e0;
+    border-color: lightgray;
     text-decoration: none
 }

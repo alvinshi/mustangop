@@ -140,35 +140,48 @@
                         </li>
                     </ul>
                 </span>
-                <button class="btn save  hvr-pulse-grow" ng-click="saveTask(app)">保存</button>
+                <button class="btn save" ng-click="saveTask(app)"  data-target="#save" data-toggle="modal">保存</button>
             </div>
         </div><!--choose-->
     </div><!--第三个框-->
 
 
-           <div class="modal modal-lg fade" id="myhistorydelete">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal">
-                                <span aria-hidden="true">×</span>
-                                <span class="sr-only">Close</span></button>
-                            <h4 class="modal-title">删除提示</h4>
-                        </div>
-                        <div class="modal-body">
-                            <p>确认删除此条交换纪录?一但删除将无法恢复.</p>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn" data-dismiss="modal" ng-click="removeHistory()">删除</button>
-                            <button type="button" class="btn btn-primary" data-dismiss="modal">取消</button>
-                        </div>
-                    </div><!-- /.modal-content -->
-                </div><!-- /.modal-dialog -->
-            </div>
 
+    <div class="modal modal-lg fade" id="myhistorydelete">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">×</span>
+                        <span class="sr-only">Close</span></button>
+                    <h4 class="modal-title">删除提示</h4>
+                </div>
+                <div class="modal-body">
+                    <p>确认删除此条交换纪录?一但删除将无法恢复.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn" data-dismiss="modal" ng-click="removeHistory()">删除</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">取消</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div>
+    <div class="modal modal-lg fade" id="save">
+        <div class="modal-dialog" style="width: 300px;position: absolute;right: 100px">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">×</span>
+                        <span class="sr-only">Close</span></button>
+                </div>
+                <div class="modal-body">
+                    <p>已保存!</p>
+                </div>
 
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div>
 
-    <div>
     <div class="modal fade" id="mymodal">
        <div class="modal-dialog" style="width: 780px">
         <div class="modal-content">
@@ -235,8 +248,10 @@
         </div>
     </div>
   </div>
- </div><!-- /.modal -->
+
 </div><!--container end-->
+
+
 <script src="/javascripts/cookieHelper.js"></script>
 
  </body>

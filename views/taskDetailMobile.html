@@ -51,7 +51,7 @@
     <div class="page-wrapper">
         <a href="#"><img class="logo" ng-src="{{ oneAppInfo.artworkUrl100 }}" alt="" class="img-thumbnail"/></a>
         <div class="description">
-            <div class="task-link">{{ oneAppInfo.trackName }}</div>
+            <div class="task-link">{{ oneAppInfo.trackName.substr(0,6)+'...' }}</div>
             <div>
                 <span class="id">App ID: {{ oneAppInfo.appleId }}</span>
                 <span class="company hidden-xs">{{ oneAppInfo.sellerName }}</span>
@@ -64,8 +64,8 @@
 
         <hr/>
 
-        <div class="text-center" style="font-size: 26px; margin-top: 23px;">需求截图</div>
-        <div class="text-center">
+        <div class="text-center">需求截图</div>
+        <div class="image-center">
             <img class="img-responsive screenshot" ng-src="{{ oneAppInfo.requirementImg }}"/>
         </div>
 
@@ -93,7 +93,7 @@
         <div style="text-align: right; font-size: 28px; margin: 30px 0 24px 0;">提交人: {{uploadName}}</div>
 
         <div class="submission-screenshot">
-            <span><img ng-src="{{extUserTask.requirementImg}}"/></span>
+            <img ng-src="{{extUserTask.requirementImg}}"/>
         </div>
 
     </div>

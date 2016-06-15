@@ -86,7 +86,11 @@
 
 .screenshot{
     margin:15px auto;
-    border: 1px solid #e0e0e0;
+    border: 1px solid red;
+    width: 160px;
+    height: 200px;
+    object-fit: contain;
+
 }
 
 .row{
@@ -99,14 +103,14 @@
     margin-bottom: 20px;
 }
 
-.submission-screenshot{
-    clear: both;
-}
+
 
 .submission-screenshot img{
     width:140px;
     margin-right: 10px;
     border: 1px solid #e0e0e0;
+    object-fit: contain;
+    /*border: 1px solid red;*/
 }
 
 /*[class*="col-"]{*/
