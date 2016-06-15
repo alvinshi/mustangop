@@ -17,7 +17,9 @@ router.get('/daily', function(req, res){
     var userId = util.useridInReq(req);
     var myDate = new Date();
     var myDateStr = myDate.getFullYear() + '-' + (parseInt(myDate.getMonth())+1) + '-' + myDate.getDate();
+
     var query = new AV.Query(IOSAppExcLogger);
+
     query.equalTo('userId', userId);
     query.exists('totalExcCount');
     query.exists('excKinds');
@@ -27,6 +29,7 @@ router.get('/daily', function(req, res){
     query.find().then(function(results){
         var retApps = new Array();
         for (var i = 0; i< results.length; i++){
+
             var appHisObject = new Object();
             var appExcHisObject = results[i].get('hisAppObject');
             appHisObject.trackName = appExcHisObject.get('trackName');
@@ -42,11 +45,21 @@ router.get('/daily', function(req, res){
             appHisObject.hisAppVersion = results[i].get('hisAppVersion');
             appHisObject.excHisDate = results[i].get('excDateStr');
             appHisObject.excKinds = results[i].get('excKinds');
-            appHisObject.totalExcCount = results[i].get('totalExcCount');
+            appHisObject.taskObjectId = results[i].id;
+
             if (appHisObject.excKinds == 1){
                 appHisObject.excKinds = '评论'
             }else
                 appHisObject.excKinds = '下载';
+
+            var totalExcCount = results[i].get('totalExcCount');
+            var taskCount = results[i].get('taskCount');
+            var SurplusCount = totalExcCount - taskCount;
+            if (SurplusCount == totalExcCount){
+                appHisObject.surplusCount = totalExcCount;
+            }else {
+                appHisObject.surplusCount = SurplusCount;
+            }
 
             retApps.push(appHisObject);
 
