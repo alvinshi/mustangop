@@ -57,6 +57,14 @@ router.post('/addTask/:excTaskId', function(req, res){
 
             });
 
+            taskFolder.set('taskCount', 0);
+            taskFolder.save().then(function(task){
+                task.increment('taskCount', 1);
+                task.save().then(function(){
+                    //
+                })
+            });
+
             AV.Object.saveAll(newTaskObject).then(function(){
                 var relation = taskFolder.relation('mackTask');
                 relation.add(newTaskObject);// 建立针对每一个 Todo 的 Relation
