@@ -3,8 +3,11 @@
  */
 var app = angular.module('dailyTaskContent', []);
 
-app.controller('dailyTaskControl', function($scope, $http){
-    var todayUrl = 'dailyTask/daily';
+app.controller('dailyTaskControl', function($scope, $http, $location){
+    var appurlList = $location.absUrl().split('/');
+    var userId = appurlList[appurlList.length - 1];
+
+    var todayUrl = '/dailyTask/daily/' + userId;
 
     $http.get(todayUrl).success(function(response){
         $scope.dailyTask = response.myDailyApps;

@@ -85,7 +85,7 @@
 
         <div class="text-center" ng-hide="normalBtnShow">
                 <a href="javascript:;"  class="a-upload form_change ">
-                    <input type="file" nv-file-select="" uploader="uploader" accept="image/*"/>上传图片
+                    <input type="file" multiple nv-file-select="" uploader="uploader" accept="image/*"/>上传图片
                 </a>
         </div>
 
@@ -93,7 +93,7 @@
         <div style="text-align: right; font-size: 28px; margin: 30px 0 24px 0;">提交人: {{uploadName}}</div>
 
         <div class="submission-screenshot">
-            <span><img ng-src="{{requirementImgs}}"/></span>
+            <span><img ng-repeat="image in images" ng-src="{{image}}"/></span>
         </div>
 
     </div>

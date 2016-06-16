@@ -16,7 +16,8 @@ app.controller('taskDetailMobControl', function($scope, $http, $location, FileUp
     //upload file
     var uploader = $scope.uploader = new FileUploader({
         url: '/upload/img',
-        queueLimit: 3
+        queueLimit: 3,
+        removeAfterUpload:true
     });
 
 
@@ -27,6 +28,8 @@ app.controller('taskDetailMobControl', function($scope, $http, $location, FileUp
             return '|jpg|png|jpeg|'.indexOf(type) !== -1;
         }
     });
+
+    var fileUrls = new Array();
 
     uploader.onAfterAddingAll = function (addedFileItems) {
         uploader.uploadAll();
@@ -46,8 +49,6 @@ app.controller('taskDetailMobControl', function($scope, $http, $location, FileUp
         console.info('onCancelItem', fileItem, response, status, headers);
     };
 
-    var fileUrls = new Array();
-
     uploader.onCompleteItem = function (fileItem, response, status, headers) {
         fileUrls.push(response.fileUrlList[0]);
         console.info('onCompleteItem', fileItem, response, status, headers);
@@ -64,6 +65,11 @@ app.controller('taskDetailMobControl', function($scope, $http, $location, FileUp
             .success(function (response) {
                 $scope.errorId = response.errorId;
                 $scope.errorMsg = response.errorMsg;
+                $scope.uploadName = response.uploadName;
+                $scope.images = response.requirementImgs;
+
+                uploader.clearQueue();
+                fileUrls = new Array();
             });
     };
 
