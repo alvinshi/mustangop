@@ -2,8 +2,9 @@
 <html lang="zh-CN">
 <head>
     <meta charset="utf-8">
-    <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+
 
     <meta name="theme-color" content="#19B5FE">
     <link rel="icon" href="favicon.ico">
@@ -46,25 +47,69 @@
 
     <!--任务列表-->
     <div class="page-wrapper" ng-app="taskDetailContent" ng-controller="taskDetailControl">
-        <a href="#"><img class="logo" ng-src="{{ oneAppInfo.artworkUrl100 }}" alt="" class="img-thumbnail"/></a>
-        <span class="description">
-            <div class="task-link"> {{ oneAppInfo.trackName }}</div>
-            <div>
-                <span class="id">App ID: {{ oneAppInfo.appleId }}</span>
-                <span class="company hidden-xs">{{ oneAppInfo.sellerName }}</span>
+        <div class="media">
+            <div class="media-left">
+                <a href="#"><img class="logo" ng-src="{{ oneAppInfo.artworkUrl100 }}" alt="" class="img-thumbnail"/></a>
             </div>
-            <div>
-                <span class="download" >{{ oneAppInfo.excKinds }}</span>
-                <span class="left">共<span class="num">{{ oneAppInfo.totalExcCount }}</span>条</span>
+            <div class="media-body ">
+                <h3 class="task-link">{{ oneAppInfo.trackName.substr(0,6)+'...' }}</h3>
+                <div>
+                    <span class="id">App ID: {{ oneAppInfo.appleId }}</span>
+                    <span class="company hidden-xs">{{ oneAppInfo.sellerName }}</span>
+                    <img src="/images/appDetail/switch.png" alt="" style="width: 60px ;height: 40px;margin-left: 37px">
+                </div>
+                <div>
+                    <span><a  class="download" href="#">{{ oneAppInfo.excKinds }}</a></span>
+                    <span class="left"> 共<em class="num">{{ oneAppInfo.totalExcCount }}</em>条</span>
+
+                </div>
             </div>
-        </span>
+            <div class="media-right">
+                <img src="" alt="">
+            </div>
+
+            <hr/>
+
+            <div class="text-center">需求截图</div>
+            <div class="image-center">
+                <img class="img-responsive screenshot" ng-src="{{ oneAppInfo.requirementImg }}"/>
+            </div>
+
+            <div class="text-center">
+                <button class="btn btn-default cust1" >
+                    跳转APP store
+                </button>
+            </div>
+
+
+            <div class="text-center">
+                <button class="btn btn-default cust2" data-toggle="modal" data-target="#mymodal" ng-hide="!normalBtnShow">
+                    上传图片
+                </button>
+            </div>
+
+
+            <div class="text-center" ng-hide="normalBtnShow">
+                <a href="javascript:;"  class="a-upload form_change ">
+                    <input type="file" nv-file-select="" uploader="uploader" accept="image/*"/>上传图片
+                </a>
+            </div>
+
+            <hr/>
+            <div class="text-right">提交人: {{uploadName}}</div>
+
+            <div class="submission-screenshot">
+                <span><img ng-src="{{requirementImgs}}"/></span>
+            </div>
+
+        </div>
 
         <hr/>
 
-        <div class="text-right">需求截图</div>
-        <!--<div class="img-center">-->
+        <div class="text-center">需求截图</div>
+        <div class="img-center">
             <img class="img-responsive screenshot" ng-src="{{ oneAppInfo.requirementImg }}">
-        <!--</div>-->
+        </div>
 
         <hr/>
 

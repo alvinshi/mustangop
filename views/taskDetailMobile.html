@@ -2,8 +2,12 @@
 <html lang="zh-CN">
 <head>
     <meta charset="utf-8">
-    <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!--<meta http-equiv="x-ua-compatible" content="ie=edge">-->
+    <!--<meta name="viewport" content="width=device-width, initial-scale=1">-->
+
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+
 
     <meta name="theme-color" content="#19B5FE">
 
@@ -48,10 +52,12 @@
     <!--navbar></navbar-->
     <iframe src="/html/navbar.html/2 "  width="100%" height="100%" scrolling="auto" frameborder="0" style="z-index: 1" ></iframe>
     <!--任务列表-->
-    <div class="page-wrapper">
-        <a href="#"><img class="logo" ng-src="{{ oneAppInfo.artworkUrl100 }}" alt="" class="img-thumbnail"/></a>
-        <div class="description">
-            <div class="task-link">{{ oneAppInfo.trackName.substr(0,6)+'...' }}</div>
+    <div class="media">
+        <div class="media-left">
+            <a href="#"><img class="logo" ng-src="{{ oneAppInfo.artworkUrl100 }}" alt="" class="img-thumbnail"/></a>
+        </div>
+        <div class="media-body">
+            <h3 class="task-link">{{ oneAppInfo.trackName.substr(0,6)+'...' }}</h3>
             <div>
                 <span class="id">App ID: {{ oneAppInfo.appleId }}</span>
                 <span class="company hidden-xs">{{ oneAppInfo.sellerName }}</span>
@@ -90,7 +96,7 @@
         </div>
 
         <hr/>
-        <div style="text-align: right; font-size: 28px; margin: 30px 0 24px 0;">提交人: {{uploadName}}</div>
+        <div class="text-right">提交人: {{uploadName}}</div>
 
         <div class="submission-screenshot">
             <span><img ng-repeat="image in images" ng-src="{{image}}"/></span>

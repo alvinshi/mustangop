@@ -14,62 +14,44 @@
     border-top: 2px solid #3498db;
     margin-bottom: 15px;
 }
+.media-body h3{
+    margin-top: 2px;
+}
+.media-body div{
+    margin-top: 8px;
+}
 
+.media-body span{
+    margin-right: 10%;
+}
+.media-right img{
+    height: 112px;
+    width: 112px;
+    border: 1px solid #e0e0e0;
+    border-radius: 10px;
+
+}
 .logo{
     display: inline-block;
-    height: 70px;
-    width: 70px;
+    height: 112px;
+    width: 112px;
     border: 1px solid #e0e0e0;
-    border-radius: 4px;
-    margin: 0px 0px 0px 0px;
-    vertical-align: top;
+    border-radius: 10px;
 }
 
-.description{
-    margin-left: 24px;
-    display: inline-block;
-    height: 70px;
-    display: inline-block;
-    vertical-align: top;
-}
 .task-link {
-    margin-top: 6px;
-    font-size:16px;
-    color:#000000;
-    margin-bottom: 10px;
-}
-.task-link:hover{
-    text-decoration: none;
-    color: #3498db;
-}
-.text-right {
-    font-size: 16px;
-    margin-top: 20px;
-}
-.id{
-    font-size: 12px;
-    margin-bottom: 8px;
-    color: #7a7a7a;
+
+    font-size:24px;
 }
 
-.company{
-    font-size: 12px;
-    margin-bottom: 8px;
-    color: #7a7a7a;
-    margin-left:56px;
+
+.id,.company,.left{
+    font-size: 16px;
 }
 
 .download{
     font-size:16px;
     color: red;
-    margin-bottom: 6px;
-    font-weight:bold;
-}
-
-.left{
-    font-size: 12px;
-    margin-left: 56px;
-    color: #7a7a7a;
 }
 
 .num{
@@ -77,7 +59,10 @@
     font-size: 16px;
     color: #f55e5a;
 }
-
+.text-right {
+    font-size: 16px;
+    margin-top: 20px;
+}
 .page-wrapper{
     margin-top: 30px;
     margin-left: 40px;
@@ -86,9 +71,7 @@
 
 .screenshot{
     margin:15px auto;
-    border: 1px solid red;
-    width: 160px;
-    height: 200px;
+    border: 1px solid #e0e0e0;
     object-fit: contain;
 
 }
