@@ -9,7 +9,6 @@
 }
 
 .hr-header{
-    margin-top: 0px;
     background-color: #3498db;
     border-top: 2px solid #3498db;
     margin-bottom: 15px;
@@ -68,11 +67,18 @@
     margin-left: 40px;
     margin-right: 40px;
 }
+.text-center{
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px
+}
 
 .screenshot{
     margin:15px auto;
     border: 1px solid #e0e0e0;
-    object-fit: contain;
+
+
+    object-fit: contain; /*显示全图*/
 
 }
 

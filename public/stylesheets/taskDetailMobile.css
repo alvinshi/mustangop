@@ -74,6 +74,9 @@
     margin-top: 23px;
 
 }
+.screenshot{
+    border: 1px solid #e0e0e0;
+}
 .image-center img{
     margin: 10px auto;
 }
@@ -83,13 +86,14 @@
 }
 
 .submission-screenshot img{
+
     width:196px;
     margin-right: 3px;
     margin-left: 3px;
     border: 2px solid #e0e0e0;
 }
 
-.cust1{
+.cust1,.cust2{
     width: 90%;
     height: 5%;
     font-size: 34px;
@@ -99,15 +103,8 @@
     border: 2px solid #3498db;
 }
 
-.cust2{
-    width: 90%;
-    height: 5%;
-    font-size: 34px;
-    border-radius: 8px;
-    color: white;
-    border: 2px solid #3498db;
-    background-color: #3498db;
-}
+
+
 .text-right{
     font-size: 18px;
 }
