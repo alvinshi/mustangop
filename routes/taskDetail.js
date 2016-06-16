@@ -50,6 +50,7 @@ router.get('/detail/:appleId', function(req, res){
                     retObject.excKinds = '评论'
                 }else
                     retObject.excKinds = '下载';
+
             }
         }
         res.json({'oneAppInfo':retObject});
