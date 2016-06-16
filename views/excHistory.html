@@ -82,18 +82,9 @@
     <div class="row exchang_pattern">
         <div class="top_title col-lg-6 col-sm-12">
             <img class="exc_record_icon " src="/images/exch_history/exchang_icon.png">
-            <h2 class="exc__record_title">交换记录</h2>
+            <span class="exc__record_title">交换记录</span>
 
-            <!--<div class="input-group">-->
-                <!--<input  type="text" class="form-control" ng-model="searchKey" ng-keyup="keySearchApp($event)" placeholder="搜索指定产品的交换历史记录…">-->
-            <!--<span class="input-group-btn ">-->
-                <!--<button class="btn search_color" ng-click="searchLocalHistoryApp()">-->
-                    <!--<span class="glyphicon glyphicon-search"></span>-->
-                <!--</button>-->
-            <!--</span>-->
-            <!--</div>-->
-
-            <div class="text-a col-md-3 col-md-offset-10">
+            <div class="text-a col-md-3 col-md-offset-9">
                 <button type="button " class=" add_exc_history_title hvr-float-shadow"
                         ng-click="addAppHistory()" ng-hide="!myApps.length">
                     手动添加交换记录
@@ -108,26 +99,20 @@
 
         <div class="title">
             <h4>当前版本</h4>
-            <div class="app_list" ng-repeat="app in myExcAllApps">
-                <div class="media">
+            <div class="app_list media" ng-repeat="app in myExcAllApps">
                     <div class="media-left">
                         <img class="media-object" ng-src="{{ app.artworkUrl100 }}" alt="App Icon">
                     </div>
                     <div class="media-body">
                         <h4 class="media-heading">{{ app.trackName }}</h4>
-                    <div class="media-info">
-                        <p class="media-info-id">App ID: {{ app.appleId }}</p>
-                        <p class="media-info-name">{{ app.sellerName }}</p>
-                    </div>
-                    <div class="media-info-a">
-                        <p class="media-info-lg">手动添加</p>
-                        <p class="media-info-time">添加日期:{{ app.excHisDate }}</p>
-                    </div>
-                        <!--<p class="">更新日期:{{ app.latestReleaseDate }}</p>-->
-                        <!--<p>类型 {{ app.appleKind }}</p>-->
-                        <!--<p>价格 {{ app.formattedPrice }}</p>-->
-                        <!--<p>版本号 {{ app.version }}</p>-->
-                        <!--<p>交换日期 {{ app.excHisDate }}</p>-->
+                        <div class="media-info">
+                          <span class="media-info-id">App ID: {{ app.appleId }}</span>
+                          <span class="media-info-name">{{ app.sellerName }}</span>
+                       </div>
+                       <div class="media-info-a">
+                         <span class="media-info-lg">手动添加</span>
+                         <span class="media-info-time">添加日期:{{ app.excHisDate }}</span>
+                       </div>
                     </div>
 
                     <div class="media-right">
@@ -148,30 +133,30 @@
             <h4>以往版本</h4>
             <div class="app_list" ng-repeat="app in myHistoryApps">
                 <div class="media">
-                    <div class="media-left">
+                 <div class="media-left">
                         <img class="media-object" ng-src="{{ app.artworkUrl100 }}" alt="App Icon">
-                    </div>
+                 </div>
 
-                    <div class="media-body">
+                <div class="media-body">
                         <h4 class="media-heading">{{ app.trackName }}</h4>
                     <div class="media-info">
-                        <p class="media-info-id">App ID: {{ app.appleId }}</p>
-                        <p class="media-info-name">{{ app.sellerName }}</p>
+                        <span class="media-info-id">App ID: {{ app.appleId }}</span>
+                        <span class="media-info-name">{{ app.sellerName }}</span>
                     </div>
 
                     <div class="media-info-a">
-                        <p class="media-info-lg">手动添加</p>
-                        <p class="media-info-time">添加日期:{{ app.excHisDate }}</p>
+                        <span class="media-info-lg">手动添加</span>
+                        <span class="media-info-time">添加日期:{{ app.excHisDate }}</span>
                     </div>
 
-                    </div>
+                </div>
 
-                    <div class="media-right">
+                <div class="media-right">
                         <button class="btn remove_icon hvr-box-shadow-inset" ng-click="History(app.appleId, app.hisAppVersion)">
                             <img src="/images/exch_history/no_click_remove.png">
                         </button>
-                    </div>
-                </div><!--media end-->
+                </div>
+            </div><!--media end-->
          </div><!--app_list end-->
         </div><!--title end -->
     </div>

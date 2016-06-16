@@ -13,5 +13,14 @@ app.controller('indexAppCtrl', function($scope, $http, $location){
     var indexUrl = '/index';
     $http.get(indexUrl).success(function(request){
         $scope.tracknameAPPs = request.tracknameAPPs;
-    })
+    });
+
+    function logout(){
+
+        clearCookie('userIdCookie');
+        clearCookie('username');
+
+        location.href='/';
+    }
+
 });

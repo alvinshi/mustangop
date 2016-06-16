@@ -1,10 +1,9 @@
 .logo{
     display: inline-block;
-    height: 112px;
-    width: 112px;
-    border: 2px solid #e0e0e0;
-    border-radius: 20px;
-    margin: 0px 0px 0px 0px;
+    height: 90px;
+    width: 90px;
+    border: 1px solid #e0e0e0;
+    border-radius: 10px;
     vertical-align: top;
 }
 
@@ -18,7 +17,7 @@
 
 .task-link {
     margin-top: 6px;
-    font-size:28px;
+
     color:#000000;
     margin-bottom: 10px;
 }
@@ -29,12 +28,10 @@
 }
 
 
-.hr-task{
-    margin: 0px 0px 0px 0px;
-}
+
 
 .id{
-    font-size: 22px;
+    font-size: 16px;
     margin-bottom: 8px;
     color: #7a7a7a;
 }
@@ -47,21 +44,21 @@
 }
 
 .download{
-    font-size:24px;
+    font-size:18px;
     color: red;
     margin-bottom: 6px;
     font-weight:bold;
 }
 
 .left{
-    font-size: 22px;
+    font-size: 18px;
     margin-left: 40px;
     color: #7a7a7a;
 }
 
 .num{
     text-decoration: none;
-    font-size: 24px;
+    font-size: 18px;
     color: #f55e5a;
 }
 
@@ -93,25 +90,26 @@
 }
 
 .cust1{
-    width: 559px;
-    height: 80px;
+    width: 90%;
+    height: 5%;
     font-size: 34px;
-    border-radius: 10px;
-    margin-bottom: 15px;
+    border-radius: 8px;
     background-color: #3498db;
     color: #ffffff;
     border: 2px solid #3498db;
 }
 
 .cust2{
-    width: 559px;
-    height: 80px;
+    width: 90%;
+    height: 5%;
     font-size: 34px;
-    border-radius: 10px;
+    border-radius: 8px;
     color: white;
     border: 2px solid #3498db;
-    margin-bottom: 50px;
     background-color: #3498db;
+}
+.text-right{
+    font-size: 18px;
 }
 .modal-dialog{
     width: 500px;
@@ -126,10 +124,9 @@
   /*按钮美化*/
 .a-upload {
     padding: 5px 10px;
-    width: 559px;
-    height: 80px;
+    width: 90%;
     font-size: 34px;
-    line-height: 60px;
+    line-height: 50px;
     position: relative;
     top: 10px;
     cursor: pointer;

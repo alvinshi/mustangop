@@ -2,8 +2,14 @@
 <html lang="zh-CN">
 <head>
     <meta charset="utf-8">
-    <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!--<meta http-equiv="x-ua-compatible" content="ie=edge">-->
+    <!--<meta name="viewport" content="width=device-width, initial-scale=1">-->
+
+
+
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+
 
     <meta name="theme-color" content="#19B5FE">
 
@@ -57,31 +63,35 @@
     <!--任务列表-->
 
     <!--angularJs的ng-repeat-->
-    <div>
+
         <div class="row" ng-repeat="app in dailyTask">
-            <div class="col-lg-12 col-xs-12 content">
-                <a href="/taskDetailMobile/{{app.appleId}}"><img class="logo" ng-src="{{app.artworkUrl100}}" alt="app-icon" class="img-thumbnail"/></a>
-                    <div class="description">
-
-                        <div><a class="task-link" href="/taskDetailMobile/{{app.appleId}}">{{app.trackName.substr(0,6)+'...'}}</a></div>
-
-                        <div>
-                            <span class="id">App ID: {{app.appleId}}</span>
-                            <span class="company hidden-xs">{{app.sellerName}}</span>
-                        </div>
-                        <div>
-                            <span class="download">{{app.excKinds}}</span>
-                            <span class="left">剩余<em class="num">{{app.surplusCount}}</em>条</span>
-                        </div>
+            <div class="col-lg-10 col-xs-12 media">
+                <div class="media-left">
+                    <a href="/taskDetailMobile/{{app.appleId}}">
+                      <img class="logo" ng-src="{{app.artworkUrl100}}" alt="app-icon" class="img-thumbnail"/>
+                    </a>
+                </div>
+                <div class="media-body">
+                    <div>
+                        <a class="task-link" href="/taskDetailMobile/{{app.appleId}}">{{app.trackName.substr(0,8)+'...'}}</a>
                     </div>
-
-                    <div class="col-lg-2 hidden-xs buttom_btn">
-                        <a href="/taskDetail/{{app.appleId}}">
-                            <button class="checkTask" type="button" class="btn btn-default">
-                            查看任务
-                            </button>
-                        </a>
+                    <div>
+                        <span class="appid">App ID: {{app.appleId}}</span>
+                        <span class="company hidden-xs">{{app.sellerName}}</span>
                     </div>
+                    <div>
+                        <span class="download">{{app.excKinds}}</span>
+                        <span class="left">剩余<em class="num">{{app.surplusCount}}</em>条</span>
+                    </div>
+                </div>
+
+                <div class=" hidden-xs  media-right">
+                    <a href="/taskDetail/{{app.appleId}}">
+                        <button  type="button" >
+                        查看任务
+                        </button>
+                    </a>
+                </div>
             </div>
             <div class="col-lg-12 col-xs-12">
                 <hr class="hr_bottom">
@@ -90,7 +100,7 @@
         </div>
 
 
-    </div>
+
 </div>
 
 </body>
