@@ -3,7 +3,6 @@
  */
 
 var app = angular.module('myAppContent', ['angularFileUpload']);
-
 app.controller('myAppControl', function($scope, $http, $location, FileUploader) {
     var appurlList = $location.absUrl().split('/');
     var appid = appurlList[appurlList.length - 1];
