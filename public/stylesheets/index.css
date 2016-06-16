@@ -10,8 +10,6 @@ body{
     border-style: none;
     background-color: rgba(1, 1, 1, 0);
 }
-
-
 .middle{
     margin-top: 12%;
 }
@@ -31,5 +29,5 @@ body{
     font-size: 16px;
 }
 .dropdown-menu{
-    background-color: rgba(0,0,0,.3);
+    background-color: rgba(0,0,0,.6);
 }
