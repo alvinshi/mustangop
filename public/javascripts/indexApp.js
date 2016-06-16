@@ -26,5 +26,5 @@ app.controller('indexAppCtrl', function($scope, $http, $location){
 
         location.href='/';
     }
-    
+
 });

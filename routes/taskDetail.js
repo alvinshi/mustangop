@@ -21,11 +21,12 @@ router.get('/detail/:appleId', function(req, res){
     var query = new AV.Query(IOSAppExcLogger);
 
     query.equalTo('userId', userId);
-
+    query.include('myAppObject');
     query.include('hisAppObject');
     query.find().then(function(results){
         for (var i = 0; i< results.length; i++){
             var hisappObject = results[i].get('hisAppObject');
+            var myappObject = results[i].get('myAppObject');
             var hisappid = results[i].get('hisAppId');
             if (hisappid == appleid){
                 var retObject = Object();
@@ -42,6 +43,8 @@ router.get('/detail/:appleId', function(req, res){
                 retObject.requirementImg = results[i].get('requirementImg');
                 retObject.excKinds = results[i].get('excKinds');
                 retObject.taskObjectId = results[i].id;
+
+                retObject.myAppartworkUrl100 = myappObject.get('artworkUrl100')
 
                 if (retObject.excKinds == 1){
                     retObject.excKinds = '评论'
