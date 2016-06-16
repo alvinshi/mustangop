@@ -11,9 +11,13 @@ app.controller('indexAppCtrl', function($scope, $http, $location){
     $scope.myColors[index] = '#3498db';
 
     var indexUrl = '/index';
-    $http.get(indexUrl).success(function(request){
-        $scope.tracknameAPPs = request.tracknameAPPs;
+
+    $http.get(indexUrl).success(function(response){
+        $scope.userObjectId = response.userObjectId;
+
+        $scope.tracknameAPPs = response.tracknameAPPs;
     });
+
 
     function logout(){
 
@@ -22,5 +26,5 @@ app.controller('indexAppCtrl', function($scope, $http, $location){
 
         location.href='/';
     }
-
+    
 });

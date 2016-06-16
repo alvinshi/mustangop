@@ -4,6 +4,8 @@ var router = express.Router();
 var https = require('https');
 var util = require('./util');
 
+var Base64 = require('../public/javascripts/vendor/base64').Base64;
+
 var IOSAppExcLogger = AV.Object.extend('IOSAppExcLogger');
 var IOSAppBinder = AV.Object.extend('IOSAppBinder');
 
@@ -28,11 +30,13 @@ router.get('/index', function(req, res){
       for (var i= 0; i < results.length; i++){
         var appNameObject = new Object();
         var hisappObject = results[i].get('appObject');
+        var userobject = results[i].get('userObject');
         appNameObject.trackName = hisappObject.get('trackName').substring(0, 8) + '...';
         appNameObject.appid = hisappObject.get('appleId');
         retApps.push(appNameObject);
+        appNameObject.userObjectId = Base64.encode(userobject.id);
       }
-      res.json({'tracknameAPPs':retApps});
+      res.json({'tracknameAPPs':retApps, 'userObjectId':appNameObject});
     }
   }),function (error){
     res.json({'errorId':error.code, 'errorMsg':error.message})

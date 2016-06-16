@@ -7,14 +7,16 @@ var AV = require('leanengine');
 var util = require('./util');
 var https = require('https');
 
+var Base64 = require('../public/javascripts/vendor/base64').Base64;
+
 var IOSAppExcLogger = AV.Object.extend('IOSAppExcLogger');
 
-router.get('/', function(req, res) {
+router.get('/:userObjectId', function(req, res) {
     res.render('dailyTask')
 });
 
-router.get('/daily', function(req, res){
-    var userId = util.useridInReq(req);
+router.get('/daily/:userObjectId', function(req, res){
+    var userId = Base64.decode(req.params.userObjectId);
     var myDate = new Date();
     var myDateStr = myDate.getFullYear() + '-' + (parseInt(myDate.getMonth())+1) + '-' + myDate.getDate();
 
@@ -55,12 +57,11 @@ router.get('/daily', function(req, res){
             var totalExcCount = results[i].get('totalExcCount');
             var taskCount = results[i].get('taskCount');
             var SurplusCount = totalExcCount - taskCount;
-            if (SurplusCount == totalExcCount){
+            if (taskCount == undefined){
                 appHisObject.surplusCount = totalExcCount;
             }else {
                 appHisObject.surplusCount = SurplusCount;
             }
-
             retApps.push(appHisObject);
 
         }
