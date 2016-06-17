@@ -22,10 +22,10 @@
     margin-bottom: 10px;
 }
 
-.task-link:hover{
-    text-decoration: none;
-    color: #3498db;
-}
+/*.task-link:hover{*/
+    /*text-decoration: none;*/
+    /*color: #3498db;*/
+/*}*/
 
 
 
@@ -108,16 +108,41 @@
 .text-right{
     font-size: 18px;
 }
-.modal-dialog{
-    width: 500px;
-    height: 400px;
-    text-align: center;
-}
-.uploaname{
-    width: 380px;
-    height: 40px;
+@media (max-width: 768px){
+    .modal-dialog{
+        width: 90%;
+        height: 200px;
+        text-align: center;
+    }
+    .uploadname{
+        width: 70%;
+        height: 40px;
+        border: 1px solid #e0e0e0;
+        border-radius: 4px;
+    }
 
 }
+
+
+@media screen and (min-width: 800px) and (max-width: 1800px){
+    .modal-dialog{
+        width: 50%;
+        height: 200px;
+        text-align: center;
+    }
+    .uploadname{
+        width: 80%;
+        height: 40px;
+        border: 1px solid #e0e0e0;
+        border-radius: 4px;
+    }
+
+}
+
+
+
+
+
   /*按钮美化*/
 .a-upload {
     padding: 5px 10px;
@@ -133,9 +158,9 @@
     border-radius: 8px;
     overflow: hidden;
     display: inline-block;
-    *display: inline;
+    /**display: inline;*/
     bottom: 10px;
-    *zoom: 1
+    /**zoom: 1*/
 }
 
 .a-upload  input {

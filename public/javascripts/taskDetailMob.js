@@ -75,7 +75,7 @@ app.controller('taskDetailMobControl', function($scope, $http, $location, FileUp
 
     console.info('uploader', uploader);
 
-    $scope.normalBtnShow = 0;
+    $scope.normalBtnShow = 1;
     if (getCookie('uploadImgName').length > 0) {
         $scope.normalBtnShow = 0;
     } else {
@@ -86,6 +86,7 @@ app.controller('taskDetailMobControl', function($scope, $http, $location, FileUp
         if ($scope.uploadName != undefined && $scope.uploadName.length > 0) {
             setCookie('uploadImgName', $scope.uploadName, 365);
             $scope.uploadNameError = '';
+            $scope.normalBtnShow = 0;
         }else {
             $scope.uploadNameError = '昵称不能为空';
         }
