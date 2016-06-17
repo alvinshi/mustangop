@@ -79,57 +79,16 @@
 
         <div class="row">
             <div class="wrapper">
-                <div class="col-md-6 col-sm-12 text-center">
+                <div class="col-md-6 col-sm-12 text-center" ng-repeat="addTask in taskInfo">
                     <div class="submission-info">
-                        <span>第 11 组 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 提交人: XXX</span>
+                        <span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 提交人: {{uploadName}}</span>
                     </div>
                     <div class="submission-screenshot">
-                        <span><img src="http://img5.imgtn.bdimg.com/it/u=3777290151,3583257864&fm=21&gp=0.jpg"/></span>
-                        <span><img src="http://img5.imgtn.bdimg.com/it/u=3777290151,3583257864&fm=21&gp=0.jpg"/></span>
-                        <span><img src="http://img5.imgtn.bdimg.com/it/u=3777290151,3583257864&fm=21&gp=0.jpg"/></span>
-                    </div>
-                </div>
-
-                <div class="col-md-6 col-sm-12 text-center">
-                    <div class="submission-info">
-                        <span>第 11 组 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 提交人: XXX</span>
-                    </div>
-                    <div class="submission-screenshot">
-                        <span><img src="http://img5.imgtn.bdimg.com/it/u=3777290151,3583257864&fm=21&gp=0.jpg"/></span>
-                        <span><img src="http://img5.imgtn.bdimg.com/it/u=3777290151,3583257864&fm=21&gp=0.jpg"/></span>
-                        <span><img src="http://img5.imgtn.bdimg.com/it/u=3777290151,3583257864&fm=21&gp=0.jpg"/></span>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="wrapper">
-                <div class="col-md-6 col-sm-12 text-center">
-                    <div class="submission-info">
-                        <span>第 11 组 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 提交人: XXX</span>
-                    </div>
-                    <div class="submission-screenshot">
-                        <span><img src="http://img5.imgtn.bdimg.com/it/u=3777290151,3583257864&fm=21&gp=0.jpg"/></span>
-                        <span><img src="http://img5.imgtn.bdimg.com/it/u=3777290151,3583257864&fm=21&gp=0.jpg"/></span>
-                        <span><img src="http://img5.imgtn.bdimg.com/it/u=3777290151,3583257864&fm=21&gp=0.jpg"/></span>
-                    </div>
-                </div>
-
-                <div class="col-md-6 col-sm-12 text-center">
-                    <div class="submission-info">
-                        <span>第 11 组 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 提交人: XXX</span>
-                    </div>
-                    <div class="submission-screenshot">
-                        <span><img src="http://img5.imgtn.bdimg.com/it/u=3777290151,3583257864&fm=21&gp=0.jpg"/></span>
-                        <span><img src="http://img5.imgtn.bdimg.com/it/u=3777290151,3583257864&fm=21&gp=0.jpg"/></span>
-                        <span><img src="http://img5.imgtn.bdimg.com/it/u=3777290151,3583257864&fm=21&gp=0.jpg"/></span>
+                        <span><img ng-src="{{finTaskPic}}"/></span>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    </div>
-
 </body>
 </html>
