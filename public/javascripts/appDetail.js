@@ -194,9 +194,20 @@ app.controller('myAppControl', function($scope, $http, $location, FileUploader) 
             return;
         }
 
+        if (prepareSaveApp.totalExcCount < 1){
+            prepareSaveApp.errorMsg = '交换条数必须大于0';
+            return;
+        }
+
+        if (uploader.queue.length < 1){
+            prepareSaveApp.errorMsg = '未选择或更新图片';
+            return;
+        }
+
         //一次只能保存一个任务,不支持多个同时保存
         if (!uploader.isUploading) {
             prepareSaveApp.upload = uploader;
+            prepareSaveApp.requestNet = 1;
             uploader.uploadItem(uploader.queue[uploader.queue.length - 1]);
 
             //上传成功的回掉里,保存换评参数
@@ -265,6 +276,8 @@ app.controller('myAppControl', function($scope, $http, $location, FileUploader) 
                 'requirementImg': response.fileUrlList[0]
             })
             .success(function (response) {
+                prepareSaveApp.requestNet = 0;
+                prepareSaveApp.prepareUploadFiles = [];
                 prepareSaveApp.errorId = response.errorId;
                 prepareSaveApp.errorMsg = response.errorMsg;
                 prepareSaveApp.uploadingSucceed = 1;

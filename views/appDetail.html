@@ -146,8 +146,8 @@
 
                 <button class="btn save" ng-click="saveTask(app)">保存</button>
 
-                <div class="progress" ng-show="app.uploader.isUploading">
-                    <div ng-class="{'progress-bar': true, 'progress-bar-striped':true, active:true}" ng-style="{width: progressNum + '%'}">
+                <div class="progress" ng-show="app.requestNet">
+                    <div ng-class="{'progress-bar': true, 'progress-bar-striped':true, active:true}" ng-style="{width: 100 + '%'}">
                     </div>
                 </div>
 
