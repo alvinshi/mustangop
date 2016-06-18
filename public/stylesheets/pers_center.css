@@ -97,12 +97,13 @@ body{
 }
 
 .form-group{
-    margin-left: 80px;
+    margin-left: 140px;
     margin-top: 40px;
 }
 
 .save{
     margin-left: 320px;
+    width: 80px;
 }
 
 .solid-pull{

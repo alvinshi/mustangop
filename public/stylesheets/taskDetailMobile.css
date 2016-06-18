@@ -22,14 +22,6 @@
     margin-bottom: 10px;
 }
 
-/*.task-link:hover{*/
-    /*text-decoration: none;*/
-    /*color: #3498db;*/
-/*}*/
-
-
-
-
 .id{
     font-size: 16px;
     margin-bottom: 8px;
@@ -94,9 +86,9 @@
 }
 
 .cust1,.cust2{
-    width: 90%;
+    width: 94%;
     height: 5%;
-    font-size: 34px;
+    font-size: 24px;
     border-radius: 8px;
     background-color: #3498db;
     color: #ffffff;
@@ -146,9 +138,9 @@
   /*按钮美化*/
 .a-upload {
     padding: 5px 10px;
-    width: 90%;
-    font-size: 34px;
-    line-height: 50px;
+    width: 94%;
+    font-size: 24px;
+    line-height: 30px;
     position: relative;
     top: 10px;
     cursor: pointer;
@@ -158,14 +150,14 @@
     border-radius: 8px;
     overflow: hidden;
     display: inline-block;
-    /**display: inline;*/
+    *display: inline;
     bottom: 10px;
     /**zoom: 1*/
 }
 
 .a-upload  input {
     position: absolute;
-    font-size: 34px;
+    font-size: 24px;
     right: 0;
     opacity: 0;
     filter: alpha(opacity=0);
