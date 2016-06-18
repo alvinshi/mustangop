@@ -480,7 +480,14 @@ function addExcHistory(res, appExcObject, userId, myAppId, myAppVersion, hisAppI
                     appExcObject.set('excDateStr', myDateStr);
                     appExcObject.save().then(function(object) {
                         // 添加成功
-                        res.json({'errorMsg':'', 'errorId': 0});
+
+                        hisAppInfo.myAppVersion = appExcObject.get('myAppVersion');
+                        hisAppInfo.hisAppVersion = appExcObject.get('hisAppVersion');
+                        hisAppInfo.excHisDate = appExcObject.get('excDateStr');
+
+                        hisAppInfo.appExcTaskObjectID = appExcObject.id;
+
+                        res.json({'errorMsg':'', 'errorId': 0, 'addExcObject' : hisAppInfo});
                     }, function(err) {
                         // 失败了.
                         res.json({'errorMsg':err.message, 'errorId': err.code});
@@ -503,7 +510,13 @@ function addExcHistory(res, appExcObject, userId, myAppId, myAppVersion, hisAppI
                 appExcObject.set('excDateStr', myDateStr);
                 appExcObject.save().then(function(object) {
                     // 添加成功
-                    res.json({'errorMsg':'', 'errorId': 0});
+                    hisAppInfo.myAppVersion = appExcObject.get('myAppVersion');
+                    hisAppInfo.hisAppVersion = appExcObject.get('hisAppVersion');
+                    hisAppInfo.excHisDate = appExcObject.get('excDateStr');
+
+                    hisAppInfo.appExcTaskObjectID = appExcObject.id;
+
+                    res.json({'errorMsg':'', 'errorId': 0, 'addExcObject' : hisAppInfo});
                 }, function(err) {
                     // 失败了.
                     res.json({'errorMsg':err.message, 'errorId': err.code});
