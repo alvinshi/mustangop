@@ -168,6 +168,8 @@ app.controller('myAppControl', function($scope, $http, $location, FileUploader) 
                     }
                 }
 
+                $scope.myExcAllApps.push(response.addExcObject);
+
                 $scope.errorMsg = '';
             }else {
                 $scope.errorMsg = response.errorMsg;
@@ -186,11 +188,28 @@ app.controller('myAppControl', function($scope, $http, $location, FileUploader) 
 
     $scope.saveTask = function (app) {
 
+        prepareSaveApp = app;
+        prepareSaveApp.errorMsg = '';
+
+        if (prepareSaveApp.excKinds == undefined || prepareSaveApp.totalExcCount == undefined){
+            prepareSaveApp.errorMsg = '类型和交换总数必须填哦';
+            return;
+        }
+
+        if (prepareSaveApp.totalExcCount < 1){
+            prepareSaveApp.errorMsg = '交换条数必须大于0';
+            return;
+        }
+
+        if (uploader.queue.length < 1){
+            prepareSaveApp.errorMsg = '未选择或更新图片';
+            return;
+        }
+
         //一次只能保存一个任务,不支持多个同时保存
         if (!uploader.isUploading) {
-            $scope.saveMgs = '';
-
-            prepareSaveApp = app;
+            prepareSaveApp.upload = uploader;
+            prepareSaveApp.requestNet = 1;
             uploader.uploadItem(uploader.queue[uploader.queue.length - 1]);
 
             //上传成功的回掉里,保存换评参数
@@ -200,8 +219,18 @@ app.controller('myAppControl', function($scope, $http, $location, FileUploader) 
 
     };
 
-    $scope.deletFile = function () {
+    $scope.deletFile = function (app) {
         uploader.clearQueue();
+        if (prepareSaveApp != undefined){
+            //reset pre one
+            prepareSaveApp.prepareUploadFiles = undefined;
+            prepareSaveApp.requirementImg = '';
+            prepareSaveApp.uploadingSucceed = 0
+        }
+        //set new one
+        prepareSaveApp = app;
+        prepareSaveApp.requirementImg = '';
+        prepareSaveApp.errorMsg = '';
     };
 
     uploader.filters.push({
@@ -217,7 +246,7 @@ app.controller('myAppControl', function($scope, $http, $location, FileUploader) 
         console.info('onAfterAddingFile', fileItem);
     };
     uploader.onAfterAddingAll = function (addedFileItems) {
-        $scope.files = addedFileItems;
+        prepareSaveApp.prepareUploadFiles = addedFileItems;
         console.info('onAfterAddingAll', addedFileItems);
     };
     uploader.onBeforeUploadItem = function (item) {
@@ -249,8 +278,12 @@ app.controller('myAppControl', function($scope, $http, $location, FileUploader) 
                 'requirementImg': response.fileUrlList[0]
             })
             .success(function (response) {
-                $scope.errorId = response.errorId;
-                $scope.errorMsg = response.errorMsg;
+                prepareSaveApp.requestNet = 0;
+                prepareSaveApp.prepareUploadFiles = [];
+                prepareSaveApp.errorId = response.errorId;
+                prepareSaveApp.errorMsg = response.errorMsg;
+                prepareSaveApp.uploadingSucceed = 1;
+                prepareSaveApp.requirementImg = response.fileUrlList[0]
             });
     };
     uploader.onCompleteAll = function () {
