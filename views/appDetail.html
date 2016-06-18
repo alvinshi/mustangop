@@ -128,24 +128,39 @@
                 <span  class="form  ">交换
                     <input class="exchange" type="text"  ng-model="app.totalExcCount"> 条
                 </span>
-                <a href="javascript:;" class="a-upload form_change ">
-                    <input type="file" nv-file-select="" uploader="uploader" accept="image/*"/>上传需求截图
+
+
+                <a href="javascript:;" class="a-upload form_change " ng-hide="app.requirementImg.length">
+                    <input type="file" nv-file-select="" ng-click="deletFile(app)" uploader="uploader" accept="image/*"/>上传需求截图
                 </a>
 
-                <span style="position: relative;left: -100px">
-                    <button  ng-hide="!uploader.queue.length"  ng-click="deletFile(app)">删除文件</button>
-                    <ul>
-                        <li ng-repeat="item in uploader.queue">
-                            Name: <span ng-bind="item.file.name"></span><br/>
-                        </li>
-                    </ul>
+                <ul>
+                    <li ng-repeat="item in app.prepareUploadFiles">
+                        选择图片: <span ng-bind="item.file.name"></span><br/>
+                    </li>
+                </ul>
+
+                <span style="position: relative;left: -100px" ng-show="app.requirementImg.length">
+                    <button ng-click="deletFile(app)">删除需求截图</button>
                 </span>
-                <button class="btn save" ng-click="saveTask(app)"  data-target="#save" data-toggle="modal">保存</button>
+
+                <button class="btn save" ng-click="saveTask(app)">保存</button>
+
+                <div class="progress" ng-show="app.requestNet">
+                    <div ng-class="{'progress-bar': true, 'progress-bar-striped':true, active:true}" ng-style="{width: 100 + '%'}">
+                    </div>
+                </div>
+
+                <div class="alert alert-success" role="alert" ng-show="app.uploadingSucceed">
+                    保存需求成功
+                </div>
+
+                <div class="alert alert-danger" role="alert" ng-show="app.errorMsg.length">
+                    {{app.errorMsg}}
+                </div>
             </div>
         </div><!--choose-->
     </div><!--第三个框-->
-
-
 
     <div class="modal modal-lg fade" id="myhistorydelete">
         <div class="modal-dialog" style="width:400px;position: absolute;right: 20px">
@@ -163,21 +178,6 @@
                     <button type="button" class="btn" data-dismiss="modal" ng-click="removeHistory()">删除</button>
                     <button type="button" class="btn btn-primary" data-dismiss="modal">取消</button>
                 </div>
-            </div><!-- /.modal-content -->
-        </div><!-- /.modal-dialog -->
-    </div>
-    <div class="modal modal-lg fade" id="save">
-        <div class="modal-dialog" style="width: 300px;position: absolute;right: 100px">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">
-                        <span aria-hidden="true">×</span>
-                        <span class="sr-only">Close</span></button>
-                </div>
-                <div class="modal-body">
-                    <p>已保存!</p>
-                </div>
-
             </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->
     </div>
@@ -205,7 +205,7 @@
                         <div ng-class="{'progress-bar': true, 'progress-bar-striped':true, active:true}" ng-style="{width: progressNum + '%'}">
                         </div>
                     </div>
-                    <div class="alert alert-warning" role="alert" ng-hide="!isError">
+                    <div class="alert-danger" role="alert" ng-hide="!isError">
                         {{ errorMsg }}
                     </div>
                 </div>
