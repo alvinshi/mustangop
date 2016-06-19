@@ -24,7 +24,6 @@ router.get('/detail/:appleId', function(req, res){
     query.include('myAppObject');
     query.include('hisAppObject');
     query.find().then(function(results){
-        var mackTaskList = new Array();
         for (var i = 0; i< results.length; i++){
             var hisappObject = results[i].get('hisAppObject');
             var myappObject = results[i].get('myAppObject');
@@ -52,22 +51,23 @@ router.get('/detail/:appleId', function(req, res){
                 }else
                     retObject.excKinds = '下载';
 
-                query.get(retObject.taskObjectId).then(function(taskObject){
-                    var relation = taskObject.relation('mackTask');
-                    var task_query = relation.query();
-                    task_query.find().then(function(result){
-                        for (var e = 0; e < result.length; e++){
-                            var mackTaskObject = Object();
-                            mackTaskObject.uploadUsername = result[e].get('uploadName');
-                            mackTaskObject.taskImages = result[e].get('requirementImgs');
-
-                            mackTaskList.push(mackTaskObject)
-                        }
-                    })
-                })
             }
+            var mackTaskList = new Array();
+            query.get(results[i].id).then(function(taskObject){
+                var relation = taskObject.relation('mackTask');
+                var task_query = relation.query();
+                task_query.find().then(function(result){
+                    for (var e = 0; e < result.length; e++){
+                        var mackTaskObject = Object();
+                        mackTaskObject.uploadUsername = result[e].get('uploadName');
+                        mackTaskObject.taskImages = result[e].get('requirementImgs');
+
+                        mackTaskList.push(mackTaskObject)
+                    }
+                })
+            })
         }
-        res.json({'oneAppInfo':retObject, 'macTaskObject':mackTaskList});
+        res.json({'oneAppInfo':retObject, 'macTaskObject':mackTaskList})
 
     }),function(error){
         res.json({'errorId':error.code, 'errorMsg':error.message})
