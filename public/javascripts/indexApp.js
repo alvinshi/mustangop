@@ -2,7 +2,16 @@
  * Created by cailong on 16/5/31.
  */
 
-var app = angular.module('indexApp', []);
+var app = angular.module('yemaWebApp', []);
+
+app.directive("thNav",function(){
+    return {
+        restrict: 'E',
+        templateUrl: '/html/navbar.html/2'
+        //replace: true
+    };
+});
+
 app.controller('indexAppCtrl', function($scope, $http, $location){
 
     var paramsList = $location.absUrl().split('/');
@@ -14,7 +23,6 @@ app.controller('indexAppCtrl', function($scope, $http, $location){
 
     $http.get(indexUrl).success(function(response){
         $scope.userObjectId = response.userObjectId;
-
         $scope.tracknameAPPs = response.tracknameAPPs;
     });
 

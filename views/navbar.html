@@ -1,72 +1,42 @@
-<!doctype html>
-<html lang="zh-CN">
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <!-- 引入 AngularJS Mini 文件 -->
-    <script src="/javascripts/vendor/AngularJS/angular.min.js"></script>
-    <script src="/javascripts/vendor/AngularJS/angular-route.min.js"></script>
+<nav class="navbar navbar-inverse navbar-fixed-top" style="height: 48px;font-size: 17px;width: 100%">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#example-navbar-collapse-1" aria-expanded="false">
+                <span class="sr-only"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
 
-    <!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
-    <script src="//cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
-    <!-- Bootstrap core CSS -->
-    <link href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
+            <li><a  class="navbar-brand" href="/" target="_top"><img  src="/images/home/wildhorse_icon.png" ></a></li>
+        </div>
+        <div class="collapse navbar-collapse" id="example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                <li ><a ng-style="{color:myColors[0]}" href="/" target="_top">首页</a></li>
+                <li><a ng-style="{color:myColors[1]}" href="/myapp/history" target="_top">交换记录</a></li>
+                <li><a ng-style="{color:myColors[2]}" href="/dailyTask/{{userObjectId.userObjectId}}" target="_top">今日任务</a></li>
+                <li class="dropdown">
+                    <a  ng-style="{color:myColors[3]}" href="/myapp" data-toggle="dropdown" class="dropdown">我的应用<span class="caret"></span></a>
+                    <ul class="dropdown-menu" >
+                        <li class="myapp-list" ng-repeat="app in tracknameAPPs">
 
-    <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
-    <script src="//cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+                            <a href="/app/{{app.appid}}"target="_top">{{ app.trackName }}</a>
 
-    <!--网站内部js-->
-    <!--<script src="/javascripts/itunesApi.js"></script>-->
-    <script src="/javascripts/indexApp.js"></script>
-</head>
-<body>
-<!--[if lt IE 8]>
-<p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">更新您的浏览器</a> 从而获得更好的体验.</p>
-<![endif]-->
-
-    <nav class="navbar navbar-inverse navbar-fixed-top" style="height: 48px;font-size: 17px;width: 100%">
-        <div class="container" ng-app="indexApp" ng-controller="indexAppCtrl">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#example-navbar-collapse-1" aria-expanded="false">
-                    <span class="sr-only"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-
-                <li><a  class="navbar-brand" href="/" target="_top"><img  src="/images/home/wildhorse_icon.png" ></a></li>
-            </div>
-            <div class="collapse navbar-collapse" id="example-navbar-collapse-1">
-                <ul class="nav navbar-nav">
-                    <li ><a ng-style="{color:myColors[0]}" href="/" target="_top">首页</a></li>
-                    <li><a ng-style="{color:myColors[1]}" href="/myapp/history" target="_top">交换记录</a></li>
-                    <li><a ng-style="{color:myColors[2]}" href="/dailyTask/{{userObjectId.userObjectId}}" target="_top">今日任务</a></li>
-                    <li class="dropdown">
-                        <a  ng-style="{color:myColors[3]}" href="/myapp" data-toggle="dropdown" class="dropdown">我的应用<span class="caret"></span></a>
-                        <ul class="dropdown-menu" style="background: rgba(0,0,0,.3);position: absolute;z-index: 999">
-                            <li class="myapp-list" ng-repeat="app in tracknameAPPs">
-
-                                <a href="/app/{{app.appid}}"target="_top">{{ app.trackName }}</a>
-
-                            </li>
-                            <li><a href="/myapp" target="_top">管理我的应用</a></li>
-                        </ul>
-                    </li>
-                </ul>
-                <ul class="nav navbar-nav navbar-right">
-                    <li class="dropdown">
-                        <a id="nav-username-display" href="/user" data-toggle="dropdown" class="dropdown" ng-style="{color:myColors[4]}"><span class="caret"></span></a>
-                        <ul class="dropdown-menu" style="background: rgba(0,0,0,.3)">
-                            <li><a href="/user" target="_top">个人中心</a></li>
-                            <li><a  href="/"target="_top">退出登录</a></li>
-                        </ul>
-                    </li>
-                </ul>
-            </div>
-        </div><!--container -->
-    </nav>
-<script src="/javascripts/cookieHelper.js"></script>
-</body>
-</html>
+                        </li>
+                        <li><a href="/myapp" target="_top">管理我的应用</a></li>
+                    </ul>
+                </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li class="dropdown">
+                    <a id="nav-username-display" href="/user" data-toggle="dropdown" class="dropdown" ng-style="{color:myColors[4]}"><span class="caret"></span></a>
+                    <ul class="dropdown-menu" style="background: rgba(0,0,0,.3)">
+                        <li><a href="/user" target="_top">个人中心</a></li>
+                        <li><a  href="/"target="_top">退出登录</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div><!--container -->
+</nav>

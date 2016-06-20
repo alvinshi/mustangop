@@ -38,6 +38,7 @@
 
    <iframe src="/html/navbar.html/2 "  width="100%"   scrolling="auto" frameborder="0"  ></iframe>
 
+
     <!--标题-->
     <div class="header-wrapper">
         <h1 class="header">任务详情</h1>
@@ -76,7 +77,7 @@
 
             <div class="text-center">需求截图</div>
             <div class="image-center">
-                <img class="img-responsive screenshot" ng-src="{{ oneAppInfo.requirementImg }}"/>
+                <img class=" screenshot" ng-src="{{ oneAppInfo.requirementImg }}"/>
             </div>
 
            <hr/>
@@ -85,7 +86,7 @@
             <div class="wrapper" ng-repeat="task in taskInfo">
                 <div class="col-md-6 col-sm-12 text-center">
                     <div class="submission-info">
-                        <span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 提交人: {{task.uploadUsername}}</span>
+                        <span> 提交人: {{task.uploadUsername}}</span>
                     </div>
                     <div class="submission-screenshot">
                         <span><img ng-src="{{task.taskImages}}"></span>
