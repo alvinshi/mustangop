@@ -44,7 +44,8 @@ router.get('/detail/:appleId', function(req, res){
                 retObject.excKinds = results[i].get('excKinds');
                 retObject.taskObjectId = results[i].id;
 
-                retObject.myAppartworkUrl100 = myappObject.get('artworkUrl100')
+                retObject.myAppartworkUrl100 = myappObject.get('artworkUrl100');
+                retObject.myAppName = myappObject.get('trackName');
 
                 if (retObject.excKinds == 1){
                     retObject.excKinds = '评论'
