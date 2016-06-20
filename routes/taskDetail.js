@@ -17,7 +17,7 @@ router.get('/:appleId', function(req, res){
 router.get('/detail/:appleId', function(req, res){
     var userId = util.useridInReq(req);
     var myDate = new Date();
-    var myDateStr = myDate.getFullYear() + '-' + (parseInt(myDate.getMonth())+1) + '-' + myDate.getDate()
+    var myDateStr = myDate.getFullYear() + '-' + (parseInt(myDate.getMonth())+1) + '-' + myDate.getDate();
     var appleid = parseInt(req.params.appleId);
 
     var query = new AV.Query(IOSAppExcLogger);
@@ -29,7 +29,6 @@ router.get('/detail/:appleId', function(req, res){
     query.include('hisAppObject');
     query.find().then(function(results){
         for (var i = 0; i< results.length; i++){
-            var mackTaskList = new Array();
             var hisappObject = results[i].get('hisAppObject');
             var myappObject = results[i].get('myAppObject');
             var hisappid = results[i].get('hisAppId');
@@ -57,22 +56,29 @@ router.get('/detail/:appleId', function(req, res){
                 }else
                     retObject.excKinds = '下载';
 
-                var mackTaskObject = Object();
                 query.get(retObject.taskObjectId).then(function(taskObject){
                     var relation = taskObject.relation('mackTask');
                     var task_query = relation.query();
                     task_query.find().then(function(result){
+                        var mackTaskList = new Array();
+                        var mackImgList = new Array();
                         for (var e = 0; e < result.length; e++){
-                            mackTaskObject.uploadUsername = result[e].get('uploadName');
-                            //mackTaskObject.taskImages = result[e].get('requirementImgs');
+                            var mackTaskObject = Object();
+                            mackTaskObject.uploadName = result[e].get('uploadName');
+                            mackTaskList.push(mackTaskObject);
+                            var taskImages = result[e].get('requirementImgs');
+                            for (var w = 0; w < taskImages.length; w++){
+                                var images = Object();
+                                images.taskImage = taskImages[w];
+                                mackImgList.push(images);
+                            }
 
                         }
+                        res.json({'oneAppInfo':retObject, 'macTask':mackTaskList, 'taskImages':mackImgList})
                     })
-                });
-                mackTaskList.push(mackTaskObject);
+                })
             }
         }
-        res.json({'oneAppInfo':retObject, 'macTask':mackTaskList})
 
     }),function(error){
         res.json({'errorId':error.code, 'errorMsg':error.message})
