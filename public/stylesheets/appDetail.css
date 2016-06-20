@@ -7,7 +7,6 @@ body{
 .container{
     width: 1001px;
     margin: auto;
-    /*border: 1px solid red;*/
 }
 .head_left,.body_left,.content_left{
     float: left;
@@ -135,16 +134,15 @@ body{
     color: #666666;
 
 }
+.media-info-deleate{
+    margin-left: 120px;
+}
 .delete{
     background-color: white;
-    float: right;
-    margin-right: 30px;
     border-style: none;
-    margin-top: -30px;
-    /*border: 1px solid red;*/
 }
 .choose{
-    margin-top: 25px;
+    margin-top: 10px;
     margin-left: 115px;
     margin-right: 2px;
 }
@@ -153,43 +151,58 @@ body{
 
 }
 .exchange {
-    width: 50px;
-    height: 26px;
-    /*border-radius: 2px;*/
+    width: 40px;
+    height: 18px;
 
+}
+.delimage{
+    background-color: white;
+    color: #3498db;
+    border: 1px solid #3498db;
+    border-radius: 2px;
+    height: 25px;
+
+}
+.success,.false{
+    width: 610px;height:20px;
+    position: absolute;right: 0;
+    margin-top:10px;
+    text-align: center;
+    line-height: 5px;
 }
 
 .choose .save{
     background-color: #3498db;
-    height: 28px;
-    margin-right: 18px;
-    margin-top:-35px;
-    float: right;
+    height: 25px;
+    line-height: 5px;
     color:white;
-    line-height:6px;
+    text-align: center;
+    margin-left: 50px;
+    margin-top: -7px;
+
 }
 /*按钮美化*/
 .a-upload {
-    padding: 5px 10px;
-    height: 30px;
-    line-height: 20px;
+    margin-top: 2px;
+    height: 25px;
+    width: 95px;
+    padding-left: 3px;
+    line-height: 22px;
     position: relative;
-    top: 10px;
+    top: 4px;
     cursor: pointer;
     color: #3498db;
     background: white;
-    border: 1px solid #ddd;
-    border-radius: 4px;
+    border: 1px solid #3498db;
+    border-radius: 2px;
     overflow: hidden;
     display: inline-block;
-    *display: inline;
-    bottom: 10px;
     *zoom: 1
 }
 
 .a-upload  input {
     position: absolute;
-    font-size: 10px;
+    font-size: 16px;
     right: 0;
     opacity: 0;
     filter: alpha(opacity=0);
@@ -243,7 +256,6 @@ body{
 }
 .pagination {
     width: 150px;
-    /*border: 1px solid red;*/
     margin:  10px 330px;
 }
 .pagination span{
