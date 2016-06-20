@@ -10,6 +10,7 @@ app.controller('taskDetailControl', function($scope, $http, $location){
     var detailUrl = 'detail' + '/' + appleId;
     $http.get(detailUrl).success(function(response){
         $scope.oneAppInfo = response.oneAppInfo;
-        $scope.taskInfo = response.macTaskObject;
+        console.log('--------' + response.macTask);
+        $scope.taskInfo = response.macTask;
     })
 });

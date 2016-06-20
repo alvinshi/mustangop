@@ -85,10 +85,10 @@
             <div class="wrapper" ng-repeat="task in taskInfo">
                 <div class="col-md-6 col-sm-12 text-center">
                     <div class="submission-info">
-                        <span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 提交人: {{task.uploadName}}</span>
+                        <span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 提交人: {{task.uploadUsername}}</span>
                     </div>
                     <div class="submission-screenshot">
-                        <span><img ng-src="{{task}}"></span>
+                        <span><img ng-src="{{task.taskImages}}"></span>
                     </div>
                 </div>
             </div>

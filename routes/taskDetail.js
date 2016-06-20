@@ -25,6 +25,7 @@ router.get('/detail/:appleId', function(req, res){
     query.include('hisAppObject');
     query.find().then(function(results){
         for (var i = 0; i< results.length; i++){
+            var mackTaskList = new Array();
             var hisappObject = results[i].get('hisAppObject');
             var myappObject = results[i].get('myAppObject');
             var hisappid = results[i].get('hisAppId');
@@ -52,27 +53,28 @@ router.get('/detail/:appleId', function(req, res){
                 }else
                     retObject.excKinds = '下载';
 
-            }
-            var mackTaskList = new Array();
-            query.get(results[i].id).then(function(taskObject){
-                var relation = taskObject.relation('mackTask');
-                var task_query = relation.query();
-                task_query.find().then(function(result){
-                    for (var e = 0; e < result.length; e++){
-                        var mackTaskObject = Object();
-                        mackTaskObject.uploadUsername = result[e].get('uploadName');
-                        mackTaskObject.taskImages = result[e].get('requirementImgs');
+                var mackTaskObject = Object();
+                query.get(retObject.taskObjectId).then(function(taskObject){
+                    var relation = taskObject.relation('mackTask');
+                    var task_query = relation.query();
+                    task_query.find().then(function(result){
+                        for (var e = 0; e < result.length; e++){
+                            mackTaskObject.uploadUsername = result[e].get('uploadName');
+                            mackTaskObject.taskImages = result[e].get('requirementImgs');
 
-                        mackTaskList.push(mackTaskObject)
-                    }
-                })
-            })
+                        }
+                    })
+                });
+                mackTaskList.push(mackTaskObject);
+            }
         }
-        res.json({'oneAppInfo':retObject, 'macTaskObject':mackTaskList})
+        res.json({'oneAppInfo':retObject, 'macTask':mackTaskList})
 
     }),function(error){
         res.json({'errorId':error.code, 'errorMsg':error.message})
     }
 });
+
+
 
 module.exports = router;
