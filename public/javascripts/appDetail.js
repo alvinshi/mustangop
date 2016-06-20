@@ -3,7 +3,16 @@
  */
 
 var app = angular.module('myAppContent', ['angularFileUpload']);
+
 app.controller('myAppControl', function($scope, $http, $location, FileUploader) {
+    //app.directive("navbar",function(){
+    //    return {
+    //        restrict: 'E',
+    //        templateUrl: 'navbar.html',
+    //        replace: true
+    //    };
+    //});
+
     var appurlList = $location.absUrl().split('/');
     var appid = appurlList[appurlList.length - 1];
     var myappUrl = 'baseinfo/' + appid;

@@ -22,7 +22,11 @@
 }
 .task-link{
     font-size: 24px;
+    color:black;
 
+}
+.task-link:hover{
+    text-decoration: none;
 }
 .appid,.company{
     /*font-weight: 300;*/

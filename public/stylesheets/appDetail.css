@@ -134,12 +134,11 @@ body{
     color: #666666;
 
 }
-.media-info-deleate{
-    margin-left: 120px;
-}
 .delete{
     background-color: white;
     border-style: none;
+    position: absolute;
+    right:50px
 }
 .choose{
     margin-top: 10px;

@@ -53,9 +53,10 @@
 
 <!--导航栏-->
 
-<iframe src="/html/navbar.html/3 "  width="100%"  scrolling="auto" frameborder="0"  ></iframe>
+<iframe src="/html/navbar.html/3 "  width="100%"   scrolling="auto" frameborder="0"  ></iframe>
 
 <div class="container" ng-app="myAppContent" ng-controller="myAppControl" >
+    <navbar></navbar>
     <div class="head">
         <div class="head_left">
             <img class="appicon" ng-src="{{  appBaseInfo.artworkUrl100 }}" alt="App Icon">
@@ -235,7 +236,7 @@
                         </div>
                     </div>
                     <div class=" media_right">
-                        <button class=" btn  button_bottom hvr-float-shadow" ng-click="addHistory(app)" ng-hide="app.isExced">
+                        <button class=" btn  button_bottom " ng-click="addHistory(app)" ng-hide="app.isExced">
                             添加
                         </button>
                         <button class="btn btn-default  button_add hvr-float-shadow" ng-hide="!app.isExced">
@@ -246,10 +247,10 @@
 
                 <tfoot>
                   <div class="pagination">
-                     <span ng-class="{disabled: currentPage == 0}">
+                     <span ng-class="{disabled: currentPage == 0}" ng-show="pagedItems.length">
                         <a href ng-click="prevPage()">上一页</a>
                      </span>
-                     <span ng-class="{disabled: currentPage == pagedItems.length - 1}">
+                     <span ng-class="{disabled: currentPage == pagedItems.length - 1}" ng-show="pagedItems.length">
                         <a href ng-click="nextPage()">下一页</a>
                      </span>
                   </div>
