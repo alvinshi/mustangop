@@ -7,9 +7,11 @@ app.controller('taskDetailMobControl', function($scope, $http, $location, FileUp
     var appurlList = $location.absUrl().split('/');
     var appleId = appurlList[appurlList.length - 1];
 
-    var detailUrl = '/taskDetail/detail' + '/' + appleId;
+    var detailUrl = '/taskDetailMobile/single' + '/' + appleId;
     $http.get(detailUrl).success(function (response) {
         $scope.oneAppInfo = response.oneAppInfo;
+        console.log('--------++++++' + response.macTask);
+        $scope.taskInfo = response.macTask;
 
     });
 
