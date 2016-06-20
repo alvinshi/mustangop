@@ -158,11 +158,13 @@ app.controller('myAppControl', function($scope, $http, $location, FileUploader) 
                 //change ui
                 for (var u = 0; u < $scope.pagedItems.length; u++){
                     var appRe = $scope.pagedItems[u];
-
-                    if (appRe.appleId === hisAppInfo.appleId){
-                        appRe.isExced = true;
-                        console.log(appRe.appleId + 'is exchanged');
-                        break;
+                    for (var d = 0; d < appRe.length; d++){
+                        var appObject = appRe[d];
+                        if (appObject.appleId === hisAppInfo.appleId){
+                            appObject.isExced = true;
+                            console.log(appObject.appleId + 'is exchanged');
+                            break;
+                        }
                     }
                 }
 

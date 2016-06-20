@@ -52,8 +52,22 @@ router.get('/detail/:appleId', function(req, res){
                     retObject.excKinds = '下载';
 
             }
+            var mackTaskList = new Array();
+            query.get(results[i].id).then(function(taskObject){
+                var relation = taskObject.relation('mackTask');
+                var task_query = relation.query();
+                task_query.find().then(function(result){
+                    for (var e = 0; e < result.length; e++){
+                        var mackTaskObject = Object();
+                        mackTaskObject.uploadUsername = result[e].get('uploadName');
+                        mackTaskObject.taskImages = result[e].get('requirementImgs');
+
+                        mackTaskList.push(mackTaskObject)
+                    }
+                })
+            })
         }
-        res.json({'oneAppInfo':retObject});
+        res.json({'oneAppInfo':retObject, 'macTaskObject':mackTaskList})
 
     }),function(error){
         res.json({'errorId':error.code, 'errorMsg':error.message})

@@ -82,13 +82,13 @@
            <hr/>
 
         <div class="row">
-            <div class="wrapper">
-                <div class="col-md-6 col-sm-12 text-center" ng-repeat="addTask in taskInfo">
+            <div class="wrapper" ng-repeat="task in taskInfo">
+                <div class="col-md-6 col-sm-12 text-center">
                     <div class="submission-info">
-                        <span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 提交人: {{uploadName}}</span>
+                        <span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 提交人: {{task.uploadName}}</span>
                     </div>
                     <div class="submission-screenshot">
-                        <span><img ng-src="{{finTaskPic}}"/></span>
+                        <span><img ng-src="{{task}}"></span>
                     </div>
                 </div>
             </div>
