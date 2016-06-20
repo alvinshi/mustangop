@@ -23,13 +23,7 @@
 .media-body span{
     margin-right: 10%;
 }
-.media-right img{
-    height: 112px;
-    width: 112px;
-    border: 1px solid #e0e0e0;
-    border-radius: 10px;
 
-}
 .logo{
     display: inline-block;
     height: 112px;
@@ -58,9 +52,13 @@
     font-size: 16px;
     color: #f55e5a;
 }
-.oneAppicon{
+.oneAppicon img{
+    height: 112px;
+    width: 112px;
     border: 1px solid #e0e0e0;
-    border-radius: 8px;
+    border-radius: 10px;
+}
+.oneAppicon{
     float: right;
     margin-top: -110px;
 }

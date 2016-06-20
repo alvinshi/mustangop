@@ -43,7 +43,7 @@
     <link rel="stylesheet" href="../stylesheets/excHistory.css">
 
 </head>
-<div>
+
 <!--[if lt IE 8]>
 <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">更新您的浏览器</a> 从而获得更好的体验.</p>
 <![endif]-->
@@ -58,6 +58,11 @@
     <div class="top">
         <img class="myapp_icon" src="/images/exch_history/myapp_icon.png">
         <p class="myapp_title">我的应用</p>
+    </div>
+    <div class="top_back" style="display: block">
+        <div class="glyphicon-rocket">
+            <a href="#" target="_self"><img src="/images/home/top_back.png"></a>
+        </div>
     </div>
     <!--我的应用部分-->
     <div class="spinner" ng-hide="!isLoadingMyApp">
@@ -94,10 +99,10 @@
                     请先添加我的应用
                 </button>
             </div>
-        </div>
+    </div>
 
 
-        <div class="title">
+      <div class="title">
             <h4>当前版本</h4>
             <div class="app_list media" ng-repeat="app in myExcAllApps">
                     <div class="media-left">
@@ -121,15 +126,14 @@
                         </button>
                     </div>
                 </div>
-            </div>
-            <ul class="pager">
+        </div>
+        <ul class="pager">
                 <li ng-hide="!hasMore"><button ng-click = "nextPage()">下一页</button></li>
                 <li ng-hide="hasMore">没有更多数据</li>
-            </ul>
-        </nav>
-        </div>
+        </ul>
+    </div>
 
-        <div class="title">
+    <div class="title">
             <h4>以往版本</h4>
             <div class="app_list" ng-repeat="app in myHistoryApps">
                 <div class="media">
@@ -159,13 +163,7 @@
             </div><!--media end-->
          </div><!--app_list end-->
         </div><!--title end -->
-    </div>
 
-    <div class="top_back" style="display: block">
-        <div class="glyphicon-rocket">
-            <a href="#" target="_self"><img src="/images/home/top_back.png"></a>
-        </div>
-    </div>
     <div class="modal fade" id="myhistorydelete">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -186,7 +184,9 @@
 </div>
 
 
-  </div>
+
+
+
 
 <script src="/javascripts/cookieHelper.js"></script>
 

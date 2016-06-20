@@ -230,8 +230,8 @@ body{
     border: 1px solid #e0e0e0 ;
 
     float: left;
-    width: 360px;
-    height: 120px;
+    width: 340px;
+    height: 100px;
     margin-left: 10px;
     margin-bottom: 15px;
 }
@@ -255,7 +255,7 @@ body{
 }
 .pagination {
     width: 150px;
-    margin:  10px 330px;
+    margin:  10px 300px;
 }
 .pagination span{
     margin-right: 20px;
