@@ -152,11 +152,9 @@ app.controller('myAppControl', function($scope, $http, $location, FileUploader) 
         var addHistoryUrl = '/myapp/addHistory/' + appid + '/' + $scope.appBaseInfo.version;
 
         var postParam = {'hisAppInfo' : hisAppInfo};
-        console.log('add history' + postParam);
         $http.post(addHistoryUrl, postParam).success(function(response){
 
             $scope.isError = response.errorId;
-            console.log(response.errorId);
 
             if (response.errorId == 0 || response.errorId === undefined){
 
@@ -180,6 +178,7 @@ app.controller('myAppControl', function($scope, $http, $location, FileUploader) 
                 $scope.myExcAllApps.push(response.addExcObject);
 
                 $scope.errorMsg = '';
+                location.href='/app/' + appid;
             }else {
                 $scope.errorMsg = response.errorMsg;
             }

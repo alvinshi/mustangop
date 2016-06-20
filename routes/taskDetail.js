@@ -16,11 +16,14 @@ router.get('/:appleId', function(req, res){
 
 router.get('/detail/:appleId', function(req, res){
     var userId = util.useridInReq(req);
+    var myDate = new Date();
+    var myDateStr = myDate.getFullYear() + '-' + (parseInt(myDate.getMonth())+1) + '-' + myDate.getDate()
     var appleid = req.params.appleId;
 
     var query = new AV.Query(IOSAppExcLogger);
 
     query.equalTo('userId', userId);
+    query.startsWith('excDateStr', myDateStr);
     query.include('myAppObject');
     query.include('hisAppObject');
     query.find().then(function(results){
@@ -60,7 +63,7 @@ router.get('/detail/:appleId', function(req, res){
                     task_query.find().then(function(result){
                         for (var e = 0; e < result.length; e++){
                             mackTaskObject.uploadUsername = result[e].get('uploadName');
-                            mackTaskObject.taskImages = result[e].get('requirementImgs');
+                            //mackTaskObject.taskImages = result[e].get('requirementImgs');
 
                         }
                     })
