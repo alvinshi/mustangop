@@ -64,14 +64,14 @@
 
                 </div>
             </div>
-            <div class="media-right" >
-                <div class="media">
-                    <div class="media-left" style="border: 1px solid blue"><h3>{{oneAppInfo.myAppName}} </h3></div>
-                    <div class="media-body"><img ng-src="{{oneAppInfo.myAppartworkUrl100}}" alt="" ></div>
-                </div>
-
+              <div class="oneAppicon">
+                <img ng-src="{{oneAppInfo.myAppartworkUrl100}}" alt="" >
+              </div>
+            <div class="oneAppname">
+                <h3>{{oneAppInfo.myAppName.substr(0,9)+"..."}} </h3>
             </div>
-        </div>
+
+           </div>
             <hr/>
 
             <div class="text-center">需求截图</div>

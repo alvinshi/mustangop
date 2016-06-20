@@ -58,6 +58,17 @@
     font-size: 16px;
     color: #f55e5a;
 }
+.oneAppicon{
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    float: right;
+    margin-top: -110px;
+}
+.oneAppname{
+    margin-right: 120px;
+    margin-top: -125px;
+    float: right;
+}
 .text-right {
     font-size: 16px;
     margin-top: 20px;
