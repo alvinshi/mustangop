@@ -7,6 +7,8 @@ var AV = require('leanengine');
 var util = require('./util');
 var https = require('https');
 
+var Base64 = require('../public/javascripts/vendor/base64').Base64;
+
 var IOSAppBinder = AV.Object.extend('IOSAppBinder');
 var IOSAppExcLogger = AV.Object.extend('IOSAppExcLogger');
 var mackTaskInfo = AV.Object.extend('mackTaskInfo');
@@ -62,15 +64,16 @@ router.get('/single/:appleId', function(req, res){
                 query.get(retObject.taskObjectId).then(function(taskObject){
                     var relation = taskObject.relation('mackTask');
                     var task_query = relation.query();
+                    task_query.equalTo('uploadName', uploadUserName);
                     task_query.find().then(function(result){
+                        var mackTaskList = new Array();
                         for (var e = 0; e < result.length; e++){
-                            var mackTaskList = new Array();
-                            var mackTaskObject = Object();
-                            mackTaskObject.uploadName = result[e].get('uploadName');
-                            mackTaskObject.taskImages = result[e].get('requirementImgs');
-
-                            mackTaskList.push(mackTaskObject);
-
+                            retObject.uploadName = result[e].get('uploadName');
+                            var taskImages = result[e].get('requirementImgs');
+                            for (var w = 0; w < taskImages.length; w++){
+                                var taskImage = taskImages[w];
+                                mackTaskList.push(taskImage);
+                            }
                         }
                         res.json({'oneAppInfo':retObject, 'macTask':mackTaskList})
                     })
