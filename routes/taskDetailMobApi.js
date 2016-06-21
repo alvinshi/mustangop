@@ -21,22 +21,21 @@ router.get('/:excTaskId', function(req, res) {
 router.get('/single/:appleId', function(req, res){
     var userId = util.useridInReq(req);
     var appleid = parseInt(req.params.appleId);
-    //var uploadUserName = decodeURI(req.cookies.uploadImgName);
+    var uploadUserName = req.cookies.uploadImgName;
 
     var query = new AV.Query(IOSAppExcLogger);
 
     query.equalTo('hisAppId', appleid);
     query.equalTo('userId', userId);
-    //query.startsWith('excDateStr', myDateStr);
     query.include('myAppObject');
     query.include('hisAppObject');
     query.find().then(function(results){
+        var retObject = Object();
         for (var i = 0; i< results.length; i++){
             var hisappObject = results[i].get('hisAppObject');
             var myappObject = results[i].get('myAppObject');
             var hisappid = results[i].get('hisAppId');
             if (hisappid == appleid){
-                var retObject = Object();
                 retObject.artworkUrl100 = hisappObject.get('artworkUrl100');
                 retObject.trackName = hisappObject.get('trackName');
                 retObject.sellerName = hisappObject.get('sellerName');
@@ -62,7 +61,7 @@ router.get('/single/:appleId', function(req, res){
                 query.get(retObject.taskObjectId).then(function(taskObject){
                     var relation = taskObject.relation('mackTask');
                     var task_query = relation.query();
-                    //task_query.equalTo('uploadName', uploadUserName);
+                    task_query.equalTo('uploadName', uploadUserName);
                     task_query.find().then(function(result){
                         var mackTaskList = new Array();
                         for (var e = 0; e < result.length; e++){
@@ -72,6 +71,7 @@ router.get('/single/:appleId', function(req, res){
                                 var taskImage = taskImages[w];
                                 mackTaskList.push(taskImage);
                             }
+
                         }
                         res.json({'oneAppInfo':retObject, 'macTask':mackTaskList})
                     })
@@ -89,6 +89,8 @@ router.post('/addTask/:excTaskId', function(req, res){
     var excTaskId = req.params.excTaskId;
     var uploadName = req.body.uploadName;
     var requirementImgs = req.body.requirementImgs;
+
+    res.cookie('uploadImgName', uploadName);
 
     var task_query = new AV.Query(IOSAppExcLogger);
     task_query.get(excTaskId).then(function(taskObject){
