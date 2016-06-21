@@ -70,39 +70,39 @@
 
         <hr/>
 
-        <div class="text-center">需求截图</div>
-        <div class="image-center">
-            <img class="img-responsive screenshot" ng-src="{{ oneAppInfo.requirementImg }}"/>
-        </div>
 
-        <div class="text-center ">
-            <button class="btn btn-default cust1" >
-                跳转APP store
-            </button>
-        </div>
-
-
-        <div class="text-center ">
-            <button class="btn btn-default cust2" data-toggle="modal" data-target="#mymodal" ng-hide="!normalBtnShow">
-                上传图片
-            </button>
-        </div>
-
-
-        <div class="text-center " ng-hide="normalBtnShow">
-                <a href="javascript:;"  class="a-upload form_change ">
-                    <input type="file" style="width: 80%" multiple nv-file-select="" uploader="uploader" accept="image/*"/>上传图片
-                </a>
-        </div>
-
-        <hr/>
-        <div class="text-right">提交人: {{oneAppInfo.uploadName}}</div>
-
-        <div class="submission-screenshot">
-            <span><img ng-repeat="image in images" ng-src="{{image}}"/></span>
-        </div>
 
     </div>
+       <div class="text-center">需求截图</div>
+       <div class="image-center">
+           <img class="img-responsive screenshot" ng-src="{{ oneAppInfo.requirementImg }}"/>
+       </div>
+
+       <div class="text-center ">
+           <button class="btn btn-default cust1" >
+               跳转APP store
+           </button>
+       </div>
+
+
+       <div class="text-center ">
+           <button class="btn btn-default cust2" data-toggle="modal" data-target="#mymodal" ng-hide="!normalBtnShow">
+               上传图片
+           </button>
+       </div>
+
+       <div class="text-center " ng-hide="normalBtnShow">
+           <a href="javascript:;"  class="a-upload form_change ">
+               <input type="file" style="width: 80%" multiple nv-file-select="" uploader="uploader" accept="image/*"/>上传图片
+           </a>
+       </div>
+
+       <hr/>
+       <div class="text-right">提交人: {{uploadName}}</div>
+
+       <div class="submission-screenshot" ng-repeat="image in images">
+           <img  ng-src="{{image}}"/>
+       </div>
 
 
     <div class="modal fade" id="mymodal">

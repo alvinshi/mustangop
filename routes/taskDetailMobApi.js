@@ -20,16 +20,14 @@ router.get('/:excTaskId', function(req, res) {
 
 router.get('/single/:appleId', function(req, res){
     var userId = util.useridInReq(req);
-    var myDate = new Date();
-    var myDateStr = myDate.getFullYear() + '-' + (parseInt(myDate.getMonth())+1) + '-' + myDate.getDate();
     var appleid = parseInt(req.params.appleId);
-    var uploadUserName = req.cookies.uploadImgName;
+    var uploadUserName = decodeURI(req.cookies.uploadImgName);
 
     var query = new AV.Query(IOSAppExcLogger);
 
     query.equalTo('hisAppId', appleid);
-    query.equalTo('userId', userId);
-    query.startsWith('excDateStr', myDateStr);
+    //query.equalTo('userId', userId);
+    //query.startsWith('excDateStr', myDateStr);
     query.include('myAppObject');
     query.include('hisAppObject');
     query.find().then(function(results){

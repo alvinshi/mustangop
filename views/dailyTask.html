@@ -28,6 +28,7 @@
     <script src="/javascripts/vendor/AngularJS/angular.min.js"></script>
 
     <!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+    <script src="//cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
     <!-- Bootstrap core CSS -->
     <link href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
 
@@ -35,23 +36,26 @@
     <script src="//cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 
     <!--第三方 CSS JS-->
-    <link rel="stylesheet" href="../stylesheets/vendor/font-awesome.min.css">
     <link rel="stylesheet" href="../stylesheets/loading.css">
     <link rel="stylesheet" href="/stylesheets/vendor/hover/hover-min.css">
     <link rel="stylesheet" href="../stylesheets/dailyTask.css">
 
     <!--网站内部js-->
-    <script src="/javascripts/cookieHelper.js"></script>
     <script src="/javascripts/todayTask.js"></script>
+    <script src="/javascripts/indexApp.js"></script>
 </head>
 
-<body>
+<body ng-app="yemaWebApp">
 <!--[if lt IE 8]>
 <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">更新您的浏览器</a> 从而获得更好的体验.</p>
 <![endif]-->
-<iframe src="/html/navbar.html/2 "  width="100%" scrolling="auto" frameborder="0" style="z-index: 1" ></iframe>
-<div class="container" ng-app="dailyTaskContent" ng-controller="dailyTaskControl" >
 
+<div class="container" ng-controller="indexAppCtrl" >
+    <!--导航-->
+    <th-nav></th-nav>
+</div>
+
+<div class="container" ng-controller="dailyTaskControl" >
     <!--标题-->
     <div class="header-wrapper">
         <h1 class="header hidden-xs">今日任务</h1>
@@ -60,7 +64,6 @@
 
 
     <!--任务列表-->
-
     <!--angularJs的ng-repeat-->
 
         <div class="row" ng-repeat="app in dailyTask">
@@ -101,6 +104,6 @@
 
 
 </div>
-
+<!--<script src="/javascripts/cookieHelper.js"></script>-->
 </body>
 </html>

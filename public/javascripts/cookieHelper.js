@@ -45,9 +45,9 @@ if (username == undefined || username.length == 0){
         console.log('has username 1' + username);
         document.getElementsByClassName('navbar-right')[0].innerHTML =
             '<li><a id="nav-username-display" href="/user" style="color:#3498db"></a></li>';
+    }else {
+        document.getElementById('nav-username-display').innerHTML = username;
     }
-
-    document.getElementById('nav-username-display').innerHTML = username;
 }
 
 

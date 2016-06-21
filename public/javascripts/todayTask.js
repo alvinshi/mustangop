@@ -1,9 +1,12 @@
 /**
  * Created by cailong on 16/6/7.
  */
-var app = angular.module('dailyTaskContent', []);
+var app = angular.module('yemaWebApp', []);
+
+var navIndex = 2;
 
 app.controller('dailyTaskControl', function($scope, $http, $location){
+
     var appurlList = $location.absUrl().split('/');
     var userId = appurlList[appurlList.length - 1];
 
