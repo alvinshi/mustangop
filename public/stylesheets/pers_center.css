@@ -2,27 +2,16 @@ body{
     margin: 0;
     padding: 0;
 }
-.container-fluid{
-    width: 100%;
-    max-width: 1001px;
-}
 
-/*.navbar{*/
-    /*background-color: #030000;*/
-    /*height: 48px;*/
-    /*border-style: none;*/
-    /*width: 100%;*/
-    /*font-size: 17px;*/
-/*}*/
 
 body{
     background-color: #e0e0e0;
 }
-#logoimage{
-    margin-left: 5%;
+.menu,.setting-content{
+    margin-top: 100px;
 }
+
 .container{
-    margin-top: 13px;
     width: 100%;
     max-width: 1001px;
 }
@@ -80,7 +69,7 @@ body{
 .setting-content{
 
     background-color: #ffffff;
-    margin-left:15px;
+    margin-left:10px;
     width: 753px;
     height: 644px;
     float: left;
