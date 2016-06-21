@@ -2,6 +2,7 @@
  * Created by cailong on 16/6/12.
  */
 
+//var app = angular.module('taskDetailMobContent', ['angularFileUpload']);
 var app = angular.module('yemaWebApp', ['angularFileUpload']);
 var navIndex = 2;
 

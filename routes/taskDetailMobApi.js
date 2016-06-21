@@ -21,12 +21,12 @@ router.get('/:excTaskId', function(req, res) {
 router.get('/single/:appleId', function(req, res){
     var userId = util.useridInReq(req);
     var appleid = parseInt(req.params.appleId);
-    var uploadUserName = decodeURI(req.cookies.uploadImgName);
+    //var uploadUserName = decodeURI(req.cookies.uploadImgName);
 
     var query = new AV.Query(IOSAppExcLogger);
 
     query.equalTo('hisAppId', appleid);
-    //query.equalTo('userId', userId);
+    query.equalTo('userId', userId);
     //query.startsWith('excDateStr', myDateStr);
     query.include('myAppObject');
     query.include('hisAppObject');
@@ -62,7 +62,7 @@ router.get('/single/:appleId', function(req, res){
                 query.get(retObject.taskObjectId).then(function(taskObject){
                     var relation = taskObject.relation('mackTask');
                     var task_query = relation.query();
-                    task_query.equalTo('uploadName', uploadUserName);
+                    //task_query.equalTo('uploadName', uploadUserName);
                     task_query.find().then(function(result){
                         var mackTaskList = new Array();
                         for (var e = 0; e < result.length; e++){
