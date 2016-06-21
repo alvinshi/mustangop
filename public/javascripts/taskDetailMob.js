@@ -64,13 +64,13 @@ app.controller('taskDetailMobControl', function($scope, $http, $location, FileUp
         var appUrl = '/taskDetailMobile/addTask/' + $scope.oneAppInfo.taskObjectId;
 
         $http.post(appUrl, {
-                'uploadName':getCookie('uploadImgName'),
+                'uploadName':$scope.uploadName,
                 'requirementImgs': fileUrls
             })
             .success(function (response) {
                 $scope.errorId = response.errorId;
                 $scope.errorMsg = response.errorMsg;
-                $scope.oneAppInfo.uploadName = response.uploadName;
+                $scope.uploadName = response.uploadName;
                 $scope.images = response.requirementImgs;
 
                 uploader.clearQueue();
@@ -89,7 +89,6 @@ app.controller('taskDetailMobControl', function($scope, $http, $location, FileUp
 
     $scope.saveUploadName = function() {
         if ($scope.uploadName != undefined && $scope.uploadName.length > 0) {
-            setCookie('uploadImgName', $scope.uploadName, 365);
             $scope.uploadNameError = '';
             $scope.normalBtnShow = 0;
         }else {

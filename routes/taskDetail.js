@@ -16,24 +16,21 @@ router.get('/:appleId', function(req, res){
 
 router.get('/detail/:appleId', function(req, res){
     var userId = util.useridInReq(req);
-    var myDate = new Date();
-    var myDateStr = myDate.getFullYear() + '-' + (parseInt(myDate.getMonth())+1) + '-' + myDate.getDate();
     var appleid = parseInt(req.params.appleId);
 
     var query = new AV.Query(IOSAppExcLogger);
 
     query.equalTo('hisAppId', appleid);
     query.equalTo('userId', userId);
-    query.startsWith('excDateStr', myDateStr);
     query.include('myAppObject');
     query.include('hisAppObject');
     query.find().then(function(results){
+        var retObject = Object();
         for (var i = 0; i< results.length; i++){
             var hisappObject = results[i].get('hisAppObject');
             var myappObject = results[i].get('myAppObject');
             var hisappid = results[i].get('hisAppId');
             if (hisappid == appleid){
-                var retObject = Object();
                 retObject.artworkUrl100 = hisappObject.get('artworkUrl100');
                 retObject.trackName = hisappObject.get('trackName');
                 retObject.sellerName = hisappObject.get('sellerName');
