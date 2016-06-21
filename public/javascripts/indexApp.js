@@ -5,7 +5,7 @@
 app.directive("thNav",function(){
     return {
         restrict: 'E',
-        templateUrl: '/html/navbar.html/2'
+        templateUrl: '/html/navbar.html'
         //replace: true
     };
 });

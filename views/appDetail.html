@@ -3,24 +3,9 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <meta name="theme-color" content="#19B5FE">
-
-    <meta name="description" content="">
-    <meta name="author" content="">
     <link rel="icon" href="favicon.ico">
-
-    <title>野马运营</title>
-
-    <meta name="keywords" content="ASO优化,极速运营,换评,App Store榜单排名,中小企业,移动互联网"/>
-    <meta name="description" content="野马运营是服务于中小移动互联网创业企业的网站,帮助你们的App做更好的ASO优化,评论等"/>
-
-
     <link rel="apple-touch-icon" href="apple-touch-icon.png">
     <!-- Place favicon.ico in the root directory -->
-
-    <link rel="stylesheet" href="/stylesheets/style.css">
 
     <!-- 引入 AngularJS Mini 文件 -->
     <script src="/javascripts/vendor/AngularJS/angular.min.js"></script>
@@ -38,25 +23,32 @@
     <link rel="stylesheet" href="../stylesheets/loading.css">
     <link rel="stylesheet" href="/stylesheets/vendor/hover/hover-min.css">
     <link rel="stylesheet" href="/stylesheets/appDetail.css">
+    <script src="/javascripts/vendor/AngularJS/angular-file-upload.min.js"></script>
 
 
     <!--网站内部js-->
-    <script src="/javascripts/vendor/AngularJS/angular-file-upload.min.js"></script>
+
 
     <script src="/javascripts/appDetail.js"></script>
+    <script src="/javascripts/indexApp.js"></script>
+
+
 
 </head>
-<body>
+
+
+<body ng-app="yemaWebApp">
 <!--[if lt IE 8]>
 <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">更新您的浏览器</a> 从而获得更好的体验.</p>
 <![endif]-->
 
 <!--导航栏-->
+<div class="container" ng-controller="indexAppCtrl" >
+    <th-nav></th-nav>
+</div>
 
-<iframe src="/html/navbar.html/3 "  width="100%"   scrolling="auto" frameborder="0"  ></iframe>
 
-<div class="container" ng-app="myAppContent" ng-controller="myAppControl" >
-    <navbar></navbar>
+<div class="container"  ng-controller="myAppControl" >
     <div class="head">
         <div class="head_left">
             <img class="appicon" ng-src="{{  appBaseInfo.artworkUrl100 }}" alt="App Icon">

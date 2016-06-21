@@ -2,18 +2,9 @@
 <html lang="zh-CN">
 <head>
     <meta charset="utf-8">
-    <!--<meta http-equiv="x-ua-compatible" content="ie=edge">-->
-    <!--<meta name="viewport" content="width=device-width, initial-scale=1">-->
-
     <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
     <meta name="apple-mobile-web-app-capable" content="yes" />
 
-
-    <meta name="theme-color" content="#19B5FE">
-
-    <meta name="description" content="">
-    <meta name="author" content="">
-    <link rel="icon" href="favicon.ico">
     <link rel="apple-touch-icon" href="apple-touch-icon.png">
     <!-- Place favicon.ico in the root directory -->
 
@@ -37,21 +28,27 @@
 
     <!--网站内部js-->
     <script src="/javascripts/cookieHelper.js"></script>
+
     <script src="/javascripts/taskDetailMob.js"></script>
+    <script src="/javascripts/indexApp.js"></script>
+
+
 
 
 </head>
 
-<body>
+<body ng-app="yemaWebApp">
 <!--[if lt IE 8]>
 <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">更新您的浏览器</a> 从而获得更好的体验.</p>
 <![endif]-->
 
+<div class="container" ng-controller="indexAppCtrl" >
+    <!--导航-->
+    <th-nav></th-nav>
+</div>
 
 
-    <iframe src="/html/navbar.html/2 "  width="100%"  scrolling="auto" frameborder="0"  ></iframe>
-    <!--任务列表-->
-   <div class="container" ng-app="taskDetailMobContent" ng-controller="taskDetailMobControl" >
+<div class="container"  ng-controller="taskDetailMobControl" >
     <div class="media">
         <div class="media-left">
             <img class="logo" ng-src="{{ oneAppInfo.artworkUrl100 }}" alt="" class="img-thumbnail"/>

@@ -2,7 +2,9 @@
  * Created by cailong on 16/5/20.
  */
 
-var app=angular.module('userCenterAPP', []);
+var app = angular.module('yemaWebApp', []);
+
+var navIndex = 4;
 
 app.controller('userCenterCtrl', function($scope, $http){
     $scope.userName = true;

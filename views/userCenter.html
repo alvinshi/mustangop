@@ -5,16 +5,6 @@
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <meta name="theme-color" content="#19B5FE">
-
-    <meta name="description" content="">
-    <meta name="author" content="">
-    <link rel="icon" href="favicon.ico">
-
-    <meta name="keywords" content="ASO优化,极速运营,换评,App Store榜单排名,中小企业,移动互联网"/>
-    <meta name="description" content="野马运营是服务于中小移动互联网创业企业的网站,帮助你们的App做更好的ASO优化,评论等"/>
-
-    <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="apple-touch-icon" href="apple-touch-icon.png">
     <!-- Place favicon.ico in the root directory -->
 
@@ -39,40 +29,24 @@
 
     <link rel="stylesheet" href="../stylesheets/pers_center.css">
     <script src="/javascripts/userCenter.js"></script>
+    <script src="/javascripts/indexApp.js"></script>
+
 
     <title>个人中心</title>
 
 </head>
-<body>
+<body ng-app="yemaWebApp">
 <!--[if lt IE 8]>
 <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">更新您的浏览器</a> 从而获得更好的体验.</p>
 <![endif]-->
 
 <!--导航栏-->
-<!--<nav class="navbar navbar-default nav-collapse navbar-fixed-top" id="mainbar">-->
-    <!--<div class="container-fluid">-->
-        <!--<div class="navbar-header">-->
-            <!--<a class="navbar-brand" href="/">-->
-                <!--<img id="logoimage" alt="Brand" src="/images/home/wildhorse_icon.png">-->
-            <!--</a>-->
-        <!--</div>-->
+<div class="container" ng-controller="indexAppCtrl" >
+    <th-nav></th-nav>
+</div>
 
-        <!--<div id="navbar" >-->
-            <!--<ul class="nav navbar-nav">-->
-                <!--<li><a href="/" style="color:white">首页</a></li>-->
-                <!--<li ><a href="/myapp/history" style="color:white">交换记录</a></li>-->
-                <!--<li><a href="/myapp" style="color:white">我的应用</a></li>-->
-
-            <!--</ul>-->
-            <!--<ul class="nav navbar-nav navbar-right">-->
-                <!--<li><a id="nav-username-display" href="/user" style="color:#3498db"></a></li>-->
-            <!--</ul>-->
-        <!--</div>&lt;!&ndash;/.nav-collapse &ndash;&gt;-->
-    <!--</div>-->
-<!--</nav>-->
-<iframe src="/html/navbar.html/4 "  width="100%" height="100%"  scrolling="no" frameborder="0" ></iframe>
 <!--个人中心主界面-->
-<div class="container main-body" ng-app="userCenterAPP" ng-controller="userCenterCtrl">
+<div class="container main-body"  ng-controller="userCenterCtrl">
     <div class=" menu">
         <div class="personal">
             <div class="personal-title">
@@ -114,10 +88,6 @@
         </div>
     </div>
 </div>
-
-<script src="/javascripts/cookieHelper.js"></script>
-<script src="/javascripts/userCenter.js"></script>
-
 </body>
 
 </html>

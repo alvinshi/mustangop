@@ -2,7 +2,9 @@
  * Created by cailong on 16/6/12.
  */
 
-var app = angular.module('taskDetailMobContent', ['angularFileUpload']);
+var app = angular.module('yemaWebApp', ['angularFileUpload']);
+var navIndex = 2;
+
 app.controller('taskDetailMobControl', function($scope, $http, $location, FileUploader) {
     var appurlList = $location.absUrl().split('/');
     var appleId = appurlList[appurlList.length - 1];

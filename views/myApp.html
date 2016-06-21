@@ -41,18 +41,18 @@
 
     <!--网站内部js-->
     <script src="/javascripts/itunesApi.js"></script>
+    <script src="/javascripts/indexApp.js"></script>
 </head>
-<body>
+<body ng-app="yemaWebApp">
 <!--[if lt IE 8]>
 <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">更新您的浏览器</a> 从而获得更好的体验.</p>
 <![endif]-->
-<iframe src="/html/navbar.html/3 "  width="100%"   scrolling="no" frameborder="0"></iframe>
-
+  <div class="container" ng-controller="indexAppCtrl" >
+    <!--导航-->
+       <th-nav></th-nav>
+  </div>
 <div class="container">
-
-
-
-    <div  class="main_content" ng-app="itunesSearch" ng-controller="itunesSearchControl">
+    <div  class="main_content"  ng-controller="itunesSearchControl">
         <div class="col-lg-6 col-sm-12 input-group">
             <input type="text" class="form-control" ng-model="searchKey" ng-keyup="keySearchApp($event)" placeholder="搜索添加你想绑定的App名称...">
                     <span class="input-group-btn">
@@ -95,7 +95,7 @@
                 <button  class=" button_bottom hvr-float-shadow" ng-click="chooseMyApp(app)" ng-hide="app.isMine">
                       确认绑定
                 </button>
-                <button  class="excedBtn"> <!--ng-click="releaseMyApp(app.appleId)" ng-hide="!app.isMine">-->
+                <button  class="excedBtn">
                       已绑定
                 </button>
             </div>
@@ -132,15 +132,7 @@
             </div><!-- /.modal -->
 
 
-            <!--<div class="app_add_main"  >-->
-                <!--<div  class="app_add">-->
-                    <!--<span>+</span>-->
-                <!--</div>-->
 
-            <!--</div>-->
-            <!--<div style="clear: both"></div>-->
-
-            <!--<div  class="app_bottom" > &lt;!&ndash;注：很抱歉，暂时每个账号只能绑定一款产品，我们将陆续添加功能，以便一个账号可同时管理多个产品。&ndash;&gt;</div>-->
         </div>
 
 
@@ -151,7 +143,7 @@
  </div>
 
 
-<script src="/javascripts/cookieHelper.js"></script>
+<!--<script src="/javascripts/cookieHelper.js"></script>-->
 
 </body>
 

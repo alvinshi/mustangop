@@ -43,19 +43,24 @@
 
     <!--网站内部js-->
     <script src="/javascripts/historyApp.js"></script>
+    <script src="/javascripts/indexApp.js"></script>
+
 </head>
-<body>
+<body ng-app="yemaWebApp">
 <!--[if lt IE 8]>
 <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">更新您的浏览器</a> 从而获得更好的体验.</p>
 <![endif]-->
-<iframe src="/html/navbar.html/1"  width="100%"  scrolling="no" frameborder="0"></iframe>
-  <div  ng-app="historyApp" ng-controller="historyAppCtrl" >
+
+<div class="container" ng-controller="indexAppCtrl" >
+    <!--导航-->
+    <th-nav></th-nav>
+</div>
 
 
 
 
     <!--搜索组建-->
-
+ <div  ng-controller="historyAppCtrl" >
     <div class="input-group col-lg-6 col-sm-12">
         <input  type="text" class="form-control" ng-model="searchKey" ng-keyup="keySearchApp($event)" placeholder="填写与你最新版本交换过的产品名称">
           <span class="input-group-btn ">
