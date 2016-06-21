@@ -3,6 +3,8 @@
  */
 var app = angular.module('yemaWebApp', []);
 
+var navIndex = 2;
+
 app.controller('dailyTaskControl', function($scope, $http, $location){
 
     var appurlList = $location.absUrl().split('/');

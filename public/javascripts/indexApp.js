@@ -2,8 +2,6 @@
  * Created by cailong on 16/5/31.
  */
 
-var app = angular.module('yemaWebApp', []);
-
 app.directive("thNav",function(){
     return {
         restrict: 'E',
@@ -14,8 +12,7 @@ app.directive("thNav",function(){
 
 app.controller('indexAppCtrl', function($scope, $http, $location){
 
-    var paramsList = $location.absUrl().split('/');
-    var index = paramsList[paramsList.length - 1];
+    var index = navIndex;
     $scope.myColors = ['white', 'white', 'white', 'white','white'];
     $scope.myColors[index] = '#3498db';
 
