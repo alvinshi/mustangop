@@ -2,18 +2,7 @@ body{
     margin: 0 ;
     padding: 0;
 }
-.container{
-    margin-top: 0px ;
-    padding-left: 0;
 
-}
-/*.navbar{*/
-    /*background-color: #030000;*/
-    /*height: 48px;*/
-    /*border-style: none;*/
-    /*width: 100%;*/
-    /*font-size: 17px;*/
-/*}*/
 
 button{
     outline: none;
@@ -22,21 +11,15 @@ button{
 .hvr-float-shadow{
     outline-color: white;
 }
-.container-fluid{
-    margin: 0 auto;
-    /*width: 1001px;*/
-}
-#logoimage{
-    position:relative;
-left:20%;
-}
+
 .main_content{
 
     width:90%;
-    margin: 20px auto;
+    margin: 100px auto;
 }
 .input-group{
-    margin: 2em 48px;
+    margin-bottom: 20px;
+    margin-left: 50px;
     width:480px ;
 }
 .search_color{
