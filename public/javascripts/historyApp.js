@@ -1,7 +1,10 @@
 /**
  * Created by wujiangwei on 16/5/13.
  */
-var app=angular.module('historyApp',['ngSanitize']);
+
+var app=angular.module('yemaWebApp',['ngSanitize']);
+var navIndex = 3;
+
 
 app.controller('historyAppCtrl', function($scope, $http, $location) {
 

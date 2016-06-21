@@ -35,26 +35,30 @@
 
     <!--第三方 CSS JS-->
     <link rel="stylesheet" href="../stylesheets/vendor/font-awesome.min.css">
-
-    <!--网站内部js-->
-    <script src="/javascripts/historyApp.js"></script>
-
     <link rel="stylesheet" href="../stylesheets/loading.css">
     <link rel="stylesheet" href="../stylesheets/excHistory.css">
 
+    <!--网站内部js-->
+    <script src="/javascripts/historyApp.js"></script>
+    <script src="/javascripts/indexApp.js"></script>
+
+
+
 </head>
+<body ng-app="yemaWebApp">
 
 <!--[if lt IE 8]>
 <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">更新您的浏览器</a> 从而获得更好的体验.</p>
 <![endif]-->
 
 <!--导航栏-->
-<iframe src="/html/navbar.html/1 "  width="100%" scrolling="no" frameborder="0" ></iframe>
-
+<div class="container" ng-controller="indexAppCtrl" >
+    <th-nav></th-nav>
+</div>
 
 
     <!--我的应用-->
-<div class="container content" ng-app="historyApp" ng-controller="historyAppCtrl" >
+<div class="container content"  ng-controller="historyAppCtrl" >
     <div class="top">
         <img class="myapp_icon" src="/images/exch_history/myapp_icon.png">
         <p class="myapp_title">我的应用</p>
@@ -188,7 +192,7 @@
 
 
 
-<script src="/javascripts/cookieHelper.js"></script>
+<!--<script src="/javascripts/cookieHelper.js"></script>-->
 
 </body>
 

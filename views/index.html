@@ -36,20 +36,20 @@
 
     <link rel="stylesheet" href="../stylesheets/index.css">
 
+    <script src="/javascripts/todayTask.js"></script>
     <script src="/javascripts/indexApp.js"></script>
 
-    <!--<link rel=”stylesheet” type=”text/css” href="../stylesheets/index.css">-->
 
 </head>
 
 
-<body >
+<body ng-app="yemaWebApp">
 <!--[if lt IE 8]>
 <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">更新您的浏览器</a> 从而获得更好的体验.</p>
 <![endif]-->
 
-<nav class="navbar  navbar-fixed-top" style="border: 1px solid red">
-    <div class="container" ng-app="indexApp" ng-controller="indexAppCtrl">
+<nav class="navbar  navbar-inverse navbar-fixed-top" >
+    <div class="container"  ng-controller="indexAppCtrl">
         <div class="navbar-header">
             <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#example-navbar-collapse-1" aria-expanded="false">
                 <span class="sr-only"></span>
@@ -61,11 +61,10 @@
         </div>
         <div class="collapse navbar-collapse" id="example-navbar-collapse-1">
             <ul class="nav navbar-nav">
-                <li ><a  class="exchange" href="/myapp/history">交换记录</a></li>
-                <li><a  class="dailytask" style="color:white;padding-top: 5px;height: 30px" href="/dailyTask">今日任务</a></li>
-                <li class="dropdown"style="border: 1px solid blue;margin-top: 8px">
-                    <a  style="color:white;border: 1px solid red;;height: 30px" href="/myapp"
-                        data-toggle="dropdown" class="dropdown myapp">我的应用
+                <li ><a style="color: white" href="/myapp/history">交换记录</a></li>
+                <li><a  style="color: white"  href="/dailyTask">今日任务</a></li>
+                <li class="dropdown">
+                    <a   href="/myapp" style="color: white" data-toggle="dropdown">我的应用
                         <span   class="caret"></span>
                     </a>
                     <ul class="dropdown-menu" >

@@ -2,17 +2,10 @@
  * Created by cailong on 16/5/30.
  */
 
-var app = angular.module('myAppContent', ['angularFileUpload']);
+var app = angular.module('yemaWebApp', ['angularFileUpload']);
+var navIndex = 3;
 
 app.controller('myAppControl', function($scope, $http, $location, FileUploader) {
-    //app.directive("navbar",function(){
-    //    return {
-    //        restrict: 'E',
-    //        templateUrl: 'navbar.html',
-    //        replace: true
-    //    };
-    //});
-
     var appurlList = $location.absUrl().split('/');
     var appid = appurlList[appurlList.length - 1];
     var myappUrl = 'baseinfo/' + appid;
