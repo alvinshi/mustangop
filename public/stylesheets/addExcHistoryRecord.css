@@ -3,20 +3,25 @@ body{
     padding: 0;
 
 }
-
-.container-fluid{
-    margin: 0 auto;
-    width: 1001px;
+.main{
+     margin-top: 100px;
+ }
+.input-group
+{
+    margin-left: 100px;
 
 }
 
-#logoimage{
-    margin-left: 5%;
+.placehold-line{
+    margin-left: 100px;
+    margin-top: 2em;
+    width: 80%;
+    border: 1px solid #aab2bd;
+    border-style: none none solid none ;
 }
 
 .media-right{
     padding-right: 4em;
-    /*margin-top: -10%;*/
 }
 
 .media img{
@@ -107,19 +112,4 @@ button{
 
 .appName{
     padding-top: 10px;
-}
-
-.input-group
-{
-    margin-left: 100px;
-    margin-top: 2em;
-    /*margin-bottom: 1em;*/
-}
-
-.placehold-line{
-    margin-left: 100px;
-    margin-top: 2em;
-    width: 80%;
-    border: 1px solid #aab2bd;
-    border-style: none none solid none ;
 }
