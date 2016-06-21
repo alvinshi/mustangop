@@ -27,27 +27,29 @@ function clearCookie(name) {
     setCookie(name, "", -1);
 }
 
-var username = decodeURI(getCookie('username'));
+function loadNav(){
+    var username = decodeURI(getCookie('username'));
 
-console.log(username);
+    console.log(username);
 
-if (username == undefined || username.length == 0){
-    console.log('no username');
-    //not login home
-    document.getElementsByClassName('navbar-right')[0].innerHTML =
-        '<li><a style="color:white" href="/user/login">登录</a></li>' +
-        '<button type="button" class="btn btn-primary btn-sm navbar-btn" onclick="javascript:window.location.href=\'/user/register\'">快速注册</button>';
-}else {
-    console.log('has username' + username);
-    //other
-    var userNameHtmlEle = document.getElementById('nav-username-display');
-    if (userNameHtmlEle == undefined){
-        console.log('has username 1' + username);
+    if (username == undefined || username.length == 0){
+        console.log('no username');
+        //not login home
         document.getElementsByClassName('navbar-right')[0].innerHTML =
-            '<li><a id="nav-username-display" href="/user" style="color:#3498db"></a></li>';
-    }
+            '<li><a style="color:white" href="/user/login">登录</a></li>' +
+            '<button type="button" class="btn btn-primary btn-sm navbar-btn" onclick="javascript:window.location.href=\'/user/register\'">快速注册</button>';
+    }else {
+        console.log('has username' + username);
+        //other
+        var userNameHtmlEle = document.getElementById('nav-username-display');
+        if (userNameHtmlEle == undefined){
+            console.log('has username 1' + username);
+            document.getElementsByClassName('navbar-right')[0].innerHTML =
+                '<li><a id="nav-username-display" href="/user" style="color:#3498db"></a></li>';
+        }
 
-    document.getElementById('nav-username-display').innerHTML = username;
+        document.getElementById('nav-username-display').innerHTML = username;
+    }
 }
 
 

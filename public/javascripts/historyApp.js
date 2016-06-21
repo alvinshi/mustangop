@@ -3,7 +3,7 @@
  */
 
 var app=angular.module('yemaWebApp',['ngSanitize']);
-var navIndex = 3;
+var navIndex = 1;
 
 
 app.controller('historyAppCtrl', function($scope, $http, $location) {

@@ -19,10 +19,10 @@ app.controller('indexAppCtrl', function($scope, $http, $location){
     var indexUrl = '/index';
 
     $http.get(indexUrl).success(function(response){
+        loadNav();
         $scope.userObjectId = response.userObjectId;
         $scope.tracknameAPPs = response.tracknameAPPs;
     });
-
 
     function logout(){
 
@@ -31,5 +31,4 @@ app.controller('indexAppCtrl', function($scope, $http, $location){
 
         location.href='/';
     }
-
 });

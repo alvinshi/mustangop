@@ -81,14 +81,16 @@
     font-weight: bold;
     margin-bottom: 20px
 }
+.image-center{
+    margin: auto;
+}
 
-.screenshot{
-
-    margin:15px auto;
+.requirementImg{
     border: 1px solid #e0e0e0;
+    margin: auto;
 
 
-    object-fit: contain; /*显示全图*/
+
 
 }
 
@@ -113,8 +115,3 @@
     object-fit: contain;
     /*border: 1px solid red;*/
 }
-
-/*[class*="col-"]{*/
-    /*padding-left:0px;*/
-    /*padding-right:0px;*/
-/*}*/

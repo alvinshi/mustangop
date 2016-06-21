@@ -80,7 +80,7 @@
 
             <div class="text-center">需求截图</div>
             <div class="image-center">
-                <img class=" screenshot" ng-src="{{ oneAppInfo.requirementImg }}"/>
+                <img class=" img-responsive requirementImg" ng-src="{{ oneAppInfo.requirementImg }}"/>
             </div>
 
            <hr/>
@@ -89,10 +89,10 @@
             <div class="wrapper">
                 <div class="col-md-6 col-sm-12 text-center">
                     <div class="submission-info" ng-repeat="task in taskInfo">
-                        <span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 提交人: {{task.uploadName}}</span>
+                        <span> 提交人: {{task.uploadName}}</span>
                     </div>
                     <div class="submission-screenshot">
-                        <span><img ng-src="{{taskImage}}"></span>
+                        <span><img ng-repeat="taskImg in taskimages" ng-src="{{taskImg.taskImage}}"></span>
                     </div>
                 </div>
             </div>
