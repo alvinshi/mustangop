@@ -24,7 +24,7 @@ body{
     font-weight: 400;
 }
 .foot{
-    margin-top: 8%;
+    margin-top: 10%;
 }
 .last{
     text-align: center;
@@ -32,7 +32,4 @@ body{
 
 .a{
     font-size: 16px;
-}
-.dropdown-menu{
-    /*background-color: rgba(0,0,0,.6);*/
 }
