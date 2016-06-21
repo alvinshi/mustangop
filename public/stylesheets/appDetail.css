@@ -4,10 +4,11 @@ body{
 }
 
 
-.container{
+.main{
     width: 1001px;
-    margin: auto;
+    margin: 100px auto;
 }
+
 .head_left,.body_left,.content_left{
     float: left;
     border: 1px solid #dddddd;
