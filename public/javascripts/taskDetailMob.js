@@ -7,9 +7,9 @@ var navIndex = 2;
 
 app.controller('taskDetailMobControl', function($scope, $http, $location, FileUploader) {
     var appurlList = $location.absUrl().split('/');
-    var appleId = appurlList[appurlList.length - 1];
+    var excTaskId = appurlList[appurlList.length - 1];
 
-    var detailUrl = '/taskDetailMobile/single' + '/' + appleId;
+    var detailUrl = '/taskDetailMobile/single' + '/' + excTaskId;
     $http.get(detailUrl).success(function (response) {
         $scope.oneAppInfo = response.oneAppInfo;
         $scope.images = response.macTask;

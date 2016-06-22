@@ -14,71 +14,63 @@ var IOSAppExcLogger = AV.Object.extend('IOSAppExcLogger');
 var mackTaskInfo = AV.Object.extend('mackTaskInfo');
 var File = AV.Object.extend('_File');
 
-router.get('/:excTaskId', function(req, res) {
+router.get('/:userId', function(req, res) {
     res.render('taskDetailMobile')
 });
 
-router.get('/single/:appleId', function(req, res){
-    var appleid = parseInt(req.params.appleId);
+router.get('/single/:excTaskId', function(req, res){
+    var excTaskId = req.params.excTaskId;
     var uploadUserName = req.cookies.uploadImgName;
 
     var query = new AV.Query(IOSAppExcLogger);
-
-    query.equalTo('hisAppId', appleid);
     query.include('myAppObject');
     query.include('hisAppObject');
-    query.find().then(function(results){
+    query.get(excTaskId).then(function(taskObject){
         var retObject = Object();
-        for (var i = 0; i< results.length; i++){
-            var hisappObject = results[i].get('hisAppObject');
-            var myappObject = results[i].get('myAppObject');
-            var hisappid = results[i].get('hisAppId');
-            if (hisappid == appleid){
-                retObject.artworkUrl100 = hisappObject.get('artworkUrl100');
-                retObject.trackName = hisappObject.get('trackName');
-                retObject.sellerName = hisappObject.get('sellerName');
-                retObject.appleKind = hisappObject.get('appleKind');
-                retObject.appleId = hisappObject.get('appleId');
-                retObject.formattedPrice = hisappObject.get('formattedPrice');
-                retObject.latestReleaseDate = hisappObject.get('latestReleaseDate');
-                retObject.version = hisappObject.get('version');
+        var hisappObject = taskObject.get('hisAppObject');
+        var myappObject = taskObject.get('myAppObject');
+        retObject.artworkUrl100 = hisappObject.get('artworkUrl100');
+        retObject.trackName = hisappObject.get('trackName');
+        retObject.sellerName = hisappObject.get('sellerName');
+        retObject.appleKind = hisappObject.get('appleKind');
+        retObject.appleId = hisappObject.get('appleId');
+        retObject.formattedPrice = hisappObject.get('formattedPrice');
+        retObject.latestReleaseDate = hisappObject.get('latestReleaseDate');
+        retObject.version = hisappObject.get('version');
 
-                retObject.totalExcCount = results[i].get('totalExcCount');
-                retObject.requirementImg = results[i].get('requirementImg');
-                retObject.excKinds = results[i].get('excKinds');
-                retObject.taskObjectId = results[i].id;
+        retObject.totalExcCount = taskObject.get('totalExcCount');
+        retObject.requirementImg = taskObject.get('requirementImg');
+        retObject.excKinds = taskObject.get('excKinds');
+        retObject.taskObjectId = taskObject.id;
 
-                retObject.myAppartworkUrl100 = myappObject.get('artworkUrl100');
-                retObject.myAppName = myappObject.get('trackName');
+        retObject.myAppartworkUrl100 = myappObject.get('artworkUrl100');
+        retObject.myAppName = myappObject.get('trackName');
 
-                if (retObject.excKinds == 1){
-                    retObject.excKinds = '评论'
-                }else
-                    retObject.excKinds = '下载';
+        if (retObject.excKinds == 1){
+            retObject.excKinds = '评论'
+        }else
+            retObject.excKinds = '下载';
 
-                query.get(retObject.taskObjectId).then(function(taskObject){
-                    var relation = taskObject.relation('mackTask');
-                    var task_query = relation.query();
-                    task_query.equalTo('uploadName', uploadUserName);
-                    task_query.find().then(function(result){
-                        var mackTaskList = new Array();
-                        for (var e = 0; e < result.length; e++){
-                            retObject.uploadName = result[e].get('uploadName');
-                            var taskImages = result[e].get('requirementImgs');
-                            for (var w = 0; w < taskImages.length; w++){
-                                var taskImage = taskImages[w];
-                                mackTaskList.push(taskImage);
-                            }
-                        }
-                        res.json({'oneAppInfo':retObject, 'macTask':mackTaskList})
-                    })
-                })
-            }
+        if (uploadUserName != undefined){
+            var relation = taskObject.relation('mackTask');
+            var task_query = relation.query();
+            task_query.equalTo('uploadName', uploadUserName);
+            task_query.find().then(function(result){
+                var mackTaskList = new Array();
+                for (var e = 0; e < result.length; e++){
+                    retObject.uploadName = result[e].get('uploadName');
+                    var taskImages = result[e].get('requirementImgs');
+                    for (var w = 0; w < taskImages.length; w++){
+                        var taskImage = taskImages[w];
+                        mackTaskList.push(taskImage);
+                    }
+                }
+                res.json({'oneAppInfo':retObject, 'macTask':mackTaskList})
+            })
+        }else {
+            res.json({'oneAppInfo':retObject})
         }
-
-    }),function(error){
-        res.json({'errorId':error.code, 'errorMsg':error.message})
-    }
+    })
 });
 
 // 新增 做任务详情
