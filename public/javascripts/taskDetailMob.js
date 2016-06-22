@@ -39,6 +39,7 @@ app.controller('taskDetailMobControl', function($scope, $http, $location, FileUp
     var fileUrls = new Array();
 
     uploader.onAfterAddingAll = function (addedFileItems) {
+        $scope.progressNum = 100;
         uploader.uploadAll();
         console.info('onAfterAddingAll', addedFileItems);
     };
@@ -64,7 +65,6 @@ app.controller('taskDetailMobControl', function($scope, $http, $location, FileUp
         console.info('onCompleteAll');
 
         var appUrl = '/taskDetailMobile/addTask/' + $scope.oneAppInfo.taskObjectId;
-        $scope.progressNum = 100;
 
         $http.post(appUrl, {
                 'uploadName':$scope.uploadName,
