@@ -539,11 +539,8 @@ function addExcHistory(res, appExcObject, userId, myAppId, myAppVersion, hisAppI
 }
 
 // 新增 我的 历史记录
-router.post('/addHistory/:appleId/:version', function(req, res, next) {
-//router.post('/history/add', function(req, res, next) {
+router.post('/addHistory/:appleId/:version', function(req, res) {
     var userId = util.useridInReq(req);
-
-
     var myAppId = req.params.appleId;
     var myAppVersion = req.params.version;
 

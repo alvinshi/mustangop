@@ -16,13 +16,13 @@ app.controller('taskDetailMobControl', function($scope, $http, $location, FileUp
 
     });
 
+
     //upload file
     var uploader = $scope.uploader = new FileUploader({
         url: '/upload/img',
         queueLimit: 3,
         removeAfterUpload:true
     });
-
 
     uploader.filters.push({
         name: 'imageFilter',
@@ -64,6 +64,7 @@ app.controller('taskDetailMobControl', function($scope, $http, $location, FileUp
         console.info('onCompleteAll');
 
         var appUrl = '/taskDetailMobile/addTask/' + $scope.oneAppInfo.taskObjectId;
+        $scope.progressNum = 100;
 
         $http.post(appUrl, {
                 'uploadName':$scope.uploadName,
@@ -74,6 +75,8 @@ app.controller('taskDetailMobControl', function($scope, $http, $location, FileUp
                 $scope.errorMsg = response.errorMsg;
                 $scope.oneAppInfo.uploadName = response.uploadName;
                 $scope.images = response.requirementImgs;
+
+                $scope.progressNum = 0;
 
                 //uploader.clearQueue();
                 //fileUrls = new Array();

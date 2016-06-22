@@ -94,6 +94,11 @@
            </a>
        </div>
 
+        <div class="progress" ng-hide="!progressNum">
+            <div ng-class="{'progress-bar': true, 'progress-bar-striped':true, active:true}" ng-style="{width: progressNum + '%'}">
+            </div>
+        </div>
+
        <hr/>
        <div class="text-right">提交人: {{oneAppInfo.uploadName}}</div>
 
