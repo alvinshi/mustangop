@@ -440,6 +440,8 @@ function addExcHistory(res, appExcObject, userId, myAppId, myAppVersion, hisAppI
 
     query.find({
         success: function(results) {
+            var needSaveHisApp = 1;
+            hisAppObject = new IOSAppSql();
 
             for (var i = 0; i < results.length; i++){
                 var appObject = results[i];
@@ -447,13 +449,19 @@ function addExcHistory(res, appExcObject, userId, myAppId, myAppVersion, hisAppI
                     myAppObject = appObject;
                 }
                 if (appObject.get('appleId') == hisAppId){
-                    hisAppObject = appObject;
+                    //update his App,服务器不一定存储的最新的
+                    if (appObject.get('latestReleaseDate') == hisAppObject.latestReleaseDate){
+                        //newest
+                        needSaveHisApp = 0;
+                    }else {
+                        //save new info to his app
+                        hisAppObject = appObject;
+                    }
                 }
             }
 
-            if (hisAppObject == ''){
-                // app his app to SQL
-                hisAppObject = new IOSAppSql();
+            if (needSaveHisApp == 1){
+                // add his app to SQL
 
                 hisAppObject.set('trackName', hisAppInfo.trackName);
                 hisAppObject.set('artworkUrl100', hisAppInfo.artworkUrl100);
