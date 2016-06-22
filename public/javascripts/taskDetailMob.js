@@ -2,7 +2,6 @@
  * Created by cailong on 16/6/12.
  */
 
-//var app = angular.module('taskDetailMobContent', ['angularFileUpload']);
 var app = angular.module('yemaWebApp', ['angularFileUpload']);
 var navIndex = 2;
 
@@ -13,7 +12,6 @@ app.controller('taskDetailMobControl', function($scope, $http, $location, FileUp
     var detailUrl = '/taskDetailMobile/single' + '/' + appleId;
     $http.get(detailUrl).success(function (response) {
         $scope.oneAppInfo = response.oneAppInfo;
-        console.log('--------++++++' + response.macTask);
         $scope.images = response.macTask;
 
     });
@@ -33,6 +31,10 @@ app.controller('taskDetailMobControl', function($scope, $http, $location, FileUp
             return '|jpg|png|jpeg|'.indexOf(type) !== -1;
         }
     });
+
+    $scope.deletFile = function () {
+        uploader.clearQueue();
+    };
 
     var fileUrls = new Array();
 
@@ -55,7 +57,7 @@ app.controller('taskDetailMobControl', function($scope, $http, $location, FileUp
     };
 
     uploader.onCompleteItem = function (fileItem, response, status, headers) {
-        fileUrls.push(response.fileUrlList);
+        fileUrls.push(response.fileUrlList[0]);
         console.info('onCompleteItem', fileItem, response, status, headers);
     };
     uploader.onCompleteAll = function () {
@@ -73,8 +75,8 @@ app.controller('taskDetailMobControl', function($scope, $http, $location, FileUp
                 $scope.oneAppInfo.uploadName = response.uploadName;
                 $scope.images = response.requirementImgs;
 
-                uploader.clearQueue();
-                fileUrls = new Array();
+                //uploader.clearQueue();
+                //fileUrls = new Array();
             });
     };
 

@@ -19,14 +19,12 @@ router.get('/:excTaskId', function(req, res) {
 });
 
 router.get('/single/:appleId', function(req, res){
-    //var userId = util.useridInReq(req);
     var appleid = parseInt(req.params.appleId);
     var uploadUserName = req.cookies.uploadImgName;
 
     var query = new AV.Query(IOSAppExcLogger);
 
     query.equalTo('hisAppId', appleid);
-    //query.equalTo('userId', userId);
     query.include('myAppObject');
     query.include('hisAppObject');
     query.find().then(function(results){
@@ -71,7 +69,6 @@ router.get('/single/:appleId', function(req, res){
                                 var taskImage = taskImages[w];
                                 mackTaskList.push(taskImage);
                             }
-
                         }
                         res.json({'oneAppInfo':retObject, 'macTask':mackTaskList})
                     })
@@ -87,10 +84,15 @@ router.get('/single/:appleId', function(req, res){
 // 新增 做任务详情
 router.post('/addTask/:excTaskId', function(req, res){
     var excTaskId = req.params.excTaskId;
+    var uploadUserName = req.cookies.uploadImgName;
     var uploadName = req.body.uploadName;
     var requirementImgs = req.body.requirementImgs;
-
-    res.cookie('uploadImgName', uploadName);
+    if (uploadName != undefined){
+        res.cookie('uploadImgName', uploadName);
+    }
+    else {
+        uploadName = uploadUserName;
+    }
 
     var task_query = new AV.Query(IOSAppExcLogger);
     task_query.get(excTaskId).then(function(taskObject){
