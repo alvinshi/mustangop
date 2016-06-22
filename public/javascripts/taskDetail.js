@@ -13,6 +13,6 @@ app.controller('taskDetailControl', function($scope, $http, $location){
         $scope.oneAppInfo = response.oneAppInfo;
         console.log('--------' + response.macTask);
         $scope.taskInfo = response.macTask;
-        $scope.taskimages = response.taskImages;
+        $scope.taskimages = response.imgInfo;
     })
 });

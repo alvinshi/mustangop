@@ -19,14 +19,14 @@ router.get('/:excTaskId', function(req, res) {
 });
 
 router.get('/single/:appleId', function(req, res){
-    var userId = util.useridInReq(req);
+    //var userId = util.useridInReq(req);
     var appleid = parseInt(req.params.appleId);
     var uploadUserName = req.cookies.uploadImgName;
 
     var query = new AV.Query(IOSAppExcLogger);
 
     query.equalTo('hisAppId', appleid);
-    query.equalTo('userId', userId);
+    //query.equalTo('userId', userId);
     query.include('myAppObject');
     query.include('hisAppObject');
     query.find().then(function(results){

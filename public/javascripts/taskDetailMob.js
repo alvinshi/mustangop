@@ -70,7 +70,7 @@ app.controller('taskDetailMobControl', function($scope, $http, $location, FileUp
             .success(function (response) {
                 $scope.errorId = response.errorId;
                 $scope.errorMsg = response.errorMsg;
-                $scope.uploadName = response.uploadName;
+                $scope.oneAppInfo.uploadName = response.uploadName;
                 $scope.images = response.requirementImgs;
 
                 uploader.clearQueue();

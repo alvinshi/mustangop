@@ -69,9 +69,8 @@ router.get('/detail/:appleId', function(req, res){
                                 images.taskImage = taskImages[w];
                                 mackImgList.push(images);
                             }
-
                         }
-                        res.json({'oneAppInfo':retObject, 'macTask':mackTaskList, 'taskImages':mackImgList})
+                        res.json({'oneAppInfo':retObject, 'macTask':mackTaskList, 'imgInfo':mackImgList})
                     })
                 })
             }
