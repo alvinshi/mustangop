@@ -184,7 +184,8 @@ app.controller('myAppControl', function($scope, $http, $location, FileUploader) 
     //upload file
     var uploader = $scope.uploader = new FileUploader({
         url: '/upload/img',
-        queueLimit: 1
+        queueLimit: 1,
+        removeAfterUpload:true
     });
 
     $scope.saveTask = function (app) {

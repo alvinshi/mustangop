@@ -55,7 +55,7 @@ app.controller('taskDetailMobControl', function($scope, $http, $location, FileUp
     };
 
     uploader.onCompleteItem = function (fileItem, response, status, headers) {
-        fileUrls.push(response.fileUrlList[0]);
+        fileUrls.push(response.fileUrlList);
         console.info('onCompleteItem', fileItem, response, status, headers);
     };
     uploader.onCompleteAll = function () {
