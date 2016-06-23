@@ -50,19 +50,13 @@ router.get('/detail/:excTaskId', function(req, res){
         var task_query = relation.query();
         task_query.find().then(function(result){
             var mackTaskList = new Array();
-            var mackImgList = new Array();
             for (var e = 0; e < result.length; e++){
                 var mackTaskObject = Object();
                 mackTaskObject.uploadName = result[e].get('uploadName');
+                mackTaskObject.taskImages = result[e].get('requirementImgs');
                 mackTaskList.push(mackTaskObject);
-                var taskImages = result[e].get('requirementImgs');
-                for (var w = 0; w < taskImages.length; w++){
-                    var images = Object();
-                    images.taskImage = taskImages[w];
-                    mackImgList.push(images);
-                }
             }
-            res.json({'oneAppInfo':retObject, 'macTask':mackTaskList, 'imgInfo':mackImgList})
+            res.json({'oneAppInfo':retObject, 'macTask':mackTaskList})
         })
 
     })
