@@ -24,11 +24,12 @@ app.controller('indexAppCtrl', function($scope, $http, $location){
         $scope.tracknameAPPs = response.tracknameAPPs;
     });
 
-    function logout(){
-
-        clearCookie('userIdCookie');
-        clearCookie('username');
-
-        location.href='/';
-    }
 });
+
+function logout(){
+
+    clearCookie('userIdCookie');
+    clearCookie('username');
+
+    location.href='/';
+}

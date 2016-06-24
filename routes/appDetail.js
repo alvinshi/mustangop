@@ -14,6 +14,7 @@ router.get('/:appid', function(req, res, next) {
     res.render('appDetail')
 });
 
+// 头部单个app内容获取
 router.get('/baseinfo/:appid', function(req, res){
     var userId = util.useridInReq(req);
     var appid = req.params.appid;
@@ -48,6 +49,72 @@ router.get('/baseinfo/:appid', function(req, res){
             res.json({'errorMsg':err.message, 'errorId': err.code});
         }
     })
+});
+
+// 获取我的交换历史
+router.get('/myAppExcHistory/:appid/:version', function(req, res) {
+    var userId = util.useridInReq(req);
+    var appId = parseInt(req.params.appid);
+    var version = req.params.version;
+
+    var user = new AV.User();
+    user.id = userId;
+
+    var query = new AV.Query(IOSAppExcLogger);
+    query.equalTo('userId', userId);
+
+    var query_version = new AV.Query(IOSAppExcLogger);
+    query_version.equalTo('myAppVersion', version);
+
+    if (appId != undefined){
+        var query_ex = new AV.Query(IOSAppExcLogger);
+        query_ex.equalTo('myAppId', appId);
+        query = AV.Query.and(query, query_ex, query_version);
+    }else {
+        query = AV.Query.and(query, query_version);
+    }
+
+    query.limit(100);
+    query.notEqualTo('excHistoryAdd', 'excHistoryadd');
+    query.include('myAppObject');
+    query.include('hisAppObject');
+    query.addDescending('excDateStr');
+    query.find({
+        success: function(results) {
+
+            //has blinded
+            var retApps = new Array();
+            //date merge by excDateStr for more group
+            for (var i = 0; i < results.length; i++){
+                var appHisObject = new Object();
+                var appExcHisObject = results[i].get('hisAppObject');
+                appHisObject.trackName = appExcHisObject.get('trackName');
+                appHisObject.artworkUrl100 = appExcHisObject.get('artworkUrl100');
+                appHisObject.artworkUrl512 = appExcHisObject.get('artworkUrl512');
+                appHisObject.appleId = appExcHisObject.get('appleId');
+                appHisObject.appleKind = appExcHisObject.get('appleKind');
+                appHisObject.formattedPrice = appExcHisObject.get('formattedPrice');
+                appHisObject.latestReleaseDate = appExcHisObject.get('latestReleaseDate').substr(0, 10);
+                appHisObject.sellerName = appExcHisObject.get('sellerName');
+
+                appHisObject.myAppVersion = results[i].get('myAppVersion');
+                appHisObject.hisAppVersion = results[i].get('hisAppVersion');
+                appHisObject.excHisDate = results[i].get('excDateStr');
+
+                appHisObject.appExcTaskObjectID = results[i].id;
+                appHisObject.totalExcCount = results[i].get('totalExcCount');
+                appHisObject.excKinds = results[i].get('excKinds');
+                appHisObject.requirementImg = results[i].get('requirementImg');
+
+                retApps.push(appHisObject);
+
+            }
+            res.json({'myExcAllApps':retApps});
+        },
+        error: function(err) {
+            res.json({'errorMsg':err.message, 'errorId': err.code, 'myApps':[]});
+        }
+    });
 });
 
 router.post('/excTaskId/:excTaskId', function(req, res){

@@ -13,10 +13,11 @@ app.controller('myAppControl', function($scope, $http, $location, FileUploader) 
     $http.get(myappUrl).success(function (response) {
         $scope.appBaseInfo = response.appBaseInfo;
 
-        var historyUrl = '/myapp/history/angular/' + appid + '/' + $scope.appBaseInfo.version + '/' + -1;
+        var historyUrl = '/app/myAppExcHistory/' + appid + '/' + $scope.appBaseInfo.version;
         $http.get(historyUrl).success(function (response) {
             $scope.myExcAllApps = response.myExcAllApps;
         });
+
     });
 
     //删除当前交换记录
@@ -171,12 +172,16 @@ app.controller('myAppControl', function($scope, $http, $location, FileUploader) 
                 $scope.myExcAllApps.push(response.addExcObject);
 
                 $scope.errorMsg = '';
-                location.href='/app/' + appid;
+                //location.href='/app/' + appid;
             }else {
                 $scope.errorMsg = response.errorMsg;
             }
 
         });
+    };
+
+    $scope.refreshDisplay = function(){
+        location.href='/app/' + appid;
     };
 
     var prepareSaveApp = undefined;

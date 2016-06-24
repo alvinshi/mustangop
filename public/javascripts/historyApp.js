@@ -182,7 +182,7 @@ app.controller('historyAppCtrl', function($scope, $http, $location) {
         //var addHistoryUrl = '/myapp/history/add';
         var addHistoryUrl = location.href;
 
-        var postParam = {'hisAppInfo' : hisAppInfo};
+        var postParam = {'hisAppInfo' : hisAppInfo, 'excHistoryAdd': 'excHistoryadd'};
         console.log('add history' + postParam);
         $http.post(addHistoryUrl, postParam).success(function(response){
 
