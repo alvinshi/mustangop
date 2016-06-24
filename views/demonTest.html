@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
     <meta name="theme-color" content="#19B5FE">
 
     <meta name="description" content="">
@@ -42,23 +42,9 @@
     <script src="swiper-3.3.1.min.js"></script>
 
 </head>
-<script>
-//    alert('hello')
-    function openwin(){
-        window.open ("index.html", "newwindow", "height=100, width=400, toolbar=no, menubar=no",
-                "scrollbars=no, resizable=no, location=no, status=no")
 
 
-    }
-</script>
-<style>
-    .div {
-        border: 1px solid #0094ff;
-        background-color: rebeccapurple;
-    }
-</style>
-
-<body onload="openwin()">
+<body>
 <!--[if lt IE 8]>
 <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">更新您的浏览器</a> 从而获得更好的体验.</p>
 <![endif]-->
@@ -120,46 +106,9 @@
         </div>
     </div>
 <hr style="border-top:1px dashed red;margin-top: 100px;width: 300px;margin-left: 10px">
-</div>
-<div class="container">
-    <div class="col-lg-4 col-md-4 col-xs-4">
-        <h1>header</h1>
-        <p>sssssssssssss</p>
-        <div class="btn btn-default">view</div>
-    </div>
-    <div class="col-lg-4 col-md-4 col-xs-4">
-        <h1>header</h1>
-        <p>sssssssssssss</p>
-        <div class="btn btn-default">view</div>
-    </div>
-    <div class="col-lg-4 col-md-4 col-xs-4">
-        <h1>header</h1>
-        <p>sssssssssssss</p>
-        <div class="btn btn-default">view</div>
-    </div>
- <div class="col-lg-4 " style="height: 50px;;background-color: #00b7ff"></div>
- <!--<div class="col-lg-4 col-lg-push-2" style="height: 50px;;background-color: #00b7ff"></div>-->
-    <div class="col-lg-4 col-lg-offset-2" style="height: 50px;;background-color: #00b7ff"></div>
-</div>
 
 
-<div class="row">
-    <div class="col-lg-3 col-xs-3" style="height: 1000px;border: 1px solid red"></div>
-    <div class="col-lg-9 col-xs-9" style="height: 1000px;border: 1px solid black">
-        <div class="row">
-            <div class="col-lg-4 col-xs-4"style="background-color: #00b7ff;height: 100px">
-                <div class="row">
-                    <div class="col-lg-4 col-xs-4"style="background-color:pink;height: 100px"></div>
-                    <div class="col-lg-4 col-xs-4"style="background-color: green;height: 100px"></div>
-                    <div class="col-lg-4 col-xs-4"style="background-color: black;height: 100px"></div>
-                </div>
-            </div>
-            <div class="col-lg-4 col-xs-4" style="background-color: green;height: 100px"></div>
-            <div class="col-lg-4 col-xs-4" style="background-color: blue;height: 100px"></div>
-        </div>
-    </div>
-</div>
-<hr style="background-color: red">
+
 
 
 <table class="table table-hover">
@@ -184,15 +133,30 @@
 
 
 
-<div ng-controller="showHideController">
-    <div ng-show="isShow" class="div">this is a div which is show</div>
-    <!--<div ng-show="!isShow" class="div">this is a div which is hide</div>-->
-    <button ng-click="showorhide()">按钮</button>
+
+
+
+
+
+<!--<ul class="list-group" style="border-style: none;margin-top: 20px">-->
+    <!--<li class="list-group-item"style="border-style: none">Cras justo odio</li>-->
+    <!--<li class="list-group-item">Dapibus ac facilisis in</li>-->
+    <!--<li class="list-group-item">Morbi leo risus</li>-->
+    <!--<li class="list-group-item">Porta ac consectetur ac</li>-->
+    <!--<li class="list-group-item">Vestibulum at eros</li>-->
+<!--</ul>-->
+
+<div class="container">
+<div class="row">
+    <div class="col-xs-6 text-left"  >Course:</div>
+    <div class="col-xs-6 text-right">雅思</div>
 </div>
 
-<button type="button" class="btn btn-lg btn-danger" data-toggle="popover" title="Popover title" data-content="And here's some amazing content. It's very engaging. Right?">
-    点我弹出/隐藏弹出框</button>
-<div style="height: 10px;background-color: #00b7ff"></div>
+    <div class="row">
+        <div class="col-xs-6 text-left" style="font-size: 1.5em" >Cras justo odio</div>
+        <div class="col-xs-6 text-right">Cras justo odio</div>
+    </div>
+</div>
 
 </body>
 

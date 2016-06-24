@@ -87,13 +87,13 @@
 
         <div class="foot">
 
-                    <div class="submission-info" ng-repeat="task in taskInfo">
-                        <span> 提交人: {{task.uploadName}}</span>
-                    </div>
-                    <div class="submission-screenshot" style="border: 1px solid red">
-                        <img ng-repeat="taskImg in taskimages" ng-src="{{taskImg.taskImage}}">
-                    </div>
-                </div>
+            <div class="submission-info" ng-repeat="task in taskInfo">
+                <span> 提交人: {{task.uploadName}}</span>
+            </div>
+            <div class="submission-screenshot" ng-repeat="taskImg in taskimages">
+                <img ng-src="{{taskImg.taskImage}}">
+            </div>
+        </div>
 
     </div>
 <script src="/javascripts/cookieHelper.js"></script>

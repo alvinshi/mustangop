@@ -47,7 +47,7 @@
 
 
         <div class="row" ng-repeat="app in dailyTask">
-            <div class="col-lg-10 col-xs-12 media">
+            <div class="col-lg-10  col-lg-offset-1 col-xs-12 media">
                 <div class="media-left">
                     <a href="/taskDetailMobile/{{app.appleId}}">
                       <img class="logo" ng-src="{{app.artworkUrl100}}" alt="app-icon" class="img-thumbnail"/>
@@ -55,7 +55,7 @@
                 </div>
                 <div class="media-body">
                     <div>
-                        <a class="task-link" href="/taskDetailMobile/{{app.appleId}}">{{app.trackName.substr(0,8)+'...'}}</a>
+                        <a class="task-link" href="/taskDetailMobile/{{app.appleId}}">{{app.trackName.substr(0,9)+'...'}}</a>
                     </div>
                     <div>
                         <span class="appid">App ID: {{app.appleId}}</span>
