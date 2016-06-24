@@ -2,21 +2,20 @@
  * Created by cailong on 16/6/12.
  */
 
-//var app = angular.module('taskDetailMobContent', ['angularFileUpload']);
 var app = angular.module('yemaWebApp', ['angularFileUpload']);
 var navIndex = 2;
 
 app.controller('taskDetailMobControl', function($scope, $http, $location, FileUploader) {
     var appurlList = $location.absUrl().split('/');
-    var appleId = appurlList[appurlList.length - 1];
+    var excTaskId = appurlList[appurlList.length - 1];
 
-    var detailUrl = '/taskDetailMobile/single' + '/' + appleId;
+    var detailUrl = '/taskDetailMobile/single' + '/' + excTaskId;
     $http.get(detailUrl).success(function (response) {
         $scope.oneAppInfo = response.oneAppInfo;
-        console.log('--------++++++' + response.macTask);
         $scope.images = response.macTask;
 
     });
+
 
     //upload file
     var uploader = $scope.uploader = new FileUploader({
@@ -24,7 +23,6 @@ app.controller('taskDetailMobControl', function($scope, $http, $location, FileUp
         queueLimit: 3,
         removeAfterUpload:true
     });
-
 
     uploader.filters.push({
         name: 'imageFilter',
@@ -34,9 +32,14 @@ app.controller('taskDetailMobControl', function($scope, $http, $location, FileUp
         }
     });
 
+    $scope.deletFile = function () {
+        uploader.clearQueue();
+    };
+
     var fileUrls = new Array();
 
     uploader.onAfterAddingAll = function (addedFileItems) {
+        $scope.progressNum = 100;
         uploader.uploadAll();
         console.info('onAfterAddingAll', addedFileItems);
     };
@@ -70,11 +73,13 @@ app.controller('taskDetailMobControl', function($scope, $http, $location, FileUp
             .success(function (response) {
                 $scope.errorId = response.errorId;
                 $scope.errorMsg = response.errorMsg;
-                $scope.uploadName = response.uploadName;
+                $scope.oneAppInfo.uploadName = response.uploadName;
                 $scope.images = response.requirementImgs;
 
-                uploader.clearQueue();
-                fileUrls = new Array();
+                $scope.progressNum = 0;
+
+                //uploader.clearQueue();
+                //fileUrls = new Array();
             });
     };
 

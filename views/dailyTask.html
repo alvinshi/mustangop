@@ -49,13 +49,17 @@
         <div class="row" ng-repeat="app in dailyTask">
             <div class="col-lg-10  col-lg-offset-1 col-xs-12 media">
                 <div class="media-left">
-                    <a href="/taskDetailMobile/{{app.appleId}}">
+                    <a href="/taskDetailMobile/{{app.taskObjectId}}">
                       <img class="logo" ng-src="{{app.artworkUrl100}}" alt="app-icon" class="img-thumbnail"/>
                     </a>
                 </div>
                 <div class="media-body">
                     <div>
+<<<<<<< HEAD
                         <a class="task-link" href="/taskDetailMobile/{{app.appleId}}">{{app.trackName.substr(0,9)+'...'}}</a>
+=======
+                        <a class="task-link" href="/taskDetailMobile/{{app.taskObjectId}}">{{app.trackName.substr(0,8)+'...'}}</a>
+>>>>>>> a36478530077c6bd0158792361daea367721add8
                     </div>
                     <div>
                         <span class="appid">App ID: {{app.appleId}}</span>
@@ -68,7 +72,7 @@
                 </div>
 
                 <div class=" hidden-xs  media-right">
-                    <a href="/taskDetail/{{app.appleId}}">
+                    <a href="/taskDetail/{{app.taskObjectId}}">
                         <button  type="button" >
                         查看任务
                         </button>

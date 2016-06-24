@@ -90,6 +90,8 @@ app.use(function (req, res, next) {
   loginWhiteList[1] = "/dailyTask";
   loginWhiteList[2] = "/html";
   loginWhiteList[3] = "/taskDetailMobile";
+  loginWhiteList[4] = "/upload";
+  loginWhiteList[5] = "/taskDetail";
   var needLogin = !routeHasPrefix(req.originalUrl, loginWhiteList);
   console.log(needLogin);
   //不是主页,也不是以白名单开头的网页,则是需要用户先登陆的网站

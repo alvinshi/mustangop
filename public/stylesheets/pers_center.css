@@ -107,6 +107,7 @@ body{
 
 .button{
     color: #d43f3a;
+    cursor:pointer;
 }
 
 .btn-danger{

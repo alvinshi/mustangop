@@ -6,13 +6,12 @@ var navIndex = 2;
 
 app.controller('taskDetailControl', function($scope, $http, $location){
     var appurlList = $location.absUrl().split('/');
-    var appleId = appurlList[appurlList.length - 1];
+    var excTaskId = appurlList[appurlList.length - 1];
 
-    var detailUrl = 'detail' + '/' + appleId;
+    var detailUrl = 'detail' + '/' + excTaskId;
     $http.get(detailUrl).success(function(response){
         $scope.oneAppInfo = response.oneAppInfo;
         console.log('--------' + response.macTask);
         $scope.taskInfo = response.macTask;
-        $scope.taskimages = response.taskImages;
     })
 });

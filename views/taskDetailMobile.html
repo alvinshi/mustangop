@@ -74,9 +74,14 @@
 
        <div class="text-center " ng-hide="normalBtnShow">
            <a href="javascript:;"  class="a-upload form_change ">
-               <input type="file" style="width: 80%" multiple nv-file-select="" uploader="uploader" accept="image/*"/>上传图片
+               <input type="file" style="width: 80%" multiple nv-file-select="" ng-click="deletFile()" uploader="uploader" accept="image/*"/>上传图片
            </a>
        </div>
+
+        <div class="progress" ng-hide="!progressNum">
+            <div ng-class="{'progress-bar': true, 'progress-bar-striped':true, active:true}" ng-style="{width: progressNum + '%'}">
+            </div>
+        </div>
 
        <hr/>
        <div class="text-right">提交人: {{oneAppInfo.uploadName}}</div>

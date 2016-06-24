@@ -271,7 +271,7 @@ router.get('/history', function(req, res, next) {
     res.render('excHistory')
 });
 
-router.get('/history/angular/:appleId/:version/:pageIndex', function(req, res, next) {
+router.get('/history/angular/:appleId/:version/:pageIndex', function(req, res) {
     //get data
     var userId = util.useridInReq(req);
     var appId = parseInt(req.params.appleId);
@@ -418,7 +418,7 @@ router.get('/addHistory/:appleId/:version', function(req, res, next) {
     res.render('addExcHistory')
 });
 
-function addExcHistory(res, appExcObject, userId, myAppId, myAppVersion, hisAppInfo){
+function addExcHistory(res, appExcObject, userId, myAppId, myAppVersion, hisAppInfo, excHistoryAdd){
     var myDate = new Date();
     var myDateStr = myDate.getFullYear() + '-' + (parseInt(myDate.getMonth())+1) + '-' + myDate.getDate() + ' ' +
                     myDate.getHours() + ':' + myDate.getMinutes() + ':' + myDate.getSeconds();     //获取当前日期
@@ -440,6 +440,8 @@ function addExcHistory(res, appExcObject, userId, myAppId, myAppVersion, hisAppI
 
     query.find({
         success: function(results) {
+            var needSaveHisApp = 1;
+            hisAppObject = new IOSAppSql();
 
             for (var i = 0; i < results.length; i++){
                 var appObject = results[i];
@@ -447,13 +449,19 @@ function addExcHistory(res, appExcObject, userId, myAppId, myAppVersion, hisAppI
                     myAppObject = appObject;
                 }
                 if (appObject.get('appleId') == hisAppId){
-                    hisAppObject = appObject;
+                    //update his App,服务器不一定存储的最新的
+                    if (appObject.get('latestReleaseDate') == hisAppObject.latestReleaseDate){
+                        //newest
+                        needSaveHisApp = 0;
+                    }else {
+                        //save new info to his app
+                        hisAppObject = appObject;
+                    }
                 }
             }
 
-            if (hisAppObject == ''){
-                // app his app to SQL
-                hisAppObject = new IOSAppSql();
+            if (needSaveHisApp == 1){
+                // add his app to SQL
 
                 hisAppObject.set('trackName', hisAppInfo.trackName);
                 hisAppObject.set('artworkUrl100', hisAppInfo.artworkUrl100);
@@ -476,6 +484,7 @@ function addExcHistory(res, appExcObject, userId, myAppId, myAppVersion, hisAppI
                     appExcObject.set('myAppVersion', myAppVersion);
                     appExcObject.set('hisAppId', hisAppId);
                     appExcObject.set('hisAppVersion', hisAppVersion);
+                    appExcObject.set('excHistoryAdd', excHistoryAdd);
 
                     appExcObject.set('excDateStr', myDateStr);
                     appExcObject.save().then(function(object) {
@@ -506,6 +515,7 @@ function addExcHistory(res, appExcObject, userId, myAppId, myAppVersion, hisAppI
                 appExcObject.set('myAppVersion', myAppVersion);
                 appExcObject.set('hisAppId', hisAppId);
                 appExcObject.set('hisAppVersion', hisAppVersion);
+                appExcObject.set('excHistoryAdd', excHistoryAdd);
 
                 appExcObject.set('excDateStr', myDateStr);
                 appExcObject.save().then(function(object) {
@@ -531,17 +541,15 @@ function addExcHistory(res, appExcObject, userId, myAppId, myAppVersion, hisAppI
 }
 
 // 新增 我的 历史记录
-router.post('/addHistory/:appleId/:version', function(req, res, next) {
-//router.post('/history/add', function(req, res, next) {
+router.post('/addHistory/:appleId/:version', function(req, res) {
     var userId = util.useridInReq(req);
-
-
     var myAppId = req.params.appleId;
     var myAppVersion = req.params.version;
 
     var hisAppInfo = req.body.hisAppInfo;
     var hisAppId = hisAppInfo.appleId;
     var hisAppVersion = hisAppInfo.version;
+    var excHistory = req.body.excHistoryAdd
 
     //query did it exist
     var query = new AV.Query(IOSAppExcLogger);
@@ -558,11 +566,11 @@ router.post('/addHistory/:appleId/:version', function(req, res, next) {
             }else {
                 appExcObject = results[0];
             }
-            addExcHistory(res, appExcObject, userId, parseInt(myAppId), myAppVersion, hisAppInfo);
+            addExcHistory(res, appExcObject, userId, parseInt(myAppId), myAppVersion, hisAppInfo, excHistory);
         },
         error: function(err) {
             var appExcObject = new IOSAppExcLogger();
-            addExcHistory(res, appExcObject, userId, parseInt(myAppId), myAppVersion, hisAppInfo);
+            addExcHistory(res, appExcObject, userId, parseInt(myAppId), myAppVersion, hisAppInfo, excHistory);
         }
     });
 });
