@@ -140,8 +140,11 @@
 
 }
 
-
-
+.progress{
+    width: 94%;
+    margin-top: 10px;
+    margin-left: 30px;
+}
 
 
   /*按钮美化*/
@@ -178,4 +181,8 @@
     background: #e0e0e0;
     border-color: lightgray;
     text-decoration: none
+}
+.submit{
+    margin-left: 42%;
+    margin-top: 10px
 }

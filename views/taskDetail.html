@@ -46,6 +46,7 @@
 
 
     <!--任务列表-->
+<div class="container">
     <div class="page-wrapper"  ng-controller="taskDetailControl">
         <div class="header-wrapper">
             <h1 class="header">任务详情</h1>
@@ -85,26 +86,17 @@
 
            <hr/>
 
-<<<<<<< HEAD
-        <div class="foot">
 
-            <div class="submission-info" ng-repeat="task in taskInfo">
-                <span> 提交人: {{task.uploadName}}</span>
-            </div>
-            <div class="submission-screenshot" ng-repeat="taskImg in taskimages">
-                <img ng-src="{{taskImg.taskImage}}">
-            </div>
-        </div>
-=======
             <div class="foot">
-                <div class="submission-info" ng-repeat="task in taskInfo">
-                    <span>提交人: {{task.uploadName}}</span>
+                <div class="submission-info" ng-repeat="task in taskInfo" >
+                    <div class="text-right">提交人: {{task.uploadName}}</div>
                     <span class="submission-screenshot" ng-repeat="taskImg in task.taskImages"><img ng-src="{{taskImg}}"></span>
                 </div>
             </div>
->>>>>>> a36478530077c6bd0158792361daea367721add8
+
 
     </div>
+</div>
 <script src="/javascripts/cookieHelper.js"></script>
 </body>
 </html>

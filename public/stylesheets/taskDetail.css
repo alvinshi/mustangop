@@ -100,18 +100,21 @@
 }
 
 .submission-info{
-    font-size: 16px;
+    font-size: 20px;
     margin-bottom: 20px;
+    float: left;
+    width:48%;
+    margin-left: 2%;
+    height: 400px ;
+    border: 1px solid #e0e0e0;
 }
 
 
 
 .submission-screenshot img{
-    width:140px;
-    /*height: 100px;*/
-
+    width:31%;
+    height: 300px;
     margin-right: 10px;
-    border: 1px solid #e0e0e0;
     object-fit: contain;
     /*border: 1px solid red;*/
 }
