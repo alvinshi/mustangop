@@ -14,6 +14,10 @@
 .media-body span{
     margin-right: 10%;
 }
+.num{
+    font-size: 16px;
+    color: #f55e5a;
+}
 .logo{
     width: 112px;
     height: 112px;
@@ -71,7 +75,7 @@
 
     .left{
         font-size: 16px;
-        margin-left: 5%;
+        margin-left: -5px;
     }
 
     .download{
