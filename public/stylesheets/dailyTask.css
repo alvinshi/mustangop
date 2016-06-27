@@ -71,7 +71,7 @@
 
     .left{
         font-size: 16px;
-        margin-left: 40px;
+        margin-left: 5%;
     }
 
     .download{
@@ -80,6 +80,7 @@
 
     .num{
         font-size: 16px;
+        color: #f55e5a;
     }
 
     .row{
