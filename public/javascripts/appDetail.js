@@ -172,16 +172,12 @@ app.controller('myAppControl', function($scope, $http, $location, FileUploader) 
                 $scope.myExcAllApps.push(response.addExcObject);
 
                 $scope.errorMsg = '';
-                //location.href='/app/' + appid;
+                location.href='/app/' + appid;
             }else {
                 $scope.errorMsg = response.errorMsg;
             }
 
         });
-    };
-
-    $scope.refreshDisplay = function(){
-        location.href='/app/' + appid;
     };
 
     var prepareSaveApp = undefined;
