@@ -101,4 +101,8 @@ app.controller('taskDetailMobControl', function($scope, $http, $location, FileUp
         }
     };
 
+    $scope.commitConfirm = function(){
+        location.href='/dailyTask/' + $scope.oneAppInfo.userObjectId;
+    }
+
 });

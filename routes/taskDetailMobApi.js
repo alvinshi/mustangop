@@ -45,11 +45,21 @@ router.get('/single/:excTaskId', function(req, res){
 
         retObject.myAppartworkUrl100 = myappObject.get('artworkUrl100');
         retObject.myAppName = myappObject.get('trackName');
+        retObject.userObjectId = Base64.encode(taskObject.get('userId'));
 
         if (retObject.excKinds == 1){
             retObject.excKinds = '评论'
         }else
             retObject.excKinds = '下载';
+
+        var totalExcCount = taskObject.get('totalExcCount');
+        var taskCount = taskObject.get('taskCount');
+        var SurplusCount = totalExcCount - taskCount;
+        if (taskCount == undefined){
+            retObject.surplusCount = totalExcCount;
+        }else {
+            retObject.surplusCount = SurplusCount;
+        }
 
         if (uploadUserName != undefined){
             var relation = taskObject.relation('mackTask');

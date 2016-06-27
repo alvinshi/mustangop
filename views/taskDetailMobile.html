@@ -58,6 +58,7 @@
             <div>
                 <span><a  class="download" href="#">{{ oneAppInfo.excKinds }}</a></span>
                 <span class="left">共<span class="num">{{ oneAppInfo.totalExcCount }}</span>条</span>
+                <span class="left">剩余<span class="num">{{ oneAppInfo.surplusCount }}</span>条</span>
             </div>
         </div>
 
@@ -102,7 +103,7 @@
            <img  ng-src="{{image}}"/>
        </div>
     <div class="submit">
-        <button class="btn btn-primary ">确认提交</button>
+        <button class="btn btn-primary" ng-click="commitConfirm()">确认提交</button>
     </div>
 
 

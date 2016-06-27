@@ -47,6 +47,7 @@ router.get('/daily/:userObjectId', function(req, res){
             appHisObject.hisAppVersion = results[i].get('hisAppVersion');
             appHisObject.excHisDate = results[i].get('excDateStr');
             appHisObject.excKinds = results[i].get('excKinds');
+            appHisObject.totalExcCount = results[i].get('totalExcCount');
             appHisObject.taskObjectId = results[i].id;
 
             if (appHisObject.excKinds == 1){
