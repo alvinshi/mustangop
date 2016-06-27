@@ -183,6 +183,12 @@
     text-decoration: none
 }
 .submit{
-    margin-left: 42%;
+    margin-left: 40%;
     margin-top: 10px
+}
+.btn_primary{
+    background-color: #3498db;
+    color: white;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
 }
