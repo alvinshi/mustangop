@@ -46,11 +46,12 @@ router.get('/daily/:userObjectId', function(req, res){
             appHisObject.myAppVersion = results[i].get('myAppVersion');
             appHisObject.hisAppVersion = results[i].get('hisAppVersion');
             appHisObject.excHisDate = results[i].get('excDateStr');
-            appHisObject.excKinds = results[i].get('excKinds');
             appHisObject.totalExcCount = results[i].get('totalExcCount');
             appHisObject.taskObjectId = results[i].id;
 
-            if (appHisObject.excKinds == 1){
+            var excKinds = results[i].get('excKinds');
+
+            if (excKinds == 1){
                 appHisObject.excKinds = '评论'
             }else
                 appHisObject.excKinds = '下载';
