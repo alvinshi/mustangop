@@ -8,4 +8,4 @@ start.sh
 */logs/log-*.php
 */logs/!index.html
 */cache/*
-*/cache/!index.html
+*/cache/!index.html.avoscloud/

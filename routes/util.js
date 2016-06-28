@@ -7,7 +7,6 @@ var AV = require('leanengine');
 var https = require('https');
 
 var Base64 = require('../public/javascripts/vendor/base64').Base64;
-var rf = require("fs");
 var IOSAppSql = AV.Object.extend('IOSAppInfo');
 
 exports.useridInReq = function(req){

@@ -25,7 +25,8 @@
     "morgan": "~1.6.1",
     "serve-favicon": "~2.3.0",
     "underscore": "^1.8.3",
-    "connect-busboy":""
+    "connect-busboy":"",
+    "redis": "^2.2.x"
   },
   "engines": {
     "node": "4.x"
