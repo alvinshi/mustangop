@@ -38,7 +38,6 @@ AV.Cloud.define('refreshTask', function(request, response) {
         var subQuery = getRefreshTaskQuery();
         subQuery.limit(1000);
         subQuery.skip(i * 1000);
-
         query.find().then(function(results){
             for (var i = 0; i < results.length; i++){
                 results[i].set('taskStatus', 1);

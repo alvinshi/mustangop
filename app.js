@@ -83,7 +83,7 @@ function routeHasPrefix(originalUrl, judgeArray){
 
 // 没有挂载路径的中间件，应用的每个请求都会执行该中间件
 app.use(function (req, res, next) {
-  console.log('Time Debug:', Date.now());
+  //console.log('Time Debug:', Date.now());
 
   var loginWhiteList  = new Array();
   loginWhiteList[0] = "/user";
@@ -93,7 +93,7 @@ app.use(function (req, res, next) {
   loginWhiteList[4] = "/upload";
   loginWhiteList[5] = "/taskDetail";
   var needLogin = !routeHasPrefix(req.originalUrl, loginWhiteList);
-  console.log(needLogin);
+  
   //不是主页,也不是以白名单开头的网页,则是需要用户先登陆的网站
   if (req.originalUrl.length > 1 && needLogin){
     //获取cookie的值
