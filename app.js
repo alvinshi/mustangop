@@ -93,7 +93,7 @@ app.use(function (req, res, next) {
   loginWhiteList[4] = "/upload";
   loginWhiteList[5] = "/taskDetail";
   var needLogin = !routeHasPrefix(req.originalUrl, loginWhiteList);
-  
+
   //不是主页,也不是以白名单开头的网页,则是需要用户先登陆的网站
   if (req.originalUrl.length > 1 && needLogin){
     //获取cookie的值

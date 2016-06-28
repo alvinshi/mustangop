@@ -43,7 +43,8 @@ AV.Cloud.define('refreshTask', function(request, response) {
                 results[i].set('taskStatus', 1);
             }
             AV.Object.saveAll(results).then(function (avobjs) {
-                if (i == totalForCount - 1){
+                //if (i == totalForCount - 1)
+                {
                     console.log('!!!!! refreshTask succeed');
                     response.success('refreshTask');
                 }
