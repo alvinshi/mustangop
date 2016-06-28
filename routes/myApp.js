@@ -341,6 +341,11 @@ router.get('/history/angular/:appleId/:version/:pageIndex', function(req, res) {
                 appHisObject.excKinds = results[i].get('excKinds');
                 appHisObject.requirementImg = results[i].get('requirementImg');
 
+                if (appHisObject.excKinds == 1){
+                    appHisObject.excKinds = '评论'
+                }else
+                    appHisObject.excKinds = '下载';
+
                 retApps.push(appHisObject);
 
             }
@@ -401,6 +406,15 @@ router.get('/oldhistory/angular/:appleId/:version/', function(req, res, next) {
                 appHisObject.myAppVersion = results[i].get('myAppVersion');
                 appHisObject.hisAppVersion = results[i].get('hisAppVersion');
                 appHisObject.excHisDate = results[i].get('excDateStr');
+
+                appHisObject.totalExcCount = results[i].get('totalExcCount');
+                //appHisObject.excKinds = results[i].get('excKinds');
+                appHisObject.requirementImg = results[i].get('requirementImg');
+
+                if (appHisObject.excKinds == 1){
+                    appHisObject.excKinds = '评论'
+                }else
+                    appHisObject.excKinds = '下载';
 
                 retApps.push(appHisObject);
 
