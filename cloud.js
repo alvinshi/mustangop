@@ -17,7 +17,7 @@ function getRefreshTaskQuery(){
 
     var query = new AV.Query(IOSAppExcLogger);
     query.equalTo('remainCount', 0);
-    query.equalTo('taskStatus', 0);
+    query.notEqualTo('taskStatus', 1);
     query.lessThan('createdAt', myDate);
     query.exists('requirementImg');
     query.exists('totalExcCount');
@@ -70,14 +70,14 @@ AV.Cloud.define('refreshTask', function(request, response) {
 module.exports = AV.Cloud;
 
 
-var paramsJson = {
-    movie: "夏洛特烦恼"
-};
-AV.Cloud.run('refreshTask', paramsJson, {
-    success: function(data) {
-        // 调用成功，得到成功的应答data
-    },
-    error: function(err) {
-        // 处理调用失败
-    }
-});
+//var paramsJson = {
+//    movie: "夏洛特烦恼"
+//};
+//AV.Cloud.run('refreshTask', paramsJson, {
+//    success: function(data) {
+//        // 调用成功，得到成功的应答data
+//    },
+//    error: function(err) {
+//        // 处理调用失败
+//    }
+//});
