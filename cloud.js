@@ -12,12 +12,47 @@ AV.Cloud.define('hello', function(request, response) {
     response.success('Hello world!');
 });
 
+function getRefreshTaskQuery(){
+    var myDate = new Date();
+
+    var query = new AV.Query(IOSAppExcLogger);
+    query.equalTo('remainCount', 0);
+    query.equalTo('taskStatus', 0);
+    query.lessThan('createdAt', myDate);
+    query.exists('requirementImg');
+    query.exists('totalExcCount');
+    query.exists('excKinds');
+    query.descending('createdAt');
+    return query;
+}
 
 AV.Cloud.define('refreshTask', function(request, response) {
-    //1.每天早上8点,把今天之前完成的任务,都设置为已经完成
-    //2.每天早上8点,把1周之前完成的任务,相关的信息删掉,只单纯保留任务信息
-    console.log('Log in timer.');
-    response.success('refreshTask');
+
+    var query = getRefreshTaskQuery();
+    var totalCount = query.count();
+    var remain = totalCount % 1000;
+
+    var totalForCount = totalCount/1000 + remain > 0 ? 1 : 0;
+
+    for (var i = 0; i < totalForCount; i++){
+        var subQuery = getRefreshTaskQuery();
+        subQuery.limit(1000);
+        subQuery.skip(i * 1000);
+
+        query.find().then(function(results){
+            for (var i = 0; i < results.length; i++){
+                results[i].set('taskStatus', 1);
+            }
+            AV.Object.saveAll(results).then(function (avobjs) {
+                if (i == totalForCount - 1){
+                    console.log('!!!!! refreshTask succeed');
+                    response.success('refreshTask');
+                }
+            }, function (error) {
+                console.log('----- refreshTask error');
+            });
+        });
+    }
 });
 
 module.exports = AV.Cloud;

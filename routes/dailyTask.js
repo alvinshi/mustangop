@@ -47,23 +47,24 @@ router.get('/daily/:userObjectId', function(req, res){
             appHisObject.hisAppVersion = results[i].get('hisAppVersion');
             appHisObject.excHisDate = results[i].get('excDateStr');
             appHisObject.totalExcCount = results[i].get('totalExcCount');
+            appHisObject.surplusCount = results[i].get('remainCount');
             appHisObject.taskObjectId = results[i].id;
 
             var excKinds = results[i].get('excKinds');
 
-            if (excKinds == 1){
+            if (appHisObject.excKinds == 1){
                 appHisObject.excKinds = '评论'
             }else
                 appHisObject.excKinds = '下载';
 
-            var totalExcCount = results[i].get('totalExcCount');
-            var taskCount = results[i].get('taskCount');
-            var SurplusCount = totalExcCount - taskCount;
-            if (taskCount == undefined){
-                appHisObject.surplusCount = totalExcCount;
-            }else {
-                appHisObject.surplusCount = SurplusCount;
-            }
+            //var totalExcCount = results[i].get('totalExcCount');
+            //var taskCount = results[i].get('taskCount');
+            //var SurplusCount = totalExcCount - taskCount;
+            //if (taskCount == undefined){
+            //    appHisObject.surplusCount = totalExcCount;
+            //}else {
+            //    appHisObject.surplusCount = SurplusCount;
+            //}
             retApps.push(appHisObject);
 
         }
