@@ -27,7 +27,7 @@ router.get('/daily/:userObjectId', function(req, res){
     query.exists('excKinds');
     query.exists('requirementImg');
     query.include('hisAppObject');
-    query.descending('updatedAt');
+    query.descending('excDateStr');
     query.find().then(function(results){
         var retApps = new Array();
         for (var i = 0; i< results.length; i++){

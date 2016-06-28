@@ -288,6 +288,7 @@ app.controller('myAppControl', function($scope, $http, $location, FileUploader) 
                 prepareSaveApp.uploadingSucceed = 1;
                 prepareSaveApp.requirementImg = response.fileUrlList[0]
             });
+        location.href='/app/' + appid;
     };
     uploader.onCompleteAll = function () {
         console.info('onCompleteAll');

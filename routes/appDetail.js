@@ -130,7 +130,7 @@ router.post('/excTaskId/:excTaskId', function(req, res){
     newExcContent.set('excKinds', excKinds);
     newExcContent.set('totalExcCount', totalExcCount);
     newExcContent.set('requirementImg', requirementImg);
-    newExcContent.set('excDateStr', myDateStr);
+    //newExcContent.set('excDateStr', myDateStr);
     newExcContent.save().then(function(excObject){
         //成功
         res.json({'errorId':0, 'errorMsg':''});
