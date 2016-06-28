@@ -15,6 +15,7 @@ AV.Cloud.define('hello', function(request, response) {
 AV.Cloud.define('refreshTask', function(request, response) {
     //1.每天早上8点,把今天之前完成的任务,都设置为已经完成
     //2.每天早上8点,把1周之前完成的任务,相关的信息删掉,只单纯保留任务信息
+    console.log('Log in timer.');
     response.success('refreshTask');
 });
 
