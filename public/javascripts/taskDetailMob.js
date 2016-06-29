@@ -16,78 +16,87 @@ app.controller('taskDetailMobControl', function($scope, $http, $location, FileUp
 
     });
 
-    var fileReaderArray = new Array();
-    var index = 0;
-    var indexForFile = 0;
-    var uploadIndex = 0;
-
-    function blobToDataURI(file){
+    function blobToDataURI(addedFileItems, dealIndex){
         console.log("runned");
-        //fileReaderArray.push(new FileReader());
-        //var reader = fileReaderArray[indexForFile];
-        //indexForFile++;
-
         var reader = new FileReader();
+        reader.addEventListener("load", function (event) {
+            // Here you can use `e.target.result` or `this.result`
+            // and `f.name`.
+            var aImg = event.target.result;
+            compression(aImg, addedFileItems, dealIndex);
+        }, false);
+        reader.readAsDataURL(addedFileItems[dealIndex]._file);
+    }
 
-        reader.onload = (function(f) {
-            return function(event) {
-                // Here you can use `e.target.result` or `this.result`
-                // and `f.name`.
-                var aImg = event.target.result;
-                var compressImgData = compression(aImg);
-                var compressImg = dataURItoBlob(compressImgData);
-                $scope.addedFileItems[index]._file = compressImg;
-
-                index++;
-                console.log("compressed");
-                //if compress all, upload all
-                if (index == $scope.addedFileItems.length){
-                    uploader.uploadAll();
-                }
-            };
-        })(file);
-
-        reader.onerror = function(event){
-            console.log("file reader error");
-        }
-        reader.readAsDataURL(file);
-    };
-
-    function compression(dataURI) {
+    function compression(dataURI, addedFileItems, dealIndex) {
         var source_img = new Image();
         source_img.src = dataURI;
+        source_img.onload = function ()
+        {
+            //创建画布
+            var cvs = document.createElement('canvas');
+            cvs.width = source_img.naturalWidth;
+            cvs.height = source_img.naturalHeight;
+            //把原始照片转移到画布上
+            cvs.getContext('2d').drawImage(source_img, 0, 0);
 
-        //创建画布
-        var cvs = document.createElement('canvas');
-        cvs.width = source_img.naturalWidth;
-        cvs.height = source_img.naturalHeight;
+            //图片压缩质量0到1之间可调
+            var quality = 0.3;
+            //默认图片输出格式png，可调成jpg
+            var new_img = cvs.toDataURL("image/jpg", quality);
 
-        //把原始照片转移到画布上
-        var ctx = cvs.getContext('2d').drawImage(source_img, 0, 0);
+            var compressImg = dataURItoBlob(new_img);
 
-        //图片压缩质量0到1之间可调
-        var quality = 0.1;
+            //deal img to service
+            addedFileItems[dealIndex]._file = compressImg;
 
-        //默认图片输出格式png，可调成jpg
-        var new_img = cvs.toDataURL("image/jpeg", quality);
-        return new_img;
-    };
+            dealIndex++;
+            console.log("compressed");
+            //if compress all, upload all
+            if (dealIndex == addedFileItems.length){
+                $scope.progressNum = 50;
+                uploader.uploadAll();
+            }else {
+                blobToDataURI(addedFileItems, dealIndex);
+            }
+        }
+    }
 
     function dataURItoBlob(dataURI) {
-        var binary = atob(dataURI.split(',')[1]);
-        var mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0];
-        var array = [];
-        for(var i = 0; i < binary.length; i++) {
-            array.push(binary.charCodeAt(i));
+        //for ios and safari
+        var byteString = atob(dataURI.split(',')[1]);
+        var ab = new ArrayBuffer(byteString.length);
+        var ia = new Uint8Array(ab);
+        for (var i = 0; i < byteString.length; i++) {
+            ia[i] = byteString.charCodeAt(i);
         }
-        return new Blob([new Uint8Array(array)], {type: mimeString});
-    };
+        return new Blob([ab], { type: 'image/jpeg' });
+
+
+        //// convert base64/URLEncoded data component to raw binary data held in a string
+        //var byteString;
+        //if (dataURI.split(',')[0].indexOf('base64') >= 0)
+        //    byteString = atob(dataURI.split(',')[1]);
+        //else
+        //    byteString = unescape(dataURI.split(',')[1]);
+        //
+        //// separate out the mime component
+        //var mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0];
+        //
+        //// write the bytes of the string to a typed array
+        //var ia = new Uint8Array(byteString.length);
+        //for (var i = 0; i < byteString.length; i++) {
+        //    ia[i] = byteString.charCodeAt(i);
+        //}
+        //
+        //return new Blob([ia], {type:mimeString});
+    }
 
     //upload file
     var uploader = $scope.uploader = new FileUploader({
         url: '/upload/img',
-        queueLimit: 3,
-        removeAfterUpload:true,
+        queueLimit: 3
+        //removeAfterUpload:true
     });
 
     uploader.filters.push({
@@ -99,24 +108,19 @@ app.controller('taskDetailMobControl', function($scope, $http, $location, FileUp
     });
 
     $scope.deletFile = function () {
-        index = 0;
-        fileReaderArray = new Array();
         uploader.clearQueue();
     };
 
     var fileUrls = new Array();
 
     uploader.onAfterAddingFile = function (fileItem) {
-        //blobToDataURI(fileItem._file);
+
     };
 
     uploader.onAfterAddingAll = function (addedFileItems) {
-        $scope.progressNum = 50;
-        $scope.addedFileItems = addedFileItems;
-
-        for (var i = 0; i < addedFileItems.length; i++){
-            blobToDataURI(addedFileItems[i]._file);
-        }
+        $scope.progressNum = 10;
+        //递归函数 Fix Safari Bug
+        blobToDataURI(addedFileItems, 0);
         console.info('onAfterAddingAll', addedFileItems);
     };
 
@@ -156,7 +160,6 @@ app.controller('taskDetailMobControl', function($scope, $http, $location, FileUp
 
                 $scope.progressNum = 0;
 
-                index = 0;
                 uploader.clearQueue();
                 fileUrls = new Array();
             });

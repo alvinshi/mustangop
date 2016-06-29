@@ -13,12 +13,21 @@ body {
 .main{
     width: 1001px;
     margin: 100px auto;
-    border: 1px solid #e0e0e0;
+    border: 1px solid #f4f4f4;
 }
 .row_first_left,.row_second_left{
-    background-color: #e0e0e0;
+    background-color: #f4f4f4;
 }
 
+#myTab {
+    margin-right: -15px;
+    text-align: center;
+    font-size: 14px;
+    color: black;
+}
+#myTab li a:hover{
+    background-color: white;
+}
 .addtask_first{
     height: 120px;
 }
@@ -44,7 +53,6 @@ body {
 
 .write ,.task{
     background-color:#f4f4f4;
-    /*border-style: none;*/
     margin-left: 70px;
 }
 .task{
@@ -194,6 +202,7 @@ body {
     border-radius: 4px;
     color: #3498db;
     background-color: white;
+    outline:none;
 }
 .app_list{
     /*height: 120px;*/

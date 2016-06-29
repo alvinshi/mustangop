@@ -38,6 +38,9 @@ exports.postFile = function (req, res) {
 
             for (var i = 0; i < base64dataList.length; i++){
                 (function (index){
+
+                    console.log('------ upload img ------ ' + pubFileNameList[index]);
+
                     var f = new AV.File(pubFileNameList[index], {
                         // 仅上传第一个文件（多个文件循环创建）
                         base64: base64dataList[index]
