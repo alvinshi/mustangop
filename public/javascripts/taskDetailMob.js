@@ -23,8 +23,31 @@ app.controller('taskDetailMobControl', function($scope, $http, $location, FileUp
             // Here you can use `e.target.result` or `this.result`
             // and `f.name`.
             var aImg = event.target.result;
-            var compressImgData = compression(aImg);
-            var compressImg = dataURItoBlob(compressImgData);
+            compression(aImg, addedFileItems, dealIndex);
+        }, false);
+        reader.readAsDataURL(addedFileItems[dealIndex]._file);
+    }
+
+    function compression(dataURI, addedFileItems, dealIndex) {
+        var source_img = new Image();
+        source_img.src = dataURI;
+        source_img.onload = function ()
+        {
+            //创建画布
+            var cvs = document.createElement('canvas');
+            cvs.width = source_img.naturalWidth;
+            cvs.height = source_img.naturalHeight;
+            //把原始照片转移到画布上
+            cvs.getContext('2d').drawImage(source_img, 0, 0);
+
+            //图片压缩质量0到1之间可调
+            var quality = 0.8;
+            //默认图片输出格式png，可调成jpg
+            var new_img = cvs.toDataURL("image/jpg", quality);
+
+            var compressImg = dataURItoBlob(new_img);
+
+            //deal img to service
             addedFileItems[dealIndex]._file = compressImg;
 
             dealIndex++;
@@ -36,26 +59,7 @@ app.controller('taskDetailMobControl', function($scope, $http, $location, FileUp
             }else {
                 blobToDataURI(addedFileItems, dealIndex);
             }
-        }, false);
-        reader.readAsDataURL(addedFileItems[dealIndex]._file);
-    }
-
-    function compression(dataURI) {
-        var source_img = new Image();
-        source_img.src = dataURI;
-
-        //创建画布
-        var cvs = document.createElement('canvas');
-        cvs.width = source_img.naturalWidth;
-        cvs.height = source_img.naturalHeight;
-        //把原始照片转移到画布上
-        cvs.getContext('2d').drawImage(source_img, 0, 0);
-
-        //图片压缩质量0到1之间可调
-        var quality = 0.1;
-        //默认图片输出格式png，可调成jpg
-        var new_img = cvs.toDataURL("image/jpeg", quality);
-        return new_img;
+        }
     }
 
     function dataURItoBlob(dataURI) {
