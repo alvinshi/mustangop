@@ -26,6 +26,7 @@ router.get('/daily/:userObjectId', function(req, res){
     query.exists('totalExcCount');
     query.exists('excKinds');
     query.exists('requirementImg');
+    query.notEqualTo('taskStatus', 1);
     query.include('hisAppObject');
     query.descending('excDateStr');
     query.find().then(function(results){
