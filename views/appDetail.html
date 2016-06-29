@@ -49,7 +49,7 @@
 
 
 <div class="container main"  ng-controller="myAppControl" >
-  <div class="row">
+   <div class="row">
         <div class="col-lg-3 row_first_left">
             <img class="appicon" ng-src="{{  appBaseInfo.artworkUrl100 }}" alt="App Icon">
             <p class="appname">{{ appBaseInfo.trackName  }}</p>
@@ -73,7 +73,7 @@
             <hr>
         </div>
     </div>  <!--first row end-->
-  <div class="row">
+   <div class="row">
        <div class="col-lg-3 row_second_left" >
            <ul id="myTab" class="nav  nav-stacked">
                <li class="active">
@@ -173,29 +173,22 @@
                    </div>
                </div><!--addtask-->
 
+               <!--交换历史-->
                <div class="tab-pane fade in" id="exchistory">
-
-
-
                    <div class="row exchang_pattern">
                        <div class="top_title  col-lg-8">
                            <img class="exc_record_icon " src="/images/exch_history/exchang_icon.png">
                            <span class="exc__record_title">交换记录</span>
                       </div>
                        <div class="text-a col-lg-3">
-                               <button type="button " class=" add_exchistory_botton hvr-float-shadow"
-                                       ng-click="addAppHistory()">
-                                   手动添加交换记录
-                               </button>
-                               <!--<button type="button" class=" add_exchistory_botton hvr-float-shadow"-->
-                                       <!--onclick="javascript:window.location.href='/myapp'" ng-hide="myApps.length">-->
-                                   <!--请先添加我的应用-->
-                               <!--</button>-->
+                           <button type="button " class=" add_exchistory_botton hvr-float-shadow" ng-click="addAppHistory()">
+                               手动添加交换记录
+                           </button>
                        </div>
                    </div>
                    <div class="nowversion ">
                        <h4>当前版本</h4>
-                       <div class="app_list media" ng-repeat="app in myExcAllApps">
+                       <div class="app_list media" ng-repeat="app in ExcAllApps">
                            <div class="media-left">
                                <img class="media-object" ng-src="{{ app.artworkUrl100 }}" alt="App Icon">
                            </div>
@@ -206,7 +199,7 @@
                                    <span class="media-info-name">{{ app.sellerName }}</span>
                                </div>
                                <div class="media-info-a">
-                                   <!--<span class="media-info-lg">{{app.swapMode}}</span>-->
+                                   <span class="media-info-lg">{{app.swapMode}}</span>
                                    <span class="media-info-time">添加日期:{{ app.excHisDate }}</span>
                                    <span class="media-info-time">{{ app.excKinds }}</span>
                                    <span class="media-info-time">共{{ app.totalExcCount }}条</span>
@@ -214,21 +207,21 @@
                            </div>
 
                            <div class="media-right">
-                               <button class="btn remove_icon hvr-box-shadow-inset" ng-click="releaseBtnClick(app.appleId, app.hisAppVersion)" data-target="#myhistorydelete" data-toggle="modal">
+                               <button class="btn remove_icon hvr-box-shadow-inset" ng-click="removeTodayHistory(app.appleId, app.hisAppVersion)" data-target="#excHistoryPo" data-toggle="modal">
                                    <img src="/images/exch_history/no_click_remove.png">
                                </button>
                            </div>
                            <hr>
                        </div>
+                       <ul class="pager">
+                           <li ng-hide="!hasMore"><button ng-click = "nextPageForm()">下一页</button></li>
+                           <li ng-hide="hasMore">没有更多数据</li>
+                       </ul>
                    </div>
-                   <ul class="pager">
-                       <li ng-hide="!hasMore"><button ng-click = "nextPage()">下一页</button></li>
-                       <li ng-hide="hasMore">没有更多数据</li>
-                   </ul>
 
                    <div class="preversion">
                        <h4>以往版本</h4>
-                       <div class="app_list" ng-repeat="app in myExcAllApps">
+                       <div class="app_list" ng-repeat="app in myHistoryApps">
                            <div class="media">
                                <div class="media-left">
                                    <img class="media-object" ng-src="{{ app.artworkUrl100 }}" alt="App Icon">
@@ -242,7 +235,7 @@
                                    </div>
 
                                    <div class="media-info-a">
-                                       <span class="media-info-lg">手动添加</span>
+                                       <span class="media-info-lg">{{app.swapMode}}</span>
                                        <span class="media-info-time">添加日期:{{ app.excHisDate }}</span>
                                    </div>
 
@@ -258,20 +251,11 @@
 
                        </div>
                </div>
-
-
-
-
-
-
-
-               </div><!--exchistory-->
-
            </div>
-       </div> <!--col-lg-9 左侧改变的内容-->
-
-   </div> <!--second row end-->
-  <div class="modal modal-lg fade" id="myhistorydelete">
+       </div>
+       </div><!--col-lg-9 左侧改变的内容-->
+     </div> <!--second row end-->
+   <div class="modal modal-lg fade" id="myhistorydelete">
         <div class="modal-dialog" style="width:400px;position: absolute;right: 20px">
             <div class="modal-content">
                 <div class="modal-header">
@@ -290,7 +274,7 @@
             </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->
     </div>
-  <div class="modal fade" id="mymodal">
+   <div class="modal fade" id="mymodal">
        <div class="modal-dialog" style="width: 750px;height: 600px">
         <div class="modal-content">
             <div class="modal-header">
@@ -310,8 +294,7 @@
 
                 <div class="placehold-line">
                     <div class="progress" ng-hide="!progressNum">
-                        <div ng-class="{'progress-bar': true, 'progress-bar-striped':true, active:true}" ng-style="{width: progressNum + '%'}">
-                        </div>
+                        <div ng-class="{'progress-bar': true, 'progress-bar-striped':true, active:true}" ng-style="{width: progressNum + '%'}"></div>
                     </div>
                     <div class="alert-danger" role="alert" ng-hide="!isError">
                         {{ errorMsg }}
@@ -354,9 +337,26 @@
         </div>
     </div>
   </div>
+
+    <div class="modal fade" id="excHistoryPo">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+                    <h4 class="modal-title">删除提示</h4>
+                </div>
+                <div class="modal-body">
+                    <p>确认删除此条交换纪录?一但删除将无法恢复.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn" data-dismiss="modal" ng-click="releaseHistory()">删除</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">取消</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
 </div><!--container end-->
 <script src="/javascripts/cookieHelper.js"></script>
 
- </body>
-
+</body>
 </html>

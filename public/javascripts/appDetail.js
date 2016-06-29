@@ -6,6 +6,8 @@ var app = angular.module('yemaWebApp', ['angularFileUpload']);
 var navIndex = 3;
 
 app.controller('myAppControl', function($scope, $http, $location, FileUploader) {
+    $scope.pageIndex = 0;
+
     var appurlList = $location.absUrl().split('/');
     var appid = appurlList[appurlList.length - 1];
     var myappUrl = 'baseinfo/' + appid;
@@ -13,12 +15,71 @@ app.controller('myAppControl', function($scope, $http, $location, FileUploader) 
     $http.get(myappUrl).success(function (response) {
         $scope.appBaseInfo = response.appBaseInfo;
 
+        // 任务添加界面
         var historyUrl = '/app/myAppExcHistory/' + appid + '/' + $scope.appBaseInfo.version;
         $http.get(historyUrl).success(function (response) {
             $scope.myExcAllApps = response.myExcAllApps;
         });
 
+        //交换记录 -- 当前版本交换记录
+        var exchistoryUrl = '/myapp/history/angular/' + appid + '/' + $scope.appBaseInfo.version + '/' + 1;
+        $http.get(exchistoryUrl).success(function(response){
+            $scope.ExcAllApps = response.myExcAllApps;
+            $scope.hasMore = response.hasMore;
+        });
+
+        //交换记录 -- 以往版本交换记录
+        var oldhistoryUrl = '/myapp/oldhistory/angular/' + appid + '/' + $scope.appBaseInfo.version;
+        $http.get(oldhistoryUrl).success(function(response){
+            $scope.myHistoryApps = response.myHistoryApps;
+            //console.log($scope.myHistoryApps);
+        });
     });
+
+
+    // 手动添加APP
+    $scope.addAppHistory = function(){
+        var addHistoryHtmlUrl = '/myapp/addHistory/' + appid + '/' + $scope.appBaseInfo.version;
+        location.href = addHistoryHtmlUrl;
+    };
+
+    $scope.addHistory = function(hisAppInfo){
+
+        console.log('-----* ' + location.href);
+
+        var addHistoryUrl = location.href;
+
+        var postParam = {'hisAppInfo' : hisAppInfo, 'excHistoryAdd': 'excHistoryadd'};
+        console.log('add history' + postParam);
+        $http.post(addHistoryUrl, postParam).success(function(response){
+
+            $scope.isError = response.errorId;
+            console.log(response.errorId);
+
+            if (response.errorId == 0 || response.errorId === undefined){
+
+                if ($scope.ExcAllApps == undefined){
+                    $scope.ExcAllApps = new Array();
+                }
+
+                ////change ui
+                //for (var i = 0; i < $scope.appResults.length; i++){
+                //    var appRe = $scope.appResults[i];
+                //
+                //    if (appRe.appleId === hisAppInfo.appleId){
+                //        appRe.isExced = true;
+                //        console.log(appRe.appleId + 'is exchanged');
+                //        break;
+                //    }
+                //}
+
+                $scope.errorMsg = '';
+            }else {
+                $scope.errorMsg = response.errorMsg;
+            }
+
+        });
+    };
 
     //删除当前交换记录
     $scope.releaseBtnClick = function(appid,appversion){
@@ -69,6 +130,68 @@ app.controller('myAppControl', function($scope, $http, $location, FileUploader) 
                 $scope.errorMsg = response.errorMsg;
             }
 
+        });
+    };
+
+    //删除交换记录
+    $scope.removeTodayHistory = function(appid,appversion){
+        $scope.prepareReleaseAppid = appid;
+        $scope.prepareReleaseVersion = appversion;
+    };
+
+    $scope.releaseHistory = function(){
+        var releaseHistoryUrl = '/myapp/history/delete';
+
+        var myAppId = $scope.appBaseInfo.appleId;
+        var myAppVersion = $scope.appBaseInfo.version;
+
+        var postParam = {'myAppId' : myAppId, 'myAppVersion' : myAppVersion,
+            'hisAppId' : $scope.prepareReleaseAppid, 'hisAppVersion' : $scope.prepareReleaseVersion};
+        console.log('add history' + postParam);
+
+        $http.post(releaseHistoryUrl, postParam).success(function(response){
+            if (response.errorId == 0){
+                console.log('remove app if');
+
+                if ($scope.appResults != undefined){
+                    //change ui
+                    for (var q = 0; q < $scope.appResults.length; q++){
+                        var appRe = $scope.appResults[q];
+
+                        if (appRe.appleId === $scope.prepareReleaseAppid){
+                            appRe.isExced = false;
+                            console.log(appRe.appleId + 'is exchanged');
+                            break;
+                        }
+                    }
+                }
+
+                //other thing
+                for (var i = 0; i < $scope.ExcAllApps.length; i++){
+                    var app = $scope.ExcAllApps[i];
+                    if (app.appleId == $scope.prepareReleaseAppid){
+                        console.log('remove app to ui');
+                        $scope.ExcAllApps.splice(i, 1);
+                        break;
+                    }
+                }
+
+                $scope.errorMsg = '';
+            }else {
+                console.log('remove app else');
+                $scope.errorMsg = response.errorMsg;
+            }
+
+        });
+    };
+
+    $scope.nextPageForm = function(){
+        $scope.pageIndex = $scope.pageIndex + 20;
+        var historyUrl = '/myapp/history/angular/' + appid + '/' + $scope.appBaseInfo.version + '/' + $scope.pageIndex;
+        $http.get(historyUrl).success(function(response){
+            $scope.hasMore = response.hasMore;
+            $scope.ExcAllApps = $scope.ExcAllApps.concat(response.myExcAllApps);
+            //console.log($scope.myExcAllApps);
         });
     };
 

@@ -106,32 +106,32 @@
     </div>
 
 
-      <div class="title">
+        <div class="title">
             <h4>当前版本</h4>
             <div class="app_list media" ng-repeat="app in myExcAllApps">
-                    <div class="media-left">
-                        <img class="media-object" ng-src="{{ app.artworkUrl100 }}" alt="App Icon">
-                    </div>
-                    <div class="media-body">
-                        <h4 class="media-heading">{{ app.trackName }}</h4>
-                        <div class="media-info">
-                          <span class="media-info-id">App ID: {{ app.appleId }}</span>
-                          <span class="media-info-name">{{ app.sellerName }}</span>
-                       </div>
-                       <div class="media-info-a">
-                         <span class="media-info-lg">{{app.swapMode}}</span>
-                         <span class="media-info-time">添加日期:{{ app.excHisDate }}</span>
-                            <span class="media-info-time">{{ app.excKinds }}</span>
-                            <span class="media-info-time">共{{ app.totalExcCount }}条</span>
-                       </div>
-                    </div>
-
-                    <div class="media-right">
-                        <button class="btn remove_icon hvr-box-shadow-inset" ng-click="releaseBtnClick(app.appleId, app.hisAppVersion)" data-target="#myhistorydelete" data-toggle="modal">
-                            <img src="/images/exch_history/no_click_remove.png">
-                        </button>
-                    </div>
+                <div class="media-left">
+                    <img class="media-object" ng-src="{{ app.artworkUrl100 }}" alt="App Icon">
                 </div>
+                <div class="media-body">
+                    <h4 class="media-heading">{{ app.trackName }}</h4>
+                    <div class="media-info">
+                      <span class="media-info-id">App ID: {{ app.appleId }}</span>
+                      <span class="media-info-name">{{ app.sellerName }}</span>
+                   </div>
+                   <div class="media-info-a">
+                     <span class="media-info-lg">{{app.swapMode}}</span>
+                     <span class="media-info-time">添加日期:{{ app.excHisDate }}</span>
+                        <span class="media-info-time">{{ app.excKinds }}</span>
+                        <span class="media-info-time">共{{ app.totalExcCount }}条</span>
+                   </div>
+                </div>
+
+                <div class="media-right">
+                    <button class="btn remove_icon hvr-box-shadow-inset" ng-click="releaseBtnClick(app.appleId, app.hisAppVersion)" data-target="#myhistorydelete" data-toggle="modal">
+                        <img src="/images/exch_history/no_click_remove.png">
+                    </button>
+                </div>
+            </div>
         </div>
         <ul class="pager">
                 <li ng-hide="!hasMore"><button ng-click = "nextPage()">下一页</button></li>
