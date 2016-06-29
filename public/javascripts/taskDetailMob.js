@@ -16,42 +16,29 @@ app.controller('taskDetailMobControl', function($scope, $http, $location, FileUp
 
     });
 
-    var fileReaderArray = new Array();
-    var index = 0;
-    var indexForFile = 0;
-    var uploadIndex = 0;
-
-    function blobToDataURI(file){
+    function blobToDataURI(addedFileItems, dealIndex){
         console.log("runned");
-        //fileReaderArray.push(new FileReader());
-        //var reader = fileReaderArray[indexForFile];
-        //indexForFile++;
-
         var reader = new FileReader();
+        reader.addEventListener("load", function (event) {
+            // Here you can use `e.target.result` or `this.result`
+            // and `f.name`.
+            var aImg = event.target.result;
+            var compressImgData = compression(aImg);
+            var compressImg = dataURItoBlob(compressImgData);
+            addedFileItems[dealIndex]._file = compressImg;
 
-        reader.onload = (function(f) {
-            return function(event) {
-                // Here you can use `e.target.result` or `this.result`
-                // and `f.name`.
-                var aImg = event.target.result;
-                var compressImgData = compression(aImg);
-                var compressImg = dataURItoBlob(compressImgData);
-                $scope.addedFileItems[index]._file = compressImg;
-
-                index++;
-                console.log("compressed");
-                //if compress all, upload all
-                if (index == $scope.addedFileItems.length){
-                    uploader.uploadAll();
-                }
-            };
-        })(file);
-
-        reader.onerror = function(event){
-            console.log("file reader error");
-        }
-        reader.readAsDataURL(file);
-    };
+            dealIndex++;
+            console.log("compressed");
+            //if compress all, upload all
+            if (dealIndex == addedFileItems.length){
+                $scope.progressNum = 50;
+                uploader.uploadAll();
+            }else {
+                blobToDataURI(addedFileItems, dealIndex);
+            }
+        }, false);
+        reader.readAsDataURL(addedFileItems[dealIndex]._file);
+    }
 
     function compression(dataURI) {
         var source_img = new Image();
@@ -61,17 +48,15 @@ app.controller('taskDetailMobControl', function($scope, $http, $location, FileUp
         var cvs = document.createElement('canvas');
         cvs.width = source_img.naturalWidth;
         cvs.height = source_img.naturalHeight;
-
         //把原始照片转移到画布上
-        var ctx = cvs.getContext('2d').drawImage(source_img, 0, 0);
+        cvs.getContext('2d').drawImage(source_img, 0, 0);
 
         //图片压缩质量0到1之间可调
         var quality = 0.1;
-
         //默认图片输出格式png，可调成jpg
         var new_img = cvs.toDataURL("image/jpeg", quality);
         return new_img;
-    };
+    }
 
     function dataURItoBlob(dataURI) {
         var binary = atob(dataURI.split(',')[1]);
@@ -81,13 +66,13 @@ app.controller('taskDetailMobControl', function($scope, $http, $location, FileUp
             array.push(binary.charCodeAt(i));
         }
         return new Blob([new Uint8Array(array)], {type: mimeString});
-    };
+    }
 
     //upload file
     var uploader = $scope.uploader = new FileUploader({
         url: '/upload/img',
-        queueLimit: 3,
-        removeAfterUpload:true,
+        queueLimit: 3
+        //removeAfterUpload:true
     });
 
     uploader.filters.push({
@@ -99,24 +84,19 @@ app.controller('taskDetailMobControl', function($scope, $http, $location, FileUp
     });
 
     $scope.deletFile = function () {
-        index = 0;
-        fileReaderArray = new Array();
         uploader.clearQueue();
     };
 
     var fileUrls = new Array();
 
     uploader.onAfterAddingFile = function (fileItem) {
-        //blobToDataURI(fileItem._file);
+
     };
 
     uploader.onAfterAddingAll = function (addedFileItems) {
-        $scope.progressNum = 50;
-        $scope.addedFileItems = addedFileItems;
-
-        for (var i = 0; i < addedFileItems.length; i++){
-            blobToDataURI(addedFileItems[i]._file);
-        }
+        $scope.progressNum = 10;
+        //递归函数 Fix Safari Bug
+        blobToDataURI(addedFileItems, 0);
         console.info('onAfterAddingAll', addedFileItems);
     };
 
@@ -156,7 +136,6 @@ app.controller('taskDetailMobControl', function($scope, $http, $location, FileUp
 
                 $scope.progressNum = 0;
 
-                index = 0;
                 uploader.clearQueue();
                 fileUrls = new Array();
             });
