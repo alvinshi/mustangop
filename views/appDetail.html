@@ -77,16 +77,16 @@
        <div class="col-lg-3 row_second_left" >
            <ul id="myTab" class="nav  nav-stacked">
                <li class="active">
-                   <a href="#需求编辑" data-toggle="tab">
+                   <a href="/#需求编辑" data-toggle="tab">
                        <img src="/images/appDetail/rewrite.png" alt="">需求编辑
                    </a>
                </li>
                <li class="">
-                   <a href="#addtask" data-toggle="tab">
+                   <a href="/#addtask" data-toggle="tab">
                        <img src="/images/appDetail/addtask.png" alt="">任务添加
                    </a>
                </li>
-               <li><a href="#exchistory" data-toggle="tab">交换记录</a></li>
+               <li><a href="/#exchistory" data-toggle="tab">交换记录</a></li>
            </ul>
        </div><!--col-lg-3 左侧导航-->
 
@@ -177,20 +177,20 @@
 
 
 
-                   <div class="row exchang_pattern" style="border: 1px solid yellow">
+                   <div class="row exchang_pattern">
                        <div class="top_title  col-lg-8">
                            <img class="exc_record_icon " src="/images/exch_history/exchang_icon.png">
                            <span class="exc__record_title">交换记录</span>
                       </div>
                        <div class="text-a col-lg-3">
                                <button type="button " class=" add_exchistory_botton hvr-float-shadow"
-                                       ng-click="addAppHistory()" ng-hide="!myApps.length">
+                                       ng-click="addAppHistory()">
                                    手动添加交换记录
                                </button>
-                               <button type="button" class=" add_exchistory_botton hvr-float-shadow"
-                                       onclick="javascript:window.location.href='/myapp'" ng-hide="myApps.length">
-                                   请先添加我的应用
-                               </button>
+                               <!--<button type="button" class=" add_exchistory_botton hvr-float-shadow"-->
+                                       <!--onclick="javascript:window.location.href='/myapp'" ng-hide="myApps.length">-->
+                                   <!--请先添加我的应用-->
+                               <!--</button>-->
                        </div>
                    </div>
                    <div class="nowversion ">

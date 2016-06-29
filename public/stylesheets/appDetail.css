@@ -175,7 +175,9 @@ body {
 }
   /*addtask begin*/
 .exchang_pattern{
-    margin-top: 30px;
+    height: 100px;
+    padding-top: 20px;
+    margin-top: 10px;
 }
 .top_title{
     margin-left: 10px;
@@ -231,7 +233,8 @@ hr{
 
 .remove_icon{
     background-color: #ffffff;
-    margin: 0 auto;
+    margin-top: 20px;
+
 }
 
 
