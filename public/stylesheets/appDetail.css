@@ -1,39 +1,31 @@
-body{
+body {
     margin: 0;
     padding: 0;
 }
+.row{
+    overflow: hidden;
 
-
+}
+[class*="col"]{
+    margin-bottom: -9999px;
+    padding-bottom: 9999px;
+}
 .main{
     width: 1001px;
     margin: 100px auto;
+    border: 1px solid #e0e0e0;
+}
+.row_first_left,.row_second_left{
+    background-color: #e0e0e0;
 }
 
-.head_left,.body_left,.content_left{
-    float: left;
-    border: 1px solid #dddddd;
-    width: 25%;
-    height: 180px;
-    background-color: #f4f4f4;
+.addtask_first{
+    height: 120px;
 }
-.head_right,.body_right,.content_right{
-    float: right;
-    border: 1px solid #dddddd;
-    width: 75%;
+.addtask_second{
     height: 180px;
 }
-.head_left{
-    border-style:solid none none solid;
-}
-.body_left,.content_left{
-    border-style:none none none solid;
-}
-.head_right{
-    border-style:solid solid solid none;
-}
-.body_right,.content_right{
-    border-style:none  solid solid none;
-}
+
 .appicon{
     width: 75px;
     height: 75px;
@@ -52,7 +44,7 @@ body{
 
 .write ,.task{
     background-color:#f4f4f4;
-    border-style: none;
+    /*border-style: none;*/
     margin-left: 70px;
 }
 .task{
@@ -70,8 +62,8 @@ body{
     display: inline-block;
 
 }
-.addtask{
-    margin-top: 10px;
+#addtask{
+    margin-top: 50px;
 }
 
 .trackName{
@@ -181,6 +173,71 @@ body{
     margin-top: -7px;
 
 }
+  /*addtask begin*/
+.exchang_pattern{
+    margin-top: 30px;
+}
+.top_title{
+    margin-left: 10px;
+}
+.exc__record_title{
+    font-size: 20px;
+}
+.add_exchistory_botton{
+    border:1px solid #3498db;
+    width: 160px;
+    height: 40px;
+    font-size: 16px;
+    text-align: center;
+    border-radius: 4px;
+    color: #3498db;
+    background-color: white;
+}
+.app_list{
+    height: 120px;
+    /*border: 1px solid red;*/
+}
+.media{
+    margin-top: 0;
+}
+.media-heading{
+    font-size: 16px;
+    color: #000000;
+    margin-top: 20px;
+}
+.app_list span{
+    font-size: 12px;
+    margin-right: 40px;
+}
+
+
+.media-info{
+    margin-top: 15px;
+    font-size: 12px;
+    color: #7a7a7a;
+}
+
+
+.media-info-a{
+
+    margin-top: 5px;
+    font-size: 12px;
+    color: #7a7a7a;
+}
+hr{
+    height: 2px;
+    border-color: #e0e0e0;
+}
+
+.remove_icon{
+    background-color: #ffffff;
+    margin: 0 auto;
+}
+
+
+
+
+
 /*按钮美化*/
 .a-upload {
     margin-top: 2px;

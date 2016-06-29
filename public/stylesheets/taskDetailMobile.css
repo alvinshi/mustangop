@@ -103,7 +103,9 @@
     color: #ffffff;
     border: 2px solid #3498db;
 }
-
+.cust1 a{
+    text-decoration: none;
+}
 
 
 .text-right{
@@ -143,7 +145,7 @@
 .progress{
     width: 94%;
     margin-top: 10px;
-    margin-left: 30px;
+    margin-left:10px;
 }
 
 
