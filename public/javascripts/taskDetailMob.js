@@ -16,12 +16,67 @@ app.controller('taskDetailMobControl', function($scope, $http, $location, FileUp
 
     });
 
+    var imageArray = new Array();
+    var index = 0;
+    var uploadIndex = 0;
+
+    function blobToDataURI(file){
+        console.log("runned");
+        var reader = new FileReader();
+        reader.onload = function(event) {
+            $scope.$apply(function(){
+                //compress img
+                var aImg = event.target.result;
+                var compressImgData = compression(aImg);
+                var compressImg = dataURItoBlob(compressImgData);
+                $scope.addedFileItems[index]._file = compressImg;
+
+                index++;
+
+                //if compress all, upload all
+                if (index == $scope.addedFileItems.length){
+                    uploader.uploadAll();
+                }
+            });
+        };
+        reader.readAsDataURL(file);
+    };
+
+    function compression(dataURI) {
+        var source_img = new Image();
+        source_img.src = dataURI;
+
+        //创建画布
+        var cvs = document.createElement('canvas');
+        cvs.width = source_img.naturalWidth;
+        cvs.height = source_img.naturalHeight;
+
+        //把原始照片转移到画布上
+        var ctx = cvs.getContext('2d').drawImage(source_img, 0, 0);
+
+        //图片压缩质量0到1之间可调
+        var quality = 0.1;
+
+        //默认图片输出格式png，可调成jpg
+        var new_img = cvs.toDataURL("image/jpeg", quality);
+        return new_img;
+    };
+
+    function dataURItoBlob(dataURI) {
+        var binary = atob(dataURI.split(',')[1]);
+        var mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0];
+        var array = [];
+        for(var i = 0; i < binary.length; i++) {
+            array.push(binary.charCodeAt(i));
+        }
+        return new Blob([new Uint8Array(array)], {type: mimeString});
+    };
 
     //upload file
     var uploader = $scope.uploader = new FileUploader({
         url: '/upload/img',
         queueLimit: 3,
-        removeAfterUpload:true
+        removeAfterUpload:true,
     });
 
     uploader.filters.push({
@@ -33,14 +88,22 @@ app.controller('taskDetailMobControl', function($scope, $http, $location, FileUp
     });
 
     $scope.deletFile = function () {
+        index = 0;
         uploader.clearQueue();
     };
 
     var fileUrls = new Array();
 
+    uploader.onAfterAddingFile = function (fileItem) {
+        //blobToDataURI(fileItem._file);
+    };
+
     uploader.onAfterAddingAll = function (addedFileItems) {
-        $scope.progressNum = 100;
-        uploader.uploadAll();
+        $scope.progressNum = 50;
+        $scope.addedFileItems = addedFileItems;
+        for (var i = 0; i < addedFileItems.length; i++){
+            blobToDataURI(addedFileItems[i]._file);
+        }
         console.info('onAfterAddingAll', addedFileItems);
     };
 
@@ -66,6 +129,8 @@ app.controller('taskDetailMobControl', function($scope, $http, $location, FileUp
 
         var appUrl = '/taskDetailMobile/addTask/' + $scope.oneAppInfo.taskObjectId;
 
+        $scope.progressNum = 80;
+
         $http.post(appUrl, {
                 'uploadName':$scope.uploadName,
                 'requirementImgs': fileUrls
@@ -77,9 +142,10 @@ app.controller('taskDetailMobControl', function($scope, $http, $location, FileUp
                 $scope.images = response.requirementImgs;
 
                 $scope.progressNum = 0;
-
-                //uploader.clearQueue();
-                //fileUrls = new Array();
+                
+                index = 0;
+                uploader.clearQueue();
+                fileUrls = new Array();
             });
     };
 
