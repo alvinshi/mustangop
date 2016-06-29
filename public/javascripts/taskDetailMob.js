@@ -41,7 +41,7 @@ app.controller('taskDetailMobControl', function($scope, $http, $location, FileUp
             cvs.getContext('2d').drawImage(source_img, 0, 0);
 
             //图片压缩质量0到1之间可调
-            var quality = 0.8;
+            var quality = 0.3;
             //默认图片输出格式png，可调成jpg
             var new_img = cvs.toDataURL("image/jpg", quality);
 
