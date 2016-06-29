@@ -145,7 +145,7 @@ app.controller('myAppControl', function($scope, $http, $location, FileUploader) 
 
         var addHistoryUrl = '/myapp/addHistory/' + appid + '/' + $scope.appBaseInfo.version;
 
-        var postParam = {'hisAppInfo' : hisAppInfo};
+        var postParam = {'hisAppInfo' : hisAppInfo, 'excHistoryAdd': 'FXS'};
         $http.post(addHistoryUrl, postParam).success(function(response){
 
             $scope.isError = response.errorId;

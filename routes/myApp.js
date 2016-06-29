@@ -337,14 +337,34 @@ router.get('/history/angular/:appleId/:version/:pageIndex', function(req, res) {
                 appHisObject.excHisDate = results[i].get('excDateStr');
 
                 appHisObject.appExcTaskObjectID = results[i].id;
-                appHisObject.totalExcCount = results[i].get('totalExcCount');
-                appHisObject.excKinds = results[i].get('excKinds');
                 appHisObject.requirementImg = results[i].get('requirementImg');
 
-                if (appHisObject.excKinds == 1){
+                var totalExcCount = results[i].get('totalExcCount');
+                var excKinds = results[i].get('excKinds');
+                var swapMode = results[i].get('excHistoryAdd');
+
+                if (excKinds == undefined){
+                    appHisObject.excKinds = ''
+                }else if (excKinds == 1){
                     appHisObject.excKinds = '评论'
-                }else
+                }else {
                     appHisObject.excKinds = '下载';
+                }
+
+                if (totalExcCount == undefined){
+                    appHisObject.totalExcCount = 0;
+                }else {
+                    appHisObject.totalExcCount = totalExcCount;
+                }
+
+                if (swapMode == 'excHistoryadd'){
+                    appHisObject.swapMode = '手动添加'
+                }else if (swapMode == 'FXS'){
+                    appHisObject.swapMode = '外部交换'
+                }else {
+                    //appHisObject.swapMode = '内部交换'
+                }
+
 
                 retApps.push(appHisObject);
 

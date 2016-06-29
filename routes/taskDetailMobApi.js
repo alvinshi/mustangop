@@ -41,6 +41,7 @@ router.get('/single/:excTaskId', function(req, res){
         retObject.totalExcCount = taskObject.get('totalExcCount');
         retObject.requirementImg = taskObject.get('requirementImg');
         retObject.excKinds = taskObject.get('excKinds');
+        retObject.surplusCount = taskObject.get('remainCount');
         retObject.taskObjectId = taskObject.id;
 
         retObject.myAppartworkUrl100 = myappObject.get('artworkUrl100');
@@ -52,14 +53,14 @@ router.get('/single/:excTaskId', function(req, res){
         }else
             retObject.excKinds = '下载';
 
-        var totalExcCount = taskObject.get('totalExcCount');
-        var taskCount = taskObject.get('taskCount');
-        var SurplusCount = totalExcCount - taskCount;
-        if (taskCount == undefined){
-            retObject.surplusCount = totalExcCount;
-        }else {
-            retObject.surplusCount = SurplusCount;
-        }
+        //var totalExcCount = taskObject.get('totalExcCount');
+        //var taskCount = taskObject.get('taskCount');
+        //var SurplusCount = totalExcCount - taskCount;
+        //if (taskCount == undefined){
+        //    retObject.surplusCount = totalExcCount;
+        //}else {
+        //    retObject.surplusCount = SurplusCount;
+        //}
 
         if (uploadUserName != undefined){
             var relation = taskObject.relation('mackTask');
@@ -89,6 +90,7 @@ router.post('/addTask/:excTaskId', function(req, res){
     var uploadUserName = req.cookies.uploadImgName;
     var uploadName = req.body.uploadName;
     var requirementImgs = req.body.requirementImgs;
+    var totalCount = req.body.totalExcCount;
     if (uploadName != undefined){
         res.cookie('uploadImgName', uploadName);
     }
@@ -133,15 +135,15 @@ router.post('/addTask/:excTaskId', function(req, res){
                         // 保存到云端
                     });
 
-                    var taskCount = taskObject.get('taskCount');
+                    var taskCount = taskObject.get('remainCount');
                     if (taskCount == undefined){
-                        taskObject.set('taskCount', 1);
+                        taskObject.set('remainCount', totalCount);
                         taskObject.save().then(function(){
                             //如果没有就set1个
                         })
                     }
                     else {
-                        taskObject.increment('taskCount', 1);
+                        taskObject.increment('remainCount', -1);
                         taskObject.save().then(function(){
                             //如果有就计数+1
                         })

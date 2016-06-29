@@ -26,6 +26,7 @@ router.get('/daily/:userObjectId', function(req, res){
     query.exists('totalExcCount');
     query.exists('excKinds');
     query.exists('requirementImg');
+    query.notEqualTo('taskStatus', 1);
     query.include('hisAppObject');
     query.descending('excDateStr');
     query.find().then(function(results){
@@ -46,23 +47,25 @@ router.get('/daily/:userObjectId', function(req, res){
             appHisObject.myAppVersion = results[i].get('myAppVersion');
             appHisObject.hisAppVersion = results[i].get('hisAppVersion');
             appHisObject.excHisDate = results[i].get('excDateStr');
-            appHisObject.excKinds = results[i].get('excKinds');
             appHisObject.totalExcCount = results[i].get('totalExcCount');
+            appHisObject.surplusCount = results[i].get('remainCount');
             appHisObject.taskObjectId = results[i].id;
+
+            var excKinds = results[i].get('excKinds');
 
             if (appHisObject.excKinds == 1){
                 appHisObject.excKinds = '评论'
             }else
                 appHisObject.excKinds = '下载';
 
-            var totalExcCount = results[i].get('totalExcCount');
-            var taskCount = results[i].get('taskCount');
-            var SurplusCount = totalExcCount - taskCount;
-            if (taskCount == undefined){
-                appHisObject.surplusCount = totalExcCount;
-            }else {
-                appHisObject.surplusCount = SurplusCount;
-            }
+            //var totalExcCount = results[i].get('totalExcCount');
+            //var taskCount = results[i].get('taskCount');
+            //var SurplusCount = totalExcCount - taskCount;
+            //if (taskCount == undefined){
+            //    appHisObject.surplusCount = totalExcCount;
+            //}else {
+            //    appHisObject.surplusCount = SurplusCount;
+            //}
             retApps.push(appHisObject);
 
         }
