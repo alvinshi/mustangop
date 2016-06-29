@@ -16,29 +16,40 @@ app.controller('taskDetailMobControl', function($scope, $http, $location, FileUp
 
     });
 
-    var imageArray = new Array();
+    var fileReaderArray = new Array();
     var index = 0;
+    var indexForFile = 0;
     var uploadIndex = 0;
 
     function blobToDataURI(file){
         console.log("runned");
+        //fileReaderArray.push(new FileReader());
+        //var reader = fileReaderArray[indexForFile];
+        //indexForFile++;
+
         var reader = new FileReader();
-        reader.onload = function(event) {
-            $scope.$apply(function(){
-                //compress img
+
+        reader.onload = (function(f) {
+            return function(event) {
+                // Here you can use `e.target.result` or `this.result`
+                // and `f.name`.
                 var aImg = event.target.result;
                 var compressImgData = compression(aImg);
                 var compressImg = dataURItoBlob(compressImgData);
                 $scope.addedFileItems[index]._file = compressImg;
 
                 index++;
-
+                console.log("compressed");
                 //if compress all, upload all
                 if (index == $scope.addedFileItems.length){
                     uploader.uploadAll();
                 }
-            });
-        };
+            };
+        })(file);
+
+        reader.onerror = function(event){
+            console.log("file reader error");
+        }
         reader.readAsDataURL(file);
     };
 
@@ -89,6 +100,7 @@ app.controller('taskDetailMobControl', function($scope, $http, $location, FileUp
 
     $scope.deletFile = function () {
         index = 0;
+        fileReaderArray = new Array();
         uploader.clearQueue();
     };
 
@@ -101,6 +113,7 @@ app.controller('taskDetailMobControl', function($scope, $http, $location, FileUp
     uploader.onAfterAddingAll = function (addedFileItems) {
         $scope.progressNum = 50;
         $scope.addedFileItems = addedFileItems;
+
         for (var i = 0; i < addedFileItems.length; i++){
             blobToDataURI(addedFileItems[i]._file);
         }
@@ -142,7 +155,7 @@ app.controller('taskDetailMobControl', function($scope, $http, $location, FileUp
                 $scope.images = response.requirementImgs;
 
                 $scope.progressNum = 0;
-                
+
                 index = 0;
                 uploader.clearQueue();
                 fileUrls = new Array();
