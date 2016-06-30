@@ -22,7 +22,7 @@ app.controller('myAppControl', function($scope, $http, $location, FileUploader) 
         });
 
         //交换记录 -- 当前版本交换记录
-        var exchistoryUrl = '/myapp/history/angular/' + appid + '/' + $scope.appBaseInfo.version + '/' + 1;
+        var exchistoryUrl = '/myapp/history/angular/' + appid + '/' + $scope.appBaseInfo.version + '/' + 0;
         $http.get(exchistoryUrl).success(function(response){
             $scope.ExcAllApps = response.myExcAllApps;
             $scope.hasMore = response.hasMore;
@@ -185,6 +185,7 @@ app.controller('myAppControl', function($scope, $http, $location, FileUploader) 
         });
     };
 
+    // 交换历史下一页
     $scope.nextPageForm = function(){
         $scope.pageIndex = $scope.pageIndex + 20;
         var historyUrl = '/myapp/history/angular/' + appid + '/' + $scope.appBaseInfo.version + '/' + $scope.pageIndex;

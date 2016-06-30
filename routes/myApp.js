@@ -361,10 +361,11 @@ router.get('/history/angular/:appleId/:version/:pageIndex', function(req, res) {
                     appHisObject.swapMode = '手动添加'
                 }else if (swapMode == 'FXS'){
                     appHisObject.swapMode = '外部交换'
+                }else if (swapMode == 'intEcx'){
+                    appHisObject.swapMode = '内部交换'
                 }else {
-                    //appHisObject.swapMode = '内部交换'
+                    appHisObject.swapMode = '手动添加'
                 }
-
 
                 retApps.push(appHisObject);
 
@@ -427,14 +428,30 @@ router.get('/oldhistory/angular/:appleId/:version/', function(req, res, next) {
                 appHisObject.hisAppVersion = results[i].get('hisAppVersion');
                 appHisObject.excHisDate = results[i].get('excDateStr');
 
-                appHisObject.totalExcCount = results[i].get('totalExcCount');
-                //appHisObject.excKinds = results[i].get('excKinds');
                 appHisObject.requirementImg = results[i].get('requirementImg');
 
-                if (appHisObject.excKinds == 1){
+                var totalExcCount = results[i].get('totalExcCount');
+                var excKinds = results[i].get('excKinds');
+                var swapMode = results[i].get('excHistoryAdd');
+
+                if (excKinds == 1){
                     appHisObject.excKinds = '评论'
                 }else
                     appHisObject.excKinds = '下载';
+
+                if (totalExcCount == undefined){
+                    appHisObject.totalExcCount = 0;
+                }else {
+                    appHisObject.totalExcCount = totalExcCount;
+                }
+
+                if (swapMode == 'excHistoryadd'){
+                    appHisObject.swapMode = '手动添加'
+                }else if (swapMode == 'FXS'){
+                    appHisObject.swapMode = '外部交换'
+                }else {
+                    //appHisObject.swapMode = '内部交换'
+                }
 
                 retApps.push(appHisObject);
 
