@@ -51,11 +51,11 @@
 
 <div class="container main"  ng-controller="myAppControl" >
    <div class="row">
-        <div class="col-lg-3 row_first_left">
+        <div class="col-lg-3 col-xs-3 row_first_left">
             <img class="appicon" ng-src="{{  appBaseInfo.artworkUrl100 }}" alt="App Icon">
             <p class="appname">{{ appBaseInfo.trackName  }}</p>
         </div>
-        <div class="col-lg-9 row_first_right" >
+        <div class="col-lg-9 col-xs-9 row_first_right" >
             <div class="appinfo">
                 <div class="trackName">{{ appBaseInfo.trackName }}</div>
                 <div class="appinfor-author">
@@ -75,7 +75,7 @@
         </div>
     </div>  <!--first row end-->
    <div class="row">
-       <div class="col-lg-3 row_second_left" >
+       <div class="col-lg-3  col-xs-3 row_second_left" >
            <ul id="myTab" class="nav  nav-stacked">
                <li class="active">
                    <a href="/#需求编辑" data-toggle="tab">
@@ -95,7 +95,7 @@
            </ul>
        </div><!--col-lg-3 左侧导航-->
 
-       <div class="col-lg-9">
+       <div class="col-lg-9 col-xs-9">
            <div id="myTabContent" class="tab-content">
                <div class="tab-pane fade in active" id="需求编辑">
 
@@ -181,11 +181,11 @@
                <!--交换历史-->
                <div class="tab-pane fade in" id="exchistory">
                    <div class="row exchang_pattern">
-                       <div class="top_title  col-lg-8">
+                       <div class="top_title  col-lg-8 col-xs-8">
                            <img class="exc_record_icon " src="/images/exch_history/exchang_icon.png">
                            <span class="exc__record_title">交换记录</span>
                       </div>
-                       <div class="text-a col-lg-3">
+                       <div class="text-a col-lg-3 col-xs-3">
                            <button type="button " class=" add_exchistory_botton hvr-float-shadow" ng-click="addAppHistory()">
                                手动添加交换记录
                            </button>
