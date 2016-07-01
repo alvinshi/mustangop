@@ -130,42 +130,48 @@
                                            </button>
                                        </span>
                                    </div>
-
                                </div>
                            </div> <!--media-->
                            <div class="choose">
                                <span  class="form">
-                                 <input type="radio" checked="checked" ng-model="app.excKinds" ng-value=1 > 评论
-                                </span>
-                               <span  class="form">
-                                  <input type="radio" ng-model="app.excKinds" ng-value=2 > 下载
+                                   <input type="radio" checked="checked" ng-model="app.excKinds" ng-value=1 > 评论
                                </span>
-                                <span  class="form  ">交换
+
+                               <span class="form">
+                                   <input type="radio" ng-model="app.excKinds" ng-value=2 > 下载
+                               </span>
+
+                               <span class="form">交换
                                    <input class="exchange" type="text"  ng-model="app.totalExcCount"> 条
-                                </span>
-                               <a  href="javascript:;" class="a-upload form_change " ng-hide="app.requirementImg.length">
+                               </span>
+
+                               <a href="javascript:;" class="a-upload form_change " ng-hide="app.requirementImg.length">
                                    <input type="file" nv-file-select="" ng-click="deletFile(app)" uploader="uploader" accept="image/*"/>上传需求截图
                                </a>
-                              <span ng-show="app.requirementImg.length">
-                                 <button class="delimage" ng-click="deletFile(app)">删除需求截图</button>
-                            </span>
 
-                              <span>
-                             <button class="btn save" ng-click="saveTask(app)">保存</button>
+                               <span ng-show="app.requirementImg.length">
+                                   <button class="delimage" ng-click="deletFile(app)">删除需求截图</button>
+                               </span>
+
+                               <span>
+                                   <button class="btn save" ng-click="saveTask(app)">保存</button>
+                               </span>
+
+                               <span class="form">
+                                   分配备注:<input type="text" ng-model="app.addTaskPer">
                                </span>
 
                                <div style="margin-left: 300px">
-                                    <span ng-repeat="item in app.prepareUploadFiles">
-                                      选择的图片: <span ng-bind="item.file.name"></span><br/>
-                                    </span>
+                                   <span ng-repeat="item in app.prepareUploadFiles">
+                                       选择的图片: <span ng-bind="item.file.name"></span><br/>
+                                   </span>
                                </div>
 
                                <div class="progress" ng-show="app.requestNet">
-                                   <div ng-class="{'progress-bar': true, 'progress-bar-striped':true, active:true}" ng-style="{width: 100 + '%'}">
-                                   </div>
+                                   <div ng-class="{'progress-bar': true, 'progress-bar-striped':true, active:true}" ng-style="{width: 100 + '%'}"></div>
                                </div>
 
-                               <div   class="alert alert-success success" role="alert" ng-show="app.uploadingSucceed">
+                               <div class="alert alert-success success" role="alert" ng-show="app.uploadingSucceed">
                                    保存需求成功
                                </div>
 
@@ -259,7 +265,7 @@
            </div>
        </div>
        </div><!--col-lg-9 左侧改变的内容-->
-     </div> <!--second row end-->
+   </div> <!--second row end-->
    <div class="modal modal-lg fade" id="myhistorydelete">
         <div class="modal-dialog" style="width:400px;position: absolute;right: 20px">
             <div class="modal-content">

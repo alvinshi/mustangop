@@ -47,6 +47,7 @@ router.get('/daily/:userObjectId', function(req, res){
             appHisObject.totalExcCount = results[i].get('totalExcCount');
             appHisObject.surplusCount = results[i].get('remainCount');
             appHisObject.taskObjectId = results[i].id;
+            appHisObject.addTaskPer = results[i].get('addTaskPer');
 
             var excKinds = results[i].get('excKinds');
 

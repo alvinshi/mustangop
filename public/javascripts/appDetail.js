@@ -449,7 +449,8 @@ app.controller('myAppControl', function($scope, $http, $location, FileUploader) 
         $http.post(appUrl, {
                 'excKinds': prepareSaveApp.excKinds,
                 'totalExcCount': prepareSaveApp.totalExcCount,
-                'requirementImg': response.fileUrlList[0]
+                'requirementImg': response.fileUrlList[0],
+                'addTaskPer':prepareSaveApp.addTaskPer
             })
             .success(function (response) {
                 prepareSaveApp.requestNet = 0;

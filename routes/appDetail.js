@@ -9,6 +9,7 @@ var https = require('https');
 
 var IOSAppBinder = AV.Object.extend('IOSAppBinder');
 var IOSAppExcLogger = AV.Object.extend('IOSAppExcLogger');
+var File = AV.Object.extend('_File');
 
 router.get('/:appid', function(req, res, next) {
     res.render('appDetail')
@@ -105,6 +106,7 @@ router.get('/myAppExcHistory/:appid/:version', function(req, res) {
                 appHisObject.totalExcCount = results[i].get('totalExcCount');
                 appHisObject.excKinds = results[i].get('excKinds');
                 appHisObject.requirementImg = results[i].get('requirementImg');
+                appHisObject.addTaskPer = results[i].get('addTaskPer');
 
                 retApps.push(appHisObject);
 
@@ -122,16 +124,14 @@ router.post('/excTaskId/:excTaskId', function(req, res){
     var excKinds = req.body.excKinds;
     var totalExcCount = parseInt(req.body.totalExcCount);
     var requirementImg = req.body.requirementImg;
-    var myDate = new Date();
-    var myDateStr = myDate.getFullYear() + '-' + (parseInt(myDate.getMonth())+1) + '-' + myDate.getDate() + ' ' +
-        myDate.getHours() + ':' + myDate.getMinutes() + ':' + myDate.getSeconds();     //获取当前日期
+    var addTaskPer = req.body.addTaskPer;
 
     var newExcContent = AV.Object.createWithoutData('IOSAppExcLogger', excTaskId);
     newExcContent.set('excKinds', excKinds);
     newExcContent.set('totalExcCount', totalExcCount);
     newExcContent.set('requirementImg', requirementImg);
     newExcContent.set('remainCount', totalExcCount);
-    //newExcContent.set('excDateStr', myDateStr);
+    newExcContent.set('addTaskPer', addTaskPer);
     newExcContent.save().then(function(excObject){
         //成功
         res.json({'errorId':0, 'errorMsg':''});
