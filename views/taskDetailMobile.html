@@ -99,10 +99,14 @@
 
        <hr/>
        <div class="text-right">提交人: {{oneAppInfo.uploadName}}</div>
+    <div class="row">
+        <div class="col-xs-12">
+             <span class="submission-screenshot" ng-repeat="image in images">
+                  <img  ng-src="{{image}}"/>
+             </span>
+        </div>
+    </div>
 
-       <div class="submission-screenshot" ng-repeat="image in images">
-           <img  ng-src="{{image}}"/>
-       </div>
     <div class="submit">
         <button class="btn btn_primary" ng-click="commitConfirm()" ng-show="images.length">确认提交</button>
     </div>

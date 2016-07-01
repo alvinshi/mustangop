@@ -48,8 +48,8 @@
 }
 @media (max-width: 768px) {
     .logo{
-        width: 90px;
-        height: 90px;
+        width: 80px;
+        height: 80px;
         border-radius: 8px;
         border: 1px solid #e0e0e0;
     }
@@ -58,38 +58,49 @@
     }
 
     .task-link{
-        font-size: 20px;
-        margin-bottom: 14px;
+        font-size: 18px;
+        /*margin-bottom: 14px;*/
     }
 
     .appid{
-        font-size: 16px;
+        font-size: 14px;
         margin-bottom: 14px;
+        color: #7a7a7a;
+
     }
 
     .company{
-        font-size: 22px;
+        font-size: 18px;
         margin-bottom: 14px;
         margin-left: 40px;
+        color: #7a7a7a;
+
     }
 
     .left{
-        font-size: 16px;
+        font-size: 14px;
         margin-left: -5px;
+        color: #7a7a7a;
+
     }
 
     .download{
-        font-size: 16px;
+        font-size: 14px;
+        color: #7a7a7a;
+
     }
 
     .num{
-        font-size: 16px;
+        font-size: 14px;
         color: #f55e5a;
     }
-
-    .row{
-        margin-top: 24px;
-        margin-bottom: 24px;
+    .hr_bottom{
+        margin-top: 10px;
     }
+
+    /*.row{*/
+        /*margin-top: 24px;*/
+        /*margin-bottom: 24px;*/
+    /*}*/
 }
 
