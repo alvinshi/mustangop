@@ -17,9 +17,6 @@ router.get('/:userObjectId', function(req, res) {
 
 router.get('/daily/:userObjectId', function(req, res){
     var userId = Base64.decode(req.params.userObjectId);
-    var myDate = new Date();
-    var myDateStr = myDate.getFullYear() + '-' + (parseInt(myDate.getMonth())+1) + '-' + myDate.getDate();
-
     var query = new AV.Query(IOSAppExcLogger);
 
     query.equalTo('userId', userId);
@@ -53,19 +50,11 @@ router.get('/daily/:userObjectId', function(req, res){
 
             var excKinds = results[i].get('excKinds');
 
-            if (appHisObject.excKinds == 1){
+            if (excKinds == 1){
                 appHisObject.excKinds = '评论'
             }else
                 appHisObject.excKinds = '下载';
 
-            //var totalExcCount = results[i].get('totalExcCount');
-            //var taskCount = results[i].get('taskCount');
-            //var SurplusCount = totalExcCount - taskCount;
-            //if (taskCount == undefined){
-            //    appHisObject.surplusCount = totalExcCount;
-            //}else {
-            //    appHisObject.surplusCount = SurplusCount;
-            //}
             retApps.push(appHisObject);
 
         }
