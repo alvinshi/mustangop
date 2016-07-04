@@ -81,7 +81,7 @@ app.controller('myAppControl', function($scope, $http, $location, FileUploader) 
         });
     };
 
-    //删除当前交换记录
+    //删除任务添加的交换记录
     $scope.releaseBtnClick = function(appid,appversion){
         $scope.prepareReleaseAppid = appid;
         $scope.prepareReleaseVersion = appversion;
@@ -133,7 +133,7 @@ app.controller('myAppControl', function($scope, $http, $location, FileUploader) 
         });
     };
 
-    //删除交换记录
+    //删除当前版本交换记录
     $scope.removeTodayHistory = function(appid,appversion){
         $scope.prepareReleaseAppid = appid;
         $scope.prepareReleaseVersion = appversion;
@@ -172,6 +172,45 @@ app.controller('myAppControl', function($scope, $http, $location, FileUploader) 
                     if (app.appleId == $scope.prepareReleaseAppid){
                         console.log('remove app to ui');
                         $scope.ExcAllApps.splice(i, 1);
+                        break;
+                    }
+                }
+
+                $scope.errorMsg = '';
+            }else {
+                console.log('remove app else');
+                $scope.errorMsg = response.errorMsg;
+            }
+
+        });
+    };
+
+
+
+
+    //删除以往版本交换记录
+    $scope.removePreHistory = function(appid,appversion){
+        $scope.prepareReleaseAppid = appid;
+        $scope.prepareReleaseVersion = appversion;
+    };
+
+    $scope.releasePreHistory = function(){
+        var releaseHistoryUrl = '/myapp/history/delete';
+
+        var myAppId = $scope.appBaseInfo.appleId;
+        var myAppVersion = $scope.appBaseInfo.version;
+
+        var postParam = {'myAppId' : myAppId, 'myAppVersion' : myAppVersion,
+            'hisAppId' : $scope.prepareReleaseAppid, 'hisAppVersion' : $scope.prepareReleaseVersion};
+
+        $http.post(releaseHistoryUrl, postParam).success(function(response){
+            if (response.errorId == 0){
+                console.log('remove app if');
+                for (var i = 0; i < $scope.myHistoryApps.length; i++){
+                    var app = $scope.myHistoryApps[i];
+                    if (app.appleId == $scope.prepareReleaseAppid){
+                        console.log('remove app to ui');
+                        $scope.myHistoryApps.splice(i, 1);
                         break;
                     }
                 }

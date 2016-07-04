@@ -52,7 +52,7 @@ router.get('/baseinfo/:appid', function(req, res){
     })
 });
 
-// 获取我的交换历史
+// 获取我的交换历史换历史
 router.get('/myAppExcHistory/:appid/:version', function(req, res) {
     var userId = util.useridInReq(req);
     var appId = parseInt(req.params.appid);
