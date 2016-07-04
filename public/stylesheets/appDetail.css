@@ -32,9 +32,15 @@ body {
     height: 120px;
 }
 .addtask_second{
-    height: 180px;
+    height: 200px;
 }
-
+.addtaskper{
+    height: 25px;
+    border: 1px solid #eeeeee;
+}
+.assign{
+    margin-top: 5px;
+}
 .appicon{
     width: 75px;
     height: 75px;

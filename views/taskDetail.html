@@ -46,7 +46,7 @@
 
 
     <!--任务列表-->
-<div class="container">
+
     <div class="page-wrapper"  ng-controller="taskDetailControl">
         <div class="header-wrapper hidden-xs">
             <h1 class="header">任务详情</h1>
@@ -54,61 +54,52 @@
         </div>
         <div class="media">
             <div class="media-left">
-                <a href="#"><img class="logo" ng-src="{{ oneAppInfo.artworkUrl100 }}" alt="" class="img-thumbnail"/></a>
+                <a href="#"><img  style="position: relative" class="logo" ng-src="{{ oneAppInfo.artworkUrl100 }}" alt="" class="img-thumbnail"/></a>
             </div>
             <div class="media-body ">
                 <h3 class="task-link">{{ oneAppInfo.trackName.substr(0,6)+'...' }}</h3>
                 <div>
-                    <span class="id">App ID: {{ oneAppInfo.appleId }}</span>
+                    <span class="id hidden-xs">App ID: {{ oneAppInfo.appleId }}</span>
                     <span class="company hidden-xs">{{ oneAppInfo.sellerName.substr(0,12)+"..." }}</span>
-                    <span class="hidden-xs"><img src="/images/appDetail/switch.png" alt="" style="width: 60px ;height: 40px;margin-left: 37px"></span>
                 </div>
-                <div>
+                <div class="switchImg">
+                    <img src="/images/appDetail/switch.png" alt="" >
+                </div>
+                <div class="download">
                     <span><a  class="download" href="#">{{ oneAppInfo.excKinds }}</a></span>
                     <span class="left"> 共<em class="num">{{ oneAppInfo.totalExcCount }}</em>条</span>
-
                 </div>
             </div>
-            <div class="media-right hidden-xs">
-
+            <div class="media-right ">
                 <div class="media">
                     <div class="meida">
                         <div class="media-left">
-                            <h3 class="oneAppInfo">{{oneAppInfo.myAppName.substr(0,9)+"..."}} </h3>
+                            <h3 class="oneAppInfo hidden-xs">{{oneAppInfo.myAppName.substr(0,9)+"..."}} </h3>
                         </div>
                         <div class="media-body oneAppInfo">
-
                             <img  ng-src="{{oneAppInfo.myAppartworkUrl100}}" alt="" >
                         </div>
                     </div>
                 </div>
-
-
             </div>
-
-
         </div>
         <hr/>
 
-            <div class="text-center">需求截图</div>
-            <div class="image-center">
-                <img class=" img-responsive requirementImg" ng-src="{{ oneAppInfo.requirementImg }}"/>
+        <div class="text-center">需求截图</div>
+        <div class="image-center">
+            <img class=" img-responsive requirementImg" ng-src="{{ oneAppInfo.requirementImg }}"/>
+        </div>
+        <hr/>
+
+        <div class=" row submission-info " ng-repeat="task in taskInfo" >
+            <div class="col-xs-12">
+                <div class="text-right">提交人: {{task.uploadName}}</div>
+                <span class="submission-screenshot" ng-repeat="taskImg in task.taskImages"><img ng-src="{{taskImg}}"></span>
             </div>
 
-           <hr/>
-
-                <div class=" row submission-info " ng-repeat="task in taskInfo" >
-                    <div class="col-xs-12">
-                        <div class="text-right">提交人: {{task.uploadName}}</div>
-                          <span class="submission-screenshot" ng-repeat="taskImg in task.taskImages"><img ng-src="{{taskImg}}"></span>
-                    </div>
-
-                </div>
-
-
-
+        </div>
     </div>
-</div>
+
 <script src="/javascripts/cookieHelper.js"></script>
 </body>
 </html>

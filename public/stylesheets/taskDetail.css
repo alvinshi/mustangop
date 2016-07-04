@@ -24,6 +24,10 @@
 .media-body span{
     margin-right: 10%;
 }
+.switchImg img{
+    width: 60px ;height: 40px;
+    position: absolute;top: 100px;left: 180px
+}
 
 .logo{
     display: inline-block;
@@ -31,6 +35,12 @@
     width: 112px;
     border: 1px solid #e0e0e0;
     border-radius: 10px;
+}
+.switchImg img{
+    width: 50px;
+    height: 50px;
+    top: 200px;
+    left: 700px
 }
 
 .task-link {
@@ -121,7 +131,7 @@
     height: 300px;
     margin-right: 10px;
     object-fit: contain;
-    /*border: 1px solid red;*/
+
 }
 @media (max-width: 768px){
     .media{
@@ -145,15 +155,53 @@
     .submission-info{
         font-size: 20px;
         margin-bottom:10px;
-
         width:100%;
-
-        height: 100% ;
-        /*border: 1px solid red;*/
+        height: 200px;
     }
-    .submission-screenshot img{
-        width:29%;
+
+    .submission-screenshot img {
+        width: 28%;
+        height: 80%;
         object-fit: contain;
+    }
+    .oneAppInfo img{
+        height: 80px;
+        width: 80px;
+        border: 1px solid #e0e0e0;
+        border-radius: 10px;
+
+    }
+    .switchImg img{
+       width: 30px;
+        height: 30px;
+        top: 100px;
+        left: 210px
+    }
+    /*.download{*/
+        /*margin-top: -20px;*/
+    /*}*/
+
+}
+@media (max-width: 640px){
+    .switchImg img{
+        width: 30px;
+        height: 30px;
+        top: 90px;
+        left: 175px
+    }
+    .oneAppInfo img{
+        height: 50px;
+        width: 50px;
+        border: 1px solid #e0e0e0;
+        border-radius: 6px;
+
+    }
+    .logo{
+        display: inline-block;
+        height: 50px;
+        width: 50px;
+        border: 1px solid #e0e0e0;
+        border-radius: 6px;
     }
 
 }

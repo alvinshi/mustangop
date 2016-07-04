@@ -157,9 +157,9 @@
                                    <button class="btn save" ng-click="saveTask(app)">保存</button>
                                </span>
 
-                               <span class="form">
-                                   分配备注:<input type="text" ng-model="app.addTaskPer">
-                               </span>
+                               <div  class="assign">
+                                   分配备注:<input  class="addtaskper"type="text" ng-model="app.addTaskPer" placeholder="请填写内部交换人员">
+                               </div>
 
                                <div style="margin-left: 300px">
                                    <span ng-repeat="item in app.prepareUploadFiles">
@@ -188,7 +188,7 @@
                <div class="tab-pane fade in" id="exchistory">
                    <div class="row exchang_pattern">
                        <div class="top_title  col-lg-8 col-xs-8">
-                           <img class="exc_record_icon " src="/images/exch_history/exchang_icon.png">
+                           <!--<img class="exc_record_icon " src="/images/exch_history/exchang_icon.png">-->
                            <span class="exc__record_title">交换记录</span>
                       </div>
                        <div class="text-a col-lg-3 col-xs-3">
