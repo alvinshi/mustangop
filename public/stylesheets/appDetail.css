@@ -232,6 +232,22 @@ body {
     /*border: 1px solid red;*/
 }
 
+.search{
+    margin-left: 40px;
+    margin-bottom: 40px;
+}
+.search_button{
+    margin-left: -45px;
+    background-color: white;
+    /*border: 1px solid #e0e0e0;*/
+    border-style:none  none solid none;
+    height: 30px;
+}
+.search_input{
+    width: 500px;
+    display: inline-block;
+
+}
 
 .media-info{
     margin-top: 15px;
@@ -371,6 +387,7 @@ hr{
     border: 1px solid #3498db;
     color: #3498db;
 }
+
 .keyword{
     width: 200px;
 }

@@ -251,13 +251,11 @@
                        </div>
                    </div>
 
-                   <div class="input-group">
-                       <input type="text" class="form-control" ng-model="searchkey" ng-keyup="keyApp($event)" placeholder="搜索指定产品的交换历史纪录…">
-                       <span class="input-group-btn ">
-                           <button class="btn search_color" ng-click="searchLocalHistoryApp()">
+                   <div class="search">
+                       <input type="text" class="form-control search_input" ng-model="searchkey" ng-keyup="keyApp($event)" placeholder="搜索指定产品的交换历史纪录…">
+                          <button class="btn search_button " ng-click="searchLocalHistoryApp()">
                                <span class="glyphicon glyphicon-search"></span>
                            </button>
-                       </span>
                    </div>
 
 
