@@ -175,19 +175,20 @@
        width: 30px;
         height: 30px;
         top: 100px;
-        left: 210px
+        left: 214px
     }
-    /*.download{*/
-        /*margin-top: -20px;*/
-    /*}*/
+    .task-link {
 
+        font-size:16px;
+        font-weight: bold;
+    }
 }
 @media (max-width: 640px){
     .switchImg img{
         width: 30px;
         height: 30px;
         top: 90px;
-        left: 175px
+        left: 178px
     }
     .oneAppInfo img{
         height: 50px;
@@ -202,6 +203,11 @@
         width: 50px;
         border: 1px solid #e0e0e0;
         border-radius: 6px;
+    }
+    .task-link {
+
+        font-size:14px;
+        font-weight: bold;
     }
 
 }

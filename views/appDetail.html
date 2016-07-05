@@ -75,14 +75,14 @@
         </div>
     </div>  <!--first row end-->
    <div class="row">
-       <div class="col-lg-3  col-xs-3 row_second_left"  >
+       <div class="col-lg-3  col-xs-3 row_second_left">
            <ul id="myTab" class="nav  nav-stacked ">
-               <li class="active">
-                   <a href="/#需求编辑" data-toggle="tab">
+               <li>
+                   <a href="/#need" data-toggle="tab">
                        <img src="/images/appDetail/rewrite.png" alt=""> <span >需求编辑</span>
                    </a>
                </li>
-               <li class="">
+               <li class="active">
                    <a href="/#addtask" data-toggle="tab">
                        <img src="/images/appDetail/addtask.png" alt="">任务添加
                    </a>
@@ -98,19 +98,62 @@
                        <li><a href="/#prehistory" tabindex="-1" data-toggle="tab">以往版本</a></li>
                    </ul>
                </li>
-
-
-               <!--<li>-->
-                   <!--<a href="/#exchistory" data-toggle="tab">-->
-                       <!--<img src="/images/appDetail/history.png" alt="">交换记录-->
-                 <!--</a>-->
-               <!--</li>-->
            </ul>
        </div><!--col-lg-3 左侧导航-->
 
        <div class="col-lg-9 col-xs-9">
            <div id="myTabContent" class="tab-content">
-               <div class="tab-pane fade in active" id="需求编辑">
+
+
+
+               <div class="tab-pane fade " id="need">
+                   <h4>需求信息</h4>
+                   <form class="form-horizontal">
+                       <div class="form-group">
+                           <span class="title">任务类型:</span>
+                           <span><input type="radio">评论</span>
+                           <span><input type="radio">下载</span>
+                       </div>
+                       <div class="form-group">
+                           <span class="title">搜索关键词:</span>   <span><input type="text"></span>
+                           <span class="title">排名: </span><span>  <input type="text">位</span>
+                       </div>
+                       <div class="form-group">
+                           <span class="title">评分:</span>
+                           <span><input type="radio">5星</span>
+                           <span><input type="radio">4星</span>
+                       </div>
+                       <div class="form-group">
+                           <span class="title">标题关键词:</span>  <span> <input class="keyword" type="text" placeholder="请输入小于20字符"></span>
+                       </div>
+                       <div class="form-group">
+                           <span class="title">评论关键词:</span> <span>  <input type="text" placeholder="请输入小于40字符"></span>
+                       </div>
+                       <div class="form-group">
+                           <span class="title">截图数量:</span>
+                           <span><input type="radio">2张</span>
+                           <span><input type="radio">3张</span>
+                       </div>
+                       <div class="form-group">
+                           <span class="title">备注:</span> <span>  <input type="text" placeholder="1.标题不少于5个字
+                           2.评论超过20字以上且包含一个以上关键词
+                           3.请两日内不卸载
+                           4.截图一——搜索截图
+                           5.截图二——打开应用和评论二合一">
+                           </span>
+                       </div>
+                       <div class="form-group">
+                           <span class="title">官方提醒:</span><span>诚信交换拒绝无卡手机,请在当天下午6点前提交任务,过时将影响之后的交换效率</span>
+
+                       </div>
+                   </form>
+                   <hr>
+                   <h4>任务信息</h4>
+                   <div class="form-group group">
+                       <span>交换数量:   <input type="text"></span>
+                   </div>
+                   <hr>
+                   <button class="btn button">保存</button>
 
                </div><!--需求编辑-->
                <div class="tab-pane fade in active" id="addtask">
@@ -119,9 +162,7 @@
                        <button  class="btn  hvr-pulse-grow add-botton" style="color: white" data-toggle="modal"
                                 data-target="#mymodal">添加交换</button>
                        <p class="notice">注:添加非野马用户的交换任务</p>
-
                    </div>
-                   <!--<hr>-->
 
                    <div class="addtask_second" ng-repeat="app in myExcAllApps" style="position: relative">
                        <hr>
