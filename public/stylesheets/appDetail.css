@@ -17,14 +17,13 @@ body {
 }
 .row_first_left,.row_second_left{
     background-color: #f4f4f4;
-}
 
+}
 #myTab {
-    margin-right: -15px;
     text-align: center;
     font-size: 14px;
     color: black;
-    width: 250px;
+    width: 235px;
 }
 #myTab li a:hover{
     background-color: white;
@@ -36,7 +35,7 @@ body {
     height: 200px;
 }
 .addtaskper{
-    height: 25px;
+    height: 26px;
     border: 1px solid #eeeeee;
 }
 .assign{
@@ -212,7 +211,7 @@ body {
     outline:none;
 }
 .preversion{
-    height: 180px;
+    /*height: 180px;*/
 
 }
 .media{
@@ -226,6 +225,11 @@ body {
 .app_list span{
     font-size: 12px;
     margin-right: 40px;
+
+}
+.app_list{
+    /*height: 180px;*/
+    /*border: 1px solid red;*/
 }
 
 
@@ -341,4 +345,32 @@ hr{
     width:200px;
     position: absolute;
     right: 20px;
+}
+/*need begin*/
+.form-horizontal{
+    margin-left: 10%;
+}
+.form-group span {
+    margin-left: 30px;
+}
+.title{
+    /*position: absolute;*/
+    /*right: 600px;*/
+    width: 100px;
+    font-weight: bold;
+    /*border: 1px solid red;*/
+}
+.group{
+    margin-left: 10%;
+
+}
+.button{
+    width: 100px;
+    margin-left:45%;
+    background-color: white;
+    border: 1px solid #3498db;
+    color: #3498db;
+}
+.keyword{
+    width: 200px;
 }
