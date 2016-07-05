@@ -119,6 +119,7 @@ router.get('/myAppExcHistory/:appid/:version', function(req, res) {
     });
 });
 
+// 上传修改添加交换记录
 router.post('/excTaskId/:excTaskId', function(req, res){
     var excTaskId = req.params.excTaskId;
     var excKinds = req.body.excKinds;
@@ -126,19 +127,46 @@ router.post('/excTaskId/:excTaskId', function(req, res){
     var requirementImg = req.body.requirementImg;
     var addTaskPer = req.body.addTaskPer;
 
-    var newExcContent = AV.Object.createWithoutData('IOSAppExcLogger', excTaskId);
-    newExcContent.set('excKinds', excKinds);
-    newExcContent.set('totalExcCount', totalExcCount);
-    newExcContent.set('requirementImg', requirementImg);
-    newExcContent.set('remainCount', totalExcCount);
-    newExcContent.set('addTaskPer', addTaskPer);
-    newExcContent.save().then(function(excObject){
-        //成功
-        res.json({'errorId':0, 'errorMsg':''});
-    }),function(error){
-        //失败
-        res.json({'errorId':-1, 'errorMsg':error.message});
-    };
+    var query = new AV.Query(IOSAppExcLogger);
+    query.get(excTaskId).then(function(taskObject){
+        var oldImg = taskObject.get('requirementImg');
+        if (oldImg == undefined){
+            taskObject.set('excKinds', excKinds);
+            taskObject.set('totalExcCount', totalExcCount);
+            taskObject.set('requirementImg', requirementImg);
+            taskObject.set('remainCount', totalExcCount);
+            taskObject.set('addTaskPer', addTaskPer);
+            taskObject.save().then(function(excObject){
+                //成功
+                res.json({'errorId':0, 'errorMsg':''});
+            }),function(error){
+                //失败
+                res.json({'errorId':-1, 'errorMsg':error.message});
+            };
+        }else {
+            var queryFile = new AV.Query(File);
+            queryFile.equalTo('url', oldImg);
+            queryFile.find().then(function(fileObject){
+                for (var i = 0; i < fileObject.length; i++){
+                    fileObject[i].destroy().then(function(){
+                        //删除图片成功
+                    })
+                }
+                taskObject.set('excKinds', excKinds);
+                taskObject.set('totalExcCount', totalExcCount);
+                taskObject.set('requirementImg', requirementImg);
+                taskObject.set('remainCount', totalExcCount);
+                taskObject.set('addTaskPer', addTaskPer);
+                taskObject.save().then(function(excObject){
+                    //成功
+                    res.json({'errorId':0, 'errorMsg':''});
+                }),function(error){
+                    //失败
+                    res.json({'errorId':-1, 'errorMsg':error.message});
+                };
+            })
+        }
+    });
 });
 
 module.exports = router;
