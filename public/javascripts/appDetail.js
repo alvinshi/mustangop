@@ -36,6 +36,35 @@ app.controller('myAppControl', function($scope, $http, $location, FileUploader) 
         });
     });
 
+    $scope.keyApp = function(e){
+        var keycode = window.event?e.keyCode:e.which;
+        //console.log('keycode ' + keycode);
+        //enter or space
+        if(keycode==13){
+            $scope.searchLocalHistoryApp();
+        }
+    };
+
+    // search history
+    $scope.searchLocalHistoryApp = function(){
+        if ($scope.searchUrl != ''){
+            var searchUrl = '/app/historySearch/angular/' + $scope.searchkey;
+            $http.get(searchUrl).success(function(response){
+                console.log('searchLocalHistoryApp ' + response.myTotalApps);
+                $scope.ExcAllApps = response.myTotalApps;
+
+            });
+        }
+    };
+
+    $scope.keySearchApp = function(e){
+        var keycode = window.event?e.keyCode:e.which;
+        //console.log('keycode ' + keycode);
+        //enter or space
+        if(keycode==13){
+            $scope.searchHistoryApp();
+        }
+    };
 
     // 手动添加APP
     $scope.addAppHistory = function(){
@@ -292,16 +321,6 @@ app.controller('myAppControl', function($scope, $http, $location, FileUploader) 
             })
         }
     };
-
-    $scope.keySearchApp = function(e){
-        var keycode = window.event?e.keyCode:e.which;
-        //console.log('keycode ' + keycode);
-        //enter or space
-        if(keycode==13 || keycode==32){
-            $scope.searchHistoryApp();
-        }
-    };
-
 
     // 弹框里面添加交换的应用
     $scope.addHistory = function(hisAppInfo){
