@@ -24,6 +24,7 @@ var appDetail = require('./routes/appDetail');
 var dailyTask = require('./routes/dailyTask');
 var taskDetail = require('./routes/taskDetail');
 var taskDetailMobile = require('./routes/taskDetailMobApi');
+var doTask=require('./routes/doTask');
 
 
 var app = express();
@@ -135,6 +136,7 @@ app.use('/app', appDetail);
 app.use('/dailyTask', dailyTask);
 app.use('/taskDetail', taskDetail);
 app.use('/taskDetailMobile', taskDetailMobile);
+app.use('/doTask', doTask);
 
 
 //静态html组建

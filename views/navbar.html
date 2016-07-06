@@ -13,11 +13,12 @@
         </div>
         <div class="collapse navbar-collapse" id="example-navbar-collapse-1">
             <ul class="nav navbar-nav">
-                <li ><a ng-style="{color:myColors[0]}" href="/" target="_top">首页</a></li>
-                <li><a ng-style="{color:myColors[1]}" href="/myapp/history" target="_top">交换记录</a></li>
-                <li><a ng-style="{color:myColors[2]}" href="/dailyTask/{{userObjectId.userObjectId}}" target="_top">今日任务</a></li>
+                <li ><a ng-style="{color:myColors[0]}" href="/" >首页</a></li>
+                <li ><a ng-style="{color:myColors[0]}" href="/doTask" >做任务大厅</a></li>
+                <li><a ng-style="{color:myColors[1]}" href="/myapp/history" >交换记录</a></li>
+                <li><a ng-style="{color:myColors[2]}" href="/dailyTask/{{userObjectId.userObjectId}}">当前任务</a></li>
                 <li class="dropdown">
-                    <a  ng-style="{color:myColors[3]}" href="/myapp" data-toggle="dropdown" class="dropdown">我的应用<span class="caret"></span></a>
+                    <a  ng-style="{color:myColors[3]}" href="/myapp" data-toggle="dropdown" class="dropdown">发布任务<span class="caret"></span></a>
                     <ul class="dropdown-menu" >
                         <li class="myapp-list" ng-repeat="app in tracknameAPPs">
 
@@ -34,8 +35,9 @@
                         <span class="caret"></span>
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a href="/user" target="_top">个人中心</a></li>
-                        <li><a onclick="logout()" class="button">退出登陆</a></li>
+                        <li><a href="/user" >个人中心</a></li>
+                        <li><a href="#">我的Y币</a></li>
+                        <li><a ng-click="logout()">退出登陆</a></li>
                     </ul>
                 </li>
             </ul>

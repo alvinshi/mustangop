@@ -23,13 +23,13 @@ app.controller('indexAppCtrl', function($scope, $http, $location){
         $scope.userObjectId = response.userObjectId;
         $scope.tracknameAPPs = response.tracknameAPPs;
     });
+    $scope.logout=function(){
+
+        clearCookie('userIdCookie');
+        clearCookie('username');
+
+        location.href='/';
+    }
 
 });
 
-function logout(){
-
-    clearCookie('userIdCookie');
-    clearCookie('username');
-
-    location.href='/';
-}
