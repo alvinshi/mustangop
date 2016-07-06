@@ -48,7 +48,7 @@ app.controller('myAppControl', function($scope, $http, $location, FileUploader) 
     // search history
     $scope.searchLocalHistoryApp = function(){
         if ($scope.searchUrl != ''){
-            var searchUrl = '/app/historySearch/angular/' + $scope.searchkey;
+            var searchUrl = '/app/historySearch/angular/' + $scope.appBaseInfo.version + '/' + $scope.searchkey;
             $http.get(searchUrl).success(function(response){
                 console.log('searchLocalHistoryApp ' + response.myTotalApps);
                 $scope.ExcAllApps = response.myTotalApps;
@@ -214,9 +214,6 @@ app.controller('myAppControl', function($scope, $http, $location, FileUploader) 
         });
     };
 
-
-
-
     //删除以往版本交换记录
     $scope.removePreHistory = function(appid,appversion){
         $scope.prepareReleaseAppid = appid;
@@ -224,7 +221,7 @@ app.controller('myAppControl', function($scope, $http, $location, FileUploader) 
     };
 
     $scope.releasePreHistory = function(){
-        var releaseHistoryUrl = '/myapp/history/delete';
+        var releaseHistoryUrl = '/myapp/oldhistory/delete';
 
         var myAppId = $scope.appBaseInfo.appleId;
         var myAppVersion = $scope.appBaseInfo.version;
