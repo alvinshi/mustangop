@@ -4,7 +4,7 @@
 
 
 var app=angular.module('yemaWebApp',[]);
-var navIndex = "";
+var navIndex =0;
 
 
 app.controller('doTaskCtrl', function($scope, $http, $location) {});

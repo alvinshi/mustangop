@@ -285,7 +285,7 @@
                            <span class="exc__record_title">交换记录</span>
                       </div>
                        <div class="text-a col-lg-3 col-xs-3">
-                           <button type="button " class=" add_exchistory_botton hvr-float-shadow" ng-click="addAppHistory()">
+                           <button type="button " class=" add_exchistory_botton hvr-float-shadow" ng-click="addAppHistory()" data-target="#search_history" data-toggle="modal">
                                手动添加交换记录
                            </button>
                        </div>
@@ -486,6 +486,22 @@
             </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->
     </div><!-- 删除以往版本-->
+
+
+
+    <!-- 搜索记录-->
+    <div class="modal fade " id="search_history">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+                </div>
+                <div class="modal-body">
+
+                </div>
+            </div>
+        </div>
+    </div>
 </div><!--container end-->
 <script src="/javascripts/cookieHelper.js"></script>
 
