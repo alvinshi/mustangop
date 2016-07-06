@@ -478,4 +478,12 @@ app.controller('myAppControl', function($scope, $http, $location, FileUploader) 
     };
 
     console.info('uploader', uploader);
+
+
+
+
+
+    //需求编辑
+    $scope.message = "";
+    $scope.left  = function() {return 20 - $scope.message.length;};
 });

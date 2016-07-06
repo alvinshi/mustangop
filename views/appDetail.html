@@ -51,11 +51,11 @@
 
 <div class="container main"  ng-controller="myAppControl" >
    <div class="row">
-        <div class="col-lg-3 col-xs-3 row_first_left">
+        <div class="col-lg-3 col-xs-3 change row_first_left ">
             <img class="appicon" ng-src="{{  appBaseInfo.artworkUrl100 }}" alt="App Icon">
             <p class="appname">{{ appBaseInfo.trackName  }}</p>
         </div>
-        <div class="col-lg-9 col-xs-9 row_first_right" >
+        <div class="col-lg-9 col-xs-9 change row_first_right" >
             <div class="appinfo">
                 <div class="trackName">{{ appBaseInfo.trackName }}</div>
                 <div class="appinfor-author">
@@ -75,7 +75,7 @@
         </div>
     </div>  <!--first row end-->
    <div class="row">
-       <div class="col-lg-3  col-xs-3 row_second_left">
+       <div class="col-lg-3 col-xs-3 change row_second_left" >
            <ul id="myTab" class="nav  nav-stacked ">
                <li>
                    <a href="/#need" data-toggle="tab">
@@ -101,60 +101,100 @@
            </ul>
        </div><!--col-lg-3 左侧导航-->
 
-       <div class="col-lg-9 col-xs-9">
+       <div class="col-lg-9 col-xs-9 change">
            <div id="myTabContent" class="tab-content">
-
-
 
                <div class="tab-pane fade " id="need">
                    <h4>需求信息</h4>
                    <form class="form-horizontal">
                        <div class="form-group">
-                           <span class="title">任务类型:</span>
-                           <span><input type="radio">评论</span>
-                           <span><input type="radio">下载</span>
+                           <label  class="col-lg-2 control-label" > 任务类型:</label>
+                           <div class="col-lg-8">
+                               <label class="radio-inline">
+                                <input type="radio" name="inlineRadioOptions" value="option1"> 评论
+                               </label>
+                              <label class="radio-inline">
+                               <input type="radio"name="inlineRadioOptions"  value="option2"> 下载
+                              </label>
+                           </div>
                        </div>
                        <div class="form-group">
-                           <span class="title">搜索关键词:</span>   <span><input type="text"></span>
-                           <span class="title">排名: </span><span>  <input type="text">位</span>
+                           <label  class="col-lg-2 control-label" >搜索关键词:</label>
+                           <div class="col-lg-4">
+                               <input type="text" class="form-control" placeholder="">
+                           </div>
+                           <label  class="col-lg-2 control-label" >排名:</label>
+                           <div class="col-lg-4">
+                               <input type="text" class="form-control" placeholder="">
+                           </div>
                        </div>
-                       <div class="form-group">
-                           <span class="title">评分:</span>
-                           <span><input type="radio">5星</span>
-                           <span><input type="radio">4星</span>
-                       </div>
-                       <div class="form-group">
-                           <span class="title">标题关键词:</span>  <span> <input class="keyword" type="text" placeholder="请输入小于20字符"></span>
-                       </div>
-                       <div class="form-group">
-                           <span class="title">评论关键词:</span> <span>  <input type="text" placeholder="请输入小于40字符"></span>
-                       </div>
-                       <div class="form-group">
-                           <span class="title">截图数量:</span>
-                           <span><input type="radio">2张</span>
-                           <span><input type="radio">3张</span>
-                       </div>
-                       <div class="form-group">
-                           <span class="title">备注:</span> <span>  <input class="beizhu" type="text" placeholder="
-                           1.标题不少于5个字
-                           2.评论超过20字以上且包含一个以上关键词
-                           3.请两日内不卸载
-                           4.截图一——搜索截图
-                           5.截图二——打开应用和评论二合一">
-                           </span>
-                       </div>
-                       <div class="form-group">
-                           <span class="title">官方提醒:</span><span>诚信交换拒绝无卡手机,请在当天下午6点前提交任务,过时将影响之后的交换效率</span>
 
+                       <div class="form-group">
+                           <label  class="col-lg-2 control-label" >评分:</label>
+                           <div class="col-lg-8">
+                               <label class="radio-inline">
+                                   <input type="radio" name="inlineRadioOptions" value="option1"> 5星
+                               </label>
+                               <label class="radio-inline">
+                                   <input type="radio"name="inlineRadioOptions"  value="option2"> 4星
+                               </label>
+                           </div>
+                       </div>
+                       <div class="form-group">
+                           <label  class="col-lg-2 control-label" > 标题键词:</label>
+                           <div class="col-lg-5" style="border: 1px solid red">
+                               <input type="text" ng-model="message" class="form-control" placeholder="请输入小于20字符">
+                           </div>
+                           <div class="col-lg-1" style="margin: 0px" ng-bind="left()"></div>
+                       </div>
+                       <div class="form-group">
+                           <label  class="col-lg-2 control-label" > 评论关键词:</label>
+                           <div class="col-lg-8">
+                               <input type="text" class="form-control" placeholder="请输入小于40字符">
+                           </div>
+                       </div>
+                       <div class="form-group">
+                           <label  class="col-lg-2 control-label" > 截图数量:</label>
+                           <div class="col-lg-8">
+                               <label class="radio-inline">
+                                   <input type="radio" name="inlineRadioOptions" value="option1"> 2条
+                               </label>
+                               <label class="radio-inline">
+                                   <input type="radio"name="inlineRadioOptions"  value="option2"> 3条
+                               </label>
+                           </div>
+                       </div>
+                       <div class="form-group">
+                           <label  class="col-lg-2 control-label" >备注:</label>
+                           <div class="col-lg-8">
+                               <textarea  class="form-control" rows="5" placeholder="1.标题不少于53.请两日内不卸载">
+
+                               </textarea>
+                           </div>
+                       </div>
+                       <div class="form-group">
+                           <label  class="col-lg-2 control-label" > 官方提醒:</label>
+                           <div class="col-lg-8">
+                               诚信交换拒绝无卡手机,请在当天下午6点前提交任务,过时将影响之后的交换效率
+                           </div>
                        </div>
                    </form>
+
                    <hr>
                    <h4>任务信息</h4>
-                   <div class="form-group group">
-                       <span>交换数量:   <input type="text"></span>
+                   <form class="form-horizontal">
+                   <div class="form-group">
+                       <label  class="col-lg-2 control-label" > 交换数量:</label>
+                       <div class="col-lg-2">
+                           <input type="text" class="form-control" placeholder="">
+                       </div>
                    </div>
+                   </form>
+
                    <hr>
                    <button class="btn button">保存</button>
+
+
 
                </div><!--需求编辑-->
                <div class="tab-pane fade in active" id="addtask">
