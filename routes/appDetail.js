@@ -53,7 +53,7 @@ router.get('/baseinfo/:appid', function(req, res){
     })
 });
 
-// 获取我的交换历史换历史
+// 获取我的交换历史
 router.get('/myAppExcHistory/:appid/:version', function(req, res) {
     var userId = util.useridInReq(req);
     var appId = parseInt(req.params.appid);
@@ -171,15 +171,17 @@ router.post('/excTaskId/:excTaskId', function(req, res){
 });
 
  // 搜索本地添加的历史记录
-router.get('/historySearch/angular/:searchkey', function(req, res) {
+router.get('/historySearch/angular/:version/:searchkey', function(req, res) {
     var userId = util.useridInReq(req);
     var search = req.params.searchkey;
+    var myAppversion = req.params.version;
 
     var user = new AV.User();
     user.id = userId;
 
     var query = new AV.Query(IOSAppExcLogger);
     query.equalTo('userId', userId);
+    query.equalTo('myAppVersion', myAppversion);
 
     var innerQuery = new AV.Query(IOSAppSql);
     innerQuery.contains('trackName', search);
@@ -208,6 +210,34 @@ router.get('/historySearch/angular/:searchkey', function(req, res) {
                 appHisObject.myAppVersion = results[i].get('myAppVersion');
                 appHisObject.hisAppVersion = results[i].get('hisAppVersion');
                 appHisObject.excHisDate = results[i].get('excDateStr');
+
+                var totalExcCount = results[i].get('totalExcCount');
+                var excKinds = results[i].get('excKinds');
+                var swapMode = results[i].get('excHistoryAdd');
+
+                if (excKinds == undefined){
+                    appHisObject.excKinds = ''
+                }else if (excKinds == 1){
+                    appHisObject.excKinds = '评论'
+                }else {
+                    appHisObject.excKinds = '下载';
+                }
+
+                if (totalExcCount == undefined){
+                    appHisObject.totalExcCount = 0;
+                }else {
+                    appHisObject.totalExcCount = totalExcCount;
+                }
+
+                if (swapMode == 'excHistoryadd'){
+                    appHisObject.swapMode = '手动添加'
+                }else if (swapMode == 'FXS'){
+                    appHisObject.swapMode = '外部交换'
+                }else if (swapMode == 'intEcx'){
+                    appHisObject.swapMode = '内部交换'
+                }else {
+                    appHisObject.swapMode = '手动添加'
+                }
 
                 retApps.push(appHisObject);
 
