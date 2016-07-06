@@ -77,7 +77,7 @@ app.controller('itunesSearchControl', function($scope, $http) {
         var keycode = window.event?e.keyCode:e.which;
         //console.log('keycode ' + keycode);
         //enter or space
-        if(keycode==13 || keycode==32){
+        if(keycode==13 ){
             $scope.searchApp();
         }
     };
@@ -116,7 +116,7 @@ app.controller('itunesSearchControl', function($scope, $http) {
             }else {
                 $scope.errorMsg = response.errorMsg;
             }
-
+            location.href='/app/' + appInfo.appleId;
             $scope.appResults = [];
         });
     };
