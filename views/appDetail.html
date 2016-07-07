@@ -129,94 +129,166 @@
         <div class="col-lg-9 col-xs-9 change">
             <div id="myTabContent" class="tab-content">
                 <div class="tab-pane fade " id="need">
-                    <h4>需求信息</h4>
-                    <form class="form-horizontal">
-                        <div class="form-group">
-                            <label  class="col-lg-2 control-label" > 任务类型:</label>
-                            <div class="col-lg-8">
-                                <label class="radio-inline">
-                                    <input type="radio" name="inlineRadioOptions" value="option1"> 评论
-                                </label>
-                                <label class="radio-inline">
-                                    <input type="radio"name="inlineRadioOptions"  value="option2"> 下载
-                                </label>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label  class="col-lg-2 control-label" >搜索关键词:</label>
-                            <div class="col-lg-4">
-                                <input type="text" class="form-control" placeholder="">
-                            </div>
-                            <label  class="col-lg-2 control-label" >排名:</label>
-                            <div class="col-lg-4">
-                                <input type="text" class="form-control" placeholder="">
-                            </div>
-                        </div>
+                    <div>
+                        <h2 class="mytitle">任务信息</h2>
 
-                        <div class="form-group">
-                            <label  class="col-lg-2 control-label" >评分:</label>
-                            <div class="col-lg-8">
-                                <label class="radio-inline">
-                                    <input type="radio" name="inlineRadioOptions" value="option1"> 5星
-                                </label>
-                                <label class="radio-inline">
-                                    <input type="radio"name="inlineRadioOptions"  value="option2"> 4星
-                                </label>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label  class="col-lg-2 control-label" > 标题键词:</label>
-                            <div class="col-lg-5" >
-                                <input type="text" ng-model="message" class="form-control" placeholder="请输入小于20字符">
-                            </div>
-                            <div class="col-lg-1" style="margin: 0px" ng-bind="left()"></div>
-                        </div>
-                        <div class="form-group">
-                            <label  class="col-lg-2 control-label" > 评论关键词:</label>
-                            <div class="col-lg-8">
-                                <input type="text" class="form-control" placeholder="请输入小于40字符">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label  class="col-lg-2 control-label" > 截图数量:</label>
-                            <div class="col-lg-8">
-                                <label class="radio-inline">
-                                    <input type="radio" name="inlineRadioOptions" value="option1"> 2条
-                                </label>
-                                <label class="radio-inline">
-                                    <input type="radio"name="inlineRadioOptions"  value="option2"> 3条
-                                </label>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label  class="col-lg-2 control-label" >备注:</label>
-                            <div class="col-lg-8">
-                               <textarea  class="form-control" rows="5" placeholder="1.标题不少于53.请两日内不卸载">
+                        <form class="form-horizontal">
 
+                            <div class="form-group">
+                                <label  class="col-lg-2 control-label" > 任务类型:</label>
+                                <div class="col-lg-8">
+                                    <label class="radio-inline">
+                                        <input type="radio" name="inlineRadioOptions" value="评论" ng-model="taskType"> 评论
+                                    </label>
+                                    <label class="radio-inline">
+                                        <input type="radio"name="inlineRadioOptions"  value="下载" ng-model="taskType"> 下载
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label  class="col-lg-2 control-label" > 交换数量:</label>
+                                <div class="col-lg-2">
+                                    <input type="text" class="form-control" placeholder="">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label  class="col-lg-2 control-label" > 截图数量:</label>
+                                <div class="col-lg-8">
+                                    <label class="radio-inline">
+                                        <input type="radio" name="inlineRadioOptions" value="option1"> 2条
+                                    </label>
+                                    <label class="radio-inline">
+                                        <input type="radio"name="inlineRadioOptions"  value="option2"> 3条
+                                    </label>
+                                </div>
+                            </div>
+                        </form>
+                        <hr>
+                    </div>
+
+                    <div>
+                        <h2 class="mytitle">下载信息</h2>
+                        <form class="form-horizontal">
+                            <div class="form-group">
+                                <label  class="col-lg-2 control-label" >搜索关键词:</label>
+                                <div class="col-lg-4">
+                                    <input type="text" class="form-control" placeholder="" ng-model="searchKeyword">
+                                </div>
+                                <label  class="col-lg-2 control-label" >排名:</label>
+                                <div class="col-lg-4">
+                                    <input type="text" class="form-control" style="width: 100px;"
+                                           placeholder="" ng-model="ranking">
+                                </div>
+                            </div>
+                        </form>
+                        <hr>
+                    </div>
+
+                    <div ng-hide="taskType == 'option2'">
+                        <h2 class="mytitle">评论信息</h2>
+                        <form class="form-horizontal">
+                            <div class="form-group">
+                                <label  class="col-lg-2 control-label" >评分:</label>
+                                <div class="col-lg-8">
+                                    <label class="radio-inline">
+                                        <input type="radio" name="inlineRadioOptions" value="5" ng-model="stars"> 5星
+                                    </label>
+                                    <label class="radio-inline">
+                                        <input type="radio"name="inlineRadioOptions"  value="4" ng-model="stars"> 4星
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label  class="col-lg-2 control-label" > 标题关键词:</label>
+                                <div class="col-lg-8" >
+                                    <input type="text" ng-model="titleKeyword" class="form-control" placeholder="请输入小于20字符">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label  class="col-lg-2 control-label" > 评论关键词:</label>
+                                <div class="col-lg-8">
+                                    <input type="text" class="form-control" placeholder="请输入小于40字符"
+                                           ng-model="commentKeyword">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label  class="col-lg-2 control-label" >详情备注:</label>
+                                <div class="col-lg-8">
+                               <textarea  class="form-control" rows="5" placeholder="1.标题不少于53.请两日内不卸载" ng-model="more">
                                </textarea>
+                                </div>
                             </div>
-                        </div>
-                        <div class="form-group">
-                            <label  class="col-lg-2 control-label" > 官方提醒:</label>
-                            <div class="col-lg-8">
-                                诚信交换拒绝无卡手机,请在当天下午6点前提交任务,过时将影响之后的交换效率
-                            </div>
-                        </div>
-                    </form>
+                        </form>
+                        <hr>
+                    </div>
 
-                    <hr>
-                    <h4>任务信息</h4>
-                    <form class="form-horizontal">
-                        <div class="form-group">
-                            <label  class="col-lg-2 control-label" > 交换数量:</label>
-                            <div class="col-lg-2">
-                                <input type="text" class="form-control" placeholder="">
-                            </div>
-                        </div>
-                    </form>
-
-                    <hr>
                     <button class="btn button_save">保存</button>
+                    <div>
+                        <h2 class="mytitle">需求预览</h2>
+                        <div style="background:url(/images/appDetail/screenshot-background.png); width: 640px;
+                        padding: 36px 54px 60px 30px; margin: auto;">
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <img  class="appicon" style="display: inline-block; margin: 0 26px 40px 20px;
+                                width: 120px; height: 120px; border-radius: 20px"
+                                          ng-src="{{  appBaseInfo.artworkUrl100 }}" alt="App Icon">
+                                </div>
+                                <div class="col-sm-9" style="padding-left: 50px;">
+                                    <p style="font-size: 24px; color: #ffffff;
+                                width: 330px; margin-top: 10px">
+                                        {{ appBaseInfo.trackName  }}
+                                    </p>
+                                    <p style="color: #ffffff;
+                                width: 330px;">
+                                        更新日期: {{ appBaseInfo.latestReleaseDate  }}
+                                    </p>
+                                    <p style="color: #ffffff; font-size: 20px;">
+                                        任务类型: <span class="synwords">{{taskType}}</span>
+                                    </p>
+                                </div>
+                            </div>
+
+                            <ol style="font-size: 20px; color: #ffffff;
+                            list-style-position: inside; padding:0; margin:0;">
+                                <li style="margin-bottom: 30px">
+                                    <p>1. app store 搜索"<span class="synwords">{{searchKeyword}}</span>"
+                                        第<span class="synwords">{{ranking}}</span>
+                                        名左右, 找到应用,如上图图标, 下载.</p>
+                                </li>
+                                <li style="margin-bottom: 30px">
+                                    <p>2. 打开app, 请务必过引导页.</p>
+                                </li>
+                                <li  style="margin-bottom: 30px" ng-hide="taskType == '下载'">
+                                    <p  style="margin-bottom: 20px">
+                                        3. 返回app store, 好评"<span class="synwords">{{stars}}</span>星"
+                                    </p>
+                                    <p style="margin-bottom: 20px">
+                                        &nbsp &nbsp &nbsp 标题关键词: <span class="synwords">{{titleKeyword}}</span></p>
+                                    <p style="margin-bottom: 20px">
+                                        &nbsp &nbsp &nbsp评论关键词: <span class="synwords">{{commentKeyword}}</span></p>
+                                </li>
+                                <li  style="margin-bottom: 30px" ng-hide="taskType == '下载'">
+                                    <p>4. 备注:</p>
+                                    <p style="border: 1px solid #cdf1ff; font-size: 18px;
+                                    margin-top: 20px; margin-bottom: 70px;
+                                    padding: 18px 20px 18px 20px; ng-show = more.length">
+                                        {{more}}
+                                    </p>
+                                </li>
+                            </ol>
+
+                            <p style="font-size: 24px; color: #ffffff;">
+                                手机评论, 不要无卡机, iPad, 一条以上用手机流量哦, 亲.
+                                &nbsp &nbsp &nbsp&nbsp &nbsp &nbsp&nbsp &nbsp &nbsp
+                                &nbsp &nbsp &nbsp&nbsp &nbsp &nbsp&nbsp &nbsp &nbsp
+                                &nbsp &nbsp &nbsp&nbsp &nbsp &nbsp&nbsp
+                                -友情提醒, 避免撕逼
+                            </p>
+                        </div>
+                    </div>
 
 
 

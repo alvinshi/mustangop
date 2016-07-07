@@ -394,3 +394,15 @@ hr{
 .beizhu{
     width: 500px;height: 100px;
 }
+
+.synwords{
+    color: #fff727;
+}
+
+.mytitle{
+    font-size: 24px;
+    border-left: 4px solid #3498db;
+    padding-left: 10px;
+    margin-bottom: 32px;
+    margin-top: 17px;
+}
