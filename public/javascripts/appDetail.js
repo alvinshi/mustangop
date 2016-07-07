@@ -66,50 +66,6 @@ app.controller('myAppControl', function($scope, $http, $location, FileUploader) 
         }
     };
 
-    // 手动添加APP
-    $scope.addAppHistory = function(){
-        var addHistoryHtmlUrl = '/myapp/addHistory/' + appid + '/' + $scope.appBaseInfo.version;
-        location.href = addHistoryHtmlUrl;
-    };
-
-    $scope.addHistory = function(hisAppInfo){
-
-        console.log('-----* ' + location.href);
-
-        var addHistoryUrl = location.href;
-
-        var postParam = {'hisAppInfo' : hisAppInfo, 'excHistoryAdd': 'excHistoryadd'};
-        console.log('add history' + postParam);
-        $http.post(addHistoryUrl, postParam).success(function(response){
-
-            $scope.isError = response.errorId;
-            console.log(response.errorId);
-
-            if (response.errorId == 0 || response.errorId === undefined){
-
-                if ($scope.ExcAllApps == undefined){
-                    $scope.ExcAllApps = new Array();
-                }
-
-                ////change ui
-                //for (var i = 0; i < $scope.appResults.length; i++){
-                //    var appRe = $scope.appResults[i];
-                //
-                //    if (appRe.appleId === hisAppInfo.appleId){
-                //        appRe.isExced = true;
-                //        console.log(appRe.appleId + 'is exchanged');
-                //        break;
-                //    }
-                //}
-
-                $scope.errorMsg = '';
-            }else {
-                $scope.errorMsg = response.errorMsg;
-            }
-
-        });
-    };
-
     //删除任务添加的交换记录
     $scope.releaseBtnClick = function(appid,appversion){
         $scope.prepareReleaseAppid = appid;
@@ -349,6 +305,48 @@ app.controller('myAppControl', function($scope, $http, $location, FileUploader) 
                 }
 
                 $scope.myExcAllApps.push(response.addExcObject);
+
+                $scope.errorMsg = '';
+                location.href='/app/' + appid;
+            }else {
+                $scope.errorMsg = response.errorMsg;
+            }
+
+        });
+    };
+
+    // add exc history
+    $scope.addExcHistory = function(hisAppInfo){
+        var addHistoryUrl = '/myapp/addHistory/' + appid + '/' + $scope.appBaseInfo.version;
+        console.log('-----* ' + addHistoryUrl);
+
+        var postParam = {'hisAppInfo' : hisAppInfo, 'excHistoryAdd': 'excHistoryadd'};
+        console.log('add history' + postParam);
+        $http.post(addHistoryUrl, postParam).success(function(response){
+
+            $scope.isError = response.errorId;
+            console.log(response.errorId);
+
+            if (response.errorId == 0 || response.errorId === undefined){
+
+                if ($scope.ExcAllApps == undefined){
+                    $scope.ExcAllApps = new Array();
+                }
+
+                //change ui
+                for (var u = 0; u < $scope.pagedItems.length; u++){
+                    var appRe = $scope.pagedItems[u];
+                    for (var d = 0; d < appRe.length; d++){
+                        var appObject = appRe[d];
+                        if (appObject.appleId === hisAppInfo.appleId){
+                            appObject.isExced = true;
+                            console.log(appObject.appleId + 'is exchanged');
+                            break;
+                        }
+                    }
+                }
+
+                $scope.ExcAllApps.push(response.addExcObject);
 
                 $scope.errorMsg = '';
                 location.href='/app/' + appid;
