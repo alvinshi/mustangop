@@ -24,6 +24,7 @@
     <link rel="stylesheet" href="../stylesheets/loading.css">
     <link rel="stylesheet" href="/stylesheets/vendor/hover/hover-min.css">
     <link rel="stylesheet" href="/stylesheets/appDetail.css">
+    <link rel="stylesheet" href="/stylesheets/appDetailNav.css">
     <script src="/javascripts/vendor/AngularJS/angular-file-upload.min.js"></script>
 
 
@@ -44,45 +45,7 @@
             })
         })
     </script>
-    <style>
-        /*reset*/
-        body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, code, form, fieldset, legend, input, textarea, p, blockquote, th, td { margin: 0; padding: 0; font-family:"Î¢ÈíÑÅºÚ"}
-        table { border-collapse: collapse; border-spacing: 0; }
-        fieldset, img { border: 0; }
-        address, caption, cite, code, dfn, em, strong, th, var { font-style: normal; font-weight: normal; }
-        ol, ul { list-style: none; }
-        caption, th { text-align: left; }
-        h1, h2, h3, h4, h5, h6 { font-size: 100%; font-weight: normal; }
-        q:before, q:after { content: ''; }
-        abbr, acronym { border: 0; font-variant: normal; }
-        sup { vertical-align: text-top; }
-        sub { vertical-align: text-bottom; }
-        input:focus, textarea:focus, select:focus { outline: none; }
-        select, input { vertical-align: middle; }
-        legend { color: #000; }
-        .clean:before, .clean:after, .clearfix:before, .clearfix:after { content: ""; display: table; }
-        .clean:after, .clearfix:after { clear: both; }
-        .clean, .clearfix { zoom: 1; }
-        .clear { clear: both; }
-        .fl { float: left; }
-        .fr { float: right; }
-        .break { word-wrap: break-word; width: inherit; }
-        .linkhidden { text-indent: -9999em; overflow: hidden; }
-        .hidden { display: none; }
-        a{ text-decoration:none;}
-        /*reset*/
 
-        /*Ö÷ÒªÑùÊ½*/
-        .subNavBox{width:200px;border:solid 1px #e5e3da;margin:100px auto;}
-        .subNav{border-bottom:solid 1px #e5e3da;cursor:pointer;font-weight:bold;font-size:14px;color:#999;line-height:28px;padding-left:10px;background:url(../images/jiantou1.jpg) no-repeat;background-position:95% 50%}
-        .subNav:hover{color:#277fc2;}
-        .currentDd{color:#277fc2}
-        .currentDt{background-image:url(../images/jiantou.jpg);}
-        .navContent{display: none;border-bottom:solid 1px #e5e3da;}
-        .navContent li a{display:block;width:200px;heighr:28px;text-align:center;font-size:14px;line-height:28px;color:#333}
-        .navContent li a:hover{color:#fff;background-color:#277fc2}
-
-    </style>
 
 
 </head>
@@ -126,7 +89,6 @@
     </div>  <!--first row end-->
     <div class="row">
         <div class="col-lg-3 col-xs-3 change row_second_left" >
-
             <div class="subNavBox">
                 <div class="subNav currentDd currentDt">
                     <a href="/#need"  data-toggle="tab">
@@ -157,34 +119,10 @@
                 </ul>
 
             </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         </div><!--col-lg-3 左侧导航-->
 
         <div class="col-lg-9 col-xs-9 change">
             <div id="myTabContent" class="tab-content">
-
                 <div class="tab-pane fade " id="need">
                     <h4>需求信息</h4>
                     <form class="form-horizontal">
@@ -355,8 +293,7 @@
 
                    </div>
                </div><!--addtask-->
-
-               <!--交换历史-->
+                <!--交换历史-->
                <div class="tab-pane " id="curhistory">
                    <div class="row exchang_pattern">
                        <div class="top_title  col-lg-8 col-xs-8">
@@ -450,7 +387,6 @@
    </div> <!--second row end-->
    
     <div class="modal modal-lg fade" id="myhistorydelete">
->>>>>>> cc53d3dfce9c15e16bfa326f2f5d127ea6a685e9
         <div class="modal-dialog" style="width:400px;position: absolute;right: 20px">
             <div class="modal-content">
                 <div class="modal-header">
