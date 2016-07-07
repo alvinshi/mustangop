@@ -17,7 +17,7 @@ router.get('/', function(req, res) {
 
 router.get('/taskHall', function(req, res){
     var query = new AV.Query(IOSAppExcLogger);
-    
+
 })
 
 module.exports = router;
