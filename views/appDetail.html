@@ -24,6 +24,7 @@
     <link rel="stylesheet" href="../stylesheets/loading.css">
     <link rel="stylesheet" href="/stylesheets/vendor/hover/hover-min.css">
     <link rel="stylesheet" href="/stylesheets/appDetail.css">
+    <link rel="stylesheet" href="/stylesheets/appDetailNav.css">
     <script src="/javascripts/vendor/AngularJS/angular-file-upload.min.js"></script>
 
 
@@ -44,45 +45,7 @@
             })
         })
     </script>
-    <style>
-        /*reset*/
-        body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, code, form, fieldset, legend, input, textarea, p, blockquote, th, td { margin: 0; padding: 0; font-family:"Î¢ÈíÑÅºÚ"}
-        table { border-collapse: collapse; border-spacing: 0; }
-        fieldset, img { border: 0; }
-        address, caption, cite, code, dfn, em, strong, th, var { font-style: normal; font-weight: normal; }
-        ol, ul { list-style: none; }
-        caption, th { text-align: left; }
-        h1, h2, h3, h4, h5, h6 { font-size: 100%; font-weight: normal; }
-        q:before, q:after { content: ''; }
-        abbr, acronym { border: 0; font-variant: normal; }
-        sup { vertical-align: text-top; }
-        sub { vertical-align: text-bottom; }
-        input:focus, textarea:focus, select:focus { outline: none; }
-        select, input { vertical-align: middle; }
-        legend { color: #000; }
-        .clean:before, .clean:after, .clearfix:before, .clearfix:after { content: ""; display: table; }
-        .clean:after, .clearfix:after { clear: both; }
-        .clean, .clearfix { zoom: 1; }
-        .clear { clear: both; }
-        .fl { float: left; }
-        .fr { float: right; }
-        .break { word-wrap: break-word; width: inherit; }
-        .linkhidden { text-indent: -9999em; overflow: hidden; }
-        .hidden { display: none; }
-        a{ text-decoration:none;}
-        /*reset*/
 
-        /*Ö÷ÒªÑùÊ½*/
-        .subNavBox{width:200px;border:solid 1px #e5e3da;margin:100px auto;}
-        .subNav{border-bottom:solid 1px #e5e3da;cursor:pointer;font-weight:bold;font-size:14px;color:#999;line-height:28px;padding-left:10px;background:url(../images/jiantou1.jpg) no-repeat;background-position:95% 50%}
-        .subNav:hover{color:#277fc2;}
-        .currentDd{color:#277fc2}
-        .currentDt{background-image:url(../images/jiantou.jpg);}
-        .navContent{display: none;border-bottom:solid 1px #e5e3da;}
-        .navContent li a{display:block;width:200px;heighr:28px;text-align:center;font-size:14px;line-height:28px;color:#333}
-        .navContent li a:hover{color:#fff;background-color:#277fc2}
-
-    </style>
 
 
 </head>
@@ -126,7 +89,6 @@
     </div>  <!--first row end-->
     <div class="row">
         <div class="col-lg-3 col-xs-3 change row_second_left" >
-
             <div class="subNavBox">
                 <div class="subNav currentDd currentDt">
                     <a href="/#need"  data-toggle="tab">
@@ -157,37 +119,13 @@
                 </ul>
 
             </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         </div><!--col-lg-3 左侧导航-->
 
         <div class="col-lg-9 col-xs-9 change">
             <div id="myTabContent" class="tab-content">
-
                 <div class="tab-pane fade " id="need">
                     <div>
-                        <h2>任务信息</h2>
+                        <h2 class="mytitle">任务信息</h2>
 
                         <form class="form-horizontal">
 
@@ -195,10 +133,10 @@
                                 <label  class="col-lg-2 control-label" > 任务类型:</label>
                                 <div class="col-lg-8">
                                     <label class="radio-inline">
-                                        <input type="radio" name="inlineRadioOptions" value="option1" ng-model="taskType"> 评论
+                                        <input type="radio" name="inlineRadioOptions" value="评论" ng-model="taskType"> 评论
                                     </label>
                                     <label class="radio-inline">
-                                        <input type="radio"name="inlineRadioOptions"  value="option2" ng-model="taskType"> 下载
+                                        <input type="radio"name="inlineRadioOptions"  value="下载" ng-model="taskType"> 下载
                                     </label>
                                 </div>
                             </div>
@@ -226,7 +164,7 @@
                     </div>
 
                     <div>
-                        <h2>下载信息</h2>
+                        <h2 class="mytitle">下载信息</h2>
                         <form class="form-horizontal">
                             <div class="form-group">
                                 <label  class="col-lg-2 control-label" >搜索关键词:</label>
@@ -235,7 +173,8 @@
                                 </div>
                                 <label  class="col-lg-2 control-label" >排名:</label>
                                 <div class="col-lg-4">
-                                    <input type="text" class="form-control" placeholder="" ng-model="ranking">
+                                    <input type="text" class="form-control" style="width: 100px;"
+                                           placeholder="" ng-model="ranking">
                                 </div>
                             </div>
                         </form>
@@ -243,7 +182,7 @@
                     </div>
 
                     <div ng-hide="taskType == 'option2'">
-                        <h2>评论信息</h2>
+                        <h2 class="mytitle">评论信息</h2>
                         <form class="form-horizontal">
                             <div class="form-group">
                                 <label  class="col-lg-2 control-label" >评分:</label>
@@ -258,10 +197,9 @@
                             </div>
                             <div class="form-group">
                                 <label  class="col-lg-2 control-label" > 标题关键词:</label>
-                                <div class="col-lg-5" >
+                                <div class="col-lg-8" >
                                     <input type="text" ng-model="titleKeyword" class="form-control" placeholder="请输入小于20字符">
                                 </div>
-                                <div class="col-lg-1" style="margin: 0px" ng-bind="left()"></div>
                             </div>
                             <div class="form-group">
                                 <label  class="col-lg-2 control-label" > 评论关键词:</label>
@@ -283,24 +221,33 @@
                     </div>
 
                     <button class="btn button_save">保存</button>
-
-                    <hr>
                     <div>
-                        <h2>需求预览</h2>
+                        <h2 class="mytitle">需求预览</h2>
                         <div style="background:url(/images/appDetail/screenshot-background.png); width: 640px;
                         padding: 36px 54px 60px 30px; margin: auto;">
-                            <div>
-                                <img  class="appicon" style="display: inline-block; margin: 0 26px 40px 20px;
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <img  class="appicon" style="display: inline-block; margin: 0 26px 40px 20px;
                                 width: 120px; height: 120px; border-radius: 20px"
-                                      ng-src="{{  appBaseInfo.artworkUrl100 }}" alt="App Icon">
-                                <p  class="appname" style="display: inline-block; font-size: 24px; color: #ffffff;
+                                          ng-src="{{  appBaseInfo.artworkUrl100 }}" alt="App Icon">
+                                </div>
+                                <div class="col-sm-9" style="padding-left: 50px;">
+                                    <p style="font-size: 24px; color: #ffffff;
+                                width: 330px; margin-top: 10px">
+                                        {{ appBaseInfo.trackName  }}
+                                    </p>
+                                    <p style="color: #ffffff;
                                 width: 330px;">
-                                    {{ appBaseInfo.trackName  }}
-                                </p>
+                                        更新日期: {{ appBaseInfo.latestReleaseDate  }}
+                                    </p>
+                                    <p style="color: #ffffff; font-size: 20px;">
+                                        任务类型: <span class="synwords">{{taskType}}</span>
+                                    </p>
+                                </div>
                             </div>
 
                             <ol style="font-size: 20px; color: #ffffff;
-                            list-style-position: inside;">
+                            list-style-position: inside; padding:0; margin:0;">
                                 <li style="margin-bottom: 30px">
                                     <p>1. app store 搜索"<span class="synwords">{{searchKeyword}}</span>"
                                         第<span class="synwords">{{ranking}}</span>
@@ -309,24 +256,31 @@
                                 <li style="margin-bottom: 30px">
                                     <p>2. 打开app, 请务必过引导页.</p>
                                 </li>
-                                <li  style="margin-bottom: 30px" ng-hide="taskType == 'option2'">
+                                <li  style="margin-bottom: 30px" ng-hide="taskType == '下载'">
                                     <p  style="margin-bottom: 20px">
                                         3. 返回app store, 好评"<span class="synwords">{{stars}}</span>星"
                                     </p>
                                     <p style="margin-bottom: 20px">
-                                        标题关键词: <span class="synwords">{{titleKeyword}}</span></p>
+                                        &nbsp &nbsp &nbsp 标题关键词: <span class="synwords">{{titleKeyword}}</span></p>
                                     <p style="margin-bottom: 20px">
-                                        评论关键词: <span class="synwords">{{commentKeyword}}</span></p>
+                                        &nbsp &nbsp &nbsp评论关键词: <span class="synwords">{{commentKeyword}}</span></p>
                                 </li>
-                                <li  style="margin-bottom: 30px" ng-hide="taskType == 'option2'">
+                                <li  style="margin-bottom: 30px" ng-hide="taskType == '下载'">
                                     <p>4. 备注:</p>
                                     <p style="border: 1px solid #cdf1ff; font-size: 18px;
-                                    margin-top: 20px; margin-bottom: 70px;">{{more}}</p>
+                                    margin-top: 20px; margin-bottom: 70px;
+                                    padding: 18px 20px 18px 20px; ng-show = more.length">
+                                        {{more}}
+                                    </p>
                                 </li>
                             </ol>
 
                             <p style="font-size: 24px; color: #ffffff;">
-                                手机评论, 不要无卡机, iPad, 一条以上用手机流量哦, 亲. -友情提醒, 避免撕逼
+                                手机评论, 不要无卡机, iPad, 一条以上用手机流量哦, 亲.
+                                &nbsp &nbsp &nbsp&nbsp &nbsp &nbsp&nbsp &nbsp &nbsp
+                                &nbsp &nbsp &nbsp&nbsp &nbsp &nbsp&nbsp &nbsp &nbsp
+                                &nbsp &nbsp &nbsp&nbsp &nbsp &nbsp&nbsp
+                                -友情提醒, 避免撕逼
                             </p>
                         </div>
                     </div>
@@ -411,8 +365,7 @@
 
                    </div>
                </div><!--addtask-->
-
-               <!--交换历史-->
+                <!--交换历史-->
                <div class="tab-pane " id="curhistory">
                    <div class="row exchang_pattern">
                        <div class="top_title  col-lg-8 col-xs-8">
@@ -506,7 +459,6 @@
    </div> <!--second row end-->
    
     <div class="modal modal-lg fade" id="myhistorydelete">
->>>>>>> cc53d3dfce9c15e16bfa326f2f5d127ea6a685e9
         <div class="modal-dialog" style="width:400px;position: absolute;right: 20px">
             <div class="modal-content">
                 <div class="modal-header">
@@ -588,7 +540,6 @@
             </div>
         </div>
     </div><!--任务添加弹窗部分-->
-
     <div class="modal fade" id="curHistoryDelete">
         <div class="modal-dialog" class="curHistoryDelete">
             <div class="modal-content">
@@ -623,57 +574,48 @@
             </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->
     </div><!-- 删除以往版本-->
-
-
-
-    <!-- 搜索记录-->
     <div class="modal fade " id="search_history">
-        <div class="modal-dialog">
+        <div class="modal-dialog" style="width: 750px;height: 600px">
             <div class="modal-content">
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">×</span>
+                    </button>
                 </div>
                 <div class="modal-body">
-                    <input  type="text" class="form-control" ng-model="searchKey" ng-keyup="keySearchApp($event)" placeholder="填写与你最新版本交换过的产品名称">
-                    <span class="input-group-btn ">
-                        <button class="btn search_color" ng-click="searchHistoryApp()">
-                            <span class="glyphicon glyphicon-search"></span>
-                        </button>
-                    </span>
-                </div>
+                    <div class="input-group">
+                        <input  type="text" class="form-control" ng-model="searchKey" ng-keyup="keySearchApp($event)" placeholder="填写与你最新版本交换过的产品名称">
+                        <span class="input-group-btn ">
+                            <button class="btn btn_search"type="submit" ng-click="searchHistoryApp()">
+                                <span class="glyphicon glyphicon-search"></span>
+                            </button>
+                        </span>
+                     </div>
                 <div class="placehold-line">
-
-                    <div class="progress" ng-hide="!progressNum">
-                        <div ng-class="{'progress-bar': true, 'progress-bar-striped':true, active:true}" ng-style="{width: progressNum + '%'}">
-                        </div>
+                    <div class="progress" ng-show="progressNum">
+                        <div ng-class="{'progress-bar': true, 'progress-bar-striped':true, active:true}" ng-style="{width: progressNum + '%'}"></div>
                     </div>
-
-                    <div class="alert alert-warning" role="alert" ng-hide="!isError">
+                    <div class="alert alert-warning" role="alert" ng-show="isError">
                         {{ errorMsg }}
                     </div>
-
                 </div>
-
-                <div class="media" ng-repeat="app in pagedItems[currentPage]" >
+                <hr>
+                <div class="media app_info" ng-repeat="app in pagedItems[currentPage]" >
                     <div class="media-left">
                         <img class="media-object" ng-src="{{ app.artworkUrl512 }}" alt="App Icon">
                     </div>
-
                     <div class="media-body">
-                        <h4 class="media-heading appName">{{ app.trackName}}</h4>
-                        <div class="media-object">{{ app.sellerName }}</div>
+                        <h4 class="media-heading appName">{{ app.trackName.substr(0,10)+"..."}}</h4>
                         <div class="media-info">
-                            <span class="media-info-updateDate">更新日期:{{ app.latestReleaseDate }}</span>
                             <span class="media-info-appId">App Id:&nbsp;&nbsp;{{ app.appleId }}</span>
                         </div>
                     </div>
-
-                    <div class="media-right" id="button">
-                        <button class="button_bottom hvr-float-shadow" ng-click="addExcHistory(app)" ng-hide="app.isExced">
-                            <span  id="exchistory" class=""></span>添加到交换记录
+                    <div class="media_right">
+                        <button class="btn  button_bottom" ng-click="addExcHistory(app)" ng-hide="app.isExced">
+                            添加
                         </button>
-                        <button class="excedBtn" ng-hide="!app.isExced">
-                            <span class=""></span>已添加交换记录
+                        <button class=" btn btn-default  button_add hvr-float-shadow "ng-hide="!app.isExced">
+                            已添加
                         </button>
                     </div>
                 </div>
@@ -686,9 +628,10 @@
                             <a href ng-click="nextPage()">下一页</a>
                         </span>
                 </div>
+                </div>
             </div>
         </div>
-    </div>
+    </div><!-- 当前版本搜索记录-->
 </div><!--container end-->
 <script src="/javascripts/cookieHelper.js"></script>
 
