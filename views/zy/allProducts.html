@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>公司产品</title>
+    <link rel="stylesheet" href="lib/css/bootstrap.min.css">
+    <script src="//cdn.bootcss.com/jquery/2.2.4/jquery.js"></script>
+    <script src="lib/js/bootstrap.min.js"></script>
+    <script src="http://code.angularjs.org/angular-1.0.1.min.js"></script>
+
+    <script src="js/allProductsAngular.js"></script>
+    <link rel="stylesheet" href="css/allProducts.css">
+</head>
+<body ng-app="myApp" ng-controller="myCtrl">
+<mynav  ng-controller="scrollHide"></mynav>
+<div>
+    <img src="lib/img/allProductsBanner.png" style="width: 100vw"/>
+    <h1>
+        全系列优质设备,无所不能
+    </h1>
+</div>
+<div class="row">
+    <div class="col-sm-2 col-xs-4" style="padding:0;">
+        <a href="..." ng-mouseover="captionOn(0)" ng-mouseleave="captionOff(0)">
+            <img src="lib/img/products/air.png" style="width: 100%"/>
+        </a>
+        <h4 ng-show = captionCtrl[0] style="position: absolute; bottom: 20px; left: 20px;">气体在线监测</h4>
+    </div>
+    <div class="col-sm-2 col-xs-4" style="padding:0;">
+        <a href="..." ng-mouseover="captionOn(1)" ng-mouseleave="captionOff(1)">
+            <img src="lib/img/products/data.png" style="width: 100%"/>
+        </a>
+        <h4 ng-show = captionCtrl[1] style="position: absolute; bottom: 20px; left: 20px;">数据采集传输</h4>
+    </div>
+    <div class="col-sm-2 col-xs-4" style="padding:0;">
+        <a href="..." ng-mouseover="captionOn(2)" ng-mouseleave="captionOff(2)">
+            <img src="lib/img/products/pollution.png" style="width: 100%"/>
+        </a>
+        <h4 ng-show = captionCtrl[2] style="position: absolute; bottom: 20px; left: 20px;">污染源排放过程监控</h4>
+    </div>
+    <div class="col-sm-2 col-xs-4" style="padding:0;">
+        <a href="..." ng-mouseover="captionOn(3)" ng-mouseleave="captionOff(3)">
+            <img src="lib/img/products/environment.png" style="width: 100%"/>
+        </a>
+        <h4 ng-show = captionCtrl[3] style="position: absolute; bottom: 20px; left: 20px;">环境监控管理</h4>
+    </div>
+    <div class="col-sm-2 col-xs-4" style="padding:0;">
+        <a href="..." ng-mouseover="captionOn(4)" ng-mouseleave="captionOff(4)">
+            <img src="lib/img/products/online.jpg" style="width: 100%"/>
+        </a>
+        <h4 ng-show = captionCtrl[4] style="position: absolute; bottom: 20px; left: 20px;">环境在线监测</h4>
+    </div>
+    <div class="col-sm-2 col-xs-4" style="padding:0;">
+        <a href="..." ng-mouseover="captionOn(5)" ng-mouseleave="captionOff(5)">
+            <img src="lib/img/products/water.png" style="width: 100%"/>
+        </a>
+        <h4 ng-show = captionCtrl[5] style="position: absolute; bottom: 20px; left: 20px;">水质在线监测</h4>
+    </div>
+</div>
+<div>
+    <div class="row" style="background-color: #333333">
+        <div class="col-sm-6 col-xs-12">
+            <div style="padding-left: 10vw; padding-top: 60px;">
+                <h4 style="color: #afafaf; margin-bottom: 30px;">公司简介</h4>
+                <p style="width: 80%; color: #afafaf">
+                    中源环境仪器从市环境监测设备的销售,安装,环境监测网络设计,建设,以及环境连续监测设备和
+                    监测网络的运营等业务,与行业内很多企业常年保持良好的合作关系.具备专业的污染源等
+                    第三方运营服务队伍,有着十多年现场运维经验,拥有雄厚的技术力量和售后服务体系,公司坚持
+                    走专业化,技术性的发展路线.
+                </p>
+            </div>
+        </div>
+        <div class="col-sm-6 col-xs-12">
+            <div style="padding-left: 10vw; padding-top: 60px;">
+                <h4 style="color: #afafaf; margin-bottom: 30px;">联系方式</h4>
+                <p style="width: 80%; color: #afafaf">
+                    地址: 江阴市程江西路246号西三楼 214400
+                </p>
+                <p style="width: 80%; color: #afafaf">
+                    电话传真: 0510-86804983
+                </p>
+                <p style="width: 80%; color: #afafaf">
+                    邮箱: 1020922472@qq.com
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="text-center" style="background-color: #333333; padding-top: 60px; padding-bottom: 60px;">
+    <p style="color: #abe2e7">Made in Wuxi Shang-xi with love️</p>
+    <p style="color: #afafaf">Pictures credited to To Uyen and Yamini Ahluwalia from Noun Project</p>
+    <p style="color: #afafaf">@ 中源环境 2016</p>
+</div>
+</body>
+</html>

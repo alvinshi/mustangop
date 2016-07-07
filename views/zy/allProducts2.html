@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>公司产品</title>
+    <link href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
+    <!--script src="//cdn.bootcss.com/jquery/2.2.4/jquery.js"></script-->
+    <script src="//cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
+    <!--script src="lib/js/bootstrap.min.js"></script-->
+    <script src="//cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <script src="http://code.angularjs.org/angular-1.0.1.min.js"></script>
+    <script src="/javascripts/zy/js/angular-scroll-animate.js"></script>
+
+
+    <script src="/javascripts/zy/js/allProductsAngular2.js"></script>
+    <link rel="stylesheet" href="/stylesheets/zy/css/allProducts2.css">
+
+</head>
+<body ng-app="myApp">
+<div ng-controller="scrollHide">
+    <nav ng-show="showUp" class="navbar navbar-fixed-top" style="margin:0; background-color: transparent; border-color: transparent;">
+        <div class="container-fluid">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false" style="border-color: white;">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar" style="background-color: white"></span>
+                    <span class="icon-bar" style="background-color: white"></span>
+                    <span class="icon-bar" style="background-color: white"></span>
+                </button>
+                <a class="navbar-brand" href="#" style="color:white">中源环境</a>
+            </div>
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav navbar">
+                    <li><a href="index.html" class="navListItem">首页<span class="sr-only">(current)</span></a></li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle  navListItem" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">公司产品 <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="allProducts2.html">产品首页</a></li>
+                            <li role="separator" class="divider"></li>
+                            <li><a href="air.html">气体在线监测</a></li>
+                            <li><a href="w">数据采集传输</a></li>
+                            <li><a href="pollution.html">污染源排放过程监控</a></li>
+                            <li><a href="#">环境监控管理</a></li>
+                            <li><a href="#">环境在线监测</a></li>
+                            <li><a href="water.html">水质在线监测</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="management.html" class="navListItem">运营服务</a></li>
+                    <li><a href="aboutUs.html" class="navListItem">关于我们</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="contactUs.html" class="navListItem">联系我们</a></li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle  navListItem" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">合作企业 <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">山钢集团</a></li>
+                            <li><a href="#">攀钢集团</a></li>
+                            <li><a href="#">华润水泥</a></li>
+                            <li><a href="#">深圳南山热电公司</a></li>
+                            <li><a href="#">山东洪业化工集团</a></li>
+                            <li><a href="#">菏泽睿鹰制药集团</a></li>
+                            <li><a href="#">江苏华西集团</a></li>
+                            <li><a href="#">常州天马集团</a></li>
+                            <li><a href="#">江阴澄星实业集团</a></li>
+                            <li><a href="#">常州新港热电公司</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div><!-- /.navbar-collapse -->
+        </div><!-- /.container-fluid -->
+    </nav>
+
+    <nav ng-show="!showUp" class="navbar navbar-default navbar-fixed-top" style="margin:0;">
+        <div class="container-fluid">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-2" aria-expanded="false">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">中源环境</a>
+            </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-2">
+                <ul class="nav navbar-nav">
+                    <li><a href="index.html">首页 <span class="sr-only">(current)</span></a></li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">公司产品<span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="allProducts2.html">产品首页</a></li>
+                            <li role="separator" class="divider"></li>
+                            <li><a href="air.html">气体在线监测</a></li>
+                            <li><a href="#">数据采集传输</a></li>
+                            <li><a href="pollution.html">污染源排放过程监控</a></li>
+                            <li><a href="#">环境监控管理</a></li>
+                            <li><a href="#">环境在线监测</a></li>
+                            <li><a href="water.html">水质在线监测</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="management.html" class="navListItem">运营服务</a></li>
+                    <li><a href="aboutUs.html" class="navListItem">关于我们</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="contactUs.html">联系我们</a></li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">合作企业<span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">山钢集团</a></li>
+                            <li><a href="#">攀钢集团</a></li>
+                            <li><a href="#">华润水泥</a></li>
+                            <li><a href="#">深圳南山热电公司</a></li>
+                            <li><a href="#">山东洪业化工集团</a></li>
+                            <li><a href="#">菏泽睿鹰制药集团</a></li>
+                            <li><a href="#">江苏华西集团</a></li>
+                            <li><a href="#">常州天马集团</a></li>
+                            <li><a href="#">江阴澄星实业集团</a></li>
+                            <li><a href="#">常州新港热电公司</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div><!-- /.navbar-collapse -->
+        </div><!-- /.container-fluid -->
+    </nav>
+</div>
+
+<div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+    <!-- Indicators -->
+    <ol class="carousel-indicators">
+        <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
+        <li data-target="#carousel-example-generic" data-slide-to="1"></li>
+        <li data-target="#carousel-example-generic" data-slide-to="2"></li>
+    </ol>
+
+    <!-- Wrapper for slides -->
+    <div class="carousel-inner" role="listbox">
+        <div class="item active" style="padding-top: 100px;">
+            <img src="/images/zy/star-box.png" alt="..." style="margin: auto; height: 65vh;">
+            <div class="carousel-caption">
+                <h1 style="font-size: 5vmax;
+                text-shadow: #afafaf 1px 0 2px,#afafaf 0 1px 2px,#afafaf -1px 0 2px,#afafaf 0 -1px 2px;">
+                    全系列优质产品, 无所不能</h1>
+            </div>
+        </div>
+        <div class="item" style="padding-top: 100px;">
+            <img src="/images/zy/products/air2.png" alt="..." style="margin: auto; height: 65vh;">
+            <div class="carousel-caption">
+                <h1 style="font-size: 4vmax;
+                text-shadow: #afafaf 1px 0 2px,#afafaf 0 1px 2px,#afafaf -1px 0 2px,#afafaf 0 -1px 2px;">
+                    气体在线监测设备
+                </h1>
+                <a href="air.html"><h4 style="margin-top: 10px; color: #00b5ec;">了解更多</h4></a>
+            </div>
+        </div>
+        <div class="item" style="padding-top: 100px;">
+            <img src="/images/zy/products/water2.png" alt="..." style="margin-left: 10vw; height: 65vh; display: inline-block">
+            <img src="/images/zy/products/water.png" alt="..." style="height: 65vh; display: inline-block">
+            <div class="carousel-caption">
+                <h1 style="font-size: 4vmax;
+                text-shadow: #afafaf 1px 0 2px,#afafaf 0 1px 2px,#afafaf -1px 0 2px,#afafaf 0 -1px 2px;">
+                    水质在线监测设备
+                </h1>
+                <a href="water.html"><h4  style="margin-top: 10px; color: #00b5ec;">了解更多</h4></a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Controls -->
+    <a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">
+        <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+        <span class="sr-only">Previous</span>
+    </a>
+    <a class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next">
+        <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+        <span class="sr-only">Next</span>
+    </a>
+</div>
+
+
+<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+    <div class="panel panel-default">
+        <div class="panel-heading" role="tab" id="headingOne">
+            <h4 class="panel-title">
+                <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                    ZE-CEM2000稀释抽取法烟气排放连续监测系统
+                </a>
+            </h4>
+        </div>
+        <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+            <div class="panel-body">
+                国内第一批获得国家环保认证合格产品。
+                系统采用高精度的大比例稀释技术，采用紫外荧光法测量SO2浓度、
+                化学发光法测量NOx浓度，适用于电力、水泥、钢铁、石油石化、
+                垃圾焚烧、工业窑炉等行业脱硫系统的效率分析和和工业过程控制监测领域。
+                <a href="management.html"><h4 style="margin-top: 10px; color: #00b5ec;">了解更多</h4></a>
+            </div>
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-heading" role="tab" id="headingTwo">
+            <h4 class="panel-title">
+                <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                    数据采集传输
+                </a>
+            </h4>
+        </div>
+        <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+            <div class="panel-body">
+            </div>
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-heading" role="tab" id="headingThree">
+            <h4 class="panel-title">
+                <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                    污染源排放过程监控
+                </a>
+            </h4>
+        </div>
+        <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+            <div class="panel-body">
+                污染源排放过程（工况）监控系统 通过对污染治理设施运行状态和各环节参量的实时、
+                连续监测，并结合环境在线监测对排放因子的监测结果， 通过运用经过验证的各监测参量间动态关联的逻辑关系，
+                能够精确描述治理设施运行的状态，进行数据 验证和判断， 对异常工况进行报警。基于验证后的数据，
+                系统可提供各种应用如 分析、统计、汇总等。
+                系统由数据采集层、网络传输层、数据中心层、管理平台层和应用表现层构成。
+                <a href="pollution.html"><h4 style="margin-top: 10px; color: #00b5ec;">了解更多</h4></a>
+            </div>
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-heading" role="tab" id="headingFour">
+            <h4 class="panel-title">
+                <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                    环境监控管理
+                </a>
+            </h4>
+        </div>
+        <div id="collapseFour" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingFour">
+            <div class="panel-body">
+            </div>
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-heading" role="tab" id="headingFive">
+            <h4 class="panel-title">
+                <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
+                    环境在线监测
+                </a>
+            </h4>
+        </div>
+        <div id="collapseFive" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingFive">
+            <div class="panel-body">
+            </div>
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-heading" role="tab" id="headingSix">
+            <h4 class="panel-title">
+                <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseSix" aria-expanded="false" aria-controls="collapseSix">
+                    水质在线监测
+                </a>
+            </h4>
+        </div>
+        <div id="collapseSix" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingSix">
+            <div class="panel-body">
+                污染源水质在线自动监测系统 以自主开发的水质在线自动监测仪器为核心，
+                并可集成其他各类分析仪，充分利用物联网、云计算 等新一代信息技术，
+                并综合自动控制、无线通讯、数据库及网络工程等技术， 实现区域污染物质的数字化管理，
+                提高环保管理水平和决策水平。
+                <a href="water.html"><h4 style="margin-top: 10px; color: #00b5ec;">了解更多</h4></a>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div>
+    <div class="row" style="background-color: #333333">
+        <div class="col-sm-6 col-xs-12">
+            <div style="padding-left: 10vw; padding-top: 60px;">
+                <h4 style="color: #afafaf; margin-bottom: 30px;">公司简介</h4>
+                <p style="width: 80%; color: #afafaf">
+                    中源环境仪器从市环境监测设备的销售,安装,环境监测网络设计,建设,以及环境连续监测设备和
+                    监测网络的运营等业务,与行业内很多企业常年保持良好的合作关系.具备专业的污染源等
+                    第三方运营服务队伍,有着十多年现场运维经验,拥有雄厚的技术力量和售后服务体系,公司坚持
+                    走专业化,技术性的发展路线.
+                </p>
+            </div>
+        </div>
+        <div class="col-sm-6 col-xs-12">
+            <div style="padding-left: 10vw; padding-top: 60px;">
+                <h4 style="color: #afafaf; margin-bottom: 30px;">联系方式</h4>
+                <p style="width: 80%; color: #afafaf">
+                    地址: 江阴市程江西路246号西三楼 214400
+                </p>
+                <p style="width: 80%; color: #afafaf">
+                    电话传真: 0510-86804983
+                </p>
+                <p style="width: 80%; color: #afafaf">
+                    邮箱: 1020922472@qq.com
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="text-center" style="background-color: #333333; padding-top: 60px; padding-bottom: 60px;">
+    <p style="color: #abe2e7">Made in Wuxi Shang-xi with love️</p>
+    <p style="color: #afafaf">Pictures credited to To Uyen and Yamini Ahluwalia from Noun Project</p>
+    <p style="color: #afafaf">@ 中源环境 2016</p>
+</div>
+</body>
+</html>

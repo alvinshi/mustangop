@@ -1,0 +1,22 @@
+.navListItem {
+    color: white;
+}
+
+.navListItem:hover {
+    color: black;
+    background-color: transparent;
+    text-decoration: underline;
+}
+
+h1{
+    color: white;
+    text-align: center;
+    font-size: 5vmax;
+    position: absolute;
+    bottom: 50%;
+    left: 20vw;
+    width: 60vw;
+    margin:0;
+    padding:0;
+    text-shadow: #afafaf 1px 0 2px,#afafaf 0 1px 2px,#afafaf -1px 0 2px,#afafaf 0 -1px 2px;
+}

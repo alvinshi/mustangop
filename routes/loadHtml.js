@@ -12,9 +12,10 @@ router.get('/:htmlName', function(req, res) {
 });
 
 // 导航栏
-router.get('/:htmlName/:index', function(req, res) {
+router.get('/:htmlApp/:htmlName', function(req, res) {
+    var htmlApp = req.params.htmlApp;
     var htmlName = req.params.htmlName;
-    return res.render(htmlName);
+    return res.render(htmlApp +'/' + htmlName);
 });
 
 module.exports = router;
