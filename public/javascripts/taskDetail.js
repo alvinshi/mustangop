@@ -2,7 +2,7 @@
  * Created by cailong on 16/6/12.
  */
 var app = angular.module('yemaWebApp', []);
-var navIndex = 2;
+var navIndex = 1;
 
 app.controller('taskDetailControl', function($scope, $http, $location){
     var appurlList = $location.absUrl().split('/');

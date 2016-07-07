@@ -4,7 +4,7 @@
 
 var app = angular.module('yemaWebApp', []);
 
-var navIndex = 4;
+var navIndex = 3;
 
 app.controller('userCenterCtrl', function($scope, $http){
     $scope.userName = true;
