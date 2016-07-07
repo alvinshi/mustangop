@@ -1,0 +1,13 @@
+.navListItem {
+    color: white;
+}
+
+.navListItem:hover {
+    color: black;
+    background-color: transparent;
+    text-decoration: underline;
+}
+
+a > img:hover {
+    opacity: 0.5;
+}

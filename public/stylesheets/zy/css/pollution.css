@@ -1,0 +1,22 @@
+.navListItem {
+    color: white;
+}
+
+.navListItem:hover {
+    color: black;
+    background-color: transparent;
+    text-decoration: underline;
+}
+
+.em{
+    font-size: 30px;
+    color: #00b5ec;
+}
+
+.em1{
+    font-size: 25px;
+}
+
+.compressedHr{
+    margin:0;
+}

@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <title>水质在线监测</title>
+    <!--link rel="stylesheet" href="lib/css/bootstrap.min.css"-->
+    <link href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
+    <!--script src="//cdn.bootcss.com/jquery/2.2.4/jquery.js"></script-->
+    <script src="//cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
+    <!--script src="lib/js/bootstrap.min.js"></script-->
+    <script src="//cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <script src="http://code.angularjs.org/angular-1.0.1.min.js"></script>
+    <script src="/javascripts/zy/js/angular-scroll-animate.js"></script>
+
+
+    <script src="/javascripts/zy/js/waterAngular.js"></script>
+    <link rel="stylesheet" href="/stylesheets/zy/css/water.css">
+
+</head>
+<body ng-app="myApp">
+
+<div ng-controller="scrollHide">
+    <nav ng-show="showUp" class="navbar navbar-fixed-top" style="margin:0; background-color: transparent; border-color: transparent;">
+        <div class="container-fluid">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false" style="border-color: white;">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar" style="background-color: white"></span>
+                    <span class="icon-bar" style="background-color: white"></span>
+                    <span class="icon-bar" style="background-color: white"></span>
+                </button>
+                <a class="navbar-brand" href="#" style="color:white">中源环境</a>
+            </div>
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav navbar">
+                    <li><a href="index.html" class="navListItem">首页<span class="sr-only">(current)</span></a></li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle  navListItem" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">公司产品 <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="allProducts2.html">产品首页</a></li>
+                            <li role="separator" class="divider"></li>
+                            <li><a href="air.html">气体在线监测</a></li>
+                            <li><a href="w">数据采集传输</a></li>
+                            <li><a href="pollution.html">污染源排放过程监控</a></li>
+                            <li><a href="#">环境监控管理</a></li>
+                            <li><a href="#">环境在线监测</a></li>
+                            <li><a href="water.html">水质在线监测</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="management.html" class="navListItem">运营服务</a></li>
+                    <li><a href="aboutUs.html" class="navListItem">关于我们</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="contactUs.html" class="navListItem">联系我们</a></li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle  navListItem" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">合作企业 <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">山钢集团</a></li>
+                            <li><a href="#">攀钢集团</a></li>
+                            <li><a href="#">华润水泥</a></li>
+                            <li><a href="#">深圳南山热电公司</a></li>
+                            <li><a href="#">山东洪业化工集团</a></li>
+                            <li><a href="#">菏泽睿鹰制药集团</a></li>
+                            <li><a href="#">江苏华西集团</a></li>
+                            <li><a href="#">常州天马集团</a></li>
+                            <li><a href="#">江阴澄星实业集团</a></li>
+                            <li><a href="#">常州新港热电公司</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div><!-- /.navbar-collapse -->
+        </div><!-- /.container-fluid -->
+    </nav>
+
+    <nav ng-show="!showUp" class="navbar navbar-default navbar-fixed-top" style="margin:0;">
+        <div class="container-fluid">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-2" aria-expanded="false">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">中源环境</a>
+            </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-2">
+                <ul class="nav navbar-nav">
+                    <li><a href="index.html">首页 <span class="sr-only">(current)</span></a></li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">公司产品<span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="allProducts2.html">产品首页</a></li>
+                            <li role="separator" class="divider"></li>
+                            <li><a href="air.html">气体在线监测</a></li>
+                            <li><a href="#">数据采集传输</a></li>
+                            <li><a href="pollution.html">污染源排放过程监控</a></li>
+                            <li><a href="#">环境监控管理</a></li>
+                            <li><a href="#">环境在线监测</a></li>
+                            <li><a href="water.html">水质在线监测</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="management.html" class="navListItem">运营服务</a></li>
+                    <li><a href="aboutUs.html" class="navListItem">关于我们</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="contactUs.html">联系我们</a></li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">合作企业<span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">山钢集团</a></li>
+                            <li><a href="#">攀钢集团</a></li>
+                            <li><a href="#">华润水泥</a></li>
+                            <li><a href="#">深圳南山热电公司</a></li>
+                            <li><a href="#">山东洪业化工集团</a></li>
+                            <li><a href="#">菏泽睿鹰制药集团</a></li>
+                            <li><a href="#">江苏华西集团</a></li>
+                            <li><a href="#">常州天马集团</a></li>
+                            <li><a href="#">江阴澄星实业集团</a></li>
+                            <li><a href="#">常州新港热电公司</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div><!-- /.navbar-collapse -->
+        </div><!-- /.container-fluid -->
+    </nav>
+</div>
+
+
+<div style="margin-top: 100px;">
+    <img src="/images/zy/products/water2.png" style="height: 50vh; display: inline-block">
+    <img src="/images/zy/products/water.png" style="height: 50vh; display: inline-block">
+    <h1 style="display: inline-block;">污染源水质在线自动监测系统</h1>
+</div>
+
+<div style="background-color: #f8f8f8; padding-top: 50px; padding-bottom: 30px;">
+    <p style="width: 80vw; line-height: 300%; margin: auto; text-align: center;">
+        <span style="font-size: 25px;">污染源水质在线自动监测系统</span>
+        以自主开发的水质在线自动监测仪器为核心，
+        并可集成其他各类分析仪，充分利用<span class="em">物联网、云计算</span>
+        等新一代信息技术，并综合自动控制、无线通讯、数据库及网络工程等技术，
+        实现区域污染物质的数字化管理，提高环保管理水平和决策水平。
+    </p>
+</div>
+
+<div style="padding-top: 30px; padding-bottom: 30px;">
+    <h2 style="text-align:center; margin-bottom: 30px;">应用领域</h2>
+    <h4 style="width: 80vw; line-height: 300%; margin: auto; text-align: center;">
+        适用于市政污水、工业废水、工业过程控制、污水深度处理等各种污染水体的监测。
+    </h4>
+</div>
+
+<div style="background-color: #f8f8f8; padding-top: 30px; padding-bottom: 30px;">
+    <h2 style="text-align:center; margin-bottom: 30px;">系统构成</h2>
+    <div class="row">
+        <div class="col-sm-6 col-xs-12 text-center">
+            <img src="/images/zy/nounProject/computerTower.png" style="width: 60%"/>
+        </div>
+        <div class="col-sm-6 col-xs-12">
+            <h4 style="width: 80vw; line-height: 200%;">系统监控中心</h4>
+            <hr class="compressedHr">
+            <h4 style="width: 80vw; line-height: 200%;">传输单元</h4>
+            <hr class="compressedHr">
+            <h4 style="width: 80vw; line-height: 200%;">智能站点</h4>
+            <p style=" line-height: 200%;">
+                智能站点由采水单元、配水单元、分析单元、数据采集和控制单元、辅助单元组成。
+            </p>
+            <hr class="compressedHr">
+            <h4 style="width: 80vw; line-height: 200%;">站房</h4>
+            <hr class="compressedHr">
+        </div>
+    </div>
+    <p style=" line-height: 200%; margin:auto; text-align: center; width: 80%;">
+        系统支持常规水质指标如pH、电导率、流量计、CODcr、氨氮等的监测，
+        并可根据用户需求扩展总氮、总磷等监测因子。
+        针对近年国内频发的各类重金属污染事件，推出新一代水质重金属检测仪，
+        可监测的重金属因子包括：铅、汞、铬、镉、砷、铜、锌、锰、镍、铁等。
+    </p>
+</div>
+
+<div style="padding-top: 30px; padding-bottom: 30px;">
+    <h2 style="text-align:center; margin-bottom: 30px;">方案优势</h2>
+    <div class="row">
+        <div class="col-sm-1"></div>
+        <div class="col-sm-2 col-xs-12" style="text-align:center;">
+            <p style="width: 80%; line-height: 200%; margin: auto; padding-top: 30px; padding-bottom: 30px;">
+                将<span class="em1">环境监测、集成技术和预警相融合</span>，
+                能实现对污染物质的实时监测和应急指挥，加强环境保护，确保水质安全；
+            </p>
+        </div>
+        <div class="col-sm-2 col-xs-12" style="text-align:center;">
+            <p style="width: 80%; line-height: 200%; margin: auto; padding-top: 30px; padding-bottom: 30px;">
+                实现网络监控、数据通讯、数据采集传输、现场监测设备的
+                <span class="em1">一体化</span>，实现现场监测设备和网络监控设备的有效联网和管理；
+            </p>
+        </div>
+        <div class="col-sm-2 col-xs-12" style="text-align:center;">
+            <p style="width: 80%; line-height: 200%; margin: auto; padding-top: 30px; padding-bottom: 30px;">
+                具备可<span class="em1">扩展性</span>
+                的原则，可根据要求配备其他理化指标
+            </p>
+        </div>
+        <div class="col-sm-2 col-xs-12" style="text-align:center;">
+            <p style="width: 80%; line-height: 200%; margin: auto; padding-top: 30px; padding-bottom: 30px;">
+                <span class="em1">定制化方案</span>，
+                针对不同现场条件提供不同的集成和数据传输系统
+            </p>
+        </div>
+        <div class="col-sm-2 col-xs-12" style="text-align:center;">
+            <p style="width: 80%; line-height: 200%; margin: auto; padding-top: 30px; padding-bottom: 30px;">
+                专业的<span class="em1">运维保障</span>，
+                确保系统和设备的有效运行：全面托管/部分托管/TO/BOO方式，完善的运维装备配置和管理制度。
+            </p>
+        </div>
+        <div class="col-sm-1"></div>
+
+    </div>
+</div>
+
+<div>
+    <div class="row" style="background-color: #333333">
+        <div class="col-sm-6 col-xs-12">
+            <div style="padding-left: 10vw; padding-top: 60px;">
+                <h4 style="color: #afafaf; margin-bottom: 30px;">公司简介</h4>
+                <p style="width: 80%; color: #afafaf">
+                    中源环境仪器从市环境监测设备的销售,安装,环境监测网络设计,建设,以及环境连续监测设备和
+                    监测网络的运营等业务,与行业内很多企业常年保持良好的合作关系.具备专业的污染源等
+                    第三方运营服务队伍,有着十多年现场运维经验,拥有雄厚的技术力量和售后服务体系,公司坚持
+                    走专业化,技术性的发展路线.
+                </p>
+            </div>
+        </div>
+        <div class="col-sm-6 col-xs-12">
+            <div style="padding-left: 10vw; padding-top: 60px;">
+                <h4 style="color: #afafaf; margin-bottom: 30px;">联系方式</h4>
+                <p style="width: 80%; color: #afafaf">
+                    地址: 江阴市澄江西路246号西三楼 214400
+                </p>
+                <p style="width: 80%; color: #afafaf">
+                    电话传真: 0510-86804983
+                </p>
+                <p style="width: 80%; color: #afafaf">
+                    邮箱: 1020922472@qq.com
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="text-center" style="background-color: #333333; padding-top: 60px; padding-bottom: 60px;">
+    <p style="color: #abe2e7">Made in Wuxi Shang-xi Union️</p>
+    <p style="color: #afafaf">Pictures credited to To Uyen and Yamini Ahluwalia from Noun Project</p>
+    <p style="color: #afafaf">@ 中源环境 2016</p>
+</div>
+</body>
+</html>
