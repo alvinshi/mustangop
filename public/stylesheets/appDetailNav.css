@@ -1,14 +1,18 @@
 
     /*reset*/
-body, div, dl, dt, dd, ul, ol, li { margin: 0; padding: 0}
+body, div, dl, dt, dd, ul, ol, li { margin: 0; padding: 0;}
 table { border-collapse: collapse; border-spacing: 0; }
 
  img { border: 0; }
 
 ol, ul { list-style: none; }
 caption, th { text-align: left; }
+a{
+    text-decoration: none;
+}
 a:hover{ text-decoration:none;
-color: #3498db}
+    color: #3498db;
+}
 
 .subNavBox{width:200px;
     margin:50px auto;}
@@ -16,23 +20,25 @@ color: #3498db}
     cursor:pointer;
     font-weight:bold;
     font-size:18px;
-    color:#3498db;
-    /*border: 1px solid red;*/
     line-height:40px;
     padding-left:10px;
-    /*background:url(/images/appDetail/arror1.jpg) no-repeat;*/
+    background:url(/images/appDetail/arror1.jpg) no-repeat;
+    color: #277fc2;
     background-repeat: no-repeat;
     background-position:98% 50%;
 
 }
-.change_history {
-    /*background:url(/images/appDetail/arror1.jpg);*/
-    background:url(/images/appDetail/arror1.jpg) no-repeat;
-    background-repeat: no-repeat;
-    background-position:98% 50%;
+.nav{ cursor:pointer;
+    font-weight:bold;
+    font-size:18px;
+    line-height:40px;
+    padding-left:10px;
+
 }
 .currentDt{
-
+    background:url(/images/appDetail/arror.jpg) ;
+    background-repeat: no-repeat;
+    background-position:98% 50%;
 }
 .navContent{
     display: none;
@@ -45,10 +51,9 @@ color: #3498db}
     text-align:center;
     font-size:16px;
     line-height:32px;
-    color:#3498db}
+}
 .navContent li a:hover{
-    color:black;
-    background-color:#3498db;
+    color:#3498db;
     text-decoration: none;
 }
 
