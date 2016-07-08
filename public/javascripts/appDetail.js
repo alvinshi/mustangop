@@ -3,7 +3,7 @@
  */
 
 var app = angular.module('yemaWebApp', ['angularFileUpload']);
-var navIndex = 3;
+var navIndex = 1;
 
 app.controller('myAppControl', function($scope, $http, $location, FileUploader) {
     $scope.pageIndex = 0;
@@ -479,7 +479,22 @@ app.controller('myAppControl', function($scope, $http, $location, FileUploader) 
 
 
     //需求编辑
-    $scope.message = "";
-    $scope.left  = function() {return 20 - $scope.message.length;};
+    $scope.message = "0";
+    $scope.titleKeyword="";
+    $scope.commentKeyword="";
+    if($scope.titleKeyword==""){
+        $scope.titleKeyword.length=0;
+    }
+    if($scope.titleKeyword.length>=20){
+        $scope.titleKeyword.length==20 ;
+    }
+    console.log($scope.titleKeyword.length)
+    if($scope.commentKeyword==""){
+        $scope.commentKeyword.length=0;
+
+    }
+    $scope.color={
+       "color" :"#3498db"
+    };
     $scope.more = "";
 });

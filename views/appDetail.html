@@ -88,7 +88,7 @@
         </div>
     </div>  <!--first row end-->
     <div class="row">
-        <div class="col-lg-3 col-xs-3 change row_second_left" >
+        <div class="col-lg-3 col-xs-3 change row_second_left">
             <div class="subNavBox">
                 <div class="subNav currentDd currentDt">
                     <a href="/#need"  data-toggle="tab">
@@ -107,15 +107,17 @@
                     <!--<li><a href="#">需求编辑</a></li>-->
                 </ul>
 
-                <div class="subNav">
-                    <img src="/images/appDetail/history.png" alt=""><span style="margin-left:22px" >做任务记录</span>
+                <div class="subNav change_history" style=" background:url(/images/appDetail/arror1.jpg);
+    background-repeat: no-repeat;
+    background-position:98% 50%;">
+                    <img src="/images/appDetail/history.png" alt=""><span style="margin-left:22px" >交换任务记录</span>
                 </div>
                 <ul class="navContent">
                     <li><a href="/#curhistory" data-toggle="tab">当前版本</a></li>
                     <li><a href="/#prehistory" data-toggle="tab">以往版本</a></li>
                 </ul>
 
-                <div class="subNav">
+                <div class="subNav" style="">
                     <a href="/#addtask" data-toggle="tab" >
                         <img src="/images/appDetail/addtask.png" alt=""><span style="margin-left:22px">外部交换工具</span>
                     </a>
@@ -131,17 +133,15 @@
                 <div class="tab-pane fade " id="need">
                     <div>
                         <h2 class="mytitle">任务信息</h2>
-
                         <form class="form-horizontal">
-
                             <div class="form-group">
                                 <label  class="col-lg-2 control-label" > 任务类型:</label>
                                 <div class="col-lg-8">
                                     <label class="radio-inline">
-                                        <input type="radio" name="inlineRadioOptions" value="评论" ng-model="taskType"> 评论
+                                        <input type="radio" value="评论" ng-model="taskType"> 评论
                                     </label>
                                     <label class="radio-inline">
-                                        <input type="radio"name="inlineRadioOptions"  value="下载" ng-model="taskType"> 下载
+                                        <input type="radio" value="下载" ng-model="taskType"> 下载
                                     </label>
                                 </div>
                             </div>
@@ -173,12 +173,12 @@
                         <form class="form-horizontal">
                             <div class="form-group">
                                 <label  class="col-lg-2 control-label" >搜索关键词:</label>
-                                <div class="col-lg-4">
+                                <div class="col-lg-3">
                                     <input type="text" class="form-control" placeholder="" ng-model="searchKeyword">
                                 </div>
-                                <label  class="col-lg-2 control-label" >排名:</label>
-                                <div class="col-lg-4">
-                                    <input type="text" class="form-control" style="width: 100px;"
+                                <label  class="col-lg-2 control-label "  >排名:</label>
+                                <div class="col-lg-3">
+                                    <input type="text" class="form-control" style="width: 143px;"
                                            placeholder="" ng-model="ranking">
                                 </div>
                             </div>
@@ -203,21 +203,25 @@
                             <div class="form-group">
                                 <label  class="col-lg-2 control-label" > 标题关键词:</label>
                                 <div class="col-lg-8" >
-                                    <input type="text" ng-model="titleKeyword" class="form-control" placeholder="请输入小于20字符">
+                                    <input type="text" ng-model="titleKeyword" ng-disabled="titleKeyword.length>=20"
+                                           class="form-control" placeholder="请输入小于20字符">
                                 </div>
+                                <label  class="col-lg-1 control-label" style="margin-left: -40px" ><span ng-bind="titleKeyword.length" ng-style="color"></span>/20</label>
                             </div>
                             <div class="form-group">
                                 <label  class="col-lg-2 control-label" > 评论关键词:</label>
                                 <div class="col-lg-8">
-                                    <input type="text" class="form-control" placeholder="请输入小于40字符"
-                                           ng-model="commentKeyword">
+                                    <textarea class="form-control" rows="2" style="height: 60px" placeholder="请输入小于40字符"
+                                           ng-model="commentKeyword" ng-disabled="commentKeyword.length==40"></textarea>
                                 </div>
+                                <label  class="col-lg-1 control-label" style="margin-left: -40px" ><span ng-bind="commentKeyword.length" ng-style="color"></span>/40</label>
                             </div>
 
                             <div class="form-group">
                                 <label  class="col-lg-2 control-label" >详情备注:</label>
                                 <div class="col-lg-8">
-                               <textarea  class="form-control" rows="5" placeholder="1.标题不少于53.请两日内不卸载" ng-model="more">
+                               <textarea  class="form-control" rows="5" placeholder="1.标题不少于2个关键词 2.请两日内不卸载
+                               " ng-model="more">
                                </textarea>
                                 </div>
                             </div>
@@ -225,7 +229,12 @@
                         <hr>
                     </div>
 
-                    <button class="btn button_save">保存</button>
+                    <div class="col-lg-6">
+                        <button class="btn button_save">保存</button>
+                    </div>
+                    <div class="col-lg-6">
+                        <button class="btn button_save">发布任务</button>
+                    </div>
                     <div>
                         <h2 class="mytitle">需求预览</h2>
                         <div style="background:url(/images/appDetail/screenshot-background.png); width: 640px;
@@ -239,7 +248,7 @@
                                 <div class="col-sm-9" style="padding-left: 50px;">
                                     <p style="font-size: 24px; color: #ffffff;
                                 width: 330px; margin-top: 10px">
-                                        {{ appBaseInfo.trackName  }}
+                                        {{ appBaseInfo.trackName.substr(0,16)+"..."  }}
                                     </p>
                                     <p style="color: #ffffff;
                                 width: 330px;">
@@ -274,7 +283,7 @@
                                     <p>4. 备注:</p>
                                     <p style="border: 1px solid #cdf1ff; font-size: 18px;
                                     margin-top: 20px; margin-bottom: 70px;
-                                    padding: 18px 20px 18px 20px; ng-show = more.length">
+                                    padding: 18px 20px 18px 20px;" ng-show = "more.length">
                                         {{more}}
                                     </p>
                                 </li>
@@ -282,7 +291,7 @@
 
                             <p style="font-size: 24px; color: #ffffff;">
                                 手机评论, 不要无卡机, iPad, 一条以上用手机流量哦, 亲.
-                                &nbsp &nbsp &nbsp&nbsp &nbsp &nbsp&nbsp &nbsp &nbsp
+                                &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp;&nbsp &nbsp &nbsp
                                 &nbsp &nbsp &nbsp&nbsp &nbsp &nbsp&nbsp &nbsp &nbsp
                                 &nbsp &nbsp &nbsp&nbsp &nbsp &nbsp&nbsp
                                 -友情提醒, 避免撕逼
@@ -374,8 +383,7 @@
                <div class="tab-pane " id="curhistory">
                    <div class="row exchang_pattern">
                        <div class="top_title  col-lg-8 col-xs-8">
-                           <!--<img class="exc_record_icon " src="/images/exch_history/exchang_icon.png">-->
-                           <span class="exc__record_title">交换记录</span>
+                           <span class="exc__record_title" >交换记录</span>
                       </div>
                        <div class="text-a col-lg-3 col-xs-3">
                            <button type="button " class=" add_exchistory_botton hvr-float-shadow"  data-target="#search_history" data-toggle="modal">
@@ -393,7 +401,6 @@
 
 
                    <div class="nowversion ">
-                       <h4>当前版本</h4>
                        <div class="app_list media" ng-repeat="app in ExcAllApps">
                            <div class="media-left">
                                <img class="media-object" ng-src="{{ app.artworkUrl100 }}" alt="App Icon">
@@ -427,7 +434,7 @@
                    </div>
                </div> <!--当前版本-->
                <div class=" tab-pane  preversion" id="prehistory">
-                   <h4>以往版本</h4>
+
                    <div class="app_list" ng-repeat="app in myHistoryApps">
                        <div class="media">
                            <div class="media-left">

@@ -17,14 +17,22 @@ color: #3498db}
     font-weight:bold;
     font-size:18px;
     color:#3498db;
+    /*border: 1px solid red;*/
     line-height:40px;
     padding-left:10px;
-    background:url(/images/appDetail/arror1.jpg) no-repeat;
-    background-position:98% 50%
-}
+    /*background:url(/images/appDetail/arror1.jpg) no-repeat;*/
+    background-repeat: no-repeat;
+    background-position:98% 50%;
 
+}
+.change_history {
+    /*background:url(/images/appDetail/arror1.jpg);*/
+    background:url(/images/appDetail/arror1.jpg) no-repeat;
+    background-repeat: no-repeat;
+    background-position:98% 50%;
+}
 .currentDt{
-    background-image:url(/images/appDetail/arror.jpg);
+
 }
 .navContent{
     display: none;
