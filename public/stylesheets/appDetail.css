@@ -96,11 +96,12 @@ body {
     color: #333333;
 }
 .outchange{
-    font-size: 20px;
-    color: #3498db;
-    font-weight: 200;
+    font-size: 24px;
+    font-weight: 400;
     margin-top: 5%;
-    margin-left: 48px;
+    margin-left: 10px;
+    border-left: 4px solid #3498db;
+    padding-left: 10px;
 }
 .add-botton{
     margin-top:20px;
