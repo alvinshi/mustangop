@@ -44,7 +44,7 @@
 <div class="container" style="width: 1010px; padding:0;" ng-controller="doTaskCtrl">
     <div class="row" style="margin:0;">
         <p style="font-size: 30px; color: #3498db; margin: 40px 20px 10px 0; float: left">任务列表</p>
-        <div class="alert alert-warning" role="alert" style="display: inline-block; margin-top: 35px;">
+        <div class="alert alert-danger" role="alert" style="display: inline-block; margin-top: 35px;">
             认领的任务将收集到"当前任务"中，请在"当前任务"中完成。</div>
         <a href="#" class="publishTask" ng-mouseover="changePlaneColor()" ng-mouseleave = "changePlaneColor()">
             <img src="/images/doTask/paperplane.png" ng-show="planeColor"/>
@@ -135,13 +135,72 @@
     <!-- Modal -->
     <div class="modal fade" id="detail" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
         <div class="modal-dialog" role="document">
-            <div class="modal-content">
+            <div class="modal-content" style="width: 642px;">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                     <h4 class="modal-title" id="myModalLabel">任务详情</h4>
                 </div>
-                <div class="modal-body">
-                    ...
+                <div class="modal-body" style="padding:0;">
+                    <div style="background:url(/images/appDetail/screenshot-background.png); width: 640px;
+                        padding: 36px 54px 60px 30px; margin: auto;">
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <img  class="appicon" style="display: inline-block; margin: 0 26px 40px 20px;
+                                width: 120px; height: 120px; border-radius: 20px"
+                                      ng-src="{{  appBaseInfo.artworkUrl100 }}" alt="App Icon">
+                            </div>
+                            <div class="col-sm-9" style="padding-left: 50px;">
+                                <p style="font-size: 24px; color: #ffffff;
+                                width: 330px; margin-top: 10px">
+                                    {{ appBaseInfo.trackName.substr(0,16)+"..."  }}
+                                </p>
+                                <p style="color: #ffffff;
+                                width: 330px;">
+                                    更新日期: {{ appBaseInfo.latestReleaseDate  }}
+                                </p>
+                                <p style="color: #ffffff; font-size: 20px;">
+                                    任务类型: <span class="synwords">{{taskType}}</span>
+                                </p>
+                            </div>
+                        </div>
+
+                        <ol style="font-size: 20px; color: #ffffff;
+                            list-style-position: inside; padding:0; margin:0;">
+                            <li style="margin-bottom: 30px">
+                                <p>app store 搜索"<span class="synwords">{{searchKeyword}}</span>"
+                                    第<span class="synwords">{{ranking}}</span>
+                                    名左右, 找到应用,如上图图标, 下载.</p>
+                            </li>
+                            <li style="margin-bottom: 30px">
+                                <p>打开app, 请务必过引导页.</p>
+                            </li>
+                            <li  style="margin-bottom: 30px" ng-hide="taskType == '下载'">
+                                <p  style="margin-bottom: 20px">
+                                    返回app store, 好评"<span class="synwords">{{stars}}</span>星"
+                                </p>
+                                <p style="margin-bottom: 20px">
+                                    &nbsp &nbsp &nbsp 标题关键词: <span class="synwords">{{titleKeyword}}</span></p>
+                                <p style="margin-bottom: 20px">
+                                    &nbsp &nbsp &nbsp评论关键词: <span class="synwords">{{commentKeyword}}</span></p>
+                            </li>
+                            <li  style="margin-bottom: 30px" ng-hide="taskType == '下载'">
+                                <p>备注:</p>
+                                <p style="border: 1px solid #cdf1ff; font-size: 18px;
+                                    margin-top: 20px; margin-bottom: 70px;
+                                    padding: 18px 20px 18px 20px;" ng-show = "more.length">
+                                    {{more}}
+                                </p>
+                            </li>
+                        </ol>
+
+                        <p style="font-size: 24px; color: #ffffff;">
+                            手机评论, 不要无卡机, iPad, 一条以上用手机流量哦, 亲.
+                            &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp;&nbsp &nbsp &nbsp
+                            &nbsp &nbsp &nbsp&nbsp &nbsp &nbsp&nbsp &nbsp &nbsp
+                            &nbsp &nbsp &nbsp&nbsp &nbsp &nbsp&nbsp
+                            -友情提醒, 避免撕逼
+                        </p>
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
