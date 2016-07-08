@@ -13,11 +13,17 @@
 
     <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
     <script src="//cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-<!--网站内部js-->
+
+    <link rel="stylesheet" href="/stylesheets/vendor/hover/hover-min.css">
+
+    <!--网站内部js-->
 
 
     <script src="/javascripts/doTask.js"></script>
     <script src="/javascripts/indexApp.js"></script>
+    <!--网站内部css-->
+    <link rel="stylesheet" href="/stylesheets/doTask.css"/>
+
 
 
 </head>
@@ -33,9 +39,149 @@
     <th-nav></th-nav>
 </div>
 
+<img src="/images/doTask/banner.png" style="width: 100vw; margin-top: 50px;"/>
 
-<div class="container" ng-controller="doTaskCtrl" >
-    <h1 style="margin: 100px">快来做任务吧</h1>
+<div class="container" style="width: 1010px; padding:0;" ng-controller="doTaskCtrl">
+    <div class="row" style="margin:0;">
+        <p style="font-size: 30px; color: #3498db; margin: 40px 20px 10px 0; float: left">任务列表</p>
+        <div class="alert alert-warning" role="alert" style="display: inline-block; margin-top: 35px;">
+            认领的任务将收集到"当前任务"中，请在"当前任务"中完成。</div>
+        <a href="#" class="publishTask" ng-mouseover="changePlaneColor()" ng-mouseleave = "changePlaneColor()">
+            <img src="/images/doTask/paperplane.png" ng-show="planeColor"/>
+            <img src="/images/doTask/paperplane-blue.png" ng-hide="planeColor"/>
+            快速发布任务
+        </a>
+    </div>
+    <hr style="border: 1px solid #3498db; margin: 0 0 20px 0;">
+
+    <div class="taskPanel">
+        <table style="width: 1010px;">
+            <tr>
+                <td style="padding: 24px 30px 24px 30px; width: 160px;">
+                    <img src="#" class="appIcon"/>
+                </td>
+                <td>
+                    <p class="appName">趣恋爱-最火爆的社区应用</p>
+                    <div>
+                        <span class="infoBubble">下载</span>
+                        <span class="infoBubble">剩余: <span style="color:#53d435">12</span> 条</span>
+                        <span class="infoBubble">任务单价: <span style="color:#53d435">25</span> Y币</span>
+                    </div>
+                </td>
+                <td style="padding-right: 40px;">
+                    <button class="mybtn reverse hvr-float-shadow" style="margin-left: 44px;" data-toggle="modal" data-target="#takeTask">
+                        领取任务</button>
+                    <button class="mybtn hvr-float-shadow" data-toggle="modal" data-target="#detail">
+                        任务详情</button>
+                </td>
+            </tr>
+        </table>
+        <hr style="margin:0; border-color: #dddddd;">
+    </div>
+    <div class="taskPanel">
+        <table style="width: 1010px;">
+            <tr>
+                <td style="padding: 24px 30px 24px 30px; width: 160px;">
+                    <img src="#" class="appIcon"/>
+                </td>
+                <td>
+                    <p class="appName">趣恋爱-最火爆的社区应用</p>
+                    <div>
+                        <span class="infoBubble">下载</span>
+                        <span class="infoBubble">剩余: <span style="color:#53d435">12</span> 条</span>
+                        <span class="infoBubble">任务单价: <span style="color:#53d435">25</span> Y币</span>
+                    </div>
+                </td>
+                <td style="padding-right: 40px;">
+                    <button class="mybtn reverse hvr-float-shadow" style="margin-left: 44px;" data-toggle="modal" data-target="#takeTask">
+                        领取任务</button>
+                    <button class="mybtn hvr-float-shadow" data-toggle="modal" data-target="#detail">
+                        任务详情</button>
+                </td>
+            </tr>
+        </table>
+        <hr style="margin:0; border-color: #dddddd;">
+    </div>
+    <div class="taskPanel">
+        <table style="width: 1010px;">
+            <tr>
+                <td style="padding: 24px 30px 24px 30px; width: 160px;">
+                    <img src="#" class="appIcon"/>
+                </td>
+                <td>
+                    <p class="appName">趣恋爱-最火爆的社区应用</p>
+                    <div>
+                        <span class="infoBubble">下载</span>
+                        <span class="infoBubble">剩余: <span style="color:#53d435">12</span> 条</span>
+                        <span class="infoBubble">任务单价: <span style="color:#53d435">25</span> Y币</span>
+                    </div>
+                </td>
+                <td style="padding-right: 40px;">
+                    <button class="mybtn reverse hvr-float-shadow" style="margin-left: 44px;" data-toggle="modal" data-target="#takeTask">
+                        领取任务</button>
+                    <button class="mybtn hvr-float-shadow" data-toggle="modal" data-target="#detail">
+                        任务详情</button>
+                </td>
+            </tr>
+        </table>
+        <hr style="margin:0; border-color: #dddddd;">
+    </div>
+
+    <div style="margin-top: 30px; margin-bottom: 30px; text-align: center;">
+        <button class="btn btn-default myPageBtn">上一页</button>
+        <button class="btn btn-default myPageBtn">下一页</button>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="detail" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">任务详情</h4>
+                </div>
+                <div class="modal-body">
+                    ...
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="takeTask" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content" style="width: 400px;">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">领取任务</h4>
+                </div>
+                <div class="modal-body">
+                    <div>
+                        <div>
+                            <span style="font-size: 18px; color: #333333; padding-top: 10px">任务数量: </span>
+                            <input type="text" placeholder="" style="border-radius: 4px; width: 50px;"/>
+                            <span style="font-size: 18px; color: #333333; padding-top: 2px">条</span>
+                            <span style="font-size: 18px; color: #333333; padding-top: 2px">将获得
+                                <span style="color:#3498db">60 </span>Y币</span>
+                        </div>
+                        <hr>
+                        <div>
+                            <span style="font-size: 18px; color: #333333; padding-top: 2px">添加备注: </span>
+                            <input type="text" placeholder="可用作内部分配时的依据" style="border-radius: 4px; width: 250px;" />
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default reverse" style="width: 100px">
+                        确认
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </div>
 <script src="/javascripts/cookieHelper.js"></script>
 </body>

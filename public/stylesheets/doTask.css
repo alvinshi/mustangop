@@ -1,0 +1,74 @@
+.publishTask{
+    float: right;
+    font-size: 20px;
+    color: #666666;
+    margin-top: 46px;
+    margin-bottom: 22px;
+}
+
+.publishTask:hover{
+    color: #3498db;
+    text-decoration: none;
+}
+
+.appIcon{
+    width: 100px;
+    height: 100px;
+    border: 1px solid #dddddd;
+    border-radius: 20px;"
+    display: inline;
+}
+
+.appName{
+    margin-top: 3px;
+    margin-bottom: 13px;
+    font-size: 24px;
+    color: #333333;
+    padding: 0;
+}
+
+.infoBubble{
+    border: 1px solid #acddfe;
+    border-radius: 4px;
+    margin-right: 10px;
+    font-size: 22px;
+    color: #58b7f7;
+    height: 40px;
+    padding: 9px 10px 9px 10px;
+
+}
+
+.mybtn{
+    float: right;
+    width: 130px;
+    height: 44px;
+    border: 1px solid #3498db;
+    color: #3498db;
+    background: transparent;
+    font-size: 20px;
+    border-radius: 4px;
+}
+
+
+.reverse{
+    color: white;
+    background: #3498db;
+}
+
+.taskPanel:hover{
+    box-shadow: 0 0 5px 2px #888888;
+    border-radius: 4px;
+}
+
+.myPageBtn{
+    height: 40px;
+    font-size:18px;
+    color: #333333;
+    border: 1px solid #dddddd;
+    margin:0 10px 0 10px;
+}
+
+.myPageBtn:hover{
+    background-color: #3498db;
+    color: white;
+}
