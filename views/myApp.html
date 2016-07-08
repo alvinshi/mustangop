@@ -99,9 +99,11 @@
                 <p class="app_name ">{{ app.trackName.substr(0,16) }}</p>
                 <p class="app_version">版本号 {{ app.version }}</p>
                 <p class="app_update">更新日期{{ app.latestReleaseDate.substr(0,10) }}</p>
-                <button  class="app_button_bottom hvr-box-shadow-inset" >
-                    <a ng-click="releaseBtnClick(app.appleId)" data-toggle="modal" data-target="#mymodal">解绑</a>
-                </button>
+
+                    <a ng-click="releaseBtnClick(app.appleId)" data-toggle="modal" data-target="#mymodal">
+                        <button  class="app_button_bottom hvr-box-shadow-inset" >解绑</button>
+                    </a>
+
             </div>
 
             <div class="modal fade" id="mymodal">
