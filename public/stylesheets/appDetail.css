@@ -29,7 +29,11 @@ body {
     background-color: white;
 }
 .addtask_first{
-    height: 120px;
+    height: 200px;
+    /*border: 1px solid red;*/
+}
+.infor_danger{
+    margin-top: -50px;
 }
 .addtask_second{
     height: 200px;

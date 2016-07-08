@@ -479,16 +479,25 @@ app.controller('myAppControl', function($scope, $http, $location, FileUploader) 
 
 
     //需求编辑
-    $scope.message = "0";
+    $scope.message = "";
     $scope.titleKeyword="";
     $scope.commentKeyword="";
     if($scope.titleKeyword==""){
         $scope.titleKeyword.length=0;
     }
-    if($scope.titleKeyword.length>=20){
-        $scope.titleKeyword.length==20 ;
+    if($scope.titleKeyword.length>20){
+        $scope.titleKeyword.length=20 ;
     }
-    console.log($scope.titleKeyword.length)
+    function checkLen(obj) {
+
+        var maxChars = 40;//最多字符数
+
+        if (obj.value.length > maxChars)  obj.value = obj.value.substring(0,maxChars);
+
+    }
+
+
+
     if($scope.commentKeyword==""){
         $scope.commentKeyword.length=0;
 
