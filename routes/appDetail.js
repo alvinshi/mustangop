@@ -77,7 +77,7 @@ router.get('/myAppExcHistory/:appid/:version', function(req, res) {
         query = AV.Query.and(query, query_version);
     }
 
-    query.limit(100);
+    //query.limit(500);
     query.notEqualTo('excHistoryAdd', 'excHistoryadd');
     query.include('myAppObject');
     query.include('hisAppObject');
