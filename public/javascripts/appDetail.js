@@ -506,4 +506,19 @@ app.controller('myAppControl', function($scope, $http, $location, FileUploader) 
        "color" :"#3498db"
     };
     $scope.more = "";
+
+    //生成预览截图
+
+    $scope.getScreenShot = function() {
+        console.log('runned');
+        html2canvas(document.getElementById("screenShot"), {
+            onrendered: function (canvas) {
+                var a = document.createElement('a');
+                a.href = canvas.toDataURL("image/jpeg", 1).replace("image/jpeg", "image/octet-stream");
+                a.download = 'somefilename.jpg';
+                a.click();
+            },
+            proxy: $scope.appBaseInfo.artworkUrl100
+        });
+    };
 });
