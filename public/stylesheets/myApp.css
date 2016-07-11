@@ -40,6 +40,10 @@ button{
     border: 1px solid #aab2bd;
     border-style: none none solid none ;
 }
+.infor{
+    margin-left: 48px;
+    width: 840px;
+}
 
 .media{
     /*margin-top: 0em;*/
@@ -48,6 +52,7 @@ button{
     margin-left: 48px;
     border-style: none none solid none ;
 }
+
 .media img{
     margin-top: 14px;
     width: 80px;
