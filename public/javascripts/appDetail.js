@@ -482,28 +482,27 @@ app.controller('myAppControl', function($scope, $http, $location, FileUploader) 
     $scope.message = "";
     $scope.titleKeyword="";
     $scope.commentKeyword="";
-    if($scope.titleKeyword==""){
-        $scope.titleKeyword.length=0;
-    }
-    if($scope.titleKeyword.length>20){
-        $scope.titleKeyword.length=20 ;
-    }
-    function checkLen(obj) {
-
-        var maxChars = 40;//最多字符数
-
-        if (obj.value.length > maxChars)  obj.value = obj.value.substring(0,maxChars);
-
-    }
 
 
 
-    if($scope.commentKeyword==""){
-        $scope.commentKeyword.length=0;
 
-    }
     $scope.color={
        "color" :"#3498db"
     };
     $scope.more = "";
+    var count=20;
+    $scope.checkInput=function(){
+        if($scope.titleKeyword.length>count){
+            $scope.titleKeyword=$scope.titleKeyword.substring(0,count);
+        }
+
+    }
+     var maxLen = 40;	//定义用户可以输入的最多字数
+    $scope.checkMaxInput=function(){
+        if ($scope.commentKeyword.length > maxLen){	//如果输入的字数超过了限制
+            $scope.commentKeyword = $scope.commentKeyword.substring(0, maxLen);	//就去掉多余的字
+
+        }
+    }
+
 });

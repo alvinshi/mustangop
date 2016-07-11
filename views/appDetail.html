@@ -99,7 +99,7 @@
                     <!--<li><a href="#">需求编辑</a></li>-->
                 </ul>
                 <div class="nav  ">
-                    <a href="/#need"  data-toggle="tab">
+                    <a href="/#"  data-toggle="tab">
                         <img src="/images/appDetail/rewrite.png" alt=""> <span style="margin-left:20px">任务进度及审核</span>
                     </a>
                 </div>
@@ -205,8 +205,9 @@
                             <div class="form-group">
                                 <label  class="col-lg-2 control-label" > 标题关键词:</label>
                                 <div class="col-lg-8" >
-                                    <input type="text" ng-model="titleKeyword" ng-disabled="titleKeyword.length>=20"
-                                           class="form-control" placeholder="请输入小于20字符">
+                                    <input type="text" class="form-control" placeholder="请输入小于20字符"
+                                           ng-model="titleKeyword"
+                                           ng-keydown="checkInput()" ng-keyup="checkInput()" >
                                 </div>
                                 <label  class="col-lg-1 control-label" style="margin-left: -40px" ><span ng-bind="titleKeyword.length" ng-style="color"></span>/20</label>
                             </div>
@@ -214,7 +215,10 @@
                                 <label  class="col-lg-2 control-label" > 评论关键词:</label>
                                 <div class="col-lg-8">
                                     <textarea class="form-control" rows="2" style="height: 60px" placeholder="请输入小于40字符"
-                                           ng-model="commentKeyword" ng-disabled="commentKeyword.length>=40"></textarea>
+                                           ng-model="commentKeyword"
+                                              ng-keydown="checkMaxInput()" ng-keyup="checkMaxInput()">
+
+                                    </textarea>
                                 </div>
                                 <label  class="col-lg-1 control-label" style="margin-left: -40px" ><span ng-bind="commentKeyword.length" ng-style="color"></span>/40</label>
                             </div>
