@@ -486,9 +486,7 @@ app.controller('myAppControl', function($scope, $http, $location, FileUploader) 
     $scope.color={
        "color" :"#3498db"
     };
-<<<<<<< HEAD
 
-=======
     $scope.more = "";
 
     //生成预览截图
@@ -505,19 +503,15 @@ app.controller('myAppControl', function($scope, $http, $location, FileUploader) 
             proxy: $scope.appBaseInfo.artworkUrl100
         });
     };
->>>>>>> 36da984eeed75ecaa625f6c597a03887e857275e
     var count=20;
     $scope.checkInput=function(){
         if($scope.titleKeyword.length>count){
             $scope.titleKeyword=$scope.titleKeyword.substring(0,count);
         }
-<<<<<<< HEAD
 
     };
-=======
-    }
->>>>>>> 36da984eeed75ecaa625f6c597a03887e857275e
-     var maxLen = 40;	//定义用户可以输入的最多字数
+
+    var maxLen = 40;	//定义用户可以输入的最多字数
     $scope.checkMaxInput=function(){
         if ($scope.commentKeyword.length > maxLen){	//如果输入的字数超过了限制
             $scope.commentKeyword = $scope.commentKeyword.substring(0, maxLen);	//就去掉多余的字

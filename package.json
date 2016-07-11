@@ -16,6 +16,7 @@
   "dependencies": {
     "body-parser": "^1.15.1",
     "bootstrap": "~3.3.6",
+    "connect-busboy": "",
     "cookie-parser": "^1.4.1",
     "debug": "^2.2.0",
     "ejs": "^2.4.1",
@@ -23,10 +24,10 @@
     "hover.css": "^2.0.2",
     "leanengine": "^0.4.0",
     "morgan": "~1.6.1",
+    "redis": "^2.2.x",
     "serve-favicon": "~2.3.0",
-    "underscore": "^1.8.3",
-    "connect-busboy":"",
-    "redis": "^2.2.x"
+    "ui-router": "^1.0.0-alpha.3",
+    "underscore": "^1.8.3"
   },
   "engines": {
     "node": "4.x"

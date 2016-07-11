@@ -81,7 +81,7 @@ router.get('/myAppExcHistory/:appid/:version', function(req, res) {
     query.notEqualTo('excHistoryAdd', 'excHistoryadd');
     query.include('myAppObject');
     query.include('hisAppObject');
-    query.addDescending('excDateStr');
+    query.descending('createdAt');
     query.find({
         success: function(results) {
 
@@ -140,7 +140,7 @@ router.post('/excTaskId/:excTaskId', function(req, res){
             taskObject.set('addTaskPer', addTaskPer);
             taskObject.save().then(function(excObject){
                 //成功
-                res.json({'errorId':0, 'errorMsg':''});
+                res.json({'errorId':0, 'errorMsg':'', 'addObject' : taskObject});
             }),function(error){
                 //失败
                 res.json({'errorId':-1, 'errorMsg':error.message});
@@ -161,7 +161,7 @@ router.post('/excTaskId/:excTaskId', function(req, res){
                 taskObject.set('addTaskPer', addTaskPer);
                 taskObject.save().then(function(excObject){
                     //成功
-                    res.json({'errorId':0, 'errorMsg':''});
+                    res.json({'errorId':0, 'errorMsg':'', 'addObject' : taskObject});
                 }),function(error){
                     //失败
                     res.json({'errorId':-1, 'errorMsg':error.message});

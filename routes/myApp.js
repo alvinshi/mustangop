@@ -313,7 +313,7 @@ router.get('/history/angular/:appleId/:version/:pageIndex', function(req, res) {
 
     query.include('myAppObject');
     query.include('hisAppObject');
-    query.addDescending('excDateStr');
+    query.descending('createdAt');
     query.find({
         success: function(results) {
 
