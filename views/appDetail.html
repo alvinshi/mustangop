@@ -26,7 +26,7 @@
     <link rel="stylesheet" href="/stylesheets/appDetail.css">
     <link rel="stylesheet" href="/stylesheets/appDetailNav.css">
     <script src="/javascripts/vendor/AngularJS/angular-file-upload.min.js"></script>
-
+    <script src="/javascripts/vendor/html2canvas.js"></script>
 
     <!--网站内部js-->
 
@@ -243,13 +243,17 @@
                     </div>
                     <div>
                         <h2 class="mytitle">需求预览</h2>
+<<<<<<< HEAD
                         <div   style="background:url(/images/appDetail/screenshot-background.png); width: 640px;
+=======
+                        <div id='screenShot'; style="background:url(/images/appDetail/screenshot-background.png); width: 640px;
+>>>>>>> 36da984eeed75ecaa625f6c597a03887e857275e
                         padding: 36px 54px 60px 30px; margin: auto;">
                             <div class="row">
                                 <div class="col-sm-3">
                                     <img  class="appicon" style="display: inline-block; margin: 0 26px 40px 20px;
                                 width: 120px; height: 120px; border-radius: 20px"
-                                          ng-src="{{  appBaseInfo.artworkUrl100 }}" alt="App Icon">
+                                          ng-src="{{  appBaseInfo.artworkUrl100 }}" alt="App Icon"/>
                                 </div>
                                 <div class="col-sm-9" style="padding-left: 50px;">
                                     <p style="font-size: 24px; color: #ffffff;
@@ -303,6 +307,9 @@
                                 -友情提醒, 避免撕逼
                             </p>
                         </div>
+                        <button class="btn button_save" style="margin-top: 50px; margin-bottom: 50px;" ng-click='getScreenShot()'">
+                            下载需求图
+                        </button>
                     </div>
 
 
