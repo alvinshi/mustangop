@@ -12,5 +12,10 @@ app.controller('doTaskCtrl', function($scope, $http, $location) {
 
     $scope.changePlaneColor = function(){
         $scope.planeColor = !$scope.planeColor;
-    }
+    };
+
+    var url = 'doTask/taskHall';
+    $http.get(url).success(function(response){
+        $scope.taskObject = response.doTask;
+    })
 });

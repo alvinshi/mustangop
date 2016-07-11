@@ -11,6 +11,7 @@ var IOSAppBinder = AV.Object.extend('IOSAppBinder');
 var IOSAppExcLogger = AV.Object.extend('IOSAppExcLogger');
 var IOSAppSql = AV.Object.extend('IOSAppInfo');
 var File = AV.Object.extend('_File');
+var taskRequirementObject = AV.Object.extend('taskRequirementObject');
 
 router.get('/:appid', function(req, res, next) {
     res.render('appDetail')
@@ -76,7 +77,7 @@ router.get('/myAppExcHistory/:appid/:version', function(req, res) {
         query = AV.Query.and(query, query_version);
     }
 
-    query.limit(100);
+    query.limit(500);
     query.notEqualTo('excHistoryAdd', 'excHistoryadd');
     query.include('myAppObject');
     query.include('hisAppObject');
@@ -248,6 +249,84 @@ router.get('/historySearch/angular/:version/:searchkey', function(req, res) {
             res.json({'errorMsg':err.message, 'errorId': err.code, 'myApps':[]});
         }
     });
+
+});
+
+function taskRequirObject(res, excKinds, excCount, screenShot, searchKeyword, ranKing, score, titleKeyword,
+                          commentKeyword, detailsRemarks){
+    var query = new Query(taskRequirementObject);
+    query.equalTo('excKinds', excKinds);
+    query.equalTo('excCount', excCount);
+    query.equalTo('screenShot', screenShot);
+    query.equalTo('searchKeyword', searchKeyword);
+    query.equalTo('ranKing', ranKing);
+    query.equalTo('score', score);
+    query.equalTo('titleKeyword', titleKeyword);
+    query.equalTo('commentKeyword', commentKeyword);
+    query.equalTo('detailsRemarks', detailsRemarks);
+    query.find().then(function(results){
+        for (var i = 0; i < results.length; i++){
+
+        }
+    })
+
+    var taskdemObject = new AV.Object(taskRequirementObject);
+    taskdemObject.set('excKinds', excKinds);
+    taskdemObject.set('excCount', excCount);
+    taskdemObject.set('screenShot', screenShot);
+    taskdemObject.set('searchKeyword', searchKeyword);
+    taskdemObject.set('ranKing', ranKing);
+    taskdemObject.set('score', score);
+    taskdemObject.set('titleKeyword', titleKeyword);
+    taskdemObject.set('commentKeyword', commentKeyword);
+    taskdemObject.set('detailsRemarks', detailsRemarks);
+    taskdemObject.save().then(function(){
+        //
+    })
+
+}
+
+// task requirements to edit
+router.post('/taskedit', function(req, res){
+    var userId = util.useridInReq(req);
+    var myappId = req.params.appleId;
+    var excKinds = req.body.excKinds;
+    var excCount = req.body.excCount;
+    var screenShot = req.body.screenShot;
+    var searchKeyword = req.body.searchKeyword;
+    var ranKing = req.body.ranKing;
+    var score = req.body.score;
+    var titleKeyword = req.body.titleKeyword;
+    var commentKeyword = req.body.commentKeyword;
+    var detailsRemarks = req.body.detailsRemarks;
+
+    var query = new AV.Query(IOSAppBinder);
+    query.equalTo('userObject', userId);
+    query.include('appObject');
+    query.include('taskDemandObject');
+    query.find().then(function(results){
+        for (var i = 0; i < results.length; i++){
+            var taskObject = results[i].get('taskDemandObject');
+            if (taskObject == undefined){
+                taskRequirObject(res, excKinds, excCount, screenShot, searchKeyword, ranKing, score, titleKeyword,
+                    commentKeyword, detailsRemarks)
+            }else {
+                var taskdemObject = results[0];
+                taskdemObject.set('excKinds', excKinds);
+                taskdemObject.set('excCount', excCount);
+                taskdemObject.set('screenShot', screenShot);
+                taskdemObject.set('searchKeyword', searchKeyword);
+                taskdemObject.set('ranKing', ranKing);
+                taskdemObject.set('score', score);
+                taskdemObject.set('titleKeyword', titleKeyword);
+                taskdemObject.set('commentKeyword', commentKeyword);
+                taskdemObject.set('detailsRemarks', detailsRemarks);
+                taskdemObject.save().then(function(){
+                    //
+                })
+            }
+        }
+    })
 
 });
 

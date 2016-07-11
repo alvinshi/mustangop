@@ -54,65 +54,17 @@
     </div>
     <hr style="border: 1px solid #3498db; margin: 0 0 20px 0;">
 
-    <div class="taskPanel">
+    <div class="taskPanel" ng-repeat="app in taskObject">
         <table style="width: 1010px;">
             <tr>
                 <td style="padding: 24px 30px 24px 30px; width: 160px;">
-                    <img src="#" class="appIcon"/>
+                    <img ng-src="{{ app.artworkUrl100 }}" class="appIcon"/>
                 </td>
                 <td>
-                    <p class="appName">趣恋爱-最火爆的社区应用</p>
+                    <p class="appName">{{ app.trackName }}</p>
                     <div>
-                        <span class="infoBubble">下载</span>
-                        <span class="infoBubble">剩余: <span style="color:#53d435">12</span> 条</span>
-                        <span class="infoBubble">任务单价: <span style="color:#53d435">25</span> Y币</span>
-                    </div>
-                </td>
-                <td style="padding-right: 40px;">
-                    <button class="mybtn reverse hvr-float-shadow" style="margin-left: 44px;" data-toggle="modal" data-target="#takeTask">
-                        领取任务</button>
-                    <button class="mybtn hvr-float-shadow" data-toggle="modal" data-target="#detail">
-                        任务详情</button>
-                </td>
-            </tr>
-        </table>
-        <hr style="margin:0; border-color: #dddddd;">
-    </div>
-    <div class="taskPanel">
-        <table style="width: 1010px;">
-            <tr>
-                <td style="padding: 24px 30px 24px 30px; width: 160px;">
-                    <img src="#" class="appIcon"/>
-                </td>
-                <td>
-                    <p class="appName">趣恋爱-最火爆的社区应用</p>
-                    <div>
-                        <span class="infoBubble">下载</span>
-                        <span class="infoBubble">剩余: <span style="color:#53d435">12</span> 条</span>
-                        <span class="infoBubble">任务单价: <span style="color:#53d435">25</span> Y币</span>
-                    </div>
-                </td>
-                <td style="padding-right: 40px;">
-                    <button class="mybtn reverse hvr-float-shadow" style="margin-left: 44px;" data-toggle="modal" data-target="#takeTask">
-                        领取任务</button>
-                    <button class="mybtn hvr-float-shadow" data-toggle="modal" data-target="#detail">
-                        任务详情</button>
-                </td>
-            </tr>
-        </table>
-        <hr style="margin:0; border-color: #dddddd;">
-    </div>
-    <div class="taskPanel">
-        <table style="width: 1010px;">
-            <tr>
-                <td style="padding: 24px 30px 24px 30px; width: 160px;">
-                    <img src="#" class="appIcon"/>
-                </td>
-                <td>
-                    <p class="appName">趣恋爱-最火爆的社区应用</p>
-                    <div>
-                        <span class="infoBubble">下载</span>
-                        <span class="infoBubble">剩余: <span style="color:#53d435">12</span> 条</span>
+                        <span class="infoBubble">{{ app.excKinds }}</span>
+                        <span class="infoBubble">剩余: <span style="color:#53d435">{{ app.remainCount }}</span> 条</span>
                         <span class="infoBubble">任务单价: <span style="color:#53d435">25</span> Y币</span>
                     </div>
                 </td>
@@ -138,7 +90,7 @@
             <div class="modal-content" style="width: 642px;">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="myModalLabel">任务详情</h4>
+                    <h4 class="modal-title" id="">任务详情</h4>
                 </div>
                 <div class="modal-body" style="padding:0;">
                     <div style="background:url(/images/appDetail/screenshot-background.png); width: 640px;
