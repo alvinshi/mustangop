@@ -498,8 +498,8 @@ app.controller('myAppControl', function($scope, $http, $location, FileUploader) 
         html2canvas(document.getElementById("screenShot"), {
             onrendered: function (canvas) {
                 var a = document.createElement('a');
-                a.href = canvas.toDataURL("image/jpeg", 1).replace("image/jpeg", "image/octet-stream");
-                a.download = 'somefilename.jpg';
+                a.href = canvas.toDataURL("image/png", 1).replace("image/png", "image/octet-stream");
+                a.download = 'exchange-requirements.png';
                 a.click();
             },
             proxy: $scope.appBaseInfo.artworkUrl100
@@ -510,7 +510,6 @@ app.controller('myAppControl', function($scope, $http, $location, FileUploader) 
         if($scope.titleKeyword.length>count){
             $scope.titleKeyword=$scope.titleKeyword.substring(0,count);
         }
-
     }
      var maxLen = 40;	//定义用户可以输入的最多字数
     $scope.checkMaxInput=function(){
