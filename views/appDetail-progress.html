@@ -1,0 +1,128 @@
+<div id="taskProgress">
+    <div class="row">
+        <div class="col-lg-6">
+            <button>昨日任务</button>
+        </div>
+        <div class="col-lg-6">
+            <button>今日任务</button>
+        </div>
+    </div>
+    <h2 class="mytitle">任务信息</h2>
+    <div style="background:url(/images/appDetail/screenshot-background.png); width: 640px;
+                        padding: 36px 54px 60px 30px; margin: auto;">
+        <div class="row">
+            <div class="col-sm-3">
+                <img  class="appicon" style="display: inline-block; margin: 0 26px 40px 20px;
+                                width: 120px; height: 120px; border-radius: 20px"
+                      ng-src="{{  appBaseInfo.artworkUrl100 }}" alt="App Icon">
+            </div>
+            <div class="col-sm-9" style="padding-left: 50px;">
+                <p style="font-size: 24px; color: #ffffff;
+                                width: 330px; margin-top: 10px">
+                    {{ appBaseInfo.trackName.substr(0,16)+"..."  }}
+                </p>
+                <p style="color: #ffffff;
+                                width: 330px;">
+                    更新日期: {{ appBaseInfo.latestReleaseDate  }}
+                </p>
+                <p style="color: #ffffff; font-size: 20px;">
+                    任务类型: <span class="synwords">{{taskType}}</span>
+                </p>
+            </div>
+        </div>
+
+        <ol style="font-size: 20px; color: #ffffff;
+                            list-style-position: inside; padding:0; margin:0;">
+            <li style="margin-bottom: 30px">
+                <p>app store 搜索"<span class="synwords">{{searchKeyword}}</span>"
+                    第<span class="synwords">{{ranking}}</span>
+                    名左右, 找到应用,如上图图标, 下载.</p>
+            </li>
+            <li style="margin-bottom: 30px">
+                <p>打开app, 请务必过引导页.</p>
+            </li>
+            <li  style="margin-bottom: 30px" ng-hide="taskType == '下载'">
+                <p  style="margin-bottom: 20px">
+                    返回app store, 好评"<span class="synwords">{{stars}}</span>星"
+                </p>
+                <p style="margin-bottom: 20px">
+                    &nbsp &nbsp &nbsp 标题关键词: <span class="synwords">{{titleKeyword}}</span></p>
+                <p style="margin-bottom: 20px">
+                    &nbsp &nbsp &nbsp评论关键词: <span class="synwords">{{commentKeyword}}</span></p>
+            </li>
+            <li  style="margin-bottom: 30px" ng-hide="taskType == '下载'">
+                <p>备注:</p>
+                <p style="border: 1px solid #cdf1ff; font-size: 18px;
+                                    margin-top: 20px; margin-bottom: 70px;
+                                    padding: 18px 20px 18px 20px;" ng-show = "more.length">
+                    {{more}}
+                </p>
+            </li>
+        </ol>
+
+        <p style="font-size: 24px; color: #ffffff;">
+            手机评论, 不要无卡机, iPad, 一条以上用手机流量哦, 亲.
+            &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp;&nbsp &nbsp &nbsp
+            &nbsp &nbsp &nbsp&nbsp &nbsp &nbsp&nbsp &nbsp &nbsp
+            &nbsp &nbsp &nbsp&nbsp &nbsp &nbsp&nbsp
+            -友情提醒, 避免撕逼
+        </p>
+    </div> <!-- 图结束-->
+    <hr>
+    <h2 class="mytitle">任务审核</h2>
+
+
+    <div class="panel-group" id="accordion">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <div class="row panel-receivetask" style="height: 64px">
+                    <div class="col-lg-7">
+                        <img src="/images/appDetail/receiveTask.png" alt="" style="display: inline-block;margin-left: 24px;padding-bottom: 10px">
+                        <span >任务领取人:</span>
+                        <span>张三</span>
+                        <img src="" alt="" class="receiveimg">
+                        <img src="" alt="" class="receiveimg">
+                    </div>
+                    <div class="col-lg-5">
+                        <span>总条数:</span>
+                        <span style="color: #3498db">8条</span>
+                        <button class="btn receivebtn">全部接受</button>
+                        <a data-toggle="collapse" data-parent="#accordion"
+                           href="#collapseOne">
+                            <img src="/images/appDetail/click2.png" alt="" style="display: inline-block">
+                        </a>
+
+                    </div>
+                </div>
+
+            </div>
+            <div id="collapseOne" class="panel-collapse collapse in">
+                <div class="panel-body">
+                    <div class=" row receiveinfor" >
+                        <div class="col-lg-3 ">第8组</div>
+                        <div class="text-right">提交人:<span>李文</span></div>
+                        <img src="" alt="">
+                        <img src="" alt="">
+                        <img src="" alt="">
+                        <div class=" text-right receive_btn">
+                            <button class="btn reject "data-target="#rejectreason" data-toggle="modal">拒绝</button>
+                            <button class="btn receive">确认接受</button>
+                            <button class="btn receive2">已接受</button>
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div><!-- 审核信息结束-->
+
+
+
+
+
+
+
+
+
+</div><!--任务进度-->

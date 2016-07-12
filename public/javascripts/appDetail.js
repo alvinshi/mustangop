@@ -2,14 +2,45 @@
  * Created by cailong on 16/5/30.
  */
 
-var app = angular.module('yemaWebApp', ['angularFileUpload']);
+var app = angular.module('yemaWebApp', ['angularFileUpload','ui.router']);
 var navIndex = 1;
+
+app.config(['$stateProvider','$urlRouterProvider',function($stateProvider, $urlRouterProvider) {
+    $stateProvider
+        .state('appDetail',{
+            url:'/',
+            templateUrl:'/html/appDetail-demand.html',
+            controller:'myAppControl'
+        })
+        .state('appDetail-addTask',{
+            url:'/add',
+            templateUrl:'/html/appDetail-addtask.html',
+            controller:'myAppControl'
+        })
+        .state('appDetail-progress',{
+            url:'/progress',
+            templateUrl:'/html/appDetail-progress.html',
+            controller:'myAppControl'
+        })
+        .state('appDetail-curHistory',{
+            url:'/curHistory',
+            templateUrl:'/html/appDetail-curHistory.html',
+            controller:'myAppControl'
+        })
+        .state('appDetail-preHistory',{
+            url:'/preHistory',
+            templateUrl:'/html/appDetail-preHistory.html',
+            controller:'myAppControl'
+        });
+    $urlRouterProvider.otherwise('/');     //匹配所有不在上面的路由
+}]);
 
 app.controller('myAppControl', function($scope, $http, $location, FileUploader) {
     $scope.pageIndex = 0;
 
-    var appurlList = $location.absUrl().split('/');
-    var appid = appurlList[appurlList.length - 1];
+    //var appurlList = $location.absUrl().split('/');
+    //var appid = appurlList[appurlList.length - 1];
+    var appid = 486317537;
     var myappUrl = 'baseinfo/' + appid;
 
     $http.get(myappUrl).success(function (response) {
@@ -307,7 +338,9 @@ app.controller('myAppControl', function($scope, $http, $location, FileUploader) 
                 $scope.myExcAllApps.unshift(response.addExcObject);
 
                 $scope.errorMsg = '';
-                //location.href='/app/' + appid;
+
+                location.href='/app/' + appid + '#/add';
+
             }else {
                 $scope.errorMsg = response.errorMsg;
             }
@@ -480,12 +513,12 @@ app.controller('myAppControl', function($scope, $http, $location, FileUploader) 
 
     //需求编辑
     $scope.message = "";
+    $scope.titleKeyword="";
+    $scope.commentKeyword="";
     $scope.more = "";
     $scope.color={
        "color" :"#3498db"
     };
-
-    $scope.more = "";
 
     //生成预览截图
 
@@ -501,6 +534,8 @@ app.controller('myAppControl', function($scope, $http, $location, FileUploader) 
             proxy: $scope.appBaseInfo.artworkUrl100
         });
     };
+
+    //
     var count=20;
     $scope.checkInput=function(){
         if($scope.appNeedInfo.titleKeyword.length>count){
@@ -525,10 +560,9 @@ app.controller('myAppControl', function($scope, $http, $location, FileUploader) 
     $scope.saveNeed = function(){
         var needUrl = '/app/taskneed/' + appid;
         var needInfo = {'taskType':$scope.appNeedInfo.taskType, 'excCount':$scope.appNeedInfo.excCount, 'screenshotCount':$scope.appNeedInfo.screenshotCount,
-            'searchKeyword':$scope.appNeedInfo.searchKeyword, 'ranKing':$scope.appNeedInfo.ranKing, 'Score':$scope.appNeedInfo.score,
+            'searchKeyword':$scope.appNeedInfo.searchKeyword, 'ranKing':$scope.appNeedInfo.ranKing, 'Score':$scope.appNeedInfo.Score,
             'titleKeyword':$scope.appNeedInfo.titleKeyword, 'commentKeyword':$scope.appNeedInfo.commentKeyword, 'detailRem':$scope.appNeedInfo.detailRem};
         $http.post(needUrl, needInfo).success(function(response){
-            $scope.taskNeed = response.taskNeed;
             $scope.errorId = response.errorId;
             $scope.errorMsg = response.errorMsg;
         })
