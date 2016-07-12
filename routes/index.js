@@ -21,7 +21,7 @@ router.get('/index', function(req, res){
   var user = new AV.User();
   user.id = userid;
 
-  var query =new AV.Query(IOSAppBinder);
+  var query = new AV.Query(IOSAppBinder);
   query.equalTo('userObject', user);
   query.include('appObject');
   query.find({

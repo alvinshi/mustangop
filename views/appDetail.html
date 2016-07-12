@@ -187,7 +187,7 @@
                         <hr>
                     </div>
 
-                    <div ng-hide="taskType == 'option2'">
+                    <div ng-hide="appNeedInfo.taskType == '下载'">
                         <h2 class="mytitle">评论信息</h2>
                         <form class="form-horizontal">
                             <div class="form-group">
@@ -276,7 +276,7 @@
                                 <li style="margin-bottom: 30px">
                                     <p>2. 打开app, 请务必过引导页.</p>
                                 </li>
-                                <li  style="margin-bottom: 30px" ng-hide="taskType == '评论'">
+                                <li  style="margin-bottom: 30px" ng-hide="appNeedInfo.taskType == '下载'">
                                     <p  style="margin-bottom: 20px">
                                         3. 返回app store, 好评"<span class="synwords">{{appNeedInfo.Score}}</span>星"
                                     </p>
@@ -285,11 +285,11 @@
                                     <p style="margin-bottom: 20px">
                                         &nbsp &nbsp &nbsp评论关键词: <span class="synwords">{{appNeedInfo.commentKeyword}}</span></p>
                                 </li>
-                                <li  style="margin-bottom: 30px" ng-hide="taskType == '下载'">
+                                <li  style="margin-bottom: 30px" ng-hide="appNeedInfo.taskType == '下载'">
                                     <p>4. 备注:</p>
                                     <p style="border: 1px solid #cdf1ff; font-size: 18px;
                                     margin-top: 20px; margin-bottom: 70px;
-                                    padding: 18px 20px 18px 20px;" ng-show = "more.length">
+                                    padding: 18px 20px 18px 20px;" ng-show = "appNeedInfo.detailRem.length">
                                         {{appNeedInfo.detailRem}}
                                     </p>
                                 </li>
