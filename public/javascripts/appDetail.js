@@ -482,12 +482,9 @@ app.controller('myAppControl', function($scope, $http, $location, FileUploader) 
     $scope.message = "";
     $scope.titleKeyword="";
     $scope.commentKeyword="";
-    $scope.more = "";
     $scope.color={
        "color" :"#3498db"
     };
-
-    $scope.more = "";
 
     //生成预览截图
 
@@ -503,6 +500,8 @@ app.controller('myAppControl', function($scope, $http, $location, FileUploader) 
             proxy: $scope.appBaseInfo.artworkUrl100
         });
     };
+
+    //
     var count=20;
     $scope.checkInput=function(){
         if($scope.titleKeyword.length>count){
