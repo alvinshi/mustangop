@@ -2,14 +2,45 @@
  * Created by cailong on 16/5/30.
  */
 
-var app = angular.module('yemaWebApp', ['angularFileUpload']);
+var app = angular.module('yemaWebApp', ['angularFileUpload','ui.router']);
 var navIndex = 1;
+
+app.config(['$stateProvider','$urlRouterProvider',function($stateProvider, $urlRouterProvider) {
+    $stateProvider
+        .state('appDetail',{
+            url:'/',
+            templateUrl:'/html/appDetail-demand.html',
+            controller:'myAppControl'
+        })
+        .state('appDetail-addTask',{
+            url:'/add',
+            templateUrl:'/html/appDetail-addtask.html',
+            controller:'myAppControl'
+        })
+        .state('appDetail-progress',{
+            url:'/progress',
+            templateUrl:'/html/appDetail-progress.html',
+            controller:'myAppControl'
+        })
+        .state('appDetail-curHistory',{
+            url:'/curHistory',
+            templateUrl:'/html/appDetail-curHistory.html',
+            controller:'myAppControl'
+        })
+        .state('appDetail-preHistory',{
+            url:'/preHistory',
+            templateUrl:'/html/appDetail-preHistory.html',
+            controller:'myAppControl'
+        });
+    $urlRouterProvider.otherwise('/');     //匹配所有不在上面的路由
+}]);
 
 app.controller('myAppControl', function($scope, $http, $location, FileUploader) {
     $scope.pageIndex = 0;
 
-    var appurlList = $location.absUrl().split('/');
-    var appid = appurlList[appurlList.length - 1];
+    //var appurlList = $location.absUrl().split('/');
+    //var appid = appurlList[appurlList.length - 1];
+    var appid = 486317537;
     var myappUrl = 'baseinfo/' + appid;
 
     $http.get(myappUrl).success(function (response) {
@@ -307,7 +338,7 @@ app.controller('myAppControl', function($scope, $http, $location, FileUploader) 
                 $scope.myExcAllApps.push(response.addExcObject);
 
                 $scope.errorMsg = '';
-                location.href='/app/' + appid;
+                location.href='/app/' + appid + '#/add';
             }else {
                 $scope.errorMsg = response.errorMsg;
             }

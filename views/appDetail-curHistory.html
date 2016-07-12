@@ -1,0 +1,63 @@
+<div id="curhistory">
+    <div class="row exchang_pattern">
+        <div class="top_title  col-lg-8 col-xs-8">
+            <span class="exc__record_title" >当前版本交换记录</span>
+        </div>
+
+    </div>
+    <div class="alert-danger " role="alert" style="margin-bottom: 20px;height: 80px;">
+        如果您在外部QQ群中已经和某些APP做过交换任务，您可以把交换历史，记录在这里，这样可以避免已经换过的APP给您做重复的任务，如果您的产品刚更新，可以忽略此步。
+
+    </div>
+    <div class="row">
+        <div class=" col-lg-7 search">
+            <input type="text" class="form-control search_input" ng-model="searchkey" ng-keyup="keyApp($event)" placeholder="搜索指定产品的交换历史纪录…">
+        </div>
+        <div class="col-lg-1">
+            <button class="btn search_button " ng-click="searchLocalHistoryApp()">
+                <span class="glyphicon glyphicon-search"></span>
+            </button>
+        </div>
+        <div class="text-a col-lg-3 ">
+            <button type="button " class=" add_exchistory_botton hvr-float-shadow"  data-target="#search_history" data-toggle="modal">
+                手动添加交换记录
+            </button>
+        </div>
+    </div>
+
+
+
+
+    <div class="nowversion ">
+        <div class="app_list media" ng-repeat="app in ExcAllApps">
+            <div class="media-left">
+                <img class="media-object" ng-src="{{ app.artworkUrl100 }}" alt="App Icon">
+            </div>
+            <div class="media-body">
+                <h4 class="media-heading">{{ app.trackName }}</h4>
+                <div class="media-info">
+                    <span class="media-info-id">App ID: {{ app.appleId }}</span>
+                    <span class="media-info-name">{{ app.sellerName }}</span>
+                </div>
+                <div class="media-info-a">
+                    <span class="media-info-lg">{{app.swapMode}}</span>
+                    <span class="media-info-time">添加日期:{{ app.excHisDate }}</span>
+                    <span class="media-info-time">{{ app.excKinds }}</span>
+                    <span class="media-info-time">共{{ app.totalExcCount }}条</span>
+                </div>
+            </div>
+
+            <div class="media-right">
+                <button class="btn remove_icon hvr-box-shadow-inset"
+                        ng-click="removeTodayHistory(app.appleId, app.hisAppVersion)" data-target="#curHistoryDelete" data-toggle="modal">
+                    <img src="/images/exch_history/no_click_remove.png">
+                </button>
+            </div>
+            <hr>
+        </div>
+        <ul class="pager">
+            <li ng-hide="!hasMore"><button ng-click = "nextPageForm()">下一页</button></li>
+            <li ng-hide="hasMore">没有更多数据</li>
+        </ul>
+    </div>
+</div> <!--当前版本-->
