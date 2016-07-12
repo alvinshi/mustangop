@@ -414,6 +414,19 @@ hr{
     margin-top: 80px;
 }
 /*任务进度*/
+.yesterdaybn,.dailybtn{
+    width: 330px;
+    margin-left: 20px;
+    height: 60px;
+    font-size: 30px;
+    line-height: 60px;
+    color: #333333;
+    background-color: #dddddd;
+    border: 1px solid #dddddd;
+    border-radius: 4px;
+    outline: none;
+}
+
 .panel-receivetask span{
     font-size: 20px;
     font-weight: 400;

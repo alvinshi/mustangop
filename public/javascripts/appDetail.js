@@ -304,10 +304,10 @@ app.controller('myAppControl', function($scope, $http, $location, FileUploader) 
                     }
                 }
 
-                $scope.myExcAllApps.push(response.addExcObject);
+                $scope.myExcAllApps.unshift(response.addExcObject);
 
                 $scope.errorMsg = '';
-                location.href='/app/' + appid;
+                //location.href='/app/' + appid;
             }else {
                 $scope.errorMsg = response.errorMsg;
             }
@@ -346,10 +346,10 @@ app.controller('myAppControl', function($scope, $http, $location, FileUploader) 
                     }
                 }
 
-                $scope.ExcAllApps.push(response.addExcObject);
+                $scope.ExcAllApps.unshift(response.addExcObject);
 
                 $scope.errorMsg = '';
-                location.href='/app/' + appid;
+                //location.href='/app/' + appid;
             }else {
                 $scope.errorMsg = response.errorMsg;
             }
