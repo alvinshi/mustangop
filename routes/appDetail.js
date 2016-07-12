@@ -54,6 +54,89 @@ router.get('/baseinfo/:appid', function(req, res){
     })
 });
 
+// 保存任务需求编辑内容
+router.post('/taskneed/:appid', function(req, res){
+    var userId = util.useridInReq(req);
+    var myappId = req.params.appid;
+    var task_type = req.body.taskType;
+    var exc_count = req.body.excCount;
+    var screenshot_count = req.body.screenshotCount;
+    var search_Keywords = req.body.searchKeyword;
+    var ranking = req.body.ranKing;
+    var score = req.body.Score;
+    var title_keywords = req.body.titleKeyword;
+    var comment_keywords = req.body.commentKeyword;
+    var detail_rem = req.body.detailRem;
+
+    var user = new AV.User();
+    user.id = userId;
+
+    var query = new AV.Query(IOSAppBinder);
+    query.equalTo('userObject', user);
+    query.include('appObject');
+    query.find().then(function(results){
+        for (var i = 0; i < results.length; i++){
+            var appObject = results[i].get('appObject');
+            var appObjectId = appObject.get('appleId');
+            if (appObjectId == myappId){
+                results[i].set('taskType', task_type);
+                results[i].set('excCount', exc_count);
+                results[i].set('screenshotCount', screenshot_count);
+                results[i].set('searchKeyword', search_Keywords);
+                results[i].set('ranKing', ranking);
+                results[i].set('Score', score);
+                results[i].set('titleKeyword', title_keywords);
+                results[i].set('commentKeyword', comment_keywords);
+                results[i].set('detailRem', detail_rem);
+                results[i].save().then(function(){
+                    //
+                })
+            }
+        }
+        res.json({'errorId':0, 'errorMsg':'', 'taskNeed':results[i]});
+    })
+});
+
+//获取需求编辑信息
+router.get('/getNeed/:appid', function(req, res){
+    var userId = util.useridInReq(req);
+    var myappId = req.params.appid;
+
+    var user = new AV.User();
+    user.id = userId;
+    var query = new AV.Query(IOSAppBinder);
+    query.equalTo('userObject', user);
+    query.include('appObject');
+    query.find().then(function(results){
+        for (var i = 0; i < results.length; i++){
+            var appObject = results[i].get('appObject');
+            var appObjectId = appObject.get('appleId');
+            if (appObjectId == myappId){
+                var retApps = Object();
+                retApps.taskType = results[i].get('taskType');
+                //if (tasktype == 0){
+                //    retApps.taskType = '评论'
+                //} else {
+                //    retApps.taskType = '下载'
+                //}
+                retApps.excCount = results[i].get('excCount');
+                retApps.screenshotCount = results[i].get('screenshotCount');
+                retApps.searchKeyword = results[i].get('searchKeyword');
+                retApps.ranKing = results[i].get('ranKing');
+
+                retApps.Score = results[i].get('Score');
+                retApps.titleKeyword = results[i].get('titleKeyword');
+                retApps.commentKeyword = results[i].get('commentKeyword');
+                retApps.detailRem = results[i].get('detailRem');
+            }
+        }
+        res.json({'appNeedInfo':retApps})
+    }),function (error){
+        res.json({'errorMsg':error.message, 'errorId': error.code});
+    }
+
+})
+
 // 获取我的交换历史
 router.get('/myAppExcHistory/:appid/:version', function(req, res) {
     var userId = util.useridInReq(req);
@@ -249,84 +332,6 @@ router.get('/historySearch/angular/:version/:searchkey', function(req, res) {
             res.json({'errorMsg':err.message, 'errorId': err.code, 'myApps':[]});
         }
     });
-
-});
-
-function taskRequirObject(res, excKinds, excCount, screenShot, searchKeyword, ranKing, score, titleKeyword,
-                          commentKeyword, detailsRemarks){
-    var query = new Query(taskRequirementObject);
-    query.equalTo('excKinds', excKinds);
-    query.equalTo('excCount', excCount);
-    query.equalTo('screenShot', screenShot);
-    query.equalTo('searchKeyword', searchKeyword);
-    query.equalTo('ranKing', ranKing);
-    query.equalTo('score', score);
-    query.equalTo('titleKeyword', titleKeyword);
-    query.equalTo('commentKeyword', commentKeyword);
-    query.equalTo('detailsRemarks', detailsRemarks);
-    query.find().then(function(results){
-        for (var i = 0; i < results.length; i++){
-
-        }
-    })
-
-    var taskdemObject = new AV.Object(taskRequirementObject);
-    taskdemObject.set('excKinds', excKinds);
-    taskdemObject.set('excCount', excCount);
-    taskdemObject.set('screenShot', screenShot);
-    taskdemObject.set('searchKeyword', searchKeyword);
-    taskdemObject.set('ranKing', ranKing);
-    taskdemObject.set('score', score);
-    taskdemObject.set('titleKeyword', titleKeyword);
-    taskdemObject.set('commentKeyword', commentKeyword);
-    taskdemObject.set('detailsRemarks', detailsRemarks);
-    taskdemObject.save().then(function(){
-        //
-    })
-
-}
-
-// task requirements to edit
-router.post('/taskedit', function(req, res){
-    var userId = util.useridInReq(req);
-    var myappId = req.params.appleId;
-    var excKinds = req.body.excKinds;
-    var excCount = req.body.excCount;
-    var screenShot = req.body.screenShot;
-    var searchKeyword = req.body.searchKeyword;
-    var ranKing = req.body.ranKing;
-    var score = req.body.score;
-    var titleKeyword = req.body.titleKeyword;
-    var commentKeyword = req.body.commentKeyword;
-    var detailsRemarks = req.body.detailsRemarks;
-
-    var query = new AV.Query(IOSAppBinder);
-    query.equalTo('userObject', userId);
-    query.include('appObject');
-    query.include('taskDemandObject');
-    query.find().then(function(results){
-        for (var i = 0; i < results.length; i++){
-            var taskObject = results[i].get('taskDemandObject');
-            if (taskObject == undefined){
-                taskRequirObject(res, excKinds, excCount, screenShot, searchKeyword, ranKing, score, titleKeyword,
-                    commentKeyword, detailsRemarks)
-            }else {
-                var taskdemObject = results[0];
-                taskdemObject.set('excKinds', excKinds);
-                taskdemObject.set('excCount', excCount);
-                taskdemObject.set('screenShot', screenShot);
-                taskdemObject.set('searchKeyword', searchKeyword);
-                taskdemObject.set('ranKing', ranKing);
-                taskdemObject.set('score', score);
-                taskdemObject.set('titleKeyword', titleKeyword);
-                taskdemObject.set('commentKeyword', commentKeyword);
-                taskdemObject.set('detailsRemarks', detailsRemarks);
-                taskdemObject.save().then(function(){
-                    //
-                })
-            }
-        }
-    })
 
 });
 

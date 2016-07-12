@@ -518,4 +518,21 @@ app.controller('myAppControl', function($scope, $http, $location, FileUploader) 
 
         }
     }
+
+    var getneedUrl = '/app/getNeed/' + appid;
+    $http.get(getneedUrl).success(function(response){
+        $scope.appNeedInfo = response.appNeedInfo;
+    });
+
+    $scope.saveNeed = function(){
+        var needUrl = '/app/taskneed/' + appid;
+        var needInfo = {'taskType':$scope.appNeedInfo.taskType, 'excCount':$scope.appNeedInfo.excCount, 'screenshotCount':$scope.appNeedInfo.screenshotCount,
+            'searchKeyword':$scope.appNeedInfo.searchKeyword, 'ranKing':$scope.appNeedInfo.ranKing, 'Score':$scope.appNeedInfo.score,
+            'titleKeyword':$scope.appNeedInfo.titleKeyword, 'commentKeyword':$scope.appNeedInfo.commentKeyword, 'detailRem':$scope.appNeedInfo.detailRem};
+        $http.post(needUrl, needInfo).success(function(response){
+            $scope.taskNeed = response.taskNeed;
+            $scope.errorId = response.errorId;
+            $scope.errorMsg = response.errorMsg;
+        })
+    }
 });

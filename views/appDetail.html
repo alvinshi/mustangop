@@ -140,10 +140,10 @@
                                 <label  class="col-lg-2 control-label" > 任务类型:</label>
                                 <div class="col-lg-8">
                                     <label class="radio-inline">
-                                        <input type="radio" value="评论" ng-model="taskType"> 评论
+                                        <input type="radio" ng-model="appNeedInfo.taskType" value="评论"> 评论
                                     </label>
                                     <label class="radio-inline">
-                                        <input type="radio" value="下载" ng-model="taskType"> 下载
+                                        <input type="radio" ng-model="appNeedInfo.taskType" value="下载"> 下载
                                     </label>
                                 </div>
                             </div>
@@ -151,7 +151,7 @@
                             <div class="form-group">
                                 <label  class="col-lg-2 control-label" > 交换数量:</label>
                                 <div class="col-lg-2">
-                                    <input type="text" class="form-control" placeholder="">
+                                    <input type="text" class="form-control" ng-model="appNeedInfo.excCount" placeholder="">
                                 </div>
                             </div>
 
@@ -159,10 +159,10 @@
                                 <label  class="col-lg-2 control-label" > 截图数量:</label>
                                 <div class="col-lg-8">
                                     <label class="radio-inline">
-                                        <input type="radio" name="inlineRadioOptions" value="option1"> 2条
+                                        <input type="radio" ng-model="appNeedInfo.screenshotCount" ng-value=2> 2条
                                     </label>
                                     <label class="radio-inline">
-                                        <input type="radio"name="inlineRadioOptions"  value="option2"> 3条
+                                        <input type="radio" ng-model="appNeedInfo.screenshotCount" ng-value=3> 3条
                                     </label>
                                 </div>
                             </div>
@@ -176,12 +176,11 @@
                             <div class="form-group">
                                 <label  class="col-lg-2 control-label" >搜索关键词:</label>
                                 <div class="col-lg-3">
-                                    <input type="text" class="form-control" placeholder="" ng-model="searchKeyword">
+                                    <input type="text" class="form-control" placeholder="" ng-model="appNeedInfo.searchKeyword">
                                 </div>
                                 <label  class="col-lg-2 control-label "  >排名:</label>
                                 <div class="col-lg-3">
-                                    <input type="text" class="form-control" style="width: 143px;"
-                                           placeholder="" ng-model="ranking">
+                                    <input type="text" class="form-control" style="width: 143px;" placeholder="" ng-model="appNeedInfo.ranKing">
                                 </div>
                             </div>
                         </form>
@@ -195,10 +194,10 @@
                                 <label  class="col-lg-2 control-label" >评分:</label>
                                 <div class="col-lg-8">
                                     <label class="radio-inline">
-                                        <input type="radio" name="inlineRadioOptions" value="5" ng-model="stars"> 5星
+                                        <input type="radio" ng-value=5 ng-model="appNeedInfo.Score"> 5星
                                     </label>
                                     <label class="radio-inline">
-                                        <input type="radio"name="inlineRadioOptions"  value="4" ng-model="stars"> 4星
+                                        <input type="radio" ng-value=4 ng-model="appNeedInfo.Score"> 4星
                                     </label>
                                 </div>
                             </div>
@@ -206,7 +205,7 @@
                                 <label  class="col-lg-2 control-label" > 标题关键词:</label>
                                 <div class="col-lg-8" >
                                     <input type="text" class="form-control" placeholder="请输入小于20字符"
-                                           ng-model="titleKeyword"
+                                           ng-model="appNeedInfo.titleKeyword"
                                            ng-keydown="checkInput()" ng-keyup="checkInput()" >
                                 </div>
                                 <label  class="col-lg-1 control-label" style="margin-left: -40px" ><span ng-bind="titleKeyword.length" ng-style="color"></span>/20</label>
@@ -215,7 +214,7 @@
                                 <label  class="col-lg-2 control-label" > 评论关键词:</label>
                                 <div class="col-lg-8">
                                     <textarea class="form-control" rows="2" style="height: 60px" placeholder="请输入小于40字符"
-                                           ng-model="commentKeyword"
+                                           ng-model="appNeedInfo.commentKeyword"
                                               ng-keydown="checkMaxInput()" ng-keyup="checkMaxInput()">
 
                                     </textarea>
@@ -227,7 +226,7 @@
                                 <label  class="col-lg-2 control-label" >详情备注:</label>
                                 <div class="col-lg-8">
                                <textarea  class="form-control" rows="5" placeholder="1.标题不少于2个关键词 2.请两日内不卸载
-                               " ng-model="more">
+                               " ng-model="appNeedInfo.detailRem">
                                </textarea>
                                 </div>
                             </div>
@@ -236,7 +235,7 @@
                     </div>
 
                     <div class="col-lg-6">
-                        <button class="btn button_save">保存</button>
+                        <button class="btn button_save" ng-click="saveNeed()">保存</button>
                     </div>
                     <div class="col-lg-6">
                         <button class="btn button_save">发布任务</button>
@@ -262,7 +261,7 @@
                                         更新日期: {{ appBaseInfo.latestReleaseDate  }}
                                     </p>
                                     <p style="color: #ffffff; font-size: 20px;">
-                                        任务类型: <span class="synwords">{{taskType}}</span>
+                                        任务类型: <span class="synwords">{{appNeedInfo.taskType}}</span>
                                     </p>
                                 </div>
                             </div>
@@ -270,28 +269,28 @@
                             <ol style="font-size: 20px; color: #ffffff;
                             list-style-position: inside; padding:0; margin:0;">
                                 <li style="margin-bottom: 30px">
-                                    <p>1. app store 搜索"<span class="synwords">{{searchKeyword}}</span>"
-                                        第<span class="synwords">{{ranking}}</span>
+                                    <p>1. app store 搜索"<span class="synwords">{{appNeedInfo.searchKeyword}}</span>"
+                                        第<span class="synwords">{{appNeedInfo.ranKing}}</span>
                                         名左右, 找到应用,如上图图标, 下载.</p>
                                 </li>
                                 <li style="margin-bottom: 30px">
                                     <p>2. 打开app, 请务必过引导页.</p>
                                 </li>
-                                <li  style="margin-bottom: 30px" ng-hide="taskType == '下载'">
+                                <li  style="margin-bottom: 30px" ng-hide="taskType == '评论'">
                                     <p  style="margin-bottom: 20px">
-                                        3. 返回app store, 好评"<span class="synwords">{{stars}}</span>星"
+                                        3. 返回app store, 好评"<span class="synwords">{{appNeedInfo.Score}}</span>星"
                                     </p>
                                     <p style="margin-bottom: 20px">
-                                        &nbsp &nbsp &nbsp 标题关键词: <span class="synwords">{{titleKeyword}}</span></p>
+                                        &nbsp &nbsp &nbsp 标题关键词: <span class="synwords">{{appNeedInfo.titleKeyword}}</span></p>
                                     <p style="margin-bottom: 20px">
-                                        &nbsp &nbsp &nbsp评论关键词: <span class="synwords">{{commentKeyword}}</span></p>
+                                        &nbsp &nbsp &nbsp评论关键词: <span class="synwords">{{appNeedInfo.commentKeyword}}</span></p>
                                 </li>
                                 <li  style="margin-bottom: 30px" ng-hide="taskType == '下载'">
                                     <p>4. 备注:</p>
                                     <p style="border: 1px solid #cdf1ff; font-size: 18px;
                                     margin-top: 20px; margin-bottom: 70px;
                                     padding: 18px 20px 18px 20px;" ng-show = "more.length">
-                                        {{more}}
+                                        {{appNeedInfo.detailRem}}
                                     </p>
                                 </li>
                             </ol>
@@ -304,7 +303,7 @@
                                 -友情提醒, 避免撕逼
                             </p>
                         </div>
-                        <button class="btn button_save" style="margin-top: 50px; margin-bottom: 50px;" ng-click='getScreenShot()'">
+                        <button class="btn button_save" style="margin-top: 50px; margin-bottom: 50px;" ng-click='getScreenShot()'>
                             下载需求图
                         </button>
                     </div>
