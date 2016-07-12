@@ -482,6 +482,7 @@ app.controller('myAppControl', function($scope, $http, $location, FileUploader) 
     $scope.message = "";
     $scope.titleKeyword="";
     $scope.commentKeyword="";
+    $scope.more = "";
     $scope.color={
        "color" :"#3498db"
     };
@@ -504,16 +505,16 @@ app.controller('myAppControl', function($scope, $http, $location, FileUploader) 
     //
     var count=20;
     $scope.checkInput=function(){
-        if($scope.titleKeyword.length>count){
-            $scope.titleKeyword=$scope.titleKeyword.substring(0,count);
+        if($scope.appNeedInfo.titleKeyword.length>count){
+            $scope.appNeedInfo.titleKeyword=$scope.appNeedInfo.titleKeyword.substring(0,count);
         }
 
     };
 
     var maxLen = 40;	//定义用户可以输入的最多字数
     $scope.checkMaxInput=function(){
-        if ($scope.commentKeyword.length > maxLen){	//如果输入的字数超过了限制
-            $scope.commentKeyword = $scope.commentKeyword.substring(0, maxLen);	//就去掉多余的字
+        if ($scope.appNeedInfo.commentKeyword.length > maxLen){	//如果输入的字数超过了限制
+            $scope.appNeedInfo.commentKeyword = $scope.appNeedInfo.commentKeyword.substring(0, maxLen);	//就去掉多余的字
 
         }
     }

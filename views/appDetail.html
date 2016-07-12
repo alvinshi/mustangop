@@ -208,7 +208,7 @@
                                            ng-model="appNeedInfo.titleKeyword"
                                            ng-keydown="checkInput()" ng-keyup="checkInput()" >
                                 </div>
-                                <label  class="col-lg-1 control-label" style="margin-left: -40px" ><span ng-bind="titleKeyword.length" ng-style="color"></span>/20</label>
+                                <label  class="col-lg-1 control-label" style="margin-left: -40px" ><span ng-bind="appNeedInfo.titleKeyword.length+0" ng-style="color"></span>/20</label>
                             </div>
                             <div class="form-group">
                                 <label  class="col-lg-2 control-label" > 评论关键词:</label>
@@ -219,7 +219,7 @@
 
                                     </textarea>
                                 </div>
-                                <label  class="col-lg-1 control-label" style="margin-left: -40px" ><span ng-bind="commentKeyword.length" ng-style="color"></span>/40</label>
+                                <label  class="col-lg-1 control-label" style="margin-left: -40px" ><span ng-bind="appNeedInfo.commentKeyword.length+0" ng-style="color"></span>/40</label>
                             </div>
 
                             <div class="form-group">
@@ -258,7 +258,7 @@
                                     </p>
                                     <p style="color: #ffffff;
                                 width: 330px;">
-                                        更新日期: {{ appBaseInfo.latestReleaseDate  }}
+                                        更新日期: {{ appBaseInfo.latestReleaseDate.substr(0,10) }}
                                     </p>
                                     <p style="color: #ffffff; font-size: 20px;">
                                         任务类型: <span class="synwords">{{appNeedInfo.taskType}}</span>
@@ -418,7 +418,7 @@
                                        <img src="" alt="">
                                        <img src="" alt="">
                                        <div class=" text-right receive_btn">
-                                           <button class="btn reject ">拒绝</button>
+                                           <button class="btn reject "data-target="#rejectreason" data-toggle="modal">拒绝</button>
                                            <button class="btn receive">确认接受</button>
                                            <button class="btn receive2">已接受</button>
                                        </div>
@@ -806,6 +806,27 @@
             </div>
         </div>
     </div><!-- 当前版本搜索记录-->
+
+    <div class="modal modal-lg fade" id="rejectreason">
+        <div class="modal-dialog" style="width:500px;position: absolute;right: 20px">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                    <h4 class="modal-title">填写拒绝理由</h4>
+                </div>
+                <div class="modal-body">
+                   <textarea   class="from-control" style="width: 450px;height:200px;border-radius:4px;margin: auto;border: 1px solid #e0e0e0">
+                   </textarea>
+                </div>
+                <div class="modal-footer">
+                    <button type="button"  class="btn btn_sure" >确认</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!--删除任务添加-->
+
 </div><!--container end-->
 <script src="/javascripts/cookieHelper.js"></script>
 

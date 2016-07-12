@@ -492,3 +492,11 @@ hr{
     background-color: #dddddd;
 
 }
+.btn_sure{
+    width: 80px;
+    background-color: #3498db;
+    color: white;
+    border: 1px solid  #3498db;
+    border-radius: 4px;
+
+}
