@@ -11,7 +11,7 @@ var IOSAppBinder = AV.Object.extend('IOSAppBinder');
 var IOSAppExcLogger = AV.Object.extend('IOSAppExcLogger');
 var IOSAppSql = AV.Object.extend('IOSAppInfo');
 var File = AV.Object.extend('_File');
-var taskRequirementObject = AV.Object.extend('taskRequirementObject');
+var taskDemandObject = AV.Object.extend('taskDemandObject');
 
 router.get('/:appid', function(req, res, next) {
     res.render('appDetail')
@@ -74,26 +74,48 @@ router.post('/taskneed/:appid', function(req, res){
     var query = new AV.Query(IOSAppBinder);
     query.equalTo('userObject', user);
     query.include('appObject');
+    query.include('taskDemand');
     query.find().then(function(results){
         for (var i = 0; i < results.length; i++){
             var appObject = results[i].get('appObject');
             var appObjectId = appObject.get('appleId');
+            var taskdemand = results[i].get('taskDemand');
             if (appObjectId == myappId){
-                results[i].set('taskType', task_type);
-                results[i].set('excCount', exc_count);
-                results[i].set('screenshotCount', screenshot_count);
-                results[i].set('searchKeyword', search_Keywords);
-                results[i].set('ranKing', ranking);
-                results[i].set('Score', score);
-                results[i].set('titleKeyword', title_keywords);
-                results[i].set('commentKeyword', comment_keywords);
-                results[i].set('detailRem', detail_rem);
-                results[i].save().then(function(){
-                    //
-                })
+                if (taskdemand == undefined){
+                    var taskObject = new taskDemandObject();
+                    taskObject.set('taskType', task_type);
+                    taskObject.set('excCount', exc_count);
+                    taskObject.set('screenshotCount', screenshot_count);
+                    taskObject.set('searchKeyword', search_Keywords);
+                    taskObject.set('ranKing', ranking);
+                    taskObject.set('Score', score);
+                    taskObject.set('titleKeyword', title_keywords);
+                    taskObject.set('commentKeyword', comment_keywords);
+                    taskObject.set('detailRem', detail_rem);
+                    taskObject.save().then(function(){
+                        //
+                    });
+                    results[i].set('taskDemand', taskObject);
+                    results[i].save().then(function(){
+
+                    })
+                }else {
+                    taskdemand.set('taskType', task_type);
+                    taskdemand.set('excCount', exc_count);
+                    taskdemand.set('screenshotCount', screenshot_count);
+                    taskdemand.set('searchKeyword', search_Keywords);
+                    taskdemand.set('ranKing', ranking);
+                    taskdemand.set('Score', score);
+                    taskdemand.set('titleKeyword', title_keywords);
+                    taskdemand.set('commentKeyword', comment_keywords);
+                    taskdemand.set('detailRem', detail_rem);
+                    taskdemand.save().then(function(){
+                        //
+                    });
+                }
             }
         }
-        res.json({'errorId':0, 'errorMsg':'', 'taskNeed':results[i]});
+        res.json({'errorId':0, 'errorMsg':''});
     })
 });
 
@@ -107,27 +129,26 @@ router.get('/getNeed/:appid', function(req, res){
     var query = new AV.Query(IOSAppBinder);
     query.equalTo('userObject', user);
     query.include('appObject');
+    query.include('taskDemand');
     query.find().then(function(results){
         for (var i = 0; i < results.length; i++){
             var appObject = results[i].get('appObject');
             var appObjectId = appObject.get('appleId');
-            if (appObjectId == myappId){
-                var retApps = Object();
-                retApps.taskType = results[i].get('taskType');
-                //if (tasktype == 0){
-                //    retApps.taskType = '评论'
-                //} else {
-                //    retApps.taskType = '下载'
-                //}
-                retApps.excCount = results[i].get('excCount');
-                retApps.screenshotCount = results[i].get('screenshotCount');
-                retApps.searchKeyword = results[i].get('searchKeyword');
-                retApps.ranKing = results[i].get('ranKing');
+            var taskdemand = results[i].get('taskDemand');
+            if (taskdemand != undefined){
+                if (appObjectId == myappId){
+                    var retApps = Object();
+                    retApps.taskType = taskdemand.get('taskType');
+                    retApps.excCount = taskdemand.get('excCount');
+                    retApps.screenshotCount = taskdemand.get('screenshotCount');
+                    retApps.searchKeyword = taskdemand.get('searchKeyword');
+                    retApps.ranKing = taskdemand.get('ranKing');
 
-                retApps.Score = results[i].get('Score');
-                retApps.titleKeyword = results[i].get('titleKeyword');
-                retApps.commentKeyword = results[i].get('commentKeyword');
-                retApps.detailRem = results[i].get('detailRem');
+                    retApps.Score = taskdemand.get('Score');
+                    retApps.titleKeyword = taskdemand.get('titleKeyword');
+                    retApps.commentKeyword = taskdemand.get('commentKeyword');
+                    retApps.detailRem = taskdemand.get('detailRem');
+                }
             }
         }
         res.json({'appNeedInfo':retApps})
