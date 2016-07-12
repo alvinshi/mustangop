@@ -209,13 +209,14 @@ body {
 .add_exchistory_botton{
     border:1px solid #3498db;
     width: 160px;
-    height: 40px;
+    height: 35px;
     font-size: 16px;
     text-align: center;
     border-radius: 4px;
     color: #3498db;
     background-color: white;
     outline:none;
+    margin-top: 5px;
 }
 .preversion{
     /*height: 180px;*/
@@ -244,14 +245,16 @@ body {
     margin-bottom: 40px;
 }
 .search_button{
-    margin-left: -45px;
+    margin-left: -80px;
     background-color: white;
-    /*border: 1px solid #e0e0e0;*/
     border-style:none  none solid none;
-    height: 30px;
+    height: 28px;
+    display: inline-block;
+    margin-top: 2px;
+
 }
 .search_input{
-    width: 500px;
+    width: 400px;
     display: inline-block;
 
 }
@@ -377,11 +380,8 @@ hr{
     margin-left: 30px;
 }
 .title{
-    /*position: absolute;*/
-    /*right: 600px;*/
     width: 100px;
     font-weight: bold;
-    /*border: 1px solid red;*/
 }
 .group{
     margin-left: 10%;
@@ -412,4 +412,83 @@ hr{
     padding-left: 10px;
     margin-bottom: 32px;
     margin-top: 80px;
+}
+/*任务进度*/
+.panel-receivetask span{
+    font-size: 20px;
+    font-weight: 400;
+    line-height: 64px;
+    margin-left: 10px;
+    color: #666666;
+
+
+}
+.receiveimg{
+    display: inline-block;
+    width: 32px;height: 32px;
+    border: 1px solid red;
+    border-radius: 4px;
+    margin-left: 10px;
+    line-height: 64px;
+
+}
+.receivebtn{
+    background-color: #3498db;
+    color: white;
+    margin-left: 20px;
+    height: 36px;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+    margin-right: 10px;
+}
+.receiveinfor div{
+    font-size: 18px;
+    color: #333333;
+    margin-bottom: 30px;
+    margin-top: 20px;
+}
+.receiveinfor img{
+    width: 30%;
+    height: 400px;
+    object-fit: contain;
+    border: 1px  solid #e0e0e0;
+    margin-left: 14px;
+
+}
+.receive_btn{
+    margin-right: 30px;
+    font-size: 20px;
+}
+
+.receive_btn .reject{
+    margin-top: 30px;
+    margin-bottom: 30px;
+    margin-right: 24px;
+    color: #f7aa58;
+    width: 100px;
+    border: 1px solid #f7aa58;
+    border-radius: 4px;
+    background-color: white;
+}
+.receive_btn .receive{
+    margin-top: 30px;
+    margin-bottom: 30px;
+    margin-right: 24px;
+    color: #3498db;
+    width: 100px;
+    border: 1px solid  #3498db;
+    border-radius: 4px;
+    background-color: white;
+
+}
+.receive_btn .receive2{
+    margin-top: 30px;
+    margin-bottom: 30px;
+    margin-right: 24px;
+    color: white;
+    width: 100px;
+    border: 1px solid  #dddddd;
+    border-radius: 4px;
+    background-color: #dddddd;
+
 }
