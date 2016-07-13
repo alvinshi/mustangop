@@ -10,6 +10,70 @@
         <p class="notice">注:添加非野马用户的交换任务</p>
     </div>
 
+    <div class="modal fade" id="mymodal">
+        <div class="modal-dialog" style="width: 750px;height: 600px">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="input-group">
+                        <input  type="text" class="form-control" ng-model="searchKey" ng-keyup="keySearchApp($event)" placeholder="填写与你最新版本交换过的产品名称">
+                      <span class="input-group-btn ">
+                          <button class=" btn btn-search" type="submit" ng-click="searchHistoryApp()">
+                              <span class="glyphicon glyphicon-search"></span>
+                          </button>
+                      </span>
+                    </div>
+
+                    <div class="placehold-line">
+                        <div class="progress" ng-hide="!progressNum">
+                            <div ng-class="{'progress-bar': true, 'progress-bar-striped':true, active:true}" ng-style="{width: progressNum + '%'}"></div>
+                        </div>
+                        <div class="alert-danger" role="alert" ng-hide="!isError">
+                            {{ errorMsg }}
+                        </div>
+                    </div>
+                    <hr/>
+
+                    <div class="app_info" ng-repeat="app in pagedItems[currentPage]">
+                        <div class="media-left">
+                            <img class="media-object" ng-src="{{ app.artworkUrl512 }}" alt="App Icon">
+                        </div>
+                        <div class="media-body">
+                            <h4 class="media-heading appName">{{ app.trackName.substr(0,10)+"..." }}</h4>
+                            <div class="media-info">
+                                <span class="media-info-appId">App ID:&nbsp;&nbsp;{{ app.appleId }}</span>
+                            </div>
+                        </div>
+                        <div class=" media_right">
+                            <button class=" btn  button_bottom " ng-click="addHistory(app)" ng-hide="app.isExced">
+                                添加
+                            </button>
+                            <button class="btn btn-default  button_add hvr-float-shadow" ng-hide="!app.isExced">
+                                已添加
+                            </button>
+                        </div>
+                    </div>
+
+                    <tfoot>
+                        <div class="pagination">
+                             <span ng-class="{disabled: currentPage == 0}" ng-show="pagedItems.length">
+                                <a href ng-click="prevPage()">上一页</a>
+                             </span>
+                            
+                             <span ng-class="{disabled: currentPage == pagedItems.length - 1}" ng-show="pagedItems.length">
+                                <a href ng-click="nextPage()">下一页</a>
+                             </span>
+                        </div>
+                    </tfoot>
+                </div>
+            </div>
+        </div>
+    </div><!--任务添加弹窗部分-->
+
     <div class="addtask_second" ng-repeat="app in myExcAllApps" style="position: relative">
         <hr>
         <div class="addtask_inform ">
@@ -33,35 +97,35 @@
                 </div>
             </div> <!--media-->
             <div class="choose">
-                               <span  class="form">
-                                   <input type="radio" checked="checked" ng-model="app.excKinds" ng-value=1 > 评论
-                               </span>
+                <span  class="form">
+                   <input type="radio" checked="checked" ng-model="app.excKinds" ng-value=1 > 评论
+                </span>
 
-                               <span class="form">
-                                   <input type="radio" ng-model="app.excKinds" ng-value=2 > 下载
-                               </span>
+                <span class="form">
+                   <input type="radio" ng-model="app.excKinds" ng-value=2 > 下载
+                </span>
 
-                               <span class="form">交换
-                                   <input class="exchange" type="text"  ng-model="app.totalExcCount"> 条
-                               </span>
+                <span class="form">交换
+                   <input class="exchange" type="text"  ng-model="app.totalExcCount"> 条
+                </span>
 
                 <a href="javascript:;" class="a-upload form_change " ng-hide="app.requirementImg.length">
                     <input type="file" nv-file-select="" ng-click="deletFile(app)" uploader="uploader" accept="image/*"/>上传需求截图
                 </a>
 
-                               <span ng-show="app.requirementImg.length">
-                                   <button class="delimage" ng-click="deletFile(app)">删除需求截图</button>
-                               </span>
+                <span ng-show="app.requirementImg.length">
+                    <button class="delimage" ng-click="deletFile(app)">删除需求截图</button>
+                </span>
 
-                               <span>
-                                   <button class="btn save" ng-click="saveTask(app)">保存</button>
-                               </span>
-
+                <span>
+                    <button class="btn save" ng-click="saveTask(app)">保存</button>
+                </span>
 
                 <span> 分配备注:<input  class="addtaskper"type="text" ng-model="app.addTaskPer" placeholder="请填写内部交换人员"></span>
-                               <span ng-repeat="item in app.prepareUploadFiles">
-                                       选择的图片: <span ng-bind="item.file.name"></span><br/>
-                               </span>
+
+                <span ng-repeat="item in app.prepareUploadFiles">
+                    选择的图片: <span ng-bind="item.file.name"></span><br/>
+                </span>
 
                 <div class="progress" ng-show="app.requestNet">
                     <div ng-class="{'progress-bar': true, 'progress-bar-striped':true, active:true}" ng-style="{width: 100 + '%'}"></div>
@@ -79,3 +143,23 @@
 
     </div>
 </div><!--addtask-->
+
+<div class="modal modal-lg fade" id="myhistorydelete">
+    <div class="modal-dialog" style="width:400px;position: absolute;right: 20px">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">×</span>
+                    <span class="sr-only">Close</span></button>
+                <h4 class="modal-title">删除提示</h4>
+            </div>
+            <div class="modal-body">
+                <p>确认删除此交换任务?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn" data-dismiss="modal" ng-click="removeHistory()">删除</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal">取消</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!--删除任务添加-->
