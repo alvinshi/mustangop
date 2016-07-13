@@ -38,9 +38,14 @@ app.config(['$stateProvider','$urlRouterProvider',function($stateProvider, $urlR
 app.controller('myAppControl', function($scope, $http, $location, FileUploader) {
     $scope.pageIndex = 0;
 
-    //var appurlList = $location.absUrl().split('/');
-    //var appid = appurlList[appurlList.length - 1];
-    var appid = 486317537;
+    var appurlList = $location.absUrl().split('/');
+    if (appurlList.length == 5){
+        var appid = appurlList[appurlList.length - 1];
+    }else {
+        var app = appurlList[appurlList.length - 2].split('#');
+        var appid = app[app.length - 2];
+    }
+    console.log('-----' + appid)
     var myappUrl = 'baseinfo/' + appid;
 
     $http.get(myappUrl).success(function (response) {
