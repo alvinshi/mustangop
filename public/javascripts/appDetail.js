@@ -555,7 +555,14 @@ app.controller('myAppControl', function($scope, $http, $location, FileUploader) 
             $scope.appNeedInfo.commentKeyword = $scope.appNeedInfo.commentKeyword.substring(0, maxLen);	//就去掉多余的字
 
         }
-    }
+    };
+    var text=140;
+    $scope.checkTextInput=function(){
+        if($scope.appNeedInfo.detailRem.length>text){
+            $scope.appNeedInfo.detailRem=$scope.appNeedInfo.detailRem.substring(0,text);
+        }
+
+    };
 
     var getneedUrl = '/app/getNeed/' + appid;
     $http.get(getneedUrl).success(function(response){
