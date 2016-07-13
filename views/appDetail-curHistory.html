@@ -25,7 +25,64 @@
         </div>
     </div>
 
+    <div class="modal fade " id="search_history">
+        <div class="modal-dialog" style="width: 750px;height: 600px">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="input-group">
+                        <input  type="text" class="form-control" ng-model="searchKey" ng-keyup="keySearchApp($event)" placeholder="填写与你最新版本交换过的产品名称">
+                        <span class="input-group-btn ">
+                            <button class="btn btn_search"type="submit" ng-click="searchHistoryApp()">
+                                <span class="glyphicon glyphicon-search"></span>
+                            </button>
+                        </span>
+                    </div>
+                    <div class="placehold-line">
+                        <div class="progress" ng-show="progressNum">
+                            <div ng-class="{'progress-bar': true, 'progress-bar-striped':true, active:true}" ng-style="{width: progressNum + '%'}"></div>
+                        </div>
+                        <div class="alert alert-warning" role="alert" ng-show="isError">
+                            {{ errorMsg }}
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="media app_info" ng-repeat="app in pagedItems[currentPage]" >
+                        <div class="media-left">
+                            <img class="media-object" ng-src="{{ app.artworkUrl512 }}" alt="App Icon">
+                        </div>
+                        <div class="media-body">
+                            <h4 class="media-heading appName">{{ app.trackName.substr(0,10)+"..."}}</h4>
+                            <div class="media-info">
+                                <span class="media-info-appId">App Id:&nbsp;&nbsp;{{ app.appleId }}</span>
+                            </div>
+                        </div>
+                        <div class="media_right">
+                            <button class="btn  button_bottom" ng-click="addExcHistory(app)" ng-hide="app.isExced">
+                                添加
+                            </button>
+                            <button class=" btn btn-default  button_add hvr-float-shadow "ng-hide="!app.isExced">
+                                已添加
+                            </button>
+                        </div>
+                    </div>
+                    <div class="pagination">
+                        <span ng-class="{disabled: currentPage == 0}" ng-show="pagedItems.length">
+                            <a href ng-click="prevPage()">上一页</a>
+                        </span>
 
+                        <span ng-class="{disabled: currentPage == pagedItems.length - 1}" ng-show="pagedItems.length">
+                            <a href ng-click="nextPage()">下一页</a>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div><!-- 当前版本搜索记录-->
 
 
     <div class="nowversion ">
