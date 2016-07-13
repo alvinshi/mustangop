@@ -111,6 +111,7 @@ app.controller('myAppControl', function($scope, $http, $location, FileUploader) 
     $scope.removeHistory = function(){
         var releaseHistoryUrl = '/myapp/history/delete';
 
+
         var myAppId = $scope.appBaseInfo.appleId;
         var myAppVersion = $scope.appBaseInfo.version;
 
@@ -344,7 +345,7 @@ app.controller('myAppControl', function($scope, $http, $location, FileUploader) 
 
                 $scope.errorMsg = '';
 
-                location.href='/app/' + appid + '#/add';
+                //location.href='/app/' + appid + '#/add';
 
             }else {
                 $scope.errorMsg = response.errorMsg;
