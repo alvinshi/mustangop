@@ -131,122 +131,9 @@
             <div ui-view></div>
         </div><!--col-lg-9 右侧改变的内容-->
    </div> <!--second row end-->
-   
-    <div class="modal modal-lg fade" id="myhistorydelete">
-        <div class="modal-dialog" style="width:400px;position: absolute;right: 20px">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">
-                        <span aria-hidden="true">×</span>
-                        <span class="sr-only">Close</span></button>
-                    <h4 class="modal-title">删除提示</h4>
-                </div>
-                <div class="modal-body">
-                    <p>确认删除此交换任务?</p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn" data-dismiss="modal" ng-click="removeHistory()">删除</button>
-                    <button type="button" class="btn btn-primary" data-dismiss="modal">取消</button>
-                </div>
-            </div><!-- /.modal-content -->
-        </div><!-- /.modal-dialog -->
-    </div><!--删除任务添加-->
-    <div class="modal fade" id="mymodal">
-        <div class="modal-dialog" style="width: 750px;height: 600px">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">
-                        <span aria-hidden="true">×</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div class="input-group">
-                        <input  type="text" class="form-control" ng-model="searchKey" ng-keyup="keySearchApp($event)" placeholder="填写与你最新版本交换过的产品名称">
-                      <span class="input-group-btn ">
-                          <button class=" btn btn-search" type="submit" ng-click="searchHistoryApp()">
-                              <span class="glyphicon glyphicon-search"></span>
-                          </button>
-                      </span>
-                    </div>
 
-                    <div class="placehold-line">
-                        <div class="progress" ng-hide="!progressNum">
-                            <div ng-class="{'progress-bar': true, 'progress-bar-striped':true, active:true}" ng-style="{width: progressNum + '%'}"></div>
-                        </div>
-                        <div class="alert-danger" role="alert" ng-hide="!isError">
-                            {{ errorMsg }}
-                        </div>
-                    </div>
-                    <hr/>
 
-                    <div class="app_info" ng-repeat="app in pagedItems[currentPage]">
-                        <div class="media-left">
-                            <img class="media-object" ng-src="{{ app.artworkUrl512 }}" alt="App Icon">
-                        </div>
-                        <div class="media-body">
-                            <h4 class="media-heading appName">{{ app.trackName.substr(0,10)+"..." }}</h4>
-                            <div class="media-info">
-                                <span class="media-info-appId">App ID:&nbsp;&nbsp;{{ app.appleId }}</span>
-                            </div>
-                        </div>
-                        <div class=" media_right">
-                            <button class=" btn  button_bottom " ng-click="addHistory(app)" ng-hide="app.isExced">
-                                添加
-                            </button>
-                            <button class="btn btn-default  button_add hvr-float-shadow" ng-hide="!app.isExced">
-                                已添加
-                            </button>
-                        </div>
-                    </div>
 
-                    <tfoot>
-                    <div class="pagination">
-                     <span ng-class="{disabled: currentPage == 0}" ng-show="pagedItems.length">
-                        <a href ng-click="prevPage()">上一页</a>
-                     </span>
-                     <span ng-class="{disabled: currentPage == pagedItems.length - 1}" ng-show="pagedItems.length">
-                        <a href ng-click="nextPage()">下一页</a>
-                     </span>
-                    </div>
-                    </tfoot>
-                </div>
-            </div>
-        </div>
-    </div><!--任务添加弹窗部分-->
-    <div class="modal fade" id="curHistoryDelete">
-        <div class="modal-dialog" class="curHistoryDelete">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
-                    <h4 class="modal-title">删除提示</h4>
-                </div>
-                <div class="modal-body">
-                    <p>确认删除此条交换纪录?一但删除将无法恢复.</p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn" data-dismiss="modal" ng-click="releaseHistory()">删除</button>
-                    <button type="button" class="btn btn-primary" data-dismiss="modal">取消</button>
-                </div>
-            </div><!-- /.modal-content -->
-        </div><!-- /.modal-dialog -->
-    </div><!-- 删除当前版本-->
-    <div class="modal fade" id="preHistoryDelete">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
-                    <h4 class="modal-title">删除提示</h4>
-                </div>
-                <div class="modal-body">
-                    <p>确认删除此条交换纪录?一但删除将无法恢复.</p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn" data-dismiss="modal" ng-click="releasePreHistory()">删除</button>
-                    <button type="button" class="btn btn-primary" data-dismiss="modal">取消</button>
-                </div>
-            </div><!-- /.modal-content -->
-        </div><!-- /.modal-dialog -->
-    </div><!-- 删除以往版本-->
     <div class="modal fade " id="search_history">
         <div class="modal-dialog" style="width: 750px;height: 600px">
             <div class="modal-content">
@@ -305,26 +192,6 @@
             </div>
         </div>
     </div><!-- 当前版本搜索记录-->
-
-    <div class="modal modal-lg fade" id="rejectreason">
-        <div class="modal-dialog" style="width:500px;position: absolute;right: 20px">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">
-                        <span aria-hidden="true">×</span>
-                    </button>
-                    <h4 class="modal-title">填写拒绝理由</h4>
-                </div>
-                <div class="modal-body">
-                   <textarea   class="from-control" style="width: 450px;height:200px;border-radius:4px;margin: auto;border: 1px solid #e0e0e0">
-                   </textarea>
-                </div>
-                <div class="modal-footer">
-                    <button type="button"  class="btn btn_sure" >确认</button>
-                </div>
-            </div><!-- /.modal-content -->
-        </div><!-- /.modal-dialog -->
-    </div><!--拒绝理由弹窗-->
 
 </div><!--container end-->
 <script src="/javascripts/cookieHelper.js"></script>
