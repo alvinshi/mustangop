@@ -25,7 +25,7 @@ var dailyTask = require('./routes/dailyTask');
 var taskDetail = require('./routes/taskDetail');
 var taskDetailMobile = require('./routes/taskDetailMobApi');
 var doTask=require('./routes/doTask');
-
+var alipay = require('./routes/pay');
 
 var app = express();
 
@@ -88,11 +88,14 @@ app.use(function (req, res, next) {
 
   var loginWhiteList  = new Array();
   loginWhiteList[0] = "/user";
-  loginWhiteList[1] = "/dailyTask";
-  loginWhiteList[2] = "/html";
-  loginWhiteList[3] = "/taskDetailMobile";
-  loginWhiteList[4] = "/upload";
-  loginWhiteList[5] = "/taskDetail";
+  loginWhiteList[1] = "/upload";
+  loginWhiteList[2] = "/pay";
+  loginWhiteList[3] = "/html";
+
+  loginWhiteList[4] = "/dailyTask";
+  loginWhiteList[5] = "/taskDetailMobile";
+  loginWhiteList[6] = "/taskDetail";
+
   var needLogin = !routeHasPrefix(req.originalUrl, loginWhiteList);
 
   //不是主页,也不是以白名单开头的网页,则是需要用户先登陆的网站
@@ -137,6 +140,7 @@ app.use('/dailyTask', dailyTask);
 app.use('/taskDetail', taskDetail);
 app.use('/taskDetailMobile', taskDetailMobile);
 app.use('/doTask', doTask);
+app.use('/pay', alipay);
 
 
 //静态html组建

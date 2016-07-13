@@ -345,7 +345,7 @@ app.controller('myAppControl', function($scope, $http, $location, FileUploader) 
 
                 $scope.errorMsg = '';
 
-                //location.href='/app/' + appid + '#/add';
+                location.href='/app/' + appid + '#/add';
 
             }else {
                 $scope.errorMsg = response.errorMsg;
@@ -388,7 +388,8 @@ app.controller('myAppControl', function($scope, $http, $location, FileUploader) 
                 $scope.ExcAllApps.unshift(response.addExcObject);
 
                 $scope.errorMsg = '';
-                //location.href='/app/' + appid;
+                //location.href='/app/' + appid + '#/curHistory';
+
             }else {
                 $scope.errorMsg = response.errorMsg;
             }
@@ -517,11 +518,7 @@ app.controller('myAppControl', function($scope, $http, $location, FileUploader) 
 
 
 
-    //需求编辑
-    $scope.message = "";
-    $scope.titleKeyword="";
-    $scope.commentKeyword="";
-    $scope.more = "";
+
     $scope.color={
        "color" :"#3498db"
     };
@@ -564,6 +561,19 @@ app.controller('myAppControl', function($scope, $http, $location, FileUploader) 
         }
 
     };
+
+
+
+    //$scope.taskType1=function(){
+    //    if($scope.appNeedInfo.taskType=="下载"){
+    //        $scope.appNeedInfo.unitPrice="20";
+    //        alert(20);
+    //    }
+    //
+    //};
+    //$scope.taskType2=function(){
+    //    $scope.appNeedInfo.unitPrice=30;
+    //};
 
     var getneedUrl = '/app/getNeed/' + appid;
     $http.get(getneedUrl).success(function(response){
