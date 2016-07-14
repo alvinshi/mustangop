@@ -30,11 +30,12 @@ body{
 }
 .personal{
     width:200px;
+    margin-top: 100px;
     margin-bottom:15px;
     border:1px solid #ccc;
     border-radius: 6px;
     width:200px;
-    height:644px;
+    height:800px;
     background-color: #ffffff;
 }
 
@@ -45,7 +46,7 @@ body{
     background-color: #3498db;
 }
 
-.menu .personal-title{
+ .personal-title{
     font-size:16px;
     line-height:2;
     margin-top: 48px;
@@ -55,20 +56,37 @@ body{
 
 .img-normal{
     padding-left: 26px;
+
+}
+.img-normal2{
+    padding-left: 26px;
+    margin-top: 20px;
+    border-left: 4px solid #3498db;
+}
+.img-normal a,.img-normal2 a{
+    margin-left: 15px;
+    font-size: 18px;
+    color: #000000;
+    text-decoration: none;
+
+}
+.img-normal a:hover{
+    text-decoration: none;
 }
 
 .title{
-    margin-left: 30px;
-    margin-top: 30px;
-    color: #333333;
+    margin-left: 40px;
+    padding-top: 30px;
+    font-size: 20px;
+    color: #000000;
     cursor:pointer;
 }
 
 .setting-content{
-
     background-color: #ffffff;
     margin-left:10px;
     width: 753px;
+    height: 800px;
     border-radius: 6px;
 }
 
@@ -96,9 +114,10 @@ body{
 }
 
 .back-out{
-    font-size:16px;
-    margin-left: 82px;
-    margin-top: 60px;
+
+    margin-left: 65px;
+    margin-top: 20px;
+    font-size: 18px;
 }
 
 .button{
@@ -216,6 +235,11 @@ body{
     margin-top: 15px;
     margin-left: 40px;
 }
+.mine2{
+    margin-top: 15px;
+    margin-left:28px;
+
+}
 .mine_one{
     font-size: 30px;
     color: #eb3030;
@@ -267,6 +291,10 @@ body{
 .mine_btn5{
     border: 1px solid #ff7373 ;
     background-color: #ff7373;
+
+}
+.row{
+    overflow: hidden;
 
 }
 [class*="change"]{

@@ -50,21 +50,20 @@
 <div class="container main-body"  ng-controller="userCenterCtrl">
     <div class="row">
         <div class="col-lg-2 change" style="margin-left: 150px">
-            <div class=" menu">
                 <div class="personal">
                     <div class="personal-title">
-                        <span class="solid"></span>
-                        <img src="/images/home/user_center.png" alt="" class="img-normal"><a class="title" ui-sref="userCenter">账号中心</a>
-                        <img src="/images/home/money.png" alt="" class="img-normal"><a class="title" ui-sref="account">我的Y币</a>
+                        <div class="img-normal">
+                            <img src="/images/home/user_center.png" alt="" ><a  ui-sref="userCenter">账号中心</a>
+                        </div>
 
+                        <div class="img-normal2">
+                            <img src="/images/home/money.png" alt="" ><a  ui-sref="account">我的Y币</a>
+                        </div>
                     </div>
                     <div class="back-out">
                         <a onclick="logout()" class="button">退出登陆</a>
                     </div>
-                </div>
-            </div>
-
-
+              </div>
         </div>
         <div class="col-lg-6 change">
             <div class="setting-content">
