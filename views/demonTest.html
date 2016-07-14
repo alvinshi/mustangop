@@ -170,6 +170,9 @@
                         redirectTo: '/tab'
                     });
                 });
+        function setValue(val){
+            document.getElementById("t").value=val;
+        }
     </script>
 
 
@@ -194,5 +197,10 @@
     <div ng-view="">
     </div>
 </div>
+<input name="abc" type="radio" value="20" onclick="setValue(this.value)" />A
+<input name="abc" type="radio" value="30" onclick="setValue(this.value)" />B
+<input id="t" />
+
+
 </body>
 </html>
