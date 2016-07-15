@@ -22,7 +22,7 @@ app.controller('doTaskCtrl', function($scope, $http, $location) {
         $scope.taskObject = response.doTask;
         taskDisplayedInit();
         updateTaskDisplayed();
-    })
+    });
 
     //获取任务列表总页数
     function taskDisplayedInit(){

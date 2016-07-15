@@ -27,6 +27,7 @@ var taskDetailMobile = require('./routes/taskDetailMobApi');
 var doTask=require('./routes/doTask');
 var taskCheck = require('./routes/taskCheck');
 var taskInfor = require('./routes/taskInfor');
+var doInnerTask = require('./routes/doInnerTask');
 var alipay = require('./routes/pay');
 
 
@@ -145,6 +146,7 @@ app.use('/taskDetailMobile', taskDetailMobile);
 app.use('/doTask', doTask);
 app.use('/taskCheck', taskCheck);
 app.use('/taskInfor', taskInfor);
+app.use('/doInnerTask', doInnerTask);
 app.use('/pay', alipay);
 
 
