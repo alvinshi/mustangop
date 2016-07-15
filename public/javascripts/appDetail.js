@@ -539,6 +539,7 @@ app.controller('myAppControl', function($scope, $http, $location, FileUploader) 
     };
 
     //
+<<<<<<< HEAD
     //var count=20;
     //$scope.checkInput=function(){
     //    if($scope.appNeedInfo.titleKeyword.length>count){
@@ -561,6 +562,31 @@ app.controller('myAppControl', function($scope, $http, $location, FileUploader) 
     //    }
     //
     //};
+=======
+
+    var count=20;
+    $scope.checkInput=function(){
+        if($scope.appNeedInfo.titleKeyword.length>count){
+            $scope.appNeedInfo.titleKeyword=$scope.appNeedInfo.titleKeyword.substring(0,count);
+        }
+
+    };
+
+    var maxLen = 40;	//定义用户可以输入的最多字数
+    $scope.checkMaxInput=function(){
+        if ($scope.appNeedInfo.commentKeyword.length > maxLen){	//如果输入的字数超过了限制
+            $scope.appNeedInfo.commentKeyword = $scope.appNeedInfo.commentKeyword.substring(0, maxLen);	//就去掉多余的字
+
+        }
+    };
+    var text=140;
+    $scope.checkTextInput=function(){
+        if($scope.appNeedInfo.detailRem.length>text){
+            $scope.appNeedInfo.detailRem=$scope.appNeedInfo.detailRem.substring(0,text);
+        }
+
+    };
+>>>>>>> f8809f8038c51e91236aa6179ec8ac4c6764ea6d
 
 
     function setValue(){
