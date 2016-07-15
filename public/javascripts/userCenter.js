@@ -2,9 +2,24 @@
  * Created by cailong on 16/5/20.
  */
 
-var app = angular.module('yemaWebApp', []);
+var app = angular.module('yemaWebApp', ['ui.router']);
 
 var navIndex = 3;
+app.config(['$stateProvider','$urlRouterProvider',function($stateProvider, $urlRouterProvider) {
+    $stateProvider
+        .state('userCenter',{
+            url:'/',
+            templateUrl:'/html/userCenter-infor.html',
+            controller:'userCenterCtrl'
+        })
+        .state('account',{
+            url:'/account',
+            templateUrl:'/html/userCenter-account.html',
+            controller:'userCenterCtrl'
+        });
+
+    $urlRouterProvider.otherwise('/');     //匹配所有不在上面的路由
+}]);
 
 app.controller('userCenterCtrl', function($scope, $http){
     $scope.userName = true;

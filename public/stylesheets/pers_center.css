@@ -13,7 +13,7 @@ body{
 
 .main-body{
     width: 100%;
-    max-width: 1001px;
+    /*max-width: 1001px;*/
 }
 .user_button{
     border:1px solid #3498db;
@@ -30,11 +30,12 @@ body{
 }
 .personal{
     width:200px;
+    margin-top: 100px;
     margin-bottom:15px;
     border:1px solid #ccc;
     border-radius: 6px;
     width:200px;
-    height:644px;
+    height:800px;
     background-color: #ffffff;
 }
 
@@ -45,34 +46,47 @@ body{
     background-color: #3498db;
 }
 
-.menu .personal-title{
+ .personal-title{
     font-size:16px;
     line-height:2;
     margin-top: 48px;
 
 }
-.menu{
-    float: left;
-}
+
 
 .img-normal{
     padding-left: 26px;
+
+}
+.img-normal2{
+    padding-left: 26px;
+    margin-top: 20px;
+    border-left: 4px solid #3498db;
+}
+.img-normal a,.img-normal2 a{
+    margin-left: 15px;
+    font-size: 18px;
+    color: #000000;
+    text-decoration: none;
+
+}
+.img-normal a:hover{
+    text-decoration: none;
 }
 
 .title{
-    margin-left: 30px;
-    margin-top: 30px;
-    color: #333333;
+    margin-left: 40px;
+    padding-top: 30px;
+    font-size: 20px;
+    color: #000000;
     cursor:pointer;
 }
 
 .setting-content{
-
     background-color: #ffffff;
     margin-left:10px;
     width: 753px;
-    height: 644px;
-    float: left;
+    height: 800px;
     border-radius: 6px;
 }
 
@@ -100,9 +114,10 @@ body{
 }
 
 .back-out{
-    font-size:16px;
-    margin-left: 82px;
-    margin-top: 60px;
+
+    margin-left: 65px;
+    margin-top: 20px;
+    font-size: 18px;
 }
 
 .button{
@@ -114,7 +129,176 @@ body{
     background-color: #3498db;
     border: 1px solid #3498db;
 }
+ /*个人中心的账户*/
+.account{
+    /*border: 1px solid #e0e0e0;*/
+    margin-left: 40px;
+    padding-top: 30px;
+    font-size: 20px;
+    color: #000000;
+}
+.firt_row{
+    margin-top: 30px;
+    margin-left: 30px;
+}
 
 
+.acheive{
 
+    margin-top: 10px;
+    margin-bottom: 10px;
+
+}
+.consume{
+    margin-bottom: 10px;
+
+
+}
+.leftmoney{
+    margin-top: 20px;
+    margin-bottom: 10px;
+
+}
+.money{
+    margin-bottom: 13px;
+}
+.acheive span:nth-child(1){
+    margin-left: 10px;
+    font-size: 18px;
+    color: #666666;
+}
+
+.acheive span:nth-child(2){
+    color:  #eb3030;font-size: 30px;margin-left: 20px
+}
+.acheive span:nth-child(3){
+    color: #eb3030;
+    margin-left: 5px;
+}
+.consume span:nth-child(1){
+    margin-left: 10px;
+    font-size: 18px;
+    color: #666666;
+}
+.consume span:nth-child(2){
+    color:  #eb3030;font-size: 30px;margin-left: 20px
+}
+.consume span:nth-child(3){
+    color:  #eb3030;
+    margin-left: 5px
+}
+.dotask{
+    font-size: 18px;
+    line-height: 20px;
+    color: #FFFFFF;
+    background-color: #3498db;
+    height: 40px
+}
+.dotask span:nth-child(1){
+    margin-left: 15px
+}
+.dotask span:nth-child(2){
+    margin-left: 45px
+}
+.leftmoney span:nth-child(2){
+    margin-left: 10px;
+    font-size: 18px;
+    color: #666666;
+}
+.moneyimg{
+    padding-bottom: 5px;
+    margin-left: 45px;
+}
+.money span:nth-child(1){
+    margin-left: 50px;
+    font-size: 30px;
+    color: #eb3030;
+}
+
+.money span:nth-child(2){
+    margin-left: 5px;
+    font-size: 14px;
+    color: #eb3030;
+}
+.myMoney{
+    width: 160px;
+    height: 200px;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    -webkit-box-shadow: 2px 2px 2px #e0e0e0;
+    /*-webkit-box-shadow: -2px -2px 2px #e0e0e0;*/
+    margin-left: 20px;
+    margin-bottom: 20px;
+    float: left;
+}
+.mine{
+    margin-top: 15px;
+    margin-left: 40px;
+}
+.mine2{
+    margin-top: 15px;
+    margin-left:28px;
+
+}
+.mine_one{
+    font-size: 30px;
+    color: #eb3030;
+
+}
+.mine_two{
+    font-size: 14px;
+    color: #eb3030;
+    margin-left: 5px;
+
+}
+.mine_img{
+    margin-left: 20px;
+}
+.myMoney button{
+    /*margin-bottom: 15px;*/
+    margin-top: 12px;
+    margin-left: 40px;
+
+    border-radius: 5px;
+    color:#FFFFFF ;
+    width: 80px;
+    font-size: 18px;
+    line-height: 18px;
+    outline: none;
+    height: 30px;
+
+}
+.mine_btn1{
+    border: 1px solid #ffc273 ;
+    background-color: #ffc273;
+
+}
+.mine_btn2{
+    border: 1px solid #ffa673 ;
+    background-color: #ffa673;
+
+}
+.mine_btn3{
+    border: 1px solid #ff8f73 ;
+    background-color: #ff8f73;
+
+}
+.mine_btn4{
+    border: 1px solid #ff7773 ;
+    background-color: #ff7773;
+
+}
+.mine_btn5{
+    border: 1px solid #ff7373 ;
+    background-color: #ff7373;
+
+}
+.row{
+    overflow: hidden;
+
+}
+[class*="change"]{
+    margin-bottom:-9999px;
+    padding-bottom: 9999px;
+}
 

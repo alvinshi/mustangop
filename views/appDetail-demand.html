@@ -10,10 +10,10 @@
                 <label  class="col-lg-2 control-label" > 任务类型:</label>
                 <div class="col-lg-8">
                     <label class="radio-inline">
-                        <input type="radio" ng-model="appNeedInfo.taskType" value="评论"> 评论
+                        <input type="radio" name="radio"  ng-model="appNeedInfo.taskType"  value="评论" onclick="setValue()"> 评论
                     </label>
                     <label class="radio-inline">
-                        <input type="radio" ng-model="appNeedInfo.taskType" value="下载"> 下载
+                        <input type="radio" name="radio" ng-model="appNeedInfo.taskType" value="下载"> 下载
                     </label>
                 </div>
             </div>
@@ -25,7 +25,7 @@
                 </div>
                 <label  class="col-lg-2 control-label" > 任务单价:</label>
                 <div class="col-lg-2">
-                    <input type="text" class="form-control" ng-model="appNeedInfo.excUnitPrice" placeholder="">
+                    <input type="text" class="form-control" id="price"ng-model="appNeedInfo.unitPrice"  placeholder="">
                 </div>
             </div>
 

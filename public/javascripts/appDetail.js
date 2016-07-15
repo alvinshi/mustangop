@@ -111,6 +111,7 @@ app.controller('myAppControl', function($scope, $http, $location, FileUploader) 
     $scope.removeHistory = function(){
         var releaseHistoryUrl = '/myapp/history/delete';
 
+
         var myAppId = $scope.appBaseInfo.appleId;
         var myAppVersion = $scope.appBaseInfo.version;
 
@@ -344,7 +345,7 @@ app.controller('myAppControl', function($scope, $http, $location, FileUploader) 
 
                 $scope.errorMsg = '';
 
-                location.href='/app/' + appid + '#/add';
+                //location.href='/app/' + appid + '#/add';
 
             }else {
                 $scope.errorMsg = response.errorMsg;
@@ -387,7 +388,8 @@ app.controller('myAppControl', function($scope, $http, $location, FileUploader) 
                 $scope.ExcAllApps.unshift(response.addExcObject);
 
                 $scope.errorMsg = '';
-                //location.href='/app/' + appid;
+                //location.href='/app/' + appid + '#/curHistory';
+
             }else {
                 $scope.errorMsg = response.errorMsg;
             }
@@ -516,11 +518,7 @@ app.controller('myAppControl', function($scope, $http, $location, FileUploader) 
 
 
 
-    //需求编辑
-    $scope.message = "";
-    $scope.titleKeyword="";
-    $scope.commentKeyword="";
-    $scope.more = "";
+
     $scope.color={
        "color" :"#3498db"
     };
@@ -563,6 +561,11 @@ app.controller('myAppControl', function($scope, $http, $location, FileUploader) 
     //    }
     //
     //};
+
+
+    function setValue(){
+        document.getElementById("price").innerHTML=30;
+    }
 
     var getneedUrl = '/app/getNeed/' + appid;
     $http.get(getneedUrl).success(function(response){
