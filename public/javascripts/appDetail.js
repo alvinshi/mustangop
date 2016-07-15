@@ -541,28 +541,28 @@ app.controller('myAppControl', function($scope, $http, $location, FileUploader) 
     };
 
     //
-    var count=20;
-    $scope.checkInput=function(){
-        if($scope.appNeedInfo.titleKeyword.length>count){
-            $scope.appNeedInfo.titleKeyword=$scope.appNeedInfo.titleKeyword.substring(0,count);
-        }
-
-    };
-
-    var maxLen = 40;	//定义用户可以输入的最多字数
-    $scope.checkMaxInput=function(){
-        if ($scope.appNeedInfo.commentKeyword.length > maxLen){	//如果输入的字数超过了限制
-            $scope.appNeedInfo.commentKeyword = $scope.appNeedInfo.commentKeyword.substring(0, maxLen);	//就去掉多余的字
-
-        }
-    };
-    var text=140;
-    $scope.checkTextInput=function(){
-        if($scope.appNeedInfo.detailRem.length>text){
-            $scope.appNeedInfo.detailRem=$scope.appNeedInfo.detailRem.substring(0,text);
-        }
-
-    };
+    //var count=20;
+    //$scope.checkInput=function(){
+    //    if($scope.appNeedInfo.titleKeyword.length>count){
+    //        $scope.appNeedInfo.titleKeyword=$scope.appNeedInfo.titleKeyword.substring(0,count);
+    //    }
+    //
+    //};
+    //
+    //var maxLen = 40;	//定义用户可以输入的最多字数
+    //$scope.checkMaxInput=function(){
+    //    if ($scope.appNeedInfo.commentKeyword.length > maxLen){	//如果输入的字数超过了限制
+    //        $scope.appNeedInfo.commentKeyword = $scope.appNeedInfo.commentKeyword.substring(0, maxLen);	//就去掉多余的字
+    //
+    //    }
+    //};
+    //var text=140;
+    //$scope.checkTextInput=function(){
+    //    if($scope.appNeedInfo.detailRem.length>text){
+    //        $scope.appNeedInfo.detailRem=$scope.appNeedInfo.detailRem.substring(0,text);
+    //    }
+    //
+    //};
 
     var getneedUrl = '/app/getNeed/' + appid;
     $http.get(getneedUrl).success(function(response){
@@ -571,12 +571,29 @@ app.controller('myAppControl', function($scope, $http, $location, FileUploader) 
 
     $scope.saveNeed = function(){
         var needUrl = '/app/taskneed/' + appid;
-        var needInfo = {'taskType':$scope.appNeedInfo.taskType, 'excCount':$scope.appNeedInfo.excCount, 'screenshotCount':$scope.appNeedInfo.screenshotCount,
+        var needInfo = {'taskType':$scope.appNeedInfo.taskType, 'excCount':$scope.appNeedInfo.excCount, 'excUnitPrice':$scope.appNeedInfo.excUnitPrice, 'screenshotCount':$scope.appNeedInfo.screenshotCount,
             'searchKeyword':$scope.appNeedInfo.searchKeyword, 'ranKing':$scope.appNeedInfo.ranKing, 'Score':$scope.appNeedInfo.Score,
             'titleKeyword':$scope.appNeedInfo.titleKeyword, 'commentKeyword':$scope.appNeedInfo.commentKeyword, 'detailRem':$scope.appNeedInfo.detailRem};
         $http.post(needUrl, needInfo).success(function(response){
             $scope.errorId = response.errorId;
             $scope.errorMsg = response.errorMsg;
         })
-    }
+    };
+
+    $scope.releaseTask = function(){
+        var needUrl = '/app/task/' + appid;
+        var needInfo = {'taskType':$scope.appNeedInfo.taskType, 'excCount':$scope.appNeedInfo.excCount,
+            'excUnitPrice':$scope.appNeedInfo.excUnitPrice, 'screenshotCount':$scope.appNeedInfo.screenshotCount,
+            'searchKeyword':$scope.appNeedInfo.searchKeyword, 'ranKing':$scope.appNeedInfo.ranKing,
+            'Score':$scope.appNeedInfo.Score, 'titleKeyword':$scope.appNeedInfo.titleKeyword,
+            'commentKeyword':$scope.appNeedInfo.commentKeyword, 'detailRem':$scope.appNeedInfo.detailRem,
+            'appObjectId':$scope.appBaseInfo.appObjectId};
+
+
+        $http.post(needUrl, needInfo).success(function(response){
+            $scope.errorId = response.errorId;
+            $scope.errorMsg = response.errorMsg;
+        })
+    };
+
 });
