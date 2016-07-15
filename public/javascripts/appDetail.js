@@ -539,6 +539,7 @@ app.controller('myAppControl', function($scope, $http, $location, FileUploader) 
     };
 
     //
+
     var count=20;
     $scope.checkInput=function(){
         if($scope.appNeedInfo.titleKeyword.length>count){

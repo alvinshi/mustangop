@@ -44,89 +44,304 @@
   </div>
 <div class="container">
     <div  class=" container main_content"  ng-controller="itunesSearchControl">
-        <div class="col-lg-6 col-sm-12 input-group">
-            <input type="text" class="form-control" ng-model="searchKey" ng-keyup="keySearchApp($event)" placeholder="搜索添加你想绑定的App名称...">
-                    <span class="input-group-btn">
-                         <button class="btn search_color" ng-click="searchApp()">
-                             <span class="glyphicon glyphicon-plus"></span>
-                         </button>
-                   </span>
-        </div>
-        <!-- /input-group -->
-        <div class="placehold-line">
-            <div class="progress" ng-hide="!progressNum">
-                <div ng-class="{'progress-bar': true, 'progress-bar-striped':true, active:true}" ng-style="{width: progressNum + '%'}">
-                </div>
-            </div>
-
-            <div class="alert alert-warning" role="alert" ng-hide="!isError">
-                {{ errorMsg }}
-            </div>
-
+        <div class="add" style="width: 200px;height: 200px;border: 1px solid red">
+            <button class="btn" data-target="#addApp_modal" data-toggle="modal"><span class="glyphicon glyphicon-plus"></span></button>
         </div>
 
-        <div class="spinner" ng-hide="!isLoadingMyApp">
-            <div class="double-bounce1"></div>
-            <div class="double-bounce2"></div>
-        </div>
-        <div class="alert alert-danger infor" role="alert">
-            请选择或者搜索添加你需要发布任务的APP
-        </div>
 
-        <div class="media" ng-repeat="app in appResults" >
-            <div class="media-left">
-                <img class="media-object" ng-src="{{ app.artworkUrl512 }}" alt="App Icon">
-            </div>
-            <div class="media-body">
-                <h4 class="media-heading appName">{{ app.trackName }}</h4>
-                <div class="media-object">{{ app.sellerName }}</div>
-                <div class="media-info">
-                    <span class="media-info-updateDate">更新日期:{{ app.latestReleaseDate }}</span>
-                    <span class="media-info-appId">App Id:&nbsp;&nbsp;{{ app.appleId }}</span>
-                </div>
-            </div>
-            <div class="media-right">
-                <button  class=" button_bottom hvr-float-shadow" ng-click="chooseMyApp(app)" ng-hide="app.isMine">
-                      确认绑定
-                </button>
-                <button  class="excedBtn">
-                      已绑定
-                </button>
-            </div>
-        </div>
+
+
+
 
         <div class="col-lg-12 col-sm-12 add-app ">
-
             <div class="list-group" ng-repeat="app in myApps">
                 <a href="/app/{{app.appleId}}"><img ng-src="{{ app.artworkUrl512 }}" class="img-responsive" alt="App Icon"></a>
                 <p class="app_name ">{{ app.trackName.substr(0,16) }}</p>
                 <p class="app_version">版本号 {{ app.version }}</p>
                 <p class="app_update">更新日期{{ app.latestReleaseDate.substr(0,10) }}</p>
+                <a ng-click="releaseBtnClick(app.appleId)" data-toggle="modal" data-target="#mymodal">
+                    <button  class="app_button_bottom hvr-box-shadow-inset" >解绑</button>
+                </a>
+            </div>
+        </div>
 
-                    <a ng-click="releaseBtnClick(app.appleId)" data-toggle="modal" data-target="#mymodal">
-                        <button  class="app_button_bottom hvr-box-shadow-inset" >解绑</button>
-                    </a>
-
+        <div id="need" ng-show="myApps.length">
+            <div class="alert alert-danger" role="alert">
+                在任务需求编辑中,你可以非常详细的记录换屏换量需求,且只需记录一次.之后,只需每天修改关键信息即可
             </div>
 
-            <div class="modal fade" id="mymodal">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
-                            <h4 class="modal-title">解绑提示</h4>
+            <div>
+                <h2 class="mytitle">任务信息</h2>
+                <form class="form-horizontal">
+                    <div class="form-group">
+                        <label  class="col-lg-2 control-label" > 任务类型:</label>
+                        <div class="col-lg-8">
+                            <label class="radio-inline">
+                                <input type="radio" name="radio"  ng-model="appNeedInfo.taskType"  value="评论" onclick="setValue()"> 评论
+                            </label>
+                            <label class="radio-inline">
+                                <input type="radio" name="radio" ng-model="appNeedInfo.taskType" value="下载"> 下载
+                            </label>
                         </div>
-                        <div class="modal-body">
-                            <p>确认解绑此应用?</p>
+                    </div>
+
+                    <div class="form-group">
+                        <label  class="col-lg-2 control-label" > 交换数量:</label>
+                        <div class="col-lg-2">
+                            <input type="text" class="form-control" ng-model="appNeedInfo.excCount" placeholder="">
                         </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="releaseMyApp()" >确认</button>
-                            <button type="button" class="btn btn-primary" data-dismiss="modal">取消</button>
+                        <label  class="col-lg-2 control-label" > 任务单价:</label>
+                        <div class="col-lg-2">
+                            <input type="text" class="form-control" id="price"ng-model="appNeedInfo.unitPrice"  placeholder="">
                         </div>
-                    </div><!-- /.modal-content -->
-                </div><!-- /.modal-dialog -->
-            </div><!-- /.modal -->
+                    </div>
+
+                    <div class="form-group">
+                        <label  class="col-lg-2 control-label" > 截图数量:</label>
+                        <div class="col-lg-8">
+                            <label class="radio-inline">
+                                <input type="radio" ng-model="appNeedInfo.screenshotCount" ng-value=2> 2条
+                            </label>
+                            <label class="radio-inline">
+                                <input type="radio" ng-model="appNeedInfo.screenshotCount" ng-value=3> 3条
+                            </label>
+                        </div>
+                    </div>
+                </form>
+                <hr>
+            </div>
+
+            <div>
+                <h2 class="mytitle">下载信息</h2>
+                <form class="form-horizontal">
+                    <div class="form-group">
+                        <label  class="col-lg-2 control-label" >搜索关键词:</label>
+                        <div class="col-lg-3">
+                            <input type="text" class="form-control" placeholder="" ng-model="appNeedInfo.searchKeyword">
+                        </div>
+                        <label  class="col-lg-2 control-label "  >排名:</label>
+                        <div class="col-lg-3">
+                            <input type="text" class="form-control" style="width: 143px;" placeholder="" ng-model="appNeedInfo.ranKing">
+                        </div>
+                    </div>
+                </form>
+                <hr>
+            </div>
+
+            <div ng-hide="appNeedInfo.taskType == '下载'">
+                <h2 class="mytitle">评论信息</h2>
+                <form class="form-horizontal">
+                    <div class="form-group">
+                        <label  class="col-lg-2 control-label" >评分:</label>
+                        <div class="col-lg-8">
+                            <label class="radio-inline">
+                                <input type="radio" ng-value=5 ng-model="appNeedInfo.Score"> 5星
+                            </label>
+                            <label class="radio-inline">
+                                <input type="radio" ng-value=4 ng-model="appNeedInfo.Score"> 4星
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label  class="col-lg-2 control-label" > 标题关键词:</label>
+                        <div class="col-lg-8" >
+                            <input type="text" class="form-control" placeholder="请输入小于20字符"
+                                   ng-model="appNeedInfo.titleKeyword"
+                                   ng-keydown="checkInput()" ng-keyup="checkInput()" >
+                        </div>
+                        <label  class="col-lg-1 control-label" style="margin-left: -40px" ><span ng-bind="appNeedInfo.titleKeyword.length+0" ng-style="color"></span>/20</label>
+                    </div>
+                    <div class="form-group">
+                        <label  class="col-lg-2 control-label" > 评论关键词:</label>
+                        <div class="col-lg-8">
+                    <textarea class="form-control" rows="2" style="height: 60px" placeholder="请输入小于40字符"
+                              ng-model="appNeedInfo.commentKeyword"
+                              ng-keydown="checkMaxInput()" ng-keyup="checkMaxInput()">
+
+                    </textarea>
+                        </div>
+                        <label  class="col-lg-1 control-label" style="margin-left: -40px" >
+                            <span ng-bind="appNeedInfo.commentKeyword.length+0" ng-style="color"></span>/40
+                        </label>
+                    </div>
+
+                    <div class="form-group">
+                        <label  class="col-lg-2 control-label" >详情备注:</label>
+                        <div class="col-lg-8">
+                               <textarea  class="form-control" rows="5" placeholder="1.标题不少于2个关键词 2.请两日内不卸载
+                               " ng-model="appNeedInfo.detailRem"
+                                          ng-keydown="checkTextInput()" ng-keyup="checkTextInput()">
+                               </textarea>
+                        </div>
+                        <label  class="col-lg-1 control-label" style="margin-left: -40px;margin-top: 30px" >
+                            <span ng-bind="appNeedInfo.detailRem.length+0" ng-style="color"></span>/140
+                        </label>
+                    </div>
+                </form>
+                <hr>
+            </div>
+
+            <div class="col-lg-6">
+                <button class="btn button_save" ng-click="saveNeed()">保存</button>
+            </div>
+            <div class="col-lg-6">
+                <button class="btn button_save">发布任务</button>
+            </div>
+            <div>
+                <h2 class="mytitle">需求预览</h2>
+
+                <div id='screenShot'; style="background:url(/images/appDetail/screenshot-background.png); width: 640px;
+                        padding: 36px 54px 60px 30px; margin: auto;">
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <img  class="appicon" style="display: inline-block; margin: 0 26px 40px 20px;
+                                width: 120px; height: 120px; border-radius: 20px"
+                                  ng-src="{{  appBaseInfo.artworkUrl100 }}" alt="App Icon"/>
+                        </div>
+                        <div class="col-sm-9" style="padding-left: 50px;">
+                            <p style="font-size: 24px; color: #ffffff;
+                                width: 330px; margin-top: 10px">
+                                {{ appBaseInfo.trackName.substr(0,16)+"..."  }}
+                            </p>
+                            <p style="color: #ffffff;
+                                width: 330px;">
+                                更新日期: {{ appBaseInfo.latestReleaseDate.substr(0,10) }}
+                            </p>
+                            <p style="color: #ffffff; font-size: 20px;">
+                                任务类型: <span class="synwords">{{appNeedInfo.taskType}}</span>
+                            </p>
+                        </div>
+                    </div>
+
+                    <ol style="font-size: 20px; color: #ffffff;
+                            list-style-position: inside; padding:0; margin:0;">
+                        <li style="margin-bottom: 30px">
+                            <p>1. app store 搜索"<span class="synwords">{{appNeedInfo.searchKeyword}}</span>"
+                                第<span class="synwords">{{appNeedInfo.ranKing}}</span>
+                                名左右, 找到应用,如上图图标, 下载.</p>
+                        </li>
+                        <li style="margin-bottom: 30px">
+                            <p>2. 打开app, 请务必过引导页.</p>
+                        </li>
+                        <li  style="margin-bottom: 30px" ng-hide="appNeedInfo.taskType == '下载'">
+                            <p  style="margin-bottom: 20px">
+                                3. 返回app store, 好评"<span class="synwords">{{appNeedInfo.Score}}</span>星"
+                            </p>
+                            <p style="margin-bottom: 20px">
+                                &nbsp &nbsp &nbsp 标题关键词: <span class="synwords">{{appNeedInfo.titleKeyword}}</span></p>
+                            <p style="margin-bottom: 20px">
+                                &nbsp &nbsp &nbsp评论关键词: <span class="synwords">{{appNeedInfo.commentKeyword}}</span></p>
+                        </li>
+                        <li  style="margin-bottom: 30px" ng-hide="appNeedInfo.taskType == '下载'">
+                            <p>4. 备注:</p>
+                            <p style="border: 1px solid #cdf1ff; font-size: 18px;
+                                    margin-top: 20px; margin-bottom: 70px;
+                                    padding: 18px 20px 18px 20px;" ng-show = "appNeedInfo.detailRem.length">
+                                {{appNeedInfo.detailRem}}
+                            </p>
+                        </li>
+                    </ol>
+
+                    <p style="font-size: 24px; color: #ffffff;">
+                        手机评论, 不要无卡机, iPad, 一条以上用手机流量哦, 亲.
+                        &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp;&nbsp &nbsp &nbsp
+                        &nbsp &nbsp &nbsp&nbsp &nbsp &nbsp&nbsp &nbsp &nbsp
+                        &nbsp &nbsp &nbsp&nbsp &nbsp &nbsp&nbsp
+                        -友情提醒, 避免撕逼
+                    </p>
+                </div>
+                <button class="btn button_save" style="margin-top: 50px; margin-bottom: 50px;" ng-click='getScreenShot()'>
+                    下载需求图
+                </button>
+            </div>
+
+
+
         </div>
+        <div class="modal fade" id="mymodal">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+                        <h4 class="modal-title">解绑提示</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p>确认解绑此应用?</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="releaseMyApp()" >确认</button>
+                        <button type="button" class="btn btn-primary" data-dismiss="modal">取消</button>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div><!-- /. 解绑弹窗提示-->
+        <div class="modal fade" id="addApp_modal">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span></button>
+
+                    </div>
+                    <div class="modal-body">
+                        <div class="col-lg-6 col-sm-12 input-group">
+                            <input type="text" class="form-control" ng-model="searchKey" ng-keyup="keySearchApp($event)" placeholder="搜索添加你想绑定的App名称...">
+                    <span class="input-group-btn">
+                         <button class="btn search_color" ng-click="searchApp()">
+                             <span class="glyphicon glyphicon-plus"></span>
+                         </button>
+                   </span>
+                        </div>
+                        <!-- /input-group -->
+                        <div class="placehold-line">
+                            <div class="progress" ng-hide="!progressNum">
+                                <div ng-class="{'progress-bar': true, 'progress-bar-striped':true, active:true}" ng-style="{width: progressNum + '%'}">
+                                </div>
+                            </div>
+
+                            <div class="alert alert-warning" role="alert" ng-hide="!isError">
+                                {{ errorMsg }}
+                            </div>
+
+                        </div>
+
+                        <div class="spinner" ng-hide="!isLoadingMyApp">
+                            <div class="double-bounce1"></div>
+                            <div class="double-bounce2"></div>
+                        </div>
+                        <div class="alert alert-danger infor" role="alert">
+                            请选择或者搜索添加你需要发布任务的APP
+                        </div>
+
+                        <div class="media" ng-repeat="app in appResults" >
+                            <div class="media-left">
+                                <img class="media-object" ng-src="{{ app.artworkUrl512 }}" alt="App Icon">
+                            </div>
+                            <div class="media-body">
+                                <h4 class="media-heading appName">{{ app.trackName }}</h4>
+                                <div class="media-object">{{ app.sellerName }}</div>
+                                <div class="media-info">
+                                    <span class="media-info-updateDate">更新日期:{{ app.latestReleaseDate }}</span>
+                                    <span class="media-info-appId">App Id:&nbsp;&nbsp;{{ app.appleId }}</span>
+                                </div>
+                            </div>
+                            <div class="media-right">
+                                <button  class=" button_bottom hvr-float-shadow" ng-click="chooseMyApp(app)" ng-hide="app.isMine">
+                                    确认绑定
+                                </button>
+                                <button  class="excedBtn">
+                                    已绑定
+                                </button>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn" data-dismiss="modal" >删除</button>
+                        <button type="button" class="btn btn-primary" data-dismiss="modal">取消</button>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div><!--添加应用的弹窗-->
     </div>
 </div>
 

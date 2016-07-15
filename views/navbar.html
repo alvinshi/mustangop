@@ -21,18 +21,21 @@
                     <ul class="dropdown-menu" >
                         <li class="myapp-list" ng-repeat="app in tracknameAPPs">
 
-                            <a href="/app/{{app.appid}}"target="_top">{{ app.trackName }}</a>
+                            <a href="/app/{{app.appid}}">{{ app.trackName }}</a>
 
                         </li>
-                        <li><a href="/myapp" target="_top">管理我的任务应用</a></li>
+                        <li><a href="/myapp">管理我的任务应用</a></li>
                     </ul>
                 </li>
                 <li><a ng-style="{color:myColors[2]}" href="/dailyTask/{{userObjectId.userObjectId}}">当前任务</a></li>
+                <li><a ng-style="{color:myColors[2]}" href="/taskCheck">任务审核</a></li>
+                <li><a ng-style="{color:myColors[3]}" href="/taskInfor">任务消息</a></li>
+                <li><a ng-style="{color:myColors[4]}" href="/dailyTask/{{userObjectId.userObjectId}}">外部交换工具</a></li>
 
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li class="dropdown">
-                    <a id="nav-username-display" href="/user" data-toggle="dropdown" class="dropdown" ng-style="{color:myColors[3]}">
+                    <a id="nav-username-display" href="/user" data-toggle="dropdown" class="dropdown" ng-style="{color:myColors[5]}">
                         <span class="caret"></span>
                     </a>
                     <ul class="dropdown-menu">

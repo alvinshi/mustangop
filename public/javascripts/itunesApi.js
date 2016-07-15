@@ -117,6 +117,7 @@ app.controller('itunesSearchControl', function($scope, $http) {
                 $scope.errorMsg = response.errorMsg;
             }
             location.href='/app/' + appInfo.appleId;
+
             $scope.appResults = [];
         });
     };
