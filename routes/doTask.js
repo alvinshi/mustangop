@@ -10,6 +10,8 @@ var https = require('https');
 var IOSAppSql = AV.Object.extend('IOSAppInfo');
 var IOSAppBinder = AV.Object.extend('IOSAppBinder');
 var IOSAppExcLogger = AV.Object.extend('IOSAppExcLogger');
+var releaseTaskObject = AV.Object.extend('releaseTaskObject');
+var receiveTaskObject = AV.Object.extend('receiveTaskObject');
 
 router.get('/', function(req, res) {
     res.render('doTask');
@@ -60,4 +62,41 @@ router.get('/taskHall', function(req, res){
     }
 });
 
+// receive task 领取任务一个人统一领取
+router.post('/postUsertask', function(req, res){
+    var userId = util.useridInReq(req);
+    var receiveCount = req.body.receiveCount;
+    var receivePrice = req.body.receivePrice;
+    var detailRem = req.body.detailRem;
+    var taskObjectId = req.params.taskObjectId;
+
+    var user = new AV.User();
+    user.id = userId;
+
+    var app = AV.Object.createWithoutData('releaseTaskObject', taskObjectId);
+
+    var query = new AV.Query(receiveTaskObject);
+    query.equalTo('userObject', user);
+    query.include('taskObject');
+    query.find().then(function(results){
+        for (var i = 0; i < results.length; i++){
+            var taskid = results[i].get('taskObject');
+            if (taskid == taskObjectId){
+                res.json({'error':'已经领取了'})
+            }else {
+                var receiveTaskObject = new receiveTaskObject();
+                receiveTaskObject.set('userObject', user);
+                receiveTaskObject.set('taskObject', app);
+                receiveTaskObject.set('receiveCount', receiveCount);
+                receiveTaskObject.set('receivePrice', receivePrice);
+                receiveTaskObject.set('detailRem', detailRem);
+                receiveTaskObject.save().then(function(){
+                    // 保存成功
+                })
+            }
+        }
+        res.json({'errorId':0, 'errorMsg':''});
+    })
+
+});
 module.exports = router;
