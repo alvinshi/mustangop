@@ -42,7 +42,7 @@ router.get('/taskHall', function(req, res){
             appObject.latestReleaseDate = hisAppObject.get('latestReleaseDate');
             appObject.sellerName = hisAppObject.get('sellerName');
 
-            appObject.objectId = results[i].get('objectId')
+            appObject.objectId = results[i].id;
             appObject.excCount = results[i].get('excCount');
             appObject.remainCount = results[i].get('remainCount');
             appObject.rateUnitPrice = results[i].get('rateUnitPrice');
@@ -67,11 +67,14 @@ router.get('/taskHall', function(req, res){
 
 
 // receive task 领取任务一个人统一领取
-router.post('/postUsertask/:taskObjectId', function(req, res){
+router.post('/postUsertask/:taskObjectId/:ratePrice', function(req, res){
     var userId = util.useridInReq(req);
-    var receiveCount = req.body.receiveCount;
-    var receivePrice = req.body.receivePrice;
-    var detailRem = req.body.detailRem;
+    var receive_Count = req.body.receiveCount;
+    var receive_Price = (req.params.ratePrice) * receive_Count;
+    var detail_Rem = req.body.detailRem;
+    if (detail_Rem == undefined){
+        detail_Rem = '';
+    };
     var taskObjectId = req.params.taskObjectId;
 
     var user = new AV.User();
@@ -83,22 +86,23 @@ router.post('/postUsertask/:taskObjectId', function(req, res){
     query.equalTo('userObject', user);
     query.include('taskObject');
     query.find().then(function(results){
+        var flag = true;
         for (var i = 0; i < results.length; i++){
             var taskid = results[i].get('taskObject');
             if (taskid == taskObjectId){
-                res.json({'error':'已经领取了'})
-            }else {
-                var receiveTaskObject = new receiveTaskObject();
-                receiveTaskObject.set('userObject', user);
-                receiveTaskObject.set('taskObject', app);
-                receiveTaskObject.set('receiveCount', receiveCount);
-                receiveTaskObject.set('receivePrice', receivePrice);
-                receiveTaskObject.set('detailRem', detailRem);
-                receiveTaskObject.save().then(function(){
-                    // 保存成功
-                })
+                res.json({'error':'已经领取了'});
+                flag = false;
             }
         }
+        if (flag) {
+            var ReceiveTaskObject = new receiveTaskObject();
+            ReceiveTaskObject.set('userObject', user);
+            ReceiveTaskObject.set('taskObject', app);
+            ReceiveTaskObject.set('receiveCount', receive_Count);
+            ReceiveTaskObject.set('receivePrice', receive_Price);
+            ReceiveTaskObject.set('detailRem', detail_Rem);
+            ReceiveTaskObject.save();
+        };
         res.json({'errorId':0, 'errorMsg':''});
     })
 
