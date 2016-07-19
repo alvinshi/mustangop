@@ -86,22 +86,23 @@ router.post('/postUsertask/:taskObjectId/:ratePrice', function(req, res){
     query.equalTo('userObject', user);
     query.include('taskObject');
     query.find().then(function(results){
+        var flag = true;
         for (var i = 0; i < results.length; i++){
             var taskid = results[i].get('taskObject');
             if (taskid == taskObjectId){
-                res.json({'error':'已经领取了'})
-            }else {
-                var receiveTaskObject = new receiveTaskObject();
-                receiveTaskObject.set('userObject', user);
-                receiveTaskObject.set('taskObject', app);
-                receiveTaskObject.set('receiveCount', receive_Count);
-                receiveTaskObject.set('receivePrice', receive_Price);
-                receiveTaskObject.set('detailRem', detail_Rem);
-                receiveTaskObject.save().then(function(){
-                    // 保存成功
-                })
+                res.json({'error':'已经领取了'});
+                flag = false;
             }
         }
+        if (flag) {
+            var ReceiveTaskObject = new receiveTaskObject();
+            ReceiveTaskObject.set('userObject', user);
+            ReceiveTaskObject.set('taskObject', app);
+            ReceiveTaskObject.set('receiveCount', receive_Count);
+            ReceiveTaskObject.set('receivePrice', receive_Price);
+            ReceiveTaskObject.set('detailRem', detail_Rem);
+            ReceiveTaskObject.save();
+        };
         res.json({'errorId':0, 'errorMsg':''});
     })
 
