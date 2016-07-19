@@ -94,7 +94,7 @@ app.controller('doTaskCtrl', function($scope, $http, $location) {
         //通过前端效验
         else {
             var url = 'doTask/postUsertask/' + currentApp.objectId + '/' + currentApp.rateUnitPrice;
-            $http.post(url).success(function(response){
+            $http.post(url, {'receiveCount': $scope.getTaskFormData.receiveCount, 'detailRem': $scope.getTaskFormData.detailRem}).success(function(response){
                 $scope.getTaskFormData.errorMsg = response.errorMsg;
             });
         };
