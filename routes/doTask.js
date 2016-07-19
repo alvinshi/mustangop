@@ -22,19 +22,18 @@ router.get('/taskHall', function(req, res){
     var myDate = new Date();
     var myDateStr = myDate.getFullYear() + '-' + parseInt(myDate.getMonth() + 1) + '-' + myDate.getDate();
 
-    var query = new AV.Query(IOSAppExcLogger);
-    query.exists('totalExcCount');
-    query.exists('excKinds');
-    query.exists('requirementImg');
-    query.notEqualTo('taskStatus', 1);
-    query.include('hisAppObject');
-    query.greaterThan('remainCount', 0);
-    query.descending('excDateStr');
+    var query = new AV.Query(releaseTaskObject);
+    //query.notEqualTo('remainCount', '0');
+    //query.equalTo('completed', 0);
+    query.include('appObject');
+    query.descending('updatedAt');
+
     query.find().then(function(results){
         var retApps = new Array();
         for (var i = 0; i < results.length; i++){
             var appObject = Object();
-            var hisAppObject = results[i].get('hisAppObject');
+            var hisAppObject = results[i].get('appObject');
+            //app基本信息
             appObject.trackName = hisAppObject.get('trackName').substring(0, 20);
             appObject.artworkUrl100 = hisAppObject.get('artworkUrl100');
             appObject.appleId = hisAppObject.get('appleId');
@@ -43,16 +42,19 @@ router.get('/taskHall', function(req, res){
             appObject.latestReleaseDate = hisAppObject.get('latestReleaseDate');
             appObject.sellerName = hisAppObject.get('sellerName');
 
-            appObject.totalExcCount = results[i].get('totalExcCount');
-            appObject.requirementImg = results[i].get('requirementImg');
+            appObject.excCount = results[i].get('excCount');
             appObject.remainCount = results[i].get('remainCount');
+            appObject.rateUnitPrice = results[i].get('rateUnitPrice');
 
-            var excKinds = results[i].get('excKinds');
-            if (excKinds == 1){
-                appObject.excKinds = '评论'
-            }else {
-                appObject.excKinds = '下载'
-            }
+            //任务需求
+            appObject.taskType = results[i].get('taskType');
+            appObject.ranking = results[i].get('ranking');
+            appObject.score = results[i].get('Score');
+            appObject.searchKeyword = results[i].get('searchKeyword');
+            appObject.screenshotCount = results[i].get('screenshotCount');
+            appObject.titleKeyword = results[i].get('titleKeyword');
+            appObject.commentKeyword = results[i].get('commentKeyword');
+            appObject.detailRem = results[i].get('detailRem');
 
             retApps.push(appObject)
         }

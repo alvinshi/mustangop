@@ -20,6 +20,8 @@ app.controller('doTaskCtrl', function($scope, $http, $location) {
     var url = 'doTask/taskHall';
     $http.get(url).success(function(response){
         $scope.taskObject = response.doTask;
+        console.log($scope.taskObject);
+        console.log('showed');
         taskDisplayedInit();
         updateTaskDisplayed();
     });
