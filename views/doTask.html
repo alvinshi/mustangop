@@ -69,13 +69,20 @@
                         <span class="infoBubble">任务单价: <span style="color:#53d435">25</span> Y币</span>
                     </div>
                 </td>
-                <td style="padding-right: 40px;">
-                    <a href="/doInnerTask">
-                        <button class="mybtn reverse hvr-float-shadow">
-                            做任务
+                <td style="padding-right: 0px;">
+                    <a href="">
+                        <button class="mybtn reverse hvr-float-shadow" data-target="#detail" data-toggle="modal">
+                            任务详情
                         </button>
                     </a>
 
+                </td>
+                <td style="padding-right: 40px;">
+                    <a href="/doInnerTask">
+                        <button class="mybtn reverse hvr-float-shadow" data-target="#takeTask">
+                            做任务
+                        </button>
+                    </a>
                 </td>
             </tr>
         </table>
@@ -87,114 +94,114 @@
         <button class="btn btn-default myPageBtn" ng-click="nextPage()">下一页</button>
     </div>
 
-    <!-- Modal -->
-    <!--<div class="modal fade" id="detail" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">-->
-        <!--<div class="modal-dialog" role="document">-->
-            <!--<div class="modal-content" style="width: 642px;">-->
-                <!--<div class="modal-header">-->
-                    <!--<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>-->
-                    <!--<h4 class="modal-title" id="">任务详情</h4>-->
-                <!--</div>-->
-                <!--<div class="modal-body" style="padding:0;">-->
-                    <!--<div style="background:url(/images/appDetail/screenshot-background.png); width: 640px;-->
-                        <!--padding: 36px 54px 60px 30px; margin: auto;">-->
-                        <!--<div class="row">-->
-                            <!--<div class="col-sm-3">-->
-                                <!--<img  class="appicon" style="display: inline-block; margin: 0 26px 40px 20px;-->
-                                <!--width: 120px; height: 120px; border-radius: 20px"-->
-                                      <!--ng-src="{{  appBaseInfo.artworkUrl100 }}" alt="App Icon">-->
-                            <!--</div>-->
-                            <!--<div class="col-sm-9" style="padding-left: 50px;">-->
-                                <!--<p style="font-size: 24px; color: #ffffff;-->
-                                <!--width: 330px; margin-top: 10px">-->
-                                    <!--{{ appBaseInfo.trackName.substr(0,16)+"..."  }}-->
-                                <!--</p>-->
-                                <!--<p style="color: #ffffff;-->
-                                <!--width: 330px;">-->
-                                    <!--更新日期: {{ appBaseInfo.latestReleaseDate  }}-->
-                                <!--</p>-->
-                                <!--<p style="color: #ffffff; font-size: 20px;">-->
-                                    <!--任务类型: <span class="synwords">{{taskType}}</span>-->
-                                <!--</p>-->
-                            <!--</div>-->
-                        <!--</div>-->
+     Modal
+    <div class="modal fade" id="detail" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content" style="width: 642px;">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="">任务详情</h4>
+                </div>
+                <div class="modal-body" style="padding:0;">
+                    <div style="background:url(/images/appDetail/screenshot-background.png); width: 640px;
+                        padding: 36px 54px 60px 30px; margin: auto;">
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <img  class="appicon" style="display: inline-block; margin: 0 26px 40px 20px;
+                                width: 120px; height: 120px; border-radius: 20px"
+                                      ng-src="{{  appBaseInfo.artworkUrl100 }}" alt="App Icon">
+                            </div>
+                            <div class="col-sm-9" style="padding-left: 50px;">
+                                <p style="font-size: 24px; color: #ffffff;
+                                width: 330px; margin-top: 10px">
+                                    {{ appBaseInfo.trackName.substr(0,16)+"..."  }}
+                                </p>
+                                <p style="color: #ffffff;
+                                width: 330px;">
+                                    更新日期: {{ appBaseInfo.latestReleaseDate  }}
+                                </p>
+                                <p style="color: #ffffff; font-size: 20px;">
+                                    任务类型: <span class="synwords">{{taskType}}</span>
+                                </p>
+                            </div>
+                        </div>
 
-                        <!--<ol style="font-size: 20px; color: #ffffff;-->
-                            <!--list-style-position: inside; padding:0; margin:0;">-->
-                            <!--<li style="margin-bottom: 30px">-->
-                                <!--<p>app store 搜索"<span class="synwords">{{searchKeyword}}</span>"-->
-                                    <!--第<span class="synwords">{{ranking}}</span>-->
-                                    <!--名左右, 找到应用,如上图图标, 下载.</p>-->
-                            <!--</li>-->
-                            <!--<li style="margin-bottom: 30px">-->
-                                <!--<p>打开app, 请务必过引导页.</p>-->
-                            <!--</li>-->
-                            <!--<li  style="margin-bottom: 30px" ng-hide="taskType == '下载'">-->
-                                <!--<p  style="margin-bottom: 20px">-->
-                                    <!--返回app store, 好评"<span class="synwords">{{stars}}</span>星"-->
-                                <!--</p>-->
-                                <!--<p style="margin-bottom: 20px">-->
-                                    <!--&nbsp &nbsp &nbsp 标题关键词: <span class="synwords">{{titleKeyword}}</span></p>-->
-                                <!--<p style="margin-bottom: 20px">-->
-                                    <!--&nbsp &nbsp &nbsp评论关键词: <span class="synwords">{{commentKeyword}}</span></p>-->
-                            <!--</li>-->
-                            <!--<li  style="margin-bottom: 30px" ng-hide="taskType == '下载'">-->
-                                <!--<p>备注:</p>-->
-                                <!--<p style="border: 1px solid #cdf1ff; font-size: 18px;-->
-                                    <!--margin-top: 20px; margin-bottom: 70px;-->
-                                    <!--padding: 18px 20px 18px 20px;" ng-show = "more.length">-->
-                                    <!--{{more}}-->
-                                <!--</p>-->
-                            <!--</li>-->
-                        <!--</ol>-->
+                        <ol style="font-size: 20px; color: #ffffff;
+                            list-style-position: inside; padding:0; margin:0;">
+                            <li style="margin-bottom: 30px">
+                                <p>app store 搜索"<span class="synwords">{{searchKeyword}}</span>"
+                                    第<span class="synwords">{{ranking}}</span>
+                                    名左右, 找到应用,如上图图标, 下载.</p>
+                            </li>
+                            <li style="margin-bottom: 30px">
+                                <p>打开app, 请务必过引导页.</p>
+                            </li>
+                            <li  style="margin-bottom: 30px" ng-hide="taskType == '下载'">
+                                <p  style="margin-bottom: 20px">
+                                    返回app store, 好评"<span class="synwords">{{stars}}</span>星"
+                                </p>
+                                <p style="margin-bottom: 20px">
+                                    &nbsp &nbsp &nbsp 标题关键词: <span class="synwords">{{titleKeyword}}</span></p>
+                                <p style="margin-bottom: 20px">
+                                    &nbsp &nbsp &nbsp评论关键词: <span class="synwords">{{commentKeyword}}</span></p>
+                            </li>
+                            <li  style="margin-bottom: 30px" ng-hide="taskType == '下载'">
+                                <p>备注:</p>
+                                <p style="border: 1px solid #cdf1ff; font-size: 18px;
+                                    margin-top: 20px; margin-bottom: 70px;
+                                    padding: 18px 20px 18px 20px;" ng-show = "more.length">
+                                    {{more}}
+                                </p>
+                            </li>
+                        </ol>
 
-                        <!--<p style="font-size: 24px; color: #ffffff;">-->
-                            <!--手机评论, 不要无卡机, iPad, 一条以上用手机流量哦, 亲.-->
-                            <!--&nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp;&nbsp &nbsp &nbsp-->
-                            <!--&nbsp &nbsp &nbsp&nbsp &nbsp &nbsp&nbsp &nbsp &nbsp-->
-                            <!--&nbsp &nbsp &nbsp&nbsp &nbsp &nbsp&nbsp-->
-                            <!-- -友情提醒, 避免撕逼-->
-                        <!--</p>-->
-                    <!--</div>-->
-                <!--</div>-->
-                <!--<div class="modal-footer">-->
-                    <!--<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>-->
-                <!--</div>-->
-            <!--</div>-->
-        <!--</div>-->
-    <!--</div>-->
+                        <p style="font-size: 24px; color: #ffffff;">
+                            手机评论, 不要无卡机, iPad, 一条以上用手机流量哦, 亲.
+                            &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp;&nbsp &nbsp &nbsp
+                            &nbsp &nbsp &nbsp&nbsp &nbsp &nbsp&nbsp &nbsp &nbsp
+                            &nbsp &nbsp &nbsp&nbsp &nbsp &nbsp&nbsp
+                             -友情提醒, 避免撕逼
+                        </p>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
-    <!--<div class="modal fade" id="takeTask" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">-->
-        <!--<div class="modal-dialog" role="document">-->
-            <!--<div class="modal-content" style="width: 400px;">-->
-                <!--<div class="modal-header">-->
-                    <!--<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>-->
-                    <!--<h4 class="modal-title" id="myModalLabel">做任务</h4>-->
-                <!--</div>-->
-                <!--<div class="modal-body">-->
-                    <!--<div>-->
-                        <!--<div>-->
-                            <!--<span style="font-size: 18px; color: #333333; padding-top: 10px">任务数量: </span>-->
-                            <!--<input type="text" placeholder="" style="border-radius: 4px; width: 50px;"/>-->
-                            <!--<span style="font-size: 18px; color: #333333; padding-top: 2px">条</span>-->
-                            <!--<span style="font-size: 18px; color: #333333; padding-top: 2px">将获得-->
-                                <!--<span style="color:#3498db">60 </span>Y币</span>-->
-                        <!--</div>-->
-                        <!--<hr>-->
-                        <!--<div>-->
-                            <!--<span style="font-size: 18px; color: #333333; padding-top: 2px">添加备注: </span>-->
-                            <!--<input type="text" placeholder="可用作内部分配时的依据" style="border-radius: 4px; width: 250px;" />-->
-                        <!--</div>-->
-                    <!--</div>-->
-                <!--</div>-->
-                <!--<div class="modal-footer">-->
-                    <!--<button type="button" class="btn btn-default reverse" style="width: 100px">-->
-                        <!--确认-->
-                    <!--</button>-->
-                <!--</div>-->
-            <!--</div>-->
-        <!--</div>-->
-    <!--</div>-->
+    <div class="modal fade" id="takeTask" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content" style="width: 400px;">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">做任务</h4>
+                </div>
+                <div class="modal-body">
+                    <div>
+                        <div>
+                            <span style="font-size: 18px; color: #333333; padding-top: 10px">任务数量: </span>
+                            <input type="text" placeholder="" style="border-radius: 4px; width: 50px;"/>
+                            <span style="font-size: 18px; color: #333333; padding-top: 2px">条</span>
+                            <span style="font-size: 18px; color: #333333; padding-top: 2px">将获得
+                                <span style="color:#3498db">60 </span>Y币</span>
+                        </div>
+                        <hr>
+                        <div>
+                            <span style="font-size: 18px; color: #333333; padding-top: 2px">添加备注: </span>
+                            <input type="text" placeholder="可用作内部分配时的依据" style="border-radius: 4px; width: 250px;" />
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default reverse" style="width: 100px">
+                        确认
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
 
 </div>
 <script src="/javascripts/cookieHelper.js"></script>

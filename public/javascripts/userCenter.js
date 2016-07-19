@@ -7,7 +7,7 @@ var app = angular.module('yemaWebApp', ['ui.router']);
 var navIndex = 3;
 app.config(['$stateProvider','$urlRouterProvider',function($stateProvider, $urlRouterProvider) {
     $stateProvider
-        .state('userCenter',{
+        .state('inform',{
             url:'/',
             templateUrl:'/html/userCenter-infor.html',
             controller:'userCenterCtrl'
