@@ -20,6 +20,8 @@ app.controller('doTaskCtrl', function($scope, $http, $location) {
     var url = 'doTask/taskHall';
     $http.get(url).success(function(response){
         $scope.taskObject = response.doTask;
+        console.log($scope.taskObject);
+        console.log('showed');
         taskDisplayedInit();
         updateTaskDisplayed();
     });
@@ -65,5 +67,34 @@ app.controller('doTaskCtrl', function($scope, $http, $location) {
         firstTaskIndex = $scope.pageNum * $scope.taskPerPage
         lastTaskIndex = Math.min(firstTaskIndex + $scope.taskPerPage, $scope.totalTaskNum);
         $scope.taskDisplayed = $scope.taskObject.slice(firstTaskIndex, lastTaskIndex);
+    };
+
+    //*********领取任务弹窗逻辑*****************
+    $scope.getTaskFormData = {};
+    $scope.getTaskFormData.receiveCount = 0;
+    $scope.getTaskFormData.detailRem = undefined;
+    $scope.getTaskFormData.errorMsg = undefined;
+
+    //点击确认按钮激发
+    $scope.getTask = function(currentApp){
+        var userObject = getCookie('userIdCookie');
+
+        //报错条件
+        if (userObject == ''){
+            $scope.getTaskFormData.errorMsg = '请先登陆帐号后再领取任务';
+        }
+        else if ($scope.getTaskFormData.receiveCount == 0) {
+            $scope.getTaskFormData.errorMsg = '请正确填写领取条目';
+        }
+        else if ($scope.getTaskFormData.receiveCount > parseInt(currentApp.remainCount)){
+            $scope.getTaskFormData.errorMsg = '此任务剩余条数不足';
+        }
+
+        //通过前端效验
+        else {
+            var url = '/postUsertask/' + currentApp.objectId + '/' + currentApp.rateUnitPrice;
+            $http.post(url).success(function(response){
+            });
+        };
     };
 });
