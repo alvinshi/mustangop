@@ -42,7 +42,7 @@ router.get('/taskHall', function(req, res){
             appObject.latestReleaseDate = hisAppObject.get('latestReleaseDate');
             appObject.sellerName = hisAppObject.get('sellerName');
 
-            appObject.objectId = results[i].get('objectId')
+            appObject.objectId = results[i].id;
             appObject.excCount = results[i].get('excCount');
             appObject.remainCount = results[i].get('remainCount');
             appObject.rateUnitPrice = results[i].get('rateUnitPrice');
@@ -67,10 +67,10 @@ router.get('/taskHall', function(req, res){
 
 
 // receive task 领取任务一个人统一领取
-router.post('/postUsertask/:taskObjectId', function(req, res){
+router.post('/postUsertask/:taskObjectId/:ratePrice', function(req, res){
     var userId = util.useridInReq(req);
-    var receiveCount = req.body.receiveCount;
-    var receivePrice = req.body.receivePrice;
+    var receiveCount = req.body.getTaskFormData.receiveCount;
+    var receivePrice = (req.params.ratePrice) * receiveCount;
     var detailRem = req.body.detailRem;
     var taskObjectId = req.params.taskObjectId;
 

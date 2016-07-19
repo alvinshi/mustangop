@@ -77,10 +77,11 @@ app.controller('doTaskCtrl', function($scope, $http, $location) {
 
     //点击确认按钮激发
     $scope.getTask = function(currentApp){
-        var userObject = getCookie('userIdCookie');
+        var username = getCookie('username');
+        console.log(username);
 
         //报错条件
-        if (userObject == ''){
+        if (username == ''){
             $scope.getTaskFormData.errorMsg = '请先登陆帐号后再领取任务';
         }
         else if ($scope.getTaskFormData.receiveCount == 0) {
@@ -92,8 +93,9 @@ app.controller('doTaskCtrl', function($scope, $http, $location) {
 
         //通过前端效验
         else {
-            var url = '/postUsertask/' + currentApp.objectId + '/' + currentApp.rateUnitPrice;
+            var url = 'doTask/postUsertask/' + currentApp.objectId + '/' + currentApp.rateUnitPrice;
             $http.post(url).success(function(response){
+                $scope.getTaskFormData.errorMsg = response.errorMsg;
             });
         };
     };
