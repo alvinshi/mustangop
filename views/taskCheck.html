@@ -15,6 +15,7 @@
     <script src="//cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 
     <link rel="stylesheet" href="/stylesheets/vendor/hover/hover-min.css">
+    <link rel="stylesheet" href="/stylesheets/taskCheck.css">
 
     <!--网站内部js-->
 
@@ -41,7 +42,85 @@
 </div>
 
 <div ng-controller="taskCheckCtrl" style="margin-top: 100px">
-    <h1>任务审核</h1>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-2">
+                <div class="icon1">
+                    <img src="" alt="" style="display: inline-block;width: 80px;height: 80px">
+                    <span>10条任务下载</span>
+                </div>
+                <div class="icon1">
+                    <img src="" alt="" style="display: inline-block;width: 80px;height: 80px">
+                    <span>5条任务评论</span>
+                </div>
+            </div><!--左边侧边栏-->
+            <div class="col-lg-10">
+                <div class="icon">
+                    <img src="" alt="" style="display: inline-block;width: 100px;height: 100px">
+                    <span>App名称</span>
+                </div>
+                <div class="taskinfor">
+                    <span>任务信息:</span>
+                    <span>下载</span> <span>5</span>条 <span><button class="btn">查看详情</button></span>
+                </div>
+                <div class="taskstate">
+                    <span>进行中</span>
+                    <span>已完成</span>
+                    <span>已完成 <span>5/10</span></span>
+                    <span>待审</span>
+                    <span>未提交</span>
+
+                </div>
+                <div>任务审核</div>
+                <div class="panel-group" id="accordion">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <div class="row panel-receivetask" style="height: 64px">
+                                <div class="col-lg-7">
+                                    <img src="/images/appDetail/receiveTask.png" alt="" style="display: inline-block;margin-left: 24px;padding-bottom: 10px">
+                                    <span >任务领取人:</span>
+                                    <span>张三</span>
+                                    <img src="" alt="" class="receiveimg">
+                                    <img src="" alt="" class="receiveimg">
+                                </div>
+                                <div class="col-lg-5">
+                                    <span>已完成5/8</span>
+                                    <span >待审</span>
+                                    <span >未提交</span>
+
+                                    <a data-toggle="collapse" data-parent="#accordion"
+                                       href="/#collapseOne">
+                                        <img src="/images/appDetail/click2.png" alt="" style="display: inline-block">
+                                    </a>
+
+                                </div>
+                            </div>
+
+                        </div>
+                        <div id="collapseOne" class="panel-collapse collapse in">
+                            <div class="panel-body">
+                                <div class=" row receiveinfor" >
+                                    <div class="col-lg-3 ">第8组</div>
+                                    <div class="text-right">提交人:<span>李文</span></div>
+                                    <img src="" alt="">
+                                    <img src="" alt="">
+                                    <img src="" alt="">
+                                    <div class=" text-right receive_btn">
+                                        <button class="btn reject "data-target="#rejectreason" data-toggle="modal">拒绝</button>
+                                        <button class="btn receive">确认接受</button>
+                                        <button class="btn receive2">已接受</button>
+                                    </div>
+
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div><!-- 审核信息结束-->
+
+            </div><!--右边侧边栏-->
+        </div>
+    </div>
 </div>
 
 

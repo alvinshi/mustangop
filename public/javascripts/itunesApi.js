@@ -116,7 +116,8 @@ app.controller('itunesSearchControl', function($scope, $http) {
             }else {
                 $scope.errorMsg = response.errorMsg;
             }
-            location.href='/app/' + appInfo.appleId;
+            //location.href='/app/' + appInfo.appleId;
+            //location.href="/myApp";
 
             $scope.appResults = [];
         });
@@ -153,17 +154,11 @@ app.controller('itunesSearchControl', function($scope, $http) {
         });
     };
 
+
+
+
+
+
+
 });
 
-//app.directive('itunesSearchDirective', function() {
-//    return {
-//        restrict: 'AE',
-//        template: '<p>Hello {{name}}!</p>',
-//        controller: function($scope, $element){
-//            $scope.name = $scope.name + "Second ";
-//        },
-//        link: function(scope, el, attr) {
-//            scope.name = scope.name + "Third ";
-//        }
-//    }
-//})

@@ -29,6 +29,7 @@
     <link rel="stylesheet" href="../stylesheets/myApp.css">
     <link rel="stylesheet" href="../stylesheets/loading.css">
     <link rel="stylesheet" href="/stylesheets/vendor/hover/hover-min.css">
+    <script src="/javascripts/vendor/html2canvas.js"></script>
 
     <!--网站内部js-->
     <script src="/javascripts/itunesApi.js"></script>
@@ -44,16 +45,7 @@
   </div>
 <div class="container">
     <div  class=" container main_content"  ng-controller="itunesSearchControl">
-        <div class="add" style="width: 200px;height: 200px;border: 1px solid red">
-            <button class="btn" data-target="#addApp_modal" data-toggle="modal"><span class="glyphicon glyphicon-plus"></span></button>
-        </div>
-
-
-
-
-
-
-        <div class="col-lg-12 col-sm-12 add-app ">
+        <h3 class="mytitle">第一步:选择或添加任务应用</h3>  <button><span class="glyphicon glyphicon-plus">添加任务应用</span></button>
             <div class="list-group" ng-repeat="app in myApps">
                 <a href="/app/{{app.appleId}}"><img ng-src="{{ app.artworkUrl512 }}" class="img-responsive" alt="App Icon"></a>
                 <p class="app_name ">{{ app.trackName.substr(0,16) }}</p>
@@ -63,15 +55,18 @@
                     <button  class="app_button_bottom hvr-box-shadow-inset" >解绑</button>
                 </a>
             </div>
+        <div class="addApp" style="width: 200px;height: 200px;border: 1px dashed red;float: left">
+            <button class="btn" data-target="#addApp_modal" data-toggle="modal"><span class="glyphicon glyphicon-plus"></span></button>
+        </div>
+        <div style="clear: both"></div>
+        <hr style="margin-top: -50px;width: 1001px">
+        <div class="alert alert-danger">
+            在任务需求编辑中，你可以非常详细的记录换屏换量需求，且只需记录一次，之后，只需每天修改关键信息即可
         </div>
 
         <div id="need" ng-show="myApps.length">
-            <div class="alert alert-danger" role="alert">
-                在任务需求编辑中,你可以非常详细的记录换屏换量需求,且只需记录一次.之后,只需每天修改关键信息即可
-            </div>
-
             <div>
-                <h2 class="mytitle">任务信息</h2>
+                <h3 class="mytitle">第二步:填写任务信息</h3>
                 <form class="form-horizontal">
                     <div class="form-group">
                         <label  class="col-lg-2 control-label" > 任务类型:</label>
@@ -112,7 +107,7 @@
             </div>
 
             <div>
-                <h2 class="mytitle">下载信息</h2>
+                <h3 class="mytitle">第三步:填写下载信息</h3>
                 <form class="form-horizontal">
                     <div class="form-group">
                         <label  class="col-lg-2 control-label" >搜索关键词:</label>
@@ -129,7 +124,7 @@
             </div>
 
             <div ng-hide="appNeedInfo.taskType == '下载'">
-                <h2 class="mytitle">评论信息</h2>
+                <h3 class="mytitle">第四步:补充评论信息</h3>
                 <form class="form-horizontal">
                     <div class="form-group">
                         <label  class="col-lg-2 control-label" >评分:</label>
@@ -181,16 +176,11 @@
                 <hr>
             </div>
 
-            <div class="col-lg-6">
-                <button class="btn button_save" ng-click="saveNeed()">保存</button>
-            </div>
-            <div class="col-lg-6">
-                <button class="btn button_save">发布任务</button>
-            </div>
-            <div>
-                <h2 class="mytitle">需求预览</h2>
 
-                <div id='screenShot'; style="background:url(/images/appDetail/screenshot-background.png); width: 640px;
+            <div>
+                <h3 class="mytitle">最后一步:需求预览</h3>
+
+                <div id='screenShot' style="background:url(/images/appDetail/screenshot-background.png); width: 640px;
                         padding: 36px 54px 60px 30px; margin: auto;">
                     <div class="row">
                         <div class="col-sm-3">
@@ -250,14 +240,25 @@
                         -友情提醒, 避免撕逼
                     </p>
                 </div>
-                <button class="btn button_save" style="margin-top: 50px; margin-bottom: 50px;" ng-click='getScreenShot()'>
-                    下载需求图
-                </button>
+                <div class="col-lg-3">
+                    <button class="btn button_save" ng-click="saveNeed()">保存</button>
+                </div>
+                <div class="col-lg-3">
+                    <button class="btn button_save" ng-click="releaseTask()" data-target="#releaseTask" data-toggle="modal">发布任务</button>
+                </div>
+                <div class="col-lg-3">
+                    <button class="btn button_save"  ng-click='getScreenShot()'>
+                        下载需求图
+                    </button>
+                </div>
+
             </div>
-
-
-
         </div>
+
+
+
+
+        <!--Modal-->
         <div class="modal fade" id="mymodal">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -275,6 +276,7 @@
                 </div><!-- /.modal-content -->
             </div><!-- /.modal-dialog -->
         </div><!-- /. 解绑弹窗提示-->
+
         <div class="modal fade" id="addApp_modal">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -342,6 +344,29 @@
                 </div><!-- /.modal-content -->
             </div><!-- /.modal-dialog -->
         </div><!--添加应用的弹窗-->
+        <div class="modal fade" id="releaseTask">
+            <div class="modal-dialog" style="width: 540px">
+                <div class="modal-content">
+                    <div class="modal-header" style="background-color: #6eb7e8;border: 1px solid  #6eb7e8;border-radius: 4px ">
+                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span></button>
+                        <div class="modal-title" >
+                            <img src="images/doTask/finish.png" alt=""style="margin-left: 18%;margin-right: 10px;padding-bottom: 20px">
+                            <span style="font-size: 38px;color: white">任务已发布成功</span>
+                        </div>
+                    </div>
+                    <div class="modal-body">
+                        <p style="font-size: 24px">
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;可在
+                            <a  style="color: #3498db" href="/taskCheck">我的发布
+                        </a>中查看已发布的任务并审核提交结果,&nbsp;或在
+                            <a style="color: #3498db" href="/doTask">任务大厅</a>领取任务赚取Y币.</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn_releaseTask" data-dismiss="modal">确认</button>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div><!-- /. 发布任务提示-->
     </div>
 </div>
 

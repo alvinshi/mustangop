@@ -1,0 +1,86 @@
+.panel-receivetask span{
+    font-size: 20px;
+    font-weight: 400;
+    line-height: 64px;
+    margin-left: 10px;
+    color: #666666;
+
+
+}
+.receiveimg{
+    display: inline-block;
+    width: 32px;height: 32px;
+    border: 1px solid red;
+    border-radius: 4px;
+    margin-left: 10px;
+    line-height: 64px;
+
+}
+.receivebtn{
+    background-color: #3498db;
+    color: white;
+    margin-left: 20px;
+    height: 36px;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+    margin-right: 10px;
+}
+.receiveinfor div{
+    font-size: 18px;
+    color: #333333;
+    margin-bottom: 30px;
+    margin-top: 20px;
+}
+.receiveinfor img{
+    width: 30%;
+    height: 400px;
+    object-fit: contain;
+    border: 1px  solid #e0e0e0;
+    margin-left: 14px;
+
+}
+.receive_btn{
+    margin-right: 30px;
+    font-size: 20px;
+}
+
+.receive_btn .reject{
+    margin-top: 30px;
+    margin-bottom: 30px;
+    margin-right: 24px;
+    color: #f7aa58;
+    width: 100px;
+    border: 1px solid #f7aa58;
+    border-radius: 4px;
+    background-color: white;
+}
+.receive_btn .receive{
+    margin-top: 30px;
+    margin-bottom: 30px;
+    margin-right: 24px;
+    color: #3498db;
+    width: 100px;
+    border: 1px solid  #3498db;
+    border-radius: 4px;
+    background-color: white;
+
+}
+.receive_btn .receive2{
+    margin-top: 30px;
+    margin-bottom: 30px;
+    margin-right: 24px;
+    color: white;
+    width: 100px;
+    border: 1px solid  #dddddd;
+    border-radius: 4px;
+    background-color: #dddddd;
+
+}
+.btn_sure{
+    width: 80px;
+    background-color: #3498db;
+    color: white;
+    border: 1px solid  #3498db;
+    border-radius: 4px;
+
+}

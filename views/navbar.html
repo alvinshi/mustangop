@@ -16,8 +16,9 @@
                 <!--<li ><a ng-style="{color:myColors[0]}" href="/" >首页</a></li>-->
                 <li ><a ng-style="{color:myColors[0]}" href="/doTask" >任务大厅</a></li>
                 <!--<li><a ng-style="{color:myColors[1]}" href="/myapp/history" >交换记录</a></li>-->
+                <li><a ng-style="{color:myColors[1]}" href="/dailyTask/{{userObjectId.userObjectId}}">我的认领</a></li>
                 <li class="dropdown">
-                    <a  ng-style="{color:myColors[1]}" href="/myapp" data-toggle="dropdown" class="dropdown">发布任务<span class="caret"></span></a>
+                    <a  ng-style="{color:myColors[2]}" href="/myapp" data-toggle="dropdown" class="dropdown">发布任务<span class="caret"></span></a>
                     <ul class="dropdown-menu" >
                         <li class="myapp-list" ng-repeat="app in tracknameAPPs">
 
@@ -27,10 +28,11 @@
                         <li><a href="/myapp">管理我的任务应用</a></li>
                     </ul>
                 </li>
-                <li><a ng-style="{color:myColors[2]}" href="/dailyTask/{{userObjectId.userObjectId}}">当前任务</a></li>
-                <li><a ng-style="{color:myColors[2]}" href="/taskCheck">任务审核</a></li>
-                <li><a ng-style="{color:myColors[3]}" href="/taskInfor">任务消息</a></li>
+
+                <li><a ng-style="{color:myColors[3]}" href="/taskCheck">我的发布</a></li>
                 <li><a ng-style="{color:myColors[4]}" href="/dailyTask/{{userObjectId.userObjectId}}">外部交换工具</a></li>
+                <li><a ng-style="{color:myColors[5]}" href="/taskInfor">消息</a></li>
+
 
             </ul>
             <ul class="nav navbar-nav navbar-right">
