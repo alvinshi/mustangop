@@ -24,7 +24,7 @@ router.get('/taskHall', function(req, res){
 
     var query = new AV.Query(releaseTaskObject);
     query.notEqualTo('remainCount', '0');
-    query.equalTo('finish', 0);
+    query.notEqualTo('finish', 1);
     query.include('appObject');
     query.descending('updatedAt');
 
