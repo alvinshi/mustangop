@@ -23,8 +23,8 @@ router.get('/taskHall', function(req, res){
     var myDateStr = myDate.getFullYear() + '-' + parseInt(myDate.getMonth() + 1) + '-' + myDate.getDate();
 
     var query = new AV.Query(releaseTaskObject);
-    //query.notEqualTo('remainCount', '0');
-    //query.equalTo('completed', 0);
+    query.notEqualTo('remainCount', '0');
+    query.equalTo('finish', 0);
     query.include('appObject');
     query.descending('updatedAt');
 
@@ -42,7 +42,7 @@ router.get('/taskHall', function(req, res){
             appObject.latestReleaseDate = hisAppObject.get('latestReleaseDate');
             appObject.sellerName = hisAppObject.get('sellerName');
 
-            appObject.objectId = result[i].get('objectId')
+            appObject.objectId = results[i].get('objectId')
             appObject.excCount = results[i].get('excCount');
             appObject.remainCount = results[i].get('remainCount');
             appObject.rateUnitPrice = results[i].get('rateUnitPrice');
