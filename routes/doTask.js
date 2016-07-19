@@ -69,9 +69,12 @@ router.get('/taskHall', function(req, res){
 // receive task 领取任务一个人统一领取
 router.post('/postUsertask/:taskObjectId/:ratePrice', function(req, res){
     var userId = util.useridInReq(req);
-    var receiveCount = req.body.receiveCount;
-    var receivePrice = (req.params.ratePrice) * receiveCount;
-    var detailRem = req.body.detailRem;
+    var receive_Count = req.body.receiveCount;
+    var receive_Price = (req.params.ratePrice) * receive_Count;
+    var detail_Rem = req.body.detailRem;
+    if (detail_Rem == undefined){
+        detail_Rem = '';
+    };
     var taskObjectId = req.params.taskObjectId;
 
     var user = new AV.User();
@@ -91,9 +94,9 @@ router.post('/postUsertask/:taskObjectId/:ratePrice', function(req, res){
                 var receiveTaskObject = new receiveTaskObject();
                 receiveTaskObject.set('userObject', user);
                 receiveTaskObject.set('taskObject', app);
-                receiveTaskObject.set('receiveCount', receiveCount);
-                receiveTaskObject.set('receivePrice', receivePrice);
-                receiveTaskObject.set('detailRem', detailRem);
+                receiveTaskObject.set('receiveCount', receive_Count);
+                receiveTaskObject.set('receivePrice', receive_Price);
+                receiveTaskObject.set('detailRem', detail_Rem);
                 receiveTaskObject.save().then(function(){
                     // 保存成功
                 })
