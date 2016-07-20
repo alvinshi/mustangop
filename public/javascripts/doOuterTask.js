@@ -120,7 +120,7 @@ app.controller('itunesSearchControl', function($scope, $http) {
             $scope.appResults = [];
         });
     };
-
+//删除应用
     $scope.releaseBtnClick = function(appid){
         $scope.prepareReleaseAppid = appid;
 

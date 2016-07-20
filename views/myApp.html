@@ -229,6 +229,9 @@
                         <li style="margin-bottom: 30px">
                             <p> 打开app, 请务必过引导页.</p>
                         </li>
+                        <li style="margin-bottom: 30px" ng-hide="appNeedInfo.taskType == '评论'">
+                            <p> 截图2张,一张搜索图,一张打开激活图.</p>
+                        </li>
                         <li  style="margin-bottom: 30px" ng-hide="appNeedInfo.taskType == '下载'">
                             <p  style="margin-bottom: 20px">
                                  返回app store, 好评"<span class="synwords">{{appNeedInfo.Score}}</span>星"
