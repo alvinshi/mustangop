@@ -156,8 +156,18 @@ app.controller('itunesSearchControl', function($scope, $http) {
 
 
 //验证表单
+    $scope.color={
+        "color" :"#3498db",
+        "font-size":"14px"
+    };
 
 
+    $scope.setValue1=function(){
+    document.getElementById("price").value="30"
+}
+    $scope.setValue2=function(){
+        document.getElementById("price").value="25"
+    }
 
 
 });
