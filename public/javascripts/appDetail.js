@@ -3,7 +3,7 @@
  */
 
 var app = angular.module('yemaWebApp', ['angularFileUpload','ui.router']);
-var navIndex = 1;
+var navIndex = 4;
 
 app.config(['$stateProvider','$urlRouterProvider',function($stateProvider, $urlRouterProvider) {
     $stateProvider

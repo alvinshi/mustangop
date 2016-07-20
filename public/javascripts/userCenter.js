@@ -4,7 +4,7 @@
 
 var app = angular.module('yemaWebApp', ['ui.router']);
 
-var navIndex = 3;
+var navIndex = 6;
 app.config(['$stateProvider','$urlRouterProvider',function($stateProvider, $urlRouterProvider) {
     $stateProvider
         .state('inform',{

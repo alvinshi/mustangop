@@ -28,6 +28,7 @@ var doTask=require('./routes/doTask');
 var taskCheck = require('./routes/taskCheck');
 var taskInfor = require('./routes/taskInfor');
 var doInnerTask = require('./routes/doInnerTask');
+var doOuterTask = require('./routes/doOuterTask');
 var alipay = require('./routes/pay');
 
 
@@ -147,6 +148,7 @@ app.use('/doTask', doTask);
 app.use('/taskCheck', taskCheck);
 app.use('/taskInfor', taskInfor);
 app.use('/doInnerTask', doInnerTask);
+app.use('/doOuterTask', doOuterTask);
 app.use('/pay', alipay);
 
 

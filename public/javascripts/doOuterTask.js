@@ -1,11 +1,9 @@
 /**
- * Created by wujiangwei on 16/5/9.
+ * Created by tanghui on 16/7/20.
  */
-
-
 var app = angular.module('yemaWebApp', []);
 
-var navIndex = 1;
+var navIndex = 4;
 
 app.controller('itunesSearchControl', function($scope, $http) {
 
@@ -155,10 +153,9 @@ app.controller('itunesSearchControl', function($scope, $http) {
     };
 
 
-//验证表单
+
 
 
 
 
 });
-

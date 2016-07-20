@@ -15,23 +15,24 @@
             <ul class="nav navbar-nav">
                 <!--<li ><a ng-style="{color:myColors[0]}" href="/" >首页</a></li>-->
                 <li ><a ng-style="{color:myColors[0]}" href="/doTask" >任务大厅</a></li>
+                <li><a ng-style="{color:myColors[1]}" href="/myapp">发布任务</a></li>
                 <!--<li><a ng-style="{color:myColors[1]}" href="/myapp/history" >交换记录</a></li>-->
-                <li><a ng-style="{color:myColors[1]}" href="/dailyTask/{{userObjectId.userObjectId}}">我的认领</a></li>
-                <li class="dropdown">
-                    <a  ng-style="{color:myColors[2]}" href="/myapp" data-toggle="dropdown" class="dropdown">发布任务<span class="caret"></span></a>
-                    <ul class="dropdown-menu" >
-                        <li class="myapp-list" ng-repeat="app in tracknameAPPs">
 
-                            <a href="/app/{{app.appid}}">{{ app.trackName }}</a>
+                <!--<li class="dropdown">-->
+                    <!--<a  ng-style="{color:myColors[1]}" href="/myapp" data-toggle="dropdown" class="dropdown">发布任务<span class="caret"></span></a>-->
+                    <!--<ul class="dropdown-menu" >-->
+                        <!--<li class="myapp-list" ng-repeat="app in tracknameAPPs">-->
 
-                        </li>
-                        <li><a href="/myapp">管理我的任务应用</a></li>
-                    </ul>
-                </li>
+                            <!--<a href="/app/{{app.appid}}">{{ app.trackName }}</a>-->
 
+                        <!--</li>-->
+                        <!--<li><a href="/myapp">管理我的任务应用</a></li>-->
+                    <!--</ul>-->
+                <!--</li>-->
+                <li><a ng-style="{color:myColors[2]}" href="/dailyTask/{{userObjectId.userObjectId}}">我的认领</a></li>
                 <li><a ng-style="{color:myColors[3]}" href="/taskCheck">我的发布</a></li>
-                <li><a ng-style="{color:myColors[4]}" href="/dailyTask/{{userObjectId.userObjectId}}">外部交换工具</a></li>
-                <li><a ng-style="{color:myColors[5]}" href="/taskInfor">消息</a></li>
+                <li><a ng-style="{color:myColors[4]}" href="/doOuterTask">外部交换工具</a></li>
+                <li><a ng-style="{color:myColors[5]}" href="/taskInfor" style="margin-left: 300px">消息</a></li>
 
 
             </ul>
