@@ -254,7 +254,7 @@ app.controller('itunesSearchControl', function($scope, $http) {
     }
 
     // 验证钱够不够发布任务
-    $scope.myFunc = function(){
+    $scope.calcuQuantity = function(){
         var taskMoney = $scope.appNeedInfo.excCount * document.getElementById("price").value;
 
         var url = 'myapp/verify';
