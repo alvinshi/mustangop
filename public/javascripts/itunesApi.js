@@ -229,7 +229,7 @@ app.controller('itunesSearchControl', function($scope, $http) {
     };
 
 
-    $scope.selectMyAppIndex = 0;
+
     $scope.selectedAppFunc = function(appleId){
 
     console.log('selected' +  appleId);
@@ -250,8 +250,8 @@ app.controller('itunesSearchControl', function($scope, $http) {
 
         //add border in new
         myAppElemment = document.getElementsByClassName('thumbnail_wrap')[$scope.selectMyAppIndex];
-        myAppElemment.style.border = '2px solid black';
-    }
+        myAppElemment.style.border = '2px solid #3498db';
+    };
 
     // 验证钱够不够发布任务
     $scope.calcuQuantity = function(){

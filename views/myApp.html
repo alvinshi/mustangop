@@ -62,16 +62,17 @@
                     </button>
                 </a>
 
+                <button ng-click="selectedAppFunc(app.appleId)" class="thumbnail_wrap" style="width: 160px;height: 240px;background-color: white">
 
-               <button ng-click="selectedAppFunc(app.appleId)">
-                   <a href=""><img ng-src="{{ app.artworkUrl512 }}" class="img-responsive thumbnail_wrap" alt="App Icon"></a>
-               </button>
+                   <a href=""><img ng-src="{{ app.artworkUrl512 }}" class="img-responsive  alt="App Icon"></a>
+
                 <p class="app_name ">{{ app.trackName.substr(0,10)+"..."  }}</p>
                 <p class="app_version">版本号 {{ app.version }}</p>
                 <p class="app_update">更新日期{{ app.latestReleaseDate.substr(0,10)}}</p>
                 <!--<a >-->
                     <!--<button  class="app_button_bottom hvr-box-shadow-inset" >解绑</button>-->
                 <!--</a>-->
+               </button>
             </div>
 
         <div class="addApp" >
