@@ -71,7 +71,7 @@ app.controller('doTaskCtrl', function($scope, $http, $location) {
 
     //*********领取任务弹窗逻辑*****************
     $scope.getTaskFormData = {};
-    $scope.getTaskFormData.receiveCount = 0;
+    $scope.getTaskFormData.receiveCount = undefined;
     $scope.getTaskFormData.detailRem = undefined;
     $scope.getTaskFormData.errorMsg = undefined;
     $scope.getTaskFormData.result = false;
@@ -97,12 +97,17 @@ app.controller('doTaskCtrl', function($scope, $http, $location) {
 
         //通过前端效验
         else {
-            var url = 'doTask/postUsertask/' + currentApp.objectId + '/' + currentApp.rateUnitPrice;
+            var url = 'doTask/postUsertask/' + currentApp.objectId + '/' + currentApp.rateUnitPrice + '/' + currentApp.appObjectId;
             var postData = {'receiveCount': $scope.getTaskFormData.receiveCount, 'detailRem': $scope.getTaskFormData.detailRem};
             $http.post(url, postData).success(function(response){
                 $scope.getTaskFormData.errorMsg = response.errorMsg;
                 $scope.getTaskFormData.result = response.succeeded;
             });
         };
+    };
+
+    //*******关闭弹窗自动刷新*********
+    $scope.refresh = function(){
+        location.reload()
     };
 });
