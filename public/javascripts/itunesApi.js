@@ -7,10 +7,11 @@ var app = angular.module('yemaWebApp', []);
 
 var navIndex = 1;
 
+
 app.controller('itunesSearchControl', function($scope, $http) {
 
     //$scope.isError = 0;
-
+    $scope.selectMyAppIndex=0;
     var appsUrl = 'myapp/angular';
     $scope.isLoadingMyApp = true;
 
@@ -23,6 +24,11 @@ app.controller('itunesSearchControl', function($scope, $http) {
 
         if ($scope.myApps.length > 0){
             $scope.selectedApp = $scope.myApps[0];
+            var myAppElemment = document.getElementsByClassName('thumbnail_wrap')[$scope.selectMyAppIndex];
+            if (myAppElemment != undefined){
+                myAppElemment.style.border = '2px solid #3498db';
+                console.log($scope.myExcAllApps);
+            }
         }
 
         var getneedUrl = '/myapp/getNeed/' + $scope.selectedApp.appleId;
@@ -221,6 +227,30 @@ app.controller('itunesSearchControl', function($scope, $http) {
             $scope.appNeedInfo.detailRem = $scope.appNeedInfo.detailRem.substr(0, 140);
         }
     };
+
+    $scope.selectMyAppIndex = 0;
+    $scope.selectedAppFunc = function(appleId){
+
+        console.log('selected' +  appleId);
+
+        //remove border in old
+        var myAppElemment = document.getElementsByClassName('thumbnail_wrap')[$scope.selectMyAppIndex];
+        myAppElemment.style.border = '2px solid #e0e0e0';
+        for (var i = 0; i < $scope.myApps.length; i++){
+            var tempApp = $scope.myApps[i];
+            if (tempApp.appleId == appleId){
+
+                $scope.selectedApp = tempApp;
+                $scope.selectMyAppIndex = i;
+                //$scope.selectedApp.isSelected = true;
+                break;
+            }
+        }
+
+        //add border in new
+        myAppElemment = document.getElementsByClassName('thumbnail_wrap')[$scope.selectMyAppIndex];
+        myAppElemment.style.border = '2px solid black';
+    }
 
 });
 

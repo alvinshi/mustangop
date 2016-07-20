@@ -51,6 +51,8 @@
         <h3 class="mytitle">第一步:选择或添加任务应用
             <span style="font-size: 16px;margin-left: 100px;color: red">目前只能添加4个应用哦</span>
         </h3>
+
+
             <div class="list-group"  ng-repeat="app in myApps">
 
 
@@ -61,7 +63,9 @@
                 </a>
 
 
-                <a href=""><img ng-src="{{ app.artworkUrl512 }}" class="img-responsive" alt="App Icon"></a>
+               <button ng-click="selectedAppFunc(app.appleId)">
+                   <a href=""><img ng-src="{{ app.artworkUrl512 }}" class="img-responsive thumbnail_wrap" alt="App Icon"></a>
+               </button>
                 <p class="app_name ">{{ app.trackName.substr(0,10)+"..."  }}</p>
                 <p class="app_version">版本号 {{ app.version }}</p>
                 <p class="app_update">更新日期{{ app.latestReleaseDate.substr(0,10)}}</p>
@@ -69,6 +73,7 @@
                     <!--<button  class="app_button_bottom hvr-box-shadow-inset" >解绑</button>-->
                 <!--</a>-->
             </div>
+
         <div class="addApp" >
             <button class="btn_addApp" data-target="#addApp_modal" data-toggle="modal">
                 <span class="glyphicon glyphicon-plus" style="width: 20px;height: 20px"></span>
@@ -101,7 +106,7 @@
                     <div class="form-group">
                         <label  class="col-lg-2 control-label" > 交换数量:</label>
                         <div class="col-lg-1">
-                            <input type="text" class="form-control" ng-model="appNeedInfo.excCount" placeholder="">
+                            <input type="text" class="form-control" ng-change="calcuQuantity()" ng-model="appNeedInfo.excCount" placeholder="">
                         </div>
                         <label  class="col-lg-2 control-label" > 任务单价:</label>
                         <div class="col-lg-1">
