@@ -4,11 +4,16 @@
     color: #666666;
     margin-top: 46px;
     margin-bottom: 22px;
+    border: 2px solid #e0e0e0;
+    padding: 5px 10px 5px 10px;
+    border-radius: 4px;
+
 }
 
 .publishTask:hover{
     color: #3498db;
     text-decoration: none;
+    border: 2px solid #3498db;
 }
 
 .appIcon{
@@ -76,4 +81,9 @@
 
 .synwords{
     color: #fff727;
+}
+
+.modal-body span{
+    margin-left: 5px;
+    margin-right: 5px;
 }

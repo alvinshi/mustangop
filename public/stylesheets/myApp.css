@@ -27,7 +27,7 @@ button{
     border: 1px solid #aab2bd;
     border-left-style: none;
 }
-.form-control{
+.search_event {
     background-color: white;
     border: 1px solid #aab2bd;
     border-right-style: none;
@@ -112,6 +112,12 @@ button{
     width: 160px;
     margin-left: 32px;
     float: left;
+}
+.btn_addApp{
+    border: 1px solid #e0e0e0;
+    height: 250px;
+    width: 160px;
+    background-color: white;
 }
 .addApp{
     border: 1px dashed #e0e0e0;
@@ -274,4 +280,15 @@ button{
     color: white;
     border: 1px solid #3498db;
 
+}
+.keyword{
+    width: 200px;
+}
+.beizhu{
+    width: 500px;height: 100px;
+}
+
+.synwords{
+    color: #fff727;
+    font-size: 20px;
 }
