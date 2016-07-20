@@ -12,6 +12,8 @@ var https = require('https');
 var IOSAppSql = AV.Object.extend('IOSAppInfo');
 var IOSAppBinder = AV.Object.extend('IOSAppBinder');
 var IOSAppExcLogger = AV.Object.extend('IOSAppExcLogger');
+var taskDemandObject = AV.Object.extend('taskDemandObject');
+var releaseTaskObject = AV.Object.extend('releaseTaskObject');
 
 // 查询 我的App
 router.get('/', function(req, res, next) {
@@ -147,7 +149,7 @@ function blindAppToUser(res, userId, appObject, appInfoObject){
 
                 appBlindObject.save().then(function(post) {
                     // 实例已经成功保存.
-                    res.json({'newApp':appInfoObject});
+                    res.json({'newApp':appInfoObject, 'appObjectId':post.id});
                 }, function(err) {
                     // 失败了.
                     res.json({'errorMsg':err.message, 'errorId': err.code});
@@ -204,6 +206,7 @@ router.post('/add', function(req, res, next) {
             appObject.save().then(function() {
                 // 实例已经成功保存.
                 blindAppToUser(res, userId, appObject, appInfo);
+
             }, function(err) {
                 // 失败了.
                 res.json({'errorMsg':err.message, 'errorId': err.code});
@@ -845,5 +848,224 @@ router.post('/oldhistory/delete', function(req, res, next) {
 //    });
 //
 //});
+
+var myRate = 1;
+var totalmoney = 2000;
+
+router.post('/task/:appleId', function(req, res){
+    var userId = util.useridInReq(req);
+    var myappid = parseInt(req.params.appleId);
+    var appObjectid = req.body.appObjectId;
+    var taskType = req.body.taskType;
+    var excCount = req.body.excCount;
+    var excUnitPrice = req.body.excUnitPrice;
+    var screenshotCount = req.body.screenshotCount;
+    var searchKeyword = req.body.searchKeyword;
+    var ranKing = req.body.ranKing;
+    var Score = req.body.Score;
+    var titleKeyword = req.body.titleKeyword;
+    var commentKeyword = req.body.commentKeyword;
+    var detailRem = req.body.detailRem;
+
+
+    var user = new AV.User();
+    user.id = userId;
+
+
+    var app = AV.Object.createWithoutData('IOSAppInfo', appObjectid);
+
+    var rateunitPrice = excUnitPrice * myRate;
+
+    var query = new AV.Query(releaseTaskObject);
+    query.equalTo('userObject', user);
+    query.include('userObject');
+    query.find().then(function(results){
+        for (var i = 0; i < results.length; i++){
+            var userObject = results[i].get('userObject');
+            var userRemainMon = userObject.get('remainMoney');
+            var userfreezingMoney = userObject.get('freezingMoney');
+        }
+        if (results <= 0){
+            var releasetaskObject = new releaseTaskObject();
+            releasetaskObject.set('userObject', user);  //和用户表关联
+            releasetaskObject.set('appObject', app);  //和app表关联
+            releasetaskObject.set('taskType', taskType);  // 任务类型
+            releasetaskObject.set('excCount', excCount);  // 任务条数
+            releasetaskObject.set('excUnitPrice', excUnitPrice);  //任务单价
+            releasetaskObject.set('screenshotCount', screenshotCount);  // 截图数
+            releasetaskObject.set('searchKeyword', searchKeyword);  // 搜索关键词
+            releasetaskObject.set('ranKing', ranKing);  // 排名
+            releasetaskObject.set('Score', Score);  // 评分
+            releasetaskObject.set('titleKeyword', titleKeyword); // 标题关键字
+            releasetaskObject.set('commentKeyword', commentKeyword); // 评论关键字
+            releasetaskObject.set('detailRem', detailRem);  // 备注详情
+            releasetaskObject.set('remainCount', excCount); // 剩余条数
+            releasetaskObject.set('myRate', myRate); // 汇率
+            releasetaskObject.set('rateUnitPrice', rateunitPrice); // 汇率后价格,实际显示价格
+            releasetaskObject.set('inProgress', excCount); // 进行中的任务, 初始为总条数
+            releasetaskObject.save().then(function() {
+                // 实例已经成功保存.
+                var moratoriumMon = excCount * excUnitPrice;  // 冻结的YB
+                var remainMon = totalmoney - moratoriumMon;   // 剩余的YB
+                var query = new AV.Query('_User');
+                query.get(userId).then(function(userInfo){
+                    userInfo.set('totalMoney', totalmoney);
+                    userInfo.set('freezingMoney', moratoriumMon);
+                    userInfo.set('remainMoney', remainMon);
+                    userInfo.save().then(function(){
+                        //
+                    })
+
+                })
+
+            }, function(err) {
+                // 失败了.
+
+            });
+        }else {
+            // 如果有创建新的,因为同一个用户可以发布多条,但要扣除YB
+            var releaseObject = new releaseTaskObject();
+            releaseObject.set('userObject', user);  //和用户表关联
+            releaseObject.set('appObject', app);  //和app表关联
+            releaseObject.set('taskType', taskType);  // 任务类型
+            releaseObject.set('excCount', excCount);  // 任务条数
+            releaseObject.set('excUnitPrice', excUnitPrice);  //任务单价
+            releaseObject.set('screenshotCount', screenshotCount);  // 截图数
+            releaseObject.set('searchKeyword', searchKeyword);  // 搜索关键词
+            releaseObject.set('ranKing', ranKing);  // 排名
+            releaseObject.set('Score', Score);  // 评分
+            releaseObject.set('titleKeyword', titleKeyword); // 标题关键字
+            releaseObject.set('commentKeyword', commentKeyword); // 评论关键字
+            releaseObject.set('detailRem', detailRem);  // 备注详情
+            releaseObject.set('remainCount', excCount); // 剩余条数
+            releaseObject.set('myRate', myRate); // 汇率
+            releaseObject.set('rateUnitPrice', rateunitPrice); // 汇率后价格,实际显示价格
+            releaseObject.set('inProgress', excCount); // 进行中的任务, 初始为总条数
+            releaseObject.save().then(function() {
+                // 实例已经成功保存.
+                var moratorium = excCount * excUnitPrice;  // 冻结的YB
+                var moratoriumMon = userfreezingMoney + moratorium;  // 再次发任务冻结的YB
+                var remainMon = userRemainMon - moratorium;   // 剩余的YB
+                var query = new AV.Query('_User');
+                query.get(userId).then(function(userInfo){
+                    userInfo.set('freezingMoney', moratoriumMon);
+                    userInfo.set('remainMoney', remainMon);
+                    userInfo.save().then(function(){
+                        //
+                    })
+
+                })
+
+            }, function(err) {
+                // 失败了.
+
+            });
+        }
+        res.json({'errorId':0, 'errorMsg':''});
+    })
+});
+
+//获取需求编辑信息
+router.get('/getNeed/:appleId', function(req, res){
+    var userId = util.useridInReq(req);
+    var myappId = req.params.appleId;
+
+    var user = new AV.User();
+    user.id = userId;
+    var query = new AV.Query(IOSAppBinder);
+    query.equalTo('userObject', user);
+    query.include('appObject');
+    query.include('taskDemand');
+    query.find().then(function(results){
+        for (var i = 0; i < results.length; i++){
+            var appObject = results[i].get('appObject');
+            var appObjectId = appObject.get('appleId');
+            var taskdemand = results[i].get('taskDemand');
+            if (taskdemand != undefined){
+                if (appObjectId == myappId){
+                    var retApps = Object();
+                    retApps.taskType = taskdemand.get('taskType');
+                    retApps.excCount = taskdemand.get('excCount');
+                    retApps.screenshotCount = taskdemand.get('screenshotCount');
+                    retApps.searchKeyword = taskdemand.get('searchKeyword');
+                    retApps.ranKing = taskdemand.get('ranKing');
+
+                    retApps.Score = taskdemand.get('Score');
+                    retApps.titleKeyword = taskdemand.get('titleKeyword');
+                    retApps.commentKeyword = taskdemand.get('commentKeyword');
+                    retApps.detailRem = taskdemand.get('detailRem');
+                }
+            }
+        }
+        res.json({'appNeedInfo':retApps})
+    }),function (error){
+        res.json({'errorMsg':error.message, 'errorId': error.code});
+    }
+});
+
+// 保存任务需求编辑内容
+router.post('/taskneed/:appid', function(req, res){
+    var userId = util.useridInReq(req);
+    var myappId = req.params.appid;
+    var task_type = req.body.taskType;
+    var exc_count = req.body.excCount;
+    var screenshot_count = req.body.screenshotCount;
+    var search_Keywords = req.body.searchKeyword;
+    var ranking = req.body.ranKing;
+    var score = req.body.Score;
+    var title_keywords = req.body.titleKeyword;
+    var comment_keywords = req.body.commentKeyword;
+    var detail_rem = req.body.detailRem;
+
+    var user = new AV.User();
+    user.id = userId;
+
+    var query = new AV.Query(IOSAppBinder);
+    query.equalTo('userObject', user);
+    query.include('appObject');
+    query.include('taskDemand');
+    query.find().then(function(results){
+        for (var i = 0; i < results.length; i++){
+            var appObject = results[i].get('appObject');
+            var appObjectId = appObject.get('appleId');
+            var taskdemand = results[i].get('taskDemand');
+            if (appObjectId == myappId){
+                if (taskdemand == undefined){
+                    var taskObject = new taskDemandObject();
+                    taskObject.set('taskType', task_type);
+                    taskObject.set('excCount', exc_count);
+                    taskObject.set('screenshotCount', screenshot_count);
+                    taskObject.set('searchKeyword', search_Keywords);
+                    taskObject.set('ranKing', ranking);
+                    taskObject.set('Score', score);
+                    taskObject.set('titleKeyword', title_keywords);
+                    taskObject.set('commentKeyword', comment_keywords);
+                    taskObject.set('detailRem', detail_rem);
+                    taskObject.save().then(function(){
+                        //
+                    });
+                    results[i].set('taskDemand', taskObject);
+                    results[i].save().then(function(){
+
+                    })
+                }else {
+                    taskdemand.set('taskType', task_type);
+                    taskdemand.set('excCount', exc_count);
+                    taskdemand.set('screenshotCount', screenshot_count);
+                    taskdemand.set('searchKeyword', search_Keywords);
+                    taskdemand.set('ranKing', ranking);
+                    taskdemand.set('Score', score);
+                    taskdemand.set('titleKeyword', title_keywords);
+                    taskdemand.set('commentKeyword', comment_keywords);
+                    taskdemand.set('detailRem', detail_rem);
+                    taskdemand.save().then(function(){
+                        //
+                    });
+                }
+            }
+        }
+        res.json({'errorId':0, 'errorMsg':''});
+    })
+});
 
 module.exports = router;

@@ -409,6 +409,7 @@ router.post('/task/:appid', function(req, res){
             releasetaskObject.set('remainCount', excCount); // 剩余条数
             releasetaskObject.set('myRate', myRate); // 汇率
             releasetaskObject.set('rateUnitPrice', rateunitPrice); // 汇率后价格,实际显示价格
+            releasetaskObject.set('inProgress', excCount); // 进行中的任务, 初始为总条数
             releasetaskObject.save().then(function() {
                 // 实例已经成功保存.
                 var moratoriumMon = excCount * excUnitPrice;  // 冻结的YB
@@ -446,6 +447,7 @@ router.post('/task/:appid', function(req, res){
             releaseObject.set('remainCount', excCount); // 剩余条数
             releaseObject.set('myRate', myRate); // 汇率
             releaseObject.set('rateUnitPrice', rateunitPrice); // 汇率后价格,实际显示价格
+            releaseObject.set('inProgress', excCount); // 进行中的任务, 初始为总条数
             releaseObject.save().then(function() {
                 // 实例已经成功保存.
                 var moratorium = excCount * excUnitPrice;  // 冻结的YB
