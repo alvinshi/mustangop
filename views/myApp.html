@@ -64,9 +64,10 @@
                     </button>
                 </a>
 
-                <button ng-click="selectedAppFunc(app.appleId)" class="thumbnail_wrap" style="width: 160px;height: 240px;background-color: white">
 
                    <a href=""><img ng-src="{{ app.artworkUrl512 }}" class="img-responsive"  alt="App Icon"></a>
+                <button ng-click="selectedAppFunc(app.appleId)" class="thumbnail_wrap" style="width: 160px;height: 240px;background-color: white">
+                   <a href=""><img ng-src="{{ app.artworkUrl512 }}" class="img-responsive "></a>
 
                 <p class="app_name ">{{ app.trackName.substr(0,10)+"..."  }}</p>
                 <p class="app_version">版本号 {{ app.version }}</p>
@@ -74,8 +75,9 @@
                 <!--<a >-->
                     <!--<button  class="app_button_bottom hvr-box-shadow-inset" >解绑</button>-->
                 <!--</a>-->
-               </button>
+                </button>
             </div>
+
 
         <div class="addApp" ng-hide="numOfApps >= 5">
             <button class="btn_addApp" data-target="#addApp_modal" data-toggle="modal">
