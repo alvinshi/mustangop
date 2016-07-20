@@ -17,7 +17,7 @@ function getRefreshTaskQuery(){
     var myDateStr = myDate.getFullYear() + '-' + (parseInt(myDate.getMonth())+1) + '-' + myDate.getDate();
 
     var query = new AV.Query(IOSAppExcLogger);
-    query.equalTo('remainCount', 0);
+    query.lessThanOrEqualTo('remainCount', 0);
     query.notEqualTo('taskStatus', 1);
     query.lessThan('excDateStr', myDateStr); // 今天前的日期
     query.exists('requirementImg');

@@ -855,6 +855,7 @@ var totalmoney = 2000;
 router.post('/task/:appleId', function(req, res){
     var userId = util.useridInReq(req);
     var myappid = parseInt(req.params.appleId);
+    var appObjectid = req.body.appObjectId;
     var taskType = req.body.taskType;
     var excCount = req.body.excCount;
     var excUnitPrice = req.body.excUnitPrice;
@@ -870,7 +871,8 @@ router.post('/task/:appleId', function(req, res){
     var user = new AV.User();
     user.id = userId;
 
-    var app = AV.Object.createWithoutData('IOSAppInfo', appe);
+
+    var app = AV.Object.createWithoutData('IOSAppInfo', appObjectid);
 
     var rateunitPrice = excUnitPrice * myRate;
 
@@ -1064,6 +1066,23 @@ router.post('/taskneed/:appid', function(req, res){
         }
         res.json({'errorId':0, 'errorMsg':''});
     })
+});
+
+// 验证钱够不够发布任务
+router.post('/verify', function(req, res){
+    var userId = util.useridInReq(req);
+    var postmoney = req.body.taskMoney;
+    var query = new AV.Query('_User');
+    query.equalTo('objectId', userId);
+    query.first().then(function(results){
+        var usermoney = results.get('remainMoney');
+        if (usermoney > postmoney){
+            res.json({'Error':'可以发布'})
+        }else {
+            res.json({'Error':'钱不够'})
+        }
+    })
+
 });
 
 module.exports = router;

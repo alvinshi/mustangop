@@ -7,10 +7,11 @@ var app = angular.module('yemaWebApp', []);
 
 var navIndex = 1;
 
+
 app.controller('itunesSearchControl', function($scope, $http) {
 
     //$scope.isError = 0;
-
+    $scope.selectMyAppIndex=0;
     var appsUrl = 'myapp/angular';
     $scope.isLoadingMyApp = true;
 
@@ -23,6 +24,11 @@ app.controller('itunesSearchControl', function($scope, $http) {
 
         if ($scope.myApps.length > 0){
             $scope.selectedApp = $scope.myApps[0];
+            var myAppElemment = document.getElementsByClassName('thumbnail_wrap')[$scope.selectMyAppIndex];
+            if (myAppElemment != undefined){
+                myAppElemment.style.border = '2px solid #3498db';
+                console.log($scope.myExcAllApps);
+            }
         }
 
         var getneedUrl = '/myapp/getNeed/' + $scope.selectedApp.appleId;
@@ -177,7 +183,7 @@ app.controller('itunesSearchControl', function($scope, $http) {
     $scope.releaseTask = function(){
         var needUrl = '/myapp/task/' + $scope.selectedApp.appleId;
         var needInfo = {'taskType':$scope.appNeedInfo.taskType, 'excCount':$scope.appNeedInfo.excCount,
-            'excUnitPrice':$scope.appNeedInfo.excUnitPrice, 'screenshotCount':$scope.appNeedInfo.screenshotCount,
+            'excUnitPrice':document.getElementById("price").value, 'screenshotCount':$scope.appNeedInfo.screenshotCount,
             'searchKeyword':$scope.appNeedInfo.searchKeyword, 'ranKing':$scope.appNeedInfo.ranKing,
             'Score':$scope.appNeedInfo.Score, 'titleKeyword':$scope.appNeedInfo.titleKeyword,
             'commentKeyword':$scope.appNeedInfo.commentKeyword, 'detailRem':$scope.appNeedInfo.detailRem,
@@ -189,7 +195,7 @@ app.controller('itunesSearchControl', function($scope, $http) {
         })
     };
 
-//验证表单
+    //验证表单
     $scope.color={
         "color" :"#3498db",
         "font-size":"14px"
@@ -201,8 +207,61 @@ app.controller('itunesSearchControl', function($scope, $http) {
     }
     $scope.setValue2=function(){
         document.getElementById("price").value="25"
-    }
+    };
 
+
+
+    //限制表单字数
+    $scope.checkText1 = function () {
+        if ($scope.appNeedInfo.titleKeyword.length > 20) {
+            $scope.appNeedInfo.titleKeyword = $scope.appNeedInfo.titleKeyword.substr(0, 20);
+        }
+    };
+    $scope.checkText2 = function () {
+        if ($scope.appNeedInfo.commentKeyword.length > 40) {
+            $scope.appNeedInfo.commentKeyword = $scope.appNeedInfo.commentKeyword.substr(0, 40);
+        }
+    };
+    $scope.checkText3 = function () {
+        if ($scope.appNeedInfo.detailRem.length > 140) {
+            $scope.appNeedInfo.detailRem = $scope.appNeedInfo.detailRem.substr(0, 140);
+        }
+    };
+
+
+
+    $scope.selectedAppFunc = function(appleId){
+
+    console.log('selected' +  appleId);
+
+        //remove border in old
+        var myAppElemment = document.getElementsByClassName('thumbnail_wrap')[$scope.selectMyAppIndex];
+        myAppElemment.style.border = '2px solid #e0e0e0';
+        for (var i = 0; i < $scope.myApps.length; i++){
+            var tempApp = $scope.myApps[i];
+            if (tempApp.appleId == appleId){
+
+                $scope.selectedApp = tempApp;
+                $scope.selectMyAppIndex = i;
+                //$scope.selectedApp.isSelected = true;
+                break;
+            }
+        }
+
+        //add border in new
+        myAppElemment = document.getElementsByClassName('thumbnail_wrap')[$scope.selectMyAppIndex];
+        myAppElemment.style.border = '2px solid #3498db';
+    };
+
+    // 验证钱够不够发布任务
+    $scope.calcuQuantity = function(){
+        var taskMoney = $scope.appNeedInfo.excCount * document.getElementById("price").value;
+
+        var url = 'myapp/verify';
+        $http.post(url, {'taskMoney':taskMoney}).success(function(response){
+            $scope.error = response.Error
+        })
+    }
 
 });
 

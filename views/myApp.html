@@ -51,6 +51,8 @@
         <h3 class="mytitle">第一步:选择或添加任务应用
             <span style="font-size: 16px;margin-left: 100px;color: red">目前只能添加4个应用哦</span>
         </h3>
+
+
             <div class="list-group"  ng-repeat="app in myApps">
 
 
@@ -60,15 +62,19 @@
                     </button>
                 </a>
 
+                <button ng-click="selectedAppFunc(app.appleId)" class="thumbnail_wrap" style="width: 160px;height: 240px;background-color: white">
 
-                <a href="/app/{{app.appleId}}"><img ng-src="{{ app.artworkUrl512 }}" class="img-responsive" alt="App Icon"></a>
+                   <a href=""><img ng-src="{{ app.artworkUrl512 }}" class="img-responsive  alt="App Icon"></a>
+
                 <p class="app_name ">{{ app.trackName.substr(0,10)+"..."  }}</p>
                 <p class="app_version">版本号 {{ app.version }}</p>
                 <p class="app_update">更新日期{{ app.latestReleaseDate.substr(0,10)}}</p>
                 <!--<a >-->
                     <!--<button  class="app_button_bottom hvr-box-shadow-inset" >解绑</button>-->
                 <!--</a>-->
+               </button>
             </div>
+
         <div class="addApp" >
             <button class="btn_addApp" data-target="#addApp_modal" data-toggle="modal">
                 <span class="glyphicon glyphicon-plus" style="width: 20px;height: 20px"></span>
@@ -101,17 +107,18 @@
                     <div class="form-group">
                         <label  class="col-lg-2 control-label" > 交换数量:</label>
                         <div class="col-lg-1">
-                            <input type="text" class="form-control" ng-model="appNeedInfo.excCount" placeholder="">
+                            <input type="text" class="form-control" ng-change="calcuQuantity()" ng-model="appNeedInfo.excCount">
                         </div>
                         <label  class="col-lg-2 control-label" > 任务单价:</label>
                         <div class="col-lg-1">
 
                             <input type="text"readonly="true" style="background-color: white"
                                    class="form-control" id="price"
-                                   ng-model="appNeedInfo.unitPrice"  placeholder="">
+                                   ng-model="appNeedInfo.excUnitPrice"  placeholder="">
                         </div>
                         <label class="col-lg-2" style="font-size: 14px;padding-top: 5px
                         ">(暂不可自主定价哟)</label>
+                        <div> {{error}}</div>
                     </div>
 
                     <div class="form-group">
@@ -163,18 +170,18 @@
                     <div class="form-group">
                         <label  class="col-lg-2 control-label" > 标题关键词:</label>
                         <div class="col-lg-5" >
-                            <input type="text" class="form-control" placeholder="请输入小于20字符"
-                                   ng-model="appNeedInfo.titleKeyword" ng-minlength="0" ng-maxlength="20"
-                                   ng-keydown="checkInput()" ng-keyup="checkInput()" >
+                            <input type="text"  class="form-control" placeholder="请输入小于20字符"
+                                   ng-model="appNeedInfo.titleKeyword"
+                                   ng-change="checkText1()">
                         </div>
                         <label  class="col-lg-1 control-label" style="margin-left: -40px" ><span ng-bind="appNeedInfo.titleKeyword.length+0" ng-style="color"></span>/20</label>
                     </div>
                     <div class="form-group">
                         <label  class="col-lg-2 control-label" > 评论关键词:</label>
                         <div class="col-lg-5">
-                    <textarea class="form-control" rows="2" style="height: 60px" placeholder="请输入小于40字符"
+                    <textarea class="form-control"id="maxlen" rows="2" style="height: 60px" placeholder="请输入小于40字符"
                               ng-model="appNeedInfo.commentKeyword"
-                              ng-keydown="checkMaxInput()" ng-keyup="checkMaxInput()">
+                              ng-change="checkText2()">
 
                     </textarea>
                         </div>
@@ -188,7 +195,7 @@
                         <div class="col-lg-5">
                                <textarea  class="form-control" rows="5" placeholder="1.标题不少于2个关键词 2.请两日内不卸载
                                " ng-model="appNeedInfo.detailRem"
-                                          ng-keydown="checkTextInput()" ng-keyup="checkTextInput()">
+                                          ng-change="checkText3()">
                                </textarea>
                         </div>
                         <label  class="col-lg-1 control-label" style="margin-left: -40px;margin-top: 30px" >
@@ -209,16 +216,16 @@
                         <div class="col-sm-3">
                             <img  class="appicon" style="display: inline-block; margin: 0 26px 40px 20px;
                                 width: 120px; height: 120px; border-radius: 20px"
-                                  ng-src="{{  appBaseInfo.artworkUrl100 }}" alt="App Icon"/>
+                                  ng-src="{{  selectedApp.artworkUrl100 }}" alt="App Icon"/>
                         </div>
                         <div class="col-sm-9" style="padding-left: 50px;">
                             <p style="font-size: 24px; color: #ffffff;
                                 width: 330px; margin-top: 10px">
-                                {{ appBaseInfo.trackName.substr(0,16)+"..."  }}
+                                {{ selectedApp.trackName.substr(0,16)+"..."  }}
                             </p>
                             <p style="color: #ffffff;
                                 width: 330px;">
-                                更新日期: {{ appBaseInfo.latestReleaseDate.substr(0,10) }}
+                                更新日期: {{ selectedApp.latestReleaseDate.substr(0,10) }}
                             </p>
                             <p style="color: #ffffff; font-size: 20px;">
                                 任务类型: <span class="synwords">{{appNeedInfo.taskType}}</span>
