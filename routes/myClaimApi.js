@@ -29,7 +29,7 @@ router.get('/claim/:userObjectId', function(req, res){
     query.equalTo('userObject', user);
     query.include('taskObject');
     query.include('appObject');
-    //query.descending('createdAt');
+    query.descending('createdAt');
     query.find().then(function(results){
         var retApps = new Array();
         for (var i = 0; i< results.length; i++){
