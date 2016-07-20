@@ -198,11 +198,7 @@ app.controller('itunesSearchControl', function($scope, $http) {
 
     $scope.setValue1=function(){
     document.getElementById("price").value="30"
-<<<<<<< HEAD
-};
-=======
     }
->>>>>>> 62c8f5ab4485f6e63559cfe394f284e30b1a0226
     $scope.setValue2=function(){
         document.getElementById("price").value="25"
     };
