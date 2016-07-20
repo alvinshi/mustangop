@@ -163,26 +163,38 @@
 
         <div class="modal fade" id="takeTask{{$index}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
             <div class="modal-dialog" role="document">
-                <div class="modal-content" style="width: 400px;">
-                    <div class="modal-header">
+                <div class="modal-content" style="width: 500px;">
+                    <div class="modal-header" style="text-align: center; background-color:#6eb7e8">
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title" id="myModalLabel">领取任务</h4>
+                        <h4 class="modal-title" id="myModalLabel" style="color: white;">领取任务</h4>
                     </div>
                     <div class="modal-body">
-                        <div>
-                            <div>
-                                <span style="font-size: 18px; color: #333333; padding-top: 10px">任务数量:</span>
-                                <input type="text" ng-model="getTaskFormData.receiveCount" placeholder="" style="border-radius: 4px; width: 50px;"/>
-                                <span style="font-size: 18px; color: #333333; padding-top: 2px">条</span>
-                            <span style="font-size: 18px; color: #333333; padding-top: 2px">将获得
-                                <span style="color:#3498db">{{getTaskFormData.receiveCount * app.rateUnitPrice}}</span> Y币</span>
+                        <div style="font-size: 18px; color: #333333">
+                            <div style="margin: 15px 10px 15px 10px;">
+                                <span>剩余:</span>
+                                <span style="color:#3498db">{{app.remainCount}}</span>
+                                <span>条</span>
                             </div>
-                            <hr>
-                            <div>
-                                <span style="font-size: 18px; color: #333333; padding-top: 2px">添加备注: </span>
-                                <input type="text" placeholder="可用作内部分配时的依据" ng-model='detailRem'
-                                       style="border-radius: 4px; width: 250px;" />
+                            <div style="margin: 15px 10px 15px 10px;">
+                                <span>领取:</span>
+                                <span>
+                                    <input type="text" ng-model="getTaskFormData.receiveCount" placeholder="" style="border-radius: 6px; width: 50px;"/>
+                                </span>
+                                <span>条</span>
+                                <span style="margin-left: 40px;">获得</span>
+                                <span style="color:#3498db">{{getTaskFormData.receiveCount * app.rateUnitPrice}}</span>
+                                <span>Y币</span>
                             </div>
+                            <div style="margin: 15px 10px 15px 10px;">
+                                <span>备注: </span>
+                                <span>
+                                    <input type="text" placeholder="可用于内部分配, 例: 张1条, 王1条..." ng-model='detailRem'
+                                           style="border-radius: 6px; width: 350px;" />
+                                </span>
+                            </div>
+                        </div>
+                        <div class="alert alert-warning" role="alert" style="margin:0; text-align: center;">
+                            重要提示: 请谨慎领取, 若领取后未完成将扣罚 1 倍Y币
                         </div>
                     </div>
                     <div class="modal-footer">

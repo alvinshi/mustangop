@@ -88,6 +88,9 @@ app.controller('doTaskCtrl', function($scope, $http, $location) {
         else if ($scope.getTaskFormData.receiveCount == 0) {
             $scope.getTaskFormData.errorMsg = '请正确填写领取条目';
         }
+        else if (parseInt($scope.getTaskFormData.receiveCount) != $scope.getTaskFormData.receiveCount) {
+            $scope.getTaskFormData.errorMsg = '请正确填写领取条目';
+        }
         else if ($scope.getTaskFormData.receiveCount > parseInt(currentApp.remainCount)){
             $scope.getTaskFormData.errorMsg = '此任务剩余条数不足';
         }
