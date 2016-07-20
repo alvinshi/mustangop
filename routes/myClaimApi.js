@@ -48,6 +48,7 @@ router.get('/claim/:userObjectId', function(req, res){
             appHisObject.totalExcCount = appExcHisObject.get('excCount');
             appHisObject.surplusCount = appExcHisObject.get('remainCount');
             appHisObject.taskObjectId = results[i].id;
+            appHisObject.detailRem = results[i].get('detailRem');
 
             appHisObject.excKinds = appExcHisObject.get('taskType');
 
