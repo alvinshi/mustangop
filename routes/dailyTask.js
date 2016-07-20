@@ -10,6 +10,7 @@ var https = require('https');
 var Base64 = require('../public/javascripts/vendor/base64').Base64;
 
 var IOSAppExcLogger = AV.Object.extend('IOSAppExcLogger');
+var taskDemandObject = AV.Object.extend('taskDemandObject');
 
 router.get('/:userObjectId', function(req, res) {
     res.render('dailyTask')
