@@ -211,7 +211,7 @@ app.controller('itunesSearchControl', function($scope, $http) {
 
 
 
-//限制表单字数
+    //限制表单字数
     $scope.checkText1 = function () {
         if ($scope.appNeedInfo.titleKeyword.length > 20) {
             $scope.appNeedInfo.titleKeyword = $scope.appNeedInfo.titleKeyword.substr(0, 20);
@@ -228,10 +228,11 @@ app.controller('itunesSearchControl', function($scope, $http) {
         }
     };
 
+
     $scope.selectMyAppIndex = 0;
     $scope.selectedAppFunc = function(appleId){
 
-        console.log('selected' +  appleId);
+    console.log('selected' +  appleId);
 
         //remove border in old
         var myAppElemment = document.getElementsByClassName('thumbnail_wrap')[$scope.selectMyAppIndex];
@@ -250,6 +251,16 @@ app.controller('itunesSearchControl', function($scope, $http) {
         //add border in new
         myAppElemment = document.getElementsByClassName('thumbnail_wrap')[$scope.selectMyAppIndex];
         myAppElemment.style.border = '2px solid black';
+    }
+
+    // 验证钱够不够发布任务
+    $scope.myFunc = function(){
+        var taskMoney = $scope.appNeedInfo.excCount * document.getElementById("price").value;
+
+        var url = 'myapp/verify';
+        $http.post(url, {'taskMoney':taskMoney}).success(function(response){
+            $scope.error = response.Error
+        })
     }
 
 });
