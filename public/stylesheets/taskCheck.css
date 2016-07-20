@@ -84,3 +84,49 @@
     border-radius: 4px;
 
 }
+
+.icon1{
+    margin: 0;
+    border: 0;
+    background: #f4f4f4;
+    height: 50px;
+    padding-left: 36px;
+    padding-top: 11px;
+}
+
+.icon1 > img{
+    width: 28px;
+    border: 1px solid #e0e0e0;
+    display: inline-block;
+    border-radius: 4px;
+}
+
+.icon1:hover{
+    background: white;
+}
+
+.icon1:active{
+    background: white;
+}
+
+.row{
+    overflow: hidden;
+
+}
+
+[class*=" change"]{
+    margin-bottom: -9999px;
+    padding-bottom: 9999px;
+}
+
+h3{
+    margin-left: 40px;
+    font-size: 18px;
+    color: #999999;
+    margin-top: 30px;
+    margin-bottom: 24px;
+}
+
+.imported{
+    color: #3498db;
+}
