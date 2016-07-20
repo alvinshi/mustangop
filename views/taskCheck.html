@@ -43,25 +43,21 @@
 
 <div ng-controller="taskCheckCtrl" style="margin-top: 100px">
     <div class="container">
-        <div class="row">
+        <div class="row" ng-repeat="app in taskAudit">
             <div class="col-lg-2">
-                <div class="icon1">
-                    <img src="" alt="" style="display: inline-block;width: 80px;height: 80px">
+                <button class="icon1">
+                    <img ng-src="{{app.artworkUrl100}}" alt="" style="display: inline-block;width: 80px;height: 80px">
                     <span>10条任务下载</span>
-                </div>
-                <div class="icon1">
-                    <img src="" alt="" style="display: inline-block;width: 80px;height: 80px">
-                    <span>5条任务评论</span>
-                </div>
+                </button>
             </div><!--左边侧边栏-->
             <div class="col-lg-10">
                 <div class="icon">
-                    <img src="" alt="" style="display: inline-block;width: 100px;height: 100px">
-                    <span>App名称</span>
+                    <img ng-src="{{app.artworkUrl100}}" alt="" style="display: inline-block;width: 100px;height: 100px">
+                    <span>{{app.trackName}}</span>
                 </div>
                 <div class="taskinfor">
                     <span>任务信息:</span>
-                    <span>下载</span> <span>5</span>条 <span><button class="btn">查看详情</button></span>
+                    <span>{{app.taskType}}</span> <span>{{app.excCount}}</span>条 <span><button class="btn">查看详情</button></span>
                 </div>
                 <div class="taskstate">
                     <span>进行中</span>

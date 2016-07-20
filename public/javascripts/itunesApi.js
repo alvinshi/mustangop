@@ -20,6 +20,15 @@ app.controller('itunesSearchControl', function($scope, $http) {
     $http.get(appsUrl).success(function(response){
         $scope.isLoadingMyApp = false;
         $scope.myApps = response.myApps;
+
+        if ($scope.myApps.length > 0){
+            $scope.selectedApp = $scope.myApps[0];
+        }
+
+        var getneedUrl = '/myapp/getNeed/' + $scope.selectedApp.appleId;
+        $http.get(getneedUrl).success(function(response){
+            $scope.appNeedInfo = response.appNeedInfo;
+        });
     });
 
     $scope.searchApp = function(){
@@ -154,11 +163,30 @@ app.controller('itunesSearchControl', function($scope, $http) {
         });
     };
 
+    $scope.saveNeed = function(){
+        var needUrl = '/myapp/taskneed/' + $scope.selectedApp.appleId;
+        var needInfo = {'taskType':$scope.appNeedInfo.taskType, 'excCount':$scope.appNeedInfo.excCount, 'excUnitPrice':$scope.appNeedInfo.excUnitPrice, 'screenshotCount':$scope.appNeedInfo.screenshotCount,
+            'searchKeyword':$scope.appNeedInfo.searchKeyword, 'ranKing':$scope.appNeedInfo.ranKing, 'Score':$scope.appNeedInfo.Score,
+            'titleKeyword':$scope.appNeedInfo.titleKeyword, 'commentKeyword':$scope.appNeedInfo.commentKeyword, 'detailRem':$scope.appNeedInfo.detailRem};
+        $http.post(needUrl, needInfo).success(function(response){
+            $scope.errorId = response.errorId;
+            $scope.errorMsg = response.errorMsg;
+        })
+    };
 
+    $scope.releaseTask = function(){
+        var needUrl = '/myapp/task/' + $scope.selectedApp.appleId;
+        var needInfo = {'taskType':$scope.appNeedInfo.taskType, 'excCount':$scope.appNeedInfo.excCount,
+            'excUnitPrice':$scope.appNeedInfo.excUnitPrice, 'screenshotCount':$scope.appNeedInfo.screenshotCount,
+            'searchKeyword':$scope.appNeedInfo.searchKeyword, 'ranKing':$scope.appNeedInfo.ranKing,
+            'Score':$scope.appNeedInfo.Score, 'titleKeyword':$scope.appNeedInfo.titleKeyword,
+            'commentKeyword':$scope.appNeedInfo.commentKeyword, 'detailRem':$scope.appNeedInfo.detailRem,
+            'appObjectId':$scope.selectedApp.appObjectId};
 
-
-
-
-
+        $http.post(needUrl, needInfo).success(function(response){
+            $scope.errorId = response.errorId;
+            $scope.errorMsg = response.errorMsg;
+        })
+    };
 });
 
