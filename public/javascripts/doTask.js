@@ -74,6 +74,7 @@ app.controller('doTaskCtrl', function($scope, $http, $location) {
     $scope.getTaskFormData.receiveCount = 0;
     $scope.getTaskFormData.detailRem = undefined;
     $scope.getTaskFormData.errorMsg = undefined;
+    $scope.getTaskFormData.result = false;
 
     //点击确认按钮激发
     $scope.getTask = function(currentApp){
@@ -97,6 +98,7 @@ app.controller('doTaskCtrl', function($scope, $http, $location) {
             var postData = {'receiveCount': $scope.getTaskFormData.receiveCount, 'detailRem': $scope.getTaskFormData.detailRem};
             $http.post(url, postData).success(function(response){
                 $scope.getTaskFormData.errorMsg = response.errorMsg;
+                $scope.getTaskFormData.result = response.succeeded;
             });
         };
     };

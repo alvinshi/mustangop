@@ -7,6 +7,7 @@ var AV = require('leanengine');
 var util = require('./util');
 var https = require('https');
 
+var User = AV.Object.extend('_User');
 var IOSAppSql = AV.Object.extend('IOSAppInfo');
 var IOSAppBinder = AV.Object.extend('IOSAppBinder');
 var IOSAppExcLogger = AV.Object.extend('IOSAppExcLogger');
@@ -68,6 +69,7 @@ router.get('/taskHall', function(req, res){
 
 // receive task 领取任务一个人统一领取
 router.post('/postUsertask/:taskObjectId/:ratePrice', function(req, res){
+    //领取任务基本信息收集
     var userId = util.useridInReq(req);
     var receive_Count = req.body.receiveCount;
     var receive_Price = (req.params.ratePrice) * receive_Count;
@@ -77,34 +79,72 @@ router.post('/postUsertask/:taskObjectId/:ratePrice', function(req, res){
     };
     var taskObjectId = req.params.taskObjectId;
 
+    //任务领取人
     var user = new AV.User();
     user.id = userId;
 
+    //任务ID
     var app = AV.Object.createWithoutData('releaseTaskObject', taskObjectId);
 
+    //后端效验
+    var flag = true;
+    var errorMsg = '';
+
+    //1.不得重复领取统一任务
     var query = new AV.Query(receiveTaskObject);
     query.equalTo('userObject', user);
     query.include('taskObject');
     query.find().then(function(results){
-        var flag = true;
         for (var i = 0; i < results.length; i++){
             var taskid = results[i].get('taskObject');
             if (taskid == taskObjectId){
-                res.json({'error':'已经领取了'});
+                errorMsg = "任务已经被领取过";
                 flag = false;
             }
         }
-        if (flag) {
-            var ReceiveTaskObject = new receiveTaskObject();
-            ReceiveTaskObject.set('userObject', user);
-            ReceiveTaskObject.set('taskObject', app);
-            ReceiveTaskObject.set('receiveCount', receive_Count);
-            ReceiveTaskObject.set('receivePrice', receive_Price);
-            ReceiveTaskObject.set('detailRem', detail_Rem);
-            ReceiveTaskObject.save();
-        };
-        res.json({'errorId':0, 'errorMsg':''});
-    })
+    });
 
+    //2.账户余额不得为负
+    if (flag) {
+        query = new AV.Query(User);
+        query.get(userId).then(function (results) {
+            if (results.remainMoney < 0) {
+                flag = false;
+                errorMsg = "账户余额为负, 请充值后再领取新任务";
+            }
+        });
+    }
+
+    //3.剩余条数监测
+    if (flag) {
+        query = new AV.Query(releaseTaskObject);
+        query.get(taskObjectId).then(function (results) {
+            if (parseInt(results.remainCount) < receive_Count){
+                flag = false;
+                errorMsg = "抱歉, 任务被别的用户抢走了";
+            }
+        });
+    }
+
+    //后端效验通过
+    if (flag) {
+        var ReceiveTaskObject = new receiveTaskObject();
+        ReceiveTaskObject.set('userObject', user);
+        ReceiveTaskObject.set('taskObject', app);
+        ReceiveTaskObject.set('receiveCount', receive_Count);
+        ReceiveTaskObject.set('receivePrice', receive_Price);
+        ReceiveTaskObject.set('detailRem', detail_Rem);
+        ReceiveTaskObject.save();
+        //更新任务剩余条数
+        query = new AV.Query(releaseTaskObject);
+        query.get(taskObjectId).then(function (data) {
+            var prevRemainCount = parseInt(data.get('remainCount'));
+            data.set('remainCount', prevRemainCount - receive_Count + '');
+            data.save();
+            console.log('remainCount has been updated')
+        });
+    };
+    res.json({'succeeded': flag, 'errorMsg': errorMsg});
 });
+
 module.exports = router;
