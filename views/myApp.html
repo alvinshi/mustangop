@@ -49,11 +49,11 @@
             <span class="glyphicon glyphicon-plus" style="color: #3498db"></span>添加任务应用
         </button>
         <h3 class="mytitle">第一步:选择或添加任务应用
-            <span style="font-size: 16px;margin-left: 100px;color: red">目前只能添加4个应用哦</span>
+
         </h3>
+        <div class="alert alert-danger" style="margin-left: 380px;width: 200px;margin-top: -50px">目前只能添加5个应用哦</div>
 
-
-            <div class="list-group"  ng-repeat="app in myApps">
+            <div class="list-group thumbnail_wrap" ng-click="selectedAppFunc(app.appleId)"  ng-repeat="app in myApps">
 
 
                 <a href="" ng-click="releaseBtnClick(app.appleId)" data-toggle="modal" data-target="#mymodal">
@@ -62,9 +62,7 @@
                     </button>
                 </a>
 
-
-                <button ng-click="selectedAppFunc(app.appleId)" class="thumbnail_wrap" style="width: 160px;height: 240px;background-color: white">
-                   <a href=""><img ng-src="{{ app.artworkUrl512 }}" class="img-responsive "></a>
+                <a href=""><img ng-src="{{ app.artworkUrl512 }}" class="img-responsive"  alt="App Icon"></a>
 
                 <p class="app_name ">{{ app.trackName.substr(0,10)+"..."  }}</p>
                 <p class="app_version">版本号 {{ app.version }}</p>
@@ -72,15 +70,10 @@
                 <!--<a >-->
                     <!--<button  class="app_button_bottom hvr-box-shadow-inset" >解绑</button>-->
                 <!--</a>-->
-                </button>
             </div>
 
-<<<<<<< HEAD
 
-        <div class="addApp" >
-=======
         <div class="addApp" ng-hide="numOfApps >= 5">
->>>>>>> a0f5afa481008e5e988687a8b1e3e34e5bd9492a
             <button class="btn_addApp" data-target="#addApp_modal" data-toggle="modal">
                 <span class="glyphicon glyphicon-plus" style="width: 20px;height: 20px"></span>
             </button>
@@ -88,7 +81,7 @@
         <div style="clear: both"></div>
         <hr style="margin-top: -50px;width: 1001px">
         <div class="alert alert-danger">
-            在任务需求编辑中，你可以非常详细的记录换评换量需求，且只需记录一次，之后，只需每天修改关键信息即可
+            在任务需求编辑中，你可以非常详细的记录换评换量需求，且只需填写一次，之后只需每天修改关键信息即可
         </div>
 
         <div id="need" ng-show="myApps.length">
@@ -121,8 +114,8 @@
                                    class="form-control" id="price"
                                    ng-model="appNeedInfo.excUnitPrice"  placeholder="">
                         </div>
-                        <label class="col-lg-2" style="font-size: 14px;padding-top: 5px
-                        ">(暂不可自主定价哟)</label>
+                        <label class="col-lg-2" style="font-size: 14px;padding-top: 5px;color: RED;
+                        ">注:暂不可自主定价</label>
                         <div> {{error}}</div>
                     </div>
 
