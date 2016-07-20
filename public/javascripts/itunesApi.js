@@ -18,9 +18,12 @@ app.controller('itunesSearchControl', function($scope, $http) {
     var progressTimerHandle = undefined;
     $scope.progressNum = 0;
 
+    $scope.numOfApps = undefined;
+
     $http.get(appsUrl).success(function(response){
         $scope.isLoadingMyApp = false;
         $scope.myApps = response.myApps;
+        $scope.numOfApps = $scope.myApps.length;
 
         if ($scope.myApps.length > 0){
             $scope.selectedApp = $scope.myApps[0];
@@ -135,6 +138,7 @@ app.controller('itunesSearchControl', function($scope, $http) {
             //location.href="/myApp";
 
             $scope.appResults = [];
+            $scope.numOfApps ++;
         });
     };
 
@@ -166,6 +170,7 @@ app.controller('itunesSearchControl', function($scope, $http) {
             }
 
             $scope.appResults = [];
+            $scope.numOfApps --;
         });
     };
 

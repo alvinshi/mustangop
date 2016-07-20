@@ -29,7 +29,7 @@ app.controller('doTaskCtrl', function($scope, $http, $location) {
     //获取任务列表总页数
     function taskDisplayedInit(){
         $scope.totalTaskNum = $scope.taskObject.length;
-        $scope.taskPerPage = 5; //每页展示的任务数量
+        $scope.taskPerPage = 10; //每页展示的任务数量
         if ($scope.totalTaskNum % $scope.taskPerPage == 0){
             $scope.totalPageNum = parseInt($scope.totalTaskNum / $scope.taskPerPage) + 1;
         }
