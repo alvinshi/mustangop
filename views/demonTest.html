@@ -173,6 +173,13 @@
         function setValue(val){
             document.getElementById("t").value=val;
         }
+        $scope.copyUrl=function()
+                {
+                    var clipBoardContent=this.location.href;
+                    window.clipboardData.setData("Text",clipBoardContent);
+                    alert("复制成功!");
+                }
+
     </script>
 
 
@@ -188,6 +195,7 @@
 <!--</script>-->
 
 
+
 <div>
     <div id="navigation">
         <a href="#/tab"><h1>tab1</h1></a>
@@ -201,6 +209,6 @@
 <input name="abc" type="radio" value="30" onclick="setValue(this.value)" />B
 <input id="t" />
 
-
+<input type="button" name="anniu2" ng-click='copyUrl()' value="复制URL地址">
 </body>
 </html>

@@ -201,8 +201,26 @@ app.controller('itunesSearchControl', function($scope, $http) {
     }
     $scope.setValue2=function(){
         document.getElementById("price").value="25"
-    }
+    };
 
+
+
+//限制表单字数
+    $scope.checkText1 = function () {
+        if ($scope.appNeedInfo.titleKeyword.length > 20) {
+            $scope.appNeedInfo.titleKeyword = $scope.appNeedInfo.titleKeyword.substr(0, 20);
+        }
+    };
+    $scope.checkText2 = function () {
+        if ($scope.appNeedInfo.commentKeyword.length > 40) {
+            $scope.appNeedInfo.commentKeyword = $scope.appNeedInfo.commentKeyword.substr(0, 40);
+        }
+    };
+    $scope.checkText3 = function () {
+        if ($scope.appNeedInfo.detailRem.length > 140) {
+            $scope.appNeedInfo.detailRem = $scope.appNeedInfo.detailRem.substr(0, 140);
+        }
+    };
 
 });
 
