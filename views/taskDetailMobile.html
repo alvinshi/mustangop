@@ -44,9 +44,10 @@
     <th-nav></th-nav>
 </div>
 
-<div class="alert alert-danger" role="alert" ng-hide="oneAppInfo.surplusCount">该任务无剩余条数</div>
-
 <div class="container main"  ng-controller="taskDetailMobControl" >
+
+    <div class="alert alert-danger" role="alert" ng-hide="oneAppInfo.surplusCount">该任务无剩余条数</div>
+
     <div class="media">
         <div class="media-left">
             <img class="logo" ng-src="{{ oneAppInfo.artworkUrl100 }}" alt="" class="img-thumbnail"/>
