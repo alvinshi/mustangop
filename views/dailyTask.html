@@ -60,11 +60,13 @@
                     </div>
                     <div>
                         <span class="appid">App ID: {{app.appleId}}</span>
+                        <span class="label label-info" ng-show="app.surplusCount">进行中</span>
+                        <span class="label label-danger" ng-hide="app.surplusCount">已完成</span>
                         <span class="company hidden-xs">{{app.sellerName}}</span>
                     </div>
                     <div>
                         <span class="download">{{app.excKinds}}</span>
-                        <span class="left">共<em class="num">{{app.totalExcCount}}</em>条</span>
+                        <span class="left">共<em>{{app.totalExcCount}}</em>条</span>
                         <span class="left">剩余<em class="num">{{app.surplusCount}}</em>条</span>
                         <span class="left">分配备注:<em class="num">{{app.addTaskPer}}</em></span>
                     </div>
