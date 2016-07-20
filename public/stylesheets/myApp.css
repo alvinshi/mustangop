@@ -107,7 +107,7 @@ button{
 
 .list-group{
     border: 1px solid #e0e0e0;
-    box-shadow: 1px 1px 1px #e0e0e0;
+    /*box-shadow: 1px 1px 1px #e0e0e0;*/
     height: 250px;
     width: 160px;
     margin-left: 32px;
