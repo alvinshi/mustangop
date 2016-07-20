@@ -15,4 +15,6 @@ app.controller('dailyTaskControl', function($scope, $http, $location){
     $http.get(todayUrl).success(function(response){
         $scope.dailyTask = response.myDailyApps;
     })
+
+
 });
