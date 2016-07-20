@@ -209,16 +209,16 @@
                         <div class="col-sm-3">
                             <img  class="appicon" style="display: inline-block; margin: 0 26px 40px 20px;
                                 width: 120px; height: 120px; border-radius: 20px"
-                                  ng-src="{{  appBaseInfo.artworkUrl100 }}" alt="App Icon"/>
+                                  ng-src="{{  selectedApp.artworkUrl100 }}" alt="App Icon"/>
                         </div>
                         <div class="col-sm-9" style="padding-left: 50px;">
                             <p style="font-size: 24px; color: #ffffff;
                                 width: 330px; margin-top: 10px">
-                                {{ appBaseInfo.trackName.substr(0,16)+"..."  }}
+                                {{ selectedApp.trackName.substr(0,16)+"..."  }}
                             </p>
                             <p style="color: #ffffff;
                                 width: 330px;">
-                                更新日期: {{ appBaseInfo.latestReleaseDate.substr(0,10) }}
+                                更新日期: {{ selectedApp.latestReleaseDate.substr(0,10) }}
                             </p>
                             <p style="color: #ffffff; font-size: 20px;">
                                 任务类型: <span class="synwords">{{appNeedInfo.taskType}}</span>
