@@ -193,6 +193,7 @@ function updateIOSAppInfo (appstoreObject, leanAppObject){
     appInfoObject.latestReleaseDate = appstoreObject['currentVersionReleaseDate'];
     appInfoObject.sellerName = appstoreObject['sellerName'];
     appInfoObject.version = appstoreObject['version'];
+    appInfoObject.appObjectId = leanAppObject.id;
 
     return appInfoObject;
 }

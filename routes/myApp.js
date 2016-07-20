@@ -855,6 +855,7 @@ var totalmoney = 2000;
 router.post('/task/:appleId', function(req, res){
     var userId = util.useridInReq(req);
     var myappid = parseInt(req.params.appleId);
+    var appObjectid = req.body.appObjectId;
     var taskType = req.body.taskType;
     var excCount = req.body.excCount;
     var excUnitPrice = req.body.excUnitPrice;
@@ -870,7 +871,8 @@ router.post('/task/:appleId', function(req, res){
     var user = new AV.User();
     user.id = userId;
 
-    var app = AV.Object.createWithoutData('IOSAppInfo', appe);
+
+    var app = AV.Object.createWithoutData('IOSAppInfo', appObjectid);
 
     var rateunitPrice = excUnitPrice * myRate;
 

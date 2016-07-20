@@ -177,7 +177,7 @@ app.controller('itunesSearchControl', function($scope, $http) {
     $scope.releaseTask = function(){
         var needUrl = '/myapp/task/' + $scope.selectedApp.appleId;
         var needInfo = {'taskType':$scope.appNeedInfo.taskType, 'excCount':$scope.appNeedInfo.excCount,
-            'excUnitPrice':$scope.appNeedInfo.excUnitPrice, 'screenshotCount':$scope.appNeedInfo.screenshotCount,
+            'excUnitPrice':document.getElementById("price").value, 'screenshotCount':$scope.appNeedInfo.screenshotCount,
             'searchKeyword':$scope.appNeedInfo.searchKeyword, 'ranKing':$scope.appNeedInfo.ranKing,
             'Score':$scope.appNeedInfo.Score, 'titleKeyword':$scope.appNeedInfo.titleKeyword,
             'commentKeyword':$scope.appNeedInfo.commentKeyword, 'detailRem':$scope.appNeedInfo.detailRem,
@@ -189,7 +189,7 @@ app.controller('itunesSearchControl', function($scope, $http) {
         })
     };
 
-//验证表单
+    //验证表单
     $scope.color={
         "color" :"#3498db",
         "font-size":"14px"
