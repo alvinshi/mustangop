@@ -8,8 +8,15 @@ var navIndex = 4;
 app.controller('itunesSearchControl', function($scope, $http) {
 
     //$scope.isError = 0;
+    var indexUrl = '/index';
 
-    var appsUrl = 'myapp/angular';
+    $http.get(indexUrl).success(function(response){
+        loadNav();
+        $scope.userObjectId = response.userObjectId;
+        $scope.tracknameAPPs = response.tracknameAPPs;
+    });
+
+    var appsUrl = 'doOuterTask/angular';
     $scope.isLoadingMyApp = true;
 
     var progressTimerHandle = undefined;
