@@ -43,7 +43,9 @@
 
 <div ng-controller="taskCheckCtrl" style="margin-top: 100px">
     <div ng-show="noApp">
-        <img src="images/horse.png" style="margin:auto; text-align:center">
+        <div style="text-align: center;">
+            <img style="margin-top: 100px;" src="images/horse.png"/>
+        </div>
         <h1 style="text-align:center;">亲, 你还没有发布任何任务哦, 赶紧去"<a href="myapp">发布任务</a>"试试吧</h1>
     </div>
     <div class="container" style="border: 1px solid #e0e0e0" ng-show="taskAudit.length">
