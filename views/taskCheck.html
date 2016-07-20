@@ -42,7 +42,11 @@
 </div>
 
 <div ng-controller="taskCheckCtrl" style="margin-top: 100px">
-    <div class="container" style="border: 1px solid #e0e0e0">
+    <div ng-show="noApp">
+        <img src="images/horse.png" style="margin:auto; text-align:center">
+        <h1 style="text-align:center;">亲, 你还没有发布任何任务哦, 赶紧去"<a href="myapp">发布任务</a>"试试吧</h1>
+    </div>
+    <div class="container" style="border: 1px solid #e0e0e0" ng-show="taskAudit.length">
         <div class="row">
             <div class="col-lg-2 change" style="background: #f4f4f4; padding-top:80px; padding-left:0; padding-right:0;" >
                 <div>任务列表</div>
@@ -56,7 +60,7 @@
 
 
             <div class="col-lg-10 change">
-                <div ng-show="taskAudit.length">
+                <div>
                     <table style="margin-top: 25px;width: 100%;">
                         <tr>
                             <td>

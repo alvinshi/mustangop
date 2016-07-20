@@ -2,6 +2,7 @@ var app=angular.module('yemaWebApp',[]);
 var navIndex =3;
 
 app.controller('taskCheckCtrl', function($scope, $http, $location) {
+    $scope.noApp = false;
 
     //**************得到左侧控制器条目*******************
     var taskUrl = '/taskCheck/taskAudit';
@@ -15,7 +16,7 @@ app.controller('taskCheckCtrl', function($scope, $http, $location) {
         }
         else {
             //如果没有返回值, 需要在前端显示按钮
-            $scope.taskDisplayed = undefined;
+            $scope.noApp = true;
         }
     });
 
