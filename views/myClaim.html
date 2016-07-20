@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <link rel="apple-touch-icon" href="apple-touch-icon.png">
+    <title>野马运营</title>
+    <!-- Place favicon.ico in the root directory -->
+
+    <!-- 引入 AngularJS Mini 文件 -->
+    <script src="/javascripts/vendor/AngularJS/angular.min.js"></script>
+
+    <!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+    <script src="//cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
+    <!-- Bootstrap core CSS -->
+    <link href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+    <script src="//cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+
+    <!--第三方 CSS JS-->
+    <link rel="stylesheet" href="../stylesheets/loading.css">
+    <link rel="stylesheet" href="/stylesheets/vendor/hover/hover-min.css">
+    <link rel="stylesheet" href="../stylesheets/dailyTask.css">
+
+    <!--网站内部js-->
+    <script src="/javascripts/myClaim.js"></script>
+    <script src="/javascripts/indexApp.js"></script>
+</head>
+
+<body ng-app="yemaWebApp">
+<!--[if lt IE 8]>
+<p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">更新您的浏览器</a> 从而获得更好的体验.</p>
+<![endif]-->
+
+<div class="container" ng-controller="indexAppCtrl" >
+    <!--导航-->
+    <th-nav></th-nav>
+</div>
+
+<div class="container" ng-controller="myClaimControl" >
+    <!--标题-->
+    <div class="header-wrapper col-lg-4">
+        <h1 class="header hidden-xs">今日发布任务</h1>
+    </div>
+    <!--<div class="header-wrapper col-lg-4">-->
+    <!--<input type="text" id="copyUrl" class=" from-control  hidden-xs"> <button ng-click="copyUrl">a</button>-->
+    <!--</div>-->
+
+    <hr class="hr-header hidden-xs"/>
+
+
+    <div class="row" ng-repeat="app in dailyTask">
+        <div class="col-lg-10  col-lg-offset-1 col-xs-12 media">
+            <div class="media-left">
+                <a href="/taskDetailMobile/{{app.taskObjectId}}">
+                    <img class="logo" ng-src="{{app.artworkUrl100}}" alt="app-icon" class="img-thumbnail"/>
+                </a>
+            </div>
+            <div class="media-body">
+                <div>
+                    <a class="task-link" href="/taskDetailMobile/{{app.taskObjectId}}">{{app.trackName.substr(0,11)+'...'}}</a>
+                </div>
+                <div>
+                    <!--<span class="appid">App ID: {{app.appleId}}</span>-->
+                    <span class="label label-info" ng-show="app.surplusCount">进行中</span>
+                    <span class="label label-danger" ng-hide="app.surplusCount">已完成</span>
+                    <span class="company hidden-xs">{{app.sellerName}}</span>
+                </div>
+                <div>
+                    <span class="download">{{app.excKinds}}</span>
+                    <span class="left">共<em>{{app.totalExcCount}}</em>条</span>
+                    <span class="left">剩余<em class="num">{{app.surplusCount}}</em>条</span>
+                    <span class="left">分配备注:<em class="num">{{app.addTaskPer}}</em></span>
+                </div>
+            </div>
+
+            <div class=" hidden-xs  media-right">
+                <a href="/taskDetail/{{app.taskObjectId}}">
+                    <button  type="button" >
+                        查看任务
+                    </button>
+                </a>
+            </div>
+            <hr class="hr_bottom">
+        </div>
+    </div>
+
+
+
+</div>
+<script src="/javascripts/cookieHelper.js"></script>
+</body>
+</html>

@@ -182,6 +182,7 @@ app.controller('itunesSearchControl', function($scope, $http) {
         $http.post(needUrl, needInfo).success(function(response){
             $scope.errorId = response.errorId;
             $scope.errorMsg = response.errorMsg;
+
         })
     };
 
@@ -264,7 +265,8 @@ app.controller('itunesSearchControl', function($scope, $http) {
 
         var url = 'myapp/verify';
         $http.post(url, {'taskMoney':taskMoney}).success(function(response){
-            $scope.error = response.Error
+            $scope.error = response.Error;
+            $scope.msg=1;
         })
     }
 

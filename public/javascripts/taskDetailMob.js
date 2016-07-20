@@ -16,6 +16,13 @@ app.controller('taskDetailMobControl', function($scope, $http, $location, FileUp
 
     });
 
+    var claimUrl = '/taskDetailMobile/claim' + '/' + excTaskId;
+    $http.get(claimUrl).success(function (response) {
+        $scope.oneAppInfo = response.oneAppInfo;
+        $scope.images = response.macTask;
+
+    });
+
     function blobToDataURI(addedFileItems, dealIndex){
         console.log("runned");
         var reader = new FileReader();
@@ -149,6 +156,26 @@ app.controller('taskDetailMobControl', function($scope, $http, $location, FileUp
         $scope.progressNum = 80;
 
         $http.post(appUrl, {
+                'uploadName':$scope.uploadName,
+                'requirementImgs': fileUrls
+            })
+            .success(function (response) {
+                $scope.errorId = response.errorId;
+                $scope.errorMsg = response.errorMsg;
+                $scope.oneAppInfo.uploadName = response.uploadName;
+                $scope.images = response.requirementImgs;
+
+                $scope.progressNum = 0;
+
+                uploader.clearQueue();
+                fileUrls = new Array();
+            });
+
+        var Url = '/taskDetailMobile/add/' + $scope.oneAppInfo.taskObjectId;
+
+        $scope.progressNum = 80;
+
+        $http.post(Url, {
                 'uploadName':$scope.uploadName,
                 'requirementImgs': fileUrls
             })

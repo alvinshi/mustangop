@@ -1076,10 +1076,11 @@ router.post('/verify', function(req, res){
     query.equalTo('objectId', userId);
     query.first().then(function(results){
         var usermoney = results.get('remainMoney');
+
         if (usermoney > postmoney){
-            res.json({'Error':'可以发布'})
+            //res.json({'Error':''})
         }else {
-            res.json({'Error':'钱不够'})
+            res.json({'Error':'Y币余额不足,请修改任务数量或补充Y币'})
         }
     })
 
