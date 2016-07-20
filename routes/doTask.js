@@ -27,7 +27,7 @@ router.get('/taskHall', function(req, res){
     query.notEqualTo('remainCount', '0');
     query.notEqualTo('finish', 1);
     query.include('appObject');
-    query.descending('updatedAt');
+    query.ascending('createdAt');
 
     query.find().then(function(results){
         var retApps = new Array();
@@ -35,6 +35,7 @@ router.get('/taskHall', function(req, res){
             var appObject = Object();
             var hisAppObject = results[i].get('appObject');
             //app基本信息
+            appObject.appObjectId = hisAppObject.id;
             appObject.trackName = hisAppObject.get('trackName').substring(0, 20);
             appObject.artworkUrl100 = hisAppObject.get('artworkUrl100');
             appObject.appleId = hisAppObject.get('appleId');
@@ -68,7 +69,7 @@ router.get('/taskHall', function(req, res){
 
 
 // receive task 领取任务一个人统一领取
-router.post('/postUsertask/:taskObjectId/:ratePrice', function(req, res){
+router.post('/postUsertask/:taskObjectId/:ratePrice/:appId', function(req, res){
     //领取任务基本信息收集
     var userId = util.useridInReq(req);
     var receive_Count = req.body.receiveCount;
@@ -78,13 +79,15 @@ router.post('/postUsertask/:taskObjectId/:ratePrice', function(req, res){
         detail_Rem = '';
     };
     var taskObjectId = req.params.taskObjectId;
+    var appObjectId = req.params.appId;
 
     //任务领取人
     var user = new AV.User();
     user.id = userId;
 
     //任务ID
-    var app = AV.Object.createWithoutData('releaseTaskObject', taskObjectId);
+    var task = AV.Object.createWithoutData('releaseTaskObject', taskObjectId);
+    var app = AV.Object.createWithoutData('IOSAppInfo', appObjectId);
 
     //后端效验
     var flag = true;
@@ -130,7 +133,8 @@ router.post('/postUsertask/:taskObjectId/:ratePrice', function(req, res){
     if (flag) {
         var ReceiveTaskObject = new receiveTaskObject();
         ReceiveTaskObject.set('userObject', user);
-        ReceiveTaskObject.set('taskObject', app);
+        ReceiveTaskObject.set('taskObject', task);
+        ReceiveTaskObject.set('appObject', app);
         ReceiveTaskObject.set('receiveCount', receive_Count);
         ReceiveTaskObject.set('receivePrice', receive_Price);
         ReceiveTaskObject.set('detailRem', detail_Rem);

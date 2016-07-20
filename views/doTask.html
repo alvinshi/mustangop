@@ -104,7 +104,7 @@
                                 <div class="col-sm-9" style="padding-left: 50px;">
                                     <p style="font-size: 24px; color: #ffffff;
                                 width: 330px; margin-top: 10px">
-                                        {{ app.trackName.substr(0,16)+"..."  }}
+                                        {{ app.trackName.substr(0,12)+"..."  }}
                                     </p>
                                     <p style="color: #ffffff;
                                 width: 330px;">
@@ -165,7 +165,7 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content" style="width: 500px;">
                     <div class="modal-header" style="text-align: center; background-color:#6eb7e8">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close" ng-click="refresh()"><span aria-hidden="true">&times;</span></button>
                         <h4 class="modal-title" id="myModalLabel" style="color: white;">领取任务</h4>
                     </div>
                     <div class="modal-body">
@@ -178,17 +178,17 @@
                             <div style="margin: 15px 10px 15px 10px;">
                                 <span>领取:</span>
                                 <span>
-                                    <input type="text" ng-model="getTaskFormData.receiveCount" placeholder="" style="border-radius: 6px; width: 50px;"/>
+                                    <input type="text" ng-model="getTaskFormData.receiveCount" placeholder="0" style="border-radius: 6px; width: 50px;"/>
                                 </span>
                                 <span>条</span>
                                 <span style="margin-left: 40px;">获得</span>
-                                <span style="color:#3498db">{{getTaskFormData.receiveCount * app.rateUnitPrice}}</span>
+                                <span style="color:#3498db">{{(getTaskFormData.receiveCount == undefined) ? 0 : (getTaskFormData.receiveCount* app.rateUnitPrice)}}</span>
                                 <span>Y币</span>
                             </div>
                             <div style="margin: 15px 10px 15px 10px;">
                                 <span>备注: </span>
                                 <span>
-                                    <input type="text" placeholder="可用于内部分配, 例: 张1条, 王1条..." ng-model='detailRem'
+                                    <input type="text" placeholder="可用于内部分配, 例: 张1条, 王1条..." ng-model='getTaskFormData.detailRem'
                                            style="border-radius: 6px; width: 350px;" />
                                 </span>
                             </div>
@@ -205,9 +205,13 @@
                                 style="width: 100px" ng-click="getTask(app)" ng-hide="getTaskFormData.result">
                             确认
                         </button>
-                        <div class="alert alert-success" role="alert"
-                             style="padding:6px 12px 6px 12px; margin:0; text-align: center;" ng-show= "getTaskFormData.result">
-                            恭喜成功领取了任务</div>
+                        <button type="button" class="btn btn-default reverse" data-dismiss="modal" aria-label="Close" ng-click="refresh()"
+                                style="width: 100px" ng-click="">
+                            关闭
+                        </button>
+                        <span class="alert alert-success" role="alert"
+                             style="padding:6px 12px 6px 12px; margin:0; text-align: center; float:left;" ng-show= "getTaskFormData.result">
+                            恭喜成功领取了任务</span>
                     </div>
                 </div>
             </div>
