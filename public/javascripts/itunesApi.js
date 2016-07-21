@@ -191,6 +191,7 @@ app.controller('itunesSearchControl', function($scope, $http) {
         $http.post(needUrl, needInfo).success(function(response){
             $scope.errorId = response.errorId;
             $scope.errorMsg = response.errorMsg;
+            $scope.bthShow=1;
 
         })
     };
@@ -277,7 +278,7 @@ app.controller('itunesSearchControl', function($scope, $http) {
             $scope.error = response.Error;
 
         })
-    }
+    };
     //生成预览截图
 
     $scope.getScreenShot = function() {
