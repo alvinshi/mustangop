@@ -43,8 +43,8 @@ router.get('/claim/:excTaskId', function(req, res){
         retObject.version = hisappObject.get('version');
         retObject.excKinds = taskInfo.get('taskType');
 
-        retObject.totalExcCount = taskInfo.get('excCount');
-        retObject.surplusCount = taskInfo.get('remainCount');
+        retObject.totalExcCount = results.get('receiveCount');
+        retObject.surplusCount = results.get('remainCount');
         retObject.taskObjectId = taskInfo.id;
         retObject.userObjectId = Base64.encode(userId);
 
@@ -130,10 +130,11 @@ router.post('/add/:excTaskId', function(req, res){
                         });
 
                         taskObject.increment('remainCount', -1);
+                        taskObject.increment('submitted', 1);
+                        taskObject.increment('pending', -1);
                         taskObject.save().then(function(){
                             //如果有就计数+1
-                        })
-
+                        });
                     });
                 }
                 res.json({'errorId':0, 'errorMsg':'', 'uploadName':uploadName, 'requirementImgs':requirementImgs});
