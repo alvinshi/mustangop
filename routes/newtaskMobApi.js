@@ -94,8 +94,8 @@ router.post('/add/:excTaskId', function(req, res){
 
     var task_query = new AV.Query(receiveTaskObject);
     task_query.include('taskObject');
-    task_query.get(excTaskId).then(function(taskObject){
-        var relation = taskObject.relation('mackTask');
+    task_query.get(excTaskId).then(function(releaseObject){
+        var relation = releaseObject.relation('mackTask');
         var query = relation.query();
         query.equalTo('uploadName', uploadName);
         query.find().then(function(results){
@@ -124,18 +124,27 @@ router.post('/add/:excTaskId', function(req, res){
                 newTaskObject.set('uploadName', uploadName);
                 newTaskObject.set('requirementImgs', requirementImgs);
                 newTaskObject.save().then(function(){
-                    var relation = taskObject.relation('mackTask');
+                    var relation = releaseObject.relation('mackTask');
                     relation.add(newTaskObject);// 建立针对每一个 Todo 的 Relation
-                    taskObject.save().then(function(){
+                    releaseObject.save().then(function(){
                         // 保存到云端
                     });
 
-                    taskObject.increment('remainCount', -1);
-                    taskObject.increment('submitted', 1);
-                    taskObject.increment('pending', -1);
-                    taskObject.save().then(function(){
+                    releaseObject.increment('remainCount', -1);
+                    releaseObject.increment('submitted', 1);
+                    releaseObject.increment('pending', -1);
+                    releaseObject.save().then(function(){
                         //如果有就计数+1
                     });
+
+                    var releaseid = releaseObject.get('taskObject').id;
+                    var todo = AV.Object.createWithoutData('releaseTaskObject', releaseid);
+                    todo.increment('submitted', 1);
+                    todo.increment('pending', -1);
+                    todo.save().then(function(){
+                        //如果有就计数+1
+                    });
+
                 });
             }
             res.json({'errorId':0, 'errorMsg':'', 'uploadName':uploadName, 'requirementImgs':requirementImgs});
