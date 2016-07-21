@@ -93,11 +93,9 @@ router.get('/claim/:excTaskId', function(req, res){
 
     var query = new AV.Query(receiveTaskObject);
     query.include('appObject');
-    //query.include('hisAppObject');
     query.get(excTaskId).then(function(taskObject){
         var retObject = Object();
         var hisappObject = taskObject.get('appObject');
-        //var myappObject = taskObject.get('myAppObject');
         retObject.artworkUrl100 = hisappObject.get('artworkUrl100');
         retObject.trackName = hisappObject.get('trackName');
         retObject.sellerName = hisappObject.get('sellerName');
@@ -111,8 +109,6 @@ router.get('/claim/:excTaskId', function(req, res){
         retObject.totalExcCount = taskObject.get('excCount');
         retObject.surplusCount = taskObject.get('remainCount');
         retObject.taskObjectId = taskObject.id;
-
-        res.json({'oneAppInfo':retObject})
 
         if (uploadUserName != undefined){
             var relation = taskObject.relation('mackTask');

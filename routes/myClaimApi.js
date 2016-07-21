@@ -29,7 +29,7 @@ router.get('/claim/:userObjectId', function(req, res){
     query.equalTo('userObject', user);
     query.include('taskObject');
     query.include('appObject');
-    //query.descending('createdAt');
+    query.descending('createdAt');
     query.find().then(function(results){
         var retApps = new Array();
         for (var i = 0; i< results.length; i++){
@@ -48,6 +48,7 @@ router.get('/claim/:userObjectId', function(req, res){
             appHisObject.totalExcCount = appExcHisObject.get('excCount');
             appHisObject.surplusCount = appExcHisObject.get('remainCount');
             appHisObject.taskObjectId = results[i].id;
+            appHisObject.detailRem = results[i].get('detailRem');
 
             appHisObject.excKinds = appExcHisObject.get('taskType');
 
