@@ -11,8 +11,9 @@ var navIndex = 1;
 app.controller('itunesSearchControl', function($scope, $http) {
 
     //$scope.isError = 0;
-    $scope.selectMyAppIndex=0;
+
     var appsUrl = 'myapp/angular';
+    $scope.selectMyAppIndex=0;
     $scope.isLoadingMyApp = true;
 
     var progressTimerHandle = undefined;
@@ -25,18 +26,24 @@ app.controller('itunesSearchControl', function($scope, $http) {
         $scope.myApps = response.myApps;
         $scope.numOfApps = $scope.myApps.length;
 
+
         if ($scope.myApps.length > 0){
             $scope.selectedApp = $scope.myApps[0];
-            var myAppElemment = document.getElementsByClassName('thumbnail_wrap')[$scope.selectMyAppIndex];
-            if (myAppElemment != undefined){
-                myAppElemment.style.border = '2px solid #3498db';
-                console.log($scope.myExcAllApps);
-            }
+
+            //$scope.selectedApp.isSelected = true;
+
+
         }
 
         var getneedUrl = '/myapp/getNeed/' + $scope.selectedApp.appleId;
         $http.get(getneedUrl).success(function(response){
             $scope.appNeedInfo = response.appNeedInfo;
+            var myAppElemment = document.getElementsByClassName('thumbnail_wrap')[$scope.selectMyAppIndex];
+
+            if (myAppElemment != undefined){
+                myAppElemment.style.border = '2px solid #3498db';
+                console.log($scope.myApps);
+            }
         });
     });
 
@@ -210,7 +217,7 @@ app.controller('itunesSearchControl', function($scope, $http) {
 
     $scope.setValue1=function(){
     document.getElementById("price").value="30"
-    }
+    };
     $scope.setValue2=function(){
         document.getElementById("price").value="25"
     };
@@ -266,7 +273,7 @@ app.controller('itunesSearchControl', function($scope, $http) {
         var url = 'myapp/verify';
         $http.post(url, {'taskMoney':taskMoney}).success(function(response){
             $scope.error = response.Error;
-            $scope.msg=1;
+
         })
     }
 
