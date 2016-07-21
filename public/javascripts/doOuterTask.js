@@ -23,6 +23,7 @@ app.controller('itunesSearchControl', function($scope, $http) {
     $scope.progressNum = 0;
 
     $http.get(appsUrl).success(function(response){
+        console.log("returned");
         $scope.isLoadingMyApp = false;
         $scope.myApps = response.myApps;
     });

@@ -45,6 +45,12 @@ router.get('/angular', function(req, res) {
     query.addDescending('updatedAt')
     query.find({
         success: function(results) {
+
+
+            //没有绑定应用
+            if (results.length == 0){
+                res.json({'myApps': undefined});
+            }
             //has blinded
             var retApps = new Array();
 
