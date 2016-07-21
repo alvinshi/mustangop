@@ -49,6 +49,7 @@ router.get('/claim/:excTaskId', function(req, res){
         retObject.userObjectId = Base64.encode(userId);
 
         // 需求截图数据
+        retObject.taskType = taskInfo.get('taskType');  //任务类型
         retObject.searchKeyword = taskInfo.get('searchKeyword');  //搜索关键词
         retObject.ranKing = taskInfo.get('ranKing'); // 排名
         retObject.Score = taskInfo.get('Score');  // 评分

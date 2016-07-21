@@ -38,6 +38,7 @@ router.get('/interior/:excTaskId', function(req, res){
         retObject.taskObjectId = taskObject.id;
 
         // 需求截图数据
+        retObject.taskType = taskObject.get('taskType');  //任务类型
         retObject.searchKeyword = taskObject.get('searchKeyword');  //搜索关键词
         retObject.ranKing = taskObject.get('ranKing'); // 排名
         retObject.Score = taskObject.get('Score');  // 评分
