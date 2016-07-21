@@ -93,9 +93,11 @@ router.get('/claim/:excTaskId', function(req, res){
 
     var query = new AV.Query(receiveTaskObject);
     query.include('appObject');
-    query.get(excTaskId).then(function(taskObject){
+    query.include('taskObject');
+    query.get(excTaskId).then(function(results){
         var retObject = Object();
-        var hisappObject = taskObject.get('appObject');
+        var hisappObject = results.get('appObject');
+        var taskInfo = results.get('taskObject');
         retObject.artworkUrl100 = hisappObject.get('artworkUrl100');
         retObject.trackName = hisappObject.get('trackName');
         retObject.sellerName = hisappObject.get('sellerName');
@@ -104,14 +106,14 @@ router.get('/claim/:excTaskId', function(req, res){
         retObject.formattedPrice = hisappObject.get('formattedPrice');
         retObject.latestReleaseDate = hisappObject.get('latestReleaseDate');
         retObject.version = hisappObject.get('version');
-        retObject.excKinds = taskObject.get('taskType');
+        retObject.excKinds = taskInfo.get('taskType');
 
-        retObject.totalExcCount = taskObject.get('excCount');
-        retObject.surplusCount = taskObject.get('remainCount');
-        retObject.taskObjectId = taskObject.id;
+        retObject.totalExcCount = taskInfo.get('excCount');
+        retObject.surplusCount = taskInfo.get('remainCount');
+        retObject.taskObjectId = taskInfo.id;
 
         if (uploadUserName != undefined){
-            var relation = taskObject.relation('mackTask');
+            var relation = results.relation('mackTask');
             var task_query = relation.query();
             task_query.equalTo('uploadName', uploadUserName);
             task_query.find().then(function(result){
