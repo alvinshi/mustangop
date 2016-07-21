@@ -45,13 +45,13 @@
   </div>
 <div class="container">
     <div  class=" main_content"  ng-controller="itunesSearchControl">
-        <button class="add_app" data-target="#addApp_modal" data-toggle="modal">
+        <button class="add_app" data-target="#addApp_modal" data-toggle="modal" ng-hide="numOfApps >= 5">
             <span class="glyphicon glyphicon-plus" style="color: #3498db"></span>添加任务应用
         </button>
         <h3 class="mytitle">第一步:选择或添加任务应用
 
         </h3>
-        <div class="alert alert-danger" style="margin-left: 380px;width: 200px;margin-top: -50px">目前只能添加5个应用哦</div>
+        <div ng-show="numOfApps >= 5"class="alert alert-danger" style="margin-left: 380px;width: 200px;margin-top: -50px">目前只能添加5个应用哦</div>
 
             <div class="list-group thumbnail_wrap" ng-click="selectedAppFunc(app.appleId)"  ng-repeat="app in myApps">
 
