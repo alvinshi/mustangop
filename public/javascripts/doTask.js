@@ -15,15 +15,20 @@ app.controller('doTaskCtrl', function($scope, $http, $location) {
     $scope.changePlaneColor = function(){
         $scope.planeColor = !$scope.planeColor;
     };
-
+    $scope.noApp = false;
     //*********获取任务列表*************
     var url = 'doTask/taskHall';
     $http.get(url).success(function(response){
         $scope.taskObject = response.doTask;
+        if($scope.taskObject.length>0){
         console.log($scope.taskObject);
         console.log('showed');
         taskDisplayedInit();
         updateTaskDisplayed();
+    }else{
+        $scope.noApp = true ;
+    }
+
     });
 
     //获取任务列表总页数

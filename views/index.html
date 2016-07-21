@@ -64,19 +64,21 @@
                 <li ><a style="color: white" href="/doTask">任务大厅</a></li>
                 <li class="dropdown">
                     <a   href="/myapp" style="color: white" data-toggle="dropdown">发布任务
-                        <span   class="caret"></span>
+                        <!--<span   class="caret"></span>-->
                     </a>
-                    <ul class="dropdown-menu" >
-                        <li class="myapp-list" ng-repeat="app in tracknameAPPs">
-                            <a ng-href="app/{{app.appid}}">{{ app.trackName }}</a>
-                        </li>
-                        <li><a  class="" href="/myapp">管理我的应用</a></li>
-                    </ul>
+                    <!--<ul class="dropdown-menu" >-->
+                        <!--<li class="myapp-list" ng-repeat="app in tracknameAPPs">-->
+                            <!--<a ng-href="app/{{app.appid}}">{{ app.trackName }}</a>-->
+                        <!--</li>-->
+                        <!--<li><a  class="" href="/myapp">管理我的应用</a></li>-->
+                    <!--</ul>-->
                 </li>
 
-                <li><a  style="color: white"  href="/dailyTask/{{userObjectId.userObjectId}}">当前任务</a></li>
+                <li><a  style="color: white"  href="/dailyTask/{{userObjectId.userObjectId}}">我的任务</a></li>
                 <li><a  style="color: white"  href="/taskCheck">任务审核</a></li>
-                <li><a  style="color: white"  href="/taskInfor">任务信息</a></li>
+                <li><a   style="color: white" href="/doOuterTask">外部交换工具</a></li>
+                <li><a  style="color: white;margin-left: 300px"  href="/taskInfor">消息</a></li>
+
 
             </ul>
             <ul id="nav-right-id" class="nav navbar-nav navbar-right">

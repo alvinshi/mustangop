@@ -7,7 +7,7 @@ var app = angular.module('yemaWebApp', []);
 var navIndex = 2;
 
 app.controller('myClaimControl', function($scope, $http, $location){
-
+    $scope.noApp = true;
     var appurlList = $location.absUrl().split('/');
     var userId = appurlList[appurlList.length - 1];
 
@@ -15,6 +15,10 @@ app.controller('myClaimControl', function($scope, $http, $location){
 
     $http.get(todayUrl).success(function(response){
         $scope.dailyTask = response.myDailyApps;
+        if($scope.dailyTask.length>0){
+            $scope.noApp=false;
+
+        }
     })
 
 

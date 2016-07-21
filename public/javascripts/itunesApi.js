@@ -30,9 +30,6 @@ app.controller('itunesSearchControl', function($scope, $http) {
         if ($scope.myApps.length > 0){
             $scope.selectedApp = $scope.myApps[0];
 
-            //$scope.selectedApp.isSelected = true;
-
-
         }
 
         //请求每个任务的任务需求,
@@ -220,7 +217,7 @@ app.controller('itunesSearchControl', function($scope, $http) {
 
 
 
-        //通过前段检查,请求服务器
+        //通过前端检查,请求服务器
         if (flag){
             console.log("passed");
             var needUrl = '/myapp/task/' + $scope.selectedApp.appleId;
@@ -285,7 +282,6 @@ app.controller('itunesSearchControl', function($scope, $http) {
             if (tempApp.appleId == appleId){
                 $scope.selectedApp = tempApp;
                 $scope.selectMyAppIndex = i;
-                //$scope.selectedApp.isSelected = true;
                 break;
             }
         }
@@ -315,7 +311,7 @@ app.controller('itunesSearchControl', function($scope, $http) {
 
         var url = 'myapp/verify';
         $http.post(url, {'taskMoney':taskMoney}).success(function(response){
-            $scope.error = response.Error;
+            $scope.ErrorMsg = response.Error;
 
         })
     };

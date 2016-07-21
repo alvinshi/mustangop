@@ -41,8 +41,14 @@
 
 <div class="container" ng-controller="myClaimControl" >
     <!--标题-->
-    <div class="header-wrapper col-lg-4">
+    <div class="header-wrapper col-lg-4" ng-show="!noApp">
         <h1 class="header hidden-xs">今日发布任务</h1>
+    </div>
+    <div ng-show="noApp">
+        <div style="text-align: center;">
+            <img style="margin-top: 200px;margin-left:-30px;"  src="../images/horse.png"/>
+        </div>
+        <h1 style="text-align:center;">亲, 你还没有任何任务哦, 赶紧去"<a href="/doTask">任务大厅</a>"领取任务吧</h1>
     </div>
     <!--<div class="header-wrapper col-lg-4">-->
     <!--<input type="text" id="copyUrl" class=" from-control  hidden-xs"> <button ng-click="copyUrl">a</button>-->

@@ -44,6 +44,12 @@
 <img src="/images/doTask/banner.png" style="width: 100vw; margin-top: 50px;"/>
 
 <div class="container" style="width: 1010px; padding:0;" ng-controller="doTaskCtrl">
+    <div ng-show="noApp">
+        <div style="text-align: center;">
+            <img style="margin-top: 100px;" src="images/horse.png"/>
+        </div>
+        <h1 style="text-align:center;">亲, 你还没有发布任何任务哦, 赶紧去"<a href="myapp">发布任务</a>"试试吧</h1>
+    </div>
     <div class="row" style="margin:0;">
         <p style="font-size: 30px; color: #3498db; margin: 40px 20px 10px 0; float: left">任务列表</p>
         <div class="alert alert-danger" role="alert" style="display: inline-block; margin-top: 35px;">

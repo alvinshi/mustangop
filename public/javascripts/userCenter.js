@@ -16,7 +16,13 @@ app.config(['$stateProvider','$urlRouterProvider',function($stateProvider, $urlR
             url:'/account',
             templateUrl:'/html/userCenter-account.html',
             controller:'userCenterCtrl'
+        })
+        .state('inforManage',{
+            url:'/inforManage',
+            templateUrl:'/html/userCenter-inforManage.html',
+            controller:'userCenterCtrl'
         });
+
 
     $urlRouterProvider.otherwise('/');     //匹配所有不在上面的路由
 }]);
