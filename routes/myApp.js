@@ -50,6 +50,10 @@ router.get('/angular', function(req, res, next) {
     query.addDescending('updatedAt')
     query.find({
         success: function(results) {
+            if (results.length == 0){
+                res.json({'myApps': undefined});
+            }
+
             //has blinded
             var retApps = new Array();
 
