@@ -39,11 +39,13 @@ app.controller('itunesSearchControl', function($scope, $http) {
         $http.get(getneedUrl).success(function(response){
             $scope.appNeedInfo = response.appNeedInfo;
             var myAppElemment = document.getElementsByClassName('thumbnail_wrap')[$scope.selectMyAppIndex];
-
             if (myAppElemment != undefined){
                 myAppElemment.style.border = '2px solid #3498db';
                 console.log($scope.myApps);
             }
+            var unitePrice=document.getElementById("price");
+            unitePrice.value="30"
+
         });
     });
 
