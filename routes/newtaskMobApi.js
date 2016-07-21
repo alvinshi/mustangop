@@ -85,7 +85,6 @@ router.post('/add/:excTaskId', function(req, res){
     var uploadUserName = req.cookies.uploadImgName;
     var uploadName = req.body.uploadName;
     var requirementImgs = req.body.requirementImgs;
-    var totalCount = req.body.totalExcCount;
     if (uploadName != undefined){
         res.cookie('uploadImgName', uploadName);
     }
@@ -130,19 +129,11 @@ router.post('/add/:excTaskId', function(req, res){
                             // 保存到云端
                         });
 
-                        var taskCount = taskObject.get('remainCount');
-                        if (taskCount == undefined){
-                            taskObject.set('remainCount', totalCount);
-                            taskObject.save().then(function(){
-                                //如果没有就set1个
-                            })
-                        }
-                        else {
-                            taskObject.increment('remainCount', -1);
-                            taskObject.save().then(function(){
-                                //如果有就计数+1
-                            })
-                        }
+                        taskObject.increment('remainCount', -1);
+                        taskObject.save().then(function(){
+                            //如果有就计数+1
+                        })
+
                     });
                 }
                 res.json({'errorId':0, 'errorMsg':'', 'uploadName':uploadName, 'requirementImgs':requirementImgs});

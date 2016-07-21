@@ -33,7 +33,7 @@ router.get('/interior/:excTaskId', function(req, res){
         retObject.latestReleaseDate = hisappObject.get('latestReleaseDate');
         retObject.version = hisappObject.get('version');
 
-        retObject.totalExcCount = taskObject.get('excCount');
+        retObject.totalExcCount = results.get('receiveCount');
         retObject.excKinds = taskObject.get('taskType');
         retObject.taskObjectId = taskObject.id;
 
@@ -54,6 +54,7 @@ router.get('/interior/:excTaskId', function(req, res){
                 var mackTaskObject = Object();
                 mackTaskObject.uploadName = result[e].get('uploadName');
                 mackTaskObject.taskImages = result[e].get('requirementImgs');
+                mackTaskObject.detail = result[e].get('detail');
                 mackTaskList.push(mackTaskObject);
             }
             res.json({'oneAppInfo':retObject, 'macTask':mackTaskList})
