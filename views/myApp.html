@@ -93,7 +93,7 @@
                         <div class="col-lg-8">
                             <label class="radio-inline">
 
-                                <input type="radio" name="radio" ng-checked="true"
+                                <input type="radio" name="radio" 
                                        ng-model="appNeedInfo.taskType"  value="评论" ng-click="setValue1()"> 评论
 
                             </label>
@@ -326,7 +326,7 @@
                     </div>
                     <div class="modal-body" >
                         <div class="col-lg-6 col-sm-12 input-group">
-                            <input type="text" class="form-control search_event" ng-model="searchKey" ng-keyup="keySearchApp($event)" placeholder="搜索添加你想绑定的App名称...">
+                            <input type="text" class="form-control search_event" ng-model="searchKey" ng-keyup="keySearchApp($event)" placeholder="请选择或者搜索添加你需要发布任务的APP">
                     <span class="input-group-btn">
                          <button class="btn search_color" ng-click="searchApp()">
                              <span class="glyphicon glyphicon-plus"></span>
@@ -350,9 +350,9 @@
                             <div class="double-bounce1"></div>
                             <div class="double-bounce2"></div>
                         </div>
-                        <div class="alert alert-danger infor" role="alert">
-                            请选择或者搜索添加你需要发布任务的APP
-                        </div>
+                        <!--<div class="alert alert-danger infor" role="alert">-->
+                            <!---->
+                        <!--</div>-->
 
                         <div class="media" ng-repeat="app in appResults" >
                             <div class="media-left">
