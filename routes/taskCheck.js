@@ -57,40 +57,53 @@ router.get('/taskAudit', function(req, res){
 router.get('/specTaskCheck/:taskId', function(req, res){
     var taskId = req.params.taskId;
     var query = new AV.Query(receiveTaskObject);
-    console.log(taskId);
     query.include('taskObject');
     query.include('userObject');
     query.ascending('createdAt');
     query.find().then(function(results){
         var rtnResults = new Array();
+
+        var promise = 0;
+        var counter = 0;
+
         for (var i = 0; i < results.length; i++) {
             var task = results[i].get('taskObject');
             if (taskId == task.id){
+                promise++;
                 var submission = Object();
                 var user = results[i].get('userObject')
+                submission.id = results[i].id;
                 submission.receiveCount = results[i].get('receiveCount');
                 submission.receivePrice = results[i].get('receivePrice');
                 submission.username = user.get('username');
+                //deal
 
-                //获得单个上交
-                //var relation = submission.relation('mackTask');
-                //var submission_query = relation.query();
-                //submission_query.find().then(function (data) {
-                //    submission.entries = new Array();
-                //    for (var j = 0; j < data.length; j++) {
-                //        var entry = Object();
-                //        entry.uploadName = data[j].get('uploadName');
-                //        entry.imgs = data[j].get('requirementImgs');
-                //        entry.status = data[j].get('status');
-                //        entry.detail = data[j].get('detail');
-                //        submission.entries.push(entry);
-                //    }
-                //})
-                rtnResults.push(submission);
+                (function(tempSubmission){
+                    var todoFolder = AV.Object.createWithoutData('receiveTaskObject', tempSubmission.id);
+                    var relation = todoFolder.relation('mackTask');
+                    var query = relation.query();
+                    query.find().then(function (data) {
+                        tempSubmission.entries = new Array();
+                        for (var j = 0; j < data.length; j++) {
+                            var entry = Object();
+                            entry.uploadName = data[j].get('uploadName');
+                            entry.imgs = data[j].get('requirementImgs');
+                            entry.status = data[j].get('status');
+                            entry.detail = data[j].get('detail');
+                            tempSubmission.entries.push(entry);
+                        }
+                        rtnResults.push(tempSubmission);
+                        counter++;
+                        console.log(counter);
+                        if (counter == promise){
+                            console.log("return");
+                            res.json({'rtnResults':rtnResults});
+                        }
+                    })
+                })(submission)
+
             }
         }
-        console.log(rtnResults);
-        res.json({'rtnResults':rtnResults});
     })
 })
 module.exports = router;

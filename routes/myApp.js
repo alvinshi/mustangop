@@ -114,7 +114,7 @@ router.get('/angular', function(req, res, next) {
                         }
 
                     }).on('error', function(e) {
-                        dealiTunesAppFailed(retApps, appObject);
+                        dealiTunesAppFailed(retApps, tempAppObject);
 
                         if (retApps.length == results.length){
                             res.json({'myApps':retApps});
