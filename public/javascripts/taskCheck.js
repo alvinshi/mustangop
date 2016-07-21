@@ -36,4 +36,15 @@ app.controller('taskCheckCtrl', function($scope, $http, $location) {
             console.log($scope.specTask);
         })
     };
+
+    //***************任务审核动作逻辑**********************
+
+    //*****************确认接收***************************
+    $scope.accept = function(entryId){
+        var url = '/taskCheck/accept/' + entryId;
+        console.log(entryId)
+        console.log('request sent');
+        $http.get(url).success(function(response){
+        })
+    }
 });

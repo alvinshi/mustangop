@@ -11,6 +11,7 @@ var IOSAppSql = AV.Object.extend('IOSAppInfo');
 var IOSAppBinder = AV.Object.extend('IOSAppBinder');
 var releaseTaskObject = AV.Object.extend('releaseTaskObject');
 var receiveTaskObject = AV.Object.extend('receiveTaskObject');
+var mackTaskInfo = AV.Object.extend('mackTaskInfo');
 
 var Base64 = require('../public/javascripts/vendor/base64').Base64;
 
@@ -32,7 +33,9 @@ router.get('/taskAudit', function(req, res){
     query.find().then(function(results){
         var retApps = new Array();
         for (var i = 0; i < results.length; i++){
-            var appInfoObject = new Object();
+            var appInfoObject = Object();
+
+            //基本信息
             var appObject = results[i].get('appObject');
             appInfoObject.taskId = results[i].id;
             appInfoObject.artworkUrl100 = appObject.get('artworkUrl100');
@@ -40,13 +43,27 @@ router.get('/taskAudit', function(req, res){
             appInfoObject.appId = appObject.get('appleId');
             appInfoObject.sellerName = appObject.get('sellerName');
             appInfoObject.latestReleaseDate = appObject.get('latestReleaseDate');
+
+            //任务需求
             appInfoObject.taskType = results[i].get('taskType');
             appInfoObject.excCount = results[i].get('excCount');
-            appInfoObject.inProgress = results[i].get('inProgress'); // 进行中的任务
-            appInfoObject.Completed = results[i].get('Completed');  // 已完成的任务
-            appInfoObject.pendingTask = results[i].get('Completed');  // 待审
-            appInfoObject.Uncommitted = results[i].get('Uncommitted'); // 未提交
+            appInfoObject.detailRem = results[i].get('detailRem');
+            appInfoObject.ranking = results[i].get('ranking');
+            appInfoObject.score = results[i].get('score');
+            appInfoObject.searchKeyword = results[i].get('searchKeyword');
+            appInfoObject.screenshotCount = results[i].get('screenshotCount');
+            appInfoObject.titleKeyword = results[i].get('titleKeyword');
+            appInfoObject.commentKeyword = results[i].get('commentKeyword');
 
+
+            //实时数据
+            appInfoObject.remainCount = results[i].get('remainCount');
+            appInfoObject.pending = results[i].get('pending');
+            appInfoObject.submitted = results[i].get('submitted');
+            appInfoObject.rejected = results[i].get('rejected');
+            appInfoObject.accepted = results[i].get('accepted');
+
+            appInfoObject.completed = results[i].get('completed');
             retApps.push(appInfoObject);
         }
         res.json({'taskAudit':retApps, 'taskInfo':appInfoObject})
@@ -72,11 +89,18 @@ router.get('/specTaskCheck/:taskId', function(req, res){
                 promise++;
                 var submission = Object();
                 var user = results[i].get('userObject')
+                //领取任务基本信息
                 submission.id = results[i].id;
                 submission.receiveCount = results[i].get('receiveCount');
                 submission.receivePrice = results[i].get('receivePrice');
                 submission.username = user.get('username');
-                //deal
+
+                //领取任务实时信息
+                submission.pending = results[i].get('pending');
+                submission.submitted = results[i].get('submitted');
+                submission.rejected = results[i].get('rejected');
+                submission.accepted = results[i].get('accepted');
+                submission.completed = results[i].get('completed');
 
                 (function(tempSubmission){
                     var todoFolder = AV.Object.createWithoutData('receiveTaskObject', tempSubmission.id);
@@ -86,6 +110,7 @@ router.get('/specTaskCheck/:taskId', function(req, res){
                         tempSubmission.entries = new Array();
                         for (var j = 0; j < data.length; j++) {
                             var entry = Object();
+                            entry.id = data[j].id;
                             entry.uploadName = data[j].get('uploadName');
                             entry.imgs = data[j].get('requirementImgs');
                             entry.status = data[j].get('status');
@@ -94,9 +119,7 @@ router.get('/specTaskCheck/:taskId', function(req, res){
                         }
                         rtnResults.push(tempSubmission);
                         counter++;
-                        console.log(counter);
                         if (counter == promise){
-                            console.log("return");
                             res.json({'rtnResults':rtnResults});
                         }
                     })
@@ -105,5 +128,54 @@ router.get('/specTaskCheck/:taskId', function(req, res){
             }
         }
     })
-})
+});
+
+router.get('/accept/:entryId', function(req, res) {
+    var entryId = req.params.entryId;
+    var query = new AV.Query(mackTaskInfo);
+    query.get(entryId).then(function(data) {
+        data.set("status", 3);
+        data.save();
+        console.log('entry' + entryId + "has been updated")
+
+    });
+
+    var entry = AV.Object.createWithoutData('mackTaskInfo', entryId);
+    var secondQuery = new AV.Query('receiveTaskObject');
+    secondQuery.equalTo('mackTask', entry);
+    secondQuery.include('taskObject');
+    secondQuery.find().then(function (results) {
+        //更新领取任务数据库
+        //results返回的是数组
+        var data = results[0];
+        //待审-1
+        var submitted = data.get('submitted');
+        data.set('pending', submitted - 1);
+        //接受+1
+        var preAccepted = data.get('accepted');
+        data.set('accepted', preAccepted + 1);
+        //检查领取的任务是否已经完成
+        var receiveCount = data.get('receiveCount');
+        if (receiveCount == preAccepted + 1) {
+            data.set('completed', 1);
+        }
+        data.save();
+        //更新发布任务数据库
+        var task = data.get('taskObject');
+        //待审-1
+        //待审-1
+        submitted = task.get('submitted');
+        task.set('pending', submitted - 1);
+        //接受+1
+        preAccepted = task.get('accepted');
+        task.set('accepted', preAccepted + 1);
+        //检查发布的任务是否已经完成
+        var excCount = task.get('excCount');
+        if (excCount == preAccepted + 1) {
+            task.set('completed', 1);
+        }
+        task.save();
+    });
+});
+
 module.exports = router;
