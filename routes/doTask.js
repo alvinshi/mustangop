@@ -20,12 +20,16 @@ router.get('/', function(req, res) {
 
 // get do task list
 router.get('/taskHall', function(req, res){
+    var userId = util.useridInReq(req);
     var myDate = new Date();
     var myDateStr = myDate.getFullYear() + '-' + parseInt(myDate.getMonth() + 1) + '-' + myDate.getDate();
 
+    var user = new AV.User();
+    user.id = userId;
+
     var query = new AV.Query(releaseTaskObject);
     query.notEqualTo('remainCount', '0');
-    query.notEqualTo('finish', 1);
+    query.notEqualTo('userObject', user);
     query.include('appObject');
     query.ascending('createdAt');
 
