@@ -31,6 +31,8 @@ var doInnerTask = require('./routes/doInnerTask');
 var doOuterTask = require('./routes/doOuterTask');
 var alipay = require('./routes/pay');
 var myClaim = require('./routes/myClaimApi');
+var newtaskMobile = require('./routes/newTaskMobApi');
+var interiorExcDetail = require('./routes/interiorExcDetailApi');
 
 
 var app = express();
@@ -152,6 +154,8 @@ app.use('/doInnerTask', doInnerTask);
 app.use('/doOuterTask', doOuterTask);
 app.use('/pay', alipay);
 app.use('/myClaim', myClaim);
+app.use('/newtaskMobile', newtaskMobile);
+app.use('/interiorExcDetail', interiorExcDetail);
 
 
 //静态html组建

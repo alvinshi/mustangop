@@ -50,6 +50,10 @@ router.get('/angular', function(req, res, next) {
     query.addDescending('updatedAt')
     query.find({
         success: function(results) {
+            if (results.length == 0){
+                res.json({'myApps': undefined});
+            }
+
             //has blinded
             var retApps = new Array();
 
@@ -114,7 +118,7 @@ router.get('/angular', function(req, res, next) {
                         }
 
                     }).on('error', function(e) {
-                        dealiTunesAppFailed(retApps, appObject);
+                        dealiTunesAppFailed(retApps, tempAppObject);
 
                         if (retApps.length == results.length){
                             res.json({'myApps':retApps});
@@ -902,7 +906,11 @@ router.post('/task/:appleId', function(req, res){
             releasetaskObject.set('remainCount', excCount); // 剩余条数
             releasetaskObject.set('myRate', myRate); // 汇率
             releasetaskObject.set('rateUnitPrice', rateunitPrice); // 汇率后价格,实际显示价格
-            releasetaskObject.set('inProgress', excCount); // 进行中的任务, 初始为总条数
+            releasetaskObject.set('pending', 0);  // 未提交
+            releasetaskObject.set('submitted', 0); // 待审
+            releasetaskObject.set('rejected', 0);  // 拒绝
+            releasetaskObject.set('accepted', 0);  // 接收
+            releasetaskObject.set('completed', 0);  // 完成
             releasetaskObject.save().then(function() {
                 // 实例已经成功保存.
                 var moratoriumMon = excCount * excUnitPrice;  // 冻结的YB
@@ -940,7 +948,11 @@ router.post('/task/:appleId', function(req, res){
             releaseObject.set('remainCount', excCount); // 剩余条数
             releaseObject.set('myRate', myRate); // 汇率
             releaseObject.set('rateUnitPrice', rateunitPrice); // 汇率后价格,实际显示价格
-            releaseObject.set('inProgress', excCount); // 进行中的任务, 初始为总条数
+            releaseObject.set('pending', 0);  // 未提交
+            releaseObject.set('submitted', 0); // 待审
+            releaseObject.set('rejected', 0);  // 拒绝
+            releaseObject.set('accepted', 0);  // 接收
+            releaseObject.set('completed', 0);  // 完成
             releaseObject.save().then(function() {
                 // 实例已经成功保存.
                 var moratorium = excCount * excUnitPrice;  // 冻结的YB

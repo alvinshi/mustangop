@@ -29,6 +29,7 @@ app.controller('taskCheckCtrl', function($scope, $http, $location) {
 
     //**************  Helper Function *******************
     var specTaskCheck = function(taskId){
+        console.log("runned");
         var url = '/taskCheck/specTaskCheck/' + taskId;
         $http.get(url).success(function(response){
             $scope.specTask = response.rtnResults;

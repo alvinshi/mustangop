@@ -3,7 +3,7 @@
  */
 var app = angular.module('yemaWebApp', []);
 
-var navIndex = 2;
+var navIndex = 4;
 
 app.controller('dailyTaskControl', function($scope, $http, $location){
 
