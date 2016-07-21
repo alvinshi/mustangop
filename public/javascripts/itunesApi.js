@@ -182,7 +182,7 @@ app.controller('itunesSearchControl', function($scope, $http) {
             $scope.numOfApps --;
         });
     };
-
+//保存
     $scope.saveNeed = function(){
         var needUrl = '/myapp/taskneed/' + $scope.selectedApp.appleId;
         var needInfo = {'taskType':$scope.appNeedInfo.taskType, 'excCount':$scope.appNeedInfo.excCount, 'excUnitPrice':$scope.appNeedInfo.excUnitPrice, 'screenshotCount':$scope.appNeedInfo.screenshotCount,
@@ -192,23 +192,49 @@ app.controller('itunesSearchControl', function($scope, $http) {
             $scope.errorId = response.errorId;
             $scope.errorMsg = response.errorMsg;
             $scope.bthShow=1;
+            //location.href="/myapp"
 
         })
     };
-
+    //发布任务
     $scope.releaseTask = function(){
-        var needUrl = '/myapp/task/' + $scope.selectedApp.appleId;
-        var needInfo = {'taskType':$scope.appNeedInfo.taskType, 'excCount':$scope.appNeedInfo.excCount,
-            'excUnitPrice':document.getElementById("price").value, 'screenshotCount':$scope.appNeedInfo.screenshotCount,
-            'searchKeyword':$scope.appNeedInfo.searchKeyword, 'ranKing':$scope.appNeedInfo.ranKing,
-            'Score':$scope.appNeedInfo.Score, 'titleKeyword':$scope.appNeedInfo.titleKeyword,
-            'commentKeyword':$scope.appNeedInfo.commentKeyword, 'detailRem':$scope.appNeedInfo.detailRem,
-            'appObjectId':$scope.selectedApp.appObjectId};
+        //初始参数
+        console.log("start");
+        var flag = true;
+        $scope.error = Object();
+        $scope.error.excCount = false;
 
-        $http.post(needUrl, needInfo).success(function(response){
-            $scope.errorId = response.errorId;
-            $scope.errorMsg = response.errorMsg;
-        })
+        //前端检查
+        if ($scope.appNeedInfo.excCount == '' || $scope.appNeedInfo.excCount == undefined) {
+            flag = false;
+            $scope.error.excCount = true;
+            console.log($scope.error.excCount);
+            console.log("failed");
+        }
+        if($scope.appNeedInfo.searchKeyword == '' || $scope.appNeedInfo.searchKeyword == undefined) {
+            flag = false;
+            $scope.error.searchKeyword = true;
+
+        }
+
+
+
+        //通过前段检查,请求服务器
+        if (flag){
+            console.log("passed");
+            var needUrl = '/myapp/task/' + $scope.selectedApp.appleId;
+            var needInfo = {'taskType':$scope.appNeedInfo.taskType, 'excCount':$scope.appNeedInfo.excCount,
+                'excUnitPrice':document.getElementById("price").value, 'screenshotCount':$scope.appNeedInfo.screenshotCount,
+                'searchKeyword':$scope.appNeedInfo.searchKeyword, 'ranKing':$scope.appNeedInfo.ranKing,
+                'Score':$scope.appNeedInfo.Score, 'titleKeyword':$scope.appNeedInfo.titleKeyword,
+                'commentKeyword':$scope.appNeedInfo.commentKeyword, 'detailRem':$scope.appNeedInfo.detailRem,
+                'appObjectId':$scope.selectedApp.appObjectId};
+
+            $http.post(needUrl, needInfo).success(function(response){
+                $scope.errorId = response.errorId;
+                $scope.errorMsg = response.errorMsg;
+            })
+        }
     };
 
     //验证表单

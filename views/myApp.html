@@ -107,7 +107,8 @@
                     <div class="form-group">
                         <label  class="col-lg-2 control-label" > 任务数量:</label>
                         <div class="col-lg-1">
-                            <input type="text" class="form-control" ng-change="calcuQuantity()" ng-model="appNeedInfo.excCount">
+                            <input type="text" class="form-control" neme="quantity" ng-change="calcuQuantity()" ng-model="appNeedInfo.excCount" required>
+                             <span ng-show="error.excCount">必填</span>
                         </div>
                         <label  class="col-lg-2 control-label" > 任务单价:</label>
                         <div class="col-lg-1">
@@ -144,6 +145,7 @@
                         <label  class="col-lg-2 control-label" >搜索关键词:</label>
                         <div class="col-lg-2">
                             <input type="text" class="form-control" placeholder="" ng-model="appNeedInfo.searchKeyword">
+                            <span ng-show="error.searchKeyword" style="color: red" >必填</span>
                         </div>
                         <label  class="col-lg-1 control-label">排名:</label>
                         <div class="col-lg-3">
@@ -274,6 +276,7 @@
                         -友情提醒, 避免撕逼
                     </p>
                 </div>
+                <div class="alert alert-danger" style="margin-top: 30px">任务发布成功后，任务信息不可修改，如需增加数量，请发布新任务。</div>
                 <div class="button_state">
                     <div class="col-lg-3">
                         <button class="btn btn_download"  ng-click='getScreenShot()'>
@@ -281,13 +284,13 @@
                         </button>
                     </div>
                     <div class="col-lg-3">
-                        <button class="btn btn_save1" ng-click="saveNeed()">保存</button>
+                        <button class="btn btn_save1" ng-click="saveNeed()" ng-hide="bthShow">保存</button>
                     </div>
                     <div class="col-lg-3">
-                        <button class="btn btn_save2">已保存</button>
+                        <button class="btn btn_save2" ng-hide="!bthShow">已保存</button>
                     </div>
                     <div class="col-lg-3">
-                        <button class="btn btn_task" ng-click="releaseTask()" data-target="#releaseTask" data-toggle="modal">发布任务</button>
+                        <button class="btn btn_task" ng-click="releaseTask()" data-toggle="modal">发布任务</button>
                     </div>
 
                 </div>
