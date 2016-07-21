@@ -45,8 +45,8 @@ router.get('/claim/:userObjectId', function(req, res){
             appHisObject.latestReleaseDate = appobject.get('latestReleaseDate');
             appHisObject.sellerName = appobject.get('sellerName');
 
-            appHisObject.totalExcCount = appExcHisObject.get('excCount');
-            appHisObject.surplusCount = appExcHisObject.get('remainCount');
+            appHisObject.totalExcCount = results[i].get('receiveCount');
+            appHisObject.surplusCount = results[i].get('remainCount');
             appHisObject.taskObjectId = results[i].id;
             appHisObject.detailRem = results[i].get('detailRem');
 

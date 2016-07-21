@@ -138,6 +138,12 @@ router.post('/postUsertask/:taskObjectId/:ratePrice/:appId', function(req, res){
         ReceiveTaskObject.set('receiveCount', receive_Count);
         ReceiveTaskObject.set('receivePrice', receive_Price);
         ReceiveTaskObject.set('detailRem', detail_Rem);
+        ReceiveTaskObject.set('remainCount', parseInt(receive_Count));
+        ReceiveTaskObject.set('pending', 0);  // 未提交
+        ReceiveTaskObject.set('submitted', 0); // 待审
+        ReceiveTaskObject.set('rejected', 0);  // 拒绝
+        ReceiveTaskObject.set('accepted', 0);  // 接收
+        ReceiveTaskObject.set('completed', 0);  // 完成
         ReceiveTaskObject.save();
         //更新任务剩余条数
         query = new AV.Query(releaseTaskObject);

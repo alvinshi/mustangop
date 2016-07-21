@@ -43,8 +43,8 @@ router.get('/claim/:excTaskId', function(req, res){
         retObject.version = hisappObject.get('version');
         retObject.excKinds = taskInfo.get('taskType');
 
-        retObject.totalExcCount = taskInfo.get('excCount');
-        retObject.surplusCount = taskInfo.get('remainCount');
+        retObject.totalExcCount = results.get('receiveCount');
+        retObject.surplusCount = results.get('remainCount');
         retObject.taskObjectId = taskInfo.id;
         retObject.userObjectId = Base64.encode(userId);
 
@@ -85,7 +85,6 @@ router.post('/add/:excTaskId', function(req, res){
     var uploadUserName = req.cookies.uploadImgName;
     var uploadName = req.body.uploadName;
     var requirementImgs = req.body.requirementImgs;
-    var totalCount = req.body.totalExcCount;
     if (uploadName != undefined){
         res.cookie('uploadImgName', uploadName);
     }
@@ -94,64 +93,57 @@ router.post('/add/:excTaskId', function(req, res){
     }
 
     var task_query = new AV.Query(receiveTaskObject);
+    task_query.include('taskObject');
     task_query.get(excTaskId).then(function(taskObject){
-            var relation = taskObject.relation('mackTask');
-            var query = relation.query();
-            query.equalTo('uploadName', uploadName);
-            query.find().then(function(results){
-                //销毁以往图片
-                for (var i = 0; i < results.length; i++){
-                    var images = results[i].get('requirementImgs');
-                    var query_file = new AV.Query(File);
-                    query_file.containedIn('url', images);
-                    query_file.find().then(function(result){
-                        for (var e = 0; e < result.length; e++){
-                            result[e].destroy().then(function(){
-                                //remove success
-                            })
-                        }
-                    })
-                }
-                if (results.length > 0){
-                    var newTaskObject = results[0];
-                    newTaskObject.set('requirementImgs', requirementImgs);
-                    newTaskObject.save().then(function(){
-                        // 如果有就更新图片
-                    })
-                }
-                else {
-                    var newTaskObject = new mackTaskInfo();
-                    newTaskObject.set('uploadName', uploadName);
-                    newTaskObject.set('requirementImgs', requirementImgs);
-                    newTaskObject.save().then(function(){
-                        var relation = taskObject.relation('mackTask');
-                        relation.add(newTaskObject);// 建立针对每一个 Todo 的 Relation
-                        taskObject.save().then(function(){
-                            // 保存到云端
-                        });
-
-                        var taskCount = taskObject.get('remainCount');
-                        if (taskCount == undefined){
-                            taskObject.set('remainCount', totalCount);
-                            taskObject.save().then(function(){
-                                //如果没有就set1个
-                            })
-                        }
-                        else {
-                            taskObject.increment('remainCount', -1);
-                            taskObject.save().then(function(){
-                                //如果有就计数+1
-                            })
-                        }
+        var relation = taskObject.relation('mackTask');
+        var query = relation.query();
+        query.equalTo('uploadName', uploadName);
+        query.find().then(function(results){
+            //销毁以往图片
+            for (var i = 0; i < results.length; i++){
+                var images = results[i].get('requirementImgs');
+                var query_file = new AV.Query(File);
+                query_file.containedIn('url', images);
+                query_file.find().then(function(result){
+                    for (var e = 0; e < result.length; e++){
+                        result[e].destroy().then(function(){
+                            //remove success
+                        })
+                    }
+                })
+            }
+            if (results.length > 0){
+                var newTaskObject = results[0];
+                newTaskObject.set('requirementImgs', requirementImgs);
+                newTaskObject.save().then(function(){
+                    // 如果有就更新图片
+                })
+            }
+            else {
+                var newTaskObject = new mackTaskInfo();
+                newTaskObject.set('uploadName', uploadName);
+                newTaskObject.set('requirementImgs', requirementImgs);
+                newTaskObject.save().then(function(){
+                    var relation = taskObject.relation('mackTask');
+                    relation.add(newTaskObject);// 建立针对每一个 Todo 的 Relation
+                    taskObject.save().then(function(){
+                        // 保存到云端
                     });
-                }
-                res.json({'errorId':0, 'errorMsg':'', 'uploadName':uploadName, 'requirementImgs':requirementImgs});
-            })
 
-        },
-        function (err){
-            res.json({'errorMsg':err.message, 'errorId': err.code});
-        })
+                    taskObject.increment('remainCount', -1);
+                    taskObject.increment('submitted', 1);
+                    taskObject.increment('pending', -1);
+                    taskObject.save().then(function(){
+                        //如果有就计数+1
+                    });
+                });
+            }
+            res.json({'errorId':0, 'errorMsg':'', 'uploadName':uploadName, 'requirementImgs':requirementImgs});
+        });
+    },
+    function (err){
+        res.json({'errorMsg':err.message, 'errorId': err.code});
+    })
 });
 
 module.exports = router;
