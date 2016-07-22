@@ -28,7 +28,6 @@ router.get('/taskAudit', function(req, res){
     var query = new AV.Query(releaseTaskObject);
     query.equalTo('userObject', user);
     query.include('appObject');
-    query.limit(5);
     query.descending('createdAt');
     query.find().then(function(results){
         var retApps = new Array();
@@ -130,6 +129,7 @@ router.get('/specTaskCheck/:taskId', function(req, res){
     })
 });
 
+//*************接收逻辑******************************
 router.get('/accept/:entryId', function(req, res) {
     var entryId = req.params.entryId;
     var query = new AV.Query(mackTaskInfo);
@@ -149,8 +149,8 @@ router.get('/accept/:entryId', function(req, res) {
         //results返回的是数组
         var data = results[0];
         //待审-1
-        var submitted = data.get('submitted');
-        data.set('pending', submitted - 1);
+        var preSubmitted = data.get('submitted');
+        data.set('submitted', preSubmitted - 1);
         //接受+1
         var preAccepted = data.get('accepted');
         data.set('accepted', preAccepted + 1);
@@ -164,8 +164,8 @@ router.get('/accept/:entryId', function(req, res) {
         var task = data.get('taskObject');
         //待审-1
         //待审-1
-        submitted = task.get('submitted');
-        task.set('pending', submitted - 1);
+        preSubmitted = task.get('submitted');
+        task.set('submitted', preSubmitted - 1);
         //接受+1
         preAccepted = task.get('accepted');
         task.set('accepted', preAccepted + 1);
@@ -174,6 +174,48 @@ router.get('/accept/:entryId', function(req, res) {
         if (excCount == preAccepted + 1) {
             task.set('completed', 1);
         }
+        task.save();
+    });
+});
+
+//*************拒绝逻辑******************************
+router.post('/reject/:entryId', function(req, res) {
+    var rejectReason = req.body.rejectReason;
+    var entryId = req.params.entryId;
+    var query = new AV.Query(mackTaskInfo);
+    query.get(entryId).then(function(data) {
+        data.set("status", 2);
+        data.set('detail', rejectReason)
+        data.save();
+        console.log('entry' + entryId + "has been updated")
+
+    });
+
+    var entry = AV.Object.createWithoutData('mackTaskInfo', entryId);
+    var secondQuery = new AV.Query('receiveTaskObject');
+    secondQuery.equalTo('mackTask', entry);
+    secondQuery.include('taskObject');
+    secondQuery.find().then(function (results) {
+        //更新领取任务数据库
+        //results返回的是数组
+        var data = results[0];
+        console.log(data.id);
+        //待审-1
+        var preSubmitted = data.get('submitted');
+        data.set('submitted', preSubmitted - 1);
+        //拒绝+1
+        var preRejected = data.get('rejected');
+        data.set('rejected', preRejected + 1);
+        data.save();
+        //更新发布任务数据库
+        var task = data.get('taskObject');
+        //待审-1
+        //待审-1
+        preSubmitted = task.get('submitted');
+        task.set('submitted', preSubmitted - 1);
+        //拒绝+1
+        preRejected = task.get('rejected');
+        task.set('rejected', preRejected + 1);
         task.save();
     });
 });
