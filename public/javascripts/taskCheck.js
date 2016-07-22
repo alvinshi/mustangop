@@ -40,7 +40,9 @@ app.controller('taskCheckCtrl', function($scope, $http, $location) {
     //***************任务审核动作逻辑**********************
 
     //*****************确认接收***************************
-    $scope.accept = function(entryId){
+    $scope.accept = function(entry){
+        var entryId = entry.id;
+        entry.status = 3;
         var url = '/taskCheck/accept/' + entryId;
         console.log(entryId);
         console.log('request sent');
@@ -49,7 +51,9 @@ app.controller('taskCheckCtrl', function($scope, $http, $location) {
     }
 
     //*****************拒绝接收****************************
-    $scope.reject = function(entryId){
+    $scope.reject = function(entry){
+        var entryId = entry.id
+        entry.status = 2;
         var url = '/taskCheck/reject/' + entryId;
         console.log(entryId);
         console.log('request sent');
