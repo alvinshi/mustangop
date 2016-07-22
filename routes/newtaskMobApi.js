@@ -119,7 +119,21 @@ router.post('/add/:excTaskId', function(req, res){
                 newTaskObject.set('requirementImgs', requirementImgs);
                 newTaskObject.save().then(function(){
                     // 如果有就更新图片
-                })
+                });
+
+                releaseObject.increment('submitted', 1); // 待审
+                releaseObject.increment('rejected', -1); // 拒绝
+                releaseObject.save().then(function(){
+                    //如果有就计数+1
+                });
+
+                var releaseid = releaseObject.get('taskObject').id;
+                var todo = AV.Object.createWithoutData('releaseTaskObject', releaseid);
+                todo.increment('submitted', 1);
+                todo.increment('rejected', -1);
+                todo.save().then(function(){
+                    //如果有就计数+1
+                });
             }
             else {
                 var newTaskObject = new mackTaskInfo();

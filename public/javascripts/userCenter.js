@@ -31,12 +31,17 @@ app.controller('userCenterCtrl', function($scope, $http){
     $scope.userName = true;
 
     var userUrl = '/user/userCenter';
-    $http.get(userUrl).success(function(request){
-        $scope.PhoneNumber = request.personAPP;
-        $scope.userNickname = request.userNickname;
-        $scope.userQQ = request.userQQ;
+    $http.get(userUrl).success(function(response){
+        $scope.PhoneNumber = response.personAPP;
+        $scope.userNickname = response.userNickname;
+        $scope.userQQ = response.userQQ;
 
     });
+
+    var url = '/user/balance';
+    $http.get(url).success(function(response){
+        $scope.balance = response.balance;
+    })
 
     $scope.preserve = function(){
         var userUrl = '/user/userCenter';

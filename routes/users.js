@@ -195,8 +195,11 @@ router.post('/forgetSecret', function(req, res, next) {
 router.get('/balance', function(req, res){
   var userId = util.useridInReq(req);
 
-  var user = new AV.User();
-  user.id = userId;
+  var query = new AV.Query(User);
+  query.get(userId).then(function(results){
+    var balance = results.get('remainMoney');
+    res.json({'balance': balance})
+  })
 
 
 });
