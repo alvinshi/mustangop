@@ -155,7 +155,7 @@ router.get('/accept/:entryId', function(req, res) {
         var preAccepted = data.get('accepted');
         data.set('accepted', preAccepted + 1);
         //检查领取的任务是否已经完成
-        var receiveCount = data.get('receiveCount');
+        var receiveCount = parseInt(data.get('receiveCount'));
         if (receiveCount == preAccepted + 1) {
             data.set('completed', 1);
         }
