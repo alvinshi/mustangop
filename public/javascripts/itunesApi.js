@@ -126,9 +126,11 @@ app.controller('itunesSearchControl', function($scope, $http) {
                     var app = $scope.myApps[i];
                     if (app.appleId == appInfo.appleId){
                         flag = 1;
+
                         break;
                     }
                 }
+
 
                 if (flag == 0){
                     console.log('add app to ui');
@@ -139,6 +141,8 @@ app.controller('itunesSearchControl', function($scope, $http) {
             }else {
                 $scope.errorMsg = response.errorMsg;
             }
+            $("#addApp_modal").modal('hide');
+
             //location.href='/app/' + appInfo.appleId;
             //location.href="/myApp";
 
