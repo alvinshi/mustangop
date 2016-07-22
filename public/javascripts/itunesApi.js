@@ -27,24 +27,22 @@ app.controller('itunesSearchControl', function($scope, $http) {
         $scope.numOfApps = $scope.myApps.length;
 
 
-        if ($scope.myApps.length > 0){
+        if ($scope.myApps.length > 0) {
             $scope.selectedApp = $scope.myApps[0];
 
+            //请求每个任务的任务需求,
+            var getneedUrl = '/myapp/getNeed/' + $scope.selectedApp.appleId;
+            $http.get(getneedUrl).success(function (response) {
+                $scope.appNeedInfo = response.appNeedInfo;
+                var myAppElemment = document.getElementsByClassName('thumbnail_wrap')[$scope.selectMyAppIndex];
+                if (myAppElemment != undefined) {
+                    myAppElemment.style.border = '2px solid #3498db';
+                    console.log($scope.myApps);
+                }
+                var unitePrice = document.getElementById("price");
+                unitePrice.value = "30"
+            });
         }
-
-        //请求每个任务的任务需求,
-        var getneedUrl = '/myapp/getNeed/' + $scope.selectedApp.appleId;
-        $http.get(getneedUrl).success(function(response){
-            $scope.appNeedInfo = response.appNeedInfo;
-            var myAppElemment = document.getElementsByClassName('thumbnail_wrap')[$scope.selectMyAppIndex];
-            if (myAppElemment != undefined){
-                myAppElemment.style.border = '2px solid #3498db';
-                console.log($scope.myApps);
-            }
-            var unitePrice=document.getElementById("price");
-            unitePrice.value="30"
-
-        });
     });
 
     $scope.searchApp = function(){
@@ -178,6 +176,8 @@ app.controller('itunesSearchControl', function($scope, $http) {
 
             $scope.appResults = [];
             $scope.numOfApps --;
+
+
         });
     };
 //保存
@@ -201,6 +201,7 @@ app.controller('itunesSearchControl', function($scope, $http) {
         var flag = true;
         $scope.error = Object();
         $scope.error.excCount = false;
+        $scope.error.searchKeyword = false;
 
         //前端检查
         if ($scope.appNeedInfo.excCount == '' || $scope.appNeedInfo.excCount == undefined) {
@@ -208,10 +209,12 @@ app.controller('itunesSearchControl', function($scope, $http) {
             $scope.error.excCount = true;
             console.log($scope.error.excCount);
             console.log("failed");
+            $("#error").modal("show");
         }
         if($scope.appNeedInfo.searchKeyword == '' || $scope.appNeedInfo.searchKeyword == undefined) {
             flag = false;
             $scope.error.searchKeyword = true;
+            $("#error").modal("show");
 
         }
 
@@ -231,6 +234,7 @@ app.controller('itunesSearchControl', function($scope, $http) {
             $http.post(needUrl, needInfo).success(function(response){
                 $scope.errorId = response.errorId;
                 $scope.errorMsg = response.errorMsg;
+                $("#releaseTask").modal("show");
             })
         }
     };
