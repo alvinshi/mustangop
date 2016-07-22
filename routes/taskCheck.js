@@ -33,7 +33,7 @@ router.get('/taskAudit', function(req, res){
     var query = new AV.Query(releaseTaskObject);
     query.equalTo('userObject', user);
     query.include('appObject');
-    query.descending('createdAt');
+    query.ascending('createdAt');
     query.find().then(function(results){
         var retApps = new Array();
         for (var i = 0; i < results.length; i++){
@@ -83,7 +83,6 @@ router.get('/specTaskCheck/:taskId', function(req, res){
     query.ascending('createdAt');
     query.find().then(function(results){
         var rtnResults = new Array();
-
         var promise = 0;
         var counter = 0;
 
@@ -130,13 +129,16 @@ router.get('/specTaskCheck/:taskId', function(req, res){
                         if (counter == promise){
                             //排序;
                             rtnResults.sort(function(a, b){return a.createdAt - b.createdAt});
-                            console.log("sorted");
                             res.json({'rtnResults':rtnResults});
                         }
                     })
                 })(submission)
 
             }
+        }
+        //没有上传,返回空值
+        if (promise == 0){
+            res.json({'rtnResults': []});
         }
     })
 });
