@@ -3,7 +3,7 @@ var navIndex =3;
 
 app.controller('taskCheckCtrl', function($scope, $http, $location) {
     $scope.noApp = false;
-
+    $scope.myObj = Object();
     //**************得到左侧控制器条目*******************
     var taskUrl = '/taskCheck/taskAudit';
     $http.get(taskUrl).success(function(response){
@@ -42,9 +42,20 @@ app.controller('taskCheckCtrl', function($scope, $http, $location) {
     //*****************确认接收***************************
     $scope.accept = function(entryId){
         var url = '/taskCheck/accept/' + entryId;
-        console.log(entryId)
+        console.log(entryId);
         console.log('request sent');
-        $http.get(url).success(function(response){
+        $http.post(url).success(function(response){
+        })
+    }
+
+    //*****************拒绝接收****************************
+    $scope.reject = function(entryId){
+        var url = '/taskCheck/reject/' + entryId;
+        console.log(entryId);
+        console.log('request sent');
+        console.log($scope.myObj.rejectReason);
+        var reject_reason = {'rejectReason': $scope.myObj.rejectReason};
+        $http.post(url, reject_reason).success(function(response){
         })
     }
 });

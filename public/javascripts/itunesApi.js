@@ -178,6 +178,8 @@ app.controller('itunesSearchControl', function($scope, $http) {
 
             $scope.appResults = [];
             $scope.numOfApps --;
+            
+
         });
     };
 //保存

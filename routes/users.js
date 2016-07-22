@@ -191,4 +191,17 @@ router.post('/forgetSecret', function(req, res, next) {
   });
 });
 
+// Ybi
+router.get('/balance', function(req, res){
+  var userId = util.useridInReq(req);
+
+  var query = new AV.Query(User);
+  query.get(userId).then(function(results){
+    var balance = results.get('remainMoney');
+    res.json({'balance': balance})
+  })
+
+
+});
+
 module.exports = router;

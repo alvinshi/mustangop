@@ -2,6 +2,7 @@
  * Created by cailong on 16/7/21.
  */
 'use strict';
+
 var router = require('express').Router();
 var AV = require('leanengine');
 var util = require('./util');
@@ -17,7 +18,7 @@ var receiveTaskObject = AV.Object.extend('receiveTaskObject'); // 领取任务�
 var File = AV.Object.extend('_File');
 
 router.get('/:userId', function(req, res) {
-    res.render('newtaskMob')
+    res.render('newtaskMob');
 });
 
 // 内部交换
@@ -102,6 +103,7 @@ router.post('/add/:excTaskId', function(req, res){
         query.find().then(function(results){
             //销毁以往图片
             for (var i = 0; i < results.length; i++){
+                var status = results[i].get('status');
                 var images = results[i].get('requirementImgs');
                 var query_file = new AV.Query(File);
                 query_file.containedIn('url', images);
@@ -115,10 +117,36 @@ router.post('/add/:excTaskId', function(req, res){
             }
             if (results.length > 0){
                 var newTaskObject = results[0];
-                newTaskObject.set('requirementImgs', requirementImgs);
-                newTaskObject.save().then(function(){
-                    // 如果有就更新图片
-                })
+                // 判断任务状态1是待审 2是拒绝 3是接收
+                if (status == 1){
+                    newTaskObject.set('requirementImgs', requirementImgs);
+                    newTaskObject.save().then(function(){
+                        // 如果有就更新图片
+                    });
+                }else if(status == 2){
+                    newTaskObject.set('requirementImgs', requirementImgs);
+                    newTaskObject.set('status', 1);
+                    newTaskObject.save().then(function(){
+                        // 如果有就更新图片
+                    });
+
+                    releaseObject.increment('submitted', 1); // 待审
+                    releaseObject.increment('rejected', -1); // 拒绝
+                    releaseObject.save().then(function(){
+                        //如果有就计数+1
+                    });
+
+                    var releaseid = releaseObject.get('taskObject').id;
+                    var todo = AV.Object.createWithoutData('releaseTaskObject', releaseid);
+                    todo.increment('submitted', 1);
+                    todo.increment('rejected', -1);
+                    todo.save().then(function(){
+                        //如果有就计数+1
+                    });
+                }else {
+                    console.log({'error':''})
+                }
+
             }
             else {
                 var newTaskObject = new mackTaskInfo();
