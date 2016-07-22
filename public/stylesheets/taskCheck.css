@@ -107,6 +107,15 @@
     padding-top: 11px;
 }
 
+.selected{
+    margin: 0;
+    border: 0;
+    background: white;
+    height: 50px;
+    padding-left: 36px;
+    padding-top: 11px;
+}
+
 .icon1 > img{
     width: 28px;
     border: 1px solid #e0e0e0;

@@ -19,6 +19,11 @@ router.get('/', function(req, res) {
     res.render('taskCheck');
 });
 
+//*************quick sort**********************
+
+
+
+
 //*************页面左侧控制器条目*************************
 router.get('/taskAudit', function(req, res){
     var userId = util.useridInReq(req);
@@ -85,14 +90,16 @@ router.get('/specTaskCheck/:taskId', function(req, res){
         for (var i = 0; i < results.length; i++) {
             var task = results[i].get('taskObject');
             if (taskId == task.id){
-                promise++;
+                promise ++;
                 var submission = Object();
                 var user = results[i].get('userObject')
                 //领取任务基本信息
                 submission.id = results[i].id;
                 submission.receiveCount = results[i].get('receiveCount');
                 submission.receivePrice = results[i].get('receivePrice');
+                submission.createdAt = results[i].createdAt;
                 submission.username = user.get('username');
+                submission.userId = user.id;
 
                 //领取任务实时信息
                 submission.pending = results[i].get('pending');
@@ -101,10 +108,12 @@ router.get('/specTaskCheck/:taskId', function(req, res){
                 submission.accepted = results[i].get('accepted');
                 submission.completed = results[i].get('completed');
 
+                //获取各个上传信息
                 (function(tempSubmission){
                     var todoFolder = AV.Object.createWithoutData('receiveTaskObject', tempSubmission.id);
                     var relation = todoFolder.relation('mackTask');
                     var query = relation.query();
+                    query.descending('createdAt');
                     query.find().then(function (data) {
                         tempSubmission.entries = new Array();
                         for (var j = 0; j < data.length; j++) {
@@ -119,6 +128,9 @@ router.get('/specTaskCheck/:taskId', function(req, res){
                         rtnResults.push(tempSubmission);
                         counter++;
                         if (counter == promise){
+                            //排序;
+                            rtnResults.sort(function(a, b){return a.createdAt - b.createdAt});
+                            console.log("sorted");
                             res.json({'rtnResults':rtnResults});
                         }
                     })
@@ -178,6 +190,7 @@ router.post('/accept/:entryId', function(req, res) {
         }
         task.save();
     });
+    res.json({'msg':'accepted'});
 });
 
 //*************拒绝逻辑******************************
@@ -219,6 +232,7 @@ router.post('/reject/:entryId', function(req, res) {
         task.set('rejected', preRejected + 1);
         task.save();
     });
+    res.json({'msg':'rejected'});
 });
 
 module.exports = router;
