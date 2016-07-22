@@ -65,17 +65,30 @@
     background-color: white;
 
 }
+.receive_btn .reject2{
+    margin-top: 30px;
+    margin-bottom: 30px;
+    margin-right: 24px;
+    color: white;
+    width: 100px;
+    border: 1px solid  #CC2222;
+    border-radius: 4px;
+    background-color: #CC2222;
+
+}
+
 .receive_btn .receive2{
     margin-top: 30px;
     margin-bottom: 30px;
     margin-right: 24px;
     color: white;
     width: 100px;
-    border: 1px solid  #dddddd;
+    border: 1px solid  #53d435;
     border-radius: 4px;
-    background-color: #dddddd;
+    background-color: #53d435;
 
 }
+
 .btn_sure{
     width: 80px;
     background-color: #3498db;
@@ -129,4 +142,18 @@ h3{
 
 .imported{
     color: #3498db;
+}
+
+.checkDetail{
+    width: 100px;
+    height: 30px;
+    background-color: transparent;
+    border: 1px solid #3498db;
+    color: #3498db;
+    font-size: 16px;
+    padding:0;
+}
+
+.checkDetail:hover{
+    border: 1px solid black;
 }
