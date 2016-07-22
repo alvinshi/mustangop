@@ -2,6 +2,7 @@
  * Created by cailong on 16/7/21.
  */
 'use strict';
+
 var router = require('express').Router();
 var AV = require('leanengine');
 var util = require('./util');
@@ -17,7 +18,7 @@ var receiveTaskObject = AV.Object.extend('receiveTaskObject'); // 领取任务�
 var File = AV.Object.extend('_File');
 
 router.get('/:userId', function(req, res) {
-    res.render('newtaskMob')
+    res.render('newtaskMob');
 });
 
 // 内部交换
