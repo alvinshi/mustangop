@@ -176,6 +176,8 @@ app.controller('itunesSearchControl', function($scope, $http) {
 
             $scope.appResults = [];
             $scope.numOfApps --;
+            
+
         });
     };
 //保存
@@ -199,6 +201,7 @@ app.controller('itunesSearchControl', function($scope, $http) {
         var flag = true;
         $scope.error = Object();
         $scope.error.excCount = false;
+        $scope.error.searchKeyword = false;
 
         //前端检查
         if ($scope.appNeedInfo.excCount == '' || $scope.appNeedInfo.excCount == undefined) {
@@ -206,10 +209,12 @@ app.controller('itunesSearchControl', function($scope, $http) {
             $scope.error.excCount = true;
             console.log($scope.error.excCount);
             console.log("failed");
+            $("#error").modal("show");
         }
         if($scope.appNeedInfo.searchKeyword == '' || $scope.appNeedInfo.searchKeyword == undefined) {
             flag = false;
             $scope.error.searchKeyword = true;
+            $("#error").modal("show");
 
         }
 
@@ -229,6 +234,7 @@ app.controller('itunesSearchControl', function($scope, $http) {
             $http.post(needUrl, needInfo).success(function(response){
                 $scope.errorId = response.errorId;
                 $scope.errorMsg = response.errorMsg;
+                $("#releaseTask").modal("show");
             })
         }
     };
