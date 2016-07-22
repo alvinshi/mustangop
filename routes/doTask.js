@@ -8,7 +8,6 @@ var util = require('./util');
 var https = require('https');
 
 var User = AV.Object.extend('_User');
-var IOSAppSql = AV.Object.extend('IOSAppInfo');
 var IOSAppBinder = AV.Object.extend('IOSAppBinder');
 var IOSAppExcLogger = AV.Object.extend('IOSAppExcLogger');
 var releaseTaskObject = AV.Object.extend('releaseTaskObject');
@@ -155,7 +154,7 @@ router.post('/postUsertask/:taskObjectId/:ratePrice/:appId', function(req, res){
             var prevRemainCount = parseInt(data.get('remainCount'));
             data.set('remainCount', prevRemainCount - receive_Count + '');
             var prePending = data.get('pending');
-            data.set('pending', prePending + receive_Count);
+            data.set('pending', parseInt(prePending + receive_Count));
             data.save();
             console.log('taskObject has been updated')
         });
