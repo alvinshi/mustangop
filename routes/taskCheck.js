@@ -130,8 +130,10 @@ router.get('/specTaskCheck/:taskId', function(req, res){
 });
 
 //*************接收逻辑******************************
-router.get('/accept/:entryId', function(req, res) {
+router.post('/accept/:entryId', function(req, res) {
+    console.log("tried");
     var entryId = req.params.entryId;
+    console.log("entryId");
     var query = new AV.Query(mackTaskInfo);
     query.get(entryId).then(function(data) {
         data.set("status", 3);
@@ -199,7 +201,6 @@ router.post('/reject/:entryId', function(req, res) {
         //更新领取任务数据库
         //results返回的是数组
         var data = results[0];
-        console.log(data.id);
         //待审-1
         var preSubmitted = data.get('submitted');
         data.set('submitted', preSubmitted - 1);

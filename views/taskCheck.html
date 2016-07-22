@@ -232,6 +232,7 @@
                                         <img ng-repeat="img in entry.imgs" src="{{img}}" alt="">
                                         <div class=" text-right receive_btn">
                                             <button class="btn reject "data-target="#rejectreason" data-toggle="modal">拒绝</button>
+                                            <button class="btn receive" ng-click="accept(entry.id)">确认接受</button>
                                             <div class="modal fade" id="rejectreason">
                                                 <div class="modal-dialog">
                                                     <div class="modal-content">
@@ -251,7 +252,6 @@
                                             </div><!--拒绝弹窗-->
 
 
-                                            <button class="btn receive" ng-click="accept(entry.id)">确认接受</button>
                                             <button class="btn receive2">已接受</button>
                                         </div>
                                     </div>
