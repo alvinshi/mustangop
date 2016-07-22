@@ -51,7 +51,7 @@ router.get('/angular', function(req, res, next) {
     query.find({
         success: function(results) {
             if (results.length == 0){
-                res.json({'myApps': undefined});
+                res.json({'myApps': []});
             }
 
             //has blinded

@@ -27,24 +27,22 @@ app.controller('itunesSearchControl', function($scope, $http) {
         $scope.numOfApps = $scope.myApps.length;
 
 
-        if ($scope.myApps.length > 0){
+        if ($scope.myApps.length > 0) {
             $scope.selectedApp = $scope.myApps[0];
 
+            //请求每个任务的任务需求,
+            var getneedUrl = '/myapp/getNeed/' + $scope.selectedApp.appleId;
+            $http.get(getneedUrl).success(function (response) {
+                $scope.appNeedInfo = response.appNeedInfo;
+                var myAppElemment = document.getElementsByClassName('thumbnail_wrap')[$scope.selectMyAppIndex];
+                if (myAppElemment != undefined) {
+                    myAppElemment.style.border = '2px solid #3498db';
+                    console.log($scope.myApps);
+                }
+                var unitePrice = document.getElementById("price");
+                unitePrice.value = "30"
+            });
         }
-
-        //请求每个任务的任务需求,
-        var getneedUrl = '/myapp/getNeed/' + $scope.selectedApp.appleId;
-        $http.get(getneedUrl).success(function(response){
-            $scope.appNeedInfo = response.appNeedInfo;
-            var myAppElemment = document.getElementsByClassName('thumbnail_wrap')[$scope.selectMyAppIndex];
-            if (myAppElemment != undefined){
-                myAppElemment.style.border = '2px solid #3498db';
-                console.log($scope.myApps);
-            }
-            var unitePrice=document.getElementById("price");
-            unitePrice.value="30"
-
-        });
     });
 
     $scope.searchApp = function(){
