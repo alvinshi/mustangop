@@ -31,7 +31,7 @@ var doInnerTask = require('./routes/doInnerTask');
 var doOuterTask = require('./routes/doOuterTask');
 var alipay = require('./routes/pay');
 var myClaim = require('./routes/myClaimApi');
-var newtaskMobile = require('./routes/newTaskMobApi');
+var newtaskMobile = require('./routes/newtaskMobApi');
 var interiorExcDetail = require('./routes/interiorExcDetailApi');
 
 
