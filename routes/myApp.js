@@ -14,6 +14,7 @@ var IOSAppBinder = AV.Object.extend('IOSAppBinder');
 var IOSAppExcLogger = AV.Object.extend('IOSAppExcLogger');
 var taskDemandObject = AV.Object.extend('taskDemandObject');
 var releaseTaskObject = AV.Object.extend('releaseTaskObject');
+var accountJournal = AV.Object.extend('accountJournal'); // 记录账户变动明细表
 
 // 查询 我的App
 router.get('/', function(req, res, next) {
@@ -924,6 +925,17 @@ router.post('/task/:appleId', function(req, res){
                         //
                     })
 
+                });
+
+                var taskObjectId = AV.Object.createWithoutData('releaseTaskObject', releasetaskObject.id);
+
+                var accountJournal = new accountJournal();
+                accountJournal.set('myUserObject', user);
+                accountJournal.set('status', 1); // 状态 1是发布
+                accountJournal.set('taskObject', taskObjectId);
+                accountJournal.set('spendingMoney', moratoriumMon);
+                accountJournal.save().then(function(){
+                    //
                 })
 
             }, function(err) {
@@ -966,6 +978,17 @@ router.post('/task/:appleId', function(req, res){
                         //
                     })
 
+                });
+
+                var taskObjectId = AV.Object.createWithoutData('releaseTaskObject', releaseObject.id);
+
+                var accountjournal = new accountJournal();
+                accountjournal.set('myUserObject', user);
+                accountjournal.set('status', 1); // 状态 1是发布
+                accountjournal.set('taskObject', taskObjectId);
+                accountjournal.set('spendingMoney', moratorium);
+                accountjournal.save().then(function(){
+                    //
                 })
 
             }, function(err) {

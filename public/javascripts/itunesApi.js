@@ -40,7 +40,9 @@ app.controller('itunesSearchControl', function($scope, $http) {
                     console.log($scope.myApps);
                 }
                 var unitePrice = document.getElementById("price");
-                unitePrice.value = "30"
+                unitePrice.value = "30";
+                var comment=document.getElementById("comment");
+                comment.checked=true;
             });
         }
     });
@@ -184,7 +186,7 @@ app.controller('itunesSearchControl', function($scope, $http) {
 
         });
     };
-//保存
+    //保存
     $scope.saveNeed = function(){
         var needUrl = '/myapp/taskneed/' + $scope.selectedApp.appleId;
         var needInfo = {'taskType':$scope.appNeedInfo.taskType, 'excCount':$scope.appNeedInfo.excCount, 'excUnitPrice':$scope.appNeedInfo.excUnitPrice, 'screenshotCount':$scope.appNeedInfo.screenshotCount,
@@ -195,7 +197,6 @@ app.controller('itunesSearchControl', function($scope, $http) {
             $scope.errorMsg = response.errorMsg;
             $scope.bthShow=1;
             //location.href="/myapp"
-
         })
     };
     //发布任务
@@ -221,7 +222,6 @@ app.controller('itunesSearchControl', function($scope, $http) {
             $("#error").modal("show");
 
         }
-
 
 
         //通过前端检查,请求服务器
@@ -308,7 +308,9 @@ app.controller('itunesSearchControl', function($scope, $http) {
                 console.log($scope.myApps);
             }
             var unitePrice=document.getElementById("price");
-            unitePrice.value="30"
+            unitePrice.value="30";
+            var comment=document.getElementById("comment");
+            comment.checked=true;
 
         });
     };

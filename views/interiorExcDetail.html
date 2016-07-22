@@ -145,7 +145,7 @@
     <div class=" row submission-info " ng-repeat="task in taskInfo" >
         <div class="col-xs-12">
             <div class="text-right">提交人: {{task.uploadName}}</div>
-            <div class="">详情:{{task.detail}}</div>
+            <div class="">拒绝理由:{{task.detail}}</div>
             <span class="submission-screenshot" ng-repeat="taskImg in task.taskImages">
                 <img ng-src="{{taskImg}}">
             </span>

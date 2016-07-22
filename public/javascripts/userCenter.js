@@ -35,13 +35,9 @@ app.controller('userCenterCtrl', function($scope, $http){
         $scope.PhoneNumber = response.personAPP;
         $scope.userNickname = response.userNickname;
         $scope.userQQ = response.userQQ;
+        $scope.balance = response.balance;
 
     });
-
-    var url = '/user/balance';
-    $http.get(url).success(function(response){
-        $scope.balance = response.balance;
-    })
 
     $scope.preserve = function(){
         var userUrl = '/user/userCenter';

@@ -51,7 +51,7 @@ router.get('/claim/:userObjectId', function(req, res){
             appHisObject.detailRem = results[i].get('detailRem');
 
             appHisObject.excKinds = appExcHisObject.get('taskType');
-
+            appHisObject.rejected = appExcHisObject.get('rejected');
             retApps.push(appHisObject);
 
         }

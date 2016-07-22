@@ -68,13 +68,14 @@ router.get('/userCenter',function(req, res, next){
   var userQQ = req.body.userQQ;
 
   var query = new AV.Query(User);
-  query.get(userId).then(function(relstu){
-    var PhoneNumber = relstu.get('mobilePhoneNumber');
-    var userNickname = relstu.get('userNickname');
-    var userQQ = relstu.get('userQQ');
+  query.get(userId).then(function(results){
+    var PhoneNumber = results.get('mobilePhoneNumber');
+    var userNickname = results.get('userNickname');
+    var userQQ = results.get('userQQ');
+    var balance = results.get('remainMoney');
 
 
-    res.json({'personAPP':PhoneNumber, 'userNickname':userNickname, 'userQQ':userQQ});
+    res.json({'personAPP':PhoneNumber, 'userNickname':userNickname, 'userQQ':userQQ, 'balance': balance});
   }), function(error){
     //失败
     res.json({'errorId':error.code, 'errorMsg':error.message});
@@ -189,19 +190,6 @@ router.post('/forgetSecret', function(req, res, next) {
       console.log('Error: ' + error.code + ' ' + error.message);
     }
   });
-});
-
-// Ybi
-router.get('/balance', function(req, res){
-  var userId = util.useridInReq(req);
-
-  var query = new AV.Query(User);
-  query.get(userId).then(function(results){
-    var balance = results.get('remainMoney');
-    res.json({'balance': balance})
-  })
-
-
 });
 
 module.exports = router;
