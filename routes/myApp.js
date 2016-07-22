@@ -1090,7 +1090,7 @@ router.post('/verify', function(req, res){
         var usermoney = results.get('remainMoney');
 
         if (usermoney > postmoney){
-            //res.json({'Error':''})
+            res.json({'Error':''})
         }else {
             res.json({'Error':'Y币余额不足,请修改任务数量或补充Y币'})
         }
