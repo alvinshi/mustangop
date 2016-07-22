@@ -143,7 +143,7 @@ router.post('/postUsertask/:taskObjectId/:ratePrice/:appId', function(req, res){
         ReceiveTaskObject.set('receivePrice', receive_Price);
         ReceiveTaskObject.set('detailRem', detail_Rem);
         ReceiveTaskObject.set('remainCount', parseInt(receive_Count));
-        ReceiveTaskObject.set('pending', 0);  // 未提交
+        ReceiveTaskObject.set('pending', receive_Count);  // 未提交
         ReceiveTaskObject.set('submitted', 0); // 待审
         ReceiveTaskObject.set('rejected', 0);  // 拒绝
         ReceiveTaskObject.set('accepted', 0);  // 接收
@@ -154,8 +154,10 @@ router.post('/postUsertask/:taskObjectId/:ratePrice/:appId', function(req, res){
         query.get(taskObjectId).then(function (data) {
             var prevRemainCount = parseInt(data.get('remainCount'));
             data.set('remainCount', prevRemainCount - receive_Count + '');
+            var prePending = data.get('pending');
+            data.set('pending', prePending + receive_Count);
             data.save();
-            console.log('remainCount has been updated')
+            console.log('taskObject has been updated')
         });
     };
     res.json({'succeeded': flag, 'errorMsg': errorMsg});
