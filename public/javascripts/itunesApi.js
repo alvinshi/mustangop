@@ -11,7 +11,6 @@ var navIndex = 1;
 app.controller('itunesSearchControl', function($scope, $http) {
 
     //$scope.isError = 0;
-
     var appsUrl = 'myapp/angular';
     $scope.selectMyAppIndex=0;
     $scope.isLoadingMyApp = true;
@@ -138,11 +137,13 @@ app.controller('itunesSearchControl', function($scope, $http) {
                     console.log('add app to ui');
                     //第一个不是最后一个
                     $scope.myApps.push(response.newApp);
+
                 }
                 $scope.errorMsg = '';
             }else {
                 $scope.errorMsg = response.errorMsg;
             }
+            $scope.searchKey='';
             $("#addApp_modal").modal('hide');
 
             //location.href='/app/' + appInfo.appleId;
@@ -150,6 +151,7 @@ app.controller('itunesSearchControl', function($scope, $http) {
 
             $scope.appResults = [];
             $scope.numOfApps ++;
+
         });
     };
 
@@ -339,5 +341,5 @@ app.controller('itunesSearchControl', function($scope, $http) {
             proxy: $scope.selectedApp.artworkUrl100
         });
     };
-});
 
+});
