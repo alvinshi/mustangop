@@ -166,7 +166,7 @@ router.post('/postUsertask/:taskObjectId/:ratePrice/:appId', function(req, res){
     query_account.equalTo('taskObject', task);
     query_account.find().then(function(accountObject){
         for (var e = 0; e < accountObject.length; e++){
-            for (var a = 0; a < receive_Count; a++){
+            for (var a = 0; a < parseInt(receive_Count); a++){
                 accountObject[a].set('incomeYCoinUser', user);  //收入金额的用户
                 accountObject[a].set('incomeYCoin', parseInt(req.params.ratePrice)); // 此次交易得到金额
                 accountObject[a].set('incomeYCoinStatus', 'prepare_income'); // 领取任务的时候为准备收益;
