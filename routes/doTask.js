@@ -53,7 +53,7 @@ router.get('/taskHall', function(req, res){
             appObject.appObjectId = hisAppObject.id
             var trackName = hisAppObject.get('trackName');
             if (trackName != undefined){
-                appObject.trackName = trackName.substring(0, 20);
+                appObject.trackName = trackName.substring(0, 18);
             }
             appObject.artworkUrl100 = hisAppObject.get('artworkUrl100');
             appObject.appleId = hisAppObject.get('appleId');
