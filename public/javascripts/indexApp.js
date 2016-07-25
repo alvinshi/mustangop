@@ -9,6 +9,13 @@ app.directive("thNav",function(){
         //replace: true
     };
 });
+app.directive("thFooter",function(){
+    return {
+        restrict: 'E',
+        templateUrl: '/html/footer.html'
+        //replace: true
+    };
+});
 
 app.controller('indexAppCtrl', function($scope, $http, $location){
 

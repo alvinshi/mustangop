@@ -63,6 +63,7 @@ app.controller('myClaimControl', function($scope, $http, $location){
                 $scope.errorId = response.errorId;
                 $scope.errorMsg = response.errorMsg;
 
+
             }
         )
 
