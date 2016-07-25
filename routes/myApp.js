@@ -927,16 +927,18 @@ router.post('/task/:appleId', function(req, res){
 
                 });
 
-                //var taskObjectId = AV.Object.createWithoutData('releaseTaskObject', releasetaskObject.id);
-                //
-                //var accountJournal = new accountJournal();
-                //accountJournal.set('PayYCoinUser', user);  //支出金额的用户
-                //accountJournal.set('PayYCoin', ); // 此次交易支付金额
-                //accountJournal.set('taskObject', taskObjectId);
-                //accountJournal.set('spendingMoney', moratoriumMon);
-                //accountJournal.save().then(function(){
-                //    //
-                //})
+
+                var taskObjectId = AV.Object.createWithoutData('releaseTaskObject', releasetaskObject.id);
+
+                var accountJournal = new accountJournal();
+                accountJournal.set('PayYCoinUser', user);  //支出金额的用户
+                accountJournal.set('PayYCoin', excUnitPrice); // 此次交易支付金额
+                accountJournal.set('taskObject', taskObjectId);
+                accountJournal.set('payYCoinStatus', 'prepare_pay'); // 发布任务的时候为准备支付;
+                accountJournal.set('payYCoinDes', '发布任务');
+                accountJournal.save().then(function(){
+                    //
+                })
 
             }, function(err) {
                 // 失败了.
@@ -980,16 +982,17 @@ router.post('/task/:appleId', function(req, res){
 
                 });
 
-                //var taskObjectId = AV.Object.createWithoutData('releaseTaskObject', releaseObject.id);
-                //
-                //var accountjournal = new accountJournal();
-                //accountjournal.set('myUserObject', user);
-                //accountjournal.set('status', 1); // 状态 1是发布
-                //accountjournal.set('taskObject', taskObjectId);
-                //accountjournal.set('spendingMoney', moratorium);
-                //accountjournal.save().then(function(){
-                //    //
-                //})
+                var taskObjectId = AV.Object.createWithoutData('releaseTaskObject', releaseObject.id);
+
+                var accountjournal = new accountJournal();
+                accountjournal.set('PayYCoinUser', user);  //支出金额的用户
+                accountjournal.set('PayYCoin', excUnitPrice); // 此次交易支付金额
+                accountjournal.set('taskObject', taskObjectId);
+                accountjournal.set('payYCoinStatus', 'prepare_pay'); // 发布任务的时候为准备支付;
+                accountjournal.set('payYCoinDes', '发布任务');
+                accountjournal.save().then(function(){
+                    //
+                })
 
             }, function(err) {
                 // 失败了.
