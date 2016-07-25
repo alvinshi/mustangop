@@ -15,6 +15,7 @@ var IOSAppExcLogger = AV.Object.extend('IOSAppExcLogger');
 var taskDemandObject = AV.Object.extend('taskDemandObject');
 var releaseTaskObject = AV.Object.extend('releaseTaskObject');
 var accountJournal = AV.Object.extend('accountJournal'); // 记录账户变动明细表
+var messageLogger = AV.Object.extend('messageLogger');
 
 // 查询 我的App
 router.get('/', function(req, res, next) {
@@ -880,6 +881,25 @@ router.post('/task/:appleId', function(req, res){
     var app = AV.Object.createWithoutData('IOSAppInfo', appObjectid);
 
     var rateunitPrice = excUnitPrice * myRate;
+
+    //生成发布信息
+    var queryForMsg = new AV.Query('IOSAppInfo');
+    queryForMsg.get(appObjectid).then(function(data){
+        var trackName = data.get('trackName');
+        console.log(trackName);
+        var message = new messageLogger();
+        var receiver = new AV.User();
+        receiver.id = userId;
+        message.set("senderObjectId", receiver);
+        message.set('receiverObjectId', receiver);
+        message.set('category', 'Y币');
+        message.set('type', '发布');
+        message.set('thirdPara', rateunitPrice * excCount);
+        message.set('firstPara', trackName);
+        message.save();
+    })
+
+
 
     var query = new AV.Query(releaseTaskObject);
     query.equalTo('userObject', user);

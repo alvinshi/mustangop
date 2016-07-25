@@ -13,6 +13,8 @@ var releaseTaskObject = AV.Object.extend('releaseTaskObject');
 var receiveTaskObject = AV.Object.extend('receiveTaskObject');
 var mackTaskInfo = AV.Object.extend('mackTaskInfo');
 var messageLogger = AV.Object.extend('messageLogger');
+var accountJournal = AV.Object.extend('accountJournal'); // 记录账户变动明细表
+var User = AV.Object.extend('_User');
 
 var Base64 = require('../public/javascripts/vendor/base64').Base64;
 
@@ -192,6 +194,39 @@ var updateReceiveTaskDatabase = function(entryId, uploaderName){
         var senderId = task.get('userObject').id;
         var rateUnitPrice = task.get('rateUnitPrice');
 
+        // 接收任务后 把钱打给用户记录流水
+        var query = new AV.Query(accountJournal);
+        query.equalTo('incomeYCoinUser', userObject);
+        query.equalTo('taskObject', task);
+        query.find().then(function(results){
+            for (var i = 0; i < results.length; i++){
+                var payYB = results[i].get('payYCoin'); // 支付的YB
+                var incomeYB = results[i].get('incomeYCoin'); // 得到的YB
+                var systemYB = payYB - incomeYB;  // 系统得到的
+                results[i].set('payYCoinStatus', 'payed');
+                results[i].set('incomeYCoinStatus', 'incomed');
+                results[i].set('systemYCoin', systemYB);
+                results[i].save().then(function(){
+                    //
+                })
+            }
+
+            // 接收任务后 把钱打给领取任务的用户
+            var query_user = new AV.Query(User);
+            query_user.get(userObject.id).then(function(userInfo){
+                var remainYB = userInfo.get('remainMoney');
+                userInfo.set('remainMoney', remainYB + incomeYB);
+                userInfo.save();
+            });
+
+            // 接收任务后 冻结的钱减掉
+            var query_releaseUser = new AV.Query(User);
+            query_releaseUser.get(senderId).then(function(userIn){
+                var freezingYB = userIn.get('freezingMoney');
+                userIn.set('freezingMoney', freezingYB - payYB);
+                userIn.save();
+            });
+        });
         acceptMessage(userId, senderId, trackName, uploaderName, rateUnitPrice);
     })
 };
