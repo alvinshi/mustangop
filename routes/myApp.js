@@ -931,13 +931,14 @@ router.post('/task/:appleId', function(req, res){
                 for (var e = 0; e < excCount; e++){
                     var taskObjectId = AV.Object.createWithoutData('releaseTaskObject', releasetaskObject.id);
 
-                    var accountJournal = new accountJournal();
-                    accountJournal.set('PayYCoinUser', user);  //支出金额的用户
-                    accountJournal.set('PayYCoin', excUnitPrice); // 此次交易支付金额
-                    accountJournal.set('taskObject', taskObjectId);
-                    accountJournal.set('payYCoinStatus', 'prepare_pay'); // 发布任务的时候为准备支付;
-                    accountJournal.set('payYCoinDes', '发布任务');
-                    accountJournal.save().then(function(){
+                    //var accountJournal = AV.Object.extend('accountJournal');
+                    var accountJour = new accountJournal();
+                    accountJour.set('PayYCoinUser', user);  //支出金额的用户
+                    accountJour.set('PayYCoin', excUnitPrice); // 此次交易支付金额
+                    accountJour.set('taskObject', taskObjectId);
+                    accountJour.set('payYCoinStatus', 'prepare_pay'); // 发布任务的时候为准备支付;
+                    accountJour.set('payYCoinDes', '发布任务');
+                    accountJour.save().then(function(){
                         //
                     })
                 }
