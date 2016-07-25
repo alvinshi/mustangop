@@ -88,7 +88,7 @@
             在任务需求编辑中，你可以非常详细的记录换评换量需求，且只需填写一次，之后只需每天修改关键信息即可
         </div>
 
-        <div id="need" >
+        <div id="need"">
             <div>
                 <h3 class="mytitle">第二步:填写任务信息</h3>
                 <form class="form-horizontal">
@@ -99,11 +99,11 @@
 
 
                                 <input type="radio" name="radio" id="comment"
-                                       ng-model="appNeedInfo.taskType"  value="评论" ng-click="setValue1()"> 评论
+                                       ng-model="appNeedInfo.taskType"  value="评论" ng-click="setValue1()" ng-change="saveStatusChange()"> 评论
 
                             </label>
                             <label class="radio-inline">
-                                <input type="radio" name="radio" ng-model="appNeedInfo.taskType" value="下载" ng-click="setValue2()"> 下载
+                                <input type="radio" name="radio" ng-model="appNeedInfo.taskType" value="下载" ng-click="setValue2()"  ng-change="saveStatusChange()"> 下载
                             </label>
                         </div>
                     </div>
@@ -120,7 +120,7 @@
                     <div class="form-group">
                         <label  class="col-lg-2 control-label" > 任务数量:</label>
                         <div class="col-lg-1">
-                            <input type="text" class="form-control" neme="quantity" ng-change="calcuQuantity()" ng-model="appNeedInfo.excCount" required>
+                            <input type="text" class="form-control" neme="quantity" ng-change="calcuQuantity()" ng-model="appNeedInfo.excCount"  ng-change="saveStatusChange()" required>
                              <span ng-show="error.excCount">必填</span>
                         </div>
                         <label  class="col-lg-2 control-label" > 任务单价:</label>
@@ -128,7 +128,9 @@
 
                             <input type="text"readonly="true" style="background-color: white"
                                    class="form-control" id="price"
-                                   ng-model="appNeedInfo.excUnitPrice"  placeholder="">
+                                   ng-model="appNeedInfo.excUnitPrice"
+                                   ng-change="saveStatusChange()"
+                                   placeholder="">
                         </div>
 
                     <div  style="height: 32px;line-height: 3px;margin-left: 20px;width: 300px" ng-show="ErrorMsg.length" class=" col-lg-5 alert alert-danger"> {{ErrorMsg}}</div>
@@ -139,10 +141,10 @@
                         <label  class="col-lg-2 control-label" > 截图数量:</label>
                         <div class="col-lg-2">
                             <label class="radio-inline">
-                                <input type="radio" ng-model="appNeedInfo.screenshotCount" ng-value=2> 2张
+                                <input type="radio" ng-model="appNeedInfo.screenshotCount" ng-value=2  ng-change="saveStatusChange()"> 2张
                             </label>
                             <label class="radio-inline">
-                                <input type="radio" ng-model="appNeedInfo.screenshotCount" ng-value=3> 3张
+                                <input type="radio" ng-model="appNeedInfo.screenshotCount" ng-value=3  ng-change="saveStatusChange()"> 3张
                             </label>
                         </div>
 
@@ -157,12 +159,12 @@
                     <div class="form-group">
                         <label  class="col-lg-2 control-label" >搜索关键词:</label>
                         <div class="col-lg-2">
-                            <input type="text" class="form-control" placeholder="" ng-model="appNeedInfo.searchKeyword">
+                            <input type="text" class="form-control" placeholder="" ng-model="appNeedInfo.searchKeyword"  ng-change="saveStatusChange()">
                             <span ng-show="error.searchKeyword" style="color: red" >必填</span>
                         </div>
                         <label  class="col-lg-1 control-label">排名:</label>
                         <div class="col-lg-3">
-                            <input type="text" class="form-control" style="width: 143px;" placeholder="" ng-model="appNeedInfo.ranKing">
+                            <input type="text" class="form-control" style="width: 143px;" placeholder="" ng-model="appNeedInfo.ranKing"  ng-change="saveStatusChange()">
                         </div>
                     </div>
                 </form>
@@ -176,10 +178,10 @@
                         <label  class="col-lg-2 control-label" >评分:</label>
                         <div class="col-lg-8">
                             <label class="radio-inline">
-                                <input type="radio" ng-value=5 ng-model="appNeedInfo.Score"> 5星
+                                <input type="radio" ng-value=5 ng-model="appNeedInfo.Score"  ng-change="saveStatusChange()"> 5星
                             </label>
                             <label class="radio-inline">
-                                <input type="radio" ng-value=4 ng-model="appNeedInfo.Score"> 4星
+                                <input type="radio" ng-value=4 ng-model="appNeedInfo.Score"  ng-change="saveStatusChange()"> 4星
                             </label>
                         </div>
                     </div>
@@ -297,10 +299,10 @@
                         </button>
                     </div>
                     <div class="col-lg-3">
-                        <button class="btn btn_save1" ng-click="saveNeed()">保存</button>
                     </div>
                     <div class="col-lg-3">
-                        <button class="btn btn_save2" ng-hide="!bthShow">已保存</button>
+                        <button class="btn btn_save1" ng-click="saveNeed()" ng-hide="saved">保存</button>
+                        <button class="btn btn_save2" ng-show="saved">已保存</button>
                     </div>
                     <div class="col-lg-3">
                         <button class="btn btn_task" ng-click="releaseTask()" data-toggle="modal">发布任务</button>
