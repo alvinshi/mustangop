@@ -130,7 +130,7 @@ app.controller('itunesSearchControl', function($scope, $http) {
 
                         break;
                     }
-                }
+                }//myapp里面有了就不能重复添加
 
 
                 if (flag == 0){
