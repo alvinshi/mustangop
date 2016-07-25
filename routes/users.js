@@ -5,6 +5,7 @@ var router = express.Router();
 var util = require('./util');
 var https = require('https');
 var User = AV.Object.extend('_User');
+var messageLogger = AV.Object.extend('messageLogger');
 
 var Base64 = require('../public/javascripts/vendor/base64').Base64;
 
@@ -106,6 +107,32 @@ router.post('/userCenter',function(req, res, next){
   })
 
 });
+
+//个人中心获取信息
+router.get('/userCenter/getMessage', function(req, res){
+  console.log("tried");
+  var userId = util.useridInReq(req);
+  var user = new AV.User();
+  user.id = userId;
+  var query = new AV.Query(messageLogger);
+  query.equalTo('receiverObjectId', user);
+  query.descending('createdAt');
+  query.find().then(function(results){
+    var rtnMsgs = new Array();
+    for (var i = 0; i < results.length; i++){
+      var msg = Object();
+      msg.category = results[i].get('category');
+      msg.type = results[i].get('type');
+      msg.time = results[i].createdAt;
+      msg.para1 = results[i].get('firstPara');
+      msg.para2 = results[i].get('secondPara');
+      msg.para3 = results[i].get('thirdPara');
+      rtnMsgs.push(msg);
+    }
+    console.log(rtnMsgs);
+    res.json({'rtnMsg': rtnMsgs});
+  })
+})
 
 router.get('/register', function(req, res, next) {
   //res.send('user register :' + encodeUserId);
