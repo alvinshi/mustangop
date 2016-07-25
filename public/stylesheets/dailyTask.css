@@ -8,15 +8,18 @@
     margin-bottom: 9px;
 }
 
-.media-body div{
-    margin-bottom: 10px;
-}
-.media-body span{
-    margin-right: 10%;
+/*.media-body div{*/
+    /*margin-bottom: 10px;*/
+/*}*/
+/*.media-body span{*/
+    /*margin-right: 10%;*/
+/*}*/
+.information{
+    padding-left: 20px
 }
 .num{
     font-size: 16px;
-    color: #f55e5a;
+    color: #f78649;
 }
 .logo{
     width: 112px;
@@ -32,19 +35,75 @@
 .task-link:hover{
     text-decoration: none;
 }
-.appid,.company{
-    /*font-weight: 300;*/
-    font-size: 16px;
+.infor button{
+    margin-right: 30px;
+
+}
+.left,.surplus{
+    width: 90px;
+    background-color: white;
+    color: #3498db;
+    border: 1px solid #3498db;
+    text-align: center;
+    font-size: 18px;
+    margin-left: 20px;
+    border-radius: 6px;
+    width: 100px
+}
+.download{
+    width: 70px;
+    background-color: white;
+    color: #3498db;
+    border: 1px solid #3498db;
+    text-align: center;
+    font-size: 18px;
+    border-radius: 6px;
+
+
+}
+.center{
+    margin-top: 12px;
+}
+.assign{
+    margin-top: 10px;font-size: 18px;
+color: #999999;
+}
+.proceed{
+    /*height:28px;*/
+    font-size: 18px;
+    background-color: #79c3f7;
+    color: white;
+    margin-right: 20px;
+    border: 1px solid  #79c3f7;
+    border-radius: 6px;
+
+}
+.finish{
+    font-size: 18px;
+    background-color:#f7798b;
+    color: white;
+    margin-right: 20px;
+    border: 1px solid  #f7798b;
+    border-radius: 6px;
+
 }
 
 .media-right button{
-    width: 80px;
-    height: 30px;
+    width: 91px;
+    height: 36px;
     border-radius: 4px;
     background-color: #3498db;
     color: white;
     border: 1px solid #3498db;
-    margin-top: 30px;
+    margin-top: 39px;
+}
+.btnSave{
+    width: 54px;
+    background-color: white;
+    font-size: 16px;
+    color: #3498db;
+    border: 1px solid #3498db;
+    border-radius: 4px;
 }
 @media (max-width: 768px) {
     .logo{
@@ -53,9 +112,9 @@
         border-radius: 8px;
         border: 1px solid #e0e0e0;
     }
-    .media-body div{
-        margin-bottom: 5px;
-    }
+    /*.media-body div{*/
+        /*margin-bottom: 5px;*/
+    /*}*/
 
     .task-link{
         font-size: 18px;
@@ -76,23 +135,73 @@
         color: #7a7a7a;
 
     }
+    .information{
+        padding-left: 0px
+    }
+    .center{
+        margin-top: 8px;
+    }
+    .left {
+        font-size: 12px;
+        height:20px;
+        width: 50px;
+        color: #3498db;
+        border: 1px solid #3498db;
+        border-radius: 2px;
+        margin-left: 2px;
 
-    .left{
-        font-size: 14px;
-        margin-left: -5px;
-        color: #7a7a7a;
+    }
+    .surplus{
+        font-size: 12px;
+        height:20px;
+        width: 60px;
+        color: #3498db;
+        border: 1px solid #3498db;
+        border-radius: 2px;
+        margin-left:2px;
 
     }
 
     .download{
-        font-size: 14px;
-        color: #7a7a7a;
+        font-size: 12px;
+        height:20px;
+        width: 50px;
+        color: #3498db;
+        border: 1px solid #3498db;
+        border-radius: 2px;
+
+
+    }
+    .proceed{
+        height:20px;
+        font-size: 12px;
+        background-color: #79c3f7;
+        color: white;
+        margin-right: 5px;
+        border: 1px solid  #79c3f7;
+        border-radius:2px;
+
+    }
+    .finish{
+        height:20px;
+        font-size: 12px;
+        background-color:#f7798b;
+        color: white;
+        margin-right: 5px;
+        border: 1px solid  #f7798b;
+        border-radius: 2px;
+
+    }
+    .assign{
+        margin-top:10px;
+        font-size: 12px;
+        color: #999999;
 
     }
 
     .num{
-        font-size: 14px;
-        color: #f55e5a;
+        font-size: 12px;
+        color: #f78649;
     }
     .hr_bottom{
         margin-top: 10px;
