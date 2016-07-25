@@ -220,9 +220,7 @@ var updateReceiveTaskDatabase = function(entryId, uploaderName){
             var query_releaseUser = new AV.Query(User);
             query_releaseUser.get(senderId).then(function(userIn){
                 var freezingYB = userIn.get('freezingMoney');
-                var totalYB = userIn.get('totalMoney');
                 userIn.set('freezingMoney', freezingYB - payYB);
-                userIn.set('totalMoney', totalYB - incomeYB);
                 userIn.save();
             });
         });

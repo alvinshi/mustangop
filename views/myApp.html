@@ -56,6 +56,10 @@
 
 
         </h3>
+        <div class="spinner" ng-hide="!isLoadingMyApp">
+            <div class="double-bounce1"></div>
+            <div class="double-bounce2"></div>
+        </div>
         <!--<div ng-show="numOfApps >= 5"class="alert alert-danger" style="margin-left: 380px;width: 200px;margin-top: -50px">目前只能添加5个应用哦</div>-->
 
             <div class="list-group thumbnail_wrap" ng-click="selectedAppFunc(app.appleId)"  ng-repeat="app in myApps">
@@ -448,7 +452,11 @@
             </div><!-- /.modal-dialog -->
         </div><!--发布任务提示-->
     </div>
+
 </div>
+<th-footer>
+
+</th-footer>
 
 <script src="/javascripts/cookieHelper.js"></script>
 

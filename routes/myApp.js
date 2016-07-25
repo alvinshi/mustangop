@@ -855,7 +855,6 @@ router.post('/oldhistory/delete', function(req, res, next) {
 //});
 
 var myRate = 1;
-var totalmoney = 2000;
 
 router.post('/task/:appleId', function(req, res){
     var userId = util.useridInReq(req);
@@ -934,10 +933,11 @@ router.post('/task/:appleId', function(req, res){
             releasetaskObject.save().then(function() {
                 // 实例已经成功保存.
                 var moratoriumMon = excCount * excUnitPrice;  // 冻结的YB
-                var remainMon = totalmoney - moratoriumMon;   // 剩余的YB
                 var query = new AV.Query('_User');
                 query.get(userId).then(function(userInfo){
-                    userInfo.set('totalMoney', totalmoney);
+                    var totalmoney = userInfo.get('totalMoney');
+                    var remainMon = totalmoney - moratoriumMon;   // 剩余的YB
+                    userInfo.set('totalMoney', remainMon);
                     userInfo.set('freezingMoney', moratoriumMon);
                     userInfo.set('remainMoney', remainMon);
                     userInfo.save().then(function(){
@@ -996,6 +996,7 @@ router.post('/task/:appleId', function(req, res){
                 var remainMon = userRemainMon - moratorium;   // 剩余的YB
                 var query = new AV.Query('_User');
                 query.get(userId).then(function(userInfo){
+                    userInfo.set('totalMoney', remainMon);
                     userInfo.set('freezingMoney', moratoriumMon);
                     userInfo.set('remainMoney', remainMon);
                     userInfo.save().then(function(){

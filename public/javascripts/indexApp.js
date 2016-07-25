@@ -9,11 +9,18 @@ app.directive("thNav",function(){
         //replace: true
     };
 });
+app.directive("thFooter",function(){
+    return {
+        restrict: 'E',
+        templateUrl: '/html/footer.html'
+        //replace: true
+    };
+});
 
 app.controller('indexAppCtrl', function($scope, $http, $location){
 
     var index = navIndex;
-    $scope.myColors = ['white', 'white', 'white', 'white','white','white'];
+    $scope.myColors = ['white', 'white', 'white', 'white','white','white','white'];
     $scope.myColors[index] = '#3498db';
 
     var indexUrl = '/index';

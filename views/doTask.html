@@ -52,7 +52,7 @@
     </div>
     <div class="row" style="margin:0;">
         <p style="font-size: 30px; color: #3498db; margin: 40px 20px 10px 0; float: left" ng-show="!noApp">任务列表</p>
-        <div ng-show="!noApp"class="alert alert-danger" role="alert" style="display: inline-block; margin-top: 35px;">
+        <div ng-show="!noApp" class="alert alert-danger" role="alert" style="display: inline-block; margin-top: 35px;">
             领取的任务将收集到"我的认领"中，请在"我的认领"中完成。</div>
         <a ng-show="!noApp" href="myapp" class="publishTask" ng-mouseover="changePlaneColor()" ng-mouseleave = "changePlaneColor()">
             <img src="/images/doTask/paperplane.png" ng-show="planeColor"/>
@@ -196,7 +196,7 @@
                             <div class="modal-content" style="width: 500px;">
                                 <div class="modal-header" style="text-align: center; background-color:#6eb7e8">
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close" ng-click="refresh()"><span aria-hidden="true">&times;</span></button>
-                                    <h4 class="modal-title" id="myModalLabel" style="color: white;">领取任务</h4>
+                                    <h4 class="modal-title" style="color: white;">领取任务</h4>
                                 </div>
                                 <div class="modal-body">
                                     <div style="font-size: 18px; color: #333333">
@@ -269,12 +269,12 @@
                                 </div>
                             </td>
                             <td style="padding-right: 0px;">
-                                <button class="mybtn reverse hvr-float-shadow" data-target="#detail{{$index}}" data-toggle="modal">
+                                <button class="mybtn reverse hvr-float-shadow" data-target="#detail_download{{$index}}" data-toggle="modal">
                                     任务详情
                                 </button>
                             </td>
                             <td style="padding-right: 40px;">
-                                <button class="mybtn reverse hvr-float-shadow" data-target="#takeTask{{$index}}" data-toggle="modal">
+                                <button class="mybtn reverse hvr-float-shadow" data-target="#takeTask_download{{$index}}" data-toggle="modal">
                                     领取任务
                                 </button>
                             </td>
@@ -283,12 +283,12 @@
                     <hr style="margin:0; border-color: #dddddd;">
 
                     <!---Modal-->
-                    <div class="modal fade" id="detail{{$index}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                    <div class="modal fade" id="detail_download{{$index}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
                         <div class="modal-dialog" role="document">
                             <div class="modal-content" style="width: 642px;">
                                 <div class="modal-header">
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                    <h4 class="modal-title" id="">任务详情</h4>
+                                    <h4 class="modal-title">任务详情</h4>
                                 </div>
                                 <div class="modal-body" style="padding:0;">
                                     <div style="background:url(/images/appDetail/screenshot-background.png); width: 640px;
@@ -359,7 +359,7 @@
                         </div>
                     </div>
 
-                    <div class="modal fade" id="takeTask{{$index}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                    <div class="modal fade" id="takeTask_download{{$index}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
                         <div class="modal-dialog" role="document">
                             <div class="modal-content" style="width: 500px;">
                                 <div class="modal-header" style="text-align: center; background-color:#6eb7e8">
@@ -437,12 +437,12 @@
                                 </div>
                             </td>
                             <td style="padding-right: 0px;">
-                                <button class="mybtn reverse hvr-float-shadow" data-target="#detail{{$index}}" data-toggle="modal">
+                                <button class="mybtn reverse hvr-float-shadow" data-target="#detail_comment{{$index}}" data-toggle="modal">
                                     任务详情
                                 </button>
                             </td>
                             <td style="padding-right: 40px;">
-                                <button class="mybtn reverse hvr-float-shadow" data-target="#takeTask{{$index}}" data-toggle="modal">
+                                <button class="mybtn reverse hvr-float-shadow" data-target="#takeTask_comment{{$index}}" data-toggle="modal">
                                     领取任务
                                 </button>
                             </td>
@@ -451,12 +451,12 @@
                     <hr style="margin:0; border-color: #dddddd;">
 
                     <!---Modal-->
-                    <div class="modal fade" id="detail{{$index}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                    <div class="modal fade" id="detail_comment{{$index}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
                         <div class="modal-dialog" role="document">
                             <div class="modal-content" style="width: 642px;">
                                 <div class="modal-header">
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                    <h4 class="modal-title" id="">任务详情</h4>
+                                    <h4 class="modal-title">任务详情</h4>
                                 </div>
                                 <div class="modal-body" style="padding:0;">
                                     <div style="background:url(/images/appDetail/screenshot-background.png); width: 640px;
@@ -527,12 +527,12 @@
                         </div>
                     </div>
 
-                    <div class="modal fade" id="takeTask{{$index}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                    <div class="modal fade" id="takeTask_comment{{$index}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
                         <div class="modal-dialog" role="document">
                             <div class="modal-content" style="width: 500px;">
                                 <div class="modal-header" style="text-align: center; background-color:#6eb7e8">
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close" ng-click="refresh()"><span aria-hidden="true">&times;</span></button>
-                                    <h4 class="modal-title" id="myModalLabel" style="color: white;">领取任务</h4>
+                                    <h4 class="modal-title" style="color: white;">领取任务</h4>
                                 </div>
                                 <div class="modal-body">
                                     <div style="font-size: 18px; color: #333333">
