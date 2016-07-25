@@ -79,12 +79,12 @@
             </button>
         </div>
         <div style="clear: both"></div>
-        <hr style="margin-top: -50px;width: 1001px">
+        <hr style="margin-top:30px;width: 1001px">
         <div class="alert alert-danger">
             在任务需求编辑中，你可以非常详细的记录换评换量需求，且只需填写一次，之后只需每天修改关键信息即可
         </div>
 
-        <div id="need" ng-show="myApps.length">
+        <div id="need" >
             <div>
                 <h3 class="mytitle">第二步:填写任务信息</h3>
                 <form class="form-horizontal">
@@ -117,8 +117,8 @@
                                    class="form-control" id="price"
                                    ng-model="appNeedInfo.excUnitPrice"  placeholder="">
                         </div>
-                        <label class="col-lg-2" style="font-size: 14px;padding-top: 5px;color: RED;
-                        ">注:暂不可自主定价</label>
+
+                    <div  style="height: 32px;line-height: 3px;margin-left: 20px;width: 300px" ng-show="ErrorMsg.length" class=" col-lg-5 alert alert-danger"> {{ErrorMsg}}</div>
 
                     </div>
 
@@ -132,7 +132,7 @@
                                 <input type="radio" ng-model="appNeedInfo.screenshotCount" ng-value=3> 3张
                             </label>
                         </div>
-                        <div ng-show="ErrorMsg.length" class=" col-lg-4 alert alert-danger"> {{ErrorMsg}}</div>
+
                     </div>
                 </form>
                 <hr>
@@ -201,7 +201,7 @@
                                           ng-change="checkText3()">
                                </textarea>
                         </div>
-                        <label  class="col-lg-1 control-label" style="margin-left: -40px;margin-top: 30px" >
+                        <label  class="col-lg-1 control-label" style="margin-left: -30px;margin-top: 30px" >
                             <span ng-bind="appNeedInfo.detailRem.length+0" ng-style="color"></span>/140
                         </label>
                     </div>
@@ -354,7 +354,7 @@
                             <input type="text" class="form-control search_event" ng-model="searchKey" ng-keyup="keySearchApp($event)" placeholder="请搜索添加你需要发布任务的APP">
                     <span class="input-group-btn">
                          <button class="btn search_color" ng-click="searchApp()">
-                             <span class="glyphicon glyphicon-plus"></span>
+                             <span class="glyphicon glyphicon-search"></span>
                          </button>
                    </span>
                         </div>
@@ -404,7 +404,7 @@
                     </div>
                     <div class="modal-footer">
 
-                        <button type="button" class="btn btn-primary" data-dismiss="modal">确认</button>
+                        <button type="button" class="btn btn-primary" data-dismiss="modal">关闭</button>
                     </div>
                 </div><!-- /.modal-content -->
             </div><!-- /.modal-dialog -->

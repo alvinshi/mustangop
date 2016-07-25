@@ -23,6 +23,7 @@
     <link rel="stylesheet" href="../stylesheets/loading.css">
     <link rel="stylesheet" href="/stylesheets/vendor/hover/hover-min.css">
     <link rel="stylesheet" href="../stylesheets/dailyTask.css">
+    <link rel="stylesheet" href="../stylesheets/myClaim.css">
 
     <!--网站内部js-->
     <script src="/javascripts/myClaim.js"></script>
@@ -40,23 +41,34 @@
 </div>
 
 <div class="container" ng-controller="myClaimControl" >
+
     <!--标题-->
     <div class="header-wrapper col-lg-4" ng-show="!noApp">
         <h1 class="header hidden-xs">今日发布任务</h1>
+        <hr class="hidden-xs" style="border: 1px solid  #3498db;width: 1024px">
     </div>
+
+
+
+    <div  class="col-lg-10  col-lg-offset-1 copy" >
+            <p  class="url_p"><span style="font-size: 18px;color: #333333">分享链接:</span>
+                <input type="text" id="copy" class="from-control" ng-model="url">
+               <button class="btn" id="btn" ng-click="copyUrl()"data-placement="top"
+                       data-toggle="popover"
+                       data-content="复制成功!">复制</button>
+            </p>
+        <p class="message">您可将此链接通过QQ或微信等发送到手机端，已提交任务结束</p>
+    </div>
+
+
+
     <div ng-show="noApp">
         <div style="text-align: center;">
             <img style="margin-top: 200px;margin-left:-30px;"  src="../images/horse.png"/>
         </div>
         <h1 style="text-align:center;">亲, 你还没有任何任务哦, 赶紧去"<a href="/doTask">任务大厅</a>"领取任务吧</h1>
     </div>
-    <!--<div class="header-wrapper col-lg-4">-->
-    <!--<input type="text" id="copyUrl" class=" from-control  hidden-xs"> <button ng-click="copyUrl">a</button>-->
-    <!--</div>-->
-
     <hr class="hr-header hidden-xs"/>
-
-
     <div class="row" ng-repeat="app in dailyTask">
         <div class="col-lg-10  col-lg-offset-1 col-xs-12 media">
             <div class="media-left">
@@ -90,6 +102,8 @@
                 </a>
             </div>
             <hr class="hr_bottom">
+
+
         </div>
     </div>
 
