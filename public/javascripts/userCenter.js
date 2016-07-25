@@ -64,7 +64,7 @@ app.controller('inforManageCtrl', function($scope, $http){
                 $scope.systemMsg.push(messages[i]);
             }
             else {
-                $scope.moneyMsg.push(message[i]);
+                $scope.moneyMsg.push(messages[i]);
             }
         }
     })
