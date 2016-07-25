@@ -161,12 +161,24 @@ router.post('/postUsertask/:taskObjectId/:ratePrice/:appId', function(req, res){
         });
     }
 
-    //// 查询流水的库, 按照领取的数量 记录
-    //var query_account = new AV.Query(accountJournal);
-    //query_account.equalTo('taskObject', taskObjectId);
-    //query_account.find().then(function(accountObject){
-    //
-    //});
+    // 查询流水的库, 按照领取的数量 记录
+    var query_account = new AV.Query(accountJournal);
+    query_account.equalTo('taskObject', task);
+    query_account.find().then(function(accountObject){
+        for (var e = 0; e < accountObject.length; e++){
+            for (var a = 0; a < receive_Count; a++){
+                accountObject[a].set('incomeYCoinUser', user);  //收入金额的用户
+                accountObject[a].set('incomeYCoin', parseInt(req.params.ratePrice)); // 此次交易得到金额
+                accountObject[a].set('incomeYCoinStatus', 'prepare_income'); // 领取任务的时候为准备收益;
+                accountObject[a].set('incomeYCoinDes', '做任务');
+                accountObject[a].save().then(function(){
+                    //
+                })
+            }
+
+
+        }
+    });
     res.json({'succeeded': flag, 'errorMsg': errorMsg});
 });
 
