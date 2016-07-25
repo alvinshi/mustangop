@@ -24,8 +24,6 @@ app.controller('itunesSearchControl', function($scope, $http) {
         $scope.isLoadingMyApp = false;
         var myAppsBefore = response.myApps;
         myAppsBefore.sort(function(a, b){return a.createdAt >= b.createdAt});
-        console.log(myAppsBefore[0].createdAt);
-        console.log(myAppsBefore[1].createdAt);
         $scope.myApps = myAppsBefore;//数组
         $scope.numOfApps = $scope.myApps.length;
 
@@ -192,6 +190,8 @@ app.controller('itunesSearchControl', function($scope, $http) {
         });
     };
     //保存
+    $scope.saved = false;
+
     $scope.saveNeed = function(){
         var needUrl = '/myapp/taskneed/' + $scope.selectedApp.appleId;
         var needInfo = {'taskType':$scope.appNeedInfo.taskType, 'excCount':$scope.appNeedInfo.excCount, 'excUnitPrice':$scope.appNeedInfo.excUnitPrice, 'screenshotCount':$scope.appNeedInfo.screenshotCount,
@@ -200,7 +200,7 @@ app.controller('itunesSearchControl', function($scope, $http) {
         $http.post(needUrl, needInfo).success(function(response){
             $scope.errorId = response.errorId;
             $scope.errorMsg = response.errorMsg;
-            $scope.bthShow=1;
+            $scope.saved = true;
             //location.href="/myapp"
         })
     };
@@ -268,25 +268,26 @@ app.controller('itunesSearchControl', function($scope, $http) {
     $scope.checkText1 = function () {
         if ($scope.appNeedInfo.titleKeyword.length > 20) {
             $scope.appNeedInfo.titleKeyword = $scope.appNeedInfo.titleKeyword.substr(0, 20);
+            saveStatusChange();
         }
     };
     $scope.checkText2 = function () {
         if ($scope.appNeedInfo.commentKeyword.length > 40) {
             $scope.appNeedInfo.commentKeyword = $scope.appNeedInfo.commentKeyword.substr(0, 40);
+            saveStatusChange();
         }
     };
     $scope.checkText3 = function () {
         if ($scope.appNeedInfo.detailRem.length > 140) {
             $scope.appNeedInfo.detailRem = $scope.appNeedInfo.detailRem.substr(0, 140);
+            saveStatusChange();
         }
     };
 
 
 
     $scope.selectedAppFunc = function(appleId){
-
-    console.log('selected' +  appleId);
-
+        $scope.saved = false;
         //remove border in old
         var myAppElemment = document.getElementsByClassName('thumbnail_wrap')[$scope.selectMyAppIndex];
         myAppElemment.style.border = '2px solid #e0e0e0';
@@ -349,5 +350,7 @@ app.controller('itunesSearchControl', function($scope, $http) {
         $('#glyphicon').popover("toggle");
     };
 
-
+    $scope.saveStatusChange = function(){
+        $scope.saved = false;
+    }
 });
