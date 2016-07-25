@@ -32,7 +32,10 @@ router.post('/register', function(req, res, next) {
     mobilePhoneNumber: userphone,
     smsCode: smsCode,
     password:password,
-    username:userphone
+    username:userphone,
+    feedingMoney:1000,
+    totalMoney:1000,
+    remainMoney:1000
   }).then(function(user) {
     //注册或者登录成功
 
@@ -47,7 +50,6 @@ router.post('/register', function(req, res, next) {
     if (userNickname != undefined && userNickname != ''){
       res.cookie('username', userNickname)
     }
-
     res.json({'errorId':0, 'errorMsg':''});
 
   }, function(error) {

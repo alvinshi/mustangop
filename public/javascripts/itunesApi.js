@@ -24,8 +24,8 @@ app.controller('itunesSearchControl', function($scope, $http) {
         $scope.isLoadingMyApp = false;
         var myAppsBefore = response.myApps;
         myAppsBefore.sort(function(a, b){return a.createdAt >= b.createdAt});
-        console.log(myAppsBefore[0].createdAt);
-        console.log(myAppsBefore[1].createdAt);
+        //console.log(myAppsBefore[0].createdAt);
+        //console.log(myAppsBefore[1].createdAt);
         $scope.myApps = myAppsBefore;//数组
         $scope.numOfApps = $scope.myApps.length;
 
