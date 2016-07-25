@@ -12,6 +12,7 @@ var IOSAppBinder = AV.Object.extend('IOSAppBinder');
 var releaseTaskObject = AV.Object.extend('releaseTaskObject');
 var receiveTaskObject = AV.Object.extend('receiveTaskObject');
 var mackTaskInfo = AV.Object.extend('mackTaskInfo');
+var messageLogger = AV.Object.extend('messageLogger');
 
 var Base64 = require('../public/javascripts/vendor/base64').Base64;
 
@@ -145,15 +146,12 @@ router.get('/specTaskCheck/:taskId', function(req, res){
 
 //*************接收逻辑******************************
 router.post('/accept/:entryId', function(req, res) {
-    console.log("tried");
     var entryId = req.params.entryId;
     console.log("entryId");
     var query = new AV.Query(mackTaskInfo);
     query.get(entryId).then(function(data) {
         data.set("status", 3);
         data.save();
-        console.log('entry' + entryId + "has been updated")
-
     });
 
     var entry = AV.Object.createWithoutData('mackTaskInfo', entryId);
@@ -192,6 +190,9 @@ router.post('/accept/:entryId', function(req, res) {
         }
         task.save();
     });
+
+
+
     res.json({'msg':'accepted'});
 });
 
