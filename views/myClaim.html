@@ -50,14 +50,14 @@
 
 
 
-    <div  class=" hidden-xs col-lg-10  col-lg-offset-1 copy" >
+    <div ng-show="!noApp" class=" hidden-xs col-lg-10  col-lg-offset-1 copy" >
         <p  class="url_p"><span style="font-size: 18px;color: #333333">分享链接:</span>
             <input type="text" id="copy" class="from-control" ng-model="url">
             <button class="btn" id="btn" ng-click="copyUrl()"data-placement="top"
                     data-toggle="popover"
                     data-content="复制成功!">复制</button>
         </p>
-        <p class="message">您可将此链接通过QQ或微信等发送到手机端，已提交任务结束</p>
+        <p class="message">您可将此链接通过QQ或微信等发送到手机端，以提交任务结束</p>
     </div>
 
 
@@ -91,9 +91,9 @@
                 <div class="assign">
 
                     分配备注:<span style="margin-left: 15px" class="num  assignTask" >{{app.detailRem}}</span>
-                    <input  class="input1" type="text" style="display:none;width:400px" ng-model="remark">
-                    <img src="../images/home/pen.png" class="imgpen" ng-click="reAssign(app.trackName)">
-                    <button  class="btnSave" style="display:none" ng-click="saveRemark()">保存</button>
+                    <input  class="input1 hidden-xs" type="text" style="display:none;width:400px" ng-model="remark">
+                    <img src="../images/home/pen.png" class="imgpen hidden-xs" ng-click="reAssign(app.trackName)">
+                    <button  class="btnSave hidden-xs" style="display:none" ng-click="saveRemark()">保存</button>
                 </div>
             </div>
             <div class=" hidden-xs  media-right">

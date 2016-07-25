@@ -51,10 +51,10 @@
         <h1 style="text-align:center;">亲, 你还没有发布任何任务哦, 赶紧去"<a href="myapp">发布任务</a>"试试吧</h1>
     </div>
     <div class="row" style="margin:0;">
-        <p style="font-size: 30px; color: #3498db; margin: 40px 20px 10px 0; float: left">任务列表</p>
-        <div class="alert alert-danger" role="alert" style="display: inline-block; margin-top: 35px;">
+        <p style="font-size: 30px; color: #3498db; margin: 40px 20px 10px 0; float: left" ng-show="!noApp">任务列表</p>
+        <div ng-show="!noApp"class="alert alert-danger" role="alert" style="display: inline-block; margin-top: 35px;">
             领取的任务将收集到"我的认领"中，请在"我的认领"中完成。</div>
-        <a href="myapp" class="publishTask" ng-mouseover="changePlaneColor()" ng-mouseleave = "changePlaneColor()">
+        <a ng-show="!noApp" href="myapp" class="publishTask" ng-mouseover="changePlaneColor()" ng-mouseleave = "changePlaneColor()">
             <img src="/images/doTask/paperplane.png" ng-show="planeColor"/>
             <img src="/images/doTask/paperplane-blue.png" ng-hide="planeColor"/>
             快速发布任务
@@ -225,8 +225,8 @@
     </div>
 
     <div style="margin-top: 30px; margin-bottom: 30px; text-align: center;">
-        <button class="btn btn-default myPageBtn" ng-click="prevPage()">上一页</button>
-        <button class="btn btn-default myPageBtn" ng-click="nextPage()">下一页</button>
+        <button class="btn btn-default myPageBtn" ng-show="!noApp"ng-click="prevPage()">上一页</button>
+        <button class="btn btn-default myPageBtn" ng-show="!noApp" ng-click="nextPage()">下一页</button>
     </div>
 
 </div>
