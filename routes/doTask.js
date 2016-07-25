@@ -8,6 +8,7 @@ var util = require('./util');
 var https = require('https');
 
 var User = AV.Object.extend('_User');
+var IOSAppInfo = AV.Object.extend('IOSAppInfo');
 var IOSAppBinder = AV.Object.extend('IOSAppBinder');
 var IOSAppExcLogger = AV.Object.extend('IOSAppExcLogger');
 var releaseTaskObject = AV.Object.extend('releaseTaskObject'); // 发布任务库
@@ -30,18 +31,30 @@ router.get('/taskHall', function(req, res){
 
     var query = new AV.Query(releaseTaskObject);
     query.notEqualTo('remainCount', '0');
-    query.notEqualTo('userObject', user);
     query.include('appObject');
+    query.include('userObject');
     query.ascending('createdAt');
 
     query.find().then(function(results){
         var retApps = new Array();
+        var counter = 0;
+        var promise = results.length;
         for (var i = 0; i < results.length; i++){
             var appObject = Object();
             var hisAppObject = results[i].get('appObject');
             //app基本信息
-            appObject.appObjectId = hisAppObject.id;
-            appObject.trackName = hisAppObject.get('trackName').substring(0, 20);
+            appObject.taskOwnerId = results[i].get('userObject').id;
+            if (appObject.taskOwnerId == userId){
+                appObject.myTask = true;
+            }
+            else {
+                appObject.myTask = false;
+            }
+            appObject.appObjectId = hisAppObject.id
+            var trackName = hisAppObject.get('trackName');
+            if (trackName != undefined){
+                appObject.trackName = trackName.substring(0, 20);
+            }
             appObject.artworkUrl100 = hisAppObject.get('artworkUrl100');
             appObject.appleId = hisAppObject.get('appleId');
             appObject.appleKind = hisAppObject.get('appleKind');
@@ -53,6 +66,7 @@ router.get('/taskHall', function(req, res){
             appObject.excCount = results[i].get('excCount');
             appObject.remainCount = results[i].get('remainCount');
             appObject.rateUnitPrice = results[i].get('rateUnitPrice');
+            appObject.createdAt = results[i].createdAt;
 
             //任务需求
             appObject.taskType = results[i].get('taskType');
@@ -64,9 +78,30 @@ router.get('/taskHall', function(req, res){
             appObject.commentKeyword = results[i].get('commentKeyword');
             appObject.detailRem = results[i].get('detailRem');
 
-            retApps.push(appObject)
+            (function(tempAppObject){
+                var secondaryQuery = new AV.Query('receiveTaskObject');
+                secondaryQuery.equalTo('userObject', user);
+                var app = AV.Object.createWithoutData('IOSAppInfo', tempAppObject.appObjectId);
+                secondaryQuery.equalTo('appObject', app)
+                secondaryQuery.find().then(function(results){
+                    for (var i = 0; i < results.length; i++){
+                        var time1 = results[i].get('appUpdateInfo');
+                        if (time1 == tempAppObject.latestReleaseDate){
+                            tempAppObject.inactive = true;
+                        }
+                    }
+                    if (tempAppObject.inactive == undefined){
+                        tempAppObject.inactive = false;
+                    }
+                    retApps.push(tempAppObject);
+                    counter ++;
+                    if (counter == promise){
+                        retApps.sort(function(a, b){return a.createdAt < b.createdAt});
+                        res.json({'doTask':retApps})
+                    }
+                })
+            })(appObject)
         }
-        res.json({'doTask':retApps})
     }),function (error){
         res.json({'errorMsg':error.message, 'errorId': error.code});
     }
@@ -78,6 +113,7 @@ router.post('/postUsertask/:taskObjectId/:ratePrice/:appId', function(req, res){
     //领取任务基本信息收集
     var userId = util.useridInReq(req);
     var receive_Count = req.body.receiveCount;
+    var latestReleaseDate = req.body.latestReleaseDate;
     var receive_Price = (req.params.ratePrice) * receive_Count;
     var detail_Rem = req.body.detailRem;
     if (detail_Rem == undefined){
@@ -143,6 +179,7 @@ router.post('/postUsertask/:taskObjectId/:ratePrice/:appId', function(req, res){
         ReceiveTaskObject.set('receiveCount', receive_Count);
         ReceiveTaskObject.set('receivePrice', receive_Price);
         ReceiveTaskObject.set('detailRem', detail_Rem);
+        ReceiveTaskObject.set('appUpdateInfo', latestReleaseDate);//版本信息
         ReceiveTaskObject.set('remainCount', parseInt(receive_Count));
         ReceiveTaskObject.set('pending', parseInt(receive_Count));  // 未提交
         ReceiveTaskObject.set('submitted', 0); // 待审
