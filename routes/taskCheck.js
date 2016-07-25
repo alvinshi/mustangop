@@ -12,6 +12,7 @@ var IOSAppBinder = AV.Object.extend('IOSAppBinder');
 var releaseTaskObject = AV.Object.extend('releaseTaskObject');
 var receiveTaskObject = AV.Object.extend('receiveTaskObject');
 var mackTaskInfo = AV.Object.extend('mackTaskInfo');
+var messageLogger = AV.Object.extend('messageLogger');
 
 var Base64 = require('../public/javascripts/vendor/base64').Base64;
 
@@ -144,22 +145,13 @@ router.get('/specTaskCheck/:taskId', function(req, res){
 });
 
 //*************接收逻辑******************************
-router.post('/accept/:entryId', function(req, res) {
-    console.log("tried");
-    var entryId = req.params.entryId;
-    console.log("entryId");
-    var query = new AV.Query(mackTaskInfo);
-    query.get(entryId).then(function(data) {
-        data.set("status", 3);
-        data.save();
-        console.log('entry' + entryId + "has been updated")
-
-    });
-
+var updateReceiveTaskDatabase = function(entryId, uploaderName){
     var entry = AV.Object.createWithoutData('mackTaskInfo', entryId);
     var secondQuery = new AV.Query('receiveTaskObject');
     secondQuery.equalTo('mackTask', entry);
     secondQuery.include('taskObject');
+    secondQuery.include('userObject');
+    secondQuery.include('appObject');
     secondQuery.find().then(function (results) {
         //更新领取任务数据库
         //results返回的是数组
@@ -191,27 +183,56 @@ router.post('/accept/:entryId', function(req, res) {
             task.set('completed', 1);
         }
         task.save();
-    });
-    res.json({'msg':'accepted'});
-});
 
-//*************拒绝逻辑******************************
-router.post('/reject/:entryId', function(req, res) {
-    var rejectReason = req.body.rejectReason;
+        //消息产生所需数据
+        var userObject = data.get('userObject');
+        var userId = userObject.id;
+        var appObject = data.get('appObject');
+        var trackName = appObject.get('trackName');
+        var senderId = task.get('userObject').id;
+        var rateUnitPrice = task.get('rateUnitPrice');
+
+        acceptMessage(userId, senderId, trackName, uploaderName, rateUnitPrice);
+    })
+};
+
+var acceptMessage = function(receiverId, senderId, trackName, uploaderName, rateUnitPrice){
+    var message = new messageLogger();
+    var receiver = new AV.User();
+    receiver.id = receiverId;
+    var sender = new AV.User();
+    sender.id = senderId;
+    message.set('receiverObjectId', receiver);
+    message.set('senderObjectId', sender);
+    message.set('category', '任务');
+    message.set('type', '接受');
+    message.set('firstPara', trackName);
+    message.set('secondPara', uploaderName);
+    message.set('thirdPara', rateUnitPrice)
+    message.save();
+};
+
+router.post('/accept/:entryId', function(req, res) {
     var entryId = req.params.entryId;
     var query = new AV.Query(mackTaskInfo);
     query.get(entryId).then(function(data) {
-        data.set("status", 2);
-        data.set('detail', rejectReason)
+        var uploaderName = data.get('uploadName');
+        data.set("status", 3);
         data.save();
-        console.log('entry' + entryId + "has been updated")
 
+        updateReceiveTaskDatabase(entryId, uploaderName);
+        res.json({'msg':'accepted'});
     });
+});
 
+//*************拒绝逻辑******************************
+var updateDatabaseReject = function(entryId, uploaderName){
     var entry = AV.Object.createWithoutData('mackTaskInfo', entryId);
     var secondQuery = new AV.Query('receiveTaskObject');
     secondQuery.equalTo('mackTask', entry);
     secondQuery.include('taskObject');
+    secondQuery.include('userObject');
+    secondQuery.include('appObject');
     secondQuery.find().then(function (results) {
         //更新领取任务数据库
         //results返回的是数组
@@ -233,8 +254,45 @@ router.post('/reject/:entryId', function(req, res) {
         preRejected = task.get('rejected');
         task.set('rejected', preRejected + 1);
         task.save();
+
+        var userObject = data.get('userObject');
+        var userId = userObject.id;
+        var appObject = data.get('appObject');
+        var trackName = appObject.get('trackName');
+        var senderId = task.get('userObject').id;
+
+        rejectMessage(userId, senderId, trackName, uploaderName);
+    })
+}
+
+var rejectMessage = function(receiverId, senderId, trackName, uploaderName){
+    var message = new messageLogger();
+    var receiver = new AV.User();
+    receiver.id = receiverId;
+    var sender = new AV.User();
+    sender.id = senderId;
+    message.set('receiverObjectId', receiver);
+    message.set('senderObjectId', sender);
+    message.set('category', '任务');
+    message.set('type', '拒绝');
+    message.set('firstPara', trackName);
+    message.set('secondPara', uploaderName);
+    message.save();
+};
+
+router.post('/reject/:entryId', function(req, res) {
+    var rejectReason = req.body.rejectReason;
+    var entryId = req.params.entryId;
+    var query = new AV.Query(mackTaskInfo);
+    query.get(entryId).then(function(data) {
+        var uploaderName = data.get('uploadName');
+        data.set("status", 2);
+        data.set('detail', rejectReason)
+        data.save();
+
+        updateDatabaseReject(entryId, uploaderName);
+        res.json({'msg':'rejected'});
     });
-    res.json({'msg':'rejected'});
 });
 
 module.exports = router;

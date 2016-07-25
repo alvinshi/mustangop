@@ -29,7 +29,7 @@ router.get('/taskHall', function(req, res){
 
     var query = new AV.Query(releaseTaskObject);
     query.notEqualTo('remainCount', '0');
-    query.notEqualTo('userObject', user);
+    //query.notEqualTo('userObject', user);
     query.include('appObject');
     query.ascending('createdAt');
 
