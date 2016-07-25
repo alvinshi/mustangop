@@ -215,6 +215,7 @@ body{
     color: #eb3030;
 }
 .myMoney{
+    cursor: pointer;;
     width: 160px;
     height: 200px;
     border: 1px solid #e0e0e0;

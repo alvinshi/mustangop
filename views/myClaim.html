@@ -50,13 +50,13 @@
 
 
 
-    <div  class="col-lg-10  col-lg-offset-1 copy" >
-            <p  class="url_p"><span style="font-size: 18px;color: #333333">分享链接:</span>
-                <input type="text" id="copy" class="from-control" ng-model="url">
-               <button class="btn" id="btn" ng-click="copyUrl()"data-placement="top"
-                       data-toggle="popover"
-                       data-content="复制成功!">复制</button>
-            </p>
+    <div  class=" hidden-xs col-lg-10  col-lg-offset-1 copy" >
+        <p  class="url_p"><span style="font-size: 18px;color: #333333">分享链接:</span>
+            <input type="text" id="copy" class="from-control" ng-model="url">
+            <button class="btn" id="btn" ng-click="copyUrl()"data-placement="top"
+                    data-toggle="popover"
+                    data-content="复制成功!">复制</button>
+        </p>
         <p class="message">您可将此链接通过QQ或微信等发送到手机端，已提交任务结束</p>
     </div>
 
@@ -69,46 +69,45 @@
         <h1 style="text-align:center;">亲, 你还没有任何任务哦, 赶紧去"<a href="/doTask">任务大厅</a>"领取任务吧</h1>
     </div>
     <hr class="hr-header hidden-xs"/>
-    <div class="row" ng-repeat="app in dailyTask">
-        <div class="col-lg-10  col-lg-offset-1 col-xs-12 media">
+    <div class="row " ng-repeat="app in dailyTask">
+        <div class="col-lg-10  col-lg-offset-1 col-xs-12 media dailyTask">
             <div class="media-left">
                 <a href="/newtaskMobile/{{app.taskObjectId}}">
                     <img class="logo" ng-src="{{app.artworkUrl100}}" alt="app-icon" class="img-thumbnail"/>
                 </a>
             </div>
-            <div class="media-body">
+            <div class="media-body information">
                 <div>
                     <a class="task-link" href="/newtaskMobile/{{app.taskObjectId}}">{{app.trackName.substr(0,11)+'...'}}</a>
                 </div>
-                <div>
+                <div  class="center">
                     <!--<span class="appid">App ID: {{app.appleId}}</span>-->
-                    <span class="label label-info" ng-show="app.surplusCount">进行中</span>
-                    <span class="label label-danger" ng-hide="app.surplusCount">已完成</span>
-                    <span class="company hidden-xs">{{app.sellerName}}</span>
+                    <button  class="proceed"  ng-show="app.surplusCount">进行中</button>
+                    <button  class="finish" ng-hide="app.surplusCount">已完成</button>
+                    <button class="download">{{app.excKinds}}</button>
+                    <button class="left">共&nbsp;<span style="color: #458ec0">{{app.totalExcCount}}</span>条</button>
+                    <button class="surplus" >剩余&nbsp;<span class="num"style="color: #ff9053">{{app.surplusCount}}</span>条</button>
                 </div>
-                <div>
-                    <span class="download">{{app.excKinds}}</span>
-                    <span class="left">共<em>{{app.totalExcCount}}</em>条</span>
-                    <span class="left">剩余<em class="num">{{app.surplusCount}}</em>条</span>
-                    <span class="left">分配备注:<em class="num">{{app.detailRem}}</em></span>
+                <div class="assign">
+
+                    分配备注:<span style="margin-left: 15px" class="num  assignTask" >{{app.detailRem}}</span>
+                    <input  class="input1" type="text" style="display:none;width:400px" ng-model="remark">
+                    <img src="../images/home/pen.png" class="imgpen" ng-click="reAssign(app.trackName)">
+                    <button  class="btnSave" style="display:none" ng-click="saveRemark()">保存</button>
                 </div>
             </div>
-
             <div class=" hidden-xs  media-right">
                 <a href="/interiorExcDetail/{{app.taskObjectId}}">
-                    <button  type="button" >
+                    <button  type="button">
                         查看任务
                     </button>
                 </a>
             </div>
-            <hr class="hr_bottom">
+            <!--<hr class="hr_bottom">-->
 
 
         </div>
     </div>
-
-
-
 </div>
 <script src="/javascripts/cookieHelper.js"></script>
 </body>

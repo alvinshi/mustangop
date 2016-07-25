@@ -342,4 +342,9 @@ app.controller('itunesSearchControl', function($scope, $http) {
         });
     };
 
+    $scope.addApp=function() {
+        $('#glyphicon').popover("toggle");
+    };
+
+
 });
