@@ -9,74 +9,65 @@
     <li ><a href="#moneyInfor" id="myTabDrop1" data-toggle="tab">Y币消息 </a></li>
 </ul>
 
-
-
-
-
-
-
-
-
-
 <div   id="myTabContent" class="tab-content">
     <div class="tab-pane fade in active" id="taskInfor">
-        <div class="taskInfor" >
-            <img src="/images/taskInfor/infor3.png" alt="" style="display: inline-block">
-            <span class="infor_one">任务消息</span>
-            <span  class="date">07/12</span>
-            <span style="margin-left: 10px;font-size: 14px;color: #999999">10.09</span>
-        </div>
+        <hr class="horizon1">
+        <div ng-repeat="msg in taskMsg">
+            <div ng-if="msg.type == '领取'">
+                <div class="taskInfor" >
+                    <img src="/images/taskInfor/infor3.png" alt="" style="display: inline-block">
+                    <span class="infor_one">任务消息</span>
+                    <span  class="date">{{msg.time | date: 'MM/dd'}}</span>
+                    <span style="margin-left: 10px;font-size: 14px;color: #999999">{{msg.time | date: "h:mma"}}</span>
+                </div>
+                <div class="promote">
+                    <div class="promote1">
+                        <span style="color:#f78649">{{msg.para1}} </span>领取了您今天发布的
+                        <span style="color:#f78649">{{msg.para2}} </span>
+                        <span style="color:#3498db">{{msg.para3}} </span>条,请在 <a href="/taskCheck"style="color:#3498db">任务审核</a>中查看
+                    </div>
+                </div>
+                <hr class="horizon1">
+            </div>
 
-        <div class="promote">
-            <div class="promote1">
-                <span style="color:#f78649">领取人</span>领取了您今天发布的
-                <span style="color:#f78649">TASK2</span>
-                <span style="color:#3498db">8</span>条,请在 <a href="/taskCheck"style="color:#3498db">任务审核</a>中查看
+            <div ng-if="msg.type == '拒绝'">
+                <div class="infor1">
+                    <img src="/images/taskInfor/infor3.png" alt="" style="display: inline-block">
+                    <span class="infor_one">任务消息</span>
+                    <span  class="date">{{msg.time | date: 'MM/dd'}}</span>
+                    <span style="margin-left: 10px;font-size: 14px;color: #999999">{{msg.time | date: "h:mma"}}</span>
+                </div>
+
+                <div class="promote">
+
+                    <div class="promote1">
+                        <span style="color:#f78649">{{msg.para1}} </span>拒绝了
+                        <span style="color:#f78649">{{msg.para2}} </span>提交的结果,请在
+                        <a href="/myClaim"style="color:#3498db">我的认领 </a>中查看
+                    </div>
+                </div>
+                <hr class="horizon1">
+            </div>
+
+            <div ng-if="msg.type == '接受'">
+                <div class="infor1">
+                    <img src="/images/taskInfor/infor3.png" alt="" style="display: inline-block">
+                    <span class="infor_one">任务消息</span>
+                    <span  class="date">{{msg.time | date: 'MM/dd'}}</span>
+                    <span style="margin-left: 10px;font-size: 14px;color: #999999">{{msg.time | date: "h:mma"}}</span>
+                </div>
+
+                <div class="promote">
+
+                    <div class="promote1">
+                        <span style="color:#f78649">{{msg.para1}} </span>接受了
+                        <span style="color:#f78649">{{msg.para2}} </span>提交的结果,获得
+                        <span style="color:#f78649">{{msg.para3}} </span>Y币
+                    </div>
+                </div>
+                <hr class="horizon1">
             </div>
         </div>
-        <hr class="horizon1">
-        <div class="infor1">
-            <img src="/images/taskInfor/infor3.png" alt="" style="display: inline-block">
-            <span class="infor_one">任务消息</span>
-            <span class="date">07/12</span>
-            <span class="date1">10.09</span>
-        </div>
-
-        <div class="promote">
-
-            <div class="promote1">
-                <span style="color:#f78649">趣恋爱</span>拒绝了
-                <span style="color:#f78649">112345</span>提交的结果,请在
-                <a href="/myClaim"style="color:#3498db">我的认领</a>中查看
-            </div>
-        </div>
-        <hr class="horizon1">
-
-
-
-
-
-        <div class="infor1" >
-            <img src="/images/taskInfor/infor3.png" alt="" style="display: inline-block">
-            <span class="infor_one">任务消息</span>
-            <span class="date">07/12</span>
-            <span class="date1">10.09</span>
-        </div>
-
-        <div class="promote">
-
-            <div class="promote1">
-                <span style="color:#f78649">趣恋爱</span>接受了
-                <span style="color:#f78649">112345</span>提交的结果,获得
-                <span style="color:#f78649" >800</span>Y币
-            </div>
-        </div>
-        <hr class="horizon1">
-
-
-
-
-
     </div>  <!--任务消息-->
     <div class="tab-pane fade" id="systemInfor">
         <div class="taskInfor">
@@ -96,68 +87,61 @@
         <hr class="horizon1">
 
 
-
-
-
-
-
-
     </div>  <!--系统消息-->
     <div class="tab-pane fade" id="moneyInfor">
-        <div class="taskInfor" >
-            <img src="/images/taskInfor/money1.png" alt="" style="display: inline-block">
-            <span class="infor_one">Y币消息</span>
-            <span class="date">07/12</span>
-            <span class="date1">10.09</span>
-        </div>
+        <div ng-repeat="msg in moneyMsg">
+            <div ng-if="msg.type == '发布'">
+                <div class="taskInfor" >
+                    <img src="/images/taskInfor/money1.png" alt="" style="display: inline-block">
+                    <span style="font-size: 16px;margin-left:8px;color: #000000">Y币消息</span>
+                    <span  class="date">{{msg.time | date: 'MM/dd'}}</span>
+                    <span style="margin-left: 10px;font-size: 14px;color: #999999">{{msg.time | date: "h:mma"}}</span>
+                </div>
+                <div class="promote">
+                    <div class="promote1">
+                        你刚刚发布了
+                        <span style="color:#f78649">{{msg.para1}} </span>任务, 消耗
+                        <span style="color:#3498db">{{msg.para3}} </span>Y币
+                    </div>
+                </div>
+                <hr class="horizon1">
+            </div>
 
-        <div class="promote">
+            <div ng-if="msg.type == '惩罚'">
+                <div class="taskInfor" >
+                    <img src="/images/taskInfor/money1.png" alt="" style="display: inline-block">
+                    <span style="font-size: 16px;margin-left:8px;color: #000000">Y币消息</span>
+                    <span  class="date">{{msg.time | date: 'MM/dd'}}</span>
+                    <span style="margin-left: 10px;font-size: 14px;color: #999999">{{msg.time | date: "h:mma"}}</span>
+                </div>
+                <div class="promote">
+                    <div class="promote1">
+                        你未完成
+                        <span style="color:#3498db">8</span>条
+                        <span style="color:#f78649">趣恋爱</span>的任务,扣罚
+                        <span style="color:#3498db">300</span>Y币
+                    </div>
+                </div>
+                <hr class="horizon1">
+            </div>
 
-            <div class="promote1">
-                你刚刚发布了
-                <span style="color:#f78649">TASK2</span>消耗
-                <span style="color:#3498db">800</span>Y币
+            <div ng-if="msg.type == '充值'">
+                <div class="taskInfor" >
+                    <img src="/images/taskInfor/money1.png" alt="" style="display: inline-block">
+                    <span style="font-size: 16px;margin-left:8px;color: #000000">Y币消息</span>
+                    <span  class="date">{{msg.time | date: 'MM/dd'}}</span>
+                    <span style="margin-left: 10px;font-size: 14px;color: #999999">{{msg.time | date: "h:mma"}}</span>
+                </div>
+                <div class="promote">
+                    <div class="promote1">
+                        您成功充值了
+                        <span style="color:#3498db">3000</span>Y币
+                    </div>
+                </div>
+                <hr class="horizon1">
             </div>
         </div>
-        <hr class="horizon1">
-
-        <div class="infor1" >
-            <img src="/images/taskInfor/money1.png" alt="" style="display: inline-block">
-            <span class="infor_one">Y币消息</span>
-            <span class="date">07/12</span>
-            <span class="date1">10.09</span>
-        </div>
-        <div class="promote">
-
-            <div class="promote1">
-                你未完成
-                <span style="color:#3498db">8</span>条
-                <span style="color:#f78649">趣恋爱</span>的任务,扣罚
-                <span style="color:#3498db">300</span>Y币
-            </div>
-        </div>
-        <hr class="horizon1">
-
-
-
-        <div class="infor1" >
-            <img src="/images/taskInfor/money1.png" alt="" style="display: inline-block">
-            <span style="font-size: 16px;margin-left:8px;color: #000000">Y币消息</span>
-            <span class="date">07/12</span>
-            <span class="date1">10.09</span>
-        </div>
-
-        <div  class="promote">
-
-            <div class="promote1">
-                您成功充值了
-                <span style="color:#3498db">3000</span>Y币
-            </div>
-        </div>
-        <hr class="horizon1">
-
-    </div><!--Y币消息-->
-
+    </div>
 </div>
 
 
