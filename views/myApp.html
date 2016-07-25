@@ -49,7 +49,7 @@
             <span class="glyphicon glyphicon-plus" style="color: #3498db"></span>添加任务应用
         </button>
         <h3 class="mytitle">第一步:选择或添加任务应用
-            <span class="glyphicon glyphicon-tree-deciduous" data-placement="top"
+            <span class="glyphicon glyphicon-question-sign"  data-placement="top"
                      data-toggle="popover"
                      data-content="目前只能添加5个应用哦!" id="glyphicon"
                      ng-click="addApp()"></span>
@@ -60,11 +60,10 @@
 
             <div class="list-group thumbnail_wrap" ng-click="selectedAppFunc(app.appleId)"  ng-repeat="app in myApps">
 
-
                 <a href="" ng-click="releaseBtnClick(app.appleId)" data-toggle="modal" data-target="#mymodal">
-                    <button type="button" class=" btn-sm_release" >
+                    <p class=" btn-sm_release">
                         <span class="glyphicon glyphicon-remove"></span>
-                    </button>
+                    </p>
                 </a>
 
                 <a href=""><img ng-src="{{ app.artworkUrl512 }}" class="img-responsive"  alt="App Icon"></a>

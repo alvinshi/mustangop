@@ -138,8 +138,10 @@ button{
 .btn-sm_release{
     background-color: white;
     border: none;
-    margin-left: 125px;outline: none;
+    margin-left: 125px;
+    outline: none;
 }
+
 
 .app_name{
     margin-bottom: 2px;
@@ -294,4 +296,16 @@ button{
 }
 #glyphicon{
     cursor: pointer;
+}
+.currentTask {
+    float: right;
+    margin-right: 145px;
+    margin-top: -60px;
+    width: 150px;
+    height: 42px;
+    font-size: 18px;
+    background-color: white;
+    border: 1px solid #3498db;
+    border-radius: 4px;
+    color: #3498db;
 }
