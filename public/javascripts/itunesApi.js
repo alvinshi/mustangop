@@ -206,8 +206,8 @@ app.controller('itunesSearchControl', function($scope, $http) {
     };
     //发布任务
     $scope.releaseTask = function(){
+        $scope.saveNeed();
         //初始参数
-        console.log("start");
         var flag = true;
         $scope.error = Object();
         $scope.error.excCount = false;
@@ -217,8 +217,6 @@ app.controller('itunesSearchControl', function($scope, $http) {
         if ($scope.appNeedInfo.excCount == '' || $scope.appNeedInfo.excCount == undefined) {
             flag = false;
             $scope.error.excCount = true;
-            console.log($scope.error.excCount);
-            console.log("failed");
             $("#error").modal("show");
         }
         if($scope.appNeedInfo.searchKeyword == '' || $scope.appNeedInfo.searchKeyword == undefined) {
