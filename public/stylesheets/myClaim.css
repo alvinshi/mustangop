@@ -38,3 +38,16 @@ color: #999999;
     margin-left: 145px;
 
 }
+
+.dailyTask {
+    border-bottom: 1px solid #e0e0e0;
+    padding-bottom: 18px;
+    margin-bottom: 15px;
+    padding-top: 18px;
+}
+
+.dailyTask:hover{
+    box-shadow: 0 0 5px 2px #888888;
+    border-radius: 4px;
+
+}

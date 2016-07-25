@@ -24,7 +24,7 @@ app.config(['$stateProvider','$urlRouterProvider',function($stateProvider, $urlR
         });
 
 
-    $urlRouterProvider.otherwise('/');     //匹配所有不在上面的路由
+    //$urlRouterProvider.otherwise('/');     //匹配所有不在上面的路由
 }]);
 
 app.controller('userCenterCtrl', function($scope, $http){

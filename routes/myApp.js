@@ -931,10 +931,9 @@ router.post('/task/:appleId', function(req, res){
                 for (var e = 0; e < excCount; e++){
                     var taskObjectId = AV.Object.createWithoutData('releaseTaskObject', releasetaskObject.id);
 
-                    //var accountJournal = AV.Object.extend('accountJournal');
                     var accountJour = new accountJournal();
-                    accountJour.set('PayYCoinUser', user);  //支出金额的用户
-                    accountJour.set('PayYCoin', excUnitPrice); // 此次交易支付金额
+                    accountJour.set('payYCoinUser', user);  //支出金额的用户
+                    accountJour.set('payYCoin', parseInt(excUnitPrice)); // 此次交易支付金额
                     accountJour.set('taskObject', taskObjectId);
                     accountJour.set('payYCoinStatus', 'prepare_pay'); // 发布任务的时候为准备支付;
                     accountJour.set('payYCoinDes', '发布任务');
@@ -991,8 +990,8 @@ router.post('/task/:appleId', function(req, res){
                     var taskObjectId = AV.Object.createWithoutData('releaseTaskObject', releaseObject.id);
 
                     var accountjournal = new accountJournal();
-                    accountjournal.set('PayYCoinUser', user);  //支出金额的用户
-                    accountjournal.set('PayYCoin', excUnitPrice); // 此次交易支付金额
+                    accountjournal.set('payYCoinUser', user);  //支出金额的用户
+                    accountjournal.set('payYCoin', parseInt(excUnitPrice)); // 此次交易支付金额
                     accountjournal.set('taskObject', taskObjectId);
                     accountjournal.set('payYCoinStatus', 'prepare_pay'); // 发布任务的时候为准备支付;
                     accountjournal.set('payYCoinDes', '发布任务');
