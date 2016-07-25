@@ -234,11 +234,11 @@
                                         <img ng-repeat="img in entry.imgs" src="{{img}}" alt="">
                                         <div class=" text-right receive_btn">
 
-                                            <button class="btn reject "data-target="#rejectreason" data-toggle="modal" ng-show="entry.status == 1">拒绝</button>
+                                            <button class="btn reject "data-target="#rejectreason{{entry.id}}" data-toggle="modal" ng-show="entry.status == 1">拒绝</button>
                                             <button class="btn receive" ng-click="accept(entry)" ng-show="entry.status == 1">确认接受</button>
                                             <button class="btn receive2" ng-show="entry.status == 3">已接受</button>
                                             <button class="btn reject2" ng-show="entry.status == 2">已拒绝</button>
-                                            <div class="modal fade" id="rejectreason">
+                                            <div class="modal fade" id="rejectreason{{entry.id}}">
                                                 <div class="modal-dialog">
                                                     <div class="modal-content">
                                                         <div class="modal-header">
@@ -250,7 +250,6 @@
                                                         </div>
                                                         <div class="modal-footer">
                                                             <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="reject(entry.id)">确认</button>
-
                                                         </div>
                                                     </div><!-- /.modal-content -->
                                                 </div><!-- /.modal-dialog -->
