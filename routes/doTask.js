@@ -13,6 +13,7 @@ var IOSAppExcLogger = AV.Object.extend('IOSAppExcLogger');
 var releaseTaskObject = AV.Object.extend('releaseTaskObject'); // 发布任务库
 var receiveTaskObject = AV.Object.extend('receiveTaskObject'); // 领取任务库
 var accountJournal = AV.Object.extend('accountJournal'); // 记录账户变动明细表
+var messageLogger = AV.Object.extend('messageLogger');
 
 router.get('/', function(req, res) {
     res.render('doTask');
@@ -151,13 +152,33 @@ router.post('/postUsertask/:taskObjectId/:ratePrice/:appId', function(req, res){
         ReceiveTaskObject.save();
         //更新任务剩余条数
         query = new AV.Query(releaseTaskObject);
+        query.include('userObject');
+        query.include('appObject');
         query.get(taskObjectId).then(function (data) {
             var prevRemainCount = parseInt(data.get('remainCount'));
-            data.set('remainCount', prevRemainCount - receive_Count + '');
+            var taskOwnerId = data.get('userObject').id;
+            var app = data.get('appObject');
+            var trackName = app.get('trackName');
+            data.set('remainCount', (prevRemainCount - parseInt(receive_Count)) + '');
             var prePending = data.get('pending');
             data.set('pending', prePending + parseInt(receive_Count));
             data.save();
-            console.log('taskObject has been updated')
+
+            //创建领取信息
+            var message = new messageLogger();
+            var receiver = new AV.User();
+            receiver.id = taskOwnerId;
+            var sender = new AV.User();
+            sender.id = userId;
+
+            message.set('receiverObjectId', receiver);
+            message.set('senderObjectId', sender);
+            message.set('category', '任务');
+            message.set('type','领取');
+            message.set('firstPara', sender.id);
+            message.set('secondPara', trackName);
+            message.set('thirdPara', parseInt(receive_Count));
+            message.save();
         });
     }
 

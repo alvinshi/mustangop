@@ -110,7 +110,6 @@ router.post('/userCenter',function(req, res, next){
 
 //个人中心获取信息
 router.get('/userCenter/getMessage', function(req, res){
-  console.log("tried");
   var userId = util.useridInReq(req);
   var user = new AV.User();
   user.id = userId;
@@ -129,7 +128,6 @@ router.get('/userCenter/getMessage', function(req, res){
       msg.para3 = results[i].get('thirdPara');
       rtnMsgs.push(msg);
     }
-    console.log(rtnMsgs);
     res.json({'rtnMsg': rtnMsgs});
   })
 })

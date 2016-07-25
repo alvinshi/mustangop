@@ -53,15 +53,12 @@ app.controller('inforManageCtrl', function($scope, $http){
     var getMessage = '/user/userCenter/getMessage';
     $http.get(getMessage).success(function(response){
         var messages = response.rtnMsg;
-        console.log(messages);
         $scope.taskMsg = new Array();
         $scope.systemMsg = new Array();
         $scope.moneyMsg = new  Array();
         for (var i = 0; i < messages.length; i++){
-            console.log(messages[i].category);
             if (messages[i].category == '任务'){
                 $scope.taskMsg.push(messages[i]);
-                console.log(messages[i]);
             }
             else if (messages[i].category == '系统'){
                 $scope.systemMsg.push(messages[i]);
