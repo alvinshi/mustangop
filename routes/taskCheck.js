@@ -145,19 +145,13 @@ router.get('/specTaskCheck/:taskId', function(req, res){
 });
 
 //*************接收逻辑******************************
-router.post('/accept/:entryId', function(req, res) {
-    var entryId = req.params.entryId;
-    console.log("entryId");
-    var query = new AV.Query(mackTaskInfo);
-    query.get(entryId).then(function(data) {
-        data.set("status", 3);
-        data.save();
-    });
-
+var updateReceiveTaskDatabase = function(entryId, uploaderName){
     var entry = AV.Object.createWithoutData('mackTaskInfo', entryId);
     var secondQuery = new AV.Query('receiveTaskObject');
     secondQuery.equalTo('mackTask', entry);
     secondQuery.include('taskObject');
+    secondQuery.include('userObject');
+    secondQuery.include('appObject');
     secondQuery.find().then(function (results) {
         //更新领取任务数据库
         //results返回的是数组
@@ -189,11 +183,44 @@ router.post('/accept/:entryId', function(req, res) {
             task.set('completed', 1);
         }
         task.save();
+
+        //消息产生所需数据
+        var userObject = data.get('userObject');
+        var userId = userObject.id;
+        var appObject = data.get('appObject');
+        var trackName = appObject.get('trackName');
+        var senderId = task.get('userObject').id;
+
+        acceptMessage(userId, senderId, trackName, uploaderName);
+    })
+};
+
+var acceptMessage = function(receiverId, senderId, trackName, uploaderName){
+    var message = new messageLogger();
+    var receiver = new AV.user();
+    receiver.id = userId;
+    var sender = new AV.user();
+    sender.id = sendId;
+    message.set('receiverObjectId', receiver);
+    message.set('senderObjectId', sender);
+    message.set('category', '任务');
+    message.set('type', '接受');
+    message.set('firstPara', trackName);
+    message.set('secondPara', uploaderName);
+    message.save();
+}
+
+router.post('/accept/:entryId', function(req, res) {
+    var entryId = req.params.entryId;
+    var query = new AV.Query(mackTaskInfo);
+    query.get(entryId).then(function(data) {
+        var uploaderName = data.get('uploadName');
+        data.set("status", 3);
+        data.save();
+
+        updateReceiveTaskDatabase(entryId, uploaderName);
+        res.json({'msg':'accepted'});
     });
-
-
-
-    res.json({'msg':'accepted'});
 });
 
 //*************拒绝逻辑******************************
