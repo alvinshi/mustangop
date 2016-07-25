@@ -10,8 +10,9 @@ var https = require('https');
 var User = AV.Object.extend('_User');
 var IOSAppBinder = AV.Object.extend('IOSAppBinder');
 var IOSAppExcLogger = AV.Object.extend('IOSAppExcLogger');
-var releaseTaskObject = AV.Object.extend('releaseTaskObject');
-var receiveTaskObject = AV.Object.extend('receiveTaskObject');
+var releaseTaskObject = AV.Object.extend('releaseTaskObject'); // 发布任务库
+var receiveTaskObject = AV.Object.extend('receiveTaskObject'); // 领取任务库
+var accountJournal = AV.Object.extend('accountJournal'); // 记录账户变动明细表
 
 router.get('/', function(req, res) {
     res.render('doTask');
@@ -158,7 +159,14 @@ router.post('/postUsertask/:taskObjectId/:ratePrice/:appId', function(req, res){
             data.save();
             console.log('taskObject has been updated')
         });
-    };
+    }
+
+    //// 查询流水的库, 按照领取的数量 记录
+    //var query_account = new AV.Query(accountJournal);
+    //query_account.equalTo('taskObject', taskObjectId);
+    //query_account.find().then(function(accountObject){
+    //
+    //});
     res.json({'succeeded': flag, 'errorMsg': errorMsg});
 });
 
