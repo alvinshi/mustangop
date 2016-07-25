@@ -45,15 +45,19 @@
 <div class="container">
     <div  class=" container main_content"  ng-controller="itunesSearchControl">
         <div class="col-lg-6 col-sm-12 input-group">
-            <input type="text" class="form-control" ng-model="searchKey" ng-keyup="keySearchApp($event)" placeholder="搜索添加你想绑定的App名称...">
+            <input type="text" class="form-control" ng-model="searchKey" ng-keyup="keySearchApp($event)" placeholder="请选择或者搜索添加你需要发布任务的APP...">
                     <span class="input-group-btn">
                          <button class="btn search_color" ng-click="searchApp()">
                              <span class="glyphicon glyphicon-plus"></span>
                          </button>
                    </span>
+
         </div>
 
-        <button class="btn"> <a href="/dailyTask/{{userObjectId.userObjectId}}">当前任务</a></button>
+            <button class="btn currentTask" > <a href="/dailyTask/{{userObjectId.userObjectId}}">当前任务</a></button>
+
+
+
 
         <!-- /input-group -->
         <div class="placehold-line">
@@ -101,14 +105,20 @@
         <div class="col-lg-12 col-sm-12 add-app ">
 
             <div class="list-group" ng-repeat="app in myApps">
-                <a href="/app/{{app.appleId}}"><img ng-src="{{ app.artworkUrl512 }}" class="img-responsive" alt="App Icon"></a>
-                <p class="app_name ">{{ app.trackName.substr(0,16) }}</p>
-                <p class="app_version">版本号 {{ app.version }}</p>
-                <p class="app_update">更新日期{{ app.latestReleaseDate.substr(0,10) }}</p>
-
-                <a ng-click="releaseBtnClick(app.appleId)" data-toggle="modal" data-target="#mymodal">
-                    <button  class="app_button_bottom hvr-box-shadow-inset" >解绑</button>
+                <a >
+                    <a href="" ng-click="releaseBtnClick(app.appleId)" data-toggle="modal" data-target="#mymodal">
+                        <p class=" btn-sm_release">
+                            <span class="glyphicon glyphicon-remove"></span>
+                        </p>
+                    </a>
+                    <a href="/app/{{app.appleId}}"> <img ng-src="{{ app.artworkUrl512 }}" class="img-responsive" alt="App Icon"></a>
+                    <p class="app_name ">{{ app.trackName.substr(0,16) }}</p>
+                    <p class="app_version">版本号 {{ app.version }}</p>
+                    <p class="app_update">更新日期{{ app.latestReleaseDate.substr(0,10) }}</p>
                 </a>
+
+
+
 
             </div>
 

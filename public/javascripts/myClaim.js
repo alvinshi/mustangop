@@ -55,16 +55,18 @@ app.controller('myClaimControl', function($scope, $http, $location){
     };
 
     //保存填写的备注到数据库
-    //$scope.saveRemark=function(){
-    //    var url = '/myClaim/save/'+$scope.remark;
-    //    console.log($scope.remark);
-    //    $http.post(url,{"remark":$scope.remark}).success(
-    //        function(response){
-    //
-    //        }
-    //    )
-    //
-    //};
+    $scope.saveRemark=function(){
+        var url = '/myClaim/saveRemark';
+        console.log($scope.remark);
+        $http.post(url,{"remark":$scope.remark}).success(
+            function(response){
+                $scope.errorId = response.errorId;
+                $scope.errorMsg = response.errorMsg;
+
+            }
+        )
+
+    };
     //复制链接
 
     $scope.url=$location.absUrl();
