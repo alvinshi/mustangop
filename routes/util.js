@@ -195,6 +195,9 @@ function updateIOSAppInfo (appstoreObject, leanAppObject){
     appInfoObject.version = appstoreObject['version'];
     appInfoObject.appObjectId = leanAppObject.id;
 
+    appInfoObject.createdAt = leanAppObject.createdAt;
+    console.log(appInfoObject.createdAt);
+
     return appInfoObject;
 }
 

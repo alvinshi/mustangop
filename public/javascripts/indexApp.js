@@ -20,7 +20,7 @@ app.directive("thFooter",function(){
 app.controller('indexAppCtrl', function($scope, $http, $location){
 
     var index = navIndex;
-    $scope.myColors = ['white', 'white', 'white', 'white','white','white'];
+    $scope.myColors = ['white', 'white', 'white', 'white','white','white','white'];
     $scope.myColors[index] = '#3498db';
 
     var indexUrl = '/index';

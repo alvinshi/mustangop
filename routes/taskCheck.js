@@ -22,11 +22,6 @@ router.get('/', function(req, res) {
     res.render('taskCheck');
 });
 
-//*************quick sort**********************
-
-
-
-
 //*************页面左侧控制器条目*************************
 router.get('/taskAudit', function(req, res){
     var userId = util.useridInReq(req);
@@ -215,7 +210,9 @@ var updateReceiveTaskDatabase = function(entryId, uploaderName){
             var query_user = new AV.Query(User);
             query_user.get(userObject.id).then(function(userInfo){
                 var remainYB = userInfo.get('remainMoney');
+                var totalYB = userInfo.get('totalMoney');
                 userInfo.set('remainMoney', remainYB + incomeYB);
+                userInfo.set('totalMoney', totalYB + incomeYB);
                 userInfo.save();
             });
 
@@ -223,7 +220,9 @@ var updateReceiveTaskDatabase = function(entryId, uploaderName){
             var query_releaseUser = new AV.Query(User);
             query_releaseUser.get(senderId).then(function(userIn){
                 var freezingYB = userIn.get('freezingMoney');
+                var totalYB = userIn.get('totalMoney');
                 userIn.set('freezingMoney', freezingYB - payYB);
+                userIn.set('totalMoney', totalYB - incomeYB);
                 userIn.save();
             });
         });
