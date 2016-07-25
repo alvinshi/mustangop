@@ -21,7 +21,12 @@ app.config(['$stateProvider','$urlRouterProvider',function($stateProvider, $urlR
             url:'/inforManage',
             templateUrl:'/html/userCenter-inforManage.html',
             controller:'inforManageCtrl'
-        });
+        })
+        .state('taskHistory',{
+        url:'/taskHistory',
+        templateUrl:'/html/userCenter-taskHistory.html',
+        controller:'taskHistoryCtrl'
+    });
 
 
     //$urlRouterProvider.otherwise('/');     //匹配所有不在上面的路由

@@ -22,11 +22,6 @@ router.get('/', function(req, res) {
     res.render('taskCheck');
 });
 
-//*************quick sort**********************
-
-
-
-
 //*************页面左侧控制器条目*************************
 router.get('/taskAudit', function(req, res){
     var userId = util.useridInReq(req);
