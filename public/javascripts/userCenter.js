@@ -33,7 +33,33 @@ app.config(['$stateProvider','$urlRouterProvider',function($stateProvider, $urlR
 }]);
 
 app.controller('inforManageCtrl', function($scope, $http){
+    //*****helper function*********
+    //date comparison
+    function dateCompare(DateA, DateB) {
+        var a = new Date(DateA);
+        var b = new Date(DateB);
+        var msDateA = Date.UTC(a.getFullYear(), a.getMonth()+1, a.getDate());
+        var msDateB = Date.UTC(b.getFullYear(), b.getMonth()+1, b.getDate());
+        if (parseFloat(msDateA) < parseFloat(msDateB)) {
+            if ((a.getDate() - b.getDate()) == -1) {
+                return '昨天';
+            }
+            else {
+                return '更早';
+            }
+        }// lt
+        else if (parseFloat(msDateA) == parseFloat(msDateB)){
+            return '今天';}  // eq
+        else if (parseFloat(msDateA) > parseFloat(msDateB)){
+            return '未来';} // gt
+        else{
+            console.log("fail");
+        }
+    }
+
+
     $scope.userName = true;
+    var date = new Date();
 
     var userUrl = '/user/userCenter';
     $http.get(userUrl).success(function(response){
@@ -55,6 +81,12 @@ app.controller('inforManageCtrl', function($scope, $http){
         })
     };
 
+    //初始
+    $scope.pageNum = 0;
+    $scope.msgPerPage = 5;
+    var firstTaskIndex = 0;
+    var lastTaskIndex = $scope.msgPerPage;
+
     var getMessage = '/user/userCenter/getMessage';
     $http.get(getMessage).success(function(response){
         var messages = response.rtnMsg;
@@ -66,6 +98,15 @@ app.controller('inforManageCtrl', function($scope, $http){
         $scope.unreadSystemMsg = false;
         $scope.unreadMoneyMsg = false;
         for (var i = 0; i < messages.length; i++){
+            if (dateCompare(messages[i].time, date) == '今天'){
+                messages[i].day = '今天';
+            }
+            else if (dateCompare(messages[i].time, date) == '昨天'){
+                messages[i].day = '昨天';
+            }
+            else{
+                messages[i].day = messages[i].time;
+            }
             if (messages[i].category == '任务'){
                 $scope.taskMsg.push(messages[i]);
                 if (messages[i].read == false){
@@ -88,7 +129,76 @@ app.controller('inforManageCtrl', function($scope, $http){
         if ($scope.unreadTaskMsg || $scope.unreadMoneyMsg || $scope.unreadMoneyMsg){
             $scope.unreadMsg = true;
         }
-    })
+
+        $scope.taskDisplayed = $scope.taskMsg;
+        $scope.totalTaskNum = $scope.taskDisplayed.length;
+        $scope.totalPageNum = getTotalPageNum($scope.totalTaskNum, $scope.msgPerPage)
+        updateMsgDisplayed();
+    });
+
+    //获取总页数
+    function getTotalPageNum(totalTaskNum, msgPerPage){
+        if (totalTaskNum % msgPerPage == 0){
+            return parseInt(totalTaskNum / msgPerPage) + 1;
+        }
+        else{
+            return parseInt(totalTaskNum / msgPerPage) + 2;
+        };
+    }
+
+    function updateMsgDisplayed(){
+        firstTaskIndex = $scope.msgPerPage * $scope.pageNum;
+        lastTaskIndex = firstTaskIndex + $scope.msgPerPage;
+        $scope.taskMsgDisplayed = $scope.taskDisplayed.slice(firstTaskIndex, lastTaskIndex);
+        var msgIdArray = new Array;
+        for (var i = 0; i < $scope.taskMsgDisplayed.length; i++){
+            msgIdArray.push($scope.taskMsgDisplayed[i].id);
+            }
+        var url = "/user/userCenter/readMsg";
+        $http.post(url, {'msgIdArray': msgIdArray}).success(function(response){
+        })
+    }
+
+
+    //消息种类选择
+    $scope.msgClick = function(type){
+        $scope.pageNum = 0;
+        if (type == 'task'){
+            $scope.taskDisplayed = $scope.taskMsg;
+        }
+        else if (type == 'system'){
+            $scope.taskDisplayed = $scope.systemMsg;
+        }
+        else if (type == 'money'){
+            $scope.taskDisplayed = $scope.moneyMsg;
+        }
+
+        if ($scope.taskDisplayed.length != 0){
+            firstTaskIndex = 0;
+            lastTaskIndex = $scope.msgPerPage;
+            updateMsgDisplayed();
+        }
+    };
+
+    $scope.nextPage = function(){
+        if ($scope.pageNum + 2 < $scope.totalPageNum){
+            $scope.pageNum ++;
+        }
+        else{
+            console.log("Already reached the last page");
+        }
+        updateMsgDisplayed();
+    };
+
+    $scope.prevPage = function(){
+        if ($scope.pageNum > 0){
+            $scope.pageNum --;
+        }
+        else{
+            console.log("It is the first page");
+        }
+        updateMsgDisplayed();
+    };
 });
 
 app.controller('userCenterCtrl', function($scope, $http){

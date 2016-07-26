@@ -374,4 +374,15 @@ body{
     text-decoration: none;
 
 }
->>>>>>> 0719f55abe82993f45171b6366fedf6fd2dc8a44
+
+.read_tag{
+    margin-left: 30px;
+    font-size: 14px;
+    color: #00ee00;
+}
+
+.unread_tag{
+    margin-left: 30px;
+    font-size: 14px;
+    color: #CC2222;
+}

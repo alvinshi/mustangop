@@ -18,6 +18,7 @@ app.directive("thFooter",function(){
 });
 
 app.controller('indexAppCtrl', function($scope, $http, $location){
+    $scope.unreadNotice = false
 
     var index = navIndex;
     $scope.myColors = ['white', 'white', 'white', 'white','white','white','white'];
@@ -38,5 +39,14 @@ app.controller('indexAppCtrl', function($scope, $http, $location){
         location.href='/';
     }
 
+    var getMessage = '/user/userCenter/getMessage';
+    $http.get(getMessage).success(function(response){
+        var msg = response.rtnMsg;
+        for (var i = 0; i < msg.length; i++){
+            if (!msg[i].read){
+                $scope.unreadNotice = true;
+            }
+        }
+    });
 });
 
