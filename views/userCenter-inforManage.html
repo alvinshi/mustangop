@@ -1,24 +1,39 @@
 <h4 class="mytitle" >消息管理</h4>
 <hr style="margin-top: 12px;margin-left: 20px;border: 2px solid #3498db;margin-right: 20px">
+
 <ul style="padding-top:10px;font-size: 18px"id="myTab" class="nav nav-tabs">
     <li class="active">
-        <a href="#taskInfor" data-toggle="tab">
+        <a href="#taskInfor" ng-click="msgClick('task')" data-toggle="tab">
             任务消息
+            <div class="msgDot" ng-show="unreadTaskMsg"></div>
         </a>
     </li>
-    <li><a href="#systemInfor" data-toggle="tab">系统消息</a></li>
-    <li ><a href="#moneyInfor" id="myTabDrop1" data-toggle="tab">Y币消息 </a></li>
+    <li>
+        <a href="#systemInfor" ng-click="msgClick('system')"  data-toggle="tab">
+            系统消息
+            <div class="msgDot" ng-show="unreadSystemMsg"></div>
+        </a>
+    </li>
+    <li>
+        <a href="#moneyInfor" id="myTabDrop1"  ng-click="msgClick('money')" data-toggle="tab">
+            Y币消息
+            <div class="msgDot" ng-show="unreadMoneyMsg"></div>
+        </a>
+    </li>
 </ul>
 
 <div   id="myTabContent" class="tab-content">
+    <!--任务消息-->
     <div class="tab-pane fade in active" id="taskInfor">
-        <div ng-repeat="msg in taskMsg">
+        <div ng-repeat="msg in taskMsgDisplayed">
             <div ng-if="msg.type == '领取'">
                 <div class="taskInfor" >
                     <img src="/images/taskInfor/infor3.png" alt="" style="display: inline-block">
                     <span class="infor_one">任务消息</span>
-                    <span  class="date">{{msg.time | date: 'MM/dd'}}</span>
-                    <span style="margin-left: 10px;font-size: 14px;color: #999999">{{msg.time | date: "h:mma"}}</span>
+                    <span  class="date">{{msg.day | date: 'MM/dd'}}</span>
+                    <span  class="date">{{msg.time | date: 'h:mma'}}</span>
+                    <span class="read_tag" ng-show="msg.read">已读</span>
+                    <span class="unread_tag" ng-hide="msg.read">未读</span>
                 </div>
                 <div class="promote">
                     <div class="promote1">
@@ -31,15 +46,16 @@
             </div>
 
             <div ng-if="msg.type == '拒绝'">
-                <div class="infor1">
+                <div class="taskInfor">
                     <img src="/images/taskInfor/infor3.png" alt="" style="display: inline-block">
                     <span class="infor_one">任务消息</span>
-                    <span  class="date">{{msg.time | date: 'MM/dd'}}</span>
-                    <span style="margin-left: 10px;font-size: 14px;color: #999999">{{msg.time | date: "h:mma"}}</span>
+                    <span  class="date">{{msg.day | date: 'MM/dd'}}</span>
+                    <span  class="date">{{msg.time | date: 'h:mma'}}</span>
+                    <span class="read_tag" ng-show="msg.read">已读</span>
+                    <span class="unread_tag" ng-hide="msg.read">未读</span>
                 </div>
 
                 <div class="promote">
-
                     <div class="promote1">
                         <span style="color:#f78649">{{msg.para1}} </span>拒绝了
                         <span style="color:#f78649">{{msg.para2}} </span>提交的结果,请在
@@ -50,15 +66,16 @@
             </div>
 
             <div ng-if="msg.type == '接受'">
-                <div class="infor1">
+                <div class="taskInfor">
                     <img src="/images/taskInfor/infor3.png" alt="" style="display: inline-block">
                     <span class="infor_one">任务消息</span>
-                    <span  class="date">{{msg.time | date: 'MM/dd'}}</span>
-                    <span style="margin-left: 10px;font-size: 14px;color: #999999">{{msg.time | date: "h:mma"}}</span>
+                    <span  class="date">{{msg.day | date: 'MM/dd'}}</span>
+                    <span  class="date">{{msg.time | date: 'h:mma'}}</span>
+                    <span class="read_tag" ng-show="msg.read">已读</span>
+                    <span class="unread_tag" ng-hide="msg.read">未读</span>
                 </div>
 
                 <div class="promote">
-
                     <div class="promote1">
                         <span style="color:#f78649">{{msg.para1}} </span>接受了
                         <span style="color:#f78649">{{msg.para2}} </span>提交的结果,获得
@@ -68,7 +85,14 @@
                 <hr class="horizon1">
             </div>
         </div>
-    </div>  <!--任务消息-->
+
+        <div style="margin-top: 30px; margin-bottom: 30px; text-align: center;">
+            <button class="btn btn-default myPageBtn" ng-click="prevPage('task')">上一页</button>
+            <button class="btn btn-default myPageBtn" ng-click="nextPage('task')">下一页</button>
+        </div>
+    </div>
+
+    <!--系统消息-->
     <div class="tab-pane fade" id="systemInfor">
         <div class="taskInfor">
             <img src="/images/taskInfor/infor1.png" alt="" style="display: inline-block">
@@ -86,16 +110,23 @@
         </div>
         <hr class="horizon1">
 
+        <div style="margin-top: 30px; margin-bottom: 30px; text-align: center;">
+            <button class="btn btn-default myPageBtn" ng-click="prevPage('system')">上一页</button>
+            <button class="btn btn-default myPageBtn" ng-click="nextPage('system')">下一页</button>
+        </div>
+    </div>
 
-    </div>  <!--系统消息-->
+    <!--Y币消息-->
     <div class="tab-pane fade" id="moneyInfor">
-        <div ng-repeat="msg in moneyMsg">
+        <div ng-repeat="msg in taskMsgDisplayed">
             <div ng-if="msg.type == '发布'">
                 <div class="taskInfor" >
                     <img src="/images/taskInfor/money1.png" alt="" style="display: inline-block">
                     <span style="font-size: 16px;margin-left:8px;color: #000000">Y币消息</span>
-                    <span  class="date">{{msg.time | date: 'MM/dd'}}</span>
-                    <span style="margin-left: 10px;font-size: 14px;color: #999999">{{msg.time | date: "h:mma"}}</span>
+                    <span  class="date">{{msg.day | date: 'MM/dd'}}</span>
+                    <span  class="date">{{msg.time | date: 'h:mma'}}</span>
+                    <span class="read_tag" ng-show="msg.read">已读</span>
+                    <span class="unread_tag" ng-hide="msg.read">未读</span>
                 </div>
                 <div class="promote">
                     <div class="promote1">
@@ -111,8 +142,10 @@
                 <div class="taskInfor" >
                     <img src="/images/taskInfor/money1.png" alt="" style="display: inline-block">
                     <span style="font-size: 16px;margin-left:8px;color: #000000">Y币消息</span>
-                    <span  class="date">{{msg.time | date: 'MM/dd'}}</span>
-                    <span style="margin-left: 10px;font-size: 14px;color: #999999">{{msg.time | date: "h:mma"}}</span>
+                    <span  class="date">{{msg.day | date: 'MM/dd'}}</span>
+                    <span  class="date">{{msg.time | date: 'h:mma'}}</span>
+                    <span class="read_tag" ng-show="msg.read">已读</span>
+                    <span class="unread_tag" ng-hide="msg.read">未读</span>
                 </div>
                 <div class="promote">
                     <div class="promote1">
@@ -129,8 +162,10 @@
                 <div class="taskInfor" >
                     <img src="/images/taskInfor/money1.png" alt="" style="display: inline-block">
                     <span style="font-size: 16px;margin-left:8px;color: #000000">Y币消息</span>
-                    <span  class="date">{{msg.time | date: 'MM/dd'}}</span>
-                    <span style="margin-left: 10px;font-size: 14px;color: #999999">{{msg.time | date: "h:mma"}}</span>
+                    <span  class="date">{{msg.day | date: 'MM/dd'}}</span>
+                    <span  class="date">{{msg.time | date: 'h:mma'}}</span>
+                    <span class="read_tag" ng-show="msg.read">已读</span>
+                    <span class="unread_tag" ng-hide="msg.read">未读</span>
                 </div>
                 <div class="promote">
                     <div class="promote1">
@@ -140,6 +175,10 @@
                 </div>
                 <hr class="horizon1">
             </div>
+        </div>
+        <div style="margin-top: 30px; margin-bottom: 30px; text-align: center;">
+            <button class="btn btn-default myPageBtn" ng-click="prevPage('money')">上一页</button>
+            <button class="btn btn-default myPageBtn" ng-click="nextPage('money')">下一页</button>
         </div>
     </div>
 </div>

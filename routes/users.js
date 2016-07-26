@@ -122,16 +122,33 @@ router.get('/userCenter/getMessage', function(req, res){
     var rtnMsgs = new Array();
     for (var i = 0; i < results.length; i++){
       var msg = Object();
+      msg.id = results[i].id;
       msg.category = results[i].get('category');
       msg.type = results[i].get('type');
       msg.time = results[i].createdAt;
       msg.para1 = results[i].get('firstPara');
       msg.para2 = results[i].get('secondPara');
       msg.para3 = results[i].get('thirdPara');
+      msg.read = results[i].get('read');
       rtnMsgs.push(msg);
     }
     res.json({'rtnMsg': rtnMsgs});
   })
+})
+
+//更新已读未读消息
+router.post('/userCenter/readMsg', function(req, res) {
+  console.log("runned");
+  var msgIdArray = req.body.msgIdArray;
+  var msgObjectArray = new Array()
+  for (var i = 0; i < msgIdArray.length; i++) {
+    var msgObject = new messageLogger();
+    msgObject.id = msgIdArray[i];
+    msgObject.set('read', true);
+    msgObjectArray.push(msgObject);
+  }
+  AV.Object.saveAll(msgObjectArray);
+  res.json({'errorMsg': ''});
 })
 
 router.get('/register', function(req, res, next) {

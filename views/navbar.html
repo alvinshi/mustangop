@@ -32,7 +32,14 @@
                 <li><a ng-style="{color:myColors[2]}" href="/myClaim/{{userObjectId.userObjectId}}">我的认领</a></li>
                 <li><a ng-style="{color:myColors[3]}" href="/taskCheck">任务审核</a></li>
                 <li><a ng-style="{color:myColors[4]}" href="/doOuterTask">QQ换评工具</a></li>
-                <li><a ng-style="{color:myColors[5]}" href="/user#/inforManage" style="margin-left: 300px">消息</a></li>
+                <li>
+                    <a ng-style="{color:myColors[5]}" href="/user#/inforManage" style="margin-left: 300px">消息
+                        <div style="width: 6px; height: 6px; margin-bottom: 3px;
+                        border-radius: 3px; border: 0px solid white; background: #3498db;
+                        display: inline-block;" ng-show="unreadNotice">
+                        </div>
+                    </a>
+                </li>
 
 
             </ul>

@@ -344,6 +344,16 @@ body{
     margin-left: 16px
 }
 
+.msgDot{
+    width: 6px;
+    height: 6px;
+    margin-bottom: 3px;
+    border-radius: 3px;
+    border: 0px solid white;
+    background: #CC2222;
+    -webkit-box-shadow: 2px 2px 2px #e0e0e0;
+    display: inline-block;
+}
 /*
 历史任务*/
 .mytitle{
@@ -363,4 +373,16 @@ body{
 .do_taska a:hover{
     text-decoration: none;
 
+}
+
+.read_tag{
+    margin-left: 30px;
+    font-size: 14px;
+    color: #00ee00;
+}
+
+.unread_tag{
+    margin-left: 30px;
+    font-size: 14px;
+    color: #CC2222;
 }

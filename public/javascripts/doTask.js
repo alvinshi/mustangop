@@ -40,7 +40,6 @@ app.controller('doTaskCtrl', function($scope, $http, $location) {
                     $scope.commentTasks.push(response.doTask[i]);
                 }
             }
-            console.log($scope.allTaskObjects);
             $scope.taskObject = $scope.allTaskObjects;
             taskDisplayedInit();
             updateTaskDisplayed();
@@ -131,8 +130,6 @@ app.controller('doTaskCtrl', function($scope, $http, $location) {
     //点击确认按钮激发
     $scope.getTask = function(currentApp){
         var username = getCookie('username');
-        console.log(username);
-
         //报错条件
         if (username == ''){
             $scope.getTaskFormData.errorMsg = '请先登陆帐号后再领取任务';
