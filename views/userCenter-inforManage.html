@@ -87,8 +87,8 @@
         </div>
 
         <div style="margin-top: 30px; margin-bottom: 30px; text-align: center;">
-            <button class="btn btn-default myPageBtn" ng-click="prevPage('task')">上一页</button>
-            <button class="btn btn-default myPageBtn" ng-click="nextPage('task')">下一页</button>
+            <button class="btn btn-default myPageBtn" ng-class="{true: 'disabled'}[pageNum == 0]" ng-click="prevPage('task')">上一页</button>
+            <button class="btn btn-default myPageBtn" ng-class="{true: 'disabled'}[pageNum + 2 == totalPageNum]" ng-click="nextPage('task')">下一页</button>
         </div>
     </div>
 
@@ -177,8 +177,8 @@
             </div>
         </div>
         <div style="margin-top: 30px; margin-bottom: 30px; text-align: center;">
-            <button class="btn btn-default myPageBtn" ng-click="prevPage('money')">上一页</button>
-            <button class="btn btn-default myPageBtn" ng-click="nextPage('money')">下一页</button>
+            <button class="btn btn-default myPageBtn" ng-class="{true: 'disabled'}[pageNum == 0]" ng-click="prevPage('money')">上一页</button>
+            <button class="btn btn-default myPageBtn" ng-class="{true: 'disabled'}[pageNum + 2 == totalPageNum]" ng-click="nextPage('money')">下一页</button>
         </div>
     </div>
 </div>
