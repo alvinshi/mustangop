@@ -4,6 +4,8 @@
 
 var AV = require('leanengine');
 var IOSAppExcLogger = AV.Object.extend('IOSAppExcLogger');
+var User = AV.Object.extend('_User');
+var receiveTaskObject = AV.Object.extend('receiveTaskObject'); // 领取任务的库
 
 /**
  * 一个简单的云代码方法
@@ -12,6 +14,7 @@ AV.Cloud.define('hello', function(request, response) {
     response.success('Hello world!');
 });
 
+// QQ交换今日任务定时器
 function getRefreshTaskQuery(){
     var myDate = new Date();
     var myDateStr = myDate.getFullYear() + '-' + (parseInt(myDate.getMonth())+1) + '-' + myDate.getDate();
@@ -68,18 +71,95 @@ AV.Cloud.define('refreshTask', function(request, response) {
 
 });
 
+// 新版本审核定时器
+function getRefreshQuery(){
+    var myDate = new Date();
+    var myDateStr = myDate.getFullYear() + '-' + (parseInt(myDate.getMonth())+1) + '-' + myDate.getDate() +
+         '-' + myDate.getHours() + '-' + myDate.getMinutes() + '-' + myDate.getSeconds();
+
+    var query = new AV.Query(receiveTaskObject);
+    query.notEqualTo('completed', 1);
+    //query.lessThan('createdAt', myDateStr);
+    query.descending('createdAt');
+    return query;
+}
+
+AV.Cloud.define('checkTask', function(request, response){
+    var query = getRefreshQuery();
+    query.count().then(function(count){
+        var totalcount = count;
+
+        if (totalcount == 0){
+            console.log('!!!!! checkTask succeed: no task need to deal');
+            response.success('checkTask');
+            return;
+        }
+
+        var remain = totalcount % 1000;
+        var totalForCount = totalcount/1000 + remain > 0 ? 1 : 0;
+        for (var i = 0; i < totalForCount; i++){
+            var query_a = getRefreshQuery();
+            query_a.include('userObject');
+            query_a.include('taskObject');
+            query_a.limit(1000);
+            query_a.skip(i * 1000);
+            query_a.find().then(function(results){ // 查找出所有没有完成的任务
+                for (var e = 0; e < results.length; e++){
+                    var task = results[e].get('taskObject');
+                    var user = results[e].get('userObject');
+                    var taskmoney = task.get('rateUnitPrice');
+                    var releaseTaskUserMoney = user.get('totalMoney');
+                    var deductYB = releaseTaskUserMoney - (taskmoney * 1);
+                    var releaseuser = task.get('userObject');
+                    console.log(task.id);
+                    console.log(user.id);
+                    console.log(releaseTaskUserMoney);
+                    console.log(deductYB);
+
+                    // 扣除领取任务人的YB,因为任务没有做完
+                    var todo = AV.Object.createWithoutData('_User', user.id);
+                    todo.set('remainMoney', deductYB);
+                    todo.set('totalMoney', deductYB);
+                    todo.save().then(function(){
+                        console.log('!!!!! checkTask succeed');
+                        response.success('checkTask');
+                    },
+                        function (error) {
+                        console.log('----- refreshTask error');
+                    });
+
+                    // 增加发布人的YB
+                    var releaseUser = AV.Object.createWithoutData('_User', releaseuser.id);
+                    releaseUser.set('remainMoney', deductYB);
+                    releaseUser.set('totalMoney', deductYB);
+                    releaseUser.save().then(function(){
+                        console.log('!!!!! checkTask releaseUser succeed');
+                        response.success('checkTask');
+                    }),
+                        function(error){
+                        console.log('----- refreshTask error');
+                    }
+                }
+
+            })
+        }function error(){
+            console.log('----- refreshTask error: count error');
+        }
+    })
+});
+
 module.exports = AV.Cloud;
 
 
-//var paramsJson = {
-//    movie: "夏洛特烦恼"
-//};
-//AV.Cloud.run('refreshTask', paramsJson, {
-//    success: function(data) {
-//        // 调用成功，得到成功的应答data
-//    },
-//    error: function(err) {
-//        // 处理调用失败
-//    }
-//});
+var paramsJson = {
+    movie: "夏洛特烦恼"
+};
+AV.Cloud.run('checkTask', paramsJson, {
+    success: function(data) {
+        // 调用成功，得到成功的应答data
+    },
+    error: function(err) {
+        // 处理调用失败
+    }
+});
 
