@@ -137,6 +137,9 @@ app.post('/upload/img', function(req, resp) {
 app.get('/userProtocol', function(req, res) {
   res.render('userProtocol');
 });
+app.get('/handBook', function(req, res) {
+  res.render('handBook');
+});
 
 // 可以将一类的路由单独保存在一个文件中
 app.use('/api', api);
