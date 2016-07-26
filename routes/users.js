@@ -7,6 +7,7 @@ var https = require('https');
 var User = AV.Object.extend('_User');
 var messageLogger = AV.Object.extend('messageLogger');
 
+
 var Base64 = require('../public/javascripts/vendor/base64').Base64;
 
 // 用户注册
@@ -135,7 +136,8 @@ router.get('/userCenter/getMessage', function(req, res){
       msg.read = results[i].get('read');
       rtnMsgs.push(msg);
     }
-    res.json({'rtnMsg': rtnMsgs});
+    var encodedId = Base64.encode(userId);
+    res.json({'rtnMsg': rtnMsgs, 'yourId': encodedId});
   })
 })
 
