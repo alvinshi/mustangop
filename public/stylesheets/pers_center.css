@@ -46,21 +46,21 @@ body{
 }
 
 
+
+
 .img-normal{
     padding-left: 26px;
-
-}
-.img-normal2{
-    padding-left: 26px;
     margin-top: 20px;
-    border-left: 4px solid #3498db;
+    /*border-left: 4px solid #3498db;*/
 }
-.img-normal a,.img-normal2 a{
+.img-normal img{
+    margin-top: -10px;
+}
+.img-normal a{
     margin-left: 15px;
     font-size: 18px;
     color: #000000;
     text-decoration: none;
-
 }
 .img-normal a:hover{
     text-decoration: none;
@@ -77,7 +77,7 @@ body{
 .setting-content{
     background-color: #ffffff;
     margin-left:10px;
-    width: 755px;
+    width: 808px;
     height: 1000px;
     border-radius: 6px;
 }
@@ -107,7 +107,7 @@ body{
 
 .back-out{
 
-    margin-left: 65px;
+    margin-left: 63px;
     margin-top: 20px;
     font-size: 18px;
 }
@@ -184,15 +184,17 @@ body{
 .dotask{
     font-size: 18px;
     line-height: 20px;
-    color: #FFFFFF;
     background-color: #3498db;
     height: 40px
 }
 .dotask span:nth-child(1){
-    margin-left: 15px
+    margin-left: 11px
 }
 .dotask span:nth-child(2){
-    margin-left: 45px
+    margin-left: 23px
+}
+.dotask span:nth-child(3){
+    margin-left: 20px
 }
 .leftmoney span:nth-child(2){
     margin-left: 10px;
@@ -340,4 +342,15 @@ body{
     font-size: 14px;
     color: #666666;
     margin-left: 16px
+}
+
+/*
+历史任务*/
+.mytitle{
+    padding-top: 24px;font-size: 24px;color: #3498db;margin-left: 24px;
+}
+.history_date{
+    margin-left: 20px;
+    padding-left: 10px;
+    margin-top:30px;border-left: 4px solid #3498db;font-size: 18px;color: #3498db;
 }
