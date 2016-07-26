@@ -83,7 +83,7 @@ app.controller('inforManageCtrl', function($scope, $http){
 
     //初始
     $scope.pageNum = 0;
-    $scope.msgPerPage = 5;
+    $scope.msgPerPage = 10;
     var firstTaskIndex = 0;
     var lastTaskIndex = $scope.msgPerPage;
 

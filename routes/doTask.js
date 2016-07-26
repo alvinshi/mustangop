@@ -29,6 +29,7 @@ router.get('/taskHall', function(req, res){
     var user = new AV.User();
     user.id = userId;
 
+
     var query = new AV.Query(releaseTaskObject);
     query.notEqualTo('remainCount', '0');
     query.include('appObject');
@@ -207,15 +208,18 @@ router.post('/postUsertask/:taskObjectId/:ratePrice/:appId', function(req, res){
             receiver.id = taskOwnerId;
             var sender = new AV.User();
             sender.id = userId;
-
-            message.set('receiverObjectId', receiver);
-            message.set('senderObjectId', sender);
-            message.set('category', '任务');
-            message.set('type','领取');
-            message.set('firstPara', sender.id);
-            message.set('secondPara', trackName);
-            message.set('thirdPara', parseInt(receive_Count));
-            message.save();
+            var new_query = new AV.Query(User);
+            new_query.get(sender.id).then(function(data){
+                var senderName = data.get('username');
+                message.set('receiverObjectId', receiver);
+                message.set('senderObjectId', sender);
+                message.set('category', '任务');
+                message.set('type','领取');
+                message.set('firstPara', senderName);
+                message.set('secondPara', trackName);
+                message.set('thirdPara', parseInt(receive_Count));
+                message.save();
+            })
         });
     }
 
