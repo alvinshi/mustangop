@@ -40,9 +40,15 @@ app.controller('itunesSearchControl', function($scope, $http) {
                     console.log($scope.myApps);
                 }
                 var unitePrice = document.getElementById("price");
+
                 unitePrice.value = "30";
+
                 var comment=document.getElementById("comment");
+
                 comment.checked=true;
+
+
+
             });
         }
     });
@@ -254,7 +260,7 @@ app.controller('itunesSearchControl', function($scope, $http) {
 
 
     $scope.setValue1=function(){
-    document.getElementById("price").value="30"
+        document.getElementById("price").value="30"
     };
     $scope.setValue2=function(){
         document.getElementById("price").value="25"
