@@ -27,9 +27,10 @@
     border-radius: 4px;margin-right:10px
 }
 .getTask{
-    margin-left: 40px;font-size: 18px;color: #666666;position: absolute;right:-20px
+    margin-left: 40px;font-size: 18px;color: #666666;
+    position: absolute;right: 115px;
 }
 .finish{
 
-    font-size: 18px;color: #999999;position:absolute;right:-96px
+    font-size: 18px;color: #999999;position: absolute;right: 30px;
 }

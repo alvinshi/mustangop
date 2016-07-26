@@ -39,10 +39,10 @@
 <!--[if lt IE 8]>
 <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">更新您的浏览器</a> 从而获得更好的体验.</p>
 <![endif]-->
-  <div class="container" ng-controller="indexAppCtrl" >
+<div class="container" ng-controller="indexAppCtrl" >
     <!--导航-->
-       <th-nav></th-nav>
-  </div>
+    <th-nav></th-nav>
+</div>
 <div class="container">
     <div  class=" main_content"  ng-controller="itunesSearchControl">
         <button class="add_app" data-target="#addApp_modal" data-toggle="modal" ng-hide="numOfApps >= 5">
@@ -50,9 +50,9 @@
         </button>
         <h3 class="mytitle">第一步:选择或添加任务应用
             <span class="glyphicon glyphicon-question-sign"  data-placement="top"
-                     data-toggle="popover"
-                     data-content="目前只能添加5个应用哦!" id="glyphicon"
-                     ng-click="addApp()"></span>
+                  data-toggle="popover"
+                  data-content="目前只能添加5个应用哦!" id="glyphicon"
+                  ng-click="addApp()"></span>
 
 
         </h3>
@@ -62,23 +62,23 @@
         </div>
         <!--<div ng-show="numOfApps >= 5"class="alert alert-danger" style="margin-left: 380px;width: 200px;margin-top: -50px">目前只能添加5个应用哦</div>-->
 
-            <div class="list-group thumbnail_wrap" ng-click="selectedAppFunc(app.appleId)"  ng-repeat="app in myApps">
+        <div class="list-group thumbnail_wrap" ng-click="selectedAppFunc(app.appleId)"  ng-repeat="app in myApps">
 
-                <a href="" ng-click="releaseBtnClick(app.appleId)" data-toggle="modal" data-target="#mymodal">
-                    <p class=" btn-sm_release">
-                        <span class="glyphicon glyphicon-remove"></span>
-                    </p>
-                </a>
+            <a href="" ng-click="releaseBtnClick(app.appleId)" data-toggle="modal" data-target="#mymodal">
+                <p class=" btn-sm_release">
+                    <span class="glyphicon glyphicon-remove"></span>
+                </p>
+            </a>
 
-                <a href=""><img ng-src="{{ app.artworkUrl512 }}" class="img-responsive"  alt="App Icon"></a>
+            <a href=""><img ng-src="{{ app.artworkUrl512 }}" class="img-responsive"  alt="App Icon"></a>
 
-                <p class="app_name ">{{ app.trackName.substr(0,10)+"..."  }}</p>
-                <p class="app_version">版本号 {{ app.version }}</p>
-                <p class="app_update">更新日期{{ app.latestReleaseDate.substr(0,10)}}</p>
-                <!--<a >-->
-                    <!--<button  class="app_button_bottom hvr-box-shadow-inset" >解绑</button>-->
-                <!--</a>-->
-            </div>
+            <p class="app_name ">{{ app.trackName.substr(0,10)+"..."  }}</p>
+            <p class="app_version">版本号 {{ app.version }}</p>
+            <p class="app_update">更新日期{{ app.latestReleaseDate.substr(0,10)}}</p>
+            <!--<a >-->
+            <!--<button  class="app_button_bottom hvr-box-shadow-inset" >解绑</button>-->
+            <!--</a>-->
+        </div>
 
 
         <div class="addApp" ng-hide="numOfApps >= 5">
@@ -103,7 +103,7 @@
 
 
                                 <input type="radio" name="radio" id="comment"
-                                       ng-model="appNeedInfo.taskType"  value="评论" ng-click="setValue1()" ng-change="saveStatusChange()"> 评论
+                                       ng-model="appNeedInfo.taskType"  value="评论" ng-click="setValue1()" ng-change="saveStatusChange()" checked> 评论
 
                             </label>
                             <label class="radio-inline">
@@ -125,7 +125,7 @@
                         <label  class="col-lg-2 control-label" > 任务数量:</label>
                         <div class="col-lg-1">
                             <input type="text" class="form-control" neme="quantity" ng-change="calcuQuantity()" ng-model="appNeedInfo.excCount"  ng-change="saveStatusChange()" required>
-                             <span ng-show="error.excCount">必填</span>
+                            <span ng-show="error.excCount">必填</span>
                         </div>
                         <label  class="col-lg-2 control-label" > 任务单价:</label>
                         <div class="col-lg-1">
@@ -137,7 +137,7 @@
                                    placeholder="">
                         </div>
 
-                    <div  style="height: 32px;line-height: 3px;margin-left: 20px;width: 300px" ng-show="ErrorMsg.length" class=" col-lg-5 alert alert-danger"> {{ErrorMsg}}</div>
+                        <div  style="height: 32px;line-height: 3px;margin-left: 20px;width: 300px" ng-show="ErrorMsg.length" class=" col-lg-5 alert alert-danger"> {{ErrorMsg}}</div>
 
                     </div>
 
@@ -168,7 +168,7 @@
                         </div>
                         <label  class="col-lg-1 control-label">排名:</label>
                         <div class="col-lg-3">
-                            <input type="text" class="form-control" style="width: 143px;" placeholder="" ng-model="appNeedInfo.ranKing"  ng-change="saveStatusChange()">
+                            <input type="text" class="form-control" style="width: 75px;" placeholder="" ng-model="appNeedInfo.ranKing"  ng-change="saveStatusChange()">
                         </div>
                     </div>
                 </form>
@@ -194,7 +194,7 @@
                         <div class="col-lg-5" >
                             <input type="text"  class="form-control" placeholder="请输入小于20字符"
                                    ng-model="appNeedInfo.titleKeyword"
-                                   ng-change="checkText1()">
+                                   ng-change="checkText1(appNeedInfo.titleKeyword,20)">
                         </div>
                         <label  class="col-lg-1 control-label" style="margin-left: -40px" ><span ng-bind="appNeedInfo.titleKeyword.length+0" ng-style="color"></span>/20</label>
                     </div>
@@ -270,7 +270,7 @@
                         </li>
                         <li  style="margin-bottom: 30px" ng-hide="appNeedInfo.taskType == '下载'">
                             <p  style="margin-bottom: 20px">
-                                 返回app store, 好评"<span class="synwords">{{appNeedInfo.Score}}</span>星"
+                                返回app store, 好评"<span class="synwords">{{appNeedInfo.Score}}</span>星"
                             </p>
                             <p style="margin-bottom: 20px">
                                 &nbsp &nbsp &nbsp 标题关键词: <span class="synwords">{{appNeedInfo.titleKeyword}}</span></p>
@@ -395,7 +395,7 @@
                             <div class="double-bounce2"></div>
                         </div>
                         <!--<div class="alert alert-danger infor" role="alert">-->
-                            <!---->
+                        <!---->
                         <!--</div>-->
 
                         <div class="media" ng-repeat="app in appResults" >
@@ -442,7 +442,7 @@
                         <p style="font-size: 24px">
                             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;可在
                             <a  style="color: #3498db" href="/taskCheck"> 任务审核
-                        </a>中查看已发布的任务并审核提交结果,&nbsp;或在
+                            </a>中查看已发布的任务并审核提交结果,&nbsp;或在
                             <a style="color: #3498db" href="/doTask">任务大厅</a>领取任务赚取Y币.</p>
                     </div>
                     <div class="modal-footer">

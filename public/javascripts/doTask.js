@@ -18,6 +18,12 @@ app.controller('doTaskCtrl', function($scope, $http, $location) {
     $scope.noApp = false;
     //*********获取全部任务列表*************
     var url = 'doTask/taskHall';
+
+    //初始,可优化
+    $scope.pageNum = 0;
+    $scope.totalPageNum = 0;
+    $scope.inactiveTasks = new Array();
+
     $http.get(url).success(function(response) {
         if (response.doTask.length == 0){
             $scope.noApp = true
@@ -40,7 +46,6 @@ app.controller('doTaskCtrl', function($scope, $http, $location) {
                     $scope.commentTasks.push(response.doTask[i]);
                 }
             }
-            console.log($scope.allTaskObjects);
             $scope.taskObject = $scope.allTaskObjects;
             taskDisplayedInit();
             updateTaskDisplayed();
@@ -131,8 +136,6 @@ app.controller('doTaskCtrl', function($scope, $http, $location) {
     //点击确认按钮激发
     $scope.getTask = function(currentApp){
         var username = getCookie('username');
-        console.log(username);
-
         //报错条件
         if (username == ''){
             $scope.getTaskFormData.errorMsg = '请先登陆帐号后再领取任务';
