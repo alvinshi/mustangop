@@ -7,6 +7,7 @@ var https = require('https');
 var User = AV.Object.extend('_User');
 var messageLogger = AV.Object.extend('messageLogger');
 
+
 var Base64 = require('../public/javascripts/vendor/base64').Base64;
 
 // 用户注册
@@ -127,12 +128,18 @@ router.get('/userCenter/getMessage', function(req, res){
       msg.type = results[i].get('type');
       msg.time = results[i].createdAt;
       msg.para1 = results[i].get('firstPara');
+      if (msg.para1 == undefined){
+        msg.para1 = ''
+      }else if (msg.para1.length > 16){
+        msg.para1 = msg.para1.substring(0, 16) + '...';
+      }
       msg.para2 = results[i].get('secondPara');
       msg.para3 = results[i].get('thirdPara');
       msg.read = results[i].get('read');
       rtnMsgs.push(msg);
     }
-    res.json({'rtnMsg': rtnMsgs});
+    var encodedId = Base64.encode(userId);
+    res.json({'rtnMsg': rtnMsgs, 'yourId': encodedId});
   })
 })
 

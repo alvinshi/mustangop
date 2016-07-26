@@ -83,12 +83,14 @@ app.controller('inforManageCtrl', function($scope, $http){
 
     //初始
     $scope.pageNum = 0;
-    $scope.msgPerPage = 5;
+    $scope.msgPerPage = 6;
     var firstTaskIndex = 0;
     var lastTaskIndex = $scope.msgPerPage;
 
     var getMessage = '/user/userCenter/getMessage';
     $http.get(getMessage).success(function(response){
+        $scope.myId = response.yourId;
+        console.log($scope.myId);
         var messages = response.rtnMsg;
         $scope.taskMsg = new Array();
         $scope.systemMsg = new Array();

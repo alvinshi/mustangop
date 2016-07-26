@@ -59,7 +59,7 @@
                     <div class="promote1">
                         <span style="color:#f78649">{{msg.para1}} </span>拒绝了
                         <span style="color:#f78649">{{msg.para2}} </span>提交的结果,请在
-                        <a href="/myClaim"style="color:#3498db">我的认领 </a>中查看
+                        <a href="/myClaim/{{myId}}"style="color:#3498db">我的认领 </a>中查看
                     </div>
                 </div>
                 <hr class="horizon1">
@@ -87,8 +87,8 @@
         </div>
 
         <div style="margin-top: 30px; margin-bottom: 30px; text-align: center;">
-            <button class="btn btn-default myPageBtn" ng-click="prevPage('task')">上一页</button>
-            <button class="btn btn-default myPageBtn" ng-click="nextPage('task')">下一页</button>
+            <button class="btn btn-default myPageBtn" ng-class="{true: 'disabled'}[pageNum == 0]" ng-click="prevPage('task')">上一页</button>
+            <button class="btn btn-default myPageBtn" ng-class="{true: 'disabled'}[pageNum + 2 == totalPageNum]" ng-click="nextPage('task')">下一页</button>
         </div>
     </div>
 
@@ -177,8 +177,8 @@
             </div>
         </div>
         <div style="margin-top: 30px; margin-bottom: 30px; text-align: center;">
-            <button class="btn btn-default myPageBtn" ng-click="prevPage('money')">上一页</button>
-            <button class="btn btn-default myPageBtn" ng-click="nextPage('money')">下一页</button>
+            <button class="btn btn-default myPageBtn" ng-class="{true: 'disabled'}[pageNum == 0]" ng-click="prevPage('money')">上一页</button>
+            <button class="btn btn-default myPageBtn" ng-class="{true: 'disabled'}[pageNum + 2 == totalPageNum]" ng-click="nextPage('money')">下一页</button>
         </div>
     </div>
 </div>

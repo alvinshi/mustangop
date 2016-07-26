@@ -44,12 +44,6 @@
 <img src="/images/doTask/banner.png" style="width: 100vw; margin-top: 50px;"/>
 
 <div class="container" style="width: 1010px; padding:0;" ng-controller="doTaskCtrl">
-    <div ng-show="noApp">
-        <div style="text-align: center;">
-            <img style="margin-top: 100px;" src="images/horse.png"/>
-        </div>
-        <h1 style="text-align:center;">亲,还没有任务哦,再等等,或者可以去"<a href="myapp">我的发布</a>"发布任务!</h1>
-    </div>
     <div class="row" style="margin:0;">
         <p style="font-size: 30px; color: #3498db; margin: 40px 20px 10px 0; float: left" ng-show="!noApp">任务列表</p>
         <div ng-show="!noApp" class="alert alert-danger" role="alert" style="display: inline-block; margin-top: 35px;">
@@ -247,9 +241,12 @@
                         </div>
                     </div>
                 </div>
-                <div style="margin-top: 30px; margin-bottom: 30px; text-align: center;">
-                    <button class="btn btn-default myPageBtn" ng-show="!noApp"ng-click="prevPage()">上一页</button>
-                    <button class="btn btn-default myPageBtn" ng-show="!noApp" ng-click="nextPage()">下一页</button>
+                <div ng-show="taskDisplayed.length == undefined || taskDisplayed.length == 0">
+                    <h1 style="text-align: center; margin-top: 150px; margin-bottom: 150px;">今天还没有新的任务</h1>
+                </div>
+                <div  ng-hide="taskDisplayed.length == undefined || taskDisplayed.length == 0" style="margin-top: 30px; margin-bottom: 30px; text-align: center;">
+                    <button class="btn btn-default myPageBtn" ng-class="{true: 'disabled'}[pageNum == 0]" ng-click="prevPage()">上一页</button>
+                    <button class="btn btn-default myPageBtn" ng-class="{true: 'disabled'}[pageNum + 2 >= totalPageNum]" ng-click="nextPage()">下一页</button>
                 </div>
             </div>
             <div role="tabpanel" class="tab-pane" id="download">
@@ -415,9 +412,12 @@
                         </div>
                     </div>
                 </div>
-                <div style="margin-top: 30px; margin-bottom: 30px; text-align: center;">
-                    <button class="btn btn-default myPageBtn" ng-show="!noApp"ng-click="prevPage()">上一页</button>
-                    <button class="btn btn-default myPageBtn" ng-show="!noApp" ng-click="nextPage()">下一页</button>
+                <div ng-show="taskDisplayed.length == undefined || taskDisplayed.length == 0">
+                    <h1 style="text-align: center; margin-top: 150px; margin-bottom: 150px;">今天还没有新的下载任务</h1>
+                </div>
+                <div  ng-hide="taskDisplayed.length == undefined || taskDisplayed.length == 0" style="margin-top: 30px; margin-bottom: 30px; text-align: center;">
+                    <button class="btn btn-default myPageBtn" ng-class="{true: 'disabled'}[pageNum == 0]" ng-click="prevPage()">上一页</button>
+                    <button class="btn btn-default myPageBtn" ng-class="{true: 'disabled'}[pageNum + 2 >= totalPageNum]" ng-click="nextPage()">下一页</button>
                 </div>
             </div>
             <div role="tabpanel" class="tab-pane" id="comment">
@@ -583,9 +583,12 @@
                         </div>
                     </div>
                 </div>
-                <div style="margin-top: 30px; margin-bottom: 30px; text-align: center;">
-                    <button class="btn btn-default myPageBtn" ng-show="!noApp"ng-click="prevPage()">上一页</button>
-                    <button class="btn btn-default myPageBtn" ng-show="!noApp" ng-click="nextPage()">下一页</button>
+                <div ng-show="taskDisplayed.length == undefined || taskDisplayed.length == 0">
+                    <h1 style="text-align: center; margin-top: 150px; margin-bottom: 150px;">今天还没有新的评论任务</h1>
+                </div>
+                <div  ng-hide="taskDisplayed.length == undefined || taskDisplayed.length == 0" style="margin-top: 30px; margin-bottom: 30px; text-align: center;">
+                    <button class="btn btn-default myPageBtn" ng-class="{true: 'disabled'}[pageNum == 0]" ng-click="prevPage()">上一页</button>
+                    <button class="btn btn-default myPageBtn" ng-class="{true: 'disabled'}[pageNum + 2 >= totalPageNum]" ng-click="nextPage()">下一页</button>
                 </div>
             </div>
             <div role="tabpanel" class="tab-pane" id="inactive">
@@ -613,9 +616,12 @@
                     </table>
                     <hr style="margin:0; border-color: #dddddd;">
                 </div>
-                <div style="margin-top: 30px; margin-bottom: 30px; text-align: center;">
-                    <button class="btn btn-default myPageBtn" ng-show="!noApp"ng-click="prevPage()">上一页</button>
-                    <button class="btn btn-default myPageBtn" ng-show="!noApp" ng-click="nextPage()">下一页</button>
+                <div ng-show="taskDisplayed.length == undefined || taskDisplayed.length == 0">
+                    <h1 style="text-align: center; margin-top: 150px; margin-bottom: 150px;">任务大厅没有你不可以领取的任务</h1>
+                </div>
+                <div  ng-hide="taskDisplayed.length == undefined || taskDisplayed.length == 0" style="margin-top: 30px; margin-bottom: 30px; text-align: center;">
+                    <button class="btn btn-default myPageBtn" ng-class="{true: 'disabled'}[pageNum == 0]" ng-click="prevPage()">上一页</button>
+                    <button class="btn btn-default myPageBtn" ng-class="{true: 'disabled'}[pageNum + 2 >= totalPageNum]" ng-click="nextPage()">下一页</button>
                 </div>
             </div>
         </div>

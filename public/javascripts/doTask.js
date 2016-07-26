@@ -18,6 +18,12 @@ app.controller('doTaskCtrl', function($scope, $http, $location) {
     $scope.noApp = false;
     //*********获取全部任务列表*************
     var url = 'doTask/taskHall';
+
+    //初始,可优化
+    $scope.pageNum = 0;
+    $scope.totalPageNum = 0;
+    $scope.inactiveTasks = new Array();
+
     $http.get(url).success(function(response) {
         if (response.doTask.length == 0){
             $scope.noApp = true
