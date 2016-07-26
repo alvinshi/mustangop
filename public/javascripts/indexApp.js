@@ -37,7 +37,7 @@ app.controller('indexAppCtrl', function($scope, $http, $location){
         clearCookie('username');
 
         location.href='/';
-    }
+    };
 
     var getMessage = '/user/userCenter/getMessage';
     $http.get(getMessage).success(function(response){
