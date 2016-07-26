@@ -128,7 +128,9 @@ router.get('/userCenter/getMessage', function(req, res){
       msg.type = results[i].get('type');
       msg.time = results[i].createdAt;
       msg.para1 = results[i].get('firstPara');
-      if (msg.para1.length > 16){
+      if (msg.para1 == undefined){
+        msg.para1 = ''
+      }else if (msg.para1.length > 16){
         msg.para1 = msg.para1.substring(0, 16) + '...';
       }
       msg.para2 = results[i].get('secondPara');
