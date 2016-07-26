@@ -33,11 +33,14 @@ app.controller('itunesSearchControl', function($scope, $http) {
             //请求每个任务的任务需求,
             var getneedUrl = '/myapp/getNeed/' + $scope.selectedApp.appleId;
             $http.get(getneedUrl).success(function (response) {
+                for (var i = 0; i < response.appNeedInfo.length; i++){
+                    response.appNeedInfo[i].taskType = '下载';
+                };
                 $scope.appNeedInfo = response.appNeedInfo;
+
                 var myAppElemment = document.getElementsByClassName('thumbnail_wrap')[$scope.selectMyAppIndex];
                 if (myAppElemment != undefined) {
                     myAppElemment.style.border = '2px solid #3498db';
-                    console.log($scope.myApps);
                 }
                 var unitePrice = document.getElementById("price");
                 unitePrice.value = "30";

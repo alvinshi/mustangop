@@ -61,16 +61,32 @@ app.controller('inforManageCtrl', function($scope, $http){
         $scope.taskMsg = new Array();
         $scope.systemMsg = new Array();
         $scope.moneyMsg = new  Array();
+        $scope.unreadMsg = false;
+        $scope.unreadTaskMsg = false;
+        $scope.unreadSystemMsg = false;
+        $scope.unreadMoneyMsg = false;
         for (var i = 0; i < messages.length; i++){
             if (messages[i].category == '任务'){
                 $scope.taskMsg.push(messages[i]);
+                if (messages[i].read == false){
+                    $scope.unreadTaskMsg = true;
+                }
             }
             else if (messages[i].category == '系统'){
                 $scope.systemMsg.push(messages[i]);
+                if (messages[i].read == false){
+                    $scope.unreadSystemMsg = true;
+                }
             }
             else {
                 $scope.moneyMsg.push(messages[i]);
+                if (messages[i].read == false){
+                    $scope.unreadMoneyMsg = true;
+                }
             }
+        }
+        if ($scope.unreadTaskMsg || $scope.unreadMoneyMsg || $scope.unreadMoneyMsg){
+            $scope.unreadMsg = true;
         }
     })
 });

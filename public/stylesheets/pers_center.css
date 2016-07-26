@@ -341,3 +341,14 @@ body{
     color: #666666;
     margin-left: 16px
 }
+
+.msgDot{
+    width: 6px;
+    height: 6px;
+    margin-bottom: 3px;
+    border-radius: 3px;
+    border: 0px solid white;
+    background: #CC2222;
+    -webkit-box-shadow: 2px 2px 2px #e0e0e0;
+    display: inline-block;
+}

@@ -128,6 +128,7 @@ router.get('/userCenter/getMessage', function(req, res){
       msg.para1 = results[i].get('firstPara');
       msg.para2 = results[i].get('secondPara');
       msg.para3 = results[i].get('thirdPara');
+      msg.read = results[i].get('read');
       rtnMsgs.push(msg);
     }
     res.json({'rtnMsg': rtnMsgs});

@@ -3,6 +3,7 @@
     <li class="active">
         <a href="#taskInfor" data-toggle="tab">
             任务消息
+            <div class="msgDot"></div>
         </a>
     </li>
     <li><a href="#systemInfor" data-toggle="tab">系统消息</a></li>
@@ -10,8 +11,8 @@
 </ul>
 
 <div   id="myTabContent" class="tab-content">
+    <!--任务消息-->
     <div class="tab-pane fade in active" id="taskInfor">
-        <hr class="horizon1">
         <div ng-repeat="msg in taskMsg">
             <div ng-if="msg.type == '领取'">
                 <div class="taskInfor" >
@@ -31,7 +32,7 @@
             </div>
 
             <div ng-if="msg.type == '拒绝'">
-                <div class="infor1">
+                <div class="taskInfor">
                     <img src="/images/taskInfor/infor3.png" alt="" style="display: inline-block">
                     <span class="infor_one">任务消息</span>
                     <span  class="date">{{msg.time | date: 'MM/dd'}}</span>
@@ -39,7 +40,6 @@
                 </div>
 
                 <div class="promote">
-
                     <div class="promote1">
                         <span style="color:#f78649">{{msg.para1}} </span>拒绝了
                         <span style="color:#f78649">{{msg.para2}} </span>提交的结果,请在
@@ -50,7 +50,7 @@
             </div>
 
             <div ng-if="msg.type == '接受'">
-                <div class="infor1">
+                <div class="taskInfor">
                     <img src="/images/taskInfor/infor3.png" alt="" style="display: inline-block">
                     <span class="infor_one">任务消息</span>
                     <span  class="date">{{msg.time | date: 'MM/dd'}}</span>
@@ -58,7 +58,6 @@
                 </div>
 
                 <div class="promote">
-
                     <div class="promote1">
                         <span style="color:#f78649">{{msg.para1}} </span>接受了
                         <span style="color:#f78649">{{msg.para2}} </span>提交的结果,获得
@@ -68,7 +67,9 @@
                 <hr class="horizon1">
             </div>
         </div>
-    </div>  <!--任务消息-->
+    </div>
+
+    <!--系统消息-->
     <div class="tab-pane fade" id="systemInfor">
         <div class="taskInfor">
             <img src="/images/taskInfor/infor1.png" alt="" style="display: inline-block">
@@ -87,7 +88,9 @@
         <hr class="horizon1">
 
 
-    </div>  <!--系统消息-->
+    </div>
+
+    <!--Y币消息-->
     <div class="tab-pane fade" id="moneyInfor">
         <div ng-repeat="msg in moneyMsg">
             <div ng-if="msg.type == '发布'">

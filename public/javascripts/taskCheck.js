@@ -36,7 +36,6 @@ app.controller('taskCheckCtrl', function($scope, $http, $location) {
         var url = '/taskCheck/specTaskCheck/' + taskId;
         $http.get(url).success(function(response){
             $scope.specTask = response.rtnResults;
-            console.log($scope.specTask);
         })
     };
 
@@ -47,8 +46,6 @@ app.controller('taskCheckCtrl', function($scope, $http, $location) {
         var entryId = entry.id;
         entry.status = 3;
         var url = '/taskCheck/accept/' + entryId;
-        console.log(entryId);
-        console.log('request sent');
         $http.post(url).success(function(response){
             specTaskCheck($scope.currentTaskId);
         })
@@ -57,9 +54,6 @@ app.controller('taskCheckCtrl', function($scope, $http, $location) {
     //*****************拒绝接收****************************
     $scope.reject = function(entryId){
         var url = '/taskCheck/reject/' + entryId;
-        console.log(entryId);
-        console.log('request sent');
-        console.log($scope.myObj.rejectReason);
         var reject_reason = {'rejectReason': $scope.myObj.rejectReason};
         $http.post(url, reject_reason).success(function(response){
             specTaskCheck($scope.currentTaskId);
