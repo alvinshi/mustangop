@@ -1041,13 +1041,13 @@ router.get('/getNeed/:appleId', function(req, res){
     query.include('appObject');
     query.include('taskDemand');
     query.find().then(function(results){
+        var retApps = Object();
         for (var i = 0; i < results.length; i++){
             var appObject = results[i].get('appObject');
             var appObjectId = appObject.get('appleId');
             var taskdemand = results[i].get('taskDemand');
             if (taskdemand != undefined){
                 if (appObjectId == myappId){
-                    var retApps = Object();
                     retApps.taskType = taskdemand.get('taskType');
                     retApps.excCount = taskdemand.get('excCount');
                     retApps.screenshotCount = taskdemand.get('screenshotCount');
