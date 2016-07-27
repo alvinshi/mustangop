@@ -1,6 +1,9 @@
 body{
     background-image: url(/images/home/index.png);
     background-size: 100% auto;
+    margin: 0px;
+    padding: 0px;
+
 
 }
 
