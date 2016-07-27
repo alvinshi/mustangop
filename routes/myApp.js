@@ -949,10 +949,10 @@ router.post('/task/:appleId', function(req, res){
 
                 });
 
+                var taskObjectId = AV.Object.createWithoutData('releaseTaskObject', releasetaskObject.id);
+
                 // 循环发布的条数 记录单条的流水
                 for (var e = 0; e < excCount; e++){
-                    var taskObjectId = AV.Object.createWithoutData('releaseTaskObject', releasetaskObject.id);
-
                     var accountJour = new accountJournal();
                     accountJour.set('payYCoinUser', user);  //支出金额的用户
                     accountJour.set('payYCoin', parseInt(excUnitPrice)); // 此次交易支付金额
@@ -964,7 +964,6 @@ router.post('/task/:appleId', function(req, res){
                         //
                     })
                 }
-
 
             }, function(err) {
                 // 失败了.
@@ -1009,10 +1008,10 @@ router.post('/task/:appleId', function(req, res){
 
                 });
 
+                var taskObjectId = AV.Object.createWithoutData('releaseTaskObject', releaseObject.id);
+
                 // 循环发布的条数 记录单条的流水
                 for (var z = 0; z < excCount; z++){
-                    var taskObjectId = AV.Object.createWithoutData('releaseTaskObject', releaseObject.id);
-
                     var accountjournal = new accountJournal();
                     accountjournal.set('payYCoinUser', user);  //支出金额的用户
                     accountjournal.set('payYCoin', parseInt(excUnitPrice)); // 此次交易支付金额
@@ -1024,7 +1023,6 @@ router.post('/task/:appleId', function(req, res){
                         //
                     })
                 }
-
             }, function(err) {
                 // 失败了.
 
