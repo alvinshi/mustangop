@@ -124,7 +124,7 @@
                     <div class="form-group">
                         <label  class="col-lg-2 control-label" > 任务数量:</label>
                         <div class="col-lg-1">
-                            <input type="text" class="form-control" neme="quantity" ng-change="calcuQuantity()" ng-model="appNeedInfo.excCount"  ng-change="saveStatusChange()" required>
+                            <input type="text" class="form-control" ng-change="calcuQuantity()" ng-model="appNeedInfo.excCount" required>
                             <span ng-show="error.excCount">必填</span>
                         </div>
                         <label  class="col-lg-2 control-label" > 任务单价:</label>
@@ -137,7 +137,7 @@
                                    placeholder="">
                         </div>
 
-                        <div  style="height: 32px;line-height: 3px;margin-left: 20px;width: 300px" ng-show="ErrorMsg.length" class=" col-lg-5 alert alert-danger"> {{ErrorMsg}}</div>
+                        <div  style="height: 32px;line-height: 3px;margin: 0px;width: 300px" ng-show="!insufficientFund" class=" col-lg-5 alert alert-danger">你的账户余额不足</div>
 
                     </div>
 
@@ -322,9 +322,19 @@
 
 
         <!--Modal-->
-
-
-
+        <div class="modal fade" id="meiQian">
+            <div class="modal-dialog">
+                <div class="modal-content" style="width: 320px;">
+                    <div class="modal-header" style="height: 74px;background-color:#6eb7e8;border-radius:4px;text-align: center">
+                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+                        <h4 class="modal-title"  style="font-size: 26px;color: #FFFFFF">你的Y币余额不足</h4>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">确认</button>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div><!--解绑弹窗提示-->
 
         <div class="modal fade" id="error">
             <div class="modal-dialog">

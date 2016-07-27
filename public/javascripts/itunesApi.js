@@ -9,6 +9,7 @@ var navIndex = 1;
 
 
 app.controller('itunesSearchControl', function($scope, $http) {
+
     //************* Helper Function ********************
     //请求每个任务的任务需求, function封装
     function getDemand(){
@@ -18,6 +19,18 @@ app.controller('itunesSearchControl', function($scope, $http) {
         var getneedUrl = '/myapp/getNeed/' + $scope.selectedApp.appleId;
         $http.get(getneedUrl).success(function (response) {
             $scope.appNeedInfo = response.appNeedInfo;
+
+            //获取用户账户余额
+            var url = 'myapp/verify';
+            $scope.insufficientFund = false;
+
+            $http.get(url).success(function(response) {
+                $scope.usermoney = response.usermoney;
+                if ($scope.appNeedInfo.excCount != undefined){
+                    moneyCheck($scope.appNeedInfo.excCount, $scope.usermoney)
+                }
+            });
+
             //默认初始条目
             if ($scope.appNeedInfo.taskType == undefined){
                 $scope.appNeedInfo.taskType = '评论';
@@ -233,8 +246,15 @@ app.controller('itunesSearchControl', function($scope, $http) {
             flag = false;
             $scope.error.searchKeyword = true;
             $("#error").modal("show");
-
         }
+
+        if ($scope.appNeedInfo.excCount != undefined){
+            var taskMoney = $scope.appNeedInfo.excCount * $scope.appNeedInfo.excUnitPrice;
+            if (taskMoney < $scope.usermoney){
+                $('#meiQian').modal("show");
+                flag = false;
+            }
+        };
 
         //通过前端检查,请求服务器
         if (flag){
@@ -293,14 +313,21 @@ app.controller('itunesSearchControl', function($scope, $http) {
     };
 
     // 验证钱够不够发布任务
+    function moneyCheck(amount, accountMoney){
+        if (amount != undefined){
+            var taskMoney = amount * $scope.appNeedInfo.excUnitPrice;
+            if (taskMoney < accountMoney){
+                $scope.insufficientFund = true;
+            }
+            else{
+                $scope.insufficientFund = false;
+            }
+        }
+    }
+
     $scope.calcuQuantity = function(){
-        var taskMoney = $scope.appNeedInfo.excCount * document.getElementById("price").value;
-
-        var url = 'myapp/verify';
-        $http.post(url, {'taskMoney':taskMoney}).success(function(response){
-            $scope.ErrorMsg = response.Error;
-
-        })
+        $scope.saved = false;
+        moneyCheck($scope.appNeedInfo.excCount, $scope.usermoney)
     };
     //生成预览截图
 
