@@ -21,6 +21,8 @@ app.controller('myClaimControl', function($scope, $http, $location){
         $scope.dailyTask = response.myClaimApps;
         for (var i = 0; i < response.myClaimApps.length; i++){
             response.myClaimApps[i].mode = true;
+            console.log(response.myClaimApps[i]);
+            console.log(response.myClaimApps[i].rejected);
             //判断任务状态
             if (response.myClaimApps[i].rejected > 0){
                 response.myClaimApps[i].status = '有拒绝'
