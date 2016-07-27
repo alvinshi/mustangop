@@ -138,7 +138,9 @@ button{
 .btn-sm_release{
     background-color: white;
     border: none;
-    margin-left: 125px;
+    margin-left: 130px;
+    margin-top: 5px;
+    margin-bottom: 0px;
     outline: none;
 }
 
