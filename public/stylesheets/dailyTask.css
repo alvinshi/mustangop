@@ -68,7 +68,7 @@
     margin-top: 10px;font-size: 18px;
 color: #999999;
 }
-.proceed{
+.pending{
     /*height:28px;*/
     font-size: 18px;
     background-color: #79c3f7;
@@ -88,7 +88,7 @@ color: #999999;
 
 }
 
-.pending{
+.proceed{
     /*height:28px;*/
     font-size: 18px;
     background-color: #e68900;
@@ -204,7 +204,7 @@ color: #999999;
 
     }
 
-    .pending{
+    .proceed{
         height:20px;
         font-size: 12px;
         background-color: #e68900;
@@ -213,7 +213,7 @@ color: #999999;
         border: 1px solid  #e68900;
         border-radius:2px;
     }
-    .proceed {
+    .pending {
         height: 20px;
         font-size: 12px;
         background-color: #79c3f7;
