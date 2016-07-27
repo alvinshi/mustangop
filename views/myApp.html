@@ -62,7 +62,11 @@
         </div>
         <!--<div ng-show="numOfApps >= 5"class="alert alert-danger" style="margin-left: 380px;width: 200px;margin-top: -50px">目前只能添加5个应用哦</div>-->
 
-        <div class="list-group thumbnail_wrap" ng-click="selectedAppFunc(app)"  ng-repeat="app in myApps" ng-class="{true: 'border'}[selectedApp == app]">
+        <div class="list-group thumbnail_wrap"
+             ng-click="selectedAppFunc(app)"
+             ng-repeat="app in myApps"
+             ng-class="{true: 'border'}[selectedApp == app]"
+        style="border-radius: 10px;">
 
             <a href="" ng-click="releaseBtnClick(app)" data-toggle="modal" data-target="#mymodal">
                 <p class=" btn-sm_release">

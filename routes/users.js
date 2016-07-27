@@ -195,6 +195,11 @@ router.get('/userCenter/getMessage', function(req, res){
         msg.para1 = msg.para1.substring(0, 16) + '...';
       }
       msg.para2 = results[i].get('secondPara');
+      if (msg.para2 == undefined){
+        msg.para2 = ''
+      }else if (msg.para2.length > 16){
+        msg.para2 = msg.para2.substring(0, 16) + '...';
+      }
       msg.para3 = results[i].get('thirdPara');
       msg.read = results[i].get('read');
       rtnMsgs.push(msg);
