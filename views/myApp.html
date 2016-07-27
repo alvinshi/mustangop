@@ -72,9 +72,9 @@
 
             <a href=""><img ng-src="{{ app.artworkUrl512 }}" class="img-responsive"  alt="App Icon"></a>
 
-            <p class="app_name ">{{ app.trackName.substr(0,10)+"..."  }}</p>
+            <p class="app_name">{{ (app.trackName.length > 6)?(app.trackName.substring(0,6)+'...'):app.trackName}}</p>
             <p class="app_version">版本号 {{ app.version }}</p>
-            <p class="app_update">更新日期{{ app.latestReleaseDate.substr(0,10)}}</p>
+            <p class="app_update">更新日期 {{ app.latestReleaseDate | date: 'yy/MM/dd'}}</p>
             <!--<a >-->
             <!--<button  class="app_button_bottom hvr-box-shadow-inset" >解绑</button>-->
             <!--</a>-->
