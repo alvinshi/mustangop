@@ -111,6 +111,8 @@ router.get('/taskHall', function(req, res){
 
 // receive task 领取任务一个人统一领取
 router.post('/postUsertask/:taskObjectId/:ratePrice/:appId', function(req, res){
+    var myDate = new Date();
+    var myDateStr = myDate.getFullYear() + '-' + (parseInt(myDate.getMonth())+1) + '-' + myDate.getDate();
     //领取任务基本信息收集
     var userId = util.useridInReq(req);
     var receive_Count = req.body.receiveCount;
@@ -183,6 +185,7 @@ router.post('/postUsertask/:taskObjectId/:ratePrice/:appId', function(req, res){
         ReceiveTaskObject.set('appUpdateInfo', latestReleaseDate);//版本信息
         ReceiveTaskObject.set('remainCount', parseInt(receive_Count));
         ReceiveTaskObject.set('pending', parseInt(receive_Count));  // 未提交
+        ReceiveTaskObject.set('receiveDate', myDateStr);
         ReceiveTaskObject.set('submitted', 0); // 待审
         ReceiveTaskObject.set('rejected', 0);  // 拒绝
         ReceiveTaskObject.set('accepted', 0);  // 接收

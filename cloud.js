@@ -76,12 +76,11 @@ AV.Cloud.define('refreshTask', function(request, response) {
 // 新版本审核定时器
 function getRefreshQuery(){
     var myDate = new Date();
-    var myDateStr = myDate.getFullYear() + '-' + (parseInt(myDate.getMonth())+1) + '-' + myDate.getDate() +
-         '-' + myDate.getHours() + '-' + myDate.getMinutes() + '-' + myDate.getSeconds();
+    var myDateStr = myDate.getFullYear() + '-' + (parseInt(myDate.getMonth())+1) + '-' + myDate.getDate();
 
     var query = new AV.Query(receiveTaskObject);
     query.notEqualTo('completed', 1);
-    //query.lessThan('createdAt', myDateStr);
+    query.equalTo('receiveDate', myDateStr);
     query.descending('createdAt');
     return query;
 }
@@ -118,10 +117,6 @@ AV.Cloud.define('checkTask', function(request, response){
                     var releaseuserYB = releaseuser.get('freezingMoney'); // 发布任务者冻结的钱
 
                     // 每天10点 做任务人提交了任务 发布者未审核 钱付给做任务者
-                    var acceptedCount = results[e].get('accepted'); // 发布任务者接收了几条
-                    var userreleaseCount = results[e].get('receiveCount'); // 用户领取条数
-                    var userrejectedCount = results[e].get('rejected'); // 发布者拒绝的条数
-
                     var submitted = results[e].get('submitted');
                     if (submitted != 0){
                         // 增加 做任务人的金钱
@@ -159,27 +154,27 @@ AV.Cloud.define('checkTask', function(request, response){
                             AV.Object.saveAll(addtask).then(function(){
                                 console.log('!!!!! checkTask modify task is accepted succeed');
                             })
-                        })
+                        });
+
+                        // 修改流水库
+                        var query_journal = new AV.Query(accountJournal);
+                        query_journal.equalTo('payYCoinUser', user);
+                        query_journal.equalTo('taskObject', task);
+                        query_journal.find().then(function(result){
+                            for (var z = 0; z < result.length; z++){
+                                var payYB = result[z].get('payYCoin'); // 支付的YB
+                                var incomeYB = result[z].get('incomeYCoin'); // 得到的YB
+                                var systemYB = payYB - incomeYB;  // 系统得到的
+                                result[z].set('payYCoinStatus', 'payed');
+                                result[z].set('incomeYCoinStatus', 'incomed');
+                                result[z].set('systemYCoin', systemYB);
+                            }
+                            AV.Object.saveAll(result).then(function(){
+                                console.log('!!!!! checkTask  modify journal succeed');
+                            })
+                        });
 
                     }
-
-                    // 修改流水库
-                    var query_journal = new AV.Query(accountJournal);
-                    query_journal.equalTo('incomeYCoinUser', user);
-                    query_journal.equalTo('taskObject', task);
-                    query_journal.find().then(function(result){
-                        for (var z = 0; z < result.length; z++){
-                            var payYB = result[z].get('payYCoin'); // 支付的YB
-                            var incomeYB = result[z].get('incomeYCoin'); // 得到的YB
-                            var systemYB = payYB - incomeYB;  // 系统得到的
-                            result[z].set('payYCoinStatus', 'payed');
-                            result[z].set('incomeYCoinStatus', 'incomed');
-                            result[z].set('systemYCoin', systemYB);
-                        }
-                        AV.Object.saveAll(result).then(function(){
-                            console.log('!!!!! checkTask  modify journal succeed');
-                        })
-                    });
 
                     // 每天晚上10点 查看领取任务的人 有没有做完任务 没有做完罚钱
                     var task_not_done = results[e].get('remainCount');
@@ -204,6 +199,19 @@ AV.Cloud.define('checkTask', function(request, response){
                         },
                         function (error) {
                             console.log('----- checkTask error');
+                        });
+
+                        // 修改流水库 罚钱
+                        var query_account = new AV.Query(accountJournal);
+                        query_account.equalTo('incomeYCoinUser', user);
+                        query_account.equalTo('taskObject', task);
+                        query_account.find().then(function(result){
+                            for (var z = 0; z < result.length; z++){
+                                result[z].set('incomeYCoinStatus', 'punish_income');
+                            }
+                            AV.Object.saveAll(result).then(function(){
+                                console.log('!!!!! checkTask  modify punishment succeed');
+                            })
                         });
                     }
 
