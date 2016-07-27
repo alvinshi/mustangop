@@ -297,14 +297,13 @@
                 </div>
                 <div class="alert alert-danger" style="margin-top: 30px">任务发布成功后，任务信息不可修改，如需增加数量，请发布新任务。</div>
                 <div class="button_state">
-                    <div class="col-lg-3">
+                    <div class="col-lg-4 col-lg-offset-1">
                         <button class="btn btn_download"  ng-click='getScreenShot()'>
                             下载需求图
                         </button>
                     </div>
-                    <div class="col-lg-3">
-                    </div>
-                    <div class="col-lg-3">
+
+                    <div class="col-lg-4">
                         <button class="btn btn_save1" ng-click="saveNeed()" ng-hide="saved">保存</button>
                         <button class="btn btn_save2" ng-show="saved">已保存</button>
                     </div>
@@ -408,11 +407,11 @@
                                 <img class="media-object" ng-src="{{ app.artworkUrl512 }}" alt="App Icon">
                             </div>
                             <div class="media-body">
-                                <h4 class="media-heading appName">{{ app.trackName }}</h4>
-                                <div class="media-object">{{ app.sellerName }}</div>
+                                <h4 class="media-heading appName">{{ app.trackName.substr(0,10)+"..." }}</h4>
+                                <!--<div class="media-object">{{ app.sellerName }}</div>-->
                                 <div class="media-info">
-                                    <span class="media-info-updateDate">更新日期:{{ app.latestReleaseDate }}</span>
-                                    <span class="media-info-appId">App Id:&nbsp;&nbsp;{{ app.appleId }}</span>
+                                    <p class="media-info-updateDate">更新日期:{{ app.latestReleaseDate.substr(0,10) }}</p>
+                                    <p class="media-info-appId" style="margin-left: 0px">App Id:&nbsp;&nbsp;{{ app.appleId }}</p>
                                 </div>
                             </div>
                             <div class="media-right">

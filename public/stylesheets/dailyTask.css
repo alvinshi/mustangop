@@ -68,7 +68,7 @@
     margin-top: 10px;font-size: 18px;
 color: #999999;
 }
-.proceed{
+.pending{
     /*height:28px;*/
     font-size: 18px;
     background-color: #79c3f7;
@@ -78,12 +78,32 @@ color: #999999;
     border-radius: 6px;
 
 }
-.finish{
+.rejected{
     font-size: 18px;
     background-color:#f7798b;
     color: white;
     margin-right: 20px;
     border: 1px solid  #f7798b;
+    border-radius: 6px;
+
+}
+
+.proceed{
+    /*height:28px;*/
+    font-size: 18px;
+    background-color: #e68900;
+    color: white;
+    margin-right: 20px;
+    border: 1px solid  #e68900;
+    border-radius: 6px;
+
+}
+.finish{
+    font-size: 18px;
+    background-color:#00ee00;
+    color: white;
+    margin-right: 20px;
+    border: 1px solid  #00ee00;
     border-radius: 6px;
 
 }
@@ -172,17 +192,8 @@ color: #999999;
 
 
     }
-    .proceed{
-        height:20px;
-        font-size: 12px;
-        background-color: #79c3f7;
-        color: white;
-        margin-right: 5px;
-        border: 1px solid  #79c3f7;
-        border-radius:2px;
 
-    }
-    .finish{
+    .rejected{
         height:20px;
         font-size: 12px;
         background-color:#f7798b;
@@ -192,6 +203,37 @@ color: #999999;
         border-radius: 2px;
 
     }
+
+    .proceed{
+        height:20px;
+        font-size: 12px;
+        background-color: #e68900;
+        color: white;
+        margin-right: 5px;
+        border: 1px solid  #e68900;
+        border-radius:2px;
+    }
+    .pending {
+        height: 20px;
+        font-size: 12px;
+        background-color: #79c3f7;
+        color: white;
+        margin-right: 5px;
+        border: 1px solid #79c3f7;
+        border-radius: 2px;
+    }
+
+    .finish{
+        height:20px;
+        font-size: 12px;
+        background-color:#00ee00;
+        color: white;
+        margin-right: 5px;
+        border: 1px solid  #00ee00;
+        border-radius: 2px;
+
+    }
+
     .assign{
         margin-top:10px;
         font-size: 12px;

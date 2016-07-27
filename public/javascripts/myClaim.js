@@ -17,10 +17,24 @@ app.controller('myClaimControl', function($scope, $http, $location){
 
 
     $http.get(todayUrl).success(function(response){
+
+        $scope.dailyTask = response.myClaimApps;
         for (var i = 0; i < response.myClaimApps.length; i++){
             response.myClaimApps[i].mode = true;
+            //判断任务状态
+            if (response.myClaimApps[i].rejected > 0){
+                response.myClaimApps[i].status = '有拒绝'
+            }
+            else if (response.myClaimApps[i].accepted == response.myClaimApps[i].totalExcCount){
+                response.myClaimApps[i].status = '完成'
+            }
+            else if (response.myClaimApps[i].submitted > 0){
+                response.myClaimApps[i].status = '审核中'
+            }
+            else {
+                response.myClaimApps[i].status = '进行中';
+            }
         }
-        $scope.dailyTask = response.myClaimApps;
 
         if($scope.dailyTask.length>0){
             $scope.noApp=false;
@@ -34,19 +48,6 @@ app.controller('myClaimControl', function($scope, $http, $location){
     $scope.reAssign=function(app){
         app.mode = false;
         console.log("changed");
-
-        //var input=document.getElementsByClassName("assignTask")[$scope.index];
-        //input.innerHTML="";
-        //var input1=document.getElementsByClassName("input1")[$scope.index];
-        //input1.style.display="inline-block";
-        //input.value=$scope.app.detailRem;
-        //var btnSave=document.getElementsByClassName("btnSave")[$scope.index];
-        //btnSave.style.display="inline-block";
-        //var imgpen=document.getElementsByClassName("imgpen")[$scope.index];
-        //imgpen.style.display="none";
-
-
-
 
     };
 

@@ -241,12 +241,12 @@
                                             <div class="modal fade" id="rejectreason{{entry.id}}">
                                                 <div class="modal-dialog">
                                                     <div class="modal-content">
-                                                        <div class="modal-header">
+                                                        <div class="modal-header" style="margin:0px;height:78px;background-color:#6eb7e8;border-radius:4px;text-align: center">
                                                             <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
-                                                            <h4 class="modal-title">填写拒绝理由</h4>
+                                                            <h4 class="modal-title" style="font-size: 26px;color: #FFFFFF;text-align: center">填写拒绝理由</h4>
                                                         </div>
                                                         <div class="modal-body">
-                                                            <textarea cols="30" rows="10" ng-model="myObj.rejectReason"></textarea>
+                                                            <textarea cols="30" rows="10"  style="width:550px" ng-model="myObj.rejectReason"></textarea>
                                                         </div>
                                                         <div class="modal-footer">
                                                             <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="reject(entry.id)">确认</button>
