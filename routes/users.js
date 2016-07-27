@@ -106,7 +106,13 @@ router.get('/mypayYB', function(req, res){
       var userpayYB = results[i].get('payYCoin');
       userpayYCoinList.push(userpayYB);
     }
-    res.json({'todyPayYB':eval(userpayYCoinList.join('+'))})
+    var payYB = '';
+    if (userpayYCoinList.length > 0){
+      payYB = eval(userpayYCoinList.join('+'))
+    }else {
+      payYB = 0
+    }
+    res.json({'todyPayYB':payYB})
 
   })
 });
@@ -130,10 +136,11 @@ router.get('/myincomeYB', function(req, res){
       var userincomeYB = results[i].get('incomeYCoin');
       userincomeYCoinList.push(userincomeYB);
     }
+    var incomeYB = '';
     if (userincomeYCoinList.length > 0){
-      var incomeYB = eval(userincomeYCoinList.join('+'))
+      incomeYB = eval(userincomeYCoinList.join('+'))
     }else {
-      var incomeYB = 0
+      incomeYB = 0
     }
     res.json({'usertodyIncome':incomeYB})
 
@@ -141,7 +148,7 @@ router.get('/myincomeYB', function(req, res){
 });
 
 //个人中心用户保存信息
-router.post('/userCenter',function(req, res, next){
+router.post('/userCenter',function(req, res){
   var userId = util.useridInReq(req);
   var userNickname = req.body.userNickname;
   var userQQ = req.body.userQQ;
