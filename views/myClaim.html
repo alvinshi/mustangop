@@ -82,8 +82,10 @@
                 </div>
                 <div  class="center">
                     <!--<span class="appid">App ID: {{app.appleId}}</span>-->
-                    <button  class="proceed"  ng-show="app.surplusCount">进行中</button>
-                    <button  class="finish" ng-hide="app.surplusCount">已完成</button>
+                    <button  class="proceed"  ng-show="app.status == '进行中'">未完成</button>
+                    <button  class="pending" ng-show="app.status == '审核中'">审核中</button>
+                    <button  class="rejected" ng-show="app.status == '有拒绝'">有拒绝</button>
+                    <button  class="finish" ng-show="app.status == '完成'">已完成</button>
                     <button class="download">{{app.excKinds}}</button>
                     <button class="left">共&nbsp;<span style="color: #458ec0">{{app.totalExcCount}}</span>条</button>
                     <button class="surplus" >剩余&nbsp;<span class="num"style="color: #ff9053">{{app.surplusCount}}</span>条</button>
@@ -111,7 +113,6 @@
 
         </div>
     </div>
-
 </div>
 <th-footer>
 
