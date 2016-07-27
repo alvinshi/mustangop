@@ -215,6 +215,16 @@ app.controller('userCenterCtrl', function($scope, $http){
 
     });
 
+    var YBUrl = '/user/mypayYB';
+    $http.get(YBUrl).success(function(response){
+        $scope.todyPayYB = response.todyPayYB;
+    });
+
+    var incomeUrl = '/user/myincomeYB';
+    $http.get(incomeUrl).success(function(response){
+        $scope.usertodyIncome = response.usertodyIncome;
+    });
+
     $scope.preserve = function(){
         var userUrl = '/user/userCenter';
         $http.post(userUrl,{'userNickname':$scope.userNickname, 'userQQ':$scope.userQQ}).success(function(response){

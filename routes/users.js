@@ -6,6 +6,7 @@ var util = require('./util');
 var https = require('https');
 var User = AV.Object.extend('_User');
 var messageLogger = AV.Object.extend('messageLogger');
+var accountJournal = AV.Object.extend('accountJournal'); // 记录账户变动明细表
 
 
 var Base64 = require('../public/javascripts/vendor/base64').Base64;
@@ -84,6 +85,53 @@ router.get('/userCenter',function(req, res, next){
     //失败
     res.json({'errorId':error.code, 'errorMsg':error.message});
   }
+});
+
+
+// 我的Y币 消耗
+router.get('/mypayYB', function(req, res){
+  var userId = util.useridInReq(req);
+  var myDate = new Date();
+  var myDateStr = myDate.getFullYear() + '-' + (parseInt(myDate.getMonth())+1) + '-' + myDate.getDate();
+
+  var user = new AV.User();
+  user.id = userId;
+
+  var query = new AV.Query(accountJournal);
+  query.equalTo('payYCoinUser', user);
+  //query.equalTo('createdAt', myDateStr);
+  query.find().then(function(results){
+    var userpayYCoinList = new Array();
+    for (var i = 0; i < results.length; i++){
+      var userpayYB = results[i].get('payYCoin');
+      userpayYCoinList.push(userpayYB);
+    }
+    res.json({'todyPayYB':eval(userpayYCoinList.join('+'))})
+
+  })
+});
+
+// 得到
+router.get('/myincomeYB', function(req, res){
+  var userId = util.useridInReq(req);
+  var myDate = new Date();
+  var myDateStr = myDate.getFullYear() + '-' + (parseInt(myDate.getMonth())+1) + '-' + myDate.getDate();
+
+  var user = new AV.User();
+  user.id = userId;
+
+  var query = new AV.Query(accountJournal);
+  query.equalTo('incomeYCoinUser', user);
+  //query.equalTo('createdAt', myDateStr);
+  query.find().then(function(results){
+    var userincomeYCoinList = new Array();
+    for (var i = 0; i < results.length; i++){
+      var userincomeYB = results[i].get('incomeYCoin');
+      userincomeYCoinList.push(userincomeYB);
+    }
+    res.json({'usertodyIncome':eval(userincomeYCoinList.join('+'))})
+
+  })
 });
 
 //个人中心用户保存信息
