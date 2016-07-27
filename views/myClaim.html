@@ -91,10 +91,14 @@
                 <div class="assign">
 
                     分配备注:<span style="margin-left: 15px" class="num  assignTask" >{{app.detailRem}}</span>
+<<<<<<< HEAD
                     <input  class="input1 hidden-xs" type="text" style="display:none;width:400px"
                         placeholder="{{app.detailRem}}"    ng-model="remark">
+=======
+                    <input  class="input1 hidden-xs" type="text" style="display:none;width:400px" ng-model="app.detailRem">
+>>>>>>> e6a5ea9c49fd274ec72eca7899a4b86d06fa9822
                     <img src="../images/home/pen.png" class="imgpen hidden-xs" ng-click="reAssign(app.trackName)">
-                    <button  class="btnSave hidden-xs" style="display:none" ng-click="saveRemark()">保存</button>
+                    <button  class="btnSave hidden-xs" style="display:none" ng-click="saveRemark(app.detailRem, app.taskObjectId)">保存</button>
                 </div>
             </div>
             <div class=" hidden-xs  media-right">

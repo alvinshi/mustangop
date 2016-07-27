@@ -55,10 +55,26 @@ router.get('/claim/:userObjectId', function(req, res){
             retApps.push(appHisObject);
 
         }
-        res.json({'myDailyApps':retApps});
+        res.json({'myClaimApps':retApps});
     }),function(error){
         res.json({'errorMsg':error.message, 'errorId': error.code});
     }
+});
+
+// 修改分配备注
+router.post('/saveRemark/:userObjectId', function(req, res){
+    var userId = Base64.decode(req.params.userObjectId);
+    var userdetaRem = req.body.remark;
+    var taskid = req.body.taskObjectId;
+
+    var query = new AV.Query(receiveTaskObject);
+    query.get(taskid).then(function(results){
+        results.set('detailRem', userdetaRem);
+        results.save().then(function(){
+        });
+        res.json({'errorId':0, 'errorMsg':''});
+    })
+
 });
 
 

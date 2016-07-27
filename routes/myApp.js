@@ -210,6 +210,7 @@ router.post('/add', function(req, res, next) {
 
             appObject.save().then(function() {
                 // 实例已经成功保存.
+                appInfo.appObjectId = appObject.id;
                 blindAppToUser(res, userId, appObject, appInfo);
 
             }, function(err) {
