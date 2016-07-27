@@ -1136,19 +1136,14 @@ router.post('/taskneed/:appid', function(req, res){
 });
 
 // 验证钱够不够发布任务
-router.post('/verify', function(req, res){
+router.get('/verify', function(req, res){
     var userId = util.useridInReq(req);
     var postmoney = req.body.taskMoney;
     var query = new AV.Query('_User');
     query.equalTo('objectId', userId);
     query.first().then(function(results){
         var usermoney = results.get('remainMoney');
-
-        if (usermoney > postmoney){
-            res.json({'Error':''})
-        }else {
-            res.json({'Error':'Y币余额不足,请修改任务数量或补充Y币'})
-        }
+        res.json({'usermoney':usermoney});
     })
 
 });
