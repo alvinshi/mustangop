@@ -87,9 +87,11 @@
     margin-top: 20px;
 }
 .page-wrapper{
-    margin-top: 30px;
-    margin-left: 40px;
-    margin-right: 40px;
+    width: 1001px;
+    margin: auto;
+    /*margin-top: 30px;*/
+    /*margin-left: 40px;*/
+    /*margin-right: 40px;*/
 }
 .text-center{
     font-size: 24px;
@@ -172,7 +174,7 @@
 
     }
     .switchImg img{
-       width: 30px;
+        width: 30px;
         height: 30px;
         top: 100px;
         left: 214px

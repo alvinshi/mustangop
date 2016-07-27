@@ -23,10 +23,9 @@
 
     <!--第三方 CSS JS-->
     <link rel="stylesheet" href="../stylesheets/vendor/font-awesome.min.css">
-    <link rel="stylesheet" href="../stylesheets/myApp.css">
     <link rel="stylesheet" href="../stylesheets/loading.css">
     <link rel="stylesheet" href="/stylesheets/vendor/hover/hover-min.css">
-    <link rel="stylesheet" href="../stylesheets/taskDetail.css">
+    <link rel="stylesheet" href="../stylesheets/interiorExcDetail.css">
 
     <!--网站内部js-->
 
@@ -150,7 +149,11 @@
                 <img ng-src="{{taskImg}}">
             </span>
         </div>
-
+        <div class="col-lg-4 col-lg-offset-8">
+            <button style="width: 80px;height: 36px;background-color: #dddddd;font-size: 16px;color: #ffffff;border-radius: 4px;border: 1px solid  #dddddd">已审核</button>
+            <button style="width: 80px;height: 36px;background-color: #fff2f4;font-size: 16px;color: #f7798b;border-radius: 4px;border: 1px solid  #fff2f4">被拒绝</button>
+            <button style="width: 80px;height: 36px;background-color: #f5fbff;font-size: 16px;color: #79c3f7;border-radius: 4px;border: 1px solid  #f5fbff">待审核</button>
+        </div>
     </div>
 </div>
 

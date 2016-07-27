@@ -42,21 +42,52 @@ app.controller('taskCheckCtrl', function($scope, $http, $location) {
     //***************任务审核动作逻辑**********************
 
     //*****************确认接收***************************
+    $scope.checkText = function () {
+        if ($scope.myObj.rejectReason.length >20) {
+            $scope.myObj.rejectReason = $scope.myObj.rejectReason.substr(0,20);
+        }
+    };
+
+
+
+
     $scope.accept = function(entry){
         var entryId = entry.id;
-        entry.status = 3;
-        var url = '/taskCheck/accept/' + entryId;
-        $http.post(url).success(function(response){
-            specTaskCheck($scope.currentTaskId);
-        })
-    }
+                entry.status = 3;
+                var url = '/taskCheck/accept/' + entryId;
+                $http.post(url).success(function(response){
+                    specTaskCheck($scope.currentTaskId);
+                })
+
+
+        };
+
+
+
 
     //*****************拒绝接收****************************
     $scope.reject = function(entryId){
-        var url = '/taskCheck/reject/' + entryId;
-        var reject_reason = {'rejectReason': $scope.myObj.rejectReason};
-        $http.post(url, reject_reason).success(function(response){
-            specTaskCheck($scope.currentTaskId);
-        })
+        var flag=true;
+        $scope.required = false;
+        if($scope.myObj.rejectReason==""||$scope.myObj.rejectReason==undefined){
+            flag=false;
+            $scope.required = true;
+            //$("#rejectreason{{entryId}}").modal("show");
+        }
+        if(flag){
+
+            var url = '/taskCheck/reject/' + entryId;
+            var reject_reason = {'rejectReason': $scope.myObj.rejectReason};
+            $http.post(url, reject_reason).success(function(response){
+
+                $("#rejectreason"+entryId).modal("hide");
+
+                specTaskCheck($scope.currentTaskId);
+            })
+        }
+
     }
+
+
+
 });
