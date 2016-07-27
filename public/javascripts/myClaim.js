@@ -58,8 +58,6 @@ app.controller('myClaimControl', function($scope, $http, $location){
         $http.post(saveurl,{"remark":detailRem, 'taskObjectId': taskObjectId}).success(
             function(response){
                 app.mode=true;
-
-
             }
         )
     };
