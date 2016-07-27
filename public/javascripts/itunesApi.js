@@ -9,52 +9,60 @@ var navIndex = 1;
 
 
 app.controller('itunesSearchControl', function($scope, $http) {
+    //************* Helper Function ********************
+    //请求每个任务的任务需求, function封装
+    function getDemand(){
+        if ($scope.selectedApp == undefined){
+            $scope.appNeedInfo == undefined;
+        }
+        var getneedUrl = '/myapp/getNeed/' + $scope.selectedApp.appleId;
+        $http.get(getneedUrl).success(function (response) {
+            $scope.appNeedInfo = response.appNeedInfo;
+            //默认初始条目
+            if ($scope.appNeedInfo.taskType == undefined){
+                $scope.appNeedInfo.taskType = '评论';
+            }
+            if ($scope.appNeedInfo.taskType == '评论'){
+                $scope.appNeedInfo.excUnitPrice = 30;
+            }
+            else {$scope.appNeedInfo.excUnitPrice = 25};
+        });
+    };
 
-    //$scope.isError = 0;
-    var appsUrl = 'myapp/angular';
-    $scope.selectMyAppIndex=0;
+    //**************页面载入变量初始************************
     $scope.isLoadingMyApp = true;
-
-    var progressTimerHandle = undefined;
-    $scope.progressNum = 0;
-
     $scope.numOfApps = undefined;
+    $scope.selectedApp = undefined;
+    $scope.saved = false;
 
+    //****************请求绑定的App条目***********************
+    var appsUrl = 'myapp/angular';
     $http.get(appsUrl).success(function(response){
+        //接收到服务器信息反馈
         $scope.isLoadingMyApp = false;
-        var myAppsBefore = response.myApps;
-        myAppsBefore.sort(function(a, b){return a.createdAt >= b.createdAt});
-        $scope.myApps = myAppsBefore;//数组
+        $scope.myApps = response.myApps;
         $scope.numOfApps = $scope.myApps.length;
 
-        if ($scope.myApps.length > 0) {
+        if ($scope.numOfApps > 0) {
+            //App排序
+            $scope.myApps = $scope.myApps.sort(function(a, b){return a.createdAt >= b.createdAt});
+            //默认选择第一个App
             $scope.selectedApp = $scope.myApps[0];
-
-            //请求每个任务的任务需求,
-            var getneedUrl = '/myapp/getNeed/' + $scope.selectedApp.appleId;
-            $http.get(getneedUrl).success(function (response) {
-                for (var i = 0; i < response.appNeedInfo.length; i++){
-                    response.appNeedInfo[i].taskType = '下载';
-                };
-                $scope.appNeedInfo = response.appNeedInfo;
-
-                var myAppElemment = document.getElementsByClassName('thumbnail_wrap')[$scope.selectMyAppIndex];
-                if (myAppElemment != undefined) {
-                    myAppElemment.style.border = '2px solid #3498db';
-                }
-                var unitePrice = document.getElementById("price");
-
-                unitePrice.value = "30";
-
-                var comment=document.getElementById("comment");
-
-                comment.checked=true;
-
-
-
-            });
+            getDemand()
         }
     });
+
+    //选择App
+    $scope.selectedAppFunc = function(app){
+        //保存状态重新初始
+        $scope.saved = false;
+        $scope.selectedApp = app;
+        getDemand()
+    };
+
+    //搜索App
+    var progressTimerHandle = undefined;
+    $scope.progressNum = 0;
 
     $scope.searchApp = function(){
         $scope.isError = 0;
@@ -109,30 +117,23 @@ app.controller('itunesSearchControl', function($scope, $http) {
 
     $scope.keySearchApp = function(e){
         var keycode = window.event?e.keyCode:e.which;
-        //console.log('keycode ' + keycode);
-        //enter or space
         if(keycode==13 ){
             $scope.searchApp();
         }
     };
 
+
+    //添加App
     $scope.chooseMyApp = function(appInfo){
-        //$cookieStore.get("name") == "my name";
-
         var searchUrl = 'myapp/add';
-
-        console.log(appInfo);
         $http.post(searchUrl, {'appInfo':appInfo}).success(function(response){
-
-            console.log(response.errorId);
-
             if (response.errorId == 0 || response.errorId === undefined){
                 var flag = 0;
-
+                //本地没有App, 初始Array
                 if ($scope.myApps == undefined){
                     $scope.myApps = new Array();
                 }
-
+                //myapp里面有了就不能重复添加
                 for (var i = 0; i < $scope.myApps.length; i++){
                     var app = $scope.myApps[i];
                     if (app.appleId == appInfo.appleId){
@@ -140,64 +141,65 @@ app.controller('itunesSearchControl', function($scope, $http) {
 
                         break;
                     }
-                }//myapp里面有了就不能重复添加
-
+                }
 
                 if (flag == 0){
-                    console.log('add app to ui');
-                    //第一个不是最后一个
+                    //默认选择的App是新添加的App
+                    $scope.selectedApp = response.newApp;
+                    getDemand();
                     $scope.myApps.push(response.newApp);
-
+                    $scope.numOfApps ++;
                 }
-                $scope.errorMsg = '';
             }else {
                 $scope.errorMsg = response.errorMsg;
             }
+
             $scope.searchKey='';
-            $("#addApp_modal").modal('hide');
-
-            //location.href='/app/' + appInfo.appleId;
-            //location.href="/myApp";
-
             $scope.appResults = [];
-            $scope.numOfApps ++;
+            $("#addApp_modal").modal('hide');
 
         });
     };
 
-    $scope.releaseBtnClick = function(appid){
-        $scope.prepareReleaseAppid = appid;
+    //释放App
+    $scope.releaseBtnClick = function(app){
+        $scope.prepareReleaseApp = app;
 
     };
 
     $scope.releaseMyApp = function(){
         var searchUrl = 'myapp/delete';
-        var appid = $scope.prepareReleaseAppid;
-        console.log('releaseMyApp' + appid);
+        var appid = $scope.prepareReleaseApp.appleId;
         $http.post(searchUrl, {'appid':appid}).success(function(response){
             if (response.errorId == 0){
                 console.log('remove app if');
                 for (var i = 0; i < $scope.myApps.length; i++){
                     var app = $scope.myApps[i];
                     if (app.appleId == appid){
-                        console.log('remove app to ui');
                         $scope.myApps.splice(i, 1);
                         break;
                     }
                 }
-
-                $scope.errorMsg = '';
             }else {
-                console.log('remopp else');
                 $scope.errorMsg = response.errorMsg;
             }
-
             $scope.appResults = [];
             $scope.numOfApps --;
-
-
+            if ($scope.numOfApps == 0){
+                $scope.selectedApp = undefined;
+                getDemand()
+            }
+            else {
+                //如果删除的是之前选择的App, 默认App为第一个
+                if ($scope.prepareReleaseApp == $scope.selectedApp){
+                    $scope.selectedApp = $scope.myApps[0];
+                    getDemand();
+                }
+            }
         });
     };
+
+
     //保存
     $scope.saved = false;
 
@@ -234,7 +236,6 @@ app.controller('itunesSearchControl', function($scope, $http) {
             $("#error").modal("show");
 
         }
-
 
         //通过前端检查,请求服务器
         if (flag){
@@ -289,43 +290,6 @@ app.controller('itunesSearchControl', function($scope, $http) {
             $scope.appNeedInfo.detailRem = $scope.appNeedInfo.detailRem.substr(0, 140);
             saveStatusChange();
         }
-    };
-
-
-
-    $scope.selectedAppFunc = function(appleId){
-        $scope.saved = false;
-        //remove border in old
-        var myAppElemment = document.getElementsByClassName('thumbnail_wrap')[$scope.selectMyAppIndex];
-        myAppElemment.style.border = '2px solid #e0e0e0';
-        for (var i = 0; i < $scope.myApps.length; i++){
-            var tempApp = $scope.myApps[i];
-            if (tempApp.appleId == appleId){
-                $scope.selectedApp = tempApp;
-                $scope.selectMyAppIndex = i;
-                break;
-            }
-        }
-
-        //add border in new
-        myAppElemment = document.getElementsByClassName('thumbnail_wrap')[$scope.selectMyAppIndex];
-        myAppElemment.style.border = '2px solid #3498db';
-
-        //请求每个任务的任务需求,
-        var getneedUrl = '/myapp/getNeed/' + $scope.selectedApp.appleId;
-        $http.get(getneedUrl).success(function(response){
-            $scope.appNeedInfo = response.appNeedInfo;
-            var myAppElemment = document.getElementsByClassName('thumbnail_wrap')[$scope.selectMyAppIndex];
-            if (myAppElemment != undefined){
-                myAppElemment.style.border = '2px solid #3498db';
-                console.log($scope.myApps);
-            }
-            var unitePrice=document.getElementById("price");
-            unitePrice.value="30";
-            var comment=document.getElementById("comment");
-            comment.checked=true;
-
-        });
     };
 
     // 验证钱够不够发布任务
