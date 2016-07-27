@@ -250,7 +250,8 @@ app.controller('itunesSearchControl', function($scope, $http) {
 
         if ($scope.appNeedInfo.excCount != undefined){
             var taskMoney = $scope.appNeedInfo.excCount * $scope.appNeedInfo.excUnitPrice;
-            if (taskMoney < $scope.usermoney){
+            console.log($scope.usermoney);
+            if (taskMoney > $scope.usermoney){
                 $('#meiQian').modal("show");
                 flag = false;
             }
