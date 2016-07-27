@@ -81,7 +81,6 @@
                                     <span class="infoBubble">{{ app.taskType }}</span>
                                     <span class="infoBubble">剩余: <span style="color:#53d435">{{ app.remainCount }}</span> 条</span>
                                     <span class="infoBubble">单价: <span style="color:#53d435">{{app.rateUnitPrice}}</span> Y币</span>
-                                    <span class="infoBubble">IOS</span>
                                 </div>
                             </td>
                             <td ng-if="!app.myTask" style="padding-right: 0px;">
@@ -262,17 +261,26 @@
                                     <span class="infoBubble">{{ app.taskType }}</span>
                                     <span class="infoBubble">剩余: <span style="color:#53d435">{{ app.remainCount }}</span> 条</span>
                                     <span class="infoBubble">单价: <span style="color:#53d435">{{app.rateUnitPrice}}</span> Y币</span>
-                                    <span class="infoBubble">IOS</span>
                                 </div>
                             </td>
-                            <td style="padding-right: 0px;">
+                            <td ng-if="!app.myTask" style="padding-right: 0px;">
                                 <button class="mybtn reverse hvr-float-shadow" data-target="#detail_download{{$index}}" data-toggle="modal">
                                     任务详情
                                 </button>
                             </td>
-                            <td style="padding-right: 40px;">
+                            <td ng-if="!app.myTask"  style="padding-right: 40px;">
                                 <button class="mybtn reverse hvr-float-shadow" data-target="#takeTask_download{{$index}}" data-toggle="modal">
                                     领取任务
+                                </button>
+                            </td>
+                            <td ng-if="app.myTask" style="padding-right: 0px;">
+                                <button class="mybtn reverse hvr-float-shadow" data-target="#detail_download{{$index}}" data-toggle="modal">
+                                    任务详情
+                                </button>
+                            </td>
+                            <td ng-if="app.myTask"  style="padding-right: 40px;">
+                                <button class="myTask">
+                                    我的应用
                                 </button>
                             </td>
                         </tr>
@@ -433,17 +441,27 @@
                                     <span class="infoBubble">{{ app.taskType }}</span>
                                     <span class="infoBubble">剩余: <span style="color:#53d435">{{ app.remainCount }}</span> 条</span>
                                     <span class="infoBubble">单价: <span style="color:#53d435">{{app.rateUnitPrice}}</span> Y币</span>
-                                    <span class="infoBubble">IOS</span>
                                 </div>
                             </td>
-                            <td style="padding-right: 0px;">
+
+                            <td ng-if="!app.myTask" style="padding-right: 0px;">
                                 <button class="mybtn reverse hvr-float-shadow" data-target="#detail_comment{{$index}}" data-toggle="modal">
                                     任务详情
                                 </button>
                             </td>
-                            <td style="padding-right: 40px;">
+                            <td ng-if="!app.myTask"  style="padding-right: 40px;">
                                 <button class="mybtn reverse hvr-float-shadow" data-target="#takeTask_comment{{$index}}" data-toggle="modal">
                                     领取任务
+                                </button>
+                            </td>
+                            <td ng-if="app.myTask" style="padding-right: 0px;">
+                                <button class="mybtn reverse hvr-float-shadow" data-target="#detail_comment{{$index}}" data-toggle="modal">
+                                    任务详情
+                                </button>
+                            </td>
+                            <td ng-if="app.myTask"  style="padding-right: 40px;">
+                                <button class="myTask">
+                                    我的应用
                                 </button>
                             </td>
                         </tr>
@@ -604,7 +622,6 @@
                                     <span class="infoBubble">{{ app.taskType }}</span>
                                     <span class="infoBubble">剩余: <span style="color:#53d435">{{ app.remainCount }}</span> 条</span>
                                     <span class="infoBubble">单价: <span style="color:#53d435">{{app.rateUnitPrice}}</span> Y币</span>
-                                    <span class="infoBubble">IOS</span>
                                 </div>
                             </td>
                             <td style="padding-right: 40px;">
