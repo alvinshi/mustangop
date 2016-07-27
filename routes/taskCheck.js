@@ -204,25 +204,25 @@ var updateReceiveTaskDatabase = function(entryId, uploaderName){
                 results[i].save().then(function(){
                     //
                 })
+
+                // 接收任务后 把钱打给领取任务的用户
+                var query_user = new AV.Query(User);
+                query_user.get(userObject.id).then(function(userInfo){
+                    var remainYB = userInfo.get('remainMoney');
+                    var totalYB = userInfo.get('totalMoney');
+                    userInfo.set('remainMoney', remainYB + incomeYB);
+                    userInfo.set('totalMoney', totalYB + incomeYB);
+                    userInfo.save();
+                });
+
+                // 接收任务后 冻结的钱减掉
+                var query_releaseUser = new AV.Query(User);
+                query_releaseUser.get(senderId).then(function(userIn){
+                    var freezingYB = userIn.get('freezingMoney');
+                    userIn.set('freezingMoney', freezingYB - payYB);
+                    userIn.save();
+                });
             }
-
-            // 接收任务后 把钱打给领取任务的用户
-            var query_user = new AV.Query(User);
-            query_user.get(userObject.id).then(function(userInfo){
-                var remainYB = userInfo.get('remainMoney');
-                var totalYB = userInfo.get('totalMoney');
-                userInfo.set('remainMoney', remainYB + incomeYB);
-                userInfo.set('totalMoney', totalYB + incomeYB);
-                userInfo.save();
-            });
-
-            // 接收任务后 冻结的钱减掉
-            var query_releaseUser = new AV.Query(User);
-            query_releaseUser.get(senderId).then(function(userIn){
-                var freezingYB = userIn.get('freezingMoney');
-                userIn.set('freezingMoney', freezingYB - payYB);
-                userIn.save();
-            });
         });
         acceptMessage(userId, senderId, trackName, uploaderName, rateUnitPrice);
     })

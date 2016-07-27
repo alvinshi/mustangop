@@ -99,7 +99,7 @@ router.get('/mypayYB', function(req, res){
 
   var query = new AV.Query(accountJournal);
   query.equalTo('payYCoinUser', user);
-  //query.equalTo('createdAt', myDateStr);
+  query.equalTo('releaseDate', myDateStr);
   query.find().then(function(results){
     var userpayYCoinList = new Array();
     for (var i = 0; i < results.length; i++){
@@ -122,14 +122,20 @@ router.get('/myincomeYB', function(req, res){
 
   var query = new AV.Query(accountJournal);
   query.equalTo('incomeYCoinUser', user);
-  //query.equalTo('createdAt', myDateStr);
+  query.equalTo('releaseDate', myDateStr);
+  query.equalTo('incomeYCoinStatus', 'incomed');
   query.find().then(function(results){
     var userincomeYCoinList = new Array();
     for (var i = 0; i < results.length; i++){
       var userincomeYB = results[i].get('incomeYCoin');
       userincomeYCoinList.push(userincomeYB);
     }
-    res.json({'usertodyIncome':eval(userincomeYCoinList.join('+'))})
+    if (userincomeYCoinList.length > 0){
+      var incomeYB = eval(userincomeYCoinList.join('+'))
+    }else {
+      var incomeYB = 0
+    }
+    res.json({'usertodyIncome':incomeYB})
 
   })
 });

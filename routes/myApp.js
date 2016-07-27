@@ -859,6 +859,8 @@ var myRate = 1;
 
 router.post('/task/:appleId', function(req, res){
     var userId = util.useridInReq(req);
+    var myDate = new Date();
+    var myDateStr = myDate.getFullYear() + '-' + (parseInt(myDate.getMonth())+1) + '-' + myDate.getDate();
     var myappid = parseInt(req.params.appleId);
     var appObjectid = req.body.appObjectId;
     var taskType = req.body.taskType;
@@ -957,6 +959,7 @@ router.post('/task/:appleId', function(req, res){
                     accountJour.set('taskObject', taskObjectId);
                     accountJour.set('payYCoinStatus', 'prepare_pay'); // 发布任务的时候为准备支付;
                     accountJour.set('payYCoinDes', '发布任务');
+                    accountJour.set('releaseDate', myDateStr); // 添加发布日期,冗余字段
                     accountJour.save().then(function(){
                         //
                     })
@@ -1016,6 +1019,7 @@ router.post('/task/:appleId', function(req, res){
                     accountjournal.set('taskObject', taskObjectId);
                     accountjournal.set('payYCoinStatus', 'prepare_pay'); // 发布任务的时候为准备支付;
                     accountjournal.set('payYCoinDes', '发布任务');
+                    accountjournal.set('releaseDate', myDateStr); // 添加发布日期,冗余字段
                     accountjournal.save().then(function(){
                         //
                     })
