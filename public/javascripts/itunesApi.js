@@ -138,16 +138,15 @@ app.controller('itunesSearchControl', function($scope, $http) {
                     var app = $scope.myApps[i];
                     if (app.appleId == appInfo.appleId){
                         flag = 1;
-
                         break;
                     }
                 }
-
                 if (flag == 0){
                     //默认选择的App是新添加的App
                     $scope.selectedApp = response.newApp;
                     getDemand();
                     $scope.myApps.push(response.newApp);
+                    console.log($scope.myApps);
                     $scope.numOfApps ++;
                 }
             }else {
@@ -240,6 +239,7 @@ app.controller('itunesSearchControl', function($scope, $http) {
         //通过前端检查,请求服务器
         if (flag){
             console.log("passed");
+            console.log($scope.selectedApp);
             var needUrl = '/myapp/task/' + $scope.selectedApp.appleId;
             var needInfo = {'taskType':$scope.appNeedInfo.taskType, 'excCount':$scope.appNeedInfo.excCount,
                 'excUnitPrice':document.getElementById("price").value, 'screenshotCount':$scope.appNeedInfo.screenshotCount,
