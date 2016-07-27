@@ -9,7 +9,7 @@ var navIndex = 2;
 app.controller('myClaimControl', function($scope, $http, $location){
     $scope.noApp = true;
     $scope.index=0;
-    $scope.remark="";
+
     //$scope.hideContent=true;
     var appurlList = $location.absUrl().split('/');
     var userId = appurlList[appurlList.length - 1];
@@ -18,13 +18,11 @@ app.controller('myClaimControl', function($scope, $http, $location){
 
 
     $http.get(todayUrl).success(function(response){
-        $scope.dailyTask = response.myDailyApps;
+        $scope.dailyTask = response.myClaimApps;
         if($scope.dailyTask.length>0){
             $scope.noApp=false;
-
-
-
         }
+
 
     });
     $scope.copy = $location.absUrl();
@@ -54,11 +52,11 @@ app.controller('myClaimControl', function($scope, $http, $location){
 
     };
 
+
     //保存填写的备注到数据库
-    $scope.saveRemark=function(){
-        var url = '/myClaim/saveRemark';
-        console.log($scope.remark);
-        $http.post(url,{"remark":$scope.remark}).success(
+    $scope.saveRemark=function(detailRem, taskObjectId){
+        var saveurl = '/myClaim/saveRemark/' + userId;
+        $http.post(saveurl,{"remark":detailRem, 'taskObjectId': taskObjectId}).success(
             function(response){
                 $scope.errorId = response.errorId;
                 $scope.errorMsg = response.errorMsg;
@@ -66,8 +64,8 @@ app.controller('myClaimControl', function($scope, $http, $location){
 
             }
         )
-
     };
+
     //复制链接
 
     $scope.url=$location.absUrl();
