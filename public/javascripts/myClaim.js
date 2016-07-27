@@ -39,9 +39,10 @@ app.controller('myClaimControl', function($scope, $http, $location){
         }
 
         var input=document.getElementsByClassName("assignTask")[$scope.index];
-        input.innerHTML='';
+        input.innerHTML="";
         var input1=document.getElementsByClassName("input1")[$scope.index];
         input1.style.display="inline-block";
+        //input.value=$scope.app.detailRem;
         var btnSave=document.getElementsByClassName("btnSave")[$scope.index];
         btnSave.style.display="inline-block";
         var imgpen=document.getElementsByClassName("imgpen")[$scope.index];
@@ -54,12 +55,27 @@ app.controller('myClaimControl', function($scope, $http, $location){
 
 
     //保存填写的备注到数据库
+<<<<<<< HEAD
+    $scope.saveRemark=function(){
+        var url = '/myClaim/saveRemark';
+        console.log($scope.remark);
+        $http.post(url,{"remark":$scope.remark}).success(function(response){
+            if(response.errorId==0){
+
+                var btnSave=document.getElementsByClassName("btnSave")[$scope.index];
+                btnSave.style.display="none";
+                var imgpen=document.getElementsByClassName("imgpen")[$scope.index];
+                imgpen.style.display="inline-block";
+        }
+
+=======
     $scope.saveRemark=function(detailRem, taskObjectId){
         var saveurl = '/myClaim/saveRemark/' + userId;
         $http.post(saveurl,{"remark":detailRem, 'taskObjectId': taskObjectId}).success(
             function(response){
                 $scope.errorId = response.errorId;
                 $scope.errorMsg = response.errorMsg;
+>>>>>>> e6a5ea9c49fd274ec72eca7899a4b86d06fa9822
 
 
             }
