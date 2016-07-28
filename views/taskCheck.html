@@ -240,25 +240,7 @@
                                             <button class="btn reject2" ng-show="entry.status == 2">已拒绝</button>
 
 
-                                            <div class="modal fade" id="rejectreason{{entry.id}}">
-                                                <div class="modal-dialog">
-                                                    <div class="modal-content" style="width:320px;height:220px">
-                                                        <div class="modal-header" style="height:50px;margin:0px;background-color:#6eb7e8;border-radius:4px;text-align: center">
-                                                            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
-                                                            <h4 class="modal-title"  style="font-size:16px;color: #FFFFFF">拒绝理由</h4>
 
-                                                        </div>
-                                                        <textarea name=""  cols="30" rows="3"  ng-change="checkText()" ng-model="myObj.rejectReason"
-                                                        placeholder="提示:拒绝理由必填,且不超过20字符"
-                                                        style="margin: 0px 10px -3px 9px;padding: 0px "></textarea>
-
-                                                        <div class="modal-footer" style="height: 30px;margin-top: 22px">
-                                                            <span ng-show="required" style="color: red">必填</span>
-                                                            <button type="button" class="btn btn-default" ng-click="reject(entry.id)">确认</button>
-                                                        </div>
-                                                    </div><!-- /.modal-content -->
-                                                </div><!-- /.modal-dialog -->
-                                            </div><!--拒绝弹窗-->
 
 
 
@@ -271,6 +253,33 @@
 
 
                                         </div>
+                                        <div class="modal fade" id="rejectreason{{entry.id}}">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content" style="width:320px;height:230px">
+                                                    <div class="modal-header" style="height:50px;margin:0px;background-color:#6eb7e8;border-radius:4px;text-align: center">
+                                                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+                                                        <h4 class="modal-title"  style="font-size:16px;color: #FFFFFF">拒绝理由</h4>
+
+                                                    </div>
+                                                    <div class="modal-body" style="text-align: center;padding-top: 10px">
+                                                             <textarea cols="30" rows="3"  ng-change="checkText()" ng-model="myObj.rejectReason"
+                                                                       placeholder="提示:拒绝理由必填,且不超过20字符"
+                                                                       style="margin-top:0px;margin-bottom:0px;"></textarea>
+                                                        <div style="height:30px;margin-left: 20px;text-align: right;">
+
+                                                            <span ng-show="required" style="color: red">必填</span>
+                                                            <button type="button"  style="width: 60px;
+                                                                background-color: #3498db;border: 1px solid #3498db;border-radius:4px;color: whitesmoke;height: 30px;font-size: 14px" ng-click="reject(entry.id)">确认</button>
+                                                        </div>
+
+                                                    </div>
+
+
+
+
+                                                </div><!-- /.modal-content -->
+                                            </div><!-- /.modal-dialog -->
+                                        </div><!--拒绝弹窗-->
                                     </div>
                                 </div>
                             </div>

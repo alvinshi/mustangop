@@ -33,6 +33,11 @@ var alipay = require('./routes/pay');
 var myClaim = require('./routes/myClaimApi');
 var newtaskMobile = require('./routes/newtaskMobApi');
 var interiorExcDetail = require('./routes/interiorExcDetailApi');
+var userProtocol=require('./routes/userProtocol');
+var handBook=require('./routes/handBook');
+var contactUs=require('./routes/contactUs');
+var guide=require('./routes/guide');
+
 
 
 var app = express();
@@ -142,6 +147,8 @@ app.get('/handBook', function(req, res) {
 });
 app.get('/contactUs', function(req, res) {
   res.render('contactUs');
+});app.get('/guide', function(req, res) {
+  res.render('guide');
 });
 
 // 可以将一类的路由单独保存在一个文件中
@@ -162,6 +169,9 @@ app.use('/pay', alipay);
 app.use('/myClaim', myClaim);
 app.use('/newtaskMobile', newtaskMobile);
 app.use('/interiorExcDetail', interiorExcDetail);
+app.use('/userProtocol', userProtocol);
+app.use('/handBook', handBook);
+app.use('/guide', guide);
 
 
 //静态html组建
