@@ -95,49 +95,93 @@ app.controller('userAccountCtrl', function($scope, $http) {
             }
         });
     };
+    //验证手机号码是否合法
+    function validateMobile(mobile)
+    {
+        if(mobile.length == 0)
+        {
+            alert('手机号码未填写！');
+            return false;
+        }
+        if(mobile.length!=11)
+        {
+            alert('请输入有效的手机号码！');
+            return false;
+        }
+
+        var myreg = /^(((13[0-9]{1})|(15[0-9]{1})|(18[0-9]{1}))+\d{8})$/;
+        if(!myreg.test(mobile))
+        {
+            alert('请输入有效的手机号码！');
+            return false;
+        }
+
+        return true;
+    }
 
     //验证码相关
     var handlerEmbed = function (captchaObj) {
 
         $("#getSmsBtn").click(function (e) {
-            var validate = captchaObj.getValidate();
-            if (!validate) {
-                $("#notice")[0].className = "show";
-                setTimeout(function () {
-                    $("#notice")[0].className = "hide";
-                }, 2000);
-            }else {
-                //倒计时逻辑
-                $("#getSmsBtn").prop("disabled", true);
-                var seconds = 60;
-                function countdown(seconds) {
-                    /* Exit if nothing to do */
-                    if (seconds === 0) {
-                        $("#getSmsBtn").attr("disabled", false);
-                        $("#getSmsBtn").text("获取验证码");
-                    }else {
-                        $("#getSmsBtn").text(seconds+"s后重试");
-                        seconds--;
-                        setTimeout(function () {countdown(seconds);}, 1000);
-                    }
-                }
-                countdown(seconds);
 
-                //发送客户端短信验证码校验逻辑
-                var registerUrl = '/user/getSmsCode';
-                var smsParams = {
-                    // 传递验证码参数
-                    geetest_challenge: validate.geetest_challenge,
-                    geetest_validate: validate.geetest_validate,
-                    geetest_seccode: validate.geetest_seccode,
-                    'mobile': $scope.userMobile,
-                    'password': $scope.userSecret
-                };
-                $http.post(registerUrl, smsParams).success(function(response){
-                    $scope.errorId = response.errorId;
-                    $scope.errorMsg = response.errorMsg;
-                    $scope.displayMsg();
-                });
+            if ($scope.userMobile == undefined || $scope.userSecret == undefined){
+                alert('手机号和密码必填哦');
+                return;
+            }
+
+            //密码只能输入6-20个字母、数字、下划线
+            var isMobileValid = validateMobile($scope.userMobile);
+
+            if (isMobileValid == true){
+                var patrn = /^(\w){6,20}$/;
+                if (!patrn.exec($scope.userSecret)){
+                    alert('密码由6-20个字母/数字或下划线组成')
+                    return;
+                }
+            }else {
+                return;
+            }
+
+            if (isMobileValid == true){
+                var validate = captchaObj.getValidate();
+                if (!validate) {
+                    $("#notice")[0].className = "show";
+                    setTimeout(function () {
+                        $("#notice")[0].className = "hide";
+                    }, 2000);
+                }else {
+                    //倒计时逻辑
+                    $("#getSmsBtn").prop("disabled", true);
+                    var seconds = 60;
+                    function countdown(seconds) {
+                        /* Exit if nothing to do */
+                        if (seconds === 0) {
+                            $("#getSmsBtn").attr("disabled", false);
+                            $("#getSmsBtn").text("获取验证码");
+                        }else {
+                            $("#getSmsBtn").text(seconds+"s后重试");
+                            seconds--;
+                            setTimeout(function () {countdown(seconds);}, 1000);
+                        }
+                    }
+                    countdown(seconds);
+
+                    //发送客户端短信验证码校验逻辑
+                    var registerUrl = '/user/getSmsCode';
+                    var smsParams = {
+                        // 传递验证码参数
+                        geetest_challenge: validate.geetest_challenge,
+                        geetest_validate: validate.geetest_validate,
+                        geetest_seccode: validate.geetest_seccode,
+                        'mobile': $scope.userMobile,
+                        'password': $scope.userSecret
+                    };
+                    $http.post(registerUrl, smsParams).success(function(response){
+                        $scope.errorId = response.errorId;
+                        $scope.errorMsg = response.errorMsg;
+                        $scope.displayMsg();
+                    });
+                }
             }
         });
 
