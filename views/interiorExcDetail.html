@@ -66,6 +66,7 @@
             <div class="download">
                 <button class="button_type"><a  class="download" href="#">{{ oneAppInfo.excKinds }}</a></button>
                 <button class="left button_num"><span>共</span> <span class="num">{{ oneAppInfo.totalExcCount }}</span>条</button>
+
             </div>
         </div>
 
@@ -152,14 +153,14 @@
                 <img ng-src="{{taskImg}}">
             </span>
         </div>
-
-        <div class="col-lg-4 col-lg-offset-8">
+        <div class=" col-lg-7 col-xs-8" style="margin-top: 20px;font-size:18px;color: #999999">拒绝理由:{{task.detail}}</div>
+        <div class="col-lg-3 col-lg-offset-2 col-xs-4" style="margin-top: 20px;">
             <button style="width: 80px;height: 36px;background-color: #dddddd;font-size: 16px;color: #ffffff;border-radius: 4px;border: 1px solid  #dddddd" ng-show="task.status == '已完成'">{{task.status}}</button>
             <button style="width: 80px;height: 36px;background-color: #fff2f4;font-size: 16px;color: #f7798b;border-radius: 4px;border: 1px solid  #fff2f4" ng-show="task.status == '拒绝'">{{task.status}}</button>
             <button style="width: 80px;height: 36px;background-color: #f5fbff;font-size: 16px;color: #79c3f7;border-radius: 4px;border: 1px solid  #f5fbff" ng-show="task.status == '待审'">{{task.status}}</button>
         </div>
 
-        <div class=" col-lg-4 col-xs-4" style="margin-top: 20px">拒绝理由:{{task.detail}}</div>
+
 
     </div>
 

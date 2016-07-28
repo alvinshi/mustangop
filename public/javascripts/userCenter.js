@@ -205,10 +205,38 @@ app.controller('inforManageCtrl', function($scope, $http){
 
 // 任务历史
 app.controller('taskHistoryCtrl', function($scope, $http){
+    // 初始
+    $scope.pageSize = 14; //每页显示条数
+    $scope.ReleaseTaskHistory = [];
+    $scope.currentPage = 0; // 当前页
+
     var taskUrl = '/user/taskhistory';
     $http.get(taskUrl).success(function(response){
-        $scope.ReleaseTaskHistory = response.ReleaseTaskHistory;
-    })
+        var releaseTaskHistory = response.ReleaseTaskHistory;
+
+        for (var i = 0; i < releaseTaskHistory.length; i++){
+            if (i % $scope.pageSize === 0) {
+                $scope.ReleaseTaskHistory[Math.floor(i / $scope.pageSize)] = [ releaseTaskHistory[i] ];
+            } else {
+                $scope.ReleaseTaskHistory[Math.floor(i / $scope.pageSize)].push(releaseTaskHistory[i]);
+            }
+        }
+
+    });
+
+    // 上一页
+    $scope.prevPage = function () {
+        if ($scope.currentPage > 0) {
+            $scope.currentPage--;
+        }
+    };
+
+    // 下一页
+    $scope.nextPage = function () {
+        if ($scope.currentPage < $scope.ReleaseTaskHistory.length - 1) {
+            $scope.currentPage++;
+        }
+    };
 });
 
 app.controller('userCenterCtrl', function($scope, $http){
