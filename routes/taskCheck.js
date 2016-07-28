@@ -30,6 +30,7 @@ router.get('/taskAudit', function(req, res){
 
     var query = new AV.Query(releaseTaskObject);
     query.equalTo('userObject', user);
+    query.equalTo('close', false);
     query.include('appObject');
     query.ascending('createdAt');
     query.find().then(function(results){
@@ -66,11 +67,23 @@ router.get('/taskAudit', function(req, res){
             appInfoObject.accepted = results[i].get('accepted');
 
             appInfoObject.completed = results[i].get('completed');
+            appInfoObject.cancelled = results[i].get('cancelled');
             retApps.push(appInfoObject);
         }
         res.json({'taskAudit':retApps, 'taskInfo':appInfoObject})
     })
 });
+
+//***********************撤销任务***************************
+router.get('/cancelTask/:taskId', function(req, res){
+    var taskId = req.params.taskId;
+    var query = new AV.Query(releaseTaskObject);
+    query.get(taskId).then(function(result){
+        result.set('cancelled', true);
+        result.save();
+        res.json({'errorMsg':'succeed'});
+    })
+})
 
 //******************点击控制器条目后触发***********************
 router.get('/specTaskCheck/:taskId', function(req, res){
