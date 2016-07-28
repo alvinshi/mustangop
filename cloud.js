@@ -239,13 +239,67 @@ AV.Cloud.define('checkTask', function(request, response){
     })
 });
 
+// 处理任务审核界面内容晚上10点后 不显示
+function getQueryReleaseTask(){
+    var myDate = new Date();
+    var myDateStr = myDate.getFullYear() + '-' + (parseInt(myDate.getMonth())+1) + '-' + myDate.getDate();
+
+    var query = new AV.Query(releaseTaskObject);
+    query.equalTo('close', false);
+    query.equalTo('releaseDate', myDateStr);
+    query.descending('createdAt');
+    return query;
+}
+
+AV.Cloud.define('closeCheckTask', function(request, response){
+    var query = getQueryReleaseTask();
+
+    query.count().then(function(count){
+        var totalCount = count;
+
+        console.log(totalCount);
+
+        if (totalCount == 0){
+            console.log('!!!!! closeCheckTask succeed: no task need to deal');
+            response.success('closeCheckTask');
+            return;
+        }
+
+        var remain = totalCount % 1000;
+        var totalForCount = totalCount/1000 + remain > 0 ? 1 : 0;
+
+        for (var i = 0; i < totalForCount; i++){
+            var query_release_task = getQueryReleaseTask();
+            query_release_task.include('userObject');
+            query_release_task.limit(1000);
+            query_release_task.skip(i * 1000);
+            query.find().then(function(results){
+                for (var e = 0; e < results.length; e++){
+                    results[e].set('close', true);
+                }
+                AV.Object.saveAll(results).then(function(){
+                    console.log('!!!!! closeCheckTask close succeed')
+                    response.success('closeCheckTask');
+                },
+                    function (error){
+                        console.log('----- closeCheckTask error');
+                });
+
+            })
+        }
+    },
+        function (error) {
+        console.log('----- closeCheckTask error: count error');
+    });
+})
+
 module.exports = AV.Cloud;
 
 
 //var paramsJson = {
 //    movie: "夏洛特烦恼"
 //};
-//AV.Cloud.run('checkTask', paramsJson, {
+//AV.Cloud.run('closeCheckTask', paramsJson, {
 //    success: function(data) {
 //        // 调用成功，得到成功的应答data
 //    },
