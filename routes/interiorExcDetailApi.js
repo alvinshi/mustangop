@@ -55,7 +55,8 @@ router.get('/interior/:excTaskId', function(req, res){
                 var mackTaskObject = Object();
                 mackTaskObject.uploadName = result[e].get('uploadName');
                 mackTaskObject.taskImages = result[e].get('requirementImgs');
-                mackTaskObject.detail = result[e].get('detail');
+                mackTaskObject.detail = result[e].get('detail');  // 拒绝理由
+                mackTaskObject.status = result[e].get('status'); // 任务状态
                 mackTaskList.push(mackTaskObject);
             }
             res.json({'oneAppInfo':retObject, 'macTask':mackTaskList})
