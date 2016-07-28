@@ -7,13 +7,33 @@
 }
 .task_name{
     font-size: 20px;color:#333333;margin-left: 20px
+
+}
+.task_date {
+    font-size: 16px;
+    color: #333333;
+    position: absolute;
+    right: 332px;
+    padding-top: 4px;
 }
 .task_button{
-    width: 60px;font-size: 18px;color: #333333;background-color: #ffffff;
-    border: 1px solid #dddddd;border-radius: 4px;margin-left: 16px
+    width: 60px;font-size: 18px;
+    color: #333333;background-color: #ffffff;
+    border: 1px solid #dddddd;
+    border-radius: 4px;
+    position: absolute;right: 225px;
+}
+.task_button_iso{
+    width: 60px;font-size: 18px;
+    color: #333333;background-color: #ffffff;
+    border: 1px solid #dddddd;
+    border-radius: 4px;
+    position: absolute;right:115px;
+
 }
 .task_num{
-    font-size: 18px;color: #333333;margin-left:120px
+    font-size: 18px;color: #333333;
+    position: absolute;right: 25px;
 }
 
 .taskPerson{
@@ -28,7 +48,7 @@
 }
 .getTask{
     margin-left: 40px;font-size: 18px;color: #666666;
-    position: absolute;right: 115px;
+    position: absolute;right: 120px;
 }
 .finish{
 
