@@ -18,10 +18,10 @@
 
     <!--第三方 CSS JS-->
     <link rel="stylesheet" href="../stylesheets/vendor/font-awesome.min.css">
-    <link rel="stylesheet" href="../stylesheets/myApp.css">
+    <!--<link rel="stylesheet" href="../stylesheets/myApp.css">-->
     <link rel="stylesheet" href="../stylesheets/loading.css">
     <link rel="stylesheet" href="/stylesheets/vendor/hover/hover-min.css">
-    <link rel="stylesheet" href="../stylesheets/taskDetailMobile.css">
+    <link rel="stylesheet" href="../stylesheets/newtaskMob.css">
     <script src="/javascripts/vendor/AngularJS/angular-file-upload.min.js"></script>
 
     <!--网站内部js-->
@@ -47,22 +47,22 @@
 
 <div class="container main"  ng-controller="MobControl" >
 
-    <div class="alert alert-danger" role="alert" ng-hide="oneAppInfo.surplusCount">该任务无剩余条数</div>
+    <!--<div class="alert alert-danger" role="alert" ng-hide="oneAppInfo.surplusCount">该任务无剩余条数</div>-->
 
     <div class="media">
         <div class="media-left">
             <img class="logo" ng-src="{{ oneAppInfo.artworkUrl100 }}" alt="" class="img-thumbnail"/>
         </div>
         <div class="media-body">
-            <h3 class="task-link">{{ oneAppInfo.trackName.substr(0,6)+'...' }}</h3>
+            <div class="task-link">{{ oneAppInfo.trackName.substr(0,6)+'...' }}</div>
             <div>
                 <span class="id">App ID: {{ oneAppInfo.appleId }}</span>
                 <span class="company hidden-xs">{{ oneAppInfo.sellerName }}</span>
             </div>
-            <div>
-                <span><a  class="download" href="#">{{ oneAppInfo.excKinds }}</a></span>
-                <span class="left">共<span>{{ oneAppInfo.totalExcCount }}</span>条</span>
-                <span class="left">剩余<span class="num">{{ oneAppInfo.surplusCount }}</span>条</span>
+            <div class="download">
+                <button class="button_type"><a  class="download" href="#">{{ oneAppInfo.excKinds }}</a></button>
+                <button class=" button_num"><span>共</span> <span class="num">{{ oneAppInfo.totalExcCount }}</span>&nbsp;条</button>
+                <button class="button_surplus"><span>剩余</span><span class="num">{{oneAppInfo.surplusCount}}</span>条</button>
             </div>
         </div>
 
@@ -71,65 +71,58 @@
 
 
     </div>
-    <div>
+    <div class="col-xs-12 needImg" style="padding: 0px;margin-bottom: 20px">
         <h3 class="mytitle">需求截图</h3>
 
-        <div id='screenShot' style="background:url(/images/appDetail/screenshot-background.png); width: 640px;
-                        padding: 36px 54px 60px 30px; margin: auto;">
+        <div id='screenShot' >
             <div class="row">
-                <div class="col-sm-3">
-                    <img  class="appicon" style="display: inline-block; margin: 0 26px 40px 20px;
-                                width: 120px; height: 120px; border-radius: 20px"
+                <div class="col-sm-3 col-xs-3" style="padding: 0px">
+                    <img  class="appicon"
                           ng-src="{{  oneAppInfo.artworkUrl100 }}" alt="App Icon"/>
                 </div>
-                <div class="col-sm-9" style="padding-left: 50px;">
-                    <p style="font-size: 24px; color: #ffffff;
-                                width: 330px; margin-top: 10px">
+                <div class="col-sm-9 col-xs-8 trackName"  >
+                    <p  class="trackName_one">
                         {{ oneAppInfo.trackName.substr(0,12)+"..."  }}
                     </p>
-                    <p style="color: #ffffff;
-                                width: 330px;">
+                    <p  class="app_date">
                         更新日期: {{ oneAppInfo.latestReleaseDate.substr(0,10) }}
                     </p>
-                    <p style="color: #ffffff; font-size: 20px;">
+                    <p  class="taskType">
                         任务类型: <span class="synwords">{{oneAppInfo.taskType}}</span>
                     </p>
                 </div>
             </div>
 
-            <ol style="font-size: 20px; color: #ffffff;
-                            list-style-position: inside; padding:0; margin:0;">
-                <li style="margin-bottom: 30px">
+            <ol  class="serach_app">
+                <li >
                     <p>app store 搜索"<span class="synwords">{{oneAppInfo.searchKeyword}}</span>"
                         第<span class="synwords">{{oneAppInfo.ranKing}}</span>
                         名左右, 找到应用,如上图图标, 下载.</p>
                 </li>
-                <li style="margin-bottom: 30px">
+                <li>
                     <p> 打开app, 请务必过引导页.</p>
                 </li>
-                <li style="margin-bottom: 30px" ng-hide="oneAppInfo.taskType == '评论'">
+                <li  ng-hide="oneAppInfo.taskType == '评论'">
                     <p> 截图2张,一张搜索图,一张打开激活图.</p>
                 </li>
-                <li  style="margin-bottom: 30px" ng-hide="oneAppInfo.taskType == '下载'">
-                    <p  style="margin-bottom: 20px">
+                <li  ng-hide="oneAppInfo.taskType == '下载'">
+                    <p >
                         返回app store, 好评"<span class="synwords">{{oneAppInfo.Score}}</span>星"
                     </p>
-                    <p style="margin-bottom: 20px">
+                    <p >
                         &nbsp &nbsp &nbsp 标题关键词: <span class="synwords">{{oneAppInfo.titleKeyword}}</span></p>
-                    <p style="margin-bottom: 20px">
+                    <p >
                         &nbsp &nbsp &nbsp评论关键词: <span class="synwords">{{oneAppInfo.commentKeyword}}</span></p>
                 </li>
-                <li  style="margin-bottom: 30px" ng-hide="oneAppInfo.taskType == '下载'">
+                <li ng-hide="oneAppInfo.taskType == '下载'">
                     <p> 备注:</p>
-                    <p style="border: 1px solid #cdf1ff; font-size: 18px;
-                                    margin-top: 20px; margin-bottom: 70px;
-                                    padding: 18px 20px 18px 20px;" ng-show = "oneAppInfo.detailRem.length">
+                    <p class="synwords beizhu"  ng-show = "oneAppInfo.detailRem.length">
                         {{oneAppInfo.detailRem}}
                     </p>
                 </li>
             </ol>
 
-            <p style="font-size: 24px; color: #ffffff;">
+            <p  class="comment">
                 手机评论, 不要无卡机, iPad, 一条以上用手机流量哦, 亲.
                 &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp;&nbsp &nbsp &nbsp
                 &nbsp &nbsp &nbsp&nbsp &nbsp &nbsp&nbsp &nbsp &nbsp
@@ -138,6 +131,7 @@
             </p>
         </div>
     </div>
+    <!--<div style="margin-top: 30px"></div>-->
 
     <div class="text-center ">
         <button class="btn btn-default cust1" >
