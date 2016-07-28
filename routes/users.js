@@ -4,24 +4,57 @@ var AV = require('leanengine');
 var router = express.Router();
 var util = require('./util');
 var https = require('https');
+//验证码
+var Geetest = require('../gt-sdk');
+
 var User = AV.Object.extend('_User');
 var messageLogger = AV.Object.extend('messageLogger');
 var accountJournal = AV.Object.extend('accountJournal'); // 记录账户变动明细表
 
-
 var Base64 = require('../public/javascripts/vendor/base64').Base64;
+
+// 验证码
+var pcGeetest = new Geetest({
+    privateKey: 'c508c87580bd11dbaab2a40a02430af2',
+    publicKey: '9889d9c10b5bcc33c12e3bcba6ac8d83'
+});
+
+router.get("/pc-geetest/register", function (req, res) {
+    // 向极验申请一次验证所需的challenge
+    pcGeetest.register(function (data) {
+        res.send(JSON.stringify({
+            gt: pcGeetest.publicKey,
+            challenge: data.challenge,
+            success: data.success
+        }));
+    });
+});
 
 // 用户注册
 router.post('/getSmsCode', function(req, res) {
-  var userphone = req.body.mobile;
+    var userphone = req.body.mobile;
+    // 对form表单的结果进行验证
+    pcGeetest.validate({
 
-  AV.Cloud.requestSmsCode(userphone).then(function() {
-    //发送成功
-    res.json({'errorId':0, 'errorMsg':''});
-  }, function(error) {
-    //发送失败
-    res.json({'errorId':error.code, 'errorMsg':error.message});
-  });
+        challenge: req.body.geetest_challenge,
+        validate: req.body.geetest_validate,
+        seccode: req.body.geetest_seccode
+
+    }, function (err, result) {
+        if (err || !result) {
+            res.json({'errorId':-100, 'errorMsg':'验证码位置不对哦'});
+        } else {
+            //验证码正确才会发送短信,防止被攻击
+            AV.Cloud.requestSmsCode(userphone).then(function() {
+                //发送成功
+                res.json({'errorId':0, 'errorMsg':''});
+            }, function(error) {
+                //发送失败
+                res.json({'errorId':error.code, 'errorMsg':error.message});
+            });
+        }
+    });
+
 });
 
 router.post('/register', function(req, res, next) {

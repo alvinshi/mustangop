@@ -13,6 +13,9 @@
     <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
     <script src="//cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 
+    <!-- 引入封装了failback的接口--initGeetest -->
+    <!--<script src="http://static.geetest.com/static/tools/gt.js"></script>-->
+
     <script src="/javascripts/userAngular.js"></script>
 
     <link rel="stylesheet" href="../stylesheets/register.css">
@@ -46,6 +49,10 @@
                 <div class="register-sub text-center">
                     <button class="btn btn-org-empty" ng-click="userLogin()" id="register-btn">登&nbsp;&nbsp;陆</button>
                 </div>
+
+                <div id="embed-captcha"></div>
+                <p id="wait" class="show">正在加载验证码......</p>
+                <p id="notice" class="hide">请先拖动验证码到相应位置</p>
 
                 <div class="alert alert-danger" ng-show="errorId" role="alert"></div>
 
