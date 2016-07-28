@@ -242,7 +242,6 @@ router.get('/taskhistory', function(req, res){
     var promise = results.length;
     var counter = 0;
     var retApps = new Array();
-    var dateObject  = new Object();
     for (var i = 0; i < results.length; i++){
       var historyObject = new Object();
       var appInfo = results[i].get('appObject');
@@ -251,9 +250,8 @@ router.get('/taskhistory', function(req, res){
 
       historyObject.totalCount = results[i].get('excCount');
       historyObject.taskType = results[i].get('taskType');
-      dateObject.date = results[i].get('releaseDate');
+      historyObject.date = results[i].get('releaseDate');
       historyObject.taskid = results[i].id;
-      //retApps.push(historyObject);
 
       // 谁领取了我的任务
       (function(whoReceive){
@@ -279,8 +277,7 @@ router.get('/taskhistory', function(req, res){
           retApps.push(whoReceive);
           counter++;
           if (counter == promise){
-            res.json({'ReleaseTaskHistory':retApps, 'date':dateObject})
-            console.log(retApps);
+            res.json({'ReleaseTaskHistory':retApps})
           }
         })
       })(historyObject)

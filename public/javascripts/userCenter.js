@@ -208,9 +208,6 @@ app.controller('taskHistoryCtrl', function($scope, $http){
     var taskUrl = '/user/taskhistory';
     $http.get(taskUrl).success(function(response){
         $scope.ReleaseTaskHistory = response.ReleaseTaskHistory;
-        console.log($scope.ReleaseTaskHistory);
-        $scope.date = response.date;
-
     })
 });
 

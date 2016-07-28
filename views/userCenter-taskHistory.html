@@ -1,11 +1,10 @@
 <h4 class="mytitle" >任务历史</h4>
 <hr style="margin-top: 12px;margin-left: 20px;border: 2px solid #3498db;margin-right: 20px">
-<h4 class="history_date">{{date.date}}</h4>
+<h4 class="history_date"></h4>
 
 <div class="panel-group" id="accordion" style="margin-left: 20px;margin-right: 20px;margin-top: 30px" ng-repeat="app in ReleaseTaskHistory">
     <div class="panel panel-default" style="margin-top: 5px">
-        <div class="panel-heading"style="height: 64px">
-
+        <div class="panel-heading"style="height: 64px" data-toggle="collapse" data-parent="#accordion" href="#collapse{{$index}}">
             <div style="margin-top: 8px" >
                 <span class="index">{{$index + 1}}</span>
                 <img  class="task_img" ng-src="{{app.artworkUrl100}}" alt="" >
@@ -13,11 +12,7 @@
                 <button class="task_button" >{{app.taskType}}</button>
                 <button class="task_button">IOS</button>
                 <span  class="task_num">共{{app.totalCount}}条</span>
-                <a data-toggle="collapse" data-parent="#accordion"
-                   href="#collapse{{$index}}">
-                    <img src="/images/taskInfor/colopse.png" alt="" style="margin-left:80px">
-
-                </a>
+                <span class="">{{app.date}}</span>
             </div>
 
 
