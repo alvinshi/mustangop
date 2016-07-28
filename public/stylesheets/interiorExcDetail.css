@@ -13,6 +13,9 @@
     border-top: 2px solid #3498db;
     margin-bottom: 15px;
 }
+.media-body{
+    padding-left: 20px;
+}
 
 .media-body h3{
     margin-top: 2px;
@@ -48,20 +51,22 @@
     font-size:24px;
 }
 
-
+.id,.company{
+    color: #999999;
+}
 .id,.company,.left{
     font-size: 16px;
 }
 
 .download{
     font-size:16px;
-    color: red;
+    color: white;
 }
 
 .num{
     text-decoration: none;
     font-size: 16px;
-    color: #f55e5a;
+    color: #ff9053;;
 }
 .oneAppicon img{
     height: 112px;
@@ -87,7 +92,7 @@
     margin-top: 20px;
 }
 .page-wrapper{
-    width: 1001px;
+    width: 1101px;
     margin: auto;
     /*margin-top: 30px;*/
     /*margin-left: 40px;*/
@@ -105,10 +110,27 @@
 .requirementImg{
     border: 1px solid #e0e0e0;
     margin: auto;
+}
 
+.button_type{
+    background-color: #79c3f7;
+    border: 1px solid #79c3f7 ;
+    border-radius:4px;
+    height:30px;
+    color: white;
+    font-size: 14px;
+    width: 60px;}
 
-
-
+.button_num{
+    background-color:white;
+    border: 1px solid #acddfe ;
+    border-radius:4px;
+    height:30px;
+    color: #acddfe;
+    font-size: 16px;
+    width: 90px;
+    margin-left: 20px;
+    text-align: center;
 }
 
 .row{
@@ -120,8 +142,8 @@
     font-size: 20px;
     margin-bottom: 20px;
     float: left;
-    width:48%;
-    margin-left: 2%;
+    width:50%;
+    margin-left: 1%;
     height: 450px ;
     border: 1px solid #e0e0e0;
 }
@@ -129,10 +151,11 @@
 
 
 .submission-screenshot img{
-    width:31%;
+    width:30%;
     height: 320px;
     margin-right: 10px;
     object-fit: contain;
+    border: 1px solid #e0e0e0;
 
 }
 @media (max-width: 768px){
@@ -149,10 +172,15 @@
     .id,.company,.left{
         font-size: 12px;
     }
-    .num,.download{
+    .download{
         text-decoration: none;
         font-size: 12px;
-        color: #f55e5a;
+        color: white;
+    }
+    .num{
+        text-decoration: none;
+        font-size: 12px;
+        color: #ff9053;
     }
     .submission-info{
         font-size: 20px;
