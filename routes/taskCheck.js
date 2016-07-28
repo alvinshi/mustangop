@@ -195,13 +195,14 @@ var updateReceiveTaskDatabase = function(entryId, uploaderName){
         query.equalTo('taskObject', task);
         query.find().then(function(results){
             for (var i = 0; i < results.length; i++){
+                var register = results[0];
                 var payYB = results[i].get('payYCoin'); // 支付的YB
                 var incomeYB = results[i].get('incomeYCoin'); // 得到的YB
                 var systemYB = payYB - incomeYB;  // 系统得到的
-                results[i].set('payYCoinStatus', 'payed');
-                results[i].set('incomeYCoinStatus', 'incomed');
-                results[i].set('systemYCoin', systemYB);
-                results[i].save().then(function(){
+                register.set('payYCoinStatus', 'payed');
+                register.set('incomeYCoinStatus', 'incomed');
+                register.set('systemYCoin', systemYB);
+                register.save().then(function(){
                     //
                 })
 
