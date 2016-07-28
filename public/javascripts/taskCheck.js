@@ -81,6 +81,7 @@ app.controller('taskCheckCtrl', function($scope, $http, $location) {
             $http.post(url, reject_reason).success(function(response){
 
                 $("#rejectreason"+entryId).modal("hide");
+                $scope.myObj.rejectReason="";
 
                 specTaskCheck($scope.currentTaskId);
             })

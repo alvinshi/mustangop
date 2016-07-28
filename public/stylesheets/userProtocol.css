@@ -1,7 +1,7 @@
 
-.container{
+.content{
     width: 980px;
-    margin: 0 auto;
+    margin: 100px  auto;
 }
 .disclaimer{
     list-style: none;
@@ -11,7 +11,7 @@ strong{
     font-weight: bold;
     color: #333333;
 }
-li{
+ .content li{
     font-size: 14px;
     color: #666666;
     line-height: 28px;
