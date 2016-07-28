@@ -4,24 +4,59 @@ var AV = require('leanengine');
 var router = express.Router();
 var util = require('./util');
 var https = require('https');
+//验证码
+var Geetest = require('../gt-sdk');
+
 var User = AV.Object.extend('_User');
 var messageLogger = AV.Object.extend('messageLogger');
 var accountJournal = AV.Object.extend('accountJournal'); // 记录账户变动明细表
-
+var releaseTaskObject = AV.Object.extend('releaseTaskObject'); // 发布的库
+var receiveTaskObject = AV.Object.extend('receiveTaskObject'); // 领取任务的库
 
 var Base64 = require('../public/javascripts/vendor/base64').Base64;
 
+// 验证码
+var pcGeetest = new Geetest({
+    privateKey: 'c508c87580bd11dbaab2a40a02430af2',
+    publicKey: '9889d9c10b5bcc33c12e3bcba6ac8d83'
+});
+
+router.get("/pc-geetest/register", function (req, res) {
+    // 向极验申请一次验证所需的challenge
+    pcGeetest.register(function (data) {
+        res.send(JSON.stringify({
+            gt: pcGeetest.publicKey,
+            challenge: data.challenge,
+            success: data.success
+        }));
+    });
+});
+
 // 用户注册
 router.post('/getSmsCode', function(req, res) {
-  var userphone = req.body.mobile;
+    var userphone = req.body.mobile;
+    // 对form表单的结果进行验证
+    pcGeetest.validate({
 
-  AV.Cloud.requestSmsCode(userphone).then(function() {
-    //发送成功
-    res.json({'errorId':0, 'errorMsg':''});
-  }, function(error) {
-    //发送失败
-    res.json({'errorId':error.code, 'errorMsg':error.message});
-  });
+        challenge: req.body.geetest_challenge,
+        validate: req.body.geetest_validate,
+        seccode: req.body.geetest_seccode
+
+    }, function (err, result) {
+        if (err || !result) {
+            res.json({'errorId':-100, 'errorMsg':'验证码位置不对哦'});
+        } else {
+            //验证码正确才会发送短信,防止被攻击
+            AV.Cloud.requestSmsCode(userphone).then(function() {
+                //发送成功
+                res.json({'errorId':0, 'errorMsg':''});
+            }, function(error) {
+                //发送失败
+                res.json({'errorId':error.code, 'errorMsg':error.message});
+            });
+        }
+    });
+
 });
 
 router.post('/register', function(req, res, next) {
@@ -207,7 +242,7 @@ router.get('/userCenter/getMessage', function(req, res){
     var encodedId = Base64.encode(userId);
     res.json({'rtnMsg': rtnMsgs, 'yourId': encodedId});
   })
-})
+});
 
 //更新已读未读消息
 router.post('/userCenter/readMsg', function(req, res) {
@@ -222,7 +257,66 @@ router.post('/userCenter/readMsg', function(req, res) {
   }
   AV.Object.saveAll(msgObjectArray);
   res.json({'errorMsg': ''});
-})
+});
+
+// 任务历史
+router.get('/taskhistory', function(req, res){
+  var userId = util.useridInReq(req);
+
+  var user = new AV.User();
+  user.id = userId;
+
+  var query = new AV.Query(releaseTaskObject);
+  query.equalTo('userObject', user);
+  query.include('appObject');
+  query.equalTo('completed', 1);
+  query.descending('createdAt');
+  query.find().then(function(results){
+    var promise = results.length;
+    var counter = 0;
+    var retApps = new Array();
+    for (var i = 0; i < results.length; i++){
+      var historyObject = new Object();
+      var appInfo = results[i].get('appObject');
+      historyObject.trackName = appInfo.get('trackName');
+      historyObject.artworkUrl100 = appInfo.get('artworkUrl100');
+
+      historyObject.totalCount = results[i].get('excCount');
+      historyObject.taskType = results[i].get('taskType');
+      historyObject.date = results[i].get('releaseDate');
+      historyObject.taskid = results[i].id;
+
+      // 谁领取了我的任务
+      (function(whoReceive){
+        whoReceive.receiveTasks = new Array();
+        var todo = AV.Object.createWithoutData('releaseTaskObject', whoReceive.taskid);
+        var query_receive = new AV.Query(receiveTaskObject);
+        query_receive.equalTo('taskObject', todo);
+        query_receive.include('userObject');
+        query_receive.find().then(function(receiveInfo){
+          for (var e = 0; e < receiveInfo.length; e++){
+            var receiveObject = new Object();
+            var userInfo = receiveInfo[e].get('userObject');
+            receiveObject.userName = userInfo.get('username');
+            receiveObject.receiveCount = receiveInfo[e].get('receiveCount');
+            var status = receiveInfo[e].get('completed');
+            if (status == 1){
+              receiveObject.status = '完成'
+            }else {
+              receiveObject.status = '未完成'
+            }
+            whoReceive.receiveTasks.push(receiveObject);
+          }
+          retApps.push(whoReceive);
+          counter++;
+          if (counter == promise){
+            res.json({'ReleaseTaskHistory':retApps})
+          }
+        })
+      })(historyObject)
+    }
+  })
+});
 
 router.get('/register', function(req, res, next) {
   //res.send('user register :' + encodeUserId);

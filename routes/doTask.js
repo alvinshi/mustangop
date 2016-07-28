@@ -31,8 +31,8 @@ router.get('/taskHall', function(req, res){
 
 
     var query = new AV.Query(releaseTaskObject);
-    query.notEqualTo('remainCount', '0');
-    query.equalTo('cancelled', false);
+    //query.notEqualTo('remainCount', '0');
+    query.notEqualTo('cancelled', true);
     query.equalTo('close', false);
     query.include('appObject');
     query.include('userObject');
@@ -70,6 +70,7 @@ router.get('/taskHall', function(req, res){
             appObject.remainCount = results[i].get('remainCount');
             appObject.rateUnitPrice = results[i].get('rateUnitPrice');
             appObject.createdAt = results[i].createdAt;
+
 
             //任务需求
             appObject.taskType = results[i].get('taskType');

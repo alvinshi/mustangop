@@ -52,7 +52,7 @@ router.get('/taskAudit', function(req, res){
             appInfoObject.excCount = results[i].get('excCount');
             appInfoObject.detailRem = results[i].get('detailRem');
             appInfoObject.ranking = results[i].get('ranking');
-            appInfoObject.score = results[i].get('score');
+            appInfoObject.score = results[i].get('Score');
             appInfoObject.searchKeyword = results[i].get('searchKeyword');
             appInfoObject.screenshotCount = results[i].get('screenshotCount');
             appInfoObject.titleKeyword = results[i].get('titleKeyword');

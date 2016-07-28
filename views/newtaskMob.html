@@ -80,7 +80,7 @@
                     <img  class="appicon"
                           ng-src="{{  oneAppInfo.artworkUrl100 }}" alt="App Icon"/>
                 </div>
-                <div class="col-sm-9 col-xs-8 trackName"  >
+                <div class="col-sm-9 col-xs-8 trackName">
                     <p  class="trackName_one">
                         {{ oneAppInfo.trackName.substr(0,12)+"..."  }}
                     </p>
@@ -93,9 +93,10 @@
                 </div>
             </div>
 
-            <ol  class="serach_app">
+
+            <ol class="serach_app">
                 <li >
-                    <p>app store 搜索"<span class="synwords">{{oneAppInfo.searchKeyword}}</span>"
+                    <p><span class="synwords">IOS App Store</span> 搜索"<span class="synwords">{{oneAppInfo.searchKeyword}}</span>"
                         第<span class="synwords">{{oneAppInfo.ranKing}}</span>
                         名左右, 找到应用,如上图图标, 下载.</p>
                 </li>
@@ -110,11 +111,15 @@
                         返回app store, 好评"<span class="synwords">{{oneAppInfo.Score}}</span>星"
                     </p>
                     <p >
-                        &nbsp &nbsp &nbsp 标题关键词: <span class="synwords">{{oneAppInfo.titleKeyword}}</span></p>
+                        &nbsp; &nbsp; &nbsp;标题关键词: <span class="synwords">{{oneAppInfo.titleKeyword}}</span></p>
                     <p >
-                        &nbsp &nbsp &nbsp评论关键词: <span class="synwords">{{oneAppInfo.commentKeyword}}</span></p>
+                        &nbsp; &nbsp; &nbsp;评论关键词: <span class="synwords">{{oneAppInfo.commentKeyword}}</span></p>
                 </li>
-                <li ng-hide="oneAppInfo.taskType == '下载'">
+                
+                <li  ng-hide="oneAppInfo.taskType == '下载'">
+                    <p> 截图 <span class="synwords">{{oneAppInfo.screenshotCount}}</span> 张, 详情见备注.</p>
+                </li>
+                <li   ng-hide="oneAppInfo.taskType == '下载'">
                     <p> 备注:</p>
                     <p class="synwords beizhu"  ng-show = "oneAppInfo.detailRem.length">
                         {{oneAppInfo.detailRem}}

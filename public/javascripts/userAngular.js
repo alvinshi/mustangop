@@ -6,42 +6,10 @@ var app=angular.module('userAccountApp',[]);
 
 app.controller('userAccountCtrl', function($scope, $http) {
     $scope.displayMsg = function(){
-        console.log("$scope.errorMsg");
+        console.log($scope.errorMsg);
         if ($scope.errorMsg === "Could not find user") $(".alert").text("无法找到用户");
         else if($scope.errorMsg === "The username and password mismatch.") $(".alert").text("用户名与密码不符");
         else $(".alert").text($scope.errorMsg);
-    }
-
-    $scope.getSmsCode = function(){
-        if ($scope.searchUrl != ''){
-
-            var registerUrl = '/user/getSmsCode';
-
-            console.log(registerUrl);
-
-            $("#button1").prop("disabled", true);
-            var seconds = 60;
-            function countdown(seconds) {
-                /* Exit if nothing to do */
-                if (seconds === 0) {
-                    $("#button1").attr("disabled", false);
-                    $("#button1").text("获取验证码");
-                    return;
-                }
-
-                $("#button1").text(seconds+"s后重试");
-                seconds--;
-                setTimeout(function () {countdown(seconds);}, 1000);
-            }
-            countdown(seconds);
-
-            $http.post(registerUrl, {'mobile': $scope.userMobile, 'password': $scope.userSecret}).success(function(response){
-                $scope.errorId = response.errorId;
-                $scope.errorMsg = response.errorMsg;
-                $scope.displayMsg();
-
-            });
-        }
     };
 
     $scope.userRegister = function(){
@@ -80,6 +48,7 @@ app.controller('userAccountCtrl', function($scope, $http) {
     };
 
     $scope.getNewSmsCode = function(){
+        // 有攻击隐患
         if ($scope.searchUrl != ''){
 
             var registerUrl = '/user/getNewSmsCode';
@@ -127,5 +96,75 @@ app.controller('userAccountCtrl', function($scope, $http) {
         });
     };
 
+    //验证码相关
+    var handlerEmbed = function (captchaObj) {
+
+        $("#getSmsBtn").click(function (e) {
+            var validate = captchaObj.getValidate();
+            if (!validate) {
+                $("#notice")[0].className = "show";
+                setTimeout(function () {
+                    $("#notice")[0].className = "hide";
+                }, 2000);
+            }else {
+                //倒计时逻辑
+                $("#getSmsBtn").prop("disabled", true);
+                var seconds = 60;
+                function countdown(seconds) {
+                    /* Exit if nothing to do */
+                    if (seconds === 0) {
+                        $("#getSmsBtn").attr("disabled", false);
+                        $("#getSmsBtn").text("获取验证码");
+                    }else {
+                        $("#getSmsBtn").text(seconds+"s后重试");
+                        seconds--;
+                        setTimeout(function () {countdown(seconds);}, 1000);
+                    }
+                }
+                countdown(seconds);
+
+                //发送客户端短信验证码校验逻辑
+                var registerUrl = '/user/getSmsCode';
+                var smsParams = {
+                    // 传递验证码参数
+                    geetest_challenge: validate.geetest_challenge,
+                    geetest_validate: validate.geetest_validate,
+                    geetest_seccode: validate.geetest_seccode,
+                    'mobile': $scope.userMobile,
+                    'password': $scope.userSecret
+                };
+                $http.post(registerUrl, smsParams).success(function(response){
+                    $scope.errorId = response.errorId;
+                    $scope.errorMsg = response.errorMsg;
+                    $scope.displayMsg();
+                });
+            }
+        });
+
+        // 将验证码加到id为captcha的元素里
+        captchaObj.appendTo("#embed-captcha");
+        captchaObj.onReady(function () {
+            $("#wait")[0].className = "hide";
+        });
+        // 更多接口参考：http://www.geetest.com/install/sections/idx-client-sdk.html
+    };
+    $.ajax({
+        // 获取id，challenge，success（是否启用failback）
+        url: "/user/pc-geetest/register?t=" + (new Date()).getTime(), // 加随机数防止缓存
+        type: "get",
+        dataType: "json",
+        success: function (data) {
+            // 使用initGeetest接口
+            // 参数1：配置参数
+            // 参数2：回调，回调的第一个参数验证码对象，之后可以使用它做appendTo之类的事件
+            initGeetest({
+                gt: data.gt,
+                challenge: data.challenge,
+                product: "embed", // 产品形式，包括：float，embed，popup。注意只对PC版验证码有效
+                offline: !data.success // 表示用户后台检测极验服务器是否宕机，一般不需要关注
+                // 更多配置参数请参见：http://www.geetest.com/install/sections/idx-client-sdk.html#config
+            }, handlerEmbed);
+        }
+    });
 
 });

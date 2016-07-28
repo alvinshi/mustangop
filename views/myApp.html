@@ -143,9 +143,10 @@
                                    ng-change="saveStatusChange()"
                                    placeholder="">
                         </div>
-
-                        <div  style="height: 32px;line-height: 3px;margin: 0px;width: 300px" ng-show="!insufficientFund" class=" col-lg-5 alert alert-danger">你的账户余额不足</div>
-
+                        <label  class="col-lg-2 control-label" > 账户余额:</label>
+                        <div class="col-lg-1">
+                            <div style="margin-top: 7px;">{{usermoney}} Y币</div>
+                        </div>
                     </div>
 
                     <div class="form-group">
@@ -256,7 +257,7 @@
                             </p>
                             <p style="color: #ffffff;
                                 width: 330px;">
-                                更新日期: {{ selectedApp.latestReleaseDate.substr(0,10) }}
+                                更新日期: {{ selectedApp.latestReleaseDate | date: "yyyy/MM/dd" }}
                             </p>
                             <p style="color: #ffffff; font-size: 20px;">
                                 任务类型: <span class="synwords">{{appNeedInfo.taskType}}</span>
@@ -267,9 +268,9 @@
                     <ol style="font-size: 20px; color: #ffffff;
                             list-style-position: inside; padding:0; margin:0;">
                         <li style="margin-bottom: 30px">
-                            <p>app store 搜索"<span class="synwords">{{appNeedInfo.searchKeyword}}</span>"
+                            <p><span class="synwords">IOS App Store</span> 搜索"<span class="synwords">{{appNeedInfo.searchKeyword}}</span>"
                                 第<span class="synwords">{{appNeedInfo.ranKing}}</span>
-                                名左右, 找到应用,如上图图标, 下载.</p>
+                                名左右, 找到上图应用下载.</p>
                         </li>
                         <li style="margin-bottom: 30px">
                             <p> 打开app, 请务必过引导页.</p>
@@ -285,6 +286,9 @@
                                 &nbsp &nbsp &nbsp 标题关键词: <span class="synwords">{{appNeedInfo.titleKeyword}}</span></p>
                             <p style="margin-bottom: 20px">
                                 &nbsp &nbsp &nbsp评论关键词: <span class="synwords">{{appNeedInfo.commentKeyword}}</span></p>
+                        </li>
+                        <li style="margin-bottom: 30px" ng-hide="appNeedInfo.taskType == '下载'">
+                            <p> 截图 <span class="synwords">{{appNeedInfo.screenshotCount}}</span> 张, 详情见备注.</p>
                         </li>
                         <li  style="margin-bottom: 30px" ng-hide="appNeedInfo.taskType == '下载'">
                             <p> 备注:</p>

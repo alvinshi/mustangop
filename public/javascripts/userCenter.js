@@ -203,6 +203,14 @@ app.controller('inforManageCtrl', function($scope, $http){
     };
 });
 
+// 任务历史
+app.controller('taskHistoryCtrl', function($scope, $http){
+    var taskUrl = '/user/taskhistory';
+    $http.get(taskUrl).success(function(response){
+        $scope.ReleaseTaskHistory = response.ReleaseTaskHistory;
+    })
+});
+
 app.controller('userCenterCtrl', function($scope, $http){
     $scope.userName = true;
 
