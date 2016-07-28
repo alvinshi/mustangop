@@ -15,7 +15,7 @@ var cloud = require('./cloud');
 var customUtil = require('./routes/util');
 // 挂载子路由
 var api = require('./routes/api');//for html js api request
-var users = require('./routes/users');//user account and info center
+//var users = require('./routes/users');//user account and info center
 var userApps = require('./routes/myApp');//user app related center
 
 var loadHtml = require('./routes/loadHtml');//load static html
@@ -24,7 +24,7 @@ var appDetail = require('./routes/appDetail');
 var dailyTask = require('./routes/dailyTask');
 var taskDetail = require('./routes/taskDetail');
 var taskDetailMobile = require('./routes/taskDetailMobApi');
-var doTask=require('./routes/doTask');
+var doTask = require('./routes/doTask');
 var taskCheck = require('./routes/taskCheck');
 var taskInfor = require('./routes/taskInfor');
 var doInnerTask = require('./routes/doInnerTask');
@@ -146,7 +146,7 @@ app.get('/contactUs', function(req, res) {
 
 // 可以将一类的路由单独保存在一个文件中
 app.use('/api', api);
-app.use('/user', users);
+//app.use('/user', users);
 app.use('/myapp', userApps);
 app.use('/', index);
 app.use('/app', appDetail);
