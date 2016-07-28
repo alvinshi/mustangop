@@ -33,6 +33,7 @@ router.get('/taskHall', function(req, res){
     var query = new AV.Query(releaseTaskObject);
     query.notEqualTo('remainCount', '0');
     query.equalTo('cancelled', false);
+    query.equalTo('close', false);
     query.include('appObject');
     query.include('userObject');
     query.ascending('createdAt');
