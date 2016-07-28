@@ -39,6 +39,15 @@ app.controller('taskCheckCtrl', function($scope, $http, $location) {
         })
     };
 
+    //***************撤销任务逻辑************************
+    $scope.confirmCancel = function(taskId){
+        var url = '/taskCheck/cancelTask/' + taskId;
+        console.log(taskId);
+        $http.get(url).success(function(response){
+            location.reload();
+        })
+    };
+
     //***************任务审核动作逻辑**********************
 
     //*****************确认接收***************************

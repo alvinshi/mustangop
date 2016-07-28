@@ -14,5 +14,18 @@ app.controller('interorDetailControl',function($scope, $http, $location){
         $scope.oneAppInfo = response.oneAppInfo;
         console.log('--------' + response.macTask);
         $scope.taskInfo = response.macTask;
+
+        for (var i = 0; i < response.macTask.length; i++){
+            // 判断任务的状态
+            if (response.macTask[i].status == 1){
+                response.macTask[i].status = '待审'
+            }else if (response.macTask[i].status == 2){
+                response.macTask[i].status = '拒绝'
+            }else if (response.macTask[i].status == 3){
+                response.macTask[i].status = '已完成'
+            }else {
+                response.macTask[i].status = ''
+            }
+        }
     })
 });

@@ -933,6 +933,7 @@ router.post('/task/:appleId', function(req, res){
             releasetaskObject.set('rejected', 0);  // 拒绝
             releasetaskObject.set('accepted', 0);  // 接收
             releasetaskObject.set('completed', 0);  // 完成
+            releasetaskObject.set('releaseDate', myDateStr); // 添加发布日期,冗余字段
             releasetaskObject.save().then(function() {
                 // 实例已经成功保存.
                 var moratoriumMon = excCount * excUnitPrice;  // 冻结的YB
@@ -992,6 +993,7 @@ router.post('/task/:appleId', function(req, res){
             releaseObject.set('rejected', 0);  // 拒绝
             releaseObject.set('accepted', 0);  // 接收
             releaseObject.set('completed', 0);  // 完成
+            releaseObject.set('releaseDate', myDateStr); // 添加发布日期,冗余字段
             releaseObject.save().then(function() {
                 // 实例已经成功保存.
                 var moratorium = excCount * excUnitPrice;  // 冻结的YB
