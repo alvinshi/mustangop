@@ -58,11 +58,12 @@
                 <div ng-repeat="app in taskAudit">
                     <div ng-class="{true :'icon1 selected', false :'icon1'}[$index == taskIndex]" ng-click="check(app, $index)">
                         <img ng-src="{{app.artworkUrl100}}" alt="">
-                        <span style="margin-left: 10px; font-size: 16px;">Task {{$index + 1}}</span>
+                        <span style="margin-left: 10px; font-size: 16px;">任务 {{$index + 1}}</span>
+                        <span ng-show='app.cancelled == true' style="margin-left: 5px; font-size: 12px; color: #eb3030">已撤销</span>
+                        <span ng-show='app.completed == 1' style="margin-left: 5px; font-size: 12px; color: #00ee00">已完成</span>
                     </div>
                 </div>
             </div><!--左边侧边栏-->
-
 
             <div class="col-lg-10 change">
                 <div>
@@ -75,8 +76,42 @@
                                 </div>
                             </td>
                             <td style="width: 90%">
-                                <div style="margin-left: 40px; margin-bottom: 24px; margin-top: 5px; font-size: 24px; color: #333333">
-                                    {{taskDisplayed.trackName}}
+                                <div class="row">
+                                    <div class="col-lg-8">
+                                        <div style="margin-left: 40px; margin-bottom: 24px; margin-top: 5px; font-size: 24px; color: #333333">
+                                            {{taskDisplayed.trackName}}
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4" style="padding-top: 10px;">
+                                        <button ng-show='(!taskDisplayed.cancelled) && (taskDisplayed.completed == 0)'
+                                                class="btn cancel" data-target="#cancelTask" data-toggle="modal">
+                                            撤销任务
+                                        </button>
+                                        <button ng-show='taskDisplayed.cancelled' class="btn cancelled">
+                                            已撤销
+                                        </button>
+                                        <button ng-show='taskDisplayed.completed == 1' class="btn completed">
+                                            已完成
+                                        </button>
+
+                                        <div class="modal fade" id="cancelTask">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content" style="width:320px;">
+                                                    <div class="modal-header" style="height:50px;margin:0px;background-color:#6eb7e8;border-radius:4px;text-align: center">
+                                                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+                                                        <h4 class="modal-title"  style="font-size:16px;color: #FFFFFF">撤销任务</h4>
+                                                    </div>
+                                                    <div class="modal-body" style="text-align: center;padding-top: 10px">
+                                                        <p>撤销任务后, 对于已经被领取的任务,原则上不得拒绝任务领取的人的上传.没有被领取的任务我们将立刻为您办理退款</p>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-default" ng-click="confirmCancel(taskDisplayed.taskId)" data-dismiss="modal">确认撤销</button>
+                                                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                                 <div style="margin-left: 25px; font-size: 14px;" class="row">
                                     <div class="col-lg-4">
@@ -200,7 +235,6 @@
                                     <span class="imported">{{taskDisplayed.pending + taskDisplayed.rejected}}</span> 条
                                 </div>
                             </div>
-
                         </div>
                     </div>
                     <hr>
@@ -241,19 +275,6 @@
                                             <button class="btn receive2" ng-show="entry.status == 3">已接受</button>
                                             <button class="btn reject2" ng-show="entry.status == 2">已拒绝</button>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
                                         </div>
                                         <div class="modal fade" id="rejectreason{{entry.id}}">
                                             <div class="modal-dialog">
@@ -275,10 +296,6 @@
                                                         </div>
 
                                                     </div>
-
-
-
-
                                                 </div><!-- /.modal-content -->
                                             </div><!-- /.modal-dialog -->
                                         </div><!--拒绝弹窗-->

@@ -166,3 +166,37 @@ h3{
 .checkDetail:hover{
     border: 1px solid black;
 }
+
+.cancel{
+    width: 80px;
+    height: 25px;
+    background-color: transparent;
+    border: 1px solid #eb3030;
+    color: #eb3030;
+    font-size: 14px;
+    padding:0;
+}
+
+.cancel:hover{
+    border: 1px solid black;
+}
+
+.cancelled{
+    width: 80px;
+    height: 25px;
+    background-color: #9a9a9a;
+    border: 1px solid #9a9a9a;
+    color: white;
+    font-size: 14px;
+    padding:0;
+}
+
+.completed{
+    width: 80px;
+    height: 25px;
+    background-color: #00ee00;
+    border: 1px solid #00ee00;
+    color: white;
+    font-size: 14px;
+    padding:0;
+}
