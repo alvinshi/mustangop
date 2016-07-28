@@ -143,12 +143,16 @@ app.post('/upload/img', function(req, resp) {
 app.get('/userProtocol', function(req, res) {
   res.render('userProtocol');
 });
+
 app.get('/handBook', function(req, res) {
   res.render('handBook');
 });
+
 app.get('/contactUs', function(req, res) {
   res.render('contactUs');
-});app.get('/guide', function(req, res) {
+});
+
+app.get('/guide', function(req, res) {
   res.render('guide');
 });
 
