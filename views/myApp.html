@@ -143,9 +143,10 @@
                                    ng-change="saveStatusChange()"
                                    placeholder="">
                         </div>
-
-                        <div  style="height: 32px;line-height: 3px;margin: 0px;width: 300px" ng-show="!insufficientFund" class=" col-lg-5 alert alert-danger">你的账户余额不足</div>
-
+                        <label  class="col-lg-2 control-label" > 账户余额:</label>
+                        <div class="col-lg-1">
+                            <div style="margin-top: 7px;">{{usermoney}} Y币</div>
+                        </div>
                     </div>
 
                     <div class="form-group">
