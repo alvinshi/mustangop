@@ -132,7 +132,7 @@
                                                 </p>
                                                 <p style="color: #ffffff;
                                 width: 330px;">
-                                                    更新日期: {{ app.latestReleaseDate  }}
+                                                    更新日期: {{ app.latestReleaseDate | date:"yyyy/MM/dd"  }}
                                                 </p>
                                                 <p style="color: #ffffff; font-size: 20px;">
                                                     任务类型: <span class="synwords">{{app.taskType}}</span>
@@ -143,7 +143,7 @@
                                         <ol style="font-size: 20px; color: #ffffff;
                             list-style-position: inside; padding:0; margin:0;">
                                             <li style="margin-bottom: 30px">
-                                                <p>app store 搜索"<span class="synwords">{{app.searchKeyword}}</span>"
+                                                <p><span class="synwords">IOS App Store</span> 搜索"<span class="synwords">{{app.searchKeyword}}</span>"
                                                     第<span class="synwords"> {{app.ranking}}</span>
                                                     名左右, 找到应用,如上图图标, 下载.</p>
                                             </li>
@@ -152,12 +152,15 @@
                                             </li>
                                             <li  style="margin-bottom: 30px" ng-hide="app.taskType == '下载'">
                                                 <p  style="margin-bottom: 20px">
-                                                    返回app store, 好评"<span class="synwords">{{stars}}</span>星"
+                                                    返回app store, 好评"<span class="synwords">{{app.score}}</span>星"
                                                 </p>
                                                 <p style="margin-bottom: 20px">
                                                     &nbsp &nbsp &nbsp 标题关键词: <span class="synwords">{{app.titleKeyword}}</span></p>
                                                 <p style="margin-bottom: 20px">
                                                     &nbsp &nbsp &nbsp评论关键词: <span class="synwords">{{app.commentKeyword}}</span></p>
+                                            </li>
+                                            <li style="margin-bottom: 30px" ng-hide="app.taskType == '下载'">
+                                                <p> 截图 <span class="synwords">{{app.screenshotCount}}</span> 张, 详情见备注.</p>
                                             </li>
                                             <li  style="margin-bottom: 30px" ng-hide="app.taskType == '下载'">
                                                 <p>备注:</p>
@@ -295,7 +298,7 @@
                             <div class="modal-content" style="width: 642px;">
                                 <div class="modal-header">
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                    <h4 class="modal-title">任务详情</h4>
+                                    <h4 class="modal-title" id="">任务详情</h4>
                                 </div>
                                 <div class="modal-body" style="padding:0;">
                                     <div style="background:url(/images/appDetail/screenshot-background.png); width: 640px;
@@ -313,7 +316,7 @@
                                                 </p>
                                                 <p style="color: #ffffff;
                                 width: 330px;">
-                                                    更新日期: {{ app.latestReleaseDate  }}
+                                                    更新日期: {{ app.latestReleaseDate | date:"yyyy/MM/dd"  }}
                                                 </p>
                                                 <p style="color: #ffffff; font-size: 20px;">
                                                     任务类型: <span class="synwords">{{app.taskType}}</span>
@@ -324,7 +327,7 @@
                                         <ol style="font-size: 20px; color: #ffffff;
                             list-style-position: inside; padding:0; margin:0;">
                                             <li style="margin-bottom: 30px">
-                                                <p>app store 搜索"<span class="synwords">{{app.searchKeyword}}</span>"
+                                                <p><span class="synwords">IOS App Store</span> 搜索"<span class="synwords">{{app.searchKeyword}}</span>"
                                                     第<span class="synwords"> {{app.ranking}}</span>
                                                     名左右, 找到应用,如上图图标, 下载.</p>
                                             </li>
@@ -333,12 +336,15 @@
                                             </li>
                                             <li  style="margin-bottom: 30px" ng-hide="app.taskType == '下载'">
                                                 <p  style="margin-bottom: 20px">
-                                                    返回app store, 好评"<span class="synwords">{{stars}}</span>星"
+                                                    返回app store, 好评"<span class="synwords">{{app.score}}</span>星"
                                                 </p>
                                                 <p style="margin-bottom: 20px">
                                                     &nbsp &nbsp &nbsp 标题关键词: <span class="synwords">{{app.titleKeyword}}</span></p>
                                                 <p style="margin-bottom: 20px">
                                                     &nbsp &nbsp &nbsp评论关键词: <span class="synwords">{{app.commentKeyword}}</span></p>
+                                            </li>
+                                            <li style="margin-bottom: 30px" ng-hide="app.taskType == '下载'">
+                                                <p> 截图 <span class="synwords">{{app.screenshotCount}}</span> 张, 详情见备注.</p>
                                             </li>
                                             <li  style="margin-bottom: 30px" ng-hide="app.taskType == '下载'">
                                                 <p>备注:</p>
@@ -476,7 +482,7 @@
                             <div class="modal-content" style="width: 642px;">
                                 <div class="modal-header">
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                    <h4 class="modal-title">任务详情</h4>
+                                    <h4 class="modal-title" id="">任务详情</h4>
                                 </div>
                                 <div class="modal-body" style="padding:0;">
                                     <div style="background:url(/images/appDetail/screenshot-background.png); width: 640px;
@@ -494,7 +500,7 @@
                                                 </p>
                                                 <p style="color: #ffffff;
                                 width: 330px;">
-                                                    更新日期: {{ app.latestReleaseDate  }}
+                                                    更新日期: {{ app.latestReleaseDate | date:"yyyy/MM/dd"  }}
                                                 </p>
                                                 <p style="color: #ffffff; font-size: 20px;">
                                                     任务类型: <span class="synwords">{{app.taskType}}</span>
@@ -505,7 +511,7 @@
                                         <ol style="font-size: 20px; color: #ffffff;
                             list-style-position: inside; padding:0; margin:0;">
                                             <li style="margin-bottom: 30px">
-                                                <p>app store 搜索"<span class="synwords">{{app.searchKeyword}}</span>"
+                                                <p><span class="synwords">IOS App Store</span> 搜索"<span class="synwords">{{app.searchKeyword}}</span>"
                                                     第<span class="synwords"> {{app.ranking}}</span>
                                                     名左右, 找到应用,如上图图标, 下载.</p>
                                             </li>
@@ -514,12 +520,15 @@
                                             </li>
                                             <li  style="margin-bottom: 30px" ng-hide="app.taskType == '下载'">
                                                 <p  style="margin-bottom: 20px">
-                                                    返回app store, 好评"<span class="synwords">{{stars}}</span>星"
+                                                    返回app store, 好评"<span class="synwords">{{app.score}}</span>星"
                                                 </p>
                                                 <p style="margin-bottom: 20px">
                                                     &nbsp &nbsp &nbsp 标题关键词: <span class="synwords">{{app.titleKeyword}}</span></p>
                                                 <p style="margin-bottom: 20px">
                                                     &nbsp &nbsp &nbsp评论关键词: <span class="synwords">{{app.commentKeyword}}</span></p>
+                                            </li>
+                                            <li style="margin-bottom: 30px" ng-hide="app.taskType == '下载'">
+                                                <p> 截图 <span class="synwords">{{app.screenshotCount}}</span> 张, 详情见备注.</p>
                                             </li>
                                             <li  style="margin-bottom: 30px" ng-hide="app.taskType == '下载'">
                                                 <p>备注:</p>
