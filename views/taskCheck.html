@@ -99,10 +99,15 @@
                                                 <div class="modal-content" style="width:320px;">
                                                     <div class="modal-header" style="height:50px;margin:0px;background-color:#6eb7e8;border-radius:4px;text-align: center">
                                                         <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
-                                                        <h4 class="modal-title"  style="font-size:16px;color: #FFFFFF">撤销任务</h4>
+                                                        <h4 class="modal-title"  style="font-size:16px;color: #FFFFFF">重要撤销提示</h4>
                                                     </div>
-                                                    <div class="modal-body" style="text-align: center;padding-top: 10px">
-                                                        <p>撤销任务后, 对于已经被领取的任务,原则上不得拒绝任务领取的人的上传.没有被领取的任务我们将立刻为您办理退款</p>
+                                                    <div class="modal-body" style="text-align: center;padding-top: 20px">
+                                                        <p style="font-size: 16px;">
+                                                            撤销任务后, 对于已经被领取的任务,原则上
+                                                            <span style="color: #eb3030">不得拒绝</span>
+                                                            任务领取的人的上传.
+                                                            没有被领取的任务我们将立刻为您办理退款
+                                                        </p>
                                                     </div>
                                                     <div class="modal-footer">
                                                         <button type="button" class="btn btn-default" ng-click="confirmCancel(taskDisplayed.taskId)" data-dismiss="modal">确认撤销</button>
@@ -270,7 +275,8 @@
                                         <img ng-repeat="img in entry.imgs" src="{{img}}" alt="">
                                         <div class=" text-right receive_btn">
 
-                                            <button class="btn reject "data-target="#rejectreason{{entry.id}}" data-toggle="modal" ng-show="entry.status == 1">拒绝</button>
+                                            <button class="btn reject "data-target="#rejectreason{{entry.id}}" data-toggle="modal" ng-show="entry.status == 1 && taskDisplayed.cancelled == false">拒绝</button>
+                                            <button class="btn noReject disabled" ng-show="entry.status == 1 && taskDisplayed.cancelled == true">任务撤销后不得拒绝提交</button>
                                             <button class="btn receive" ng-click="accept(entry)" ng-show="entry.status == 1">确认接受</button>
                                             <button class="btn receive2" ng-show="entry.status == 3">已接受</button>
                                             <button class="btn reject2" ng-show="entry.status == 2">已拒绝</button>

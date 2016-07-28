@@ -71,6 +71,7 @@ router.get('/taskHall', function(req, res){
             appObject.rateUnitPrice = results[i].get('rateUnitPrice');
             appObject.createdAt = results[i].createdAt;
 
+
             //任务需求
             appObject.taskType = results[i].get('taskType');
             appObject.ranking = results[i].get('ranking');

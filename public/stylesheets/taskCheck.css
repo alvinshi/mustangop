@@ -54,6 +54,19 @@
     border-radius: 4px;
     background-color: white;
 }
+
+.receive_btn .noReject{
+    margin-top: 30px;
+    margin-bottom: 30px;
+    margin-right: 24px;
+    color: #f7aa58;
+    width: 200px;
+    border: 1px solid #f7aa58;
+    border-radius: 4px;
+    background-color: white;
+}
+
+
 .receive_btn .receive{
     margin-top: 30px;
     margin-bottom: 30px;

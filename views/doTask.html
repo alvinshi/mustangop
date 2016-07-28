@@ -84,24 +84,24 @@
                                     <span class="infoBubble"><span style="color:#53d435">IOS</span></span>
                                 </div>
                             </td>
-                            <td ng-if="!app.myTask" style="padding-right: 0px;">
+                            <td ng-if="!app.myTask && app.remainCount != '0'" style="padding-right: 0px;">
                                 <button class="mybtn reverse hvr-float-shadow" data-target="#detail{{$index}}" data-toggle="modal">
                                     任务详情
                                 </button>
                             </td>
-                            <td ng-if="!app.myTask"  style="padding-right: 40px;">
+                            <td ng-if="!app.myTask && app.remainCount != '0'"  style="padding-right: 40px;">
                                 <button class="mybtn reverse hvr-float-shadow" data-target="#takeTask{{$index}}" data-toggle="modal">
                                     领取任务
                                 </button>
                             </td>
-                            <td ng-if="app.myTask" style="padding-right: 0px;">
-                                <button class="mybtn reverse hvr-float-shadow" data-target="#detail{{$index}}" data-toggle="modal">
-                                    任务详情
-                                </button>
-                            </td>
                             <td ng-if="app.myTask"  style="padding-right: 40px;">
                                 <button class="myTask">
-                                    我的应用
+                                    我发布的应用
+                                </button>
+                            </td>
+                            <td ng-if="app.remainCount == '0' && !app.myTask"  style="padding-right: 40px;">
+                                <button class="noRemain">
+                                    该任务已被领完
                                 </button>
                             </td>
                         </tr>
@@ -265,24 +265,24 @@
                                     <span class="infoBubble"><span style="color:#53d435">IOS</span></span>
                                 </div>
                             </td>
-                            <td ng-if="!app.myTask" style="padding-right: 0px;">
+                            <td ng-if="!app.myTask && app.remainCount != '0'" style="padding-right: 0px;">
                                 <button class="mybtn reverse hvr-float-shadow" data-target="#detail_download{{$index}}" data-toggle="modal">
                                     任务详情
                                 </button>
                             </td>
-                            <td ng-if="!app.myTask"  style="padding-right: 40px;">
+                            <td ng-if="!app.myTask && app.remainCount != '0'"  style="padding-right: 40px;">
                                 <button class="mybtn reverse hvr-float-shadow" data-target="#takeTask_download{{$index}}" data-toggle="modal">
                                     领取任务
                                 </button>
                             </td>
-                            <td ng-if="app.myTask" style="padding-right: 0px;">
-                                <button class="mybtn reverse hvr-float-shadow" data-target="#detail_download{{$index}}" data-toggle="modal">
-                                    任务详情
-                                </button>
-                            </td>
                             <td ng-if="app.myTask"  style="padding-right: 40px;">
                                 <button class="myTask">
-                                    我的应用
+                                    我发布的应用
+                                </button>
+                            </td>
+                            <td ng-if="app.remainCount == '0' && !app.myTask"  style="padding-right: 40px;">
+                                <button class="noRemain">
+                                    该任务已被领完
                                 </button>
                             </td>
                         </tr>
@@ -446,25 +446,24 @@
                                     <span class="infoBubble"><span style="color:#53d435">IOS</span></span>
                                 </div>
                             </td>
-
-                            <td ng-if="!app.myTask" style="padding-right: 0px;">
+                            <td ng-if="!app.myTask && app.remainCount != '0'" style="padding-right: 0px;">
                                 <button class="mybtn reverse hvr-float-shadow" data-target="#detail_comment{{$index}}" data-toggle="modal">
                                     任务详情
                                 </button>
                             </td>
-                            <td ng-if="!app.myTask"  style="padding-right: 40px;">
+                            <td ng-if="!app.myTask && app.remainCount != '0'"  style="padding-right: 40px;">
                                 <button class="mybtn reverse hvr-float-shadow" data-target="#takeTask_comment{{$index}}" data-toggle="modal">
                                     领取任务
                                 </button>
                             </td>
-                            <td ng-if="app.myTask" style="padding-right: 0px;">
-                                <button class="mybtn reverse hvr-float-shadow" data-target="#detail_comment{{$index}}" data-toggle="modal">
-                                    任务详情
-                                </button>
-                            </td>
                             <td ng-if="app.myTask"  style="padding-right: 40px;">
                                 <button class="myTask">
-                                    我的应用
+                                    我发布的应用
+                                </button>
+                            </td>
+                            <td ng-if="app.remainCount == '0' && !app.myTask"  style="padding-right: 40px;">
+                                <button class="noRemain">
+                                    该任务已被领完
                                 </button>
                             </td>
                         </tr>
