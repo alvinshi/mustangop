@@ -247,6 +247,7 @@ function getQueryReleaseTask(){
     var query = new AV.Query(releaseTaskObject);
     query.equalTo('close', false);
     query.equalTo('releaseDate', myDateStr);
+    query.equalTo('remainCount', '0');
     query.descending('createdAt');
     return query;
 }
@@ -291,7 +292,7 @@ AV.Cloud.define('closeCheckTask', function(request, response){
         function (error) {
         console.log('----- closeCheckTask error: count error');
     });
-})
+});
 
 module.exports = AV.Cloud;
 
