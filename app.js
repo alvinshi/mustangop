@@ -109,6 +109,9 @@ app.use(function (req, res, next) {
   loginWhiteList[5] = "/taskDetailMobile";
   loginWhiteList[6] = "/taskDetail";
   loginWhiteList[7] = "/myClaim";
+  loginWhiteList[8] = "/newtaskMobile";
+  loginWhiteList[9] = "/interiorExcDetail";
+  loginWhiteList[10] = "/doTask";
 
   var needLogin = !routeHasPrefix(req.originalUrl, loginWhiteList);
 
