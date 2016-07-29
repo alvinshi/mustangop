@@ -74,7 +74,7 @@ router.get('/taskHall', function(req, res){
 
             //任务需求
             appObject.taskType = results[i].get('taskType');
-            appObject.ranking = results[i].get('ranking');
+            appObject.ranking = results[i].get('ranKing');
             appObject.score = results[i].get('Score');
             appObject.searchKeyword = results[i].get('searchKeyword');
             appObject.screenshotCount = results[i].get('screenshotCount');

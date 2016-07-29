@@ -234,27 +234,25 @@
                             <h3>任务状态:
                                     <span class="glyphicon glyphicon-question-sign"  data-placement="right"
                                         data-toggle="popover"
-                                      data-content="领取:已被领取的任务数量。   待审:提交后还未审核的任务数量。 未完成:未提交的任务数量。 接收:已确认接收的任务数量。已过期:22点前未提交的任务数量。"
+                                      data-content="领取:已被领取的任务数量。待审:提交后还未审核的任务数量。 未完成:未提交的任务数量。 接收:已确认接收的任务数量。已过期:22点前未提交的任务数量。"
                                           id="glyphicon"
                                       ng-click="addApp('glyphicon')" style="font-size: 0.8em"></span>
                             </h3>
                         </div>
                         <div style="margin-left: 70px; font-size: 22px; color: #333333;">
                             <div class="row">
-                                <div  style="width:18%;margin-left:10px;display: inline-block">被领取:
-                                    <span class="imported">{{taskDisplayed.excCount - taskDisplayed.remainCount}}</span>条
+                                <div  class="col-lg-3">已完成:
+                                    <span class="imported">{{taskDisplayed.accepted}}/{{taskDisplayed.excCount - taskDisplayed.remainCount}}</span>
                                 </div>
-                                <div style="width: 18%;display: inline-block">待审核:
+                                <div class="col-lg-3">待审核:
                                     <span class="imported">{{taskDisplayed.submitted}}</span> 条
                                 </div>
-                                <div   style="width: 20%;display: inline-block">未提交:
+                                <div class="col-lg-3">未提交:
                                     <span class="imported">{{taskDisplayed.pending + taskDisplayed.rejected}}</span> 条
                                 </div>
-                                <div  style="width: 20%;display: inline-block">已接收:
-                                    <span class="imported">{{taskDisplayed.accepted}}</span> 条
-                                </div>
-                                <div  style="width: 20%;display: inline-block">已过期:
-                                    <span class="imported">{{taskDisplayed.abandoned}}</span> 条
+
+                                <div class="col-lg-3">已过期:
+                                    <span class="imported1">{{taskDisplayed.abandoned}}</span> 条
                                 </div>
                             </div>
                         </div>
@@ -269,15 +267,16 @@
                         <div class="panel panel-default" ng-repeat="submission in specTask">
                             <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="/#collapse{{$index}}">
                                 <div class="row panel-receivetask" style="height: 64px">
-                                    <div class="col-lg-7">
+                                    <div class="col-lg-6">
                                         <img src="/images/appDetail/receiveTask.png" alt="" style="display: inline-block;margin-left: 24px;padding-bottom: 10px">
                                         <span >任务领取人:</span>
                                         <span>{{submission.username}}</span>
                                     </div>
-                                    <div class="col-lg-5">
+                                    <div class="col-lg-6">
                                         <span>已完成: {{submission.accepted}}/{{submission.receiveCount}}</span>
                                         <span>待审: {{submission.submitted}}</span>
                                         <span>未提交: {{submission.pending + submission.rejected}}</span>
+                                        <span>已过期: {{submission.abandoned}}</span>
                                     </div>
                                 </div>
 

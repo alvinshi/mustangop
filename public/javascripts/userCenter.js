@@ -274,7 +274,14 @@ app.controller('userCenterCtrl', function($scope, $http){
         })
     };
 
+
+
+
+
+
 });
+
+
 
 function logout(){
 

@@ -1,6 +1,16 @@
 .index{
     margin-left:10px;font-size: 18px
 }
+.add_exc_history{
+    width: 165px;
+    height: 38px;
+    background-color: white;
+    color: #3498db;
+    border: 1px solid #3498db;
+    font-size: 18px;
+    margin-left: 490px;
+    margin-top: -20px;
+}
 .task_img{
     display: inline-block;width: 32px;height: 32px;border: 1px solid #e0e0e0;
     border-radius: 4px;margin-left:15px
@@ -53,4 +63,11 @@
 .finish{
 
     font-size: 18px;color: #999999;position: absolute;right: 30px;
+}
+.icon1:hover{
+    background:#d0d3d8;
+}
+
+.icon1:active{
+    background:#d0d3d8;
 }
