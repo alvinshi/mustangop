@@ -59,9 +59,9 @@
     float: right;
     width: 300px;
     height: 44px;
-    border: 0px solid #3498db;
-    color: black;
-    background: #e0e0e0;
+    border: 0px solid #9a9a9a;
+    color: white;
+    background: #9a9a9a;
     font-size: 20px;
     border-radius: 4px;
     margin-left: 44px;
@@ -75,8 +75,8 @@
     font-size: 20px;
     border-radius: 4px;
     margin-left: 44px;
-    border: 1px solid #6eb7e8;
-    background: #6eb7e8;
+    border: 1px solid #9a9a9a;
+    background: #9a9a9a;
 }
 
 .noRemain{
