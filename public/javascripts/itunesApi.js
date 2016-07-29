@@ -38,7 +38,13 @@ app.controller('itunesSearchControl', function($scope, $http) {
             if ($scope.appNeedInfo.taskType == '评论'){
                 $scope.appNeedInfo.excUnitPrice = 30;
             }
+
             else {$scope.appNeedInfo.excUnitPrice = 25};
+
+            if ($scope.appNeedInfo.screenshotCount == undefined){
+                $scope.appNeedInfo.screenshotCount= 3;
+            }
+
         });
     };
 
@@ -284,12 +290,12 @@ app.controller('itunesSearchControl', function($scope, $http) {
     };
 
 
-    $scope.setValue1=function(){
-        document.getElementById("price").value="30"
-    };
-    $scope.setValue2=function(){
-        document.getElementById("price").value="25"
-    };
+    //$scope.setValue1=function(){
+    //    document.getElementById("price").value="30"
+    //};
+    //$scope.setValue2=function(){
+    //    document.getElementById("price").value="25"
+    //};
 
 
 

@@ -152,7 +152,7 @@ body{
 
 }
 .money{
-    margin-bottom: 13px;
+    margin-bottom:6px;
 }
 .acheive span:nth-child(1){
     margin-left: 10px;
@@ -175,7 +175,7 @@ body{
     color: #666666;
 }
 .consume span:nth-child(2){
-    color:  #eb3030;font-size: 30px;margin-left: 20px
+    color:  #eb3030;font-size:24px;margin-left: 20px
 }
 .consume span:nth-child(3){
     color:  #eb3030;
@@ -207,7 +207,7 @@ body{
 }
 .money span:nth-child(1){
     margin-left: 50px;
-    font-size: 30px;
+    font-size: 24px;
     color: #eb3030;
 }
 
