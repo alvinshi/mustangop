@@ -8,6 +8,9 @@ module.exports = function(grunt) {
         pkg: grunt.file.readJSON('package.json'),
 
         uglify: {
+            options: {
+                mangle: false
+            },
             my_target: {
                 files: [{
                     expand: true,

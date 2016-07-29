@@ -7,7 +7,7 @@ var app=angular.module('yemaWebApp',[]);
 var navIndex =0;
 
 
-app.controller('doTaskCtrl', function($scope, $http, $location) {
+app.controller('doTaskCtrl', function($scope, $http) {
 
     //发布任务飞机颜色
     $scope.planeColor = true;
@@ -55,7 +55,7 @@ app.controller('doTaskCtrl', function($scope, $http, $location) {
             taskDisplayedInit();
             updateTaskDisplayed();
         }
-    })
+    });
 
     //获取任务列表总页数
     function taskDisplayedInit(){
@@ -66,8 +66,8 @@ app.controller('doTaskCtrl', function($scope, $http, $location) {
         }
         else{
             $scope.totalPageNum = parseInt($scope.totalTaskNum / $scope.taskPerPage) + 2;
-        };
-    };
+        }
+    }
 
     //全部显示
     $scope.displayAll = function(){
@@ -75,7 +75,7 @@ app.controller('doTaskCtrl', function($scope, $http, $location) {
         $scope.pageNum = 0;
         taskDisplayedInit();
         updateTaskDisplayed();
-    }
+    };
 
     //下载任务
     $scope.downloadTasksOnly = function(){
@@ -83,7 +83,7 @@ app.controller('doTaskCtrl', function($scope, $http, $location) {
         $scope.pageNum = 0;
         taskDisplayedInit();
         updateTaskDisplayed();
-    }
+    };
 
     //评论任务
     $scope.commentTasksOnly = function(){
@@ -91,7 +91,7 @@ app.controller('doTaskCtrl', function($scope, $http, $location) {
         $scope.pageNum = 0;
         taskDisplayedInit();
         updateTaskDisplayed();
-    }
+    };
 
     //已做过任务
     $scope.inactiveTasksOnly = function(){
@@ -99,7 +99,7 @@ app.controller('doTaskCtrl', function($scope, $http, $location) {
         $scope.pageNum = 0;
         taskDisplayedInit();
         updateTaskDisplayed();
-    }
+    };
 
 
     //任务列表翻页功能
@@ -126,10 +126,10 @@ app.controller('doTaskCtrl', function($scope, $http, $location) {
     };
 
     function updateTaskDisplayed(){
-        firstTaskIndex = $scope.pageNum * $scope.taskPerPage
-        lastTaskIndex = Math.min(firstTaskIndex + $scope.taskPerPage, $scope.totalTaskNum);
+        var firstTaskIndex = $scope.pageNum * $scope.taskPerPage;
+        var lastTaskIndex = Math.min(firstTaskIndex + $scope.taskPerPage, $scope.totalTaskNum);
         $scope.taskDisplayed = $scope.taskObject.slice(firstTaskIndex, lastTaskIndex);
-    };
+    }
 
     //*********领取任务弹窗逻辑*****************
     $scope.getTaskFormData = {};
@@ -164,7 +164,7 @@ app.controller('doTaskCtrl', function($scope, $http, $location) {
                 $scope.getTaskFormData.errorMsg = response.errorMsg;
                 $scope.getTaskFormData.result = response.succeeded;
             });
-        };
+        }
     };
 
     //*******关闭弹窗自动刷新*********

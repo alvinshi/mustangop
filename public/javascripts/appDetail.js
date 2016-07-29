@@ -43,9 +43,8 @@ app.controller('myAppControl', function($scope, $http, $location, FileUploader) 
         var appid = appurlList[appurlList.length - 1];
     }else {
         var app = appurlList[appurlList.length - 2].split('#');
-        var appid = app[app.length - 2];
+        appid = app[app.length - 2];
     }
-    console.log('-----' + appid)
     var myappUrl = 'baseinfo/' + appid;
 
     $http.get(myappUrl).success(function (response) {
@@ -68,13 +67,11 @@ app.controller('myAppControl', function($scope, $http, $location, FileUploader) 
         var oldhistoryUrl = '/myapp/oldhistory/angular/' + appid + '/' + $scope.appBaseInfo.version;
         $http.get(oldhistoryUrl).success(function(response){
             $scope.myHistoryApps = response.myHistoryApps;
-            //console.log($scope.myHistoryApps);
         });
     });
 
     $scope.keyApp = function(e){
         var keycode = window.event?e.keyCode:e.which;
-        //console.log('keycode ' + keycode);
         //enter or space
         if(keycode==13){
             $scope.searchLocalHistoryApp();
