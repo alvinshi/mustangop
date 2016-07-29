@@ -137,9 +137,19 @@ AV.Cloud.define('checkTask', function(request, response){
                         });
 
                         results[e].set('submitted', 0); // 把任务审核显示已经审核
+                        var acceptedNum = results[e].get('accepted');
+                        results[e].set('accepted', acceptedNum + submitted);//新的接受条目等于过去的接受条目加上待审
                         results[e].save();
 
-                        task.set('submitted', 0); // 修改发布任务里面的审核
+                        var releaseSubmittedNum = task.get('submitted');
+                        task.set('submitted', releaseSubmittedNum - submitted); // 修改发布任务里面的待审
+                        var releaseAcceptedNum = task.get('accepted');
+                        task.set('accepted', releaseAcceptedNum + submitted);//修改发布任务里面的接受
+                        var releaseAbandonedNum = task.get('abandoned');
+                        var releaseTotal = parseInt(task.get('excCount'));
+                        if (releaseAbandonedNum + releaseAcceptedNum + submitted == releaseTotal){
+                            task.set('completed', 1);
+                        }
                         task.save();
 
                         // 修改任务为已经接收
@@ -179,7 +189,7 @@ AV.Cloud.define('checkTask', function(request, response){
                     }
 
                     // 每天晚上10点 查看领取任务的人 有没有做完任务 没有做完罚钱
-                    var task_not_done = results[e].get('remainCount');
+                    var task_not_done = results[e].get('remainCount');//这个是未提交!!!!!!跟pending事一样的!!!!下次要改!!!!
                     if (task_not_done != 0){
                         // 扣除领取任务人的YB,因为任务没有做完
                         var todo = AV.Object.createWithoutData('_User', user.id);
@@ -203,27 +213,26 @@ AV.Cloud.define('checkTask', function(request, response){
                             console.log('----- checkTask error');
                         });
 
-                        // 修改领取任务的信息 已过期 已接收 未提交 待审核 字段
+                        // 修改领取任务的信息 已过期  未提交 字段
                         var get_abandoned = results[e].get('abandoned'); // 已过期
-                        var get_accepted = results[e].get('accepted'); // 已接收
                         var get_pending = results[e].get('pending'); // 未提交
-                        var get_submitted = results[e].get('submitted'); // 待审核
-                        results[e].set('abandoned', get_pending + get_abandoned);
-                        results[e].set('accepted', get_submitted + get_accepted);
+                        results[e].set('abandoned', get_pending + get_abandoned);//过期条目等于过去的过期条目加未完成条目
                         results[e].set('pending', 0);
-                        results[e].set('submitted', 0);
-                        results[e].set('close', true);
+                        results[e].set('remainCount', 0);
+                        results[e].set('completed', 1);
                         results[e].save();
 
-                        // 修改发布任务的信息 已过期 已接收 未提交 待审核 字段
-                        var task_get_abandoned = task.get('abandoned'); // 已过期
-                        var task_get_accepted = task.get('accepted'); // 已接收
-                        var task_get_pending = task.get('pending'); // 未提交
-                        var task_get_submitted = task.get('submitted'); // 待审核
-                        task.set('abandoned', task_get_pending + task_get_abandoned);
-                        task.set('accepted', task_get_accepted + task_get_submitted);
-                        task.set('pending', 0);
-                        task.set('submitted', 0);
+                        // 修改发布任务的信息 已过期 未提交 字段
+                        var task_get_abandoned = task.get('abandoned'); // 总的已过期
+                        var task_get_pending = task.get('pending'); // 总的未提交
+                        task.set('abandoned', task_get_abandoned + get_pending);
+                        task.set('pending', task_get_pending - get_pending);
+                        //判断任务是否已经完成了
+                        var task_get_accepted = task.get('accepted');
+                        var task_total = parseInt(task.get('excCount'));
+                        if (task_get_accepted + task_get_abandoned + get_pending == task_total){
+                            task.set('completed', 1);
+                        }
                         task.save();
 
                         // 修改流水库 罚钱
@@ -242,20 +251,40 @@ AV.Cloud.define('checkTask', function(request, response){
 
                     //// 每天晚上10点 任务有拒绝 但领取的用户没有再继续做 领取的用户得不到单条的钱 释放被拒绝的任务
                     var taskisReject = results[e].get('rejected'); // 找出是否有拒绝 默认为0
-                    var remaincount = parseInt(task.get('remainCount'));
-                    var remainCount = remaincount + 1;
-                    if (taskisReject != 0){
+                    if (taskisReject != 0) {
+                        var taskAbandoned = results[e].get('abandoned');//之前过期的任务
+                        results[e].set('abandoned', taskAbandoned + taskisReject);
+                        results[e].set('rejected', 0);
+                        results[e].save();
+
+                        //我们这里没有更改mackTask状态.只是权宜之计.
+
                         var releasetask = AV.Object.createWithoutData('releaseTaskObject', task.id);
-                        releasetask.set('remainCount', remainCount + '');
-                        releasetask.save().then(function(){
-                            console.log('!!!!! checkTask task released succeed');
-                        })
-                    }function error(){
-                        console.log('----- checkTask error: count error');
+                        var taskRejected = releasetask.get('rejected');
+                        releasetask.set('rejected', taskRejected - taskisReject); //拒绝条目减
+                        var task_Abandoned = releasetask.get('abandoned');
+                        releasetask.set('abandoned', task_Abandoned + taskisReject); //过期条目加
+                        var taskAccepted = releasetask.get('accepted');
+                        var taskTotal = parseInt(releasetask.get('excCount'));
+                        if (taskAccepted + task_Abandoned + taskisReject == taskTotal) {
+                            releasetask.set('completed', 1);
+                        }
+                        releasetask.save();
+
+                        //需要把钱返回给发布者
+                        var taskOwner = AV.Object.createWithoutData('_User', releaseuser.id);
+                        taskOwner.set('remainMoney', releaseTaskUserMoney + (taskisReject * taskmoney));
+                        taskOwner.set('totalMoney', releaseTaskUserMoney + (taskisReject * taskmoney));
+                        taskOwner.save().then(function () {
+                                console.log('!!!!! checkTask releaseUser YB succeed');
+                            },
+                            function (error) {
+                                console.log('----- checkTask error');
+                            });
                     }
-
+                    results[e].set('completed', 1);
+                    results[e].save();
                 }
-
             })
         }
         function error(){
@@ -320,15 +349,15 @@ AV.Cloud.define('closeCheckTask', function(request, response){
 module.exports = AV.Cloud;
 
 
-//var paramsJson = {
-//    movie: "夏洛特烦恼"
-//};
-//AV.Cloud.run('closeCheckTask', paramsJson, {
-//    success: function(data) {
-//        // 调用成功，得到成功的应答data
-//    },
-//    error: function(err) {
-//        // 处理调用失败
-//    }
-//});
+var paramsJson = {
+    movie: "夏洛特烦恼"
+};
+AV.Cloud.run('checkTask', paramsJson, {
+    success: function(data) {
+        // 调用成功，得到成功的应答data
+    },
+    error: function(err) {
+        // 处理调用失败
+    }
+});
 
