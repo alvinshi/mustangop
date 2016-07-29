@@ -639,12 +639,12 @@
                                     <span class="infoBubble"><span style="color:#53d435">IOS</span></span>
                                 </div>
                             </td>
-                            <td ng-if="app.inactive && !app.myTask" style="padding-right: 40px;">
+                            <td ng-if="app.inactive" style="padding-right: 40px;">
                                 <button class="btn-inactive">
                                     已与此版本APP进行过操作
                                 </button>
                             </td>
-                            <td ng-if="app.remainCount == '0' && !app.myTask && !app.inactive"  style="padding-right: 40px;">
+                            <td ng-if="app.remainCount == '0' && !app.inactive"  style="padding-right: 40px;">
                                 <button class="noRemain">
                                     该任务已被领完
                                 </button>
