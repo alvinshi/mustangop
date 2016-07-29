@@ -361,7 +361,7 @@ router.post('/reject/:entryId', function(req, res) {
     query.get(entryId).then(function(data) {
         var uploaderName = data.get('uploadName');
         data.set("status", 2);
-        data.set('detail', rejectReason)
+        data.set('detail', rejectReason);
         data.save();
 
         updateDatabaseReject(entryId, uploaderName);
