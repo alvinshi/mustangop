@@ -65,6 +65,7 @@ router.get('/taskAudit', function(req, res){
             appInfoObject.submitted = results[i].get('submitted');
             appInfoObject.rejected = results[i].get('rejected');
             appInfoObject.accepted = results[i].get('accepted');
+            appInfoObject.abandoned = results[i].get('abandoned');
 
             appInfoObject.completed = results[i].get('completed');
             appInfoObject.cancelled = results[i].get('cancelled');
@@ -83,7 +84,15 @@ router.get('/cancelTask/:taskId', function(req, res){
     user.id = userId;
 
     query.get(taskId).then(function(result){
+        var totalNum = parseInt(result.get('excCount'));
         var remain = parseInt(result.get('remainCount'));
+        result.set('excCount', totalNum - remain + '');
+        result.set('remainCount', '0');
+        var acceptedNum = result.get('accepted');
+        var abandonedNum = result.get('abandonedNum');
+        if ((acceptedNum + abandonedNum) == (totalNum - remain)){
+            result.set('completed', 1);
+        }
         var rate = result.get('rateUnitPrice');
         var moneyReturn = remain * rate;
         var secondaryQuery = new AV.Query(User);
@@ -133,6 +142,7 @@ router.get('/specTaskCheck/:taskId', function(req, res){
                 submission.submitted = results[i].get('submitted');
                 submission.rejected = results[i].get('rejected');
                 submission.accepted = results[i].get('accepted');
+                submission.abandoned = results[i].get('abandoned');
                 submission.completed = results[i].get('completed');
 
                 //获取各个上传信息
@@ -190,8 +200,9 @@ var updateReceiveTaskDatabase = function(entryId, uploaderName){
         var preAccepted = data.get('accepted');
         data.set('accepted', preAccepted + 1);
         //检查领取的任务是否已经完成
+        var abandoned = data.get('abandoned');
         var receiveCount = parseInt(data.get('receiveCount'));
-        if (receiveCount == preAccepted + 1) {
+        if (receiveCount == preAccepted + abandoned + 1) {
             data.set('completed', 1);
         }
         data.save();

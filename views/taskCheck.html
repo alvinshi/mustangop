@@ -59,7 +59,7 @@
                     <div ng-class="{true :'icon1 selected', false :'icon1'}[$index == taskIndex]" ng-click="check(app, $index)">
                         <img ng-src="{{app.artworkUrl100}}" alt="">
                         <span style="margin-left: 10px; font-size: 16px;">任务 {{$index + 1}}</span>
-                        <span ng-show='app.cancelled == true' style="margin-left: 5px; font-size: 12px; color: #eb3030">已撤销</span>
+                        <span ng-show='app.cancelled == true && app.completed == 0' style="margin-left: 5px; font-size: 12px; color: #eb3030">已撤销</span>
                         <span ng-show='app.completed == 1' style="margin-left: 5px; font-size: 12px; color: #00ee00">已完成</span>
                     </div>
                 </div>
@@ -87,7 +87,7 @@
                                                 class="btn cancel" data-target="#cancelTask" data-toggle="modal">
                                             撤销任务
                                         </button>
-                                        <button ng-show='taskDisplayed.cancelled' class="btn cancelled">
+                                        <button ng-show='taskDisplayed.cancelled && taskDisplayed.completed == 0' class="btn cancelled">
                                             已撤销
                                         </button>
                                         <button ng-show='taskDisplayed.completed == 1' class="btn completed">

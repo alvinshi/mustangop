@@ -44,7 +44,7 @@ router.post('/getSmsCode', function(req, res) {
 
     }, function (err, result) {
         if (err || !result) {
-            res.json({'errorId':-100, 'errorMsg':'验证码位置不对哦'});
+            res.json({'errorId':-100, 'errorMsg':'验证码服务出现问题'});
         } else {
             //验证码正确才会发送短信,防止被攻击
             AV.Cloud.requestSmsCode(userphone).then(function() {

@@ -15,8 +15,13 @@ var IOSAppSql = AV.Object.extend('IOSAppInfo');
 var releaseTaskObject = AV.Object.extend('releaseTaskObject'); // 发布的库
 var receiveTaskObject = AV.Object.extend('receiveTaskObject'); // 领取任务的库
 
+
+router.get('/', function(req, res) {
+    res.render('login');
+});
+
 router.get('/:userObjectId', function(req, res) {
-    res.render('myClaim')
+    res.render('myClaim');
 });
 
 router.get('/claim/:userObjectId', function(req, res){

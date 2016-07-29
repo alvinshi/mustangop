@@ -34,7 +34,8 @@ app.controller('doTaskCtrl', function($scope, $http, $location) {
             $scope.commentTasks = new Array();
             $scope.inactiveTasks = new Array();
             for (var i = 0; i < response.doTask.length; i++){
-                if (response.doTask[i].inactive){
+                //做过的任务, 我的任务, 剩余条数为0
+                if (response.doTask[i].inactive || response.doTask[i].myTask || response.doTask[i].remainCount == '0'){
                     $scope.inactiveTasks.push(response.doTask[i]);
                 }
                 else if (response.doTask[i].taskType == '下载'){
