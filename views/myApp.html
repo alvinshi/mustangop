@@ -66,7 +66,7 @@
              ng-click="selectedAppFunc(app)"
              ng-repeat="app in myApps"
              ng-class="{true: 'border'}[selectedApp == app]"
-        style="border-radius: 10px;">
+             style="border-radius: 10px;">
 
             <a href="" ng-click="releaseBtnClick(app)" data-toggle="modal" data-target="#mymodal">
                 <p class=" btn-sm_release">
@@ -96,8 +96,8 @@
             <div>
                 <h3 class="mytitle">第二步:填写任务信息
                     <span class="glyphicon glyphicon-question-sign"  data-placement="right"
-                      data-toggle="popover"
-                      data-content="在任务需求编辑中，你可以非常详细的记录换评换量需求，且只需填写一次，之后只需每天修改关键信息即可"
+                          data-toggle="popover"
+                          data-content="在任务需求编辑中，你可以非常详细的记录换评换量需求，且只需填写一次，之后只需每天修改关键信息即可"
                           id="glyphicon2" ng-click="addApp('glyphicon2')" style="font-size: 0.8em"></span>
                 </h3>
 

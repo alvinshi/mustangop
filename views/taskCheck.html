@@ -230,7 +230,15 @@
                                 </div>
                             </div>
                         </div>
-                        <div><h3>任务状态:</h3></div>
+                        <div>
+                            <h3>任务状态:
+                                    <span class="glyphicon glyphicon-question-sign"  data-placement="right"
+                                        data-toggle="popover"
+                                      data-content="领取:已被领取的任务数量。   待审:提交后还未审核的任务数量。 未完成:未提交的任务数量。 接收:已确认接收的任务数量。 放弃:22点钱未提交的任务数量。"
+                                          id="glyphicon"
+                                      ng-click="addApp('glyphicon')" style="font-size: 0.8em"></span>
+                            </h3>
+                        </div>
                         <div style="margin-left: 70px; font-size: 22px; color: #333333;">
                             <div class="row">
                                 <div class="col-lg-4">完成/领取:

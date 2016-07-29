@@ -157,6 +157,13 @@ body{
 }
 
 
-
+#embed-captcha{
+    margin-top: 20px;
+    margin-left: 20px
+}
+#wait{
+    font-size:18px;
+    margin-left:40px;
+}
 
 

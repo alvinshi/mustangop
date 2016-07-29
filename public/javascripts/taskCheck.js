@@ -97,6 +97,9 @@ app.controller('taskCheckCtrl', function($scope, $http, $location) {
         }
 
     }
+    $scope.addApp=function(id) {
+        $('#'+ id).popover("toggle");
+    };
 
 
 
