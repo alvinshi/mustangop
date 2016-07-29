@@ -278,7 +278,7 @@ router.get('/taskhistory', function(req, res){
     for (var i = 0; i < results.length; i++){
       var historyObject = new Object();
       var appInfo = results[i].get('appObject');
-      historyObject.trackName = appInfo.get('trackName');
+      historyObject.trackName = appInfo.get('trackName').substr(0,8);
       historyObject.artworkUrl100 = appInfo.get('artworkUrl100');
 
       historyObject.totalCount = results[i].get('excCount');

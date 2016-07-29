@@ -52,7 +52,7 @@
             <span class="glyphicon glyphicon-question-sign"  data-placement="top"
                   data-toggle="popover"
                   data-content="目前只能添加5个应用哦!" id="glyphicon"
-                  ng-click="addApp()" style="font-size: 0.8em"></span>
+                  ng-click="addApp('glyphicon')" style="font-size: 0.8em"></span>
 
 
         </h3>
@@ -92,13 +92,15 @@
         </div>
         <div style="clear: both"></div>
         <hr style="margin-top:30px;width: 1001px">
-        <div class="alert alert-danger">
-            在任务需求编辑中，你可以非常详细的记录换评换量需求，且只需填写一次，之后只需每天修改关键信息即可
-        </div>
-
         <div id="need">
             <div>
-                <h3 class="mytitle">第二步:填写任务信息</h3>
+                <h3 class="mytitle">第二步:填写任务信息
+                    <span class="glyphicon glyphicon-question-sign"  data-placement="right"
+                      data-toggle="popover"
+                      data-content="在任务需求编辑中，你可以非常详细的记录换评换量需求，且只需填写一次，之后只需每天修改关键信息即可"
+                          id="glyphicon2" ng-click="addApp('glyphicon2')" style="font-size: 0.8em"></span>
+                </h3>
+
                 <form class="form-horizontal">
                     <div class="form-group">
                         <label  class="col-lg-2 control-label" > 任务类型:</label>
@@ -308,7 +310,6 @@
                         -友情提醒, 避免撕逼
                     </p>
                 </div>
-                <div class="alert alert-danger" style="margin-top: 30px">任务发布成功后，任务信息不可修改，如需增加数量，请发布新任务。</div>
                 <div class="button_state">
                     <div class="col-lg-4 col-lg-offset-1">
                         <button class="btn btn_download"  ng-click='getScreenShot()'>

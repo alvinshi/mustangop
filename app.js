@@ -108,6 +108,10 @@ app.use(function (req, res, next) {
   loginWhiteList[4] = "/dailyTask";
   loginWhiteList[5] = "/taskDetailMobile";
   loginWhiteList[6] = "/taskDetail";
+  loginWhiteList[7] = "/myClaim";
+  loginWhiteList[8] = "/newtaskMobile";
+  loginWhiteList[9] = "/interiorExcDetail";
+  loginWhiteList[10] = "/doTask";
 
   var needLogin = !routeHasPrefix(req.originalUrl, loginWhiteList);
 
@@ -142,12 +146,16 @@ app.post('/upload/img', function(req, resp) {
 app.get('/userProtocol', function(req, res) {
   res.render('userProtocol');
 });
+
 app.get('/handBook', function(req, res) {
   res.render('handBook');
 });
+
 app.get('/contactUs', function(req, res) {
   res.render('contactUs');
-});app.get('/guide', function(req, res) {
+});
+
+app.get('/guide', function(req, res) {
   res.render('guide');
 });
 
