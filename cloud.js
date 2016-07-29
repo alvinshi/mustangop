@@ -91,6 +91,8 @@ AV.Cloud.define('checkTask', function(request, response){
     query.count().then(function(count){
         var totalcount = count;
 
+        console.log(totalcount);
+
         if (totalcount == 0){
             console.log('!!!!! checkTask succeed: no task need to deal');
             response.success('checkTask');
@@ -201,6 +203,29 @@ AV.Cloud.define('checkTask', function(request, response){
                             console.log('----- checkTask error');
                         });
 
+                        // 修改领取任务的信息 已过期 已接收 未提交 待审核 字段
+                        var get_abandoned = results[e].get('abandoned'); // 已过期
+                        var get_accepted = results[e].get('accepted'); // 已接收
+                        var get_pending = results[e].get('pending'); // 未提交
+                        var get_submitted = results[e].get('submitted'); // 待审核
+                        results[e].set('abandoned', get_pending + get_abandoned);
+                        results[e].set('accepted', get_submitted + get_accepted);
+                        results[e].set('pending', 0);
+                        results[e].set('submitted', 0);
+                        results[e].set('close', true);
+                        results[e].save();
+
+                        // 修改发布任务的信息 已过期 已接收 未提交 待审核 字段
+                        var task_get_abandoned = task.get('abandoned'); // 已过期
+                        var task_get_accepted = task.get('accepted'); // 已接收
+                        var task_get_pending = task.get('pending'); // 未提交
+                        var task_get_submitted = task.get('submitted'); // 待审核
+                        task.set('abandoned', task_get_pending + task_get_abandoned);
+                        task.set('accepted', task_get_accepted + task_get_submitted);
+                        task.set('pending', 0);
+                        task.set('submitted', 0);
+                        task.save();
+
                         // 修改流水库 罚钱
                         var query_account = new AV.Query(accountJournal);
                         query_account.equalTo('incomeYCoinUser', user);
@@ -246,8 +271,8 @@ function getQueryReleaseTask(){
 
     var query = new AV.Query(releaseTaskObject);
     query.equalTo('close', false);
-    query.equalTo('releaseDate', myDateStr);
-    query.equalTo('remainCount', '0');
+    //query.equalTo('releaseDate', myDateStr);
+    query.equalTo('completed', 1);
     query.descending('createdAt');
     return query;
 }
@@ -280,12 +305,10 @@ AV.Cloud.define('closeCheckTask', function(request, response){
                 }
                 AV.Object.saveAll(results).then(function(){
                     console.log('!!!!! closeCheckTask close succeed')
-                    response.success('closeCheckTask');
                 },
                     function (error){
                         console.log('----- closeCheckTask error');
                 });
-
             })
         }
     },
