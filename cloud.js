@@ -223,17 +223,23 @@ AV.Cloud.define('checkTask', function(request, response){
                         results[e].save();
 
                         // 修改发布任务的信息 已过期 未提交 字段
-                        var task_get_abandoned = task.get('abandoned'); // 总的已过期
-                        var task_get_pending = task.get('pending'); // 总的未提交
-                        task.set('abandoned', task_get_abandoned + get_pending);
-                        task.set('pending', task_get_pending - get_pending);
-                        //判断任务是否已经完成了
-                        var task_get_accepted = task.get('accepted');
-                        var task_total = parseInt(task.get('excCount'));
-                        if (task_get_accepted + task_get_abandoned + get_pending == task_total){
-                            task.set('completed', 1);
-                        }
-                        task.save();
+                        (function(tempTask, tempGetPending){
+                            console.log(tempTask);
+                            console.log('checkTask modify taskRelease data')
+                            var task_get_abandoned = tempTask.get('abandoned'); // 总的已过期
+                            var task_get_pending = tempTask.get('pending'); // 总的未提交
+                            tempTask.set('abandoned', task_get_abandoned + tempGetPending);
+                            tempTask.set('pending', task_get_pending - tempGetPending);
+                            //判断任务是否已经完成了
+                            var task_get_accepted = tempTask.get('accepted');
+                            var task_total = parseInt(tempTask.get('excCount'));
+                            if (task_get_accepted + task_get_abandoned + get_pending == task_total){
+                                tempTask.set('completed', 1);
+                            }
+                            tempTask.save();
+                        })(task, get_pending);
+
+
 
                         // 修改流水库 罚钱
                         var query_account = new AV.Query(accountJournal);
@@ -349,15 +355,15 @@ AV.Cloud.define('closeCheckTask', function(request, response){
 module.exports = AV.Cloud;
 
 
-var paramsJson = {
-    movie: "夏洛特烦恼"
-};
-AV.Cloud.run('checkTask', paramsJson, {
-    success: function(data) {
-        // 调用成功，得到成功的应答data
-    },
-    error: function(err) {
-        // 处理调用失败
-    }
-});
+//var paramsJson = {
+//    movie: "夏洛特烦恼"
+//};
+//AV.Cloud.run('checkTask', paramsJson, {
+//    success: function(data) {
+//        // 调用成功，得到成功的应答data
+//    },
+//    error: function(err) {
+//        // 处理调用失败
+//    }
+//});
 
