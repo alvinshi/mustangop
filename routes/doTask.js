@@ -100,7 +100,7 @@ router.get('/taskHall', function(req, res){
                     retApps.push(tempAppObject);
                     counter ++;
                     if (counter == promise){
-                        retApps.sort(function(a, b){return a.createdAt < b.createdAt});
+                        retApps.sort(function(a, b){return a.createdAt <= b.createdAt});
                         res.json({'doTask':retApps})
                     }
                 })
