@@ -175,6 +175,7 @@ app.controller('inforManageCtrl', function($scope, $http){
             $scope.taskDisplayed = $scope.moneyMsg;
         }
 
+        $scope.totalPageNum = getTotalPageNum($scope.totalTaskNum, $scope.msgPerPage)
         if ($scope.taskDisplayed.length != 0){
             firstTaskIndex = 0;
             lastTaskIndex = $scope.msgPerPage;

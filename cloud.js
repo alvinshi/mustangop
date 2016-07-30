@@ -8,6 +8,7 @@ var User = AV.Object.extend('_User');
 var receiveTaskObject = AV.Object.extend('receiveTaskObject'); // 领取任务的库
 var releaseTaskObject = AV.Object.extend('releaseTaskObject'); // 发布任务库
 var accountJournal = AV.Object.extend('accountJournal'); // 记录账户变动明细表
+var messageLogger = AV.Object.extend('messageLogger'); //消息表
 
 /**
  * 一个简单的云代码方法
@@ -108,6 +109,7 @@ AV.Cloud.define('checkTask', function(request, response){
             var query_a = getTaskCheckQuery();
             query_a.include('userObject');
             query_a.include('taskObject');
+            query_a.include('appObject');
             query_a.include('taskObject.userObject');
             query_a.limit(1000);
             query_a.skip(i * 1000);
@@ -115,6 +117,8 @@ AV.Cloud.define('checkTask', function(request, response){
                 for (var e = 0; e < results.length; e++){
                     var task = results[e].get('taskObject'); // 领取任务的id
                     var user = results[e].get('userObject'); // 领取任务的用户
+                    var app = results[e].get('appObject'); // 领取任务的用户
+                    var trackName = app.get('trackName'); //任务App名称
 
                     var rate_unitPrice = task.get('rateUnitPrice'); // 任务的单价
                     var getReleaseUserMoney = user.get('totalMoney'); // 领取任务的用户YB
@@ -175,8 +179,32 @@ AV.Cloud.define('checkTask', function(request, response){
                     // 每天晚上10点 查看领取任务的人 有没有未完成的任务 有就罚钱
                     var task_not_done = results[e].get('remainCount');//这个是未提交!!!!!!跟pending事一样的!!!!下次要改!!!!
                     if (task_not_done != 0){
+
+                        //发布罚钱信息
+                        var message = new messageLogger();
+                        message.set("senderObjectId", user);
+                        message.set('receiverObjectId', user);
+                        message.set('category', 'Y币');
+                        message.set('type', '处罚');
+                        message.set('firstPara', trackName);
+                        message.set('thirdPara', rateUnitPrice *  task_not_done);
+                        message.set('fourthPara', task_not_done);
+                        message.save();
+
+
                         // 扣除领取任务人的YB,因为任务没有做完
                         user.increment('totalMoney',  - task_not_done * rate_unitPrice);
+
+                        //如果欠费,发布欠费消息
+                        var moneyLeft = user.get('totalMoney');
+                        if (moneyLeft < 0){
+                            var msgNoMoney = new messageLogger();
+                            msgNoMoney.set("senderObjectId", user);
+                            msgNoMoney.set('receiverObjectId', user);
+                            msgNoMoney.set('category', 'Y币');
+                            msgNoMoney.set('type', '欠费');
+                            msgNoMoney.save();
+                        }
 
                         // 修改领取任务的信息 已过期  未提交 字段
                         var get_abandoned = results[e].get('abandoned'); // 已过期
@@ -262,10 +290,12 @@ AV.Cloud.define('releaseTaskTimer', function(request, response){
             query_release_task.limit(1000);
             query_release_task.skip(i * 1000);
             query_release_task.include('userObject');
+            query_release_task.include('appObject');
             query.find().then(function(results){
                 for (var i = 0; i < results.length; i++){
                     //获取需要的任务数据
                     var user = results[i].get('userObject');
+                    var app = results[i].get('appObject');
 
                     var rateUnitPrice = results[i].get('rateUnitPrice'); //价格
 
@@ -275,6 +305,20 @@ AV.Cloud.define('releaseTaskTimer', function(request, response){
                     var rejected = results[i].get('rejected'); //拒绝条目
                     var pending = results[i].get('pending'); //未完成条目
                     var submitted = results[i].get('submitted'); //待审条目
+
+                    var trackName = app.get('trackName'); //任务App名称;
+
+                    //生成发布人结算消息
+                    var message = new messageLogger();
+                    message.set("senderObjectId", user);
+                    message.set('receiverObjectId', user);
+                    message.set('category', 'Y币');
+                    message.set('type', '发布人结算');
+                    message.set('firstPara', trackName);
+                    message.set('thirdPara', rateUnitPrice * (pending * 2 + rejected));
+                    message.set('fourthPara', pending);
+                    message.set('fifthPara', rejected);
+                    message.save();
 
                     //处理拒绝条目
                     if  (rejected > 0){

@@ -23,13 +23,13 @@ router.get('/:userId', function(req, res) {
 
 // 内部交换
 router.get('/claim/:excTaskId', function(req, res){
-    var userId = util.useridInReq(req);
     var excTaskId = req.params.excTaskId;
     var uploadUserName = req.cookies.uploadImgName;
 
     var query = new AV.Query(receiveTaskObject);
     query.include('appObject');
     query.include('taskObject');
+    query.include('userObject');
     query.get(excTaskId).then(function(results){
         var retObject = Object();
         var hisappObject = results.get('appObject');
@@ -47,7 +47,7 @@ router.get('/claim/:excTaskId', function(req, res){
         retObject.totalExcCount = results.get('receiveCount');
         retObject.surplusCount = results.get('remainCount');
         retObject.taskObjectId = taskInfo.id;
-        retObject.userObjectId = Base64.encode(userId);
+        retObject.userObjectId = Base64.encode(results.get('userObject').id);
 
         // 需求截图数据
         retObject.taskType = taskInfo.get('taskType');  //任务类型

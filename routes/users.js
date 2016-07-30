@@ -236,6 +236,8 @@ router.get('/userCenter/getMessage', function(req, res){
         msg.para2 = msg.para2.substring(0, 16) + '...';
       }
       msg.para3 = results[i].get('thirdPara');
+      msg.para4 = results[i].get('fourthPara');
+      msg.para5 = results[i].get('fifthPara');
       msg.read = results[i].get('read');
       rtnMsgs.push(msg);
     }

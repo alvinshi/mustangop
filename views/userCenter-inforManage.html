@@ -94,25 +94,46 @@
 
     <!--系统消息-->
     <div class="tab-pane fade" id="systemInfor">
-        <div class="taskInfor">
-            <img src="/images/taskInfor/infor1.png" alt="" style="display: inline-block">
-            <span  class="infor_one" >系统消息</span>
-            <span class="date">07/12</span>
-            <span class="date1">10.09</span>
-        </div>
+        <div ng-repeat="msg in taskMsgDisplayed">
+            <div ng-if="msg.type == '欠费'">
+                <div class="taskInfor">
+                    <img src="/images/taskInfor/infor3.png" alt="" style="display: inline-block">
+                    <span class="infor_one">任务消息</span>
+                    <span  class="date">{{msg.day | date: 'MM/dd'}}</span>
+                    <span  class="date">{{msg.time | date: 'h:mma'}}</span>
+                    <span class="read_tag" ng-show="msg.read">已读</span>
+                    <span class="unread_tag" ng-hide="msg.read">未读</span>
+                </div>
 
-        <div  class="promote">
+                <div class="promote">
+                    <div class="promote1">
+                        您的账户余额小于0， 帐号已被冻结
+                    </div>
+                </div>
+                <hr class="horizon1">
+            </div>
+            <div ng-if="msg.type == '欢迎'">
+                <div class="taskInfor">
+                    <img src="/images/taskInfor/infor3.png" alt="" style="display: inline-block">
+                    <span class="infor_one">任务消息</span>
+                    <span  class="date">{{msg.day | date: 'MM/dd'}}</span>
+                    <span  class="date">{{msg.time | date: 'h:mma'}}</span>
+                    <span class="read_tag" ng-show="msg.read">已读</span>
+                    <span class="unread_tag" ng-hide="msg.read">未读</span>
+                </div>
 
-            <div class="promote1" >
-
-                <span >欢迎来到野马运营,使用规则请参见</span> <a href="/guide" style="color:#3498db">新手引导</a>
+                <div class="promote">
+                    <div class="promote1">
+                        <span >欢迎来到野马运营,使用规则请参见</span> <a href="/guide" style="color:#3498db">新手引导</a>
+                    </div>
+                </div>
+                <hr class="horizon1">
             </div>
         </div>
-        <hr class="horizon1">
 
         <div style="margin-top: 30px; margin-bottom: 30px; text-align: center;">
-            <button class="btn btn-default myPageBtn" ng-click="prevPage('system')">上一页</button>
-            <button class="btn btn-default myPageBtn" ng-click="nextPage('system')">下一页</button>
+            <button class="btn btn-default myPageBtn" ng-class="{true: 'disabled'}[pageNum == 0]" ng-click="prevPage('system')">上一页</button>
+            <button class="btn btn-default myPageBtn" ng-class="{true: 'disabled'}[pageNum + 2 == totalPageNum]" ng-click="nextPage('system')">下一页</button>
         </div>
     </div>
 
@@ -138,7 +159,7 @@
                 <hr class="horizon1">
             </div>
 
-            <div ng-if="msg.type == '惩罚'">
+            <div ng-if="msg.type == '处罚'">
                 <div class="taskInfor" >
                     <img src="/images/taskInfor/money1.png" alt="" style="display: inline-block">
                     <span style="font-size: 16px;margin-left:8px;color: #000000">Y币消息</span>
@@ -150,9 +171,9 @@
                 <div class="promote">
                     <div class="promote1">
                         你未完成
-                        <span style="color:#3498db">8</span>条
-                        <span style="color:#f78649">趣恋爱</span>的任务,扣罚
-                        <span style="color:#3498db">300</span>Y币
+                        <span style="color:#3498db">{{msg.para4}}</span> 条
+                        <span style="color:#f78649">{{msg.para1}}</span> 的任务,扣罚
+                        <span style="color:#3498db">{{msg.para3}}</span> Y币
                     </div>
                 </div>
                 <hr class="horizon1">
@@ -171,6 +192,26 @@
                     <div class="promote1">
                         您成功充值了
                         <span style="color:#3498db">3000</span>Y币
+                    </div>
+                </div>
+                <hr class="horizon1">
+            </div>
+            <div ng-if="msg.type == '发布人结算'">
+                <div class="taskInfor" >
+                    <img src="/images/taskInfor/money1.png" alt="" style="display: inline-block">
+                    <span style="font-size: 16px;margin-left:8px;color: #000000">Y币消息</span>
+                    <span  class="date">{{msg.day | date: 'MM/dd'}}</span>
+                    <span  class="date">{{msg.time | date: 'h:mma'}}</span>
+                    <span class="read_tag" ng-show="msg.read">已读</span>
+                    <span class="unread_tag" ng-hide="msg.read">未读</span>
+                </div>
+                <div class="promote">
+                    <div class="promote1">
+                        你发布的
+                        <span style="color:#f78649">{{msg.para1}}</span>的任务,未完成
+                        <span style="color:#f78649">{{msg.para4}}</span> 条, 拒绝
+                        <span style="color:#f78649">{{msg.para5}}</span> 条, 返还
+                        <span style="color:#3498db">{{msg.para3}}</span> Y币
                     </div>
                 </div>
                 <hr class="horizon1">
