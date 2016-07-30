@@ -289,16 +289,6 @@ app.controller('itunesSearchControl', function($scope, $http) {
         "font-size":"14px"
     };
 
-
-    //$scope.setValue1=function(){
-    //    document.getElementById("price").value="30"
-    //};
-    //$scope.setValue2=function(){
-    //    document.getElementById("price").value="25"
-    //};
-
-
-
     //限制表单字数
     $scope.checkText1 = function () {
         if ($scope.appNeedInfo.titleKeyword.length > 20) {
@@ -356,6 +346,16 @@ app.controller('itunesSearchControl', function($scope, $http) {
     };
 
     $scope.saveStatusChange = function(){
+        $scope.saved = false;
+    }
+
+    $scope.taskTypeChanged = function(){
+        if ($scope.appNeedInfo.taskType == "评论"){
+            $scope.appNeedInfo.excUnitPrice = 30;
+        }
+        else{
+            $scope.appNeedInfo.excUnitPrice = 25;
+        }
         $scope.saved = false;
     }
 });
