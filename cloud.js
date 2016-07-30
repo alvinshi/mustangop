@@ -179,7 +179,7 @@ AV.Cloud.define('checkTask', function(request, response){
                     // 每天晚上10点 查看领取任务的人 有没有未完成的任务 有就罚钱
                     var task_not_done = results[e].get('remainCount');//这个是未提交!!!!!!跟pending事一样的!!!!下次要改!!!!
                     if (task_not_done != 0){
-                        
+
                         //发布罚钱信息
                         var message = new messageLogger();
                         message.set("senderObjectId", user);
@@ -194,6 +194,17 @@ AV.Cloud.define('checkTask', function(request, response){
 
                         // 扣除领取任务人的YB,因为任务没有做完
                         user.increment('totalMoney',  - task_not_done * rate_unitPrice);
+
+                        //如果欠费,发布欠费消息
+                        var moneyLeft = user.get('totalMoney');
+                        if (moneyLeft < 0){
+                            var msgNoMoney = new messageLogger();
+                            msgNoMoney.set("senderObjectId", user);
+                            msgNoMoney.set('receiverObjectId', user);
+                            msgNoMoney.set('category', 'Y币');
+                            msgNoMoney.set('type', '欠费');
+                            msgNoMoney.save();
+                        }
 
                         // 修改领取任务的信息 已过期  未提交 字段
                         var get_abandoned = results[e].get('abandoned'); // 已过期
