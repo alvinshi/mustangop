@@ -1067,7 +1067,7 @@ router.get('/verify', function(req, res){
     var query = new AV.Query('_User');
     query.equalTo('objectId', userId);
     query.first().then(function(results){
-        var usermoney = results.get('remainMoney');
+        var usermoney = results.get('totalMoney');
         res.json({'usermoney':usermoney});
     })
 
