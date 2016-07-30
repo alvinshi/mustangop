@@ -364,7 +364,6 @@ AV.Cloud.define('releaseTaskTimer', function(request, response){
 
 module.exports = AV.Cloud;
 
-
 //var paramsJson = {
 //    movie: "夏洛特烦恼"
 //};

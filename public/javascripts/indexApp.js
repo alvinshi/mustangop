@@ -62,5 +62,7 @@ app.controller('indexAppCtrl', function($scope, $http, $location){
     //window.sr = ScrollReveal();
     //sr.reveal('.foo', fooReveal);
     //sr.reveal('#chocolate', { delay: 500, scale: 1.2 });
+
+
 });
 
