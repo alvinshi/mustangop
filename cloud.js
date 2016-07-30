@@ -221,7 +221,7 @@ AV.Cloud.define('checkTask', function(request, response){
 
                 }
                 AV.Object.saveAll(results).then(function(){
-                    console.log('我他妈成功啦')
+                    console.log('!!! 保存领取任务里面修改内容成功 !!!')
                 })
             })
         }
