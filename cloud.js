@@ -88,6 +88,7 @@ function getTaskCheckQuery(){
     return query;
 }
 
+// 这个定时器只处理领取任务的相关信息
 AV.Cloud.define('checkTask', function(request, response){
     var query = getTaskCheckQuery();
 
@@ -115,45 +116,27 @@ AV.Cloud.define('checkTask', function(request, response){
                     var task = results[e].get('taskObject'); // 领取任务的id
                     var user = results[e].get('userObject'); // 领取任务的用户
 
-                    var taskmoney = task.get('rateUnitPrice'); // 任务的单价
-                    var getTaskUserMoney = user.get('totalMoney'); // 领取任务的用户钱
+                    var rate_unitPrice = task.get('rateUnitPrice'); // 任务的单价
+                    var getReleaseUserMoney = user.get('totalMoney'); // 领取任务的用户YB
 
                     var releaseuser = task.get('userObject');  // 发布任务的用户
-                    var releaseTaskUserMoney = releaseuser.get('totalMoney'); // 发布任务的总钱
-                    var releaseuserYB = releaseuser.get('freezingMoney'); // 发布任务者冻结的钱
+                    //var releaseTaskUserMoney = releaseuser.get('totalMoney'); // 发布任务的总钱
+                    //var releaseuserYB = releaseuser.get('freezingMoney'); // 发布任务者冻结的钱
 
                     // 每天10点 做任务人提交了任务 发布者未审核 钱付给做任务者
                     var submitted = results[e].get('submitted');
                     if (submitted != 0){
-                        // 增加 做任务人的金钱
-                        user.set('remainMoney', getTaskUserMoney + submitted * taskmoney);
-                        user.set('totalMoney', getTaskUserMoney + submitted * taskmoney);
-                        user.save().then(function(){
-                            console.log('!!!!! checkTask money give do task user succeed');
-                        });
+                        // 增加 做任务人的金钱 用累加的方法
+                        user.increment('totalMoney', submitted * rate_unitPrice);
 
-                        // 扣除发布任务人冻结的钱
-                        releaseuserYB -= submitted * taskmoney;
-
+                        // 修改领取库里的 审核 变成已经审核
                         results[e].set('submitted', 0); // 把任务审核显示已经审核
-                        var acceptedNum = results[e].get('accepted');
-                        results[e].set('accepted', acceptedNum + submitted);//新的接受条目等于过去的接受条目加上待审
-                        results[e].save();
+                        results[e].increment('accepted', submitted);//使用计数 不断加
 
-                        var releaseSubmittedNum = task.get('submitted');
-                        task.set('submitted', releaseSubmittedNum - submitted); // 修改发布任务里面的待审
-                        var releaseAcceptedNum = task.get('accepted');
-                        task.set('accepted', releaseAcceptedNum + submitted);//修改发布任务里面的接受
-                        var releaseAbandonedNum = task.get('abandoned');
-                        var releaseTotal = parseInt(task.get('excCount'));
-                        if (releaseAbandonedNum + releaseAcceptedNum + submitted == releaseTotal){
-                            task.set('completed', 1);
-                        }
-                        task.save();
-
-                        // 修改任务为已经接收 最多可以做100个任务
+                        // 修改任务为已经接收 最多可以做1000个任务
                         var relation = results[e].relation('mackTask');
                         var query = relation.query();
+                        query.limit(1000);
                         query.find().then(function(addtask){
                             for (var r = 0; r < addtask.length; r++){
                                 var rejected = addtask[r].get('status');
@@ -167,41 +150,33 @@ AV.Cloud.define('checkTask', function(request, response){
                         });
 
                         // 修改流水库
-                        var query_journal = new AV.Query(accountJournal);
-                        query_journal.equalTo('payYCoinUser', user);
-                        query_journal.equalTo('taskObject', task);
+                        for (var q = 0; q < submitted.length; q++){
+                            var query_journal = new AV.Query(accountJournal);
+                            query_journal.equalTo('payYCoinUser', user);
+                            query_journal.equalTo('taskObject', task);
+                            query_journal.equalTo('payYCoinStatus', 'prepare_pay');
+                            query_journal.find().then(function(result){
+                                for (var z = 0; z < result.length; z++){
+                                    var payYB = result[z].get('payYCoin'); // 支付的YB
+                                    var incomeYB = result[z].get('incomeYCoin'); // 得到的YB
+                                    var systemYB = payYB - incomeYB;  // 系统得到的
+                                    result[z].set('payYCoinStatus', 'payed');
+                                    result[z].set('incomeYCoinStatus', 'incomed');
+                                    result[z].set('systemYCoin', systemYB);
+                                }
+                                AV.Object.saveAll(result).then(function(){
+                                    console.log('!!!!! checkTask  modify journal succeed');
+                                })
+                            });
+                        }
 
-                        query_journal.find().then(function(result){
-                            for (var z = 0; z < result.length; z++){
-                                var payYB = result[z].get('payYCoin'); // 支付的YB
-                                var incomeYB = result[z].get('incomeYCoin'); // 得到的YB
-                                var systemYB = payYB - incomeYB;  // 系统得到的
-                                result[z].set('payYCoinStatus', 'payed');
-                                result[z].set('incomeYCoinStatus', 'incomed');
-                                result[z].set('systemYCoin', systemYB);
-                            }
-                            AV.Object.saveAll(result).then(function(){
-                                console.log('!!!!! checkTask  modify journal succeed');
-                            })
-                        });
                     }
 
-                    // 每天晚上10点 查看领取任务的人 有没有做完任务 没有做完罚钱
+                    // 每天晚上10点 查看领取任务的人 有没有未完成的任务 有就罚钱
                     var task_not_done = results[e].get('remainCount');//这个是未提交!!!!!!跟pending事一样的!!!!下次要改!!!!
                     if (task_not_done != 0){
                         // 扣除领取任务人的YB,因为任务没有做完
-                        user.set('remainMoney', getTaskUserMoney - (task_not_done * taskmoney)); // 罚钱1倍可以不用*1
-                        user.set('totalMoney', getTaskUserMoney - (task_not_done * taskmoney));
-                        user.save().then(function(){
-                            console.log('!!!!! checkTask user penalty succeed');
-                        },
-                        function (error) {
-                            console.log('----- checkTask error');
-                        });
-
-                        // 增加发布人的YB
-                        releaseTaskUserMoney += task_not_done * taskmoney;
-                        // TODO 冻结的钱
+                        user.increment('totalMoney',  - task_not_done * rate_unitPrice);
 
                         // 修改领取任务的信息 已过期  未提交 字段
                         var get_abandoned = results[e].get('abandoned'); // 已过期
@@ -210,72 +185,44 @@ AV.Cloud.define('checkTask', function(request, response){
                         results[e].set('pending', 0);
                         results[e].set('remainCount', 0);
                         results[e].set('completed', 1);
-                        results[e].save();
 
-                        // 修改发布任务的信息 已过期 未提交 字段
-                        var task_get_abandoned = task.get('abandoned'); // 总的已过期
-                        var task_get_pending = task.get('pending'); // 总的未提交
-                        task.set('abandoned', task_get_abandoned + get_pending);
-                        task.set('pending', task_get_pending - get_pending);
-                        //判断任务是否已经完成了
-                        var task_get_accepted = task.get('accepted');
-                        var task_total = parseInt(task.get('excCount'));
-                        if (task_get_accepted + task_get_abandoned + get_pending == task_total){
-                            task.set('completed', 1);
-                        }
-                        task.save();
 
                         // 修改流水库 罚钱
-                        var query_account = new AV.Query(accountJournal);
-                        query_account.equalTo('incomeYCoinUser', user);
-                        query_account.equalTo('taskObject', task);
-                        query_account.find().then(function(result){
-                            for (var z = 0; z < result.length; z++){
-                                result[z].set('incomeYCoinStatus', 'punish_income');
-                            }
-                            AV.Object.saveAll(result).then(function(){
-                                console.log('!!!!! checkTask  modify punishment succeed');
-                            })
-                        });
+                        for (var noDoTask = 0; noDoTask < task_not_done.length; noDoTask++){
+                            var query_account = new AV.Query(accountJournal);
+                            query_account.equalTo('incomeYCoinUser', user);
+                            query_account.equalTo('taskObject', task);
+                            query_account.equalTo('incomeYCoinStatus', 'prepare_income');
+                            query_account.find().then(function(result){
+                                for (var z = 0; z < result.length; z++){
+                                    result[z].set('incomeYCoinStatus', 'punish_income');
+                                }
+                                AV.Object.saveAll(result).then(function(){
+                                    console.log('!!!!! checkTask  modify punishment succeed');
+                                })
+                            });
+                        }
                     }
 
                     //// 每天晚上10点 任务有拒绝 但领取的用户没有再继续做 领取的用户得不到单条的钱 释放被拒绝的任务
                     var taskisReject = results[e].get('rejected'); // 找出是否有拒绝 默认为0
                     if (taskisReject != 0) {
-                        var taskAbandoned = results[e].get('abandoned');//之前过期的任务
-                        results[e].set('abandoned', taskAbandoned + taskisReject);
+                        // 计数修改过期的条目
+                        results[e].increment('abandoned',  taskisReject);
                         results[e].set('rejected', 0);
-                        results[e].save();
-
-                        //我们这里没有更改mackTask状态.只是权宜之计.
-
-                        var releasetask = AV.Object.createWithoutData('releaseTaskObject', task.id);
-                        var taskRejected = releasetask.get('rejected');
-                        releasetask.set('rejected', taskRejected - taskisReject); //拒绝条目减
-                        var task_Abandoned = releasetask.get('abandoned');
-                        releasetask.set('abandoned', task_Abandoned + taskisReject); //过期条目加
-                        var taskAccepted = releasetask.get('accepted');
-                        var taskTotal = parseInt(releasetask.get('excCount'));
-                        if (taskAccepted + task_Abandoned + taskisReject == taskTotal) {
-                            releasetask.set('completed', 1);
-                        }
-                        releasetask.save();
-
-                        //需要把钱返回给发布者
-                        releaseTaskUserMoney += taskisReject * taskmoney;
-                        //TODO 冻结???
                     }
 
-                    releaseuser.set('totalMoney', releaseTaskUserMoney);
-                    releaseuser.save().then(function () {
-                            console.log('!!!!! checkTask releaseUser YB succeed');
+                    user.save().then(function () {
+                            console.log('!!!!! checkTask receiveUser YB succeed');
                         }, function (error) {
                             console.log('----- totalMoney error');
                         });
-
                     results[e].set('completed', 1);
-                    results[e].save();
+
                 }
+                AV.Object.saveAll(results).then(function(){
+                    console.log('我他妈成功啦')
+                })
             })
         }
         function error(){
@@ -340,17 +287,17 @@ AV.Cloud.define('closeCheckTask', function(request, response){
 module.exports = AV.Cloud;
 
 
-//var paramsJson = {
-//    movie: "夏洛特烦恼"
-//};
-//AV.Cloud.run('checkTask', paramsJson, {
-//    success: function(data) {
-//        // 调用成功，得到成功的应答data
-//    },
-//    error: function(err) {
-//        // 处理调用失败
-//    }
-//});
+var paramsJson = {
+    movie: "夏洛特烦恼"
+};
+AV.Cloud.run('checkTask', paramsJson, {
+    success: function(data) {
+        // 调用成功，得到成功的应答data
+    },
+    error: function(err) {
+        // 处理调用失败
+    }
+});
 
 ////Promise test code
 //var successful = new AV.Promise();
