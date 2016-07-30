@@ -1,8 +1,17 @@
-body{
-    background-image: url(/images/home/index.png);
+.onepage{
+    height: 800px;
+}
+
+
+.background_img{
+    background-image: url(../images/index/home_one.jpg);
     background-size: 100% auto;
-    margin: 0px;
-    padding: 0px;
+    height: 840px;
+    width: 100%;
+    position:absolute;
+    background-position: center center;
+    background-size: cover;
+
 
 
 }

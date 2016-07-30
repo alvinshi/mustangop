@@ -48,5 +48,19 @@ app.controller('indexAppCtrl', function($scope, $http, $location){
             }
         }
     });
+
+
+
+    var fooReveal = {
+        delay    : 200,
+        distance : '90px',
+        easing   : 'ease-in-out',
+        rotate   : { z: 10 },
+        scale    : 0.9
+    };
+
+    window.sr = ScrollReveal();
+    sr.reveal('.foo', fooReveal);
+    sr.reveal('#chocolate', { delay: 500, scale: 1.2 });
 });
 

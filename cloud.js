@@ -330,10 +330,8 @@ AV.Cloud.define('releaseTaskTimer', function(request, response){
 module.exports = AV.Cloud;
 
 
-var paramsJson = {
-    movie: "夏洛特烦恼"
-};
 
+<<<<<<< HEAD
 AV.Cloud.run('releaseTaskTimer', paramsJson, {
     success: function(data) {
         // 调用成功，得到成功的应答data
@@ -342,6 +340,18 @@ AV.Cloud.run('releaseTaskTimer', paramsJson, {
         // 处理调用失败
     }
 });
+//var paramsJson = {
+//    movie: "夏洛特烦恼"
+//};
+//
+//AV.Cloud.run('releaseTaskTimer', paramsJson, {
+//    success: function(data) {
+//        // 调用成功，得到成功的应答data
+//    },
+//    error: function(err) {
+//        // 处理调用失败
+//    }
+//});
 
 ////Promise test code
 //var successful = new AV.Promise();
