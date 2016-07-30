@@ -930,7 +930,7 @@ router.post('/task/:appleId', function(req, res){
             userInfo.increment('totalMoney', - freezing_money);
             userInfo.increment('freezingMoney', freezing_money);
             userInfo.save().then(function(){
-                //
+                res.json({'errorId': 0});
             })
 
         });
