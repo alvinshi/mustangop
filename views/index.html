@@ -47,20 +47,12 @@
 </head>
 
 
-<body ng-app="yemaWebApp">
+<body ng-app="yemaWebApp"  style="padding: 0px">
 <!--[if lt IE 8]>
 <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">更新您的浏览器</a> 从而获得更好的体验.</p>
 <![endif]-->
-<div class="onepage" style="height:890px;">
-   <div class="background_img" id="background_img" style="background-image: url(../images/index/home_one.jpg);
-    background-size: 100% auto;
-    height:1100px;
-    width: 100%;
-    position:absolute;
-    background-position: center center;
-    background-size: cover; height:900px"></div>
-   <nav class="navbar  navbar-inverse">
-     <div class="container"  ng-controller="indexAppCtrl">
+<nav class="navbar  navbar-inverse" style="margin: 0px">
+    <div class="container"  ng-controller="indexAppCtrl">
         <div class="navbar-header">
             <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#example-navbar-collapse-1" aria-expanded="false">
                 <span class="sr-only"></span>
@@ -78,10 +70,10 @@
                         <!--<span   class="caret"></span>-->
                     </a>
                     <!--<ul class="dropdown-menu" >-->
-                        <!--<li class="myapp-list" ng-repeat="app in tracknameAPPs">-->
-                            <!--<a ng-href="app/{{app.appid}}">{{ app.trackName }}</a>-->
-                        <!--</li>-->
-                        <!--<li><a  class="" href="/myapp">管理我的应用</a></li>-->
+                    <!--<li class="myapp-list" ng-repeat="app in tracknameAPPs">-->
+                    <!--<a ng-href="app/{{app.appid}}">{{ app.trackName }}</a>-->
+                    <!--</li>-->
+                    <!--<li><a  class="" href="/myapp">管理我的应用</a></li>-->
                     <!--</ul>-->
                 </li>
 
@@ -104,35 +96,121 @@
             </ul>
         </div>
     </div><!--container -->
-   </nav><!--.navbar-collapse -->
+</nav><!--.navbar-collapse -->
 
-   <div class="container middle" >
-    <div class="row">
-        <div class="col-lg-12" style="text-align: center">
-            <p style="color: white" class="foo" id="chocolate">我们希望互联网产品运营</p>
-            <p style="color: white">可以更加便捷</p>
-            <p>
-                <button id="content-button" class="btn btn-primary btn-lg hvr-pulse-grow"
-                        onclick="javascript:window.location.href='/doTask'">
-                    &nbsp;&nbsp;START&nbsp;&nbsp;&nbsp;NOW&nbsp;&nbsp;
-                </button>
-            </p>
-        </div>
+   <div style="height:700px;width: 100%;
+         background-image: url(/images/index/home_one.jpg);
+         background-size: 100% 100%; background-size: cover;padding-top: 200px">
+       <div style="margin:auto;background-color: #000000;opacity: 0.3;width:620px;">
+           <p style="font-size: 56px;padding-top: 54px;margin:auto;color:white;padding-left: 14%">换评从未如此简单</p>
+           <button style="width: 226px;height:51px; margin-top: 40px;margin-bottom: 52px;margin-left: 33%; font-size: 31px; border: 2px solid #ffffff; border-radius: 20px;text-align: center;">
+               Start Now
+           </button>
+       </div>
+
+
+
    </div>
-</div>
+
+
+
+
+    <div style="height:700px;width: 100%;background-image: url(/images/index/home_two.jpg);background-size: cover;padding-top: 140px">
+            <p style="font-size: 54px;color: white;margin-left: 15%">释放你的时间去做</p>
+             <p style="font-size: 54px;color: white;margin-left: 15%;margin-top: -15px">真正的运营</p>
+        <hr style="margin-left:15%;border:1px solid  #ffffff;width: 100px">
+        <ul style="margin-top: 40px;font-size: 22px;color:#FFFFFF;margin-left: 14.5%">
+            <li style="margin-top: 18px">躲开QQ的N个窗口</li>
+            <li style="margin-top: 18px">扔掉你的Excel表</li>
+            <li style="margin-top: 18px">逃离繁琐的图片整理</li>
+        </ul>
+
+
+        <ul>
+            <li style="float: left;margin-left:12%;margin-top: 40px;">
+                <a href="" style="display: inline-block">
+                    <img src="images/index/radio.png" alt="" >
+                    <span style="color: white;font-size: 18px;margin-left: 20px">发布任务</span>
+                </a>
+            </li>
+            <li style="float: left;margin-left:88px;margin-top: 40px;">
+                <a href="" style="display: inline-block">
+                    <img src="images/index/radio.png" alt="" >
+                    <span style="color: white;font-size: 18px;margin-left: 20px">发布任务</span>
+                </a>
+            </li>
+        </ul>
+
+
+
+
+
+
+
+
+
+
 </div>
 
-<div  style="height:750px;">
-    <div style="background-image: url(../images/index/home_two.jpg);
-background-size: 100% auto;
-height:1100px;
-width: 100%;
-position:absolute;
-background-position: center center;
-background-size: cover; height:700px">
+    <div style="height:700px;width: 100%;background-image: url(/images/index/home_three.jpg);background-size: cover;padding-top: 150px">
 
-    </div>
+
+  <div class="row">
+      <div class="col-lg-6" style=" text-align:right;padding-right: 10%;">
+          <button style="height: 96px;font-size: 56px;
+     border: 3px solid #363636;width:220px;border-radius:40px;background-color: rgba(0,0,0,0)"> 传统</button>
+          <p style="font-size: 56px;color: #828282;margin-top: 30px;">换评耗费    <span style="color: #b3b3b3">6小时</span></p>
+          <p style="font-size: 56px;color: #828282;margin-top: -20px">繁琐操作</p>
+          <p style="font-size: 20px;color:#b3b3b3 ">
+              <span >沟通换评 &nbsp;&nbsp;&nbsp;&nbsp;</span>
+              <span > 过滤换评 &nbsp;&nbsp;&nbsp;&nbsp;</span>
+              <span >寻找换评</span>
+          </p>
+          <p style="font-size: 20px;color:#b3b3b3 ">多个QQ传PC任务图</p>
+          <p style="font-size: 20px;color:#b3b3b3 ">整理任务图</p>
+          <p style="font-size: 20px;color:#b3b3b3 ">检查他人任务图</p>
+      </div>
+      <div class="col-lg-5 col-lg-offset-1" style=" text-align:left;">
+          <button style="height: 96px;font-size: 56px;
+     border: 3px solid #FFFFFF;color: #FFFFFF;width:220px;border-radius:40px;background-color: rgba(0,0,0,0)">野马</button>
+          <p style="font-size: 56px;color: #f78469;margin-top: 30px;">13分钟    <span style="color: #FFFFFF">搞定换评</span></p>
+          <p style="font-size: 56px;color: #FFFFFF;margin-top: -20px">简单便捷</p>
+          <p style="font-size: 20px;color:#b3b3b3 ">可视化换评</p>
+          <p style="font-size: 20px;color:#b3b3b3 ">自动整理归纳</p>
+          <p style="font-size: 20px;color:#b3b3b3 ">自动智能过滤</p>
+      </div>
+  </div>
 </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 <div  class="footer" style="height:264px;background-color: #1c1f20;width: 100%">
     <div class="row">
         <div class="col-lg-3 col-lg-offset-2" style="margin-left:120px">
