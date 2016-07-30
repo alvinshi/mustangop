@@ -31,6 +31,8 @@
     <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
     <script src="//cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 
+
+
     <!--第三方 CSS JS-->
     <link rel="stylesheet" href="../stylesheets/vendor/font-awesome.min.css">
 
@@ -38,6 +40,8 @@
 
     <script src="/javascripts/todayTask.min.js"></script>
     <script src="/javascripts/indexApp.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/scrollreveal.js/3.3.1/scrollreveal.min.js"></script>
+
 
 
 </head>
@@ -47,9 +51,16 @@
 <!--[if lt IE 8]>
 <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">更新您的浏览器</a> 从而获得更好的体验.</p>
 <![endif]-->
-<div class="background_img">
-<nav class="navbar  navbar-inverse">
-    <div class="container"  ng-controller="indexAppCtrl">
+<div class="onepage" style="height:890px;">
+   <div class="background_img" id="background_img" style="background-image: url(../images/index/home_one.jpg);
+    background-size: 100% auto;
+    height:1100px;
+    width: 100%;
+    position:absolute;
+    background-position: center center;
+    background-size: cover; height:900px"></div>
+   <nav class="navbar  navbar-inverse">
+     <div class="container"  ng-controller="indexAppCtrl">
         <div class="navbar-header">
             <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#example-navbar-collapse-1" aria-expanded="false">
                 <span class="sr-only"></span>
@@ -93,13 +104,12 @@
             </ul>
         </div>
     </div><!--container -->
-</nav><!--.navbar-collapse -->
+   </nav><!--.navbar-collapse -->
 
-
-<div class="container middle" >
+   <div class="container middle" >
     <div class="row">
         <div class="col-lg-12" style="text-align: center">
-            <p style="color: white">我们希望互联网产品运营</p>
+            <p style="color: white" class="foo" id="chocolate">我们希望互联网产品运营</p>
             <p style="color: white">可以更加便捷</p>
             <p>
                 <button id="content-button" class="btn btn-primary btn-lg hvr-pulse-grow"
@@ -110,15 +120,18 @@
         </div>
    </div>
 </div>
+</div>
 
-   <div class="container foot" >
-       <div class="row" >
-        <!--<div class="col-lg-4 col-xs-4 last "style="color: white;">产品交流 768826903</div>-->
-        <!--<div class="col-lg-4 col-xs-4 last"style="color: white;">© 上熙联合</div>-->
-        <!--<div class="col-lg-4 col-xs-4 last"><a  style="color:white;text-decoration: none;" href="/userProtocol">服务协议</a> </div>-->
-      </div>
-   </div>
+<div  style="height:750px;">
+    <div style="background-image: url(../images/index/home_two.jpg);
+background-size: 100% auto;
+height:1100px;
+width: 100%;
+position:absolute;
+background-position: center center;
+background-size: cover; height:700px">
 
+    </div>
 </div>
 <div  class="footer" style="height:264px;background-color: #1c1f20;width: 100%">
     <div class="row">
@@ -160,6 +173,7 @@
 
 
 
+
 <!--</div> &lt;!&ndash;footer标注&ndash;&gt;-->
 
 
@@ -176,6 +190,7 @@
 </script>
 
 <script src="/javascripts/cookieHelper.js"></script>
+
 
 </body>
 
