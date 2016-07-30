@@ -109,11 +109,11 @@
 
 
                                 <input type="radio" name="radio" id="comment"
-                                       ng-model="appNeedInfo.taskType"  value="评论" ng-click="setValue1()" ng-change="saveStatusChange()" checked> 评论
+                                       ng-model="appNeedInfo.taskType"  value="评论" ng-change="taskTypeChanged()" checked> 评论
 
                             </label>
                             <label class="radio-inline">
-                                <input type="radio" name="radio" ng-model="appNeedInfo.taskType" value="下载" ng-click="setValue2()"  ng-change="saveStatusChange()"> 下载
+                                <input type="radio" name="radio" ng-model="appNeedInfo.taskType" value="下载" ng-change="taskTypeChanged()"> 下载
                             </label>
                         </div>
                     </div>
