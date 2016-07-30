@@ -112,7 +112,7 @@ router.get('/userCenter',function(req, res, next){
     var PhoneNumber = results.get('mobilePhoneNumber');
     var userNickname = results.get('userNickname');
     var userQQ = results.get('userQQ');
-    var balance = results.get('remainMoney');
+    var balance = results.get('totalMoney');
 
 
     res.json({'personAPP':PhoneNumber, 'userNickname':userNickname, 'userQQ':userQQ, 'balance': balance});
