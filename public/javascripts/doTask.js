@@ -161,6 +161,7 @@ app.controller('doTaskCtrl', function($scope, $http) {
             var postData = {'receiveCount': $scope.getTaskFormData.receiveCount, 'detailRem': $scope.getTaskFormData.detailRem,
                 'latestReleaseDate': currentApp.latestReleaseDate};
             $http.post(url, postData).success(function(response){
+                console.log(response);
                 $scope.getTaskFormData.errorMsg = response.errorMsg;
                 $scope.getTaskFormData.result = response.succeeded;
             });

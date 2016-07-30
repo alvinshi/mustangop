@@ -924,15 +924,13 @@ router.post('/task/:appleId', function(req, res){
     releasetaskObject.set('releaseDate', myDateStr); // 添加发布日期,冗余字段
     releasetaskObject.save().then(function() {
         // 实例已经成功保存.
-        var moratoriumMon = excCount * excUnitPrice;  // 冻结的YB
+        var freezing_money = excCount * excUnitPrice;  // 发布总条数 + 发布的单价 = 冻结的钱
         var query = new AV.Query('_User');
         query.get(userId).then(function(userInfo){
-            var totalmoney = userInfo.get('totalMoney');
-            var remainMon = totalmoney - moratoriumMon;   // 剩余的YB
-            userInfo.set('totalMoney', remainMon);
-            userInfo.set('freezingMoney', moratoriumMon);
+            userInfo.increment('totalMoney', - freezing_money);
+            userInfo.increment('freezingMoney', freezing_money);
             userInfo.save().then(function(){
-                //
+                res.json({'errorId': 0});
             })
 
         });
