@@ -942,7 +942,7 @@ router.post('/task/:appleId', function(req, res){
             var accountJour = new accountJournal();
             accountJour.set('payYCoinUser', user);  //支出金额的用户
             accountJour.set('payYCoin', parseInt(excUnitPrice)); // 此次交易支付金额
-            accountJour.set('taskObject', taskObjectId);
+            accountJour.set('taskObject', taskObjectId); // 任务的id
             accountJour.set('payYCoinStatus', 'prepare_pay'); // 发布任务的时候为准备支付;
             accountJour.set('payYCoinDes', '发布任务');
             accountJour.set('releaseDate', myDateStr); // 添加发布日期,冗余字段
@@ -1063,11 +1063,10 @@ router.post('/taskneed/:appid', function(req, res){
 // 验证钱够不够发布任务
 router.get('/verify', function(req, res){
     var userId = util.useridInReq(req);
-    var postmoney = req.body.taskMoney;
     var query = new AV.Query('_User');
     query.equalTo('objectId', userId);
     query.first().then(function(results){
-        var usermoney = results.get('remainMoney');
+        var usermoney = results.get('totalMoney');
         res.json({'usermoney':usermoney});
     })
 
