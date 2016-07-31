@@ -44,38 +44,44 @@
 </div>
 <div class="container">
     <div  class=" container main_content"  ng-controller="itunesSearchControl">
-        <div class="col-lg-6 col-sm-12 input-group">
-            <input type="text" class="form-control" ng-model="searchKey" ng-keyup="keySearchApp($event)" placeholder="请选择或者搜索添加你需要发布任务的APP...">
-                    <span class="input-group-btn">
-                         <button class="btn search_color" ng-click="searchApp()">
-                             <span class="glyphicon glyphicon-plus"></span>
-                         </button>
-                   </span>
+        <div class="alert alert-danger">请先在发布任务界面添加任务App</div>
 
-        </div>
+        <!--隐藏搜索框-->
+        <!--<div class="col-lg-6 col-sm-12 input-group">-->
+            <!--<input type="text" class="form-control" ng-model="searchKey" ng-keyup="keySearchApp($event)" placeholder="请选择或者搜索添加你需要发布任务的APP...">-->
+                    <!--<span class="input-group-btn">-->
+                         <!--<button class="btn search_color" ng-click="searchApp()">-->
+                             <!--<span class="glyphicon glyphicon-plus"></span>-->
+                         <!--</button>-->
+                   <!--</span>-->
 
-        <a href="/dailyTask/{{userObjectId.userObjectId}}"><button class="btn currentTask">当前任务</button></a>
+        <!--</div>-->
+
+
+
+
+        <!--<a href="/dailyTask/{{userObjectId.userObjectId}}"><button class="btn currentTask">当前任务</button></a>-->
 
 
 
 
         <!-- /input-group -->
-        <div class="placehold-line">
-            <div class="progress" ng-hide="!progressNum">
-                <div ng-class="{'progress-bar': true, 'progress-bar-striped':true, active:true}" ng-style="{width: progressNum + '%'}">
-                </div>
-            </div>
+        <!--<div class="placehold-line">-->
+            <!--<div class="progress" ng-hide="!progressNum">-->
+                <!--<div ng-class="{'progress-bar': true, 'progress-bar-striped':true, active:true}" ng-style="{width: progressNum + '%'}">-->
+                <!--</div>-->
+            <!--</div>-->
 
-            <div class="alert alert-warning" role="alert" ng-hide="!isError">
-                {{ errorMsg }}
-            </div>
+            <!--<div class="alert alert-warning" role="alert" ng-hide="!isError">-->
+                <!--{{ errorMsg }}-->
+            <!--</div>-->
 
-        </div>
+        <!--</div>-->
 
-        <div class="spinner" ng-hide="!isLoadingMyApp">
-            <div class="double-bounce1"></div>
-            <div class="double-bounce2"></div>
-        </div>
+        <!--<div class="spinner" ng-hide="!isLoadingMyApp">-->
+            <!--<div class="double-bounce1"></div>-->
+            <!--<div class="double-bounce2"></div>-->
+        <!--</div>-->
 
 
         <div class="media" ng-repeat="app in appResults" >

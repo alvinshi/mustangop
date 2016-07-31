@@ -3,7 +3,7 @@
  */
 var app = angular.module('yemaWebApp', []);
 
-var navIndex = 4;
+var navIndex = 7;
 
 app.controller('itunesSearchControl', function($scope, $http) {
 
