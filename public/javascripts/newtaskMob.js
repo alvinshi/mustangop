@@ -134,6 +134,8 @@ app.controller('MobControl', function($scope, $http, $location, FileUploader) {
             .success(function (response) {
                 $scope.errorId = response.errorId;
                 $scope.errorMsg = response.errorMsg;
+                console.log($scope.errorId);
+                console.log($scope.errorMsg);
                 $scope.oneAppInfo.uploadName = response.uploadName;
                 $scope.images = response.requirementImgs;
 

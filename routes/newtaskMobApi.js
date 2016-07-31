@@ -98,6 +98,8 @@ router.post('/add/:excTaskId', function(req, res){
     task_query.include('taskObject');
     task_query.get(excTaskId).then(function(releaseObject){
         var relation = releaseObject.relation('mackTask');
+        var remainCount = parseInt(releaseObject.get('remainCount'));
+        console.log(remainCount);
         var query = relation.query();
         query.equalTo('uploadName', uploadName);
         query.find().then(function(results){
@@ -148,7 +150,12 @@ router.post('/add/:excTaskId', function(req, res){
                 }
 
             }
+            else if (remainCount== 0){
+                console.log("tried");
+                res.json({'errorId': 2, 'errorMsg':'任务已做完, 不可上传'});
+            }
             else {
+                console.log("failed");
                 var newTaskObject = new mackTaskInfo();
                 newTaskObject.set('uploadName', uploadName);
                 newTaskObject.set('requirementImgs', requirementImgs);
@@ -172,11 +179,11 @@ router.post('/add/:excTaskId', function(req, res){
                     todo.increment('pending', -1);
                     todo.save().then(function(){
                         //如果有就计数+1
+                        res.json({'errorId':0, 'errorMsg':'', 'uploadName':uploadName, 'requirementImgs':requirementImgs});
                     });
 
                 });
             }
-            res.json({'errorId':0, 'errorMsg':'', 'uploadName':uploadName, 'requirementImgs':requirementImgs});
         });
     },
     function (err){
