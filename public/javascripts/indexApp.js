@@ -29,7 +29,7 @@ app.controller('indexAppCtrl', function($scope, $http, $location){
     $http.get(indexUrl).success(function(response){
         loadNav();
         $scope.userObjectId = response.userObjectId;
-        $scope.tracknameAPPs = response.tracknameAPPs;
+        //$scope.tracknameAPPs = response.tracknameAPPs; // 因为以前导航栏需要获取数据
     });
     $scope.logout=function(){
 

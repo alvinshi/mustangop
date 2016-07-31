@@ -16,31 +16,34 @@ router.get('/', function(req, res, next) {
 
 // 首页导航栏api
 router.get('/index', function(req, res){
-  var userid = util.useridInReq(req);
+  var userid = Base64.encode(util.useridInReq(req));
 
-  var user = new AV.User();
-  user.id = userid;
+  //var user = new AV.User();
+  //user.id = userid;
 
-  var query = new AV.Query(IOSAppBinder);
-  query.equalTo('userObject', user);
-  query.include('appObject');
-  query.find({
-    success:function(results){
-      var retApps = new Array();
-      for (var i= 0; i < results.length; i++){
-        var appNameObject = new Object();
-        var hisappObject = results[i].get('appObject');
-        var userobject = results[i].get('userObject');
-        appNameObject.trackName = hisappObject.get('trackName').substring(0, 8) + '...';
-        appNameObject.appid = hisappObject.get('appleId');
-        retApps.push(appNameObject);
-        appNameObject.userObjectId = Base64.encode(userobject.id);
-      }
-      res.json({'tracknameAPPs':retApps, 'userObjectId':appNameObject});
-    }
-  }),function (error){
-    res.json({'errorId':error.code, 'errorMsg':error.message})
-  }
+  res.json({'userObjectId':userid});
+
+  // 因为以前导航栏需要获取数据
+  //var query = new AV.Query(IOSAppBinder);
+  //query.equalTo('userObject', user);
+  //query.include('appObject');
+  //query.find({
+  //  success:function(results){
+  //    var retApps = new Array();
+  //    for (var i= 0; i < results.length; i++){
+  //      var appNameObject = new Object();
+  //      var hisappObject = results[i].get('appObject');
+  //      var userobject = results[i].get('userObject');
+  //      appNameObject.trackName = hisappObject.get('trackName').substring(0, 8) + '...';
+  //      appNameObject.appid = hisappObject.get('appleId');
+  //      retApps.push(appNameObject);
+  //      appNameObject.userObjectId = Base64.encode(userobject.id);
+  //    }
+  //    res.json({'tracknameAPPs':retApps, 'userObjectId':appNameObject});
+  //  }
+  //}),function (error){
+  //  res.json({'errorId':error.code, 'errorMsg':error.message})
+  //}
 
 });
 
