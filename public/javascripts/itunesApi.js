@@ -9,6 +9,12 @@ var navIndex = 1;
 
 
 app.controller('itunesSearchControl', function($scope, $http) {
+    var url = 'myapp/verify';
+    $scope.insufficientFund = false;
+
+    $http.get(url).success(function(response) {
+        $scope.usermoney = response.usermoney;
+    });
 
     //************* Helper Function ********************
     //请求每个任务的任务需求, function封装
