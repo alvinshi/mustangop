@@ -13,9 +13,7 @@ app.controller('myClaimControl', function($scope, $http, $location){
     var appurlList = $location.absUrl().split('/');
     var userId = appurlList[appurlList.length - 1];
 
-    var userCookie = getCookie('userIdCookie');
-
-    var todayUrl = '/myClaim/claim/' + userCookie;
+    var todayUrl = '/myClaim/claim/' + userId;
 
 
     $http.get(todayUrl).success(function(response){
