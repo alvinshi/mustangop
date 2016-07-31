@@ -4,6 +4,7 @@
 
 var AV = require('leanengine');
 var IOSAppExcLogger = AV.Object.extend('IOSAppExcLogger');
+var IOSAppBinder = AV.Object.extend('IOSAppBinder');
 var User = AV.Object.extend('_User');
 var receiveTaskObject = AV.Object.extend('receiveTaskObject'); // 领取任务的库
 var releaseTaskObject = AV.Object.extend('releaseTaskObject'); // 发布任务库
@@ -364,13 +365,45 @@ AV.Cloud.define('releaseTaskTimer', function(request, response){
     });
 });
 
+// 删除用户信息脚本
+function remove(){
+    var query = new AV.Query(IOSAppExcLogger);
+    query.notEqualTo('userId', '573bce7149830c006116ad6e');
+    return query;
+}
+
+AV.Cloud.define('removeRen', function(){
+    var userId = '573bce7149830c006116ad6e';
+
+    var user = new AV.User();
+    user.id = userId;
+    var query_IosApp = new AV.Query(IOSAppBinder);
+    query_IosApp.notEqualTo('userObject', user);
+    query_IosApp.limit(1000);
+    query_IosApp.find().then(function(removeObject){
+        console.log('AppBinder' + removeObject.length);
+        AV.Object.destroyAll(removeObject).then(function(){
+            console.log('删除我添加的APP不是俞雷的数据成功')
+        })
+    });
+
+    var query = remove();
+    query.limit(1000);
+    query.find().then(function(removeExcObject){
+        console.log('AppExc' + removeExcObject.length);
+        AV.Object.destroyAll(removeExcObject).then(function(){
+            console.log('删除交换任务不是俞雷的数据成功')
+        })
+    })
+});
+
 module.exports = AV.Cloud;
 
 //var paramsJson = {
 //    movie: "夏洛特烦恼"
 //};
 //
-//AV.Cloud.run('releaseTaskTimer', paramsJson, {
+//AV.Cloud.run('removeRen', paramsJson, {
 //    success: function(data) {
 //        // 调用成功，得到成功的应答data
 //    },
