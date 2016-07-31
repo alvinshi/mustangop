@@ -300,16 +300,18 @@ AV.Cloud.define('releaseTaskTimer', function(request, response){
                     var trackName = app.get('trackName'); //任务App名称;
 
                     //生成发布人结算消息
-                    var message = new messageLogger();
-                    message.set("senderObjectId", user);
-                    message.set('receiverObjectId', user);
-                    message.set('category', 'Y币');
-                    message.set('type', '发布人结算');
-                    message.set('firstPara', trackName);
-                    message.set('thirdPara', rateUnitPrice * (pending * 2 + rejected));
-                    message.set('fourthPara', pending);
-                    message.set('fifthPara', rejected);
-                    message.save();
+                    if (pending != 0 || rejected != 0){
+                        var message = new messageLogger();
+                        message.set("senderObjectId", user);
+                        message.set('receiverObjectId', user);
+                        message.set('category', 'Y币');
+                        message.set('type', '发布人结算');
+                        message.set('firstPara', trackName);
+                        message.set('thirdPara', rateUnitPrice * (pending * 2 + rejected));
+                        message.set('fourthPara', pending);
+                        message.set('fifthPara', rejected);
+                        message.save();
+                    }
 
                     //处理拒绝条目
                     if  (rejected > 0){
