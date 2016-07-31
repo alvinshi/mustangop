@@ -83,7 +83,7 @@
                                         </div>
                                     </div>
                                     <div class="col-lg-4" style="padding-top: 10px;">
-                                        <button ng-show='(!taskDisplayed.cancelled) && (taskDisplayed.completed == 0)'
+                                        <button ng-show='(!taskDisplayed.cancelled) && (taskDisplayed.completed == 0) && (taskDisplayed.remainCount != 0)'
                                                 class="btn cancel" data-target="#cancelTask" data-toggle="modal">
                                             撤销任务
                                         </button>
@@ -92,6 +92,9 @@
                                         </button>
                                         <button ng-show='taskDisplayed.completed == 1' class="btn completed">
                                             已完成
+                                        </button>
+                                        <button ng-show='taskDisplayed.remainCount == 0 && taskDisplayed.completed == 0' class="btn noRemain">
+                                            已领完
                                         </button>
 
                                         <div class="modal fade" id="cancelTask">
@@ -279,7 +282,6 @@
                                         <span>已过期: {{submission.abandoned}}</span>
                                     </div>
                                 </div>
-
                             </div>
                             <div id="collapse{{$index}}" class="panel-collapse collapse in">
                                 <div class="panel-body" style="padding-left:50px;padding-right:50px;">

@@ -129,6 +129,8 @@
 
 }
 .cust1,.cust2{
+    margin-top: 10px;
+    margin-bottom: 10px;
     width: 94%;
     height: 5%;
     font-size: 24px;
@@ -482,17 +484,20 @@
     text-decoration: none
 }
 .submit{
-
     margin-top: 30px
 }
 .btn_primary{
+    margin-bottom: 30px;
     background-color: #3498db;
     color: white;
-    padding: 5px 10px;
     width: 95%;
     font-size: 24px;
     line-height: 30px;
     border: 2px solid #3498db;
     border-radius: 8px;
-    margin-left: 4%;
+}
+
+.warning{
+    background-color: #eb3030;
+    border: 2px solid #eb3030;
 }

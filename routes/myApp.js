@@ -920,6 +920,7 @@ router.post('/task/:appleId', function(req, res){
     releasetaskObject.set('submitted', 0); // 待审
     releasetaskObject.set('rejected', 0);  // 拒绝
     releasetaskObject.set('accepted', 0);  // 接收
+    releasetaskObject.set('abandoned', 0);  // 过期
     releasetaskObject.set('completed', 0);  // 完成
     releasetaskObject.set('releaseDate', myDateStr); // 添加发布日期,冗余字段
     releasetaskObject.save().then(function() {
@@ -932,7 +933,6 @@ router.post('/task/:appleId', function(req, res){
             userInfo.save().then(function(){
                 res.json({'errorId': 0});
             })
-
         });
 
         var taskObjectId = AV.Object.createWithoutData('releaseTaskObject', releasetaskObject.id);

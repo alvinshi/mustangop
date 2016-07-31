@@ -368,7 +368,7 @@ module.exports = AV.Cloud;
 //    movie: "夏洛特烦恼"
 //};
 //
-//AV.Cloud.run('checkTask', paramsJson, {
+//AV.Cloud.run('releaseTaskTimer', paramsJson, {
 //    success: function(data) {
 //        // 调用成功，得到成功的应答data
 //    },
