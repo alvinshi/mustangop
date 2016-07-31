@@ -283,11 +283,14 @@ AV.Cloud.define('releaseTaskTimer', function(request, response){
             query_release_task.skip(i * 1000);
             query_release_task.include('userObject');
             query_release_task.include('appObject');
-            query.find().then(function(results){
+            query_release_task.find().then(function(results){
                 for (var i = 0; i < results.length; i++){
                     //获取需要的任务数据
                     var user = results[i].get('userObject');
-                    var app = results[i].get('appObject');
+                    var app2 = results[i].get('appObject');
+                    console.log(app2);
+                    var appName = app2.get('trackName'); //任务App名称;
+                    console.log(appName);
 
                     var rateUnitPrice = results[i].get('rateUnitPrice'); //价格
 
@@ -298,7 +301,6 @@ AV.Cloud.define('releaseTaskTimer', function(request, response){
                     var pending = results[i].get('pending'); //未完成条目
                     var submitted = results[i].get('submitted'); //待审条目
 
-                    var trackName = app.get('trackName'); //任务App名称;
 
                     //生成发布人结算消息
                     if (pending != 0 || rejected != 0){
@@ -307,7 +309,8 @@ AV.Cloud.define('releaseTaskTimer', function(request, response){
                         message.set('receiverObjectId', user);
                         message.set('category', 'Y币');
                         message.set('type', '发布人结算');
-                        message.set('firstPara', trackName);
+                        console.log("saved");
+                        message.set('firstPara', appName);
                         message.set('thirdPara', rateUnitPrice * (pending * 2 + rejected));
                         message.set('fourthPara', pending);
                         message.set('fifthPara', rejected);
@@ -399,11 +402,11 @@ AV.Cloud.define('removeRen', function(){
 
 module.exports = AV.Cloud;
 
-//var paramsJson = {
-//    movie: "夏洛特烦恼"
-//};
-//
-//AV.Cloud.run('removeRen', paramsJson, {
+var paramsJson = {
+    movie: "夏洛特烦恼"
+};
+
+//AV.Cloud.run('releaseTaskTimer', paramsJson, {
 //    success: function(data) {
 //        // 调用成功，得到成功的应答data
 //    },
