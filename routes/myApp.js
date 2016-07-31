@@ -36,6 +36,7 @@ function dealiTunesAppFailed(retApps, appObject){
     appInfoObject.latestReleaseDate = appObject.get('latestReleaseDate');
     appInfoObject.sellerName = appObject.get('sellerName');
     appInfoObject.version = appObject.get('version');
+    appInfoObject.createdAt = appObject.createdAt;
     retApps.push(appInfoObject);
 }
 

@@ -65,6 +65,7 @@ app.controller('itunesSearchControl', function($scope, $http) {
     $http.get(appsUrl).success(function(response){
         //接收到服务器信息反馈
         $scope.isLoadingMyApp = false;
+        (response.myApps).sort(function(a, b){return (a.createdAt < b.createdAt)?1:-1});
         $scope.myApps = response.myApps;
         $scope.numOfApps = $scope.myApps.length;
 
