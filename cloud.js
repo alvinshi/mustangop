@@ -312,7 +312,7 @@ AV.Cloud.define('releaseTaskTimer', function(request, response){
                         message.set('fifthPara', rejected);
                         message.save();
                     }
-                    
+
                     //处理拒绝条目
                     if  (rejected > 0){
                         abandoned = abandoned + rejected; //所有拒绝都转换为过期

@@ -27,8 +27,8 @@ app.controller('indexAppCtrl', function($scope, $http, $location){
     var indexUrl = '/index';
 
     $http.get(indexUrl).success(function(response){
-        loadNav();
         $scope.userObjectId = response.userObjectId;
+        loadNav();
         //$scope.tracknameAPPs = response.tracknameAPPs; // 因为以前导航栏需要获取数据
     });
     $scope.logout=function(){
