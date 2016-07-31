@@ -29,6 +29,8 @@ router.get('/taskHall', function(req, res){
     var user = new AV.User();
     user.id = userId;
 
+    var query_oldHistory = new AV.Query(IOSAppExcLogger);
+    query_oldHistory.equalTo('userId', userId);
 
     var query = new AV.Query(releaseTaskObject);
     //query.notEqualTo('remainCount', '0');
