@@ -49,12 +49,12 @@
 }
 .getTask{
     margin-left: 40px;font-size: 18px;color: #666666;
-    position: absolute;right: 120px;
+    position: absolute;right: 40px;
 }
-.finish{
+/*.finish{*/
 
-    font-size: 18px;color: #999999;position: absolute;right: 30px;
-}
+    /*font-size: 18px;color: #999999;position: absolute;right: 30px;*/
+/*}*/
 .icon1:hover{
     background:#d0d3d8;
 }

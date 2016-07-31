@@ -49,7 +49,7 @@
     height:30px;
     color: white;
     font-size: 18px;
-    width: 60px;
+    width: 70px;
     /*text-align: center;*/
 }
 
@@ -60,7 +60,7 @@
     height:30px;
     color: #acddfe;
     font-size: 16px;
-    width: 90px;
+    width: 110px;
     margin-left: 20px;
     text-align: center;
 }
@@ -71,7 +71,7 @@
     height:30px;
     color: #acddfe;
     font-size: 16px;
-    width:90px;
+    width:110px;
     margin-left:10px;
     text-align: center;
 }
@@ -308,7 +308,7 @@
         height:30px;
         color: white;
         font-size: 14px;
-        width:50px;}
+        width:70px;}
 
     .button_num{
         background-color:white;
@@ -317,7 +317,7 @@
         height:30px;
         color: #acddfe;
         font-size: 16px;
-        width:90px;
+        width:110px;
         margin-left:4px;
         text-align: center;
     }
@@ -328,7 +328,7 @@
         height:30px;
         color: #acddfe;
         font-size: 16px;
-        width:90px;
+        width:110px;
         margin-left:4px;
         text-align: center;
     }
@@ -365,7 +365,7 @@
         line-height: 25px;
         color: white;
         font-size: 14px;
-        width:55px;
+        width:70px;
         text-align: center;
     }
     .button_num{
@@ -376,7 +376,7 @@
         line-height: 21px;
         color: #acddfe;
         font-size: 14px;
-        width:60px;
+        width:80px;
         margin-left:5px;
         text-align: center;
     }
@@ -388,7 +388,7 @@
         line-height: 21px;
         color: #acddfe;
         font-size: 14px;
-        width:70px;
+        width:80px;
         margin-left:0px;
         text-align: center;
 

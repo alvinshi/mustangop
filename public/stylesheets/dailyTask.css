@@ -44,7 +44,7 @@
     background-color: white;
     color: #3498db;
     border: 1px solid #3498db;
-    text-align: center;
+    /*text-align: center;*/
     font-size: 18px;
     margin-left: 20px;
     border-radius: 6px;
@@ -55,7 +55,7 @@
     background-color: white;
     color: #3498db;
     border: 1px solid #3498db;
-    text-align: center;
+    /*text-align: center;*/
     font-size: 18px;
     border-radius: 6px;
 
@@ -164,7 +164,7 @@ color: #999999;
     .left {
         font-size: 12px;
         height:20px;
-        width: 50px;
+        width:65px;
         color: #3498db;
         border: 1px solid #3498db;
         border-radius: 2px;
@@ -174,7 +174,7 @@ color: #999999;
     .surplus{
         font-size: 12px;
         height:20px;
-        width: 60px;
+        width:85px;
         color: #3498db;
         border: 1px solid #3498db;
         border-radius: 2px;
