@@ -92,14 +92,6 @@
     <div class="row">
         <div class="col-lg-3 col-xs-3 change row_second_left">
             <div class="subNavBox">
-                <div class="nav  ">
-                    <a ui-sref="appDetail">
-                        <img src="/images/appDetail/rewrite.png" alt=""> <span style="margin-left:20px">需求截图工具</span>
-                    </a>
-                </div>
-                <ul class="navContent " style="display:block">
-                    <!--<li><a href="#">需求编辑</a></li>-->
-                </ul>
                 <!--<div class="nav">-->
                     <!--<a ui-sref='appDetail-progress'>-->
                         <!--<img src="/images/appDetail/rewrite.png" alt=""> <span style="margin-left:20px">任务进度及审核</span>-->
@@ -109,13 +101,11 @@
                     <!--<li><a href="#">需求编辑</a></li>-->
                 </ul>
 
-                <div class="subNav  currentDt" >
-                    <img src="/images/appDetail/history.png" alt=""><span style="margin-left:22px" >交换记录工具</span>
+                <div class="nav " >
+                    <a ui-sref='appDetail-curHistory'>
+                        <img src="/images/appDetail/history.png" alt=""><span style="margin-left:22px" >交换记录工具</span>
+                    </a>
                 </div>
-                <ul class="navContent">
-                    <li><a ui-sref='appDetail-curHistory'>当前版本</a></li>
-                    <!--<li><a ui-sref='appDetail-preHistory'>以往版本</a></li>-->
-                </ul>
 
                 <div class="nav  ">
                     <a ui-sref='appDetail-addTask' >
@@ -124,6 +114,14 @@
                 </div>
                 <ul class="navContent">
                     <!--<li><a href="#">任务添加</a></li>-->
+                </ul>
+                <div class="nav  ">
+                    <a ui-sref="appDetail">
+                        <img src="/images/appDetail/rewrite.png" alt=""> <span style="margin-left:20px">需求截图工具</span>
+                    </a>
+                </div>
+                <ul class="navContent " style="display:block">
+                    <!--<li><a href="#">需求编辑</a></li>-->
                 </ul>
             </div>
         </div><!--col-lg-3 左侧导航-->
