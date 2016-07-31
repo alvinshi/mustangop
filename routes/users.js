@@ -74,9 +74,15 @@ router.post('/register', function(req, res, next) {
     totalMoney:1000,
     remainMoney:1000
   }).then(function(user) {
-    //注册或者登录成功
-
     var user_id = user.id;
+    //注册或者登录成功
+    var message = new messageLogger();
+    message.set("senderObjectId", user_id);
+    message.set('receiverObjectId', user_id);
+    message.set('category', '系统');
+    message.set('type', '欢迎');
+    message.save();
+
     var userNickname = user.get('userNickname');
     //encode userid
     var encodeUserId = Base64.encode(user_id);
