@@ -933,7 +933,6 @@ router.post('/task/:appleId', function(req, res){
             userInfo.save().then(function(){
                 res.json({'errorId': 0});
             })
-
         });
 
         var taskObjectId = AV.Object.createWithoutData('releaseTaskObject', releasetaskObject.id);

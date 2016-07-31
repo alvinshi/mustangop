@@ -75,9 +75,10 @@ router.post('/register', function(req, res, next) {
   }).then(function(user) {
     var user_id = user.id;
     //注册或者登录成功
+    console.log("tried");
     var message = new messageLogger();
-    message.set("senderObjectId", user_id);
-    message.set('receiverObjectId', user_id);
+    message.set("senderObjectId", user);
+    message.set('receiverObjectId', user);
     message.set('category', '系统');
     message.set('type', '欢迎');
     message.save();
