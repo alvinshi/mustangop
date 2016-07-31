@@ -99,8 +99,6 @@ router.get('/cancelTask/:taskId', function(req, res){
         secondaryQuery.get(userId).then(function(result){
             var preFreezingMoney = result.get('freezingMoney');
             result.set('freezingMoney', preFreezingMoney - moneyReturn);
-            var preRemainMoney = result.get('remainMoney');
-            result.set('remainMoney', preRemainMoney + moneyReturn);
             var preTotalMoney = result.get('totalMoney');
             result.set('totalMoney', preTotalMoney + moneyReturn);
             result.save();
@@ -250,9 +248,7 @@ var updateReceiveTaskDatabase = function(entryId, uploaderName){
                 // 接收任务后 把钱打给领取任务的用户
                 var query_user = new AV.Query(User);
                 query_user.get(userObject.id).then(function(userInfo){
-                    var remainYB = userInfo.get('remainMoney');
                     var totalYB = userInfo.get('totalMoney');
-                    userInfo.set('remainMoney', remainYB + incomeYB);
                     userInfo.set('totalMoney', totalYB + incomeYB);
                     userInfo.save();
                 });

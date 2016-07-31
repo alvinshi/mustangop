@@ -72,7 +72,6 @@ router.post('/register', function(req, res, next) {
     username:userphone,
     feedingMoney:1000,
     totalMoney:1000,
-    remainMoney:1000
   }).then(function(user) {
     var user_id = user.id;
     //注册或者登录成功

@@ -389,7 +389,6 @@ router.post('/task/:appid', function(req, res){
     query.find().then(function(results){
         for (var i = 0; i < results.length; i++){
             var userObject = results[i].get('userObject');
-            var userRemainMon = userObject.get('remainMoney');
             var userfreezingMoney = userObject.get('freezingMoney');
         }
         if (results <= 0){
@@ -422,7 +421,6 @@ router.post('/task/:appid', function(req, res){
                 query.get(userId).then(function(userInfo){
                     userInfo.set('totalMoney', totalmoney);
                     userInfo.set('freezingMoney', moratoriumMon);
-                    userInfo.set('remainMoney', remainMon);
                     userInfo.save().then(function(){
                         //
                     })
@@ -460,11 +458,9 @@ router.post('/task/:appid', function(req, res){
                 // 实例已经成功保存.
                 var moratorium = excCount * excUnitPrice;  // 冻结的YB
                 var moratoriumMon = userfreezingMoney + moratorium;  // 再次发任务冻结的YB
-                var remainMon = userRemainMon - moratorium;   // 剩余的YB
                 var query = new AV.Query('_User');
                 query.get(userId).then(function(userInfo){
                     userInfo.set('freezingMoney', moratoriumMon);
-                    userInfo.set('remainMoney', remainMon);
                     userInfo.save().then(function(){
                         //
                     })
