@@ -48,9 +48,9 @@ app.controller('doTaskCtrl', function($scope, $http) {
                 }
             }
             $scope.allTaskObjects.sort(function(a, b){return (a.createdAt > b.createdAt)?1:-1});
-            $scope.downloadTasks.sort(function(a, b){return (a.createdAt < b.createdAt)?1:-1});
-            $scope.commentTasks.sort(function(a, b){return (a.createdAt < b.createdAt)?1:-1});
-            $scope.inactiveTasks.sort(function(a, b){return (a.createdAt < b.createdAt)?1:-1});
+            $scope.downloadTasks.sort(function(a, b){return (a.createdAt > b.createdAt)?1:-1});
+            $scope.commentTasks.sort(function(a, b){return (a.createdAt > b.createdAt)?1:-1});
+            $scope.inactiveTasks.sort(function(a, b){return (a.createdAt > b.createdAt)?1:-1});
             $scope.taskObject = $scope.allTaskObjects;
             taskDisplayedInit();
             updateTaskDisplayed();
