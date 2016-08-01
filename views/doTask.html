@@ -16,6 +16,7 @@
     <script src="//cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 
     <link rel="stylesheet" href="/stylesheets/vendor/hover/hover-min.css">
+    <script src="https://cdn.jsdelivr.net/scrollreveal.js/3.3.1/scrollreveal.min.js"></script>
 
     <!--网站内部js-->
 
@@ -28,7 +29,7 @@
 
 
 </head>
-<body ng-app="yemaWebApp">
+<body ng-app="yemaWebApp" >
 
 
 <!--[if lt IE 8]>
@@ -42,7 +43,7 @@
 
 <img class='foo' src="/images/doTask/banner.png" style="width: 100vw; margin-top: 50px;"/>
 
-<div class="container" style="width: 1010px; padding:0;" ng-controller="doTaskCtrl">
+<div class="container fly" style="width: 1010px; padding:0;" ng-controller="doTaskCtrl">
     <div class="row" style="margin:0;">
         <p style="font-size: 30px; color: #3498db; margin: 40px 20px 10px 0; float: left" ng-show="!noApp">任务列表</p>
         <div ng-show="!noApp" class="alert alert-danger" role="alert" style="display: inline-block; margin-top: 35px;">
@@ -66,7 +67,7 @@
         </ul>
 
         <!-- Tab panes -->
-        <div class="tab-content">
+        <div class="tab-content ">
             <div role="tabpanel" class="tab-pane active" id="home">
                 <div class="taskPanel" ng-repeat="app in taskDisplayed">
                     <table style="width: 1010px;">
@@ -669,4 +670,16 @@
 
 </body>
 <script src="/javascripts/cookieHelper.min.js"></script>
+<!--<script>-->
+    <!--window.sr = ScrollReveal();-->
+    <!--var fooReveal = {-->
+        <!--delay    : 200,-->
+        <!--duration : 400,-->
+        <!--distance : '30px',-->
+        <!--reset: false-->
+    <!--};-->
+
+
+    <!--sr.reveal('.fly', fooReveal);-->
+<!--</script>-->
 </html>

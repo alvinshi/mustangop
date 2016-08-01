@@ -22,20 +22,20 @@
     border: 1px solid #3498db;
     color: #3498db;
     font-size: 16px;
-    width: 84px;
+    width: 102px;
     height: 30px;
     margin-left: 20px;
     line-height: 2px;
 }
 .copy .url_p{
-    margin: 0px 55px 10px;
+    margin: 5px 15px 10px;
 }
 .message{
-    width: 600px;
+    /*width: 600px;*/
     margin-top: -10px;
-    font-size: 14px;
-color: #999999;
-    margin-left: 145px;
+    font-size: 16px;
+color: orange;
+    margin-left: 106px;
 
 }
 
