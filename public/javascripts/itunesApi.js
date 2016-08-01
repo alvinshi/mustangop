@@ -240,11 +240,15 @@ app.controller('itunesSearchControl', function($scope, $http) {
             //location.href="/myapp"
         })
     };
+
+    var isClick=false;
+
     //发布任务
     $scope.releaseTask = function(){
         $scope.saveNeed();
         //初始参数
         var flag = true;
+        var isClick=true;
         $scope.error = Object();
         $scope.error.excCount = false;
         $scope.error.searchKeyword = false;
@@ -269,6 +273,11 @@ app.controller('itunesSearchControl', function($scope, $http) {
                 flag = false;
             }
         };
+
+        if (isClick == true){
+            $('#releaseTask').modal("show")
+        }
+
 
         //通过前端检查,请求服务器
         if (flag){
