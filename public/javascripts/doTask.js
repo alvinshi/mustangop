@@ -154,6 +154,9 @@ app.controller('doTaskCtrl', function($scope, $http) {
         else if ($scope.getTaskFormData.receiveCount > parseInt(currentApp.remainCount)){
             $scope.getTaskFormData.errorMsg = '此任务剩余条数不足';
         }
+        //else if ($scope.getTaskFormData.receiveCount > 3) {
+        //    $scope.getTaskFormData.errorMsg = '每个账户一次只能领取3条'
+        //}
 
         //通过前端效验
         else {

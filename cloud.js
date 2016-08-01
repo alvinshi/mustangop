@@ -84,7 +84,7 @@ function getTaskCheckQuery(){
     var myDateStr = myDate.getFullYear() + '-' + (parseInt(myDate.getMonth()) + 1) + '-' + myDate.getDate();
 
     var query = new AV.Query(receiveTaskObject);
-    query.notEqualTo('completed', 1);
+    query.notEqualTo('close', true);
     query.equalTo('receiveDate', myDateStr);
     query.descending('createdAt');
     return query;
@@ -116,6 +116,7 @@ AV.Cloud.define('checkTask', function(request, response){
             query_a.skip(i * 1000);
             query_a.find().then(function(results){ // 查找出所有没有完成的任务
                 for (var e = 0; e < results.length; e++){
+                    results[e].set('close', true);
                     var task = results[e].get('taskObject'); // 领取任务的id
                     var user = results[e].get('userObject'); // 领取任务的用户
                     var app = results[e].get('appObject'); // 领取任务的用户

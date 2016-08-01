@@ -70,8 +70,8 @@ router.post('/register', function(req, res, next) {
     smsCode: smsCode,
     password:password,
     username:userphone,
-    feedingMoney:1000,
-    totalMoney:1000,
+    feedingMoney:500, // 注册送YB
+    totalMoney:500
   }).then(function(user) {
     var user_id = user.id;
     //注册或者登录成功

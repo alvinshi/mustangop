@@ -132,7 +132,15 @@ router.get('/specTaskCheck/:taskId', function(req, res){
                 submission.receiveCount = results[i].get('receiveCount');
                 submission.receivePrice = results[i].get('receivePrice');
                 submission.createdAt = results[i].createdAt;
-                submission.username = user.get('username');
+                var username = user.get('userNickname');
+                if (username == undefined){
+                    submission.username = user.get('username').substring(0, 7) + '****';
+                }else if (username == ''){
+                    submission.username = user.get('username').substring(0, 7) + '****';
+                }
+                else {
+                    submission.username = username;
+                }
                 submission.userId = user.id;
 
                 //领取任务实时信息

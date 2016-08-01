@@ -32,7 +32,7 @@ router.get('/claim/:userObjectId', function(req, res){
 
     var query = new AV.Query(receiveTaskObject);
     query.equalTo('userObject', user);
-    query.equalTo('completed', 0);
+    query.notEqualTo('close', true);
     query.include('taskObject');
     query.include('appObject');
     query.descending('createdAt');
