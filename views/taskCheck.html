@@ -61,6 +61,9 @@
                         <span style="margin-left: 10px; font-size: 16px;">任务 {{$index + 1}}</span>
                         <span ng-show='app.cancelled == true && app.completed == 0' style="margin-left: 5px; font-size: 12px; color: #eb3030">已撤销</span>
                         <span ng-show='app.completed == 1' style="margin-left: 5px; font-size: 12px; color: #00ee00">已完成</span>
+                        <div>
+                            <span style="width:100px;height:20px;font-size:12px;margin-left:45px;color:#3498db">{{app.taskType}}</span>
+                        </div>
                     </div>
                 </div>
             </div><!--左边侧边栏-->

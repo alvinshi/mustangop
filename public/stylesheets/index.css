@@ -1,20 +1,4 @@
-.onepage{
-    height: 800px;
-}
 
-
-.background_img{
-    background-image: url(../images/index/home_one.jpg);
-    background-size: 100% auto;
-    height: 840px;
-    width: 100%;
-    position:absolute;
-    background-position: center center;
-    background-size: cover;
-
-
-
-}
 
 .navbar{
     font-size: 17px;
