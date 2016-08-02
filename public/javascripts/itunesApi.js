@@ -241,12 +241,13 @@ app.controller('itunesSearchControl', function($scope, $http) {
         })
     };
 
-
+    $scope.isDisabled = false;
     //发布任务
     $scope.releaseTask = function(){
         $scope.saveNeed();
         //初始参数
         var flag = true;
+        $scope.isDisabled = true;
         $scope.error = Object();
         $scope.error.excCount = false;
         $scope.error.searchKeyword = false;
@@ -269,9 +270,9 @@ app.controller('itunesSearchControl', function($scope, $http) {
             if (taskMoney > $scope.usermoney){
                 $('#meiQian').modal("show");
                 flag = false;
+                $scope.isDisabled = false;
             }
         };
-
 
         //通过前端检查,请求服务器
         if (flag){
@@ -289,8 +290,14 @@ app.controller('itunesSearchControl', function($scope, $http) {
                 $scope.errorId = response.errorId;
                 $scope.errorMsg = response.errorMsg;
                 $("#releaseTask").modal("show");
+                $scope.isDisabled = false;
             })
         }
+    };
+
+    // 确认发布之后刷新界面
+    $scope.Confirm = function(){
+        location.href="/myapp"
     };
 
     //验证表单

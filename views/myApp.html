@@ -323,7 +323,7 @@
                         <button class="btn btn_save2" ng-show="saved">已保存</button>
                     </div>
                     <div class="col-lg-3">
-                        <button class="btn btn_task" ng-click="releaseTask()" data-toggle="modal">发布任务</button>
+                        <button class="btn btn_task" ng-click="releaseTask()" data-toggle="modal" ng-disabled="isDisabled">发布任务</button>
                     </div>
 
                 </div>
@@ -465,7 +465,7 @@
                             <a style="color: #3498db" href="/doTask">任务大厅</a>领取任务赚取Y币.</p>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn_releaseTask" data-dismiss="modal">确认</button>
+                        <button type="button" class="btn btn_releaseTask" data-dismiss="modal" ng-click="Confirm()">确认</button>
                     </div>
                 </div><!-- /.modal-content -->
             </div><!-- /.modal-dialog -->
