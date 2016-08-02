@@ -9,6 +9,16 @@ var navIndex =0;
 
 app.controller('doTaskCtrl', function($scope, $http) {
 
+
+    //自动轮播
+    $("#myCarousel").carousel({
+        interval:2000,
+    });
+
+
+
+
+
     //发布任务飞机颜色
     $scope.planeColor = true;
 
