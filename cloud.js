@@ -80,7 +80,9 @@ AV.Cloud.define('refreshTask', function(request, response) {
 // 2.未完成任务罚款
 // 3.拒绝任务未重新做,任务失败
 function getTaskCheckQuery(){
-    var myDate = new Date();
+    var date = new Date().getTime();
+    var dateStr = date - 1000*60*60*24 * 3;
+    var myDate = new Date(dateStr);
     var myDateStr = myDate.getFullYear() + '-' + (parseInt(myDate.getMonth()) + 1) + '-' + myDate.getDate();
 
     var query = new AV.Query(receiveTaskObject);
@@ -96,7 +98,6 @@ AV.Cloud.define('checkTask', function(request, response){
 
     query.count().then(function(count){
         var totalcount = count;
-        console.log(totalcount);
 
         if (totalcount == 0){
             console.log('!!!!! checkTask succeed: no task need to deal');
@@ -232,18 +233,18 @@ AV.Cloud.define('checkTask', function(request, response){
                         });
                     })(submitted, task_not_done);
 
-                    
+
                     user.save().then(function () {
-                            console.log('!!!!! checkTask receiveUser YB succeed');
-                        }, function (error) {
-                            console.log('----- totalMoney error');
-                        });
+                        console.log('!!!!! checkTask receiveUser YB succeed');
+                    }, function (error) {
+                        console.log('----- totalMoney error');
+                    });
                     results[e].set('completed', 1);
 
                 }
                 AV.Object.saveAll(results).then(function(){
                     console.log('!!! 保存领取任务里面修改内容成功 !!!')
-
+                    response.success('checkTask');
                 })
             })
         }
@@ -387,28 +388,28 @@ AV.Cloud.define('removeRen', function(){
     query_IosApp.limit(1000);
     query_IosApp.find().then(function(removeObject){
         console.log('AppBinder' + removeObject.length);
-        AV.Object.destroyAll(removeObject).then(function(){
-            console.log('删除我添加的APP不是俞雷的数据成功')
-        })
+        //AV.Object.destroyAll(removeObject).then(function(){
+        //    console.log('删除我添加的APP不是俞雷的数据成功')
+        //})
     });
 
     var query = remove();
     query.limit(1000);
     query.find().then(function(removeExcObject){
         console.log('AppExc' + removeExcObject.length);
-        AV.Object.destroyAll(removeExcObject).then(function(){
-            console.log('删除交换任务不是俞雷的数据成功')
-        })
+        //AV.Object.destroyAll(removeExcObject).then(function(){
+        //    console.log('删除交换任务不是俞雷的数据成功')
+        //})
     })
 });
 
 module.exports = AV.Cloud;
 
-var paramsJson = {
-    movie: "夏洛特烦恼"
-};
-
-//AV.Cloud.run('releaseTaskTimer', paramsJson, {
+//var paramsJson = {
+//    movie: "夏洛特烦恼"
+//};
+//
+//AV.Cloud.run('removeRen', paramsJson, {
 //    success: function(data) {
 //        // 调用成功，得到成功的应答data
 //    },
