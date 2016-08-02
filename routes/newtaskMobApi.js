@@ -179,11 +179,12 @@ router.post('/add/:excTaskId', function(req, res){
                     todo.increment('pending', -1);
                     todo.save().then(function(){
                         //如果有就计数+1
-                        res.json({'errorId':0, 'errorMsg':'', 'uploadName':uploadName, 'requirementImgs':requirementImgs});
+
                     });
 
                 });
             }
+            res.json({'errorId':0, 'errorMsg':'', 'uploadName':uploadName, 'requirementImgs':requirementImgs});
         });
     },
     function (err){

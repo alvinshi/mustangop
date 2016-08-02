@@ -113,9 +113,12 @@ router.get('/cancelTask/:taskId', function(req, res){
 router.get('/specTaskCheck/:taskId', function(req, res){
     var taskId = req.params.taskId;
     var query = new AV.Query(receiveTaskObject);
+    var taskObject = AV.Object.createWithoutData('releaseTaskObject', taskId);
+    query.equalTo('taskObject', taskObject);
     query.include('taskObject');
     query.include('userObject');
     query.ascending('createdAt');
+    query.limit(1000);
     query.find().then(function(results){
         var rtnResults = new Array();
         var promise = 0;
