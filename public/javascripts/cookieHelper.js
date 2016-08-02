@@ -32,10 +32,11 @@ function loadNav(){
 
     console.log(username);
 
-    if (username == undefined || username.length == 0){
+    var usernameHtml = document.getElementsByClassName('navbar-right')[0];
+    if (username == undefined || username.length == 0 || usernameHtml == undefined){
         console.log('no username');
         //not login home
-        document.getElementsByClassName('navbar-right')[0].innerHTML =
+        usernameHtml.innerHTML =
             '<li><a style="color:white" href="/user/login">登录</a></li>' +
             '<button type="button" class="btn btn-primary btn-sm navbar-btn" onclick="javascript:window.location.href=\'/user/register\'">快速注册</button>';
     }else {
@@ -43,8 +44,8 @@ function loadNav(){
         //other
         var userNameHtmlEle = document.getElementById('nav-username-display');
         if (userNameHtmlEle == undefined){
-            console.log('has username 1' + username);
-            document.getElementsByClassName('navbar-right')[0].innerHTML =
+            console.log('username html exist' + username);
+            usernameHtml.innerHTML =
                 '<li><a id="nav-username-display" href="/user#/" style="color:#3498db"></a></li>';
         }
 

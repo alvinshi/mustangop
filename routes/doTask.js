@@ -40,6 +40,8 @@ router.get('/taskHall', function(req, res){
     query.include('userObject');
     query.ascending('createdAt');
 
+    //Query 分4种类型:全部,评论,下载,已经完成,自动筛选
+
     query.find().then(function(results){
         var retApps = new Array();
         var counter = 0;

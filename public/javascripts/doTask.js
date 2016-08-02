@@ -26,7 +26,7 @@ app.controller('doTaskCtrl', function($scope, $http) {
 
     $http.get(url).success(function(response) {
         if (response.doTask.length == 0){
-            $scope.noApp = true
+            $scope.noApp = true;
         }
         else {
             $scope.allTaskObjects = new Array();
