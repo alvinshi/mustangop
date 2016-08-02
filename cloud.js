@@ -96,7 +96,6 @@ AV.Cloud.define('checkTask', function(request, response){
 
     query.count().then(function(count){
         var totalcount = count;
-        console.log(totalcount);
 
         if (totalcount == 0){
             console.log('!!!!! checkTask succeed: no task need to deal');
@@ -243,6 +242,7 @@ AV.Cloud.define('checkTask', function(request, response){
                 }
                 AV.Object.saveAll(results).then(function(){
                     console.log('!!! 保存领取任务里面修改内容成功 !!!')
+                    response.success('checkTask');
                 })
             })
         }
@@ -266,8 +266,6 @@ AV.Cloud.define('releaseTaskTimer', function(request, response){
     query.count().then(function(count){
         var totalCount = count;
 
-        console.log(totalCount);
-
         if (totalCount == 0){
             console.log('!!!!! releaseTaskTimer succeed: no task need to deal');
             response.success('releaseTaskTimer');
@@ -289,9 +287,7 @@ AV.Cloud.define('releaseTaskTimer', function(request, response){
                     //获取需要的任务数据
                     var user = results[i].get('userObject');
                     var app2 = results[i].get('appObject');
-                    console.log(app2);
                     var appName = app2.get('trackName'); //任务App名称;
-                    console.log(appName);
 
                     var rateUnitPrice = results[i].get('rateUnitPrice'); //价格
 
@@ -359,6 +355,7 @@ AV.Cloud.define('releaseTaskTimer', function(request, response){
                 //for循环结束, 统一保存所有发布任务条目
                 AV.Object.saveAll(results).then(function () {
                     console.log('---- releaseTaskTimer: succeed')
+                    response.success('releaseTaskTimer');
                 }, function (error) {
                 });
             })
