@@ -59,6 +59,10 @@
                 </div>
             </div>
 
+            <div class="alert alert-warning" role="alert" ng-hide="!isError" style="margin-top: 20px">
+                {{ errorMsg }}
+            </div>
+
             <div class="register-sub text-center">
                 <button class="btn btn-org-empty" ng-click="userRegister()" id="register-btn">注&nbsp;&nbsp;册</button>
             </div>

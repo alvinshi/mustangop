@@ -13,6 +13,7 @@ app.controller('userAccountCtrl', function($scope, $http) {
     };
 
     $scope.userRegister = function(){
+
         var registerUrl = '/user/register';
 
         console.log($scope.userSmsCode);
@@ -20,6 +21,8 @@ app.controller('userAccountCtrl', function($scope, $http) {
         $http.post(registerUrl, {'mobile': $scope.userMobile, 'password': $scope.userSecret, 'smsCode':$scope.userSmsCode}).success(function(response){
             $scope.errorId = response.errorId;
             $scope.errorMsg = response.errorMsg;
+
+
             $scope.displayMsg();
 
 
@@ -176,9 +179,17 @@ app.controller('userAccountCtrl', function($scope, $http) {
                         'mobile': $scope.userMobile,
                         'password': $scope.userSecret
                     };
+                    $scope.isError = 0;
                     $http.post(registerUrl, smsParams).success(function(response){
+
                         $scope.errorId = response.errorId;
-                        $scope.errorMsg = response.errorMsg;
+                        //$scope.errorMsg = response.errorMsg;
+                        if (response.errorMsg.length > 0){
+                            $scope.isError = 1;
+                            $scope.errorMsg = response.errorMsg;
+                        }else {
+                            $scope.isError = 0
+                        };
                         $scope.displayMsg();
                     });
                 }
