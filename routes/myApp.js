@@ -1070,7 +1070,6 @@ router.get('/verify', function(req, res){
         var usermoney = results.get('totalMoney');
         res.json({'usermoney':usermoney});
     })
-
 });
 
 module.exports = router;
