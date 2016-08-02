@@ -263,7 +263,11 @@ app.controller('itunesSearchControl', function($scope, $http) {
             $scope.error.searchKeyword = true;
             $("#error").modal("show");
         }
+        if($scope.appNeedInfo.excCount>20){
+            flag = false;
+            $("#limitexcCount").modal("show");
 
+        }
         if ($scope.appNeedInfo.excCount != undefined){
             var taskMoney = $scope.appNeedInfo.excCount * $scope.appNeedInfo.excUnitPrice;
             console.log($scope.usermoney);
