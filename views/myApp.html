@@ -135,7 +135,7 @@
                         </div>
                         <div class="col-lg-2 " style="margin-left: -36px">
                             <p ng-show="error.excCount" style="color: red;text-align: center;padding-top: 5px">必填</p>
-                            <p  style="text-align: center;padding-top: 5px;margin-left: 5px">(亲,目前一次只能发布20条任务哦)</p>
+                            <p  style="text-align: center;padding-top: 5px;margin-left: 5px">(亲,目前一次最多只可发布20条任务哦)</p>
 
                         </div>
                         <label  class="col-lg-2 control-label" > 任务单价:</label>
@@ -366,6 +366,7 @@
                 </div><!-- /.modal-content -->
             </div><!-- /.modal-dialog -->
         </div><!--信息没填提示-->
+
         <div class="modal fade" id="limitexcCount">
             <div class="modal-dialog">
                 <div class="modal-content" style="width: 320px;">
@@ -380,6 +381,20 @@
                 </div><!-- /.modal-content -->
             </div><!-- /.modal-dialog -->
         </div><!--超过20条-->
+        <div class="modal fade" id="exceedrank">
+            <div class="modal-dialog">
+                <div class="modal-content" style="width: 320px;">
+                    <div class="modal-header" style="height: 74px;background-color:#6eb7e8;border-radius:4px;text-align: center">
+                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+                        <h4 class="modal-title"  style="font-size: 20px;color: #FFFFFF">亲,排名都超过50啦,再核实一下排名吧</h4>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">确认</button>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div><!--信息没填提示-->
         <div class="modal fade" id="mymodal">
             <div class="modal-dialog">
                 <div class="modal-content" style="width: 360px;">

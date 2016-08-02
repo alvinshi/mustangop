@@ -80,7 +80,7 @@
                     <img class="logo" ng-src="{{app.artworkUrl100}}" alt="app-icon" class="img-thumbnail"/>
                 </a>
             </div>
-            <div class="media-body information">
+             <div class="media-body information" >
                 <div>
                     <a class="task-link" href="/newtaskMobile/{{app.taskObjectId}}">{{app.trackName.substr(0,11)+'...'}}</a>
                 </div>
@@ -104,6 +104,13 @@
                     <img src="../images/home/pen.png" class="imgpen hidden-xs" ng-show="app.mode" ng-click="reAssign(app)">
                     <button  class="btnSave hidden-xs" ng-hide="app.mode" ng-click="saveRemark(app.detailRem, app.taskObjectId,app)">保存</button>
                 </div>
+            </div>
+            <div class=" hidden-xs  media-right" >
+                <a href="/newtaskMobile/{{app.taskObjectId}}">
+                    <button  type="button" style="margin-right: 40px">
+                        做任务
+                    </button>
+                </a>
             </div>
             <div class=" hidden-xs  media-right">
                 <a href="/interiorExcDetail/{{app.taskObjectId}}">
