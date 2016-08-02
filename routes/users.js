@@ -234,6 +234,8 @@ router.get('/userCenter/getMessage', function(req, res){
         msg.para1 = ''
       }else if (msg.para1.length > 16){
         msg.para1 = msg.para1.substring(0, 16) + '...';
+      }else if (msg.para1.length <= 12){
+        msg.para1 = msg.para1.substring(0, 7) + '****'
       }
       msg.para2 = results[i].get('secondPara');
       if (msg.para2 == undefined){
@@ -305,7 +307,12 @@ router.get('/taskhistory', function(req, res){
           for (var e = 0; e < receiveInfo.length; e++){
             var receiveObject = new Object();
             var userInfo = receiveInfo[e].get('userObject');
-            receiveObject.userName = userInfo.get('username');
+            var user_name = userInfo.get('userNickname');
+            if (user_name == undefined || user_name == ''){
+              receiveObject.userName = userInfo.get('username').substring(0, 7) + '****';
+            }else {
+              receiveObject.userName = user_name;
+            }
             receiveObject.receiveCount = receiveInfo[e].get('receiveCount');
             var status = receiveInfo[e].get('completed');
             if (status == 1){
