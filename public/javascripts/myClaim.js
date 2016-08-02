@@ -73,13 +73,11 @@ app.controller('myClaimControl', function($scope, $http, $location){
         var Url=document.getElementById("copy");
         Url.select(); // 选择对象
         document.execCommand("Copy"); // 执行浏览器复制命令
-
-
-
-
     };
 
-
+    $scope.openCourse = function(courseid){
+        location.href = '/newtaskMobile/' + courseid;
+    }
 
 
 });
