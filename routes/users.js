@@ -16,9 +16,13 @@ var receiveTaskObject = AV.Object.extend('receiveTaskObject'); // 领取任务�
 var Base64 = require('../public/javascripts/vendor/base64').Base64;
 
 // 验证码
+//var pcGeetest = new Geetest({
+//    privateKey: '9889d9c10b5bcc33c12e3bcba6ac8d83',
+//    publicKey: 'c508c87580bd11dbaab2a40a02430af2'
+//});
 var pcGeetest = new Geetest({
-    privateKey: '9889d9c10b5bcc33c12e3bcba6ac8d83',
-    publicKey: 'c508c87580bd11dbaab2a40a02430af2'
+  privateKey: 'c508c87580bd11dbaab2a40a02430af2',
+  publicKey: '9889d9c10b5bcc33c12e3bcba6ac8d83'
 });
 
 router.get("/pc-geetest/register", function (req, res) {
