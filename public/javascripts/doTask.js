@@ -12,7 +12,7 @@ app.controller('doTaskCtrl', function($scope, $http) {
 
     //自动轮播
     $("#myCarousel").carousel({
-        interval:2000,
+        interval:1500,
     });
 
 

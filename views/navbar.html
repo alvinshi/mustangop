@@ -34,14 +34,14 @@
                 <li><a ng-style="{color:myColors[2]}" href="/myClaim/{{userObjectId}}">我的换评</a></li>
                 <li>
                     <a ng-style="{color:myColors[3]}" href="/taskCheck">审核换评
-                        <span class="badge">{{Count}}</span>
+                        <span class="badge" ng-show="showBadge" style="background-color: #3498db">{{Count}}</span>
                     </a>
                 </li>
                 <!--<li><a ng-style="{color:myColors[4]}" href="">换评工具箱(即将开放)</a></li>-->
                 <!--/doOuterTask-->
                 <li>
                     <a ng-style="{color:myColors[5]}" href="/user#/inforManage" style="margin-left:270px">换评消息
-                        <span class="badge" ng-show="chuxian">{{unreadMsgCount}}</span>
+                        <span class="badge" ng-show="chuxian" style="background-color: #3498db">{{unreadMsgCount}}</span>
                     </a>
                 </li>
 

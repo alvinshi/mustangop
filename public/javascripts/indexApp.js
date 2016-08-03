@@ -13,7 +13,13 @@ app.directive("thNav",function(){
             //用户相关
             $http.get(indexUrl).success(function(response){
                 loadNav();
-                $scope.Count = response.Count;
+                if(response.Count>0){
+                    $scope.Count = response.Count;
+                    $scope.showBadge=true;
+                }
+                else {
+                    $scope.showBadge=false;
+                }
                 $scope.userObjectId = response.userObjectId;
             });
 
@@ -30,9 +36,12 @@ app.directive("thNav",function(){
 
             var unreadMsgUrl = '/unreadMsg';
             $http.get(unreadMsgUrl).success(function(response){
-                $scope.unreadMsgCount = response.unreadMsgCount;
-                if (response.unreadMsgCount != 0){
+
+                if (response.unreadMsgCount > 0){
+                    $scope.unreadMsgCount = response.unreadMsgCount;
                     $scope.chuxian = true;
+                }else {
+                    $scope.chuxian = false;
                 }
             });
 
