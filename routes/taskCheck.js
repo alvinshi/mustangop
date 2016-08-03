@@ -51,7 +51,7 @@ router.get('/taskAudit', function(req, res){
             appInfoObject.taskType = results[i].get('taskType');
             appInfoObject.excCount = results[i].get('excCount');
             appInfoObject.detailRem = results[i].get('detailRem');
-            appInfoObject.ranking = results[i].get('ranking');
+            appInfoObject.ranking = results[i].get('ranKing');
             appInfoObject.score = results[i].get('Score');
             appInfoObject.searchKeyword = results[i].get('searchKeyword');
             appInfoObject.screenshotCount = results[i].get('screenshotCount');
