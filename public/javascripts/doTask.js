@@ -15,7 +15,7 @@ app.controller('doTaskCtrl', function($scope, $http) {
         interval:1500,
     });
 
-
+   //关闭视频弹窗 视屏停止
     $scope.releaseTaskVideo=function(){
         $("#releaseTaskVideo").modal("hide");
         var myVideo=document.getElementById("releaseTask");
