@@ -201,7 +201,7 @@ router.post('/postUsertask/:taskObjectId/:ratePrice/:appId', function(req, res){
                                     //创建领取信息
                                     var message = new messageLogger();
                                     var senderName = userObject.get('username');
-                                    message.set('receiverObjectId', taskObject.get('userObject'));
+                                    message.set('receiverObjectId', resultTaskObject.get('userObject'));
                                     message.set('senderObjectId', userObject);
                                     message.set('category', '任务');
                                     message.set('type','领取');
@@ -215,15 +215,16 @@ router.post('/postUsertask/:taskObjectId/:ratePrice/:appId', function(req, res){
                                         query_account.equalTo('taskObject', taskObject);
                                         query_account.doesNotExist('incomeYCoinUser');
                                         query_account.doesNotExist('incomeYCoinDes');
-                                        query_account.find().then(function(accountObject){
+                                        query_account.limit(receive_Count);
+                                        query_account.find().then(function(accountObjects){
                                             for (var a = 0; a < receive_Count; a++){
-                                                accountObject[a].set('incomeYCoinUser', user);  //收入金额的用户
-                                                accountObject[a].set('incomeYCoin', parseInt(req.params.ratePrice)); // 此次交易得到金额
-                                                accountObject[a].set('incomeYCoinStatus', 'prepare_income'); // 领取任务的时候为准备收益;
-                                                accountObject[a].set('incomeYCoinDes', '做任务');
+                                                accountObjects[a].set('incomeYCoinUser', userObject);  //收入金额的用户
+                                                accountObjects[a].set('incomeYCoin', parseInt(req.params.ratePrice)); // 此次交易得到金额
+                                                accountObjects[a].set('incomeYCoinStatus', 'prepare_income'); // 领取任务的时候为准备收益;
+                                                accountObjects[a].set('incomeYCoinDes', '做任务');
                                             }
 
-                                            accountObject.saveAll(results).then(function(){
+                                            AV.Object.saveAll(accountObjects).then(function(){
                                                 res.json({'succeeded': 0, 'errorMsg': '领取成功'});
                                             });
                                         });

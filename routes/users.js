@@ -256,7 +256,6 @@ router.get('/userCenter/getMessage', function(req, res){
 
 //更新已读未读消息
 router.post('/userCenter/readMsg', function(req, res) {
-  console.log("runned");
   var msgIdArray = req.body.msgIdArray;
   var msgObjectArray = new Array()
   for (var i = 0; i < msgIdArray.length; i++) {
