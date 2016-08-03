@@ -96,9 +96,9 @@ router.post('/add/:excTaskId', function(req, res){
 
     var task_query = new AV.Query(receiveTaskObject);
     task_query.include('taskObject');
-    task_query.get(excTaskId).then(function(releaseObject){
-        var relation = releaseObject.relation('mackTask');
-        var remainCount = releaseObject.get('remainCount');
+    task_query.get(excTaskId).then(function(receiveTaskObject){
+        var relation = receiveTaskObject.relation('mackTask');
+        var remainCount = receiveTaskObject.get('remainCount');
         var query = relation.query();
         query.equalTo('uploadName', uploadName);
         query.find().then(function(results){
@@ -131,9 +131,9 @@ router.post('/add/:excTaskId', function(req, res){
                     newTaskObject.save().then(function(){
                         // 如果有就更新图片
                         // 更新状态
-                        releaseObject.increment('submitted', 1); // 待审
-                        releaseObject.increment('rejected', -1); // 拒绝
-                        releaseObject.save().then(function(){
+                        receiveTaskObject.increment('submitted', 1); // 待审
+                        receiveTaskObject.increment('rejected', -1); // 拒绝
+                        receiveTaskObject.save().then(function(){
                             //如果有就计数+1
                             var releaseTaskObject = releaseObject.get('taskObject');
                             releaseTaskObject.increment('submitted', 1);
@@ -159,13 +159,13 @@ router.post('/add/:excTaskId', function(req, res){
                         // 保存到云端
                         // 如果有就更新图片
                         // 更新状态
-                        releaseObject.increment('submitted', 1); // 待审
-                        releaseObject.increment('rejected', -1); // 拒绝
-                        releaseObject.save().then(function(){
+                        receiveTaskObject.increment('submitted', 1); // 待审
+                        receiveTaskObject.increment('remainCount', -1); // 拒绝
+                        receiveTaskObject.save().then(function(){
                             //如果有就计数+1
                             var releaseTaskObject = releaseObject.get('taskObject');
                             releaseTaskObject.increment('submitted', 1);
-                            releaseTaskObject.increment('rejected', -1);
+                            releaseTaskObject.increment('remainCount', -1);
                             releaseTaskObject.save().then(function(){
                                 //如果有就计数+1
                                 res.json({'errorId':0, 'errorMsg':'', 'uploadName':uploadName, 'requirementImgs':requirementImgs});
