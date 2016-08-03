@@ -241,6 +241,21 @@ app.controller('itunesSearchControl', function($scope, $http) {
         })
     };
 
+
+
+    //检查排名不能超过50
+    $scope.checkRank= function () {
+
+        if( $scope.appNeedInfo.ranKing>50){
+           $scope.errorCheck=true;
+
+        }else {
+            $scope.errorCheck=false;
+        }
+
+
+    };
+
     $scope.isDisabled = false;
     //发布任务
     $scope.releaseTask = function(){

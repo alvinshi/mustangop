@@ -183,7 +183,11 @@
                         </div>
                         <label  class="col-lg-1 control-label">排名:</label>
                         <div class="col-lg-3">
-                            <input type="text" class="form-control" style="width: 75px;" placeholder="" ng-model="appNeedInfo.ranKing"  ng-change="saveStatusChange()">
+                            <input type="text" class="form-control" style="width: 75px;" placeholder="" ng-model="appNeedInfo.ranKing"
+                                     ng-change="checkRank()"    ng-change="saveStatusChange()">
+                        </div>
+                        <div class="col-lg-2" style="margin-left: -150px">
+                            <span ng-show="errorCheck" style="color: red;font-size:14px">排名不能超过50</span>
                         </div>
                     </div>
                 </form>
