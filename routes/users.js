@@ -234,7 +234,7 @@ router.get('/userCenter/getMessage', function(req, res){
         msg.para1 = ''
       }else if (msg.para1.length > 16){
         msg.para1 = msg.para1.substring(0, 16) + '...';
-      }else if (msg.para1.length <= 12){
+      }else if (!isNaN(msg.para1)){ // 判断是不是数字
         msg.para1 = msg.para1.substring(0, 7) + '****'
       }
       msg.para2 = results[i].get('secondPara');

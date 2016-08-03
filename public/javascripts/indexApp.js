@@ -18,7 +18,8 @@ app.directive("thFooter",function(){
 });
 
 app.controller('indexAppCtrl', function($scope, $http, $location){
-    $scope.unreadNotice = false
+    $scope.unreadNotice = false;
+    $scope.chuxian = false;
 
     var index = navIndex;
     $scope.myColors = ['white', 'white', 'white', 'white','white','white','white'];
@@ -27,6 +28,7 @@ app.controller('indexAppCtrl', function($scope, $http, $location){
     var indexUrl = '/index';
 
     $http.get(indexUrl).success(function(response){
+        $scope.Count = response.Count;
         $scope.userObjectId = response.userObjectId;
         loadNav();
         //$scope.tracknameAPPs = response.tracknameAPPs; // 因为以前导航栏需要获取数据
@@ -46,6 +48,14 @@ app.controller('indexAppCtrl', function($scope, $http, $location){
             if (!msg[i].read){
                 $scope.unreadNotice = true;
             }
+        }
+    });
+
+    var unreadMsgUrl = '/unreadMsg';
+    $http.get(unreadMsgUrl).success(function(response){
+        $scope.unreadMsgCount = response.unreadMsgCount;
+        if (response.unreadMsgCount != 0){
+            $scope.chuxian = true;
         }
     });
 
