@@ -858,11 +858,10 @@ router.post('/oldhistory/delete', function(req, res, next) {
 
 var myRate = 1;
 
-router.post('/task/:appleId', function(req, res){
+router.post('/task', function(req, res){
     var userId = util.useridInReq(req);
     var myDate = new Date();
     var myDateStr = myDate.getFullYear() + '-' + (parseInt(myDate.getMonth())+1) + '-' + myDate.getDate();
-    var myappid = parseInt(req.params.appleId);
     var appObjectid = req.body.appObjectId;
     var taskType = req.body.taskType;
     var excCount = req.body.excCount;
@@ -875,10 +874,8 @@ router.post('/task/:appleId', function(req, res){
     var commentKeyword = req.body.commentKeyword;
     var detailRem = req.body.detailRem;
 
-
     var user = new AV.User();
     user.id = userId;
-
 
     var app = AV.Object.createWithoutData('IOSAppInfo', appObjectid);
 

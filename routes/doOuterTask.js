@@ -93,24 +93,30 @@ router.get('/angular', function(req, res) {
                                 var dataObject = eval("(" + dataStr + ")");
 
                                 //appid just 1 result
-                                var appInfo = dataObject.results[0];
-
-                                var appInfoObject = util.updateIOSAppInfo(appInfo, tempAppObject);
-                                tempAppObject.save().then(function(post) {
-                                    // 实例已经成功保存.
-                                    retApps.push(appInfoObject);
-
-                                    if (retApps.length == judgeLength){
-                                        res.json({'myApps':retApps});
-                                    }
-                                }, function(err) {
-                                    // 失败了.
+                                if (dataObject.results.length == 0){
                                     dealiTunesAppFailed(retApps, tempAppObject);
-
                                     if (retApps.length == judgeLength){
                                         res.json({'myApps':retApps});
                                     }
-                                });
+                                }else {
+                                    var appInfo = dataObject.results[0];
+                                    var appInfoObject = util.updateIOSAppInfo(appInfo, tempAppObject);
+                                    tempAppObject.save().then(function(post) {
+                                        // 实例已经成功保存.
+                                        retApps.push(appInfoObject);
+
+                                        if (retApps.length == judgeLength){
+                                            res.json({'myApps':retApps});
+                                        }
+                                    }, function(err) {
+                                        // 失败了.
+                                        dealiTunesAppFailed(retApps, tempAppObject);
+
+                                        if (retApps.length == judgeLength){
+                                            res.json({'myApps':retApps});
+                                        }
+                                    });
+                                }
                             })
                         }
 
