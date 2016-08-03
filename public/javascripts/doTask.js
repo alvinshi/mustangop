@@ -16,7 +16,21 @@ app.controller('doTaskCtrl', function($scope, $http) {
     });
 
 
-
+    $scope.releaseTaskVideo=function(){
+        $("#releaseTaskVideo").modal("hide");
+        var myVideo=document.getElementById("releaseTask");
+        myVideo.pause();
+    };
+    $scope.getTaskVideo=function(){
+        $("#getTaskVideo").modal("hide");
+        var myVideo=document.getElementById("getTask");
+        myVideo.pause();
+    };
+    $scope.uploadTaskVideo=function(){
+        $("#uploadTaskVideo").modal("hide");
+        var myVideo=document.getElementById("uploadTask");
+        myVideo.pause();
+    };
 
 
     //发布任务飞机颜色

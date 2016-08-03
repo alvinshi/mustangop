@@ -1,3 +1,30 @@
+
+.releaseTaskVideo{
+    width: 100px;
+    height: 100px;
+    /*background-color: red;*/
+    z-index: 2;position: absolute;
+    top:210px;
+    left:280px;
+    outline:none;
+}
+.getTaskVideo{
+    width: 100px;height: 100px;
+    /*background-color:black;*/
+    z-index: 2;position: absolute;
+    top:210px;left: 600px;
+}
+.uploadTaskVideo{
+    width:100px;
+    height: 100px;
+    /*background-color:green;*/
+    z-index: 2;
+    position: absolute;
+    top:210px;left: 850px;
+}
+
+
+
 .publishTask{
     float: right;
     font-size: 20px;

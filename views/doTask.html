@@ -42,10 +42,15 @@
     <th-nav></th-nav>
 </div>
 
-<div id="myCarousel" class="carousel slide">
+
+
+
+
+<div id="myCarousel" class="carousel slide" style="z-index: 1">
     <!-- 轮播（Carousel）指标 -->
+
     <ol class="carousel-indicators">
-        <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+        <li data-target="#myCarousel" data-slide-to="0" class="active" ></li>
         <li data-target="#myCarousel" data-slide-to="1"></li>
 
     </ol>
@@ -53,11 +58,11 @@
     <div class="carousel-inner">
         <div class="item active">
 
-            <img class='foo' src="/images/doTask/banner.png" style="width: 100vw; margin-top:50px"/>
-            <!--<div>haoded</div>-->
+            <img class='foo' src="/images/doTask/notice.png" style="width: 100vw; margin-top:50px"/>
+
         </div>
         <div class="item">
-            <img class='foo' src="/images/doTask/banner.png" style="width: 100vw; margin-top: 50px;"/>
+            <img class='foo' src="/images/doTask/guide.png" style="width: 100vw; margin-top: 50px;"/>
         </div>
 
     </div>
@@ -66,6 +71,17 @@
        data-slide="prev">&lsaquo;</a>
     <a class="carousel-control right" href="#myCarousel"
        data-slide="next">&rsaquo;</a>
+
+    <a href=""  data-toggle="modal" data-target="#releaseTaskVideo" class="releaseTaskVideo" style="outline: none">
+
+    </a>
+    <a href=""  data-toggle="modal" data-target="#getTaskVideo"  class="getTaskVideo"  style="outline: none" >
+
+    </a>
+    <a href=""  data-toggle="modal" data-target="#uploadTaskVideo" class="uploadTaskVideo" style="outline: none">
+
+    </a>
+
 </div>
 
 <div class="container fly" style="width: 1010px; padding:0;" ng-controller="doTaskCtrl">
@@ -694,8 +710,68 @@
             </div>
         </div>
     </div>
+
+
+
+    <div class="modal fade" id="releaseTaskVideo" style="padding: 0px;margin: 0px;position: absolute;top:50px;left: 200px">
+        <div class="modal-dialog" style="display: table-cell;vertical-align: middle;">
+            <div class="modal-content"style="width:960px;height:550px;padding: 0px;margin: 0px">
+                <div class="modal-header">
+                    <button type="button" class="close" ng-click="releaseTaskVideo()" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title"></h4>
+                </div>
+                <div class="modal-body">
+                    <video src="/videos/releaseTaskDemo.mp4" controls="controls" id="releaseTask" preload style="width:960px;height:500px;">
+                        您的浏览器不支持 video 标签。
+                    </video>
+                </div>
+
+            </div>
+        </div>
+    </div><!-- releaseTaskVideo-->
+    <div class="modal fade" id="getTaskVideo"  style="padding: 0px;margin: 0px;position: absolute;top:50px;left: 200px">
+        <div class="modal-dialog" style="display: table-cell;vertical-align: middle;">
+            <div class="modal-content"style="width:960px;height:600px;">
+                <div class="modal-header">
+                    <button type="button" class="close" ng-click="getTaskVideo()" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                </div>
+                <div class="modal-body">
+                    <video src="/videos/getTaskDemo.mp4" controls="controls" id="getTask" preload style="width:960px;height:500px">
+                        您的浏览器不支持 video 标签。
+                    </video>
+                </div>
+
+            </div>
+        </div>
+    </div><!-- getTaskVideo-->
+    <div class="modal fade" id="uploadTaskVideo" style="padding: 0px;margin: 0px;position: absolute;top:50px;left: 200px">
+        <div class="modal-dialog" style="display: table-cell;vertical-align: middle;">
+            <div class="modal-content"style="width:960px;height:600px;">
+                <div class="modal-header">
+                    <button type="button" class="close" ng-click="uploadTaskVideo()" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title"></h4>
+                </div>
+                <div class="modal-body">
+                    <video src="/videos/uploadTaskDemo.mp4" controls="controls" id="uploadTask" preload style="width:960px;height:500px">
+                        您的浏览器不支持 video 标签。
+                    </video>
+                </div>
+
+            </div>
+        </div>
+    </div><!-- uploadTaskVideo-->
+
+
+
+
+
+
+
+
+
 </div>
 <th-footer></th-footer>
+
 
 </body>
 <script src="/javascripts/cookieHelper.min.js"></script>
