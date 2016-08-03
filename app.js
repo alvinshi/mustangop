@@ -5,6 +5,9 @@ var path = require('path');
 var ejs = require('ejs');
 var fs= require('fs');
 
+//监控服务器异常
+require('newrelic');
+
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var busboy = require('connect-busboy');
