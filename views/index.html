@@ -41,6 +41,8 @@
     <link rel="stylesheet" href="../stylesheets/index.min.css">
 
     <script src="/javascripts/todayTask.min.js"></script>
+
+    <script src="/javascripts/cookieHelper.js"></script>
     <script src="/javascripts/indexApp.min.js"></script>
 
 
@@ -81,9 +83,10 @@
 
                 <li><a  style="color: white"  href="/myClaim/{{userObjectId}}">我的换评</a></li>
                 <li><a  style="color: white"  href="/taskCheck">审核换评</a></li>
-                <li><a   style="color: white" href="">换评工具箱(即将开放)</a></li><!--/doOuterTask-->
+                <!--<li><a   style="color: white" href="">换评工具箱(即将开放)</a></li>     -->
+                <!--/doOuterTask-->
                 <li>
-                    <a  style="color: white;margin-left:200px"  href="/user#/inforManage">换评消息
+                    <a  style="color: white;margin-left:250px"  href="/user#/inforManage">换评消息
                     </a>
                 </li>
 
@@ -100,15 +103,15 @@
     </div><!--container -->
 </nav><!--.navbar-collapse -->
 
-   <div class="col-xs-12"  id="pageone" style="width: 100vw; height: 100vh;
+   <div class="col-xs-12"  id="pageone" style="
          background-image: url(/images/index/home_one.jpg);
            background-size: cover;padding-top: 150px">
        <div class='fly'  style="margin:auto; background: rgba(0, 0, 0, 0.3);width:620px;">
 
-           <p style="font-size: 56px;padding-top: 54px;margin:auto;color:white;padding-left: 14%;">
+           <p class="pageone_p" >
                换评2.0&nbsp&nbsp&nbsp震撼内测
            </p>
-           <button  class=" hvr-float-shadow" style="width: 226px;height:51px;color: white;background: rgba(0, 0, 0, 0.3); margin-top: 40px;margin-bottom: 52px;margin-left: 33%; font-size: 31px; border: 2px solid #ffffff; border-radius: 20px;text-align: center;">
+           <button  class=" hvr-float-shadow pageone_button" >
                <a href="/doTask"  class="start" style="color: white">Start&nbsp&nbspNow</a>
            </button>
        </div>
@@ -116,15 +119,15 @@
 
 
 
-    <div  class="col-xs-12"  id="pagethree" style="width: 100vw; height: 100vh;;background-image: url(/images/index/home_three.jpg);background-size: cover;">
+    <div  class="col-xs-12"  id="pagethree" style="background-image: url(/images/index/home_three.jpg);background-size: cover;">
 
 
 
   <div class="row">
       <div class="col-lg-6 col-xs-6" style=" text-align:right;padding-right: 10%;">
           <button    class="hvr-float-shadow pagethree_button"> 传统</button>
-          <p style="font-size: 56px;color: #828282;margin-top: 30px;" class="fly_one">换评耗费<span style="color: #b3b3b3">6小时</span></p>
-          <p style="font-size: 56px;color: #828282;margin-top: -20px" class="fly_one">繁琐操作</p>
+          <p style="color: #828282;" class="fly_one pagethree_p">换评耗费<span style="color: #b3b3b3">6小时</span></p>
+          <p style="color: #828282" class="fly_one pagethree_p2">繁琐操作</p>
           <p style="font-size: 20px;color:#b3b3b3 ">
               <span >沟通换评 &nbsp;&nbsp;&nbsp;&nbsp;</span>
               <span > 过滤换评 &nbsp;&nbsp;&nbsp;&nbsp;</span>
@@ -144,7 +147,7 @@
       </div>
   </div>
 </div>
-<div  class="col-xs-12" id="pagetwo" style="width: 100vw; height: 100vh;background-image: url(/images/index/home_two.jpg);background-size: cover;">
+<div  class="col-xs-12" id="pagetwo" style="background-image: url(/images/index/home_two.jpg);background-size: cover;">
     <div class="foo" id="chocolate">
         <p  class="flyleft" >释放你的换评时间</p>
         <p class="flyleft pagetwo_p">做真正的运营</p>
@@ -178,8 +181,8 @@
 
 
 
-    <div  class="col-xs-12" class="picture" style="width: 100vw; height: 100vh;">
-      <div style="width:860px;margin: auto;">
+    <div  class="col-xs-12" id="pagefour">
+      <div  class="pagefour_div" >
        <p  class="pagefour_p" >他们正在用</p>
        <p class="pagefour_p2">专业运营的首选</p>
        <div   class="img_one">
@@ -190,7 +193,7 @@
            <img src="images/index/5.png" alt="" class="img_2">
 
       </div>
-      <div  class="img_two" style="margin-top: 60px;margin-bottom:50px">
+      <div  class="img_two" >
         <img src="images/index/6.png" alt=""class="img_1" >
         <img src="images/index/7.jpg" alt="" class="img_1">
         <img src="images/index/8.png" alt="" class="img_1">
@@ -200,9 +203,10 @@
 
    </div>
    </div>
-<div  class="footer col-lg-12" style="height:264px;background-color: #1c1f20;width: 100%">
+
+<div  class="footer col-lg-12 col-xs-12 hidden-xs" style="height:264px;background-color: #1c1f20;width: 100%">
     <div class="row">
-        <div class="col-lg-3 col-lg-offset-2" style="margin-left:120px">
+        <div class="col-lg-3 col-lg-offset-2 col-xs-3 col-xs-offset-2" style="margin-left:120px">
             <img src="/images/home/logo1.png" alt=""style="margin-top: 30px">
             <p style="margin-top: 16px;font-size: 13px;color: #a1a6ac">
                 <span><a href="/guide" style="color: #a1a6ac">新手引导</a></span>
@@ -266,7 +270,7 @@
 
 </script>
 
-<script src="/javascripts/cookieHelper.js"></script>
+
 <!--<script src="https://cdn.jsdelivr.net/scrollreveal.js/3.3.1/scrollreveal.min.js"></script>-->
 
 <script>

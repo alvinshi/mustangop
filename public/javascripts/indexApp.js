@@ -6,7 +6,7 @@ app.directive("thNav",function(){
     return {
         restrict: 'E',
         templateUrl: '/html/navbar.html',
-        //replace: true,
+
         controller: function($scope, $element, $http){
             var indexUrl = '/index';
 
@@ -43,7 +43,7 @@ app.directive("thFooter",function(){
     return {
         restrict: 'E',
         templateUrl: '/html/footer.html'
-        //replace: true
+
 
     };
 });
