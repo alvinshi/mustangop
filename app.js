@@ -94,7 +94,7 @@ function routeHasPrefix(originalUrl, judgeArray){
 
 // 没有挂载路径的中间件，应用的每个请求都会执行该中间件
 app.use(function (req, res, next) {
-  //console.log('Time Debug:', Date.now());
+  console.log('---------- Start Time Debug:', Date.now(), req.originalUrl);
 
   var loginWhiteList  = new Array();
   loginWhiteList[0] = "/user";
@@ -123,6 +123,7 @@ app.use(function (req, res, next) {
     }else {
       if (encodeUserId.length > 0){
         next();
+        console.log('---------- End Time Debug :', Date.now());
       }else {
         res.render('login');
       }
@@ -177,7 +178,6 @@ app.use('/interiorExcDetail', interiorExcDetail);
 app.use('/userProtocol', userProtocol);
 app.use('/handBook', handBook);
 app.use('/guide', guide);
-
 
 //静态html组建
 app.use('/html', loadHtml);
