@@ -9,3 +9,4 @@ start.sh
 */logs/!index.html
 */cache/*
 */cache/!index.html.avoscloud/
+newrelic_agent.log

@@ -201,8 +201,8 @@ router.post('/postUsertask/:taskObjectId/:ratePrice/:appId', function(req, res){
                                     //创建领取信息
                                     var message = new messageLogger();
                                     var senderName = userObject.get('username');
-                                    message.set('receiverObjectId', receiver);
-                                    message.set('senderObjectId', sender);
+                                    message.set('receiverObjectId', taskObject.get('userObject'));
+                                    message.set('senderObjectId', userObject);
                                     message.set('category', '任务');
                                     message.set('type','领取');
                                     message.set('firstPara', senderName);
