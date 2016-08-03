@@ -98,64 +98,57 @@ router.post('/add/:excTaskId', function(req, res){
     task_query.include('taskObject');
     task_query.get(excTaskId).then(function(releaseObject){
         var relation = releaseObject.relation('mackTask');
-        var remainCount = parseInt(releaseObject.get('remainCount'));
-        console.log(remainCount);
+        var remainCount = releaseObject.get('remainCount');
         var query = relation.query();
         query.equalTo('uploadName', uploadName);
         query.find().then(function(results){
-            //销毁以往图片
-            for (var i = 0; i < results.length; i++){
-                var status = results[i].get('status');
-                var images = results[i].get('requirementImgs');
+            if (results.length > 0){
+                var newTaskObject = results[0];
+                //销毁以往图片
+                var images = newTaskObject.get('requirementImgs');
                 var query_file = new AV.Query(File);
                 query_file.containedIn('url', images);
-                query_file.find().then(function(result){
-                    for (var e = 0; e < result.length; e++){
-                        result[e].destroy().then(function(){
+                query_file.find().then(function(imgResults){
+                    for (var e = 0; e < imgResults.length; e++){
+                        imgResults[e].destroy().then(function(){
                             //remove success
                         })
                     }
-                })
-            }
-            if (results.length > 0){
-                var newTaskObject = results[0];
-                // 判断任务状态1是待审 2是拒绝 3是接收
+                });
+
+                // 判断任务状态1是待审 2是拒绝 3是已经审核
                 if (status == 1){
                     newTaskObject.set('requirementImgs', requirementImgs);
                     newTaskObject.save().then(function(){
                         // 如果有就更新图片
+                        res.json({'errorId':0, 'errorMsg':'', 'uploadName':uploadName, 'requirementImgs':requirementImgs});
+                    },function (err){
+                        res.json({'errorMsg':err.message, 'errorId': err.code});
                     });
                 }else if(status == 2){
                     newTaskObject.set('requirementImgs', requirementImgs);
                     newTaskObject.set('status', 1);
                     newTaskObject.save().then(function(){
                         // 如果有就更新图片
-                    });
-
-                    releaseObject.increment('submitted', 1); // 待审
-                    releaseObject.increment('rejected', -1); // 拒绝
-                    releaseObject.save().then(function(){
-                        //如果有就计数+1
-                    });
-
-                    var releaseid = releaseObject.get('taskObject').id;
-                    var todo = AV.Object.createWithoutData('releaseTaskObject', releaseid);
-                    todo.increment('submitted', 1);
-                    todo.increment('rejected', -1);
-                    todo.save().then(function(){
-                        //如果有就计数+1
+                        // 更新状态
+                        releaseObject.increment('submitted', 1); // 待审
+                        releaseObject.increment('rejected', -1); // 拒绝
+                        releaseObject.save().then(function(){
+                            //如果有就计数+1
+                            var releaseTaskObject = releaseObject.get('taskObject');
+                            releaseTaskObject.increment('submitted', 1);
+                            releaseTaskObject.increment('rejected', -1);
+                            releaseTaskObject.save().then(function(){
+                                //如果有就计数+1
+                                res.json({'errorId':0, 'errorMsg':'', 'uploadName':uploadName, 'requirementImgs':requirementImgs});
+                            });
+                        });
                     });
                 }else {
-                    console.log({'error':''})
+                    res.json({'errorId': -1, 'errorMsg':'任务已审核通过喽'});
                 }
-
-            }
-            else if (remainCount== 0){
-                console.log("tried");
-                res.json({'errorId': 2, 'errorMsg':'任务已做完, 不可上传'});
-            }
-            else {
-                console.log("failed");
+            }else {
+                //add task imgs
                 var newTaskObject = new mackTaskInfo();
                 newTaskObject.set('uploadName', uploadName);
                 newTaskObject.set('requirementImgs', requirementImgs);
@@ -164,27 +157,23 @@ router.post('/add/:excTaskId', function(req, res){
                     relation.add(newTaskObject);// 建立针对每一个 Todo 的 Relation
                     releaseObject.save().then(function(){
                         // 保存到云端
+                        // 如果有就更新图片
+                        // 更新状态
+                        releaseObject.increment('submitted', 1); // 待审
+                        releaseObject.increment('rejected', -1); // 拒绝
+                        releaseObject.save().then(function(){
+                            //如果有就计数+1
+                            var releaseTaskObject = releaseObject.get('taskObject');
+                            releaseTaskObject.increment('submitted', 1);
+                            releaseTaskObject.increment('rejected', -1);
+                            releaseTaskObject.save().then(function(){
+                                //如果有就计数+1
+                                res.json({'errorId':0, 'errorMsg':'', 'uploadName':uploadName, 'requirementImgs':requirementImgs});
+                            });
+                        });
                     });
-
-                    releaseObject.increment('remainCount', -1);
-                    releaseObject.increment('submitted', 1);
-                    releaseObject.increment('pending', -1);
-                    releaseObject.save().then(function(){
-                        //如果有就计数+1
-                    });
-
-                    var releaseid = releaseObject.get('taskObject').id;
-                    var todo = AV.Object.createWithoutData('releaseTaskObject', releaseid);
-                    todo.increment('submitted', 1);
-                    todo.increment('pending', -1);
-                    todo.save().then(function(){
-                        //如果有就计数+1
-
-                    });
-
                 });
             }
-            res.json({'errorId':0, 'errorMsg':'', 'uploadName':uploadName, 'requirementImgs':requirementImgs});
         });
     },
     function (err){

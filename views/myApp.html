@@ -32,7 +32,7 @@
     <script src="/javascripts/vendor/html2canvas.js"></script>
 
     <!--网站内部js-->
-    <script src="/javascripts/itunesApi.min.js"></script>
+    <script src="/javascripts/itunesApi.js"></script>
     <script src="/javascripts/indexApp.min.js"></script>
 </head>
 <body ng-app="yemaWebApp">
@@ -361,7 +361,7 @@
                 <div class="modal-content" style="width: 320px;">
                     <div class="modal-header" style="height: 74px;background-color:#6eb7e8;border-radius:4px;text-align: center">
                         <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
-                        <h4 class="modal-title"  style="font-size: 26px;color: #FFFFFF">有信息没填哦</h4>
+                        <h4 class="modal-title"  style="font-size: 26px;color: #FFFFFF">{{modelStr}}</h4>
                     </div>
 
                     <div class="modal-footer">

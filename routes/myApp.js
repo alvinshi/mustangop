@@ -858,27 +858,24 @@ router.post('/oldhistory/delete', function(req, res, next) {
 
 var myRate = 1;
 
-router.post('/task/:appleId', function(req, res){
+router.post('/task', function(req, res){
     var userId = util.useridInReq(req);
     var myDate = new Date();
     var myDateStr = myDate.getFullYear() + '-' + (parseInt(myDate.getMonth())+1) + '-' + myDate.getDate();
-    var myappid = parseInt(req.params.appleId);
     var appObjectid = req.body.appObjectId;
     var taskType = req.body.taskType;
-    var excCount = req.body.excCount;
-    var excUnitPrice = req.body.excUnitPrice;
+    var excCount = parseInt(req.body.excCount);
+    var excUnitPrice = parseInt(req.body.excUnitPrice);
     var screenshotCount = req.body.screenshotCount;
     var searchKeyword = req.body.searchKeyword;
-    var ranKing = req.body.ranKing;
+    var ranKing = parseInt(req.body.ranKing);
     var Score = req.body.Score;
     var titleKeyword = req.body.titleKeyword;
     var commentKeyword = req.body.commentKeyword;
     var detailRem = req.body.detailRem;
 
-
     var user = new AV.User();
     user.id = userId;
-
 
     var app = AV.Object.createWithoutData('IOSAppInfo', appObjectid);
 
@@ -942,7 +939,7 @@ router.post('/task/:appleId', function(req, res){
         for (var e = 0; e < excCount; e++){
             var accountJour = new accountJournal();
             accountJour.set('payYCoinUser', user);  //支出金额的用户
-            accountJour.set('payYCoin', parseInt(excUnitPrice)); // 此次交易支付金额
+            accountJour.set('payYCoin', excUnitPrice); // 此次交易支付金额
             accountJour.set('taskObject', taskObjectId); // 任务的id
             accountJour.set('payYCoinStatus', 'prepare_pay'); // 发布任务的时候为准备支付;
             accountJour.set('payYCoinDes', '发布任务');
@@ -952,9 +949,9 @@ router.post('/task/:appleId', function(req, res){
             })
         }
 
-    }, function(err) {
+    }, function(error) {
         // 失败了.
-
+        res.json({'errorMsg':error.message, 'errorId': error.code});
     });
 });
 
@@ -1001,10 +998,10 @@ router.post('/taskneed/:appid', function(req, res){
     var userId = util.useridInReq(req);
     var myappId = req.params.appid;
     var task_type = req.body.taskType;
-    var exc_count = req.body.excCount;
+    var exc_count = parseInt(req.body.excCount);
     var screenshot_count = req.body.screenshotCount;
     var search_Keywords = req.body.searchKeyword;
-    var ranking = req.body.ranKing;
+    var ranking = parseInt(req.body.ranKing);
     var score = req.body.Score;
     var title_keywords = req.body.titleKeyword;
     var comment_keywords = req.body.commentKeyword;
@@ -1035,12 +1032,11 @@ router.post('/taskneed/:appid', function(req, res){
                     taskObject.set('commentKeyword', comment_keywords);
                     taskObject.set('detailRem', detail_rem);
                     taskObject.save().then(function(){
-                        //
+                        results[i].set('taskDemand', taskObject);
+                        results[i].save().then(function(){
+                            res.json({'errorId':0, 'errorMsg':''});
+                        })
                     });
-                    results[i].set('taskDemand', taskObject);
-                    results[i].save().then(function(){
-
-                    })
                 }else {
                     taskdemand.set('taskType', task_type);
                     taskdemand.set('excCount', exc_count);
@@ -1053,11 +1049,11 @@ router.post('/taskneed/:appid', function(req, res){
                     taskdemand.set('detailRem', detail_rem);
                     taskdemand.save().then(function(){
                         //
+                        res.json({'errorId':0, 'errorMsg':''});
                     });
                 }
             }
         }
-        res.json({'errorId':0, 'errorMsg':''});
     })
 });
 
@@ -1066,9 +1062,13 @@ router.get('/verify', function(req, res){
     var userId = util.useridInReq(req);
     var query = new AV.Query('_User');
     query.equalTo('objectId', userId);
-    query.first().then(function(results){
-        var usermoney = results.get('totalMoney');
-        res.json({'usermoney':usermoney});
+    query.first().then(function(userObject){
+        if (userObject == undefined){
+            res.render('login');
+        }else {
+            var usermoney = userObject.get('totalMoney');
+            res.json({'usermoney': usermoney});
+        }
     })
 });
 

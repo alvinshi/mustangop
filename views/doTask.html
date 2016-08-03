@@ -290,7 +290,7 @@
                     </div>
                 </div>
                 <div ng-show="taskDisplayed.length == undefined || taskDisplayed.length == 0">
-                    <h1 style="text-align: center; margin-top: 150px; margin-bottom: 150px;">今天还没有新的任务</h1>
+                    <h1 style="text-align: center; margin-top: 150px; margin-bottom: 150px;">等待任务中...</h1>
                 </div>
                 <div  ng-hide="taskDisplayed.length == undefined || taskDisplayed.length == 0" style="margin-top: 30px; margin-bottom: 30px; text-align: center;">
                     <button class="btn btn-default myPageBtn" ng-class="{true: 'disabled'}[pageNum == 0]" ng-click="prevPage()">上一页</button>

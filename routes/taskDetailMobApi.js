@@ -92,7 +92,7 @@ router.post('/addTask/:excTaskId', function(req, res){
     var uploadUserName = req.cookies.uploadImgName;
     var uploadName = req.body.uploadName;
     var requirementImgs = req.body.requirementImgs;
-    var totalCount = req.body.totalExcCount;
+    var totalCount = parseInt(req.body.totalExcCount);
     if (uploadName != undefined){
         res.cookie('uploadImgName', uploadName);
     }
