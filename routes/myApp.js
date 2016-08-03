@@ -864,11 +864,11 @@ router.post('/task', function(req, res){
     var myDateStr = myDate.getFullYear() + '-' + (parseInt(myDate.getMonth())+1) + '-' + myDate.getDate();
     var appObjectid = req.body.appObjectId;
     var taskType = req.body.taskType;
-    var excCount = req.body.excCount;
-    var excUnitPrice = req.body.excUnitPrice;
+    var excCount = parseInt(req.body.excCount);
+    var excUnitPrice = parseInt(req.body.excUnitPrice);
     var screenshotCount = req.body.screenshotCount;
     var searchKeyword = req.body.searchKeyword;
-    var ranKing = req.body.ranKing;
+    var ranKing = parseInt(req.body.ranKing);
     var Score = req.body.Score;
     var titleKeyword = req.body.titleKeyword;
     var commentKeyword = req.body.commentKeyword;
@@ -939,7 +939,7 @@ router.post('/task', function(req, res){
         for (var e = 0; e < excCount; e++){
             var accountJour = new accountJournal();
             accountJour.set('payYCoinUser', user);  //支出金额的用户
-            accountJour.set('payYCoin', parseInt(excUnitPrice)); // 此次交易支付金额
+            accountJour.set('payYCoin', excUnitPrice); // 此次交易支付金额
             accountJour.set('taskObject', taskObjectId); // 任务的id
             accountJour.set('payYCoinStatus', 'prepare_pay'); // 发布任务的时候为准备支付;
             accountJour.set('payYCoinDes', '发布任务');
@@ -998,10 +998,10 @@ router.post('/taskneed/:appid', function(req, res){
     var userId = util.useridInReq(req);
     var myappId = req.params.appid;
     var task_type = req.body.taskType;
-    var exc_count = req.body.excCount;
+    var exc_count = parseInt(req.body.excCount);
     var screenshot_count = req.body.screenshotCount;
     var search_Keywords = req.body.searchKeyword;
-    var ranking = req.body.ranKing;
+    var ranking = parseInt(req.body.ranKing);
     var score = req.body.Score;
     var title_keywords = req.body.titleKeyword;
     var comment_keywords = req.body.commentKeyword;

@@ -85,9 +85,9 @@ router.get('/cancelTask/:taskId', function(req, res){
 
     query.get(taskId).then(function(result){
         var totalNum = parseInt(result.get('excCount'));
-        var remain = parseInt(result.get('remainCount'));
+        var remain = result.get('remainCount');
         result.set('excCount', totalNum - remain + '');
-        result.set('remainCount', '0');
+        result.set('remainCount', 0);
         var acceptedNum = result.get('accepted');
         var abandonedNum = result.get('abandonedNum');
         if ((acceptedNum + abandonedNum) == (totalNum - remain)){

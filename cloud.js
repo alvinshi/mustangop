@@ -303,7 +303,7 @@ AV.Cloud.define('releaseTaskTimer', function(request, response){
 
                     var rateUnitPrice = results[i].get('rateUnitPrice'); //价格
 
-                    var excCount = parseInt(results[i].get('excCount')); //任务总数
+                    var excCount = results[i].get('excCount'); //任务总数
                     var abandoned = results[i].get('abandoned'); //过期条目
                     var accepted = results[i].get('accepted'); //接受条目
                     var rejected = results[i].get('rejected'); //拒绝条目
@@ -436,4 +436,31 @@ module.exports = AV.Cloud;
 //var successful = AV.Promise.as('The good result.');
 //
 //var failed = AV.Promise.error('An error message.');
+
+//临时代码,修复string to int问题
+//var query = new AV.Query(releaseTaskObject);
+//query.descending('createdAt');
+//query.limit(1000);
+//query.find().then(function(results) {
+//    for (var i = 0; i < results.length; i++) {
+//        release_task_object = results[i];
+//        release_task_object.set('remainCountI', parseInt(release_task_object.get('remainCount')));
+//        release_task_object.set('excCountI', parseInt(release_task_object.get('excCount')));
+//        release_task_object.set('ranKingI', parseInt(release_task_object.get('ranKing')));
+//        release_task_object.set('excUnitPriceI', parseInt(release_task_object.get('excUnitPrice')));
+//
+//        //release_task_object.set('remainCount', release_task_object.get('remainCountI'));
+//        //release_task_object.set('excCount', release_task_object.get('excCountI'));
+//        //release_task_object.set('ranKing', release_task_object.get('ranKingI'));
+//        //release_task_object.set('excUnitPrice', release_task_object.get('excUnitPriceI'));
+//    }
+//
+//    AV.Object.saveAll(results).then(function () {
+//        console.log('---- fix bug: succeed')
+//    }, function (error) {
+//        console.log('---- fix bug: failed')
+//    });
+//});
+
+
 

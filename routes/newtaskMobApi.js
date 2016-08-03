@@ -98,7 +98,7 @@ router.post('/add/:excTaskId', function(req, res){
     task_query.include('taskObject');
     task_query.get(excTaskId).then(function(releaseObject){
         var relation = releaseObject.relation('mackTask');
-        var remainCount = parseInt(releaseObject.get('remainCount'));
+        var remainCount = releaseObject.get('remainCount');
         console.log(remainCount);
         var query = relation.query();
         query.equalTo('uploadName', uploadName);

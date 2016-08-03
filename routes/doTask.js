@@ -122,7 +122,7 @@ router.post('/postUsertask/:taskObjectId/:ratePrice/:appId', function(req, res){
     var myDateStr = myDate.getFullYear() + '-' + (parseInt(myDate.getMonth())+1) + '-' + myDate.getDate();
     //领取任务基本信息收集
     var userId = util.useridInReq(req);
-    var receive_Count = req.body.receiveCount;
+    var receive_Count = parseInt(req.body.receiveCount);
     var latestReleaseDate = req.body.latestReleaseDate;
     var receive_Price = (req.params.ratePrice) * receive_Count;
     var detail_Rem = req.body.detailRem;
@@ -171,7 +171,7 @@ router.post('/postUsertask/:taskObjectId/:ratePrice/:appId', function(req, res){
                 if (flag) {
                     query = new AV.Query(releaseTaskObject);
                     query.get(taskObjectId).then(function (results) {
-                        var remainCount = parseInt(results.get('remainCount'));
+                        var remainCount = results.get('remainCount');
                         if (remainCount < receive_Count){
                             flag = false;
                             console.log('failed');
@@ -189,8 +189,8 @@ router.post('/postUsertask/:taskObjectId/:ratePrice/:appId', function(req, res){
                             ReceiveTaskObject.set('receivePrice', receive_Price);
                             ReceiveTaskObject.set('detailRem', detail_Rem);
                             ReceiveTaskObject.set('appUpdateInfo', latestReleaseDate);//版本信息
-                            ReceiveTaskObject.set('remainCount', parseInt(receive_Count));
-                            ReceiveTaskObject.set('pending', parseInt(receive_Count));  // 未提交
+                            ReceiveTaskObject.set('remainCount', receive_Count);
+                            ReceiveTaskObject.set('pending', receive_Count);  // 未提交
                             ReceiveTaskObject.set('receiveDate', myDateStr);
                             ReceiveTaskObject.set('submitted', 0); // 待审
                             ReceiveTaskObject.set('rejected', 0);  // 拒绝
@@ -203,13 +203,13 @@ router.post('/postUsertask/:taskObjectId/:ratePrice/:appId', function(req, res){
                             query.include('userObject');
                             query.include('appObject');
                             query.get(taskObjectId).then(function (data) {
-                                var prevRemainCount = parseInt(data.get('remainCount'));
+                                var prevRemainCount = data.get('remainCount');
                                 var taskOwnerId = data.get('userObject').id;
                                 var app = data.get('appObject');
                                 var trackName = app.get('trackName');
-                                data.set('remainCount', (prevRemainCount - parseInt(receive_Count)) + '');
+                                data.set('remainCount', (prevRemainCount - receive_Count) + '');
                                 var prePending = data.get('pending');
-                                data.set('pending', prePending + parseInt(receive_Count));
+                                data.set('pending', prePending + receive_Count);
                                 data.save();
 
                                 //创建领取信息
@@ -227,7 +227,7 @@ router.post('/postUsertask/:taskObjectId/:ratePrice/:appId', function(req, res){
                                     message.set('type','领取');
                                     message.set('firstPara', senderName);
                                     message.set('secondPara', trackName);
-                                    message.set('thirdPara', parseInt(receive_Count));
+                                    message.set('thirdPara', receive_Count);
                                     message.save();
                                 })
                             });
@@ -239,7 +239,7 @@ router.post('/postUsertask/:taskObjectId/:ratePrice/:appId', function(req, res){
                         query_account.doesNotExist('incomeYCoinUser');
                         query_account.doesNotExist('incomeYCoinDes');
                         query_account.find().then(function(accountObject){
-                            for (var a = 0; a < parseInt(receive_Count); a++){
+                            for (var a = 0; a < receive_Count; a++){
                                 accountObject[a].set('incomeYCoinUser', user);  //收入金额的用户
                                 accountObject[a].set('incomeYCoin', parseInt(req.params.ratePrice)); // 此次交易得到金额
                                 accountObject[a].set('incomeYCoinStatus', 'prepare_income'); // 领取任务的时候为准备收益;
