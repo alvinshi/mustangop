@@ -12,7 +12,7 @@ app.controller('doTaskCtrl', function($scope, $http) {
 
     //自动轮播
     $("#myCarousel").carousel({
-        interval:1500,
+        interval:5000,
     });
 
    //关闭视频弹窗 视屏停止
