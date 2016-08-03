@@ -29,11 +29,11 @@ function clearCookie(name) {
 
 function loadNav(){
     var username = decodeURI(getCookie('username'));
-
     console.log(username);
-
     var usernameHtml = document.getElementsByClassName('navbar-right')[0];
-    if (username == undefined || username.length == 0 || usernameHtml == undefined){
+    console.log(usernameHtml);
+
+    if (username == undefined || username.length == 0){
         console.log('no username');
         //not login home
         usernameHtml.innerHTML =
@@ -44,7 +44,7 @@ function loadNav(){
         //other
         var userNameHtmlEle = document.getElementById('nav-username-display');
         if (userNameHtmlEle == undefined){
-            console.log('username html exist' + username);
+            console.log('username html exist,userNameHtmlEle = ' + userNameHtmlEle);
             usernameHtml.innerHTML =
                 '<li><a id="nav-username-display" href="/user#/" style="color:#3498db"></a></li>';
         }

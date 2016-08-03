@@ -32,15 +32,15 @@
                     <!--</ul>-->
                 <!--</li>-->
                 <li><a ng-style="{color:myColors[2]}" href="/myClaim/{{userObjectId}}">我的换评</a></li>
-                <li><a ng-style="{color:myColors[3]}" href="/taskCheck">审核换评</a></li>
+                <li>
+                    <a ng-style="{color:myColors[3]}" href="/taskCheck">审核换评
+                        <span class="badge">{{Count}}</span>
+                    </a>
+                </li>
                 <li><a ng-style="{color:myColors[4]}" href="">换评工具箱(即将开放)</a></li>  <!--/doOuterTask-->
                 <li>
                     <a ng-style="{color:myColors[5]}" href="/user#/inforManage" style="margin-left:150px">换评消息
-                        <div style="width: 10px; height: 10px; margin-bottom: 1px;
-                        border-radius: 5px; border: 0px solid white; background: #3498db;
-                        margin-left: 3px;
-                        display: inline-block;" ng-show="unreadNotice">
-                        </div>
+                        <span class="badge" ng-show="chuxian">{{unreadMsgCount}}</span>
                     </a>
                 </li>
 
