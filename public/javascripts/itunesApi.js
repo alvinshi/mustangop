@@ -388,7 +388,7 @@ app.controller('itunesSearchControl', function($scope, $http) {
 
     $scope.saveStatusChange = function(){
         $scope.saved = false;
-    }
+    };
 
     $scope.taskTypeChanged = function(){
         if ($scope.appNeedInfo.taskType == "评论"){
@@ -398,5 +398,5 @@ app.controller('itunesSearchControl', function($scope, $http) {
             $scope.appNeedInfo.excUnitPrice = 25;
         }
         $scope.saved = false;
-    }
+    };
 });
