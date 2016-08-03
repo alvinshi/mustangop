@@ -441,18 +441,18 @@ module.exports = AV.Cloud;
 //var failed = AV.Promise.error('An error message.');
 
 //临时代码,修复string to int问题
-//var query = new AV.Query(releaseTaskObject);
+//var query = new AV.Query(receiveTaskObject);
 //query.descending('createdAt');
 //query.limit(1000);
 //query.find().then(function(results) {
 //    for (var i = 0; i < results.length; i++) {
 //        release_task_object = results[i];
-//        release_task_object.set('remainCountI', parseInt(release_task_object.get('remainCount')));
-//        release_task_object.set('excCountI', parseInt(release_task_object.get('excCount')));
-//        release_task_object.set('ranKingI', parseInt(release_task_object.get('ranKing')));
-//        release_task_object.set('excUnitPriceI', parseInt(release_task_object.get('excUnitPrice')));
+//        //release_task_object.set('receiveCountI', parseInt(release_task_object.get('receiveCount')));
+//        //release_task_object.set('excCountI', parseInt(release_task_object.get('excCount')));
+//        //release_task_object.set('ranKingI', parseInt(release_task_object.get('ranKing')));
+//        //release_task_object.set('excUnitPriceI', parseInt(release_task_object.get('excUnitPrice')));
 //
-//        //release_task_object.set('remainCount', release_task_object.get('remainCountI'));
+//        release_task_object.set('receiveCount', release_task_object.get('receiveCountI'));
 //        //release_task_object.set('excCount', release_task_object.get('excCountI'));
 //        //release_task_object.set('ranKing', release_task_object.get('ranKingI'));
 //        //release_task_object.set('excUnitPrice', release_task_object.get('excUnitPriceI'));
