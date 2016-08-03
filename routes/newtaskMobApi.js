@@ -135,7 +135,7 @@ router.post('/add/:excTaskId', function(req, res){
                         receiveTaskObject.increment('rejected', -1); // 拒绝
                         receiveTaskObject.save().then(function(){
                             //如果有就计数+1
-                            var releaseTaskObject = releaseObject.get('taskObject');
+                            var releaseTaskObject = receiveTaskObject.get('taskObject');
                             releaseTaskObject.increment('submitted', 1);
                             releaseTaskObject.increment('rejected', -1);
                             releaseTaskObject.save().then(function(){
@@ -153,23 +153,21 @@ router.post('/add/:excTaskId', function(req, res){
                 newTaskObject.set('uploadName', uploadName);
                 newTaskObject.set('requirementImgs', requirementImgs);
                 newTaskObject.save().then(function(){
-                    var relation = releaseObject.relation('mackTask');
+                    var relation = receiveTaskObject.relation('mackTask');
                     relation.add(newTaskObject);// 建立针对每一个 Todo 的 Relation
-                    releaseObject.save().then(function(){
-                        // 保存到云端
-                        // 如果有就更新图片
-                        // 更新状态
-                        receiveTaskObject.increment('submitted', 1); // 待审
-                        receiveTaskObject.increment('remainCount', -1); // 拒绝
-                        receiveTaskObject.save().then(function(){
+                    // 保存到云端
+                    // 如果有就更新图片
+                    // 更新状态
+                    receiveTaskObject.increment('submitted', 1); // 待审
+                    receiveTaskObject.increment('remainCount', -1); // 拒绝
+                    receiveTaskObject.save().then(function(){
+                        //如果有就计数+1
+                        var releaseTaskObject = receiveTaskObject.get('taskObject');
+                        releaseTaskObject.increment('submitted', 1);
+                        releaseTaskObject.increment('remainCount', -1);
+                        releaseTaskObject.save().then(function(){
                             //如果有就计数+1
-                            var releaseTaskObject = releaseObject.get('taskObject');
-                            releaseTaskObject.increment('submitted', 1);
-                            releaseTaskObject.increment('remainCount', -1);
-                            releaseTaskObject.save().then(function(){
-                                //如果有就计数+1
-                                res.json({'errorId':0, 'errorMsg':'', 'uploadName':uploadName, 'requirementImgs':requirementImgs});
-                            });
+                            res.json({'errorId':0, 'errorMsg':'', 'uploadName':uploadName, 'requirementImgs':requirementImgs});
                         });
                     });
                 });
