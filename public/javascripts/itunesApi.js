@@ -404,7 +404,6 @@ app.controller('itunesSearchControl', function($scope, $http) {
     //生成预览截图
 
     $scope.getScreenShot = function() {
-        console.log('runned');
         html2canvas(document.getElementById("screenShot"), {
             onrendered: function (canvas) {
                 var a = document.createElement('a');

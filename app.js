@@ -8,9 +8,7 @@ var fs= require('fs');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var busboy = require('connect-busboy');
-
 var cloud = require('./cloud');
-
 
 var customUtil = require('./routes/util');
 // 挂载子路由
@@ -33,11 +31,10 @@ var alipay = require('./routes/pay');
 var myClaim = require('./routes/myClaimApi');
 var newtaskMobile = require('./routes/newtaskMobApi');
 var interiorExcDetail = require('./routes/interiorExcDetailApi');
-var userProtocol=require('./routes/userProtocol');
-var handBook=require('./routes/handBook');
-var contactUs=require('./routes/contactUs');
-var guide=require('./routes/guide');
-
+var userProtocol = require('./routes/userProtocol');
+var handBook = require('./routes/handBook');
+var contactUs = require('./routes/contactUs');
+var guide = require('./routes/guide');
 
 
 var app = express();
@@ -71,7 +68,7 @@ app.use(function(req, res, next) {
   d.add(req);
   d.add(res);
   d.on('error', function(err) {
-    console.error('uncaughtException url=%s, msg=%s', req.url, err.stack || err.message || err);
+    console.error('---------- uncaughtException url=%s, msg=%s', req.url, err.stack || err.message || err);
     if(!res.finished) {
       res.statusCode = 500;
       res.setHeader('content-type', 'application/json; charset=UTF-8');

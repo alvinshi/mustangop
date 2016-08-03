@@ -66,11 +66,13 @@ AV.Cloud.define('refreshTask', function(request, response) {
                     }
                 }, function (error) {
                     console.log('----- refreshTask error');
+                    response.fail('refreshTask fail');
                 });
             });
         }
     }, function (error) {
         console.log('----- refreshTask error: count error');
+        response.fail('refreshTask fail');
     });
 
 });
@@ -250,7 +252,7 @@ AV.Cloud.define('checkTask', function(request, response){
         }
         function error(){
             console.log('----- checkTask error: count error');
-            response.success('checkTask error');
+            response.fail('checkTask fail');
         }
     })
 });
@@ -369,6 +371,7 @@ AV.Cloud.define('releaseTaskTimer', function(request, response){
                     console.log('---- releaseTaskTimer: succeed')
                     response.success('releaseTaskTimer succeed');
                 }, function (error) {
+                    response.fail('releaseTaskTimer fail');
                 });
             })
         }

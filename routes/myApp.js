@@ -949,9 +949,9 @@ router.post('/task', function(req, res){
             })
         }
 
-    }, function(err) {
+    }, function(error) {
         // 失败了.
-
+        res.json({'errorMsg':error.message, 'errorId': error.code});
     });
 });
 
@@ -1032,12 +1032,11 @@ router.post('/taskneed/:appid', function(req, res){
                     taskObject.set('commentKeyword', comment_keywords);
                     taskObject.set('detailRem', detail_rem);
                     taskObject.save().then(function(){
-                        //
+                        results[i].set('taskDemand', taskObject);
+                        results[i].save().then(function(){
+                            res.json({'errorId':0, 'errorMsg':''});
+                        })
                     });
-                    results[i].set('taskDemand', taskObject);
-                    results[i].save().then(function(){
-
-                    })
                 }else {
                     taskdemand.set('taskType', task_type);
                     taskdemand.set('excCount', exc_count);
@@ -1050,11 +1049,11 @@ router.post('/taskneed/:appid', function(req, res){
                     taskdemand.set('detailRem', detail_rem);
                     taskdemand.save().then(function(){
                         //
+                        res.json({'errorId':0, 'errorMsg':''});
                     });
                 }
             }
         }
-        res.json({'errorId':0, 'errorMsg':''});
     })
 });
 
@@ -1063,9 +1062,13 @@ router.get('/verify', function(req, res){
     var userId = util.useridInReq(req);
     var query = new AV.Query('_User');
     query.equalTo('objectId', userId);
-    query.first().then(function(results){
-        var usermoney = results.get('totalMoney');
-        res.json({'usermoney':usermoney});
+    query.first().then(function(userObject){
+        if (userObject == undefined){
+            res.render('login');
+        }else {
+            var usermoney = userObject.get('totalMoney');
+            res.json({'usermoney': usermoney});
+        }
     })
 });
 

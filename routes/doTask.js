@@ -174,7 +174,7 @@ router.post('/postUsertask/:taskObjectId/:ratePrice/:appId', function(req, res){
                         var remainCount = results.get('remainCount');
                         if (remainCount < receive_Count){
                             flag = false;
-                            console.log('failed');
+                            console.log('task get failed because of task done');
                             errorMsg = "抱歉, 任务被别的用户抢走了";
                             res.json({'succeeded': flag, 'errorMsg': errorMsg});
                         }
