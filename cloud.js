@@ -81,7 +81,7 @@ AV.Cloud.define('refreshTask', function(request, response) {
 // 3.拒绝任务未重新做,任务失败
 function getTaskCheckQuery(){
     var date = new Date().getTime();
-    var dateStr = date - 1000*60*60*24 * 3;
+    var dateStr = date - 1000*60*60*24;
     var myDate = new Date(dateStr);
     var myDateStr = myDate.getFullYear() + '-' + (parseInt(myDate.getMonth()) + 1) + '-' + myDate.getDate();
 
@@ -92,7 +92,7 @@ function getTaskCheckQuery(){
     return query;
 }
 
-// 这个定时器只处理领取任务的相关信息
+// 这个定时器只处理领取任务的相关信息 每天10点只处理前一天的数据
 AV.Cloud.define('checkTask', function(request, response){
     var query = getTaskCheckQuery();
 
@@ -244,20 +244,26 @@ AV.Cloud.define('checkTask', function(request, response){
                 }
                 AV.Object.saveAll(results).then(function(){
                     console.log('!!! 保存领取任务里面修改内容成功 !!!')
-                    response.success('checkTask');
+                    response.success('checkTask success');
                 })
             })
         }
         function error(){
             console.log('----- checkTask error: count error');
+            response.success('checkTask error');
         }
     })
 });
 
-// 处理任务审核界面内容晚上10点后 不显示
+// 处理任务审核界面内容晚上10点后 每天10点只处理前一天的数据
 function getQueryReleaseTask(){
+    var date = new Date().getTime();
+    var dateStr = date - 1000*60*60*24;
+    var myDate = new Date(dateStr);
+    var myDateStr = myDate.getFullYear() + '-' + (parseInt(myDate.getMonth()) + 1) + '-' + myDate.getDate();
     var query = new AV.Query(releaseTaskObject);
     query.equalTo('close', false);
+    query.equalTo('releaseDate', myDateStr);
     query.descending('createdAt');
     return query;
 }
@@ -361,6 +367,7 @@ AV.Cloud.define('releaseTaskTimer', function(request, response){
                 //for循环结束, 统一保存所有发布任务条目
                 AV.Object.saveAll(results).then(function () {
                     console.log('---- releaseTaskTimer: succeed')
+                    response.success('releaseTaskTimer succeed');
                 }, function (error) {
                 });
             })
@@ -368,6 +375,7 @@ AV.Cloud.define('releaseTaskTimer', function(request, response){
     },
         function (error) {
         console.log('----- releaseTaskTimer error: count error');
+        response.success('releaseTaskTimer error');
     });
 });
 
