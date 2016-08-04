@@ -305,11 +305,11 @@
                                         <img ng-repeat="img in entry.imgs" src="{{img}}" alt="">
                                         <div class=" text-right receive_btn">
 
-                                            <button class="btn reject "data-target="#rejectreason{{entry.id}}" data-toggle="modal" ng-show="entry.status == 1 && taskDisplayed.cancelled == false">拒绝</button>
-                                            <button class="btn noReject disabled" ng-show="entry.status == 1 && taskDisplayed.cancelled == true">任务撤销后不得拒绝提交</button>
-                                            <button class="btn receive" ng-click="accept(entry)" ng-show="entry.status == 1">确认接受</button>
-                                            <button class="btn receive2" ng-show="entry.status == 3">已接受</button>
-                                            <button class="btn reject2" ng-show="entry.status == 2">已拒绝</button>
+                                            <button class="btn reject "data-target="#rejectreason{{entry.id}}" data-toggle="modal" ng-show="(entry.status == 'uploaded' || entry.status == 'reUploaded') && taskDisplayed.cancelled == false">拒绝</button>
+                                            <button class="btn noReject disabled" ng-show="(entry.status == 'uploaded' || entry.status == 'reUploaded') && taskDisplayed.cancelled == true">任务撤销后不得拒绝提交</button>
+                                            <button class="btn receive" ng-click="accept(entry)" ng-show="entry.status == 'uploaded' || entry.status == 'reUploaded'">确认接受</button>
+                                            <button class="btn receive2" ng-show="entry.status == 'accepted' || entry.status == 'systemAccepted'">已接受</button>
+                                            <button class="btn reject2" ng-show="entry.status == 'refused'">已拒绝</button>
 
                                         </div>
                                         <div class="modal fade" id="rejectreason{{entry.id}}">
