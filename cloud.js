@@ -375,7 +375,7 @@ AV.Cloud.define('releaseTaskTimer', function(request, response){
     },
         function (error) {
         console.log('----- releaseTaskTimer error: count error');
-        response.success('releaseTaskTimer error');
+        response.success('releaseTaskTimer succeed');
     });
 });
 

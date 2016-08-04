@@ -26,120 +26,169 @@ app.controller('doTaskCtrl', function($scope, $http) {
         $scope.planeColor = !$scope.planeColor;
     };
     $scope.noApp = false;
-    //*********获取全部任务列表*************
-    var url = 'doTask/taskHall';
 
     //初始,可优化
+    $scope.pageIndex = 0;
+    $scope.hasMore = 0;
     $scope.pageNum = 0;
     $scope.totalPageNum = 0;
-    $scope.inactiveTasks = new Array();
+    $scope.currentPage = 0; // 当前页
 
+    //*********获取全部任务列表*************
+    var url = 'doTask/taskHall/' + $scope.pageIndex + '/' + 'allTask';
     $http.get(url).success(function(response) {
-        if (response.doTask.length == 0){
-            $scope.noApp = true;
-        }
-        else {
-            $scope.allTaskObjects = new Array();
-            $scope.downloadTasks = new Array();
-            $scope.commentTasks = new Array();
-            $scope.inactiveTasks = new Array();
-            for (var i = 0; i < response.doTask.length; i++){
-                //做过的任务, 剩余条数为0
-                if (response.doTask[i].inactive || response.doTask[i].remainCount == '0'){
-                    $scope.inactiveTasks.push(response.doTask[i]);
-                }
-                else if (response.doTask[i].taskType == '下载'){
-                    $scope.allTaskObjects.push(response.doTask[i]);
-                    $scope.downloadTasks.push(response.doTask[i]);
-                }
-                else {
-                    $scope.allTaskObjects.push(response.doTask[i]);
-                    $scope.commentTasks.push(response.doTask[i]);
-                }
-            }
-            $scope.allTaskObjects.sort(function(a, b){return (a.createdAt < b.createdAt)?1:-1});
-            $scope.downloadTasks.sort(function(a, b){return (a.createdAt < b.createdAt)?1:-1});
-            $scope.commentTasks.sort(function(a, b){return (a.createdAt < b.createdAt)?1:-1});
-            $scope.inactiveTasks.sort(function(a, b){return (a.createdAt < b.createdAt)?1:-1});
-            $scope.taskObject = $scope.allTaskObjects;
-            taskDisplayedInit();
-            updateTaskDisplayed();
-        }
+        $scope.taskDisplayed = response.allTask;
+        $scope.hasMore = response.hasMore;
+
+        // 上一页
+        $scope.prevPage = function () {
+            $scope.pageIndex = $scope.pageIndex - 20;
+            var url = 'doTask/taskHall/' + $scope.pageIndex + '/' + 'allTask';
+            $http.get(url).success(function(response) {
+                $scope.taskDisplayed = response.allTask;
+                $scope.hasMore = response.hasMore;
+            });
+        };
+
+        // 下一页
+        $scope.nextPage = function () {
+            $scope.pageIndex = $scope.pageIndex + 20;
+            var url = 'doTask/taskHall/' + $scope.pageIndex + '/' + 'allTask';
+            $http.get(url).success(function(response) {
+                $scope.taskDisplayed = response.allTask;
+                $scope.hasMore = response.hasMore;
+            });
+        };
+
     });
 
-    //获取任务列表总页数
-    function taskDisplayedInit(){
-        $scope.totalTaskNum = $scope.taskObject.length;
-        $scope.taskPerPage = 10; //每页展示的任务数量
-        if ($scope.totalTaskNum % $scope.taskPerPage == 0){
-            $scope.totalPageNum = parseInt($scope.totalTaskNum / $scope.taskPerPage) + 1;
-        }
-        else{
-            $scope.totalPageNum = parseInt($scope.totalTaskNum / $scope.taskPerPage) + 2;
-        }
-    }
-
-    //全部显示
     $scope.displayAll = function(){
-        $scope.taskObject = $scope.allTaskObjects;
-        $scope.pageNum = 0;
-        taskDisplayedInit();
-        updateTaskDisplayed();
+        var url = 'doTask/taskHall/' + $scope.pageIndex + '/' + 'allTask';
+        $http.get(url).success(function(response) {
+            $scope.taskDisplayed = response.allTask;
+            $scope.hasMore = response.hasMore;
+
+            // 上一页
+            $scope.prevPage = function () {
+                $scope.pageIndex = $scope.pageIndex - 20;
+                var url = 'doTask/taskHall/' + $scope.pageIndex + '/' + 'allTask';
+                $http.get(url).success(function(response) {
+                    $scope.taskDisplayed = response.allTask;
+                    $scope.hasMore = response.hasMore;
+                });
+            };
+
+            // 下一页
+            $scope.nextPage = function () {
+                $scope.pageIndex = $scope.pageIndex + 20;
+                var url = 'doTask/taskHall/' + $scope.pageIndex + '/' + 'allTask';
+                $http.get(url).success(function(response) {
+                    $scope.taskDisplayed = response.allTask;
+                    $scope.hasMore = response.hasMore;
+                });
+            };
+
+        });
     };
 
-    //下载任务
-    $scope.downloadTasksOnly = function(){
-        $scope.taskObject = $scope.downloadTasks;
-        $scope.pageNum = 0;
-        taskDisplayedInit();
-        updateTaskDisplayed();
-    };
-
-    //评论任务
+    ////评论任务
     $scope.commentTasksOnly = function(){
-        $scope.taskObject = $scope.commentTasks;
-        $scope.pageNum = 0;
-        taskDisplayedInit();
-        updateTaskDisplayed();
+        var url = 'doTask/taskHall/' + $scope.pageIndex + '/' + 'commentTask';
+        $http.get(url).success(function(response) {
+            $scope.commentTask = response.allTask;
+            $scope.hasMore = response.hasMore;
+
+            // 上一页
+            $scope.prevPage = function () {
+                $scope.commentIndex = $scope.pageIndex - 20;
+                var url = 'doTask/taskHall/' + $scope.commentIndex + '/' + 'commentTask';
+                $http.get(url).success(function(response) {
+                    $scope.commentTask = response.allTask;
+                    $scope.hasMore = response.hasMore;
+                });
+            };
+
+            // 下一页
+            $scope.nextPage = function () {
+                $scope.commentIndex = $scope.pageIndex + 20;
+                var url = 'doTask/taskHall/' + $scope.commentIndex + '/' + 'commentTask';
+                $http.get(url).success(function(response) {
+                    $scope.commentTask = response.allTask;
+                    $scope.hasMore = response.hasMore;
+                });
+            };
+
+        });
     };
 
-    //已做过任务
+    ////下载任务
+    $scope.downloadTasksOnly = function(){
+        var url = 'doTask/taskHall/' + $scope.pageIndex + '/' + 'downTask';
+        $http.get(url).success(function(response) {
+            $scope.downTask = response.allTask;
+            $scope.hasMore = response.hasMore;
+
+            // 上一页
+            $scope.prevPage = function () {
+                $scope.downTaskIndex = $scope.pageIndex - 20;
+                var url = 'doTask/taskHall/' + $scope.downTaskIndex + '/' + 'downTask';
+                $http.get(url).success(function(response) {
+                    $scope.downTask = response.allTask;
+                    $scope.hasMore = response.hasMore;
+                });
+            };
+
+            // 下一页
+            $scope.nextPage = function () {
+                $scope.downTaskIndex = $scope.pageIndex + 20;
+                var url = 'doTask/taskHall/' + $scope.downTaskIndex + '/' + 'downTask';
+                $http.get(url).success(function(response) {
+                    $scope.downTask = response.allTask;
+                    $scope.hasMore = response.hasMore;
+                });
+            };
+
+        });
+
+    };
+
+    ////已做过任务
     $scope.inactiveTasksOnly = function(){
-        $scope.taskObject = $scope.inactiveTasks;
-        $scope.pageNum = 0;
-        taskDisplayedInit();
-        updateTaskDisplayed();
+        var url = 'doTask/taskHall/' + $scope.pageIndex + '/' + 'inactiveTask';
+        $http.get(url).success(function(response) {
+            $scope.inactiveTask = response.allTask;
+            $scope.hasMore = response.hasMore;
+
+            // 上一页
+            $scope.prevPage = function () {
+                $scope.inactiveTaskIndex = $scope.pageIndex - 20;
+                var url = 'doTask/taskHall/' + $scope.inactiveTaskIndex + '/' + 'inactiveTask';
+                $http.get(url).success(function(response) {
+                    $scope.inactiveTask = response.allTask;
+                    $scope.hasMore = response.hasMore;
+                });
+            };
+
+            // 下一页
+            $scope.nextPage = function () {
+                $scope.inactiveTaskIndex = $scope.pageIndex + 20;
+                var url = 'doTask/taskHall/' + $scope.inactiveTaskIndex + '/' + 'inactiveTask';
+                $http.get(url).success(function(response) {
+                    $scope.inactiveTask = response.allTask;
+                    $scope.hasMore = response.hasMore;
+                });
+            };
+
+        });
+
     };
 
 
-    //任务列表翻页功能
-    $scope.pageNum = 0;
-
-    $scope.nextPage = function(){
-        if ($scope.pageNum + 2 < $scope.totalPageNum){
-            $scope.pageNum ++;
-        }
-        else{
-            console.log("Already reached the last page");
-        }
-        updateTaskDisplayed();
-    };
-
-    $scope.prevPage = function(){
-        if ($scope.pageNum > 0){
-            $scope.pageNum --;
-        }
-        else{
-            console.log("It is the first page");
-        }
-        updateTaskDisplayed();
-    };
-
-    function updateTaskDisplayed(){
-        var firstTaskIndex = $scope.pageNum * $scope.taskPerPage;
-        var lastTaskIndex = Math.min(firstTaskIndex + $scope.taskPerPage, $scope.totalTaskNum);
-        $scope.taskDisplayed = $scope.taskObject.slice(firstTaskIndex, lastTaskIndex);
-    }
+    //function updateTaskDisplayed(){
+    //    var firstTaskIndex = $scope.pageNum * $scope.taskPerPage;
+    //    var lastTaskIndex = Math.min(firstTaskIndex + $scope.taskPerPage, $scope.totalTaskNum);
+    //    $scope.taskDisplayed = $scope.taskObject.slice(firstTaskIndex, lastTaskIndex);
+    //}
 
     //*********领取任务弹窗逻辑*****************
     $scope.getTaskFormData = {};
