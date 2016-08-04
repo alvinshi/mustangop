@@ -269,13 +269,13 @@ app.controller('itunesSearchControl', function($scope, $http) {
 
     };
 
-    $scope.isDisabled = false;
+
     //发布任务
     $scope.releaseTask = function(){
+        $scope.isDisabled = false;
         $scope.saveNeed();
         //初始参数
         var flag = true;
-        $scope.isDisabled = true;
         $scope.error = Object();
         $scope.error.excCount = false;
         $scope.error.searchKeyword = false;
@@ -300,20 +300,21 @@ app.controller('itunesSearchControl', function($scope, $http) {
             if($scope.appNeedInfo.excCount>20){
                 flag = false;
                 $scope.modelStr = '任务条数暂时最多20条哦';
-                $("#limitexcCount").modal("show");
+                $("#error").modal("show");
 
             }
             if($scope.appNeedInfo.ranKing>50){
                 flag = false;
                 $scope.modelStr = '关键字搜索排名要在50名以内哦';
-                $("#exceedrank").modal("show");
+                $("#error").modal("show");
 
             }
             if ($scope.appNeedInfo.excCount != undefined){
                 var taskMoney = $scope.appNeedInfo.excCount * $scope.appNeedInfo.excUnitPrice;
                 console.log($scope.usermoney);
                 if (taskMoney > $scope.usermoney){
-                    $('#meiQian').modal("show");
+                    $scope.modelStr = '你的Y币余额不足';
+                    $("#error").modal("show");
                     flag = false;
                     $scope.isDisabled = false;
                 }
@@ -348,7 +349,7 @@ app.controller('itunesSearchControl', function($scope, $http) {
                 $scope.errorId = response.errorId;
                 $scope.errorMsg = response.errorMsg;
                 $("#releaseTask").modal("show");
-                $scope.isDisabled = false;
+                $scope.isDisabled = true;
             })
         }
     };
