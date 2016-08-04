@@ -23,19 +23,6 @@ app.controller('myClaimControl', function($scope, $http, $location){
             response.myClaimApps[i].mode = true;
             console.log(response.myClaimApps[i]);
             console.log(response.myClaimApps[i].rejected);
-            //判断任务状态
-            if (response.myClaimApps[i].rejected > 0){
-                response.myClaimApps[i].status = '被拒绝'
-            }
-            else if (response.myClaimApps[i].accepted == response.myClaimApps[i].totalExcCount){
-                response.myClaimApps[i].status = '已通过'
-            }
-            else if (response.myClaimApps[i].submitted > 0){
-                response.myClaimApps[i].status = '审核中'
-            }
-            else if (response.myClaimApps[i].surplusCount > 0){
-                response.myClaimApps[i].status = '未完成';
-            }
         }
 
         if($scope.dailyTask.length>0){
