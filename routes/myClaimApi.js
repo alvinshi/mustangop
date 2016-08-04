@@ -45,6 +45,10 @@ router.get('/claim/:userObjectId', function(req, res){
             var appExcHisObject = results[i].get('taskObject');
             var appobject = results[i].get('appObject');
 
+            if (appExcHisObject == undefined){
+                calNumber++;
+                continue;
+            }
             appHisObject.taskObjectId = results[i].id;
             appHisObject.excKinds = appExcHisObject.get('taskType');
             //total count
@@ -61,21 +65,19 @@ router.get('/claim/:userObjectId', function(req, res){
             appHisObject.latestReleaseDate = appobject.get('latestReleaseDate');
 
             //计算截至时间,下午6点前接受的任务,第二天早上8点,6点后接受的任务,第三天早上8点
-            var createDate = appobject.get('createdAt');
+            var createDate = results[i].createdAt;
             var expireTimeStamp = 0;
             var createHours = createDate.getHours();
             var nowTimestamp = new Date().getTime();
             //早10点审核 前天下午6点前接受的任务
-            var yesterdayTimestamp = nowTimestamp - 1000*60*60*16;
-            var yesterdayDate = new Date(yesterdayTimestamp);
             if (createHours < 18){
                 expireTimeStamp = createDate.getTime() + 1000*60*60*24;
             }else {
                 expireTimeStamp = createDate.getTime() + 1000*60*60*48;
             }
-            var expireDate = Date(expireTimeStamp);
+            var expireDate = new Date(expireTimeStamp);
             appHisObject.deadlineStr = '截止:' +
-                expireDate.getMonth().toString() + '月' + expireDate.getDay().toString() + '日 8:00Am';
+                (expireDate.getMonth() + 1).toString() + '月' + expireDate.getDay().toString() + '日 8:00Am';
 
             //未完成 审核中 被拒绝 已通过
             (function (receTaskObject, inAppHisObject){
@@ -95,7 +97,7 @@ router.get('/claim/:userObjectId', function(req, res){
                         }
                     }
 
-                    var undoTask = receiveTaskObject.get('receiveCount') - doTaskObjects.length;
+                    var undoTask = receTaskObject.get('receiveCount') - doTaskObjects.length;
                     if (undoTask > 0){
                         inAppHisObject.surplusCount = undoTask;
                     }

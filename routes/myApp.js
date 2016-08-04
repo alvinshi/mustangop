@@ -885,7 +885,6 @@ router.post('/task', function(req, res){
         queryMyTask.notEqualTo('cancelled', true);
         queryMyTask.notEqualTo('close', true);
         queryMyTask.equalTo('userObject', userObject);
-        queryMyTask.equalTo('appObject', appObject);
         queryMyTask.count().then(function(count) {
             if(count < 2){
                 var rateunitPrice = excUnitPrice * myRate;
