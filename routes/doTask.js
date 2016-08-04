@@ -255,11 +255,6 @@ router.post('/postUsertask/:taskObjectId/:ratePrice/:appId', function(req, res){
                             ReceiveTaskObject.set('remainCount', receive_Count);
                             ReceiveTaskObject.set('pending', receive_Count);  // 未提交
                             ReceiveTaskObject.set('receiveDate', myDateStr);
-                            ReceiveTaskObject.set('submitted', 0); // 待审
-                            ReceiveTaskObject.set('rejected', 0);  // 拒绝
-                            ReceiveTaskObject.set('accepted', 0);  // 接收
-                            ReceiveTaskObject.set('completed', 0);  // 完成
-                            ReceiveTaskObject.set('abandoned', 0);  // 过期
                             ReceiveTaskObject.save().then(function(){
                                 //更新任务剩余条数
                                 var prevRemainCount = resultTaskObject.get('remainCount');
