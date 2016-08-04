@@ -189,6 +189,7 @@ AV.Cloud.define('checkTask', function(request, response){
                             }
 
                             task.save();
+                            receTaskObject.save();
                             releaseTaskUser.save();
                             user.save().then(function (saveUserObject) {
                                 console.log('!!!!! checkTask receiveUser YB succeed');
