@@ -21,6 +21,7 @@ app.controller('itunesSearchControl', function($scope, $http) {
     function getDemand(){
         if ($scope.selectedApp == undefined){
             $scope.appNeedInfo == undefined;
+            return;
         }
         var getneedUrl = '/myapp/getNeed/' + $scope.selectedApp.appleId;
         $http.get(getneedUrl).success(function (response) {
@@ -45,7 +46,7 @@ app.controller('itunesSearchControl', function($scope, $http) {
                 $scope.appNeedInfo.excUnitPrice = 30;
             }
 
-            else {$scope.appNeedInfo.excUnitPrice = 25};
+            else {$scope.appNeedInfo.excUnitPrice = 25;}
 
             if ($scope.appNeedInfo.screenshotCount == undefined){
                 $scope.appNeedInfo.screenshotCount= 3;
@@ -189,7 +190,6 @@ app.controller('itunesSearchControl', function($scope, $http) {
     //释放App
     $scope.releaseBtnClick = function(app){
         $scope.prepareReleaseApp = app;
-
     };
 
     $scope.releaseMyApp = function(){
@@ -229,6 +229,19 @@ app.controller('itunesSearchControl', function($scope, $http) {
     $scope.saved = false;
 
     $scope.saveNeed = function(){
+        if ($scope.selectedApp == undefined || $scope.selectedApp.appleId == undefined){
+            $scope.modelStr = '未选择换评的App,检查一下吧';
+            $("#error").modal("show");
+            return;
+        }
+
+        if ($scope.selectedApp.trackName == undefined || $scope.selectedApp.length == 0){
+            $scope.modelStr = '选择换评的App信息错误,需要联系客服哦';
+            $("#error").modal("show");
+            return;
+        }
+
+
         var needUrl = '/myapp/taskneed/' + $scope.selectedApp.appleId;
         var needInfo = {'taskType':$scope.appNeedInfo.taskType, 'excCount':$scope.appNeedInfo.excCount, 'excUnitPrice':$scope.appNeedInfo.excUnitPrice, 'screenshotCount':$scope.appNeedInfo.screenshotCount,
             'searchKeyword':$scope.appNeedInfo.searchKeyword, 'ranKing':$scope.appNeedInfo.ranKing, 'Score':$scope.appNeedInfo.Score,
@@ -256,53 +269,75 @@ app.controller('itunesSearchControl', function($scope, $http) {
 
     };
 
-    $scope.isDisabled = false;
+
     //发布任务
     $scope.releaseTask = function(){
+        $scope.isDisabled = false;
         $scope.saveNeed();
         //初始参数
         var flag = true;
-        $scope.isDisabled = true;
         $scope.error = Object();
         $scope.error.excCount = false;
         $scope.error.searchKeyword = false;
 
         //前端检查
-        if ($scope.appNeedInfo.excCount == '' || $scope.appNeedInfo.excCount == undefined) {
+        if ($scope.appNeedInfo == undefined){
             flag = false;
-            $scope.error.excCount = true;
             $("#error").modal("show");
-        }
-        if($scope.appNeedInfo.searchKeyword == '' || $scope.appNeedInfo.searchKeyword == undefined) {
-            flag = false;
-            $scope.error.searchKeyword = true;
-            $("#error").modal("show");
-        }
-        if($scope.appNeedInfo.excCount>20){
-            flag = false;
-            $("#limitexcCount").modal("show");
-
-        }
-        if($scope.appNeedInfo.ranKing>50){
-            flag = false;
-            $("#exceedrank").modal("show");
-
-        }
-        if ($scope.appNeedInfo.excCount != undefined){
-            var taskMoney = $scope.appNeedInfo.excCount * $scope.appNeedInfo.excUnitPrice;
-            console.log($scope.usermoney);
-            if (taskMoney > $scope.usermoney){
-                $('#meiQian').modal("show");
+        }else {
+            if ($scope.appNeedInfo.excCount == undefined || $scope.appNeedInfo.excCount == '') {
                 flag = false;
-                $scope.isDisabled = false;
+                $scope.error.excCount = true;
+                $scope.modelStr = '您有未填写完整的信息哦';
+                $("#error").modal("show");
             }
-        };
+            if($scope.appNeedInfo.searchKeyword == '' || $scope.appNeedInfo.searchKeyword == undefined) {
+                flag = false;
+                $scope.error.searchKeyword = true;
+                $scope.modelStr = '您有未填写完整的信息哦';
+                $("#error").modal("show");
+            }
+            if($scope.appNeedInfo.excCount>20){
+                flag = false;
+                $scope.modelStr = '任务条数暂时最多20条哦';
+                $("#error").modal("show");
+
+            }
+            if($scope.appNeedInfo.ranKing>50){
+                flag = false;
+                $scope.modelStr = '关键字搜索排名要在50名以内哦';
+                $("#error").modal("show");
+
+            }
+            if ($scope.appNeedInfo.excCount != undefined){
+                var taskMoney = $scope.appNeedInfo.excCount * $scope.appNeedInfo.excUnitPrice;
+                console.log($scope.usermoney);
+                if (taskMoney > $scope.usermoney){
+                    $scope.modelStr = '你的Y币余额不足';
+                    $("#error").modal("show");
+                    flag = false;
+                    $scope.isDisabled = false;
+                }
+            }
+        }
+
+        if ($scope.selectedApp == undefined || $scope.selectedApp.appObjectId == undefined || $scope.selectedApp.appObjectId.length < 0){
+            flag = false;
+            $scope.modelStr = '未选择换评的App,检查一下吧';
+            $("#error").modal("show");
+        }
+
+        if ($scope.selectedApp.trackName == undefined || $scope.selectedApp.artworkUrl512 == undefined){
+            $scope.modelStr = '选择换评的App信息错误,需要联系客服哦';
+            $("#error").modal("show");
+            return;
+        }
 
         //通过前端检查,请求服务器
         if (flag){
             console.log("passed");
             console.log($scope.selectedApp);
-            var needUrl = '/myapp/task/' + $scope.selectedApp.appleId;
+            var needUrl = '/myapp/task';
             var needInfo = {'taskType':$scope.appNeedInfo.taskType, 'excCount':$scope.appNeedInfo.excCount,
                 'excUnitPrice':document.getElementById("price").value, 'screenshotCount':$scope.appNeedInfo.screenshotCount,
                 'searchKeyword':$scope.appNeedInfo.searchKeyword, 'ranKing':$scope.appNeedInfo.ranKing,
@@ -314,7 +349,7 @@ app.controller('itunesSearchControl', function($scope, $http) {
                 $scope.errorId = response.errorId;
                 $scope.errorMsg = response.errorMsg;
                 $("#releaseTask").modal("show");
-                $scope.isDisabled = false;
+                $scope.isDisabled = true;
             })
         }
     };
@@ -370,7 +405,6 @@ app.controller('itunesSearchControl', function($scope, $http) {
     //生成预览截图
 
     $scope.getScreenShot = function() {
-        console.log('runned');
         html2canvas(document.getElementById("screenShot"), {
             onrendered: function (canvas) {
                 var a = document.createElement('a');

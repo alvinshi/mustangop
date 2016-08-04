@@ -67,8 +67,6 @@ app.controller('taskCheckCtrl', function($scope, $http, $location) {
                 $http.post(url).success(function(response){
                     specTaskCheck($scope.currentTaskId);
                 })
-
-
         };
 
 

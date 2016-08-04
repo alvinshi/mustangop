@@ -5,15 +5,55 @@
 app.directive("thNav",function(){
     return {
         restrict: 'E',
-        templateUrl: '/html/navbar.html'
-        //replace: true
+        templateUrl: '/html/navbar.html',
+
+        controller: function($scope, $element, $http){
+            var indexUrl = '/index';
+
+            //用户相关
+            $http.get(indexUrl).success(function(response){
+                loadNav();
+                if(response.Count>0){
+                    $scope.Count = response.Count;
+                    $scope.showBadge=true;
+                }
+                else {
+                    $scope.showBadge=false;
+                }
+                $scope.userObjectId = response.userObjectId;
+            });
+
+            //消息相关
+            var getMessage = '/user/userCenter/getMessage';
+            $http.get(getMessage).success(function(response){
+                var msg = response.rtnMsg;
+                for (var i = 0; i < msg.length; i++){
+                    if (!msg[i].read){
+                        $scope.unreadNotice = true;
+                    }
+                }
+            });
+
+            var unreadMsgUrl = '/unreadMsg';
+            $http.get(unreadMsgUrl).success(function(response){
+
+                if (response.unreadMsgCount > 0){
+                    $scope.unreadMsgCount = response.unreadMsgCount;
+                    $scope.chuxian = true;
+                }else {
+                    $scope.chuxian = false;
+                }
+            });
+
+        }
     };
 });
 app.directive("thFooter",function(){
     return {
         restrict: 'E',
         templateUrl: '/html/footer.html'
-        //replace: true
+
+
     };
 });
 
@@ -25,53 +65,13 @@ app.controller('indexAppCtrl', function($scope, $http, $location){
     $scope.myColors = ['white', 'white', 'white', 'white','white','white','white'];
     $scope.myColors[index] = '#3498db';
 
-    var indexUrl = '/index';
-
-    $http.get(indexUrl).success(function(response){
-        $scope.Count = response.Count;
-        $scope.userObjectId = response.userObjectId;
-        loadNav();
-        //$scope.tracknameAPPs = response.tracknameAPPs; // 因为以前导航栏需要获取数据
-    });
-    $scope.logout=function(){
-
+    $scope.logout = function(){
         clearCookie('userIdCookie');
         clearCookie('username');
-
         location.href='/';
     };
 
-    var getMessage = '/user/userCenter/getMessage';
-    $http.get(getMessage).success(function(response){
-        var msg = response.rtnMsg;
-        for (var i = 0; i < msg.length; i++){
-            if (!msg[i].read){
-                $scope.unreadNotice = true;
-            }
-        }
-    });
 
-    var unreadMsgUrl = '/unreadMsg';
-    $http.get(unreadMsgUrl).success(function(response){
-        $scope.unreadMsgCount = response.unreadMsgCount;
-        if (response.unreadMsgCount != 0){
-            $scope.chuxian = true;
-        }
-    });
-
-
-
-    //var fooReveal = {
-    //    delay    : 200,
-    //    distance : '90px',
-    //    easing   : 'ease-in-out',
-    //    rotate   : { z: 10 },
-    //    scale    : 0.9
-    //};
-    //
-    //window.sr = ScrollReveal();
-    //sr.reveal('.foo', fooReveal);
-    //sr.reveal('#chocolate', { delay: 500, scale: 1.2 });
 
 
 });

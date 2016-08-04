@@ -60,10 +60,10 @@ router.post('/taskneed/:appid', function(req, res){
     var userId = util.useridInReq(req);
     var myappId = req.params.appid;
     var task_type = req.body.taskType;
-    var exc_count = req.body.excCount;
-    var screenshot_count = req.body.screenshotCount;
+    var exc_count = parseInt(req.body.excCount);
+    var screenshot_count = parseInt(req.body.screenshotCount);
     var search_Keywords = req.body.searchKeyword;
-    var ranking = req.body.ranKing;
+    var ranking = parseInt(req.body.ranKing);
     var score = req.body.Score;
     var title_keywords = req.body.titleKeyword;
     var comment_keywords = req.body.commentKeyword;
@@ -365,11 +365,11 @@ router.post('/task/:appid', function(req, res){
     var myappid = req.params.appid;
     var appObjectid = req.body.appObjectId;
     var taskType = req.body.taskType;
-    var excCount = req.body.excCount;
-    var excUnitPrice = req.body.excUnitPrice;
-    var screenshotCount = req.body.screenshotCount;
+    var excCount = parseInt(req.body.excCount);
+    var excUnitPrice = parseInt(req.body.excUnitPrice);
+    var screenshotCount = parseInt(req.body.screenshotCount);
     var searchKeyword = req.body.searchKeyword;
-    var ranKing = req.body.ranKing;
+    var ranKing = parseInt(req.body.ranKing);
     var Score = req.body.Score;
     var titleKeyword = req.body.titleKeyword;
     var commentKeyword = req.body.commentKeyword;
@@ -416,7 +416,6 @@ router.post('/task/:appid', function(req, res){
             releasetaskObject.save().then(function() {
                 // 实例已经成功保存.
                 var moratoriumMon = excCount * excUnitPrice;  // 冻结的YB
-                var remainMon = totalmoney - moratoriumMon;   // 剩余的YB
                 var query = new AV.Query('_User');
                 query.get(userId).then(function(userInfo){
                     userInfo.set('totalMoney', totalmoney);

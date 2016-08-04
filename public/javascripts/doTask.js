@@ -12,11 +12,25 @@ app.controller('doTaskCtrl', function($scope, $http) {
 
     //自动轮播
     $("#myCarousel").carousel({
-        interval:2000,
+        interval:5000,
     });
 
-
-
+   //关闭视频弹窗 视屏停止
+    $scope.releaseTaskVideo=function(){
+        $("#releaseTaskVideo").modal("hide");
+        var myVideo=document.getElementById("releaseTask");
+        myVideo.pause();
+    };
+    $scope.getTaskVideo=function(){
+        $("#getTaskVideo").modal("hide");
+        var myVideo=document.getElementById("getTask");
+        myVideo.pause();
+    };
+    $scope.uploadTaskVideo=function(){
+        $("#uploadTaskVideo").modal("hide");
+        var myVideo=document.getElementById("uploadTask");
+        myVideo.pause();
+    };
 
 
     //发布任务飞机颜色

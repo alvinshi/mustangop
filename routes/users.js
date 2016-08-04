@@ -17,8 +17,8 @@ var Base64 = require('../public/javascripts/vendor/base64').Base64;
 
 // 验证码
 var pcGeetest = new Geetest({
-    privateKey: '9889d9c10b5bcc33c12e3bcba6ac8d83',
-    publicKey: 'c508c87580bd11dbaab2a40a02430af2'
+  privateKey: '9889d9c10b5bcc33c12e3bcba6ac8d83',
+  publicKey: 'c508c87580bd11dbaab2a40a02430af2'
 });
 
 router.get("/pc-geetest/register", function (req, res) {
@@ -256,7 +256,6 @@ router.get('/userCenter/getMessage', function(req, res){
 
 //更新已读未读消息
 router.post('/userCenter/readMsg', function(req, res) {
-  console.log("runned");
   var msgIdArray = req.body.msgIdArray;
   var msgObjectArray = new Array()
   for (var i = 0; i < msgIdArray.length; i++) {

@@ -7,7 +7,6 @@ var AV = require('leanengine');
 var util = require('./util');
 var https = require('https');
 
-var IOSAppSql = AV.Object.extend('IOSAppInfo');
 var IOSAppBinder = AV.Object.extend('IOSAppBinder');
 var releaseTaskObject = AV.Object.extend('releaseTaskObject');
 var receiveTaskObject = AV.Object.extend('receiveTaskObject');
@@ -15,8 +14,6 @@ var mackTaskInfo = AV.Object.extend('mackTaskInfo');
 var messageLogger = AV.Object.extend('messageLogger');
 var accountJournal = AV.Object.extend('accountJournal'); // 记录账户变动明细表
 var User = AV.Object.extend('_User');
-
-var Base64 = require('../public/javascripts/vendor/base64').Base64;
 
 router.get('/', function(req, res) {
     res.render('taskCheck');
@@ -85,9 +82,9 @@ router.get('/cancelTask/:taskId', function(req, res){
 
     query.get(taskId).then(function(result){
         var totalNum = parseInt(result.get('excCount'));
-        var remain = parseInt(result.get('remainCount'));
-        result.set('excCount', totalNum - remain + '');
-        result.set('remainCount', '0');
+        var remain = result.get('remainCount');
+        result.set('excCount', totalNum - remain);
+        result.set('remainCount', 0);
         var acceptedNum = result.get('accepted');
         var abandonedNum = result.get('abandonedNum');
         if ((acceptedNum + abandonedNum) == (totalNum - remain)){
@@ -102,9 +99,11 @@ router.get('/cancelTask/:taskId', function(req, res){
             var preTotalMoney = result.get('totalMoney');
             result.set('totalMoney', preTotalMoney + moneyReturn);
             result.save();
-        })
+        });
         result.set('cancelled', true);
-        result.save();
+        result.save().then(function(savedObject){
+
+        });
         res.json({'errorMsg':'succeed'});
     })
 })
@@ -203,11 +202,10 @@ var updateReceiveTaskDatabase = function(entryId, uploaderName){
         //results返回的是数组
         var data = results[0];
         //待审-1
-        var preSubmitted = data.get('submitted');
-        data.set('submitted', preSubmitted - 1);
+        data.increment('submitted', - 1);
         //接受+1
         var preAccepted = data.get('accepted');
-        data.set('accepted', preAccepted + 1);
+        data.increment('accepted', 1);
         //检查领取的任务是否已经完成
         var abandoned = data.get('abandoned');
         var receiveCount = parseInt(data.get('receiveCount'));
@@ -215,15 +213,15 @@ var updateReceiveTaskDatabase = function(entryId, uploaderName){
             data.set('completed', 1);
         }
         data.save();
+
         //更新发布任务数据库
         var task = data.get('taskObject');
         //待审-1
         //待审-1
-        preSubmitted = task.get('submitted');
-        task.set('submitted', preSubmitted - 1);
+        task.increment('submitted', - 1);
         //接受+1
         preAccepted = task.get('accepted');
-        task.set('accepted', preAccepted + 1);
+        task.increment('accepted', 1);
         //检查发布的任务是否已经完成
         var excCount = task.get('excCount');
         if (excCount == preAccepted + 1) {
@@ -254,7 +252,7 @@ var updateReceiveTaskDatabase = function(entryId, uploaderName){
                 register.set('systemYCoin', systemYB);
                 register.save().then(function(){
                     //
-                })
+                });
 
                 // 接收任务后 把钱打给领取任务的用户
                 var query_user = new AV.Query(User);
