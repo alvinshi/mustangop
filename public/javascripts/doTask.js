@@ -55,9 +55,11 @@ app.controller('doTaskCtrl', function($scope, $http) {
     function getTaskData(taskType, pageCount){
         var url = 'doTask/taskHall/' + pageCount + '/' + taskType;
         $http.get(url).success(function(response) {
-
             if (taskType == 'allTask'){
                 $scope.taskDisplayed = $scope.taskDisplayed.concat(response.allTask);
+                for(var i=0;i<response.allTask;i++){
+                    response.allTask[i].mode = true;
+                }
                 $scope.disableTaskCount = response.disableTaskCount;
             }else if(taskType == 'commentTask'){
                 $scope.commentTask = $scope.commentTask.concat(response.allTask);
@@ -78,6 +80,7 @@ app.controller('doTaskCtrl', function($scope, $http) {
             getTaskData('allTask', 0);
         }else {
             getTaskData('allTask', $scope.taskDisplayed.length);
+
         }
     };
 
@@ -145,7 +148,7 @@ app.controller('doTaskCtrl', function($scope, $http) {
                 $scope.getTaskFormData.errorMsg = response.errorMsg;
                 $scope.getTaskFormData.result = response.succeeded;
 
-                //处理领取任务成功的前段逻辑
+                //处理领取任务成功的前端逻辑
                 var dataAllTypeList = [$scope.taskDisplayed, $scope.commentTask, $scope.downTask];
 
                 for (var i = 0; i < dataAllTypeList.length; i++){
@@ -171,4 +174,17 @@ app.controller('doTaskCtrl', function($scope, $http) {
     $scope.refresh = function(){
         location.reload()
     };
+
+
+   //出现筛选图标
+    $scope.showDiv=function(app){
+        app.mode=true;
+    };
+    $scope.hideDiv=function(app){
+        app.mode=false;
+    };
+    //
+    $scope.filtrateApp=function(app){
+        $("#markApp").modal("show");
+    }
 });

@@ -270,6 +270,7 @@ app.controller('itunesSearchControl', function($scope, $http) {
     };
 
 
+
     //发布任务
     $scope.releaseTask = function(){
         $scope.isDisabled = false;
@@ -288,13 +289,13 @@ app.controller('itunesSearchControl', function($scope, $http) {
             if ($scope.appNeedInfo.excCount == undefined || $scope.appNeedInfo.excCount == '') {
                 flag = false;
                 $scope.error.excCount = true;
-                $scope.modelStr = '您有未填写完整的信息哦';
+                $scope.modelStr = '您有未填写完整的信息';
                 $("#error").modal("show");
             }
             if($scope.appNeedInfo.searchKeyword == '' || $scope.appNeedInfo.searchKeyword == undefined) {
                 flag = false;
                 $scope.error.searchKeyword = true;
-                $scope.modelStr = '您有未填写完整的信息哦';
+                $scope.modelStr = '您有未填写完整的信息';
                 $("#error").modal("show");
             }
             if($scope.appNeedInfo.excCount>20){
@@ -348,6 +349,7 @@ app.controller('itunesSearchControl', function($scope, $http) {
             $http.post(needUrl, needInfo).success(function(response){
                 $scope.errorId = response.errorId;
                 $scope.errorMsg = response.errorMsg;
+
                 $("#releaseTask").modal("show");
                 $scope.isDisabled = true;
             })
@@ -389,8 +391,9 @@ app.controller('itunesSearchControl', function($scope, $http) {
     function moneyCheck(amount, accountMoney){
         if (amount != undefined){
             var taskMoney = amount * $scope.appNeedInfo.excUnitPrice;
-            if (taskMoney < accountMoney){
+            if (taskMoney > accountMoney){
                 $scope.insufficientFund = true;
+
             }
             else{
                 $scope.insufficientFund = false;
@@ -399,8 +402,20 @@ app.controller('itunesSearchControl', function($scope, $http) {
     }
 
     $scope.calcuQuantity = function(){
+        if($scope.appNeedInfo.excCount>20){
+            $scope.errorQuatity=true;
+        }else {
+            $scope.errorQuatity=false;
+        }
+        var url = 'myapp/verify';
+        $http.get(url).success(function(response) {
+            $scope.usermoney = response.usermoney;
+            moneyCheck($scope.appNeedInfo.excCount, $scope.usermoney)
+
+        });
+
         $scope.saved = false;
-        moneyCheck($scope.appNeedInfo.excCount, $scope.usermoney)
+
     };
     //生成预览截图
 

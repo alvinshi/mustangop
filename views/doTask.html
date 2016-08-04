@@ -24,7 +24,7 @@
     <script src="/javascripts/doTask.js"></script>
     <script src="/javascripts/indexApp.min.js"></script>
     <!--网站内部css-->
-    <link rel="stylesheet" href="/stylesheets/doTask.min.css"/>
+    <link rel="stylesheet" href="/stylesheets/doTask.css"/>
 
 
 
@@ -116,10 +116,10 @@
             <!--全部任务-->
             <div role="tabpanel" class="tab-pane active" id="home">
                 <div class="taskPanel" ng-repeat="app in taskDisplayed">
-                    <table style="width: 1010px;">
+                    <table style="width: 1010px;" ng-mouseover="showDiv(app)" ng-mouseleave="hideDiv(app)">
                         <tr>
-                            <td style="padding: 24px 30px 24px 30px; width: 160px;">
-                                <img ng-src="{{ app.artworkUrl100 }}" class="appIcon"/>
+                            <td style="padding: 24px 30px 24px 30px; width: 160px;position: relative">
+                                <img ng-src="{{ app.artworkUrl100 }}" class="appIcon" > <div class="choose" ng-show="app.mode" ng-click="filtrateApp()">筛选</div>
                             </td>
                             <td style="width: 500px;">
                                 <p class="appName">{{ app.trackName }}</p>
@@ -769,7 +769,21 @@
     </div><!-- uploadTaskVideo-->
 
 
+    <div class="modal fade" id="markApp">
+        <div class="modal-dialog">
+            <div class="modal-content" style="width: 320px;">
+                <div class="modal-header" style="height: 74px;background-color:#6eb7e8;border-radius:4px;text-align: center">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+                    <h4 class="modal-title"  style="font-size:20px;color: #FFFFFF">是否把此APP标记为"本版本已换"?</h4>
+                </div>
 
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">确认</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div>
 
 
 
