@@ -21,7 +21,7 @@
     <!--网站内部js-->
 
 
-    <script src="/javascripts/doTask.min.js"></script>
+    <script src="/javascripts/doTask.js"></script>
     <script src="/javascripts/indexApp.min.js"></script>
     <!--网站内部css-->
     <link rel="stylesheet" href="/stylesheets/doTask.min.css"/>
@@ -107,7 +107,7 @@
             <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab" ng-click="displayAll()">全部</a></li>
             <li role="presentation"><a href="#comment" aria-controls="messages" role="tab" data-toggle="tab" ng-click="commentTasksOnly()">评论</a></li>
             <li role="presentation"><a href="#download" aria-controls="profile" role="tab" data-toggle="tab" ng-click="downloadTasksOnly()">下载</a></li>
-            <li role="presentation"><a href="#inactive" aria-controls="settings" role="tab" data-toggle="tab" ng-click="inactiveTasksOnly()">已筛选任务 ( {{inactiveTasks.length}} )</a></li>
+            <li role="presentation"><a href="#inactive" aria-controls="settings" role="tab" data-toggle="tab" ng-click="inactiveTasksOnly()">已筛选任务 ( {{disableTaskCount}} )</a></li>
 
         </ul>
 
@@ -242,7 +242,7 @@
                         <div class="modal-dialog" role="document">
                             <div class="modal-content" style="width: 500px;">
                                 <div class="modal-header" style="text-align: center; background-color:#6eb7e8">
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" ng-click="refresh()"><span aria-hidden="true">&times;</span></button>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                                     <h4 class="modal-title" style="color: white;">领取任务</h4>
                                 </div>
                                 <div class="modal-body">
@@ -282,7 +282,7 @@
                                             style="width: 100px" ng-click="getTask(app)" ng-hide="getTaskFormData.result">
                                         确认
                                     </button>
-                                    <button type="button" class="btn btn-default reverse" data-dismiss="modal" aria-label="Close" ng-click="refresh()"
+                                    <button type="button" class="btn btn-default reverse" data-dismiss="modal" aria-label="Close"
                                             style="width: 100px">
                                         关闭
                                     </button>
@@ -298,8 +298,7 @@
                     <h1 style="text-align: center; margin-top: 150px; margin-bottom: 150px;">等待任务中...</h1>
                 </div>
                 <div style="margin-top: 30px; margin-bottom: 30px; text-align: center;">
-                    <button class="btn btn-default myPageBtn" ng-show="hasMore"  ng-click="prevPage()">上一页</button>
-                    <button class="btn btn-default myPageBtn" ng-hide="!hasMore" ng-click="nextPage()">下一页</button>
+                    <button class="btn btn-default myPageBtn" ng-hide="!hasMoreDic['allTask']" ng-click="displayAll()">下一页</button>
                 </div>
             </div>
 
@@ -429,7 +428,7 @@
                         <div class="modal-dialog" role="document">
                             <div class="modal-content" style="width: 500px;">
                                 <div class="modal-header" style="text-align: center; background-color:#6eb7e8">
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" ng-click="refresh()"><span aria-hidden="true">&times;</span></button>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                                     <h4 class="modal-title" style="color: white;">领取任务</h4>
                                 </div>
                                 <div class="modal-body">
@@ -469,7 +468,7 @@
                                             style="width: 100px" ng-click="getTask(app)" ng-hide="getTaskFormData.result">
                                         确认
                                     </button>
-                                    <button type="button" class="btn btn-default reverse" data-dismiss="modal" aria-label="Close" ng-click="refresh()"
+                                    <button type="button" class="btn btn-default reverse" data-dismiss="modal" aria-label="Close"
                                             style="width: 100px" ng-click="">
                                         关闭
                                     </button>
@@ -485,8 +484,7 @@
                     <h1 style="text-align: center; margin-top: 150px; margin-bottom: 150px;">今天还没有新的评论任务</h1>
                 </div>
                 <div style="margin-top: 30px; margin-bottom: 30px; text-align: center;">
-                    <button class="btn btn-default myPageBtn" ng-show="hasMore"  ng-click="prevPage()">上一页</button>
-                    <button class="btn btn-default myPageBtn" ng-hide="!hasMore" ng-click="nextPage()">下一页</button>
+                    <button class="btn btn-default myPageBtn" ng-hide="!hasMoreDic['commentTask']" ng-click="commentTasksOnly()">下一页</button>
                 </div>
             </div>
 
@@ -619,7 +617,7 @@
                         <div class="modal-dialog" role="document">
                             <div class="modal-content" style="width: 500px;">
                                 <div class="modal-header" style="text-align: center; background-color:#6eb7e8">
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" ng-click="refresh()"><span aria-hidden="true">&times;</span></button>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                                     <h4 class="modal-title" id="myModalLabel" style="color: white;">领取任务</h4>
                                 </div>
                                 <div class="modal-body">
@@ -659,7 +657,7 @@
                                             style="width: 100px" ng-click="getTask(app)" ng-hide="getTaskFormData.result">
                                         确认
                                     </button>
-                                    <button type="button" class="btn btn-default reverse" data-dismiss="modal" aria-label="Close" ng-click="refresh()"
+                                    <button type="button" class="btn btn-default reverse" data-dismiss="modal" aria-label="Close"
                                             style="width: 100px" ng-click="">
                                         关闭
                                     </button>
@@ -675,8 +673,7 @@
                     <h1 style="text-align: center; margin-top: 150px; margin-bottom: 150px;">今天还没有新的下载任务</h1>
                 </div>
                 <div style="margin-top: 30px; margin-bottom: 30px; text-align: center;">
-                    <button class="btn btn-default myPageBtn" ng-show="hasMore"  ng-click="prevPage()">上一页</button>
-                    <button class="btn btn-default myPageBtn" ng-hide="!hasMore" ng-click="nextPage()">下一页</button>
+                    <button class="btn btn-default myPageBtn" ng-hide="!hasMoreDic['downTask']" ng-click="downloadTasksOnly()">下一页</button>
                 </div>
             </div>
 
@@ -715,8 +712,7 @@
                     <h1 style="text-align: center; margin-top: 150px; margin-bottom: 150px;">任务大厅没有你可以领取的任务</h1>
                 </div>
                 <div style="margin-top: 30px; margin-bottom: 30px; text-align: center;">
-                    <button class="btn btn-default myPageBtn" ng-show="hasMore"  ng-click="prevPage()">上一页</button>
-                    <button class="btn btn-default myPageBtn" ng-hide="!hasMore" ng-click="nextPage()">下一页</button>
+                    <button class="btn btn-default myPageBtn" ng-hide="!hasMoreDic['inactiveTask']" ng-click="inactiveTasksOnly()">下一页</button>
                 </div>
             </div>
         </div>

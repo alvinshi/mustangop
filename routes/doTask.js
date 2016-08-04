@@ -28,66 +28,87 @@ function getTaskQuery(userObject){
     return query;
 }
 
-function getTaskObjectList(query, totalCount, pageIndex){
+function taskObjectToDic(results, TaskObjects, isMyTask)
+{
+    for (var i = 0; i < results.length; i++){
+        var appObject = Object();
+        var userReleaseAppObject = results[i].get('appObject');
+        // app详细信息
+        appObject.artworkUrl100 = userReleaseAppObject.get('artworkUrl100');
+        appObject.appObjectId = userReleaseAppObject.id;
+        appObject.myTask = false;
+
+        var trackName = userReleaseAppObject.get('trackName');
+        if (trackName != undefined){
+            appObject.trackName = trackName.substring(0, 18);
+        }
+        appObject.appleId = userReleaseAppObject.get('appleId');
+        appObject.appleKind = userReleaseAppObject.get('appleKind');
+        appObject.formattedPrice = userReleaseAppObject.get('formattedPrice');
+        appObject.latestReleaseDate = userReleaseAppObject.get('latestReleaseDate');
+        appObject.sellerName = userReleaseAppObject.get('sellerName');
+
+        appObject.myTask = isMyTask;
+
+        appObject.objectId = results[i].id;
+        appObject.excCount = results[i].get('excCount');
+        appObject.remainCount = results[i].get('remainCount');
+        appObject.rateUnitPrice = results[i].get('rateUnitPrice');
+
+        // 任务详情信息
+        appObject.taskType = results[i].get('taskType');
+        appObject.ranking = results[i].get('ranKing');
+        appObject.score = results[i].get('Score');
+        appObject.searchKeyword = results[i].get('searchKeyword');
+        appObject.screenshotCount = results[i].get('screenshotCount');
+        appObject.titleKeyword = results[i].get('titleKeyword');
+        appObject.commentKeyword = results[i].get('commentKeyword');
+        appObject.detailRem = results[i].get('detailRem');
+
+        TaskObjects.push(appObject);
+    }
+}
+
+function getTaskObjectList(query, totalCount, pageIndex, userObject, res, disableCount){
     var flag = 0;
     var TaskObjects = [];
-    var hasmore = 0;
+    var hasmore = 1;
 
-    //TODO 用户自己任务置顶,最多发布2个
-    //appObject.myTask = true;
+    function retTaskFunc(disableCount, errorId){
+        flag = flag + 1;
+        if (flag == 2) {
+            if(disableCount >= 0){
+                res.json({'allTask':TaskObjects, 'hasMore':hasmore, 'errorId': errorId, 'disableTaskCount':disableCount})
+            }else {
+                res.json({'allTask':TaskObjects, 'hasMore':hasmore, 'errorId': errorId})
+            }
+        }
+    }
 
+    //查询我发布的任务
+    var queryMyTask = new AV.Query(releaseTaskObject);
+    queryMyTask.notEqualTo('cancelled', true);
+    queryMyTask.notEqualTo('close', true);
+    queryMyTask.equalTo('userObject', userObject);
+    queryMyTask.find().then(function(results) {
+        taskObjectToDic(results, TaskObjects, true);
+        retTaskFunc(disableCount, 0);
+    }, function(error){
+        retTaskFunc(disableCount, 0);
+    });
 
     query.skip(pageIndex);
     query.limit(20);
-
     query.find().then(function(results){
-        for (var i = 0; i < results.length; i++){
-            var appObject = Object();
-            var userReleaseAppObject = results[i].get('appObject');
-            // app详细信息
-            appObject.artworkUrl100 = userReleaseAppObject.get('artworkUrl100');
-            appObject.appObjectId = userReleaseAppObject.id;
-            appObject.myTask = false;
-
-            var trackName = userReleaseAppObject.get('trackName');
-            if (trackName != undefined){
-                appObject.trackName = trackName.substring(0, 18);
-            }
-            appObject.appleId = userReleaseAppObject.get('appleId');
-            appObject.appleKind = userReleaseAppObject.get('appleKind');
-            appObject.formattedPrice = userReleaseAppObject.get('formattedPrice');
-            appObject.latestReleaseDate = userReleaseAppObject.get('latestReleaseDate');
-            appObject.sellerName = userReleaseAppObject.get('sellerName');
-
-            appObject.objectId = results[i].id;
-            appObject.excCount = results[i].get('excCount');
-            appObject.remainCount = results[i].get('remainCount');
-            appObject.rateUnitPrice = results[i].get('rateUnitPrice');
-
-            // 任务详情信息
-            appObject.taskType = results[i].get('taskType');
-            appObject.ranking = results[i].get('ranKing');
-            appObject.score = results[i].get('Score');
-            appObject.searchKeyword = results[i].get('searchKeyword');
-            appObject.screenshotCount = results[i].get('screenshotCount');
-            appObject.titleKeyword = results[i].get('titleKeyword');
-            appObject.commentKeyword = results[i].get('commentKeyword');
-            appObject.detailRem = results[i].get('detailRem');
-
-            TaskObjects.push(appObject);
-        }
-
+        taskObjectToDic(results, TaskObjects, false);
         if (totalCount > results.length + parseInt(pageIndex)){
             hasmore = 1;
+        }else {
+            hasmore = 0;
         }
-
-        flag = flag + 1;
-        if (flag == 2){
-            res.json({'allTask':TaskObjects, 'hasMore':hasmore, 'errorId': 0})
-        }
+        retTaskFunc(disableCount, 0);
     }, function (error){
-        flag = flag + 1;
-        res.json({'errorMsg':error.message, 'errorId': error.code, 'allTask':TaskObjects});
+        retTaskFunc(disableCount, error.code);
     });
 }
 
@@ -100,14 +121,12 @@ router.get('/taskHall/:pageIndex/:taskType', function(req, res){
     var userObject = new AV.User();
     userObject.id = userId;
 
-    //查询用户无法做任务的query
+    //查询用户无法做任务的query (使用非精准的App发布时间进行区分)
     var queryReceiveExcTask = new AV.Query(receiveTaskObject);
     queryReceiveExcTask.equalTo('userObject', userObject);
     queryReceiveExcTask.limit(1000);
-    //TODO 版本号再次进行筛选
     queryReceiveExcTask.descending('updatedAt');
 
-    //TODO ReleaseTaskObject 增加latestReleaseDate
     //TODO 标记为已做任务,去receiveTask数据库建立相关字段
     //TODO 个人中心保存用户告诉换屏设备个数,排序这边优先排序设备个数的换屏
 
@@ -139,9 +158,22 @@ router.get('/taskHall/:pageIndex/:taskType', function(req, res){
     var totalCount = 0;
     query.count().then(function(count){
         totalCount = count;
-        getTaskObjectList(query, totalCount, pageIndex);
+
+        if (pageIndex == 0){
+            var disableTaskQuery = getTaskQuery(userObject);
+            disableTaskQuery.lessThanOrEqualTo('remainCount', 0);
+            disableTaskQuery.matchesKeyInQuery('latestReleaseDate', 'appUpdateInfo', queryReceiveExcTask);
+
+            disableTaskQuery.count().then(function(disableTaskCount){
+                getTaskObjectList(query, totalCount, pageIndex, userObject, res, disableTaskCount);
+            }, function (error){
+                getTaskObjectList(query, 1000, pageIndex, userObject, res, -1);
+            });
+        }else {
+            getTaskObjectList(query, 1000, pageIndex, userObject, res, -1);
+        }
     }, function (error){
-        getTaskObjectList(query, 1000, pageIndex);
+        getTaskObjectList(query, 1000, pageIndex, userObject, res, -1);
     });
 });
 
