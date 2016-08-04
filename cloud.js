@@ -139,9 +139,9 @@ AV.Cloud.define('checkTask', function(request, response){
                         var query = relation.query();
                         query.limit(1000);
                         query.find().then(function(doTaskObjects){
+                            var changeDoTasks = [];
                             for (var r = 0; r < doTaskObjects.length; r++){
                                 var taskStatus = doTaskObjects[r].get('taskStatus');
-                                var changeDoTasks = [];
                                 if (taskStatus == 'uploaded' || taskStatus == 'reUploaded'){
                                     doTaskObjects[r].set('taskStatus', 'systemAccepted');
                                     changeDoTasks.push(doTaskObjects[r]);
@@ -157,9 +157,11 @@ AV.Cloud.define('checkTask', function(request, response){
                                 }
                             }
 
-                            AV.Object.saveAll(changeDoTasks).then(function(){
-                                console.log('!!!!! checkTask modify task is accepted succeed');
-                            });
+                            if(changeDoTasks.length > 0){
+                                AV.Object.saveAll(changeDoTasks).then(function(){
+                                    console.log('!!!!! checkTask modify task is accepted succeed');
+                                });
+                            }
 
                             var undoTask = receTaskObject.get('receiveCount') - doTaskObjects.length;
                             if (undoTask > 0){
@@ -257,16 +259,16 @@ var paramsJson = {
     movie: "夏洛特烦恼"
 };
 
-//AV.Cloud.run('checkTask', paramsJson, {
-//    success: function(data) {
-//        // 调用成功，得到成功的应答data
-//        console.log('---- test timer: succeed');
-//    },
-//    error: function(err) {
-//        // 处理调用失败
-//        console.log('---- test timer: error');
-//    }
-//});
+AV.Cloud.run('checkTask', paramsJson, {
+    success: function(data) {
+        // 调用成功，得到成功的应答data
+        console.log('---- test timer: succeed');
+    },
+    error: function(err) {
+        // 处理调用失败
+        console.log('---- test timer: error');
+    }
+});
 
 ////Promise test code
 //var successful = new AV.Promise();
