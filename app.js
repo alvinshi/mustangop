@@ -48,6 +48,8 @@ app.engine('.html', ejs.__express);
 app.set('view engine', 'html');
 app.use(express.static('public'));
 
+//接口强制超时
+app.use(timeout('10s'));
 // 加载云代码方法
 app.use(cloud);
 
@@ -97,7 +99,10 @@ function routeHasPrefix(originalUrl, judgeArray){
 
 // 没有挂载路径的中间件，应用的每个请求都会执行该中间件
 app.use(function (req, res, next) {
-  console.log('---------- Start Time Debug:', Date.now(), req.originalUrl);
+
+  if(req.timedout) {
+    console.error('请求超时: url=%s, timeout=%d, 请确认方法执行耗时很长，或没有正确的 response 回调。', req.originalUrl, err.timeout);
+  }
 
   var loginWhiteList  = new Array();
   loginWhiteList[0] = "/user";
