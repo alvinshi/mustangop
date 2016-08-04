@@ -52,13 +52,29 @@
 .download{
     width: 70px;
     background-color: white;
-    color: #3498db;
-    border: 1px solid #3498db;
+    color:rgb(149,242,158);
+    border: 1px solid rgb(149,242,158);
     /*text-align: center;*/
     font-size: 18px;
     border-radius: 6px;
-
-
+}
+.comment{
+    width: 70px;
+    background-color: white;
+    color:rgb(255,196,158);
+    border: 1px solid rgb(255,196,158);
+    /*text-align: center;*/
+    font-size: 18px;
+    border-radius: 6px;
+}
+.deadline{
+    width:200px;
+    background-color: white;
+    color:rgb(255,152,158);
+    border: 1px solid rgb(255,152,158);
+    /*text-align: center;*/
+    font-size: 18px;
+    border-radius: 6px;
 }
 .center{
     margin-top: 12px;
@@ -70,10 +86,10 @@ color: #999999;
 .pending{
     /*height:28px;*/
     font-size: 18px;
-    background-color: #79c3f7;
+    background-color: #3498db;
     color: white;
     margin-right: 20px;
-    border: 1px solid  #79c3f7;
+    border: 1px solid  #3498db;
     border-radius: 6px;
 
 }
@@ -99,10 +115,10 @@ color: #999999;
 }
 .finish{
     font-size: 18px;
-    background-color:#0F9E5E;
+    background-color:rgb(0,226,57);
     color: white;
     margin-right: 20px;
-    border: 1px solid  #0F9E5E;
+    border: 1px solid  rgb(0,226,57);
     border-radius: 6px;
 
 }
@@ -189,10 +205,25 @@ color: #999999;
         color: #3498db;
         border: 1px solid #3498db;
         border-radius: 2px;
-
-
     }
-
+    .comment{
+        font-size: 12px;
+        height:20px;
+        width: 50px;
+        color:rgb(255,196,158);
+        border: 1px solid rgb(255,196,158);
+        border-radius: 2px;
+    }
+    .deadline{
+        width:140px;
+        height:20px;
+        background-color: white;
+        color:rgb(255,152,158);
+        border: 1px solid rgb(255,152,158);
+        /*text-align: center;*/
+        font-size: 12px;
+        border-radius: 2px;
+    }
     .rejected{
         height:20px;
         font-size: 12px;
@@ -216,20 +247,20 @@ color: #999999;
     .pending {
         height: 20px;
         font-size: 12px;
-        background-color: #79c3f7;
+        background-color: #3498db;
         color: white;
         margin-right: 5px;
-        border: 1px solid #79c3f7;
+        border: 1px solid #3498db;
         border-radius: 2px;
     }
 
     .finish{
         height:20px;
         font-size: 12px;
-        background-color:#00ee00;
+        background-color:rgb(0,226,57);
         color: white;
         margin-right: 5px;
-        border: 1px solid  #00ee00;
+        border: 1px solid  rgb(0,226,57);
         border-radius: 2px;
 
     }

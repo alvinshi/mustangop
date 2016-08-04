@@ -22,8 +22,8 @@
     <!--第三方 CSS JS-->
     <link rel="stylesheet" href="../stylesheets/loading.min.css">
     <link rel="stylesheet" href="/stylesheets/vendor/hover/hover-min.css">
-    <link rel="stylesheet" href="../stylesheets/dailyTask.min.css">
-    <link rel="stylesheet" href="../stylesheets/myClaim.min.css">
+    <link rel="stylesheet" href="../stylesheets/dailyTask.css">
+    <link rel="stylesheet" href="../stylesheets/myClaim.css">
 
     <!--网站内部js-->
 
@@ -79,22 +79,26 @@
                 <a href="/newtaskMobile/{{app.taskObjectId}}">
                     <img class="logo" ng-src="{{app.artworkUrl100}}" alt="app-icon" class="img-thumbnail"/>
                 </a>
+
             </div>
 
             <div class="media-body information" >
 
                 <div>
-                    <a class="task-link" href="/newtaskMobile/{{app.taskObjectId}}">{{app.trackName.substr(0,11)+'...'}}</a>
+                    <!--<a class="task-link" href="/newtaskMobile/{{app.taskObjectId}}">{{app.trackName.substr(0,11)+'...'}}</a>-->
+                    <button class="download">下载</button>
+                    <button class="comment">评论</button>
+                    <button class=" hidden-xs left">共<span style="color:rgb(0,226,57)">{{app.totalExcCount}}</span>条</button>
+                    <button class="deadline">截止: <span>12月15日 10:00</span></button>
                 </div>
                 <div  class="center">
-                    <!--<span class="appid">App ID: {{app.appleId}}</span>-->
-                    <button  class="proceed"  ng-show="app.status == '进行中'">未完成</button>
-                    <button  class="pending" ng-show="app.status == '审核中'">审核中</button>
-                    <button  class="rejected" ng-show="app.status == '有拒绝'">有拒绝</button>
-                    <button  class="finish" ng-show="app.status == '完成'">已完成</button>
-                    <button class="download">{{app.excKinds}}</button>
-                    <button class=" hidden-xs left">共<span style="color: #458ec0">{{app.totalExcCount}}</span>条</button>
-                    <button class="surplus" >剩余<span class="num"style="color: #ff9053">{{app.surplusCount}}</span>条</button>
+                    <button  class="proceed"  >未完成 <span>13</span></button>
+                    <button  class="pending" >审核中  <span>13</span></button>
+                    <button  class="rejected" >被拒绝 <span>13</span></button>
+                    <button  class="finish" >已通过  <span>13</span></button>
+
+
+
                 </div>
                 <div class="assign">
 

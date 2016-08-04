@@ -33,7 +33,7 @@
 
     <!--网站内部js-->
     <script src="/javascripts/itunesApi.js"></script>
-    <script src="/javascripts/indexApp.min.js"></script>
+    <script src="/javascripts/indexApp.js"></script>
 </head>
 <body ng-app="yemaWebApp">
 <!--[if lt IE 8]>
@@ -133,12 +133,13 @@
                             <input type="text" class="form-control" ng-change="calcuQuantity()" ng-model="appNeedInfo.excCount" required >
 
                         </div>
-                        <div class="col-lg-2 " style="margin-left: -36px">
+                        <div class="col-lg-3 " style="margin-left: -36px">
                             <p ng-show="error.excCount" style="color: red;text-align: center;padding-top: 5px">必填</p>
-                            <p  style="text-align: center;padding-top: 5px;margin-left: 5px">(亲,目前一次最多只可发布20条任务哦)</p>
+                            <p  ng-show="errorQuatity" style="text-align: center;padding-top: 5px;margin-left: 5px;color: red">(亲,目前一次最多只可发布20条任务哦)</p>
+                            <p ng-show="insufficientFund" style="display: inline-block;margin-top: 10px">亲,钱不够呢,去<a href="/doTask" style="color: #3498db">任务大厅</a>做任务获取Y币吧</p>
 
                         </div>
-                        <label  class="col-lg-2 control-label" > 任务单价:</label>
+                        <label  class="col-lg-2 control-label" style="margin-left: -100px" > 任务单价:</label>
                         <div class="col-lg-1">
 
                             <input type="text"readonly="true" style="background-color: white"
@@ -163,9 +164,16 @@
                             <label class="radio-inline">
                                 <input type="radio" ng-model="appNeedInfo.screenshotCount" ng-value=2  ng-change="saveStatusChange()"> 2张
                             </label>
+
+
+
+
                         </div>
 
                     </div>
+
+
+
                 </form>
                 <hr>
             </div>
@@ -361,7 +369,7 @@
                 <div class="modal-content" style="width: 320px;">
                     <div class="modal-header" style="height: 74px;background-color:#6eb7e8;border-radius:4px;text-align: center">
                         <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
-                        <h4 class="modal-title"  style="font-size: 26px;color: #FFFFFF">{{modelStr}}</h4>
+                        <h4 class="modal-title"  style="font-size: 24px;color: #FFFFFF">{{modelStr}}</h4>
                     </div>
 
                     <div class="modal-footer">
