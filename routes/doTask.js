@@ -69,14 +69,35 @@ function taskObjectToDic(results, TaskObjects, isMyTask)
     }
 }
 
-function getTaskObjectList(query, totalCount, pageIndex, userObject, res, disableCount){
+function getTaskObjectList(taskType, query, totalCount, pageIndex, userObject, res, disableCount){
     var flag = 0;
+    var flagTotal = 2;
     var TaskObjects = [];
     var hasmore = 1;
 
+    if (taskType == 'inactiveTask'){
+        flagTotal = 1;
+    }else {
+        //查询我发布的任务
+        var queryMyTask = new AV.Query(releaseTaskObject);
+        queryMyTask.notEqualTo('cancelled', true);
+        queryMyTask.notEqualTo('close', true);
+        queryMyTask.equalTo('userObject', userObject);
+        queryMyTask.greaterThan('remainCount', 0);
+
+        queryMyTask.include('appObject');
+        queryMyTask.descending('createdAt');
+        queryMyTask.find().then(function(results) {
+            taskObjectToDic(results, TaskObjects, true);
+            retTaskFunc(disableCount, 0);
+        }, function(error){
+            retTaskFunc(disableCount, 0);
+        });
+    }
+
     function retTaskFunc(disableCount, errorId){
         flag = flag + 1;
-        if (flag == 2) {
+        if (flag == flagTotal) {
             if(disableCount >= 0){
                 res.json({'allTask':TaskObjects, 'hasMore':hasmore, 'errorId': errorId, 'disableTaskCount':disableCount})
             }else {
@@ -84,22 +105,6 @@ function getTaskObjectList(query, totalCount, pageIndex, userObject, res, disabl
             }
         }
     }
-
-    //查询我发布的任务
-    var queryMyTask = new AV.Query(releaseTaskObject);
-    queryMyTask.notEqualTo('cancelled', true);
-    queryMyTask.notEqualTo('close', true);
-    queryMyTask.equalTo('userObject', userObject);
-    queryMyTask.greaterThan('remainCount', 0);
-
-    queryMyTask.include('appObject');
-    queryMyTask.descending('createdAt');
-    queryMyTask.find().then(function(results) {
-        taskObjectToDic(results, TaskObjects, true);
-        retTaskFunc(disableCount, 0);
-    }, function(error){
-        retTaskFunc(disableCount, 0);
-    });
 
     query.include('appObject');
     query.ascending('createdAt');
@@ -154,29 +159,29 @@ router.get('/taskHall/:pageIndex/:taskType', function(req, res){
         query.doesNotMatchKeyInQuery('latestReleaseDate', 'appUpdateInfo', queryReceiveExcTask);
     }
     else {
-        query.lessThanOrEqualTo('remainCount', 0);
+        var query = new AV.Query(releaseTaskObject);
+        query.greaterThan('remainCount', 0);
         query.matchesKeyInQuery('latestReleaseDate', 'appUpdateInfo', queryReceiveExcTask);
     }
 
     var totalCount = 0;
     query.count().then(function(count){
         totalCount = count;
-
         if (pageIndex == 0){
-            var disableTaskQuery = getTaskQuery(userObject);
-            disableTaskQuery.lessThanOrEqualTo('remainCount', 0);
+            var disableTaskQuery = new AV.Query(releaseTaskObject);
+            disableTaskQuery.greaterThan('remainCount', 0);
             disableTaskQuery.matchesKeyInQuery('latestReleaseDate', 'appUpdateInfo', queryReceiveExcTask);
 
             disableTaskQuery.count().then(function(disableTaskCount){
-                getTaskObjectList(query, totalCount, pageIndex, userObject, res, disableTaskCount);
+                getTaskObjectList(tasktype, query, totalCount, pageIndex, userObject, res, disableTaskCount);
             }, function (error){
-                getTaskObjectList(query, 1000, pageIndex, userObject, res, -1);
+                getTaskObjectList(tasktype, query, 1000, pageIndex, userObject, res, -1);
             });
         }else {
-            getTaskObjectList(query, 1000, pageIndex, userObject, res, -1);
+            getTaskObjectList(tasktype, query, 1000, pageIndex, userObject, res, -1);
         }
     }, function (error){
-        getTaskObjectList(query, 1000, pageIndex, userObject, res, -1);
+        getTaskObjectList(tasktype, query, 1000, pageIndex, userObject, res, -1);
     });
 });
 
