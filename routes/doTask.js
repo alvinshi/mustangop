@@ -160,7 +160,7 @@ router.post('/postUsertask/:taskObjectId/:ratePrice/:appId', function(req, res){
             query = new AV.Query(User);
             query.get(userId).then(function (userObject) {
                 var totalMoney = userObject.get('totalMoney');
-                if (totalMoney <= 0) {
+                if (totalMoney < 0) {
                     errorMsg = "账户余额为负, 请充值后再领取新任务";
                     res.json({'succeeded': -100, 'errorMsg': errorMsg});
                 }else {
