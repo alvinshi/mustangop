@@ -98,6 +98,23 @@ router.get('/specTaskCheck/:taskId', function(req, res){
         var promise = 0;
         var counter = 0;
 
+        var totalGetTask = 0,  totalAccepted = 0, totalSubmited = 0;
+        var totalUndo = 0, totalRejected = 0, totalTimeout = 0;
+
+        function retJsonFunc(errorId, errorMsg){
+            if (counter == promise){
+                //排序;
+                rtnResults.sort(function(a, b){return a.createdAt - b.createdAt});
+                res.json({
+                    'rtnResults':rtnResults,
+                    'errorId': errorId, 'errorMsg': errorMsg,
+                    'totalGetTask' : totalGetTask, 'totalAccepted': totalAccepted,
+                    'totalSubmited': totalSubmited, 'totalUndo': totalUndo,
+                    'totalRejected' : totalRejected, 'totalTimeout': totalTimeout
+                });
+            }
+        }
+
         for (var i = 0; i < results.length; i++) {
             //receive task object
             promise++;
@@ -106,6 +123,7 @@ router.get('/specTaskCheck/:taskId', function(req, res){
             //领取任务基本信息
             submission.id = results[i].id;
             submission.receiveCount = results[i].get('receiveCount');
+            totalGetTask += submission.receiveCount;
             submission.receivePrice = results[i].get('receivePrice');
             submission.createdAt = results[i].createdAt;
             var username = user.get('userNickname');
@@ -129,7 +147,7 @@ router.get('/specTaskCheck/:taskId', function(req, res){
                     tempSubmission.entries = new Array();
                     for (var j = 0; j < data.length; j++) {
                         //已做任务的信息状态
-                        var taskStatus = doTaskObjects[r].get('taskStatus');
+                        var taskStatus = data[j].get('taskStatus');
                         if (taskStatus == 'uploaded' || taskStatus == 'reUploaded'){
                             submitted++;
                         }else if(taskStatus == 'systemAccepted' || taskStatus == 'accepted'){
@@ -149,33 +167,37 @@ router.get('/specTaskCheck/:taskId', function(req, res){
                     }
 
                     tempSubmission.submitted = submitted;//待审核
+                    totalSubmited += submitted;
                     tempSubmission.rejected = rejected;//已拒绝
+                    totalRejected += rejected;
                     tempSubmission.accepted = accepted;//已完成
+                    totalAccepted += accepted;
                     //未提交/已过期
-                    if (results[i].get('expiredCount') > 0){
+                    if (receiveTaskObject.get('expiredCount') > 0){
                         //过期(定时器走过了)
                         tempSubmission.abandoned = results[i].get('expiredCount');
                         tempSubmission.pending = 0;
+                        totalTimeout += tempSubmission.abandoned;
                     }else {
                         var undoTask = receiveTaskObject.get('receiveCount') - data.length;
                         tempSubmission.pending = undoTask;
                         tempSubmission.abandoned = 0;
+                        totalUndo += undoTask;
                     }
 
                     rtnResults.push(tempSubmission);
                     counter++;
-                    if (counter == promise){
-                        //排序;
-                        rtnResults.sort(function(a, b){return a.createdAt - b.createdAt});
-                        res.json({'rtnResults':rtnResults});
-                    }
-                })
+                    retJsonFunc(0, '');
+                }, function(error){
+                    counter++;
+                    retJsonFunc(error.code, error.errorMsg);
+                });
             })(results[i], submission);
 
         }
         //没有上传,返回空值
         if (promise == 0){
-            res.json({'rtnResults': []});
+            retJsonFunc(0, '');
         }
     });
 });
