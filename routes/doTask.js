@@ -90,6 +90,10 @@ function getTaskObjectList(query, totalCount, pageIndex, userObject, res, disabl
     queryMyTask.notEqualTo('cancelled', true);
     queryMyTask.notEqualTo('close', true);
     queryMyTask.equalTo('userObject', userObject);
+    queryMyTask.greaterThan('remainCount', 0);
+
+    queryMyTask.include('appObject');
+    queryMyTask.descending('createdAt');
     queryMyTask.find().then(function(results) {
         taskObjectToDic(results, TaskObjects, true);
         retTaskFunc(disableCount, 0);
@@ -97,6 +101,9 @@ function getTaskObjectList(query, totalCount, pageIndex, userObject, res, disabl
         retTaskFunc(disableCount, 0);
     });
 
+    query.include('appObject');
+    query.ascending('createdAt');
+    query.ascending('remainCount');
     query.skip(pageIndex);
     query.limit(20);
     query.find().then(function(results){
@@ -150,10 +157,6 @@ router.get('/taskHall/:pageIndex/:taskType', function(req, res){
         query.lessThanOrEqualTo('remainCount', 0);
         query.matchesKeyInQuery('latestReleaseDate', 'appUpdateInfo', queryReceiveExcTask);
     }
-
-    query.include('appObject');
-    query.ascending('remainCount');
-    query.ascending('createdAt');
 
     var totalCount = 0;
     query.count().then(function(count){

@@ -874,13 +874,13 @@ router.post('/task', function(req, res){
     var commentKeyword = req.body.commentKeyword;
     var detailRem = req.body.detailRem;
 
-    var user = new AV.User();
-    user.id = userId;
+    var userObject = new AV.User();
+    userObject.id = userId;
 
     //TODO 用户自己任务置顶,最多发布2个
 
-    var appObjectQuery = AV.Query(IOSAppInfo);
-    appObjectQuery.get(appObjectid).than(function(appObject){
+    var appObjectQuery = new AV.Query('IOSAppInfo');
+    appObjectQuery.get(appObjectid).then(function(appObject){
         var queryMyTask = new AV.Query(releaseTaskObject);
         queryMyTask.notEqualTo('cancelled', true);
         queryMyTask.notEqualTo('close', true);
@@ -890,13 +890,10 @@ router.post('/task', function(req, res){
             if(count < 2){
                 var rateunitPrice = excUnitPrice * myRate;
 
-                var trackName = data.get('trackName');
-                console.log(trackName);
+                var trackName = appObject.get('trackName');
                 var message = new messageLogger();
-                var receiver = new AV.User();
-                receiver.id = userId;
-                message.set("senderObjectId", receiver);
-                message.set('receiverObjectId', receiver);
+                message.set("senderObjectId", userObject);
+                message.set('receiverObjectId', userObject);
                 message.set('category', 'Y币');
                 message.set('type', '发布');
                 message.set('thirdPara', rateunitPrice * excCount);
@@ -904,7 +901,7 @@ router.post('/task', function(req, res){
                 message.save();
 
                 var releasetaskObject = new releaseTaskObject();
-                releasetaskObject.set('userObject', user);  //和用户表关联
+                releasetaskObject.set('userObject', userObject);  //和用户表关联
                 releasetaskObject.set('appObject', appObject);  //和app表关联
                 releasetaskObject.set('latestReleaseDate', appObject.get('latestReleaseDate'));
                 releasetaskObject.set('taskType', taskType);  // 任务类型
@@ -944,7 +941,7 @@ router.post('/task', function(req, res){
                     // 循环发布的条数 记录单条的流水
                     for (var e = 0; e < excCount; e++){
                         var accountJour = new accountJournal();
-                        accountJour.set('payYCoinUser', user);  //支出金额的用户
+                        accountJour.set('payYCoinUser', userObject);  //支出金额的用户
                         accountJour.set('payYCoin', excUnitPrice); // 此次交易支付金额
                         accountJour.set('taskObject', taskObjectId); // 任务的id
                         accountJour.set('payYCoinStatus', 'prepare_pay'); // 发布任务的时候为准备支付;
@@ -958,7 +955,7 @@ router.post('/task', function(req, res){
                     res.json({'errorId': 0});
                 });
             }else {
-                res.json({'errorMsg':'最多同时发布2个任务哦', 'errorId': error.code});
+                res.json({'errorMsg':'最多同时发布2个任务哦', 'errorId': -1});
             }
         }, function(error){
             res.json({'errorMsg':error.message, 'errorId': error.code});
@@ -975,10 +972,10 @@ router.get('/getNeed/:appleId', function(req, res){
     var userId = util.useridInReq(req);
     var myappId = req.params.appleId;
 
-    var user = new AV.User();
-    user.id = userId;
+    var userObject = new AV.User();
+    userObject.id = userId;
     var query = new AV.Query(IOSAppBinder);
-    query.equalTo('userObject', user);
+    query.equalTo('userObject', userObject);
     query.include('appObject');
     query.include('taskDemand');
     query.find().then(function(results){
