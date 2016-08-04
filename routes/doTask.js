@@ -93,6 +93,7 @@ function getTaskObjectList(query, totalCount, pageIndex, userObject, res, disabl
     queryMyTask.greaterThan('remainCount', 0);
 
     queryMyTask.include('appObject');
+    queryMyTask.skip(pageIndex);
     queryMyTask.descending('createdAt');
     queryMyTask.find().then(function(results) {
         taskObjectToDic(results, TaskObjects, true);
