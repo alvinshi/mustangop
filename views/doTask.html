@@ -295,24 +295,6 @@
                             </div>
                         </div>
                     </div>
-
-                    <div class="modal fade" id="markApp">
-                        <div class="modal-dialog">
-                            <div class="modal-content" style="width: 320px;">
-                                <div class="modal-header" style="height: 74px;background-color:#6eb7e8;border-radius:4px;text-align: center">
-                                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
-                                    <h4 class="modal-title"  style="font-size:20px;color: #FFFFFF">是否把此APP标记为"本版本已换"?</h4>
-                                </div>
-
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-default" data-dismiss="modal"
-                                            ng-click="confirmAdd()">确认</button>
-                                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-                                </div>
-                            </div><!-- /.modal-content -->
-                        </div><!-- /.modal-dialog -->
-                    </div>
-
                 </div>
 
                 <div ng-show="taskDisplayed.length == undefined || taskDisplayed.length == 0">
@@ -803,21 +785,21 @@
     </div><!-- uploadTaskVideo-->
 
 
-    <!--<div class="modal fade" id="markApp">-->
-        <!--<div class="modal-dialog">-->
-            <!--<div class="modal-content" style="width: 320px;">-->
-                <!--<div class="modal-header" style="height: 74px;background-color:#6eb7e8;border-radius:4px;text-align: center">-->
-                    <!--<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>-->
-                    <!--<h4 class="modal-title"  style="font-size:20px;color: #FFFFFF">是否把此APP标记为"本版本已换"?</h4>-->
-                <!--</div>-->
+    <div class="modal fade" id="markApp">
+        <div class="modal-dialog">
+            <div class="modal-content" style="width: 320px;">
+                <div class="modal-header" style="height: 74px;background-color:#6eb7e8;border-radius:4px;text-align: center">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+                    <h4 class="modal-title"  style="font-size:20px;color: #FFFFFF">是否把此APP标记为"本版本已换"?</h4>
+                </div>
 
-                <!--<div class="modal-footer">-->
-                    <!--<button type="button" class="btn btn-default" data-dismiss="modal" ng-click="confirmAdd(app.appObjectId)">确认</button>-->
-                    <!--<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>-->
-                <!--</div>-->
-            <!--</div>&lt;!&ndash; /.modal-content &ndash;&gt;-->
-        <!--</div>&lt;!&ndash; /.modal-dialog &ndash;&gt;-->
-    <!--</div>-->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="confirmAdd()">确认</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div>
 
 
 
