@@ -75,7 +75,7 @@ function getTaskObjectList(taskType, query, totalCount, pageIndex, userObject, r
     var TaskObjects = [];
     var hasmore = 1;
 
-    if (taskType == 'inactiveTask'){
+    if (taskType == 'inactiveTask' || taskType == 'downTask'){
         flagTotal = 1;
     }else {
         //查询我发布的任务
@@ -86,6 +86,7 @@ function getTaskObjectList(taskType, query, totalCount, pageIndex, userObject, r
         queryMyTask.greaterThan('remainCount', 0);
 
         queryMyTask.include('appObject');
+        queryMyTask.skip(pageIndex);
         queryMyTask.descending('createdAt');
         queryMyTask.find().then(function(results) {
             taskObjectToDic(results, TaskObjects, true);
@@ -101,7 +102,7 @@ function getTaskObjectList(taskType, query, totalCount, pageIndex, userObject, r
             if(disableCount >= 0){
                 res.json({'allTask':TaskObjects, 'hasMore':hasmore, 'errorId': errorId, 'disableTaskCount':disableCount})
             }else {
-                res.json({'allTask':TaskObjects, 'hasMore':hasmore, 'errorId': errorId})
+                res.json({'allTask':TaskObjects, 'hasMore':hasmore, 'errorId': errorId, 'disableTaskCount':disableCount})
             }
         }
     }
@@ -113,7 +114,7 @@ function getTaskObjectList(taskType, query, totalCount, pageIndex, userObject, r
     query.limit(20);
     query.find().then(function(results){
         taskObjectToDic(results, TaskObjects, false);
-        if (totalCount > results.length + parseInt(pageIndex)){
+        if (totalCount > results.length + pageIndex){
             hasmore = 1;
         }else {
             hasmore = 0;
@@ -127,7 +128,7 @@ function getTaskObjectList(taskType, query, totalCount, pageIndex, userObject, r
 // get do task list
 router.get('/taskHall/:pageIndex/:taskType', function(req, res){
     var userId = util.useridInReq(req);
-    var pageIndex = req.params.pageIndex;
+    var pageIndex = parseInt(req.params.pageIndex);
     var tasktype = req.params.taskType;
 
     var userObject = new AV.User();
@@ -178,7 +179,14 @@ router.get('/taskHall/:pageIndex/:taskType', function(req, res){
                 getTaskObjectList(tasktype, query, 1000, pageIndex, userObject, res, -1);
             });
         }else {
-            getTaskObjectList(tasktype, query, 1000, pageIndex, userObject, res, -1);
+            var disabletaskQuery = new AV.Query(releaseTaskObject);
+            disabletaskQuery.greaterThan('remainCount', 0);
+            disabletaskQuery.matchesKeyInQuery('latestReleaseDate', 'appUpdateInfo', queryReceiveExcTask);
+            disabletaskQuery.count().then(function(disableTaskCount){
+                getTaskObjectList(tasktype, query, totalCount, pageIndex, userObject, res, disableTaskCount);
+            },function (error){
+                getTaskObjectList(tasktype, query, 1000, pageIndex, userObject, res, -1);
+            });
         }
     }, function (error){
         getTaskObjectList(tasktype, query, 1000, pageIndex, userObject, res, -1);
