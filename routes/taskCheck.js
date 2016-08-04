@@ -161,7 +161,7 @@ router.get('/specTaskCheck/:taskId', function(req, res){
                         entry.id = data[j].id;
                         entry.uploadName = data[j].get('uploadName');
                         entry.imgs = data[j].get('requirementImgs');
-                        entry.status = data[j].get('status');
+                        entry.status = data[j].get('taskStatus');
                         entry.detail = data[j].get('detail');
                         tempSubmission.entries.push(entry);
                     }

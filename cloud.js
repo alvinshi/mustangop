@@ -125,8 +125,12 @@ AV.Cloud.define('checkTask', function(request, response){
                         var task = receTaskObject.get('taskObject'); // 领取任务的object
                         var user = receTaskObject.get('userObject'); // 领取任务的用户
                         var app = receTaskObject.get('appObject'); // 领取的任务App
-                        var trackName = app.get('trackName'); //任务App名称
+                        if(task == undefined || user == undefined || app == undefined){
+                            console.log('********** task or user or app is undefine in timer func');
+                            return;
+                        }
 
+                        var trackName = app.get('trackName'); //任务App名称
                         var rate_unitPrice = task.get('rateUnitPrice'); // 任务的单价
                         var releaseTaskUser = task.get('userObject');  // 发布任务的用户
 
@@ -142,22 +146,30 @@ AV.Cloud.define('checkTask', function(request, response){
                                     doTaskObjects[r].set('taskStatus', 'systemAccepted');
                                     changeDoTasks.push(doTaskObjects[r]);
                                     //增加做任务人的钱
+                                    console.log(user.id + '++++++ checkTask add user YB' + rate_unitPrice);
                                     user.increment('totalMoney', rate_unitPrice);
                                     //扣除发布任务人的冻结钱
-                                    releaseTaskUser.releaseTaskUser('freezingMoney', -rate_unitPrice);
+                                    releaseTaskUser.increment('freezingMoney', -rate_unitPrice);
+                                    console.log(releaseTaskUser.id + '------ checkTask add user YB' + rate_unitPrice);
                                 }else{
                                     //do nothing
                                     //query.notContainedIn('taskStatus', ['systemAccepted', 'accepted', 'refused']);
                                 }
                             }
 
-                            var undoTask = receiveTaskObject.get('receiveCount') - doTaskObjects.length;
+                            AV.Object.saveAll(changeDoTasks).then(function(){
+                                console.log('!!!!! checkTask modify task is accepted succeed');
+                            });
+
+                            var undoTask = receTaskObject.get('receiveCount') - doTaskObjects.length;
                             if (undoTask > 0){
                                 //protect
                                 //1.扣除用户金币入系统(汇率金币)  减少发布人冻结的钱 增加发布人总钱
                                 user.increment('totalMoney', -(rate_unitPrice * undoTask));
-                                releaseTaskUser.releaseTaskUser('freezingMoney', - (rate_unitPrice * undoTask));
-                                releaseTaskUser.releaseTaskUser('totalMoney', rate_unitPrice * undoTask);
+                                console.log(user.id + '------ 111 checkTask add user YB' + (rate_unitPrice * undoTask));
+                                releaseTaskUser.increment('freezingMoney', - (rate_unitPrice * undoTask));
+                                console.log(releaseTaskUser.id + '++++++ 111 checkTask add user YB' + (rate_unitPrice * undoTask));
+                                releaseTaskUser.increment('totalMoney', rate_unitPrice * undoTask);
 
                                 //2.过期任务增加
                                 receTaskObject.increment('expiredCount', undoTask);
@@ -170,7 +182,7 @@ AV.Cloud.define('checkTask', function(request, response){
                                 message.set('type', '处罚');
                                 message.set('firstPara', trackName);
                                 message.set('thirdPara', rate_unitPrice *  undoTask);
-                                message.set('fourthPara', task_not_done);
+                                message.set('fourthPara', '未在规定时间内完成任务');
                                 message.save();
                             }
 
@@ -190,10 +202,6 @@ AV.Cloud.define('checkTask', function(request, response){
                                 }
                             }, function (error) {
                                 console.log('----- totalMoney error');
-                            });
-
-                            AV.Object.saveAll(changeDoTasks).then(function(){
-                                console.log('!!!!! checkTask modify task is accepted succeed');
                             });
                         });
                     })(results[e]);
@@ -245,16 +253,18 @@ AV.Cloud.define('checkTask', function(request, response){
 
 module.exports = AV.Cloud;
 
-//var paramsJson = {
-//    movie: "夏洛特烦恼"
-//};
-//
+var paramsJson = {
+    movie: "夏洛特烦恼"
+};
+
 //AV.Cloud.run('checkTask', paramsJson, {
 //    success: function(data) {
 //        // 调用成功，得到成功的应答data
+//        console.log('---- test timer: succeed');
 //    },
 //    error: function(err) {
 //        // 处理调用失败
+//        console.log('---- test timer: error');
 //    }
 //});
 

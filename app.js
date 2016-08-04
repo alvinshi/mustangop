@@ -1,6 +1,7 @@
 'use strict';
 var domain = require('domain');
 var express = require('express');
+var timeout = require('connect-timeout');
 var path = require('path');
 var ejs = require('ejs');
 var fs= require('fs');
@@ -99,11 +100,6 @@ function routeHasPrefix(originalUrl, judgeArray){
 
 // 没有挂载路径的中间件，应用的每个请求都会执行该中间件
 app.use(function (req, res, next) {
-
-  if(req.timedout) {
-    console.error('请求超时: url=%s, timeout=%d, 请确认方法执行耗时很长，或没有正确的 response 回调。', req.originalUrl, err.timeout);
-  }
-
   var loginWhiteList  = new Array();
   loginWhiteList[0] = "/user";
   loginWhiteList[1] = "/upload";
@@ -206,6 +202,9 @@ if (app.get('env') === 'development') {
     var statusCode = err.status || 500;
     if(statusCode === 500) {
       console.error(err.stack || err);
+    }
+    if(req.timedout) {
+      console.error('请求超时: url=%s, timeout=%d, 请确认方法执行耗时很长，或没有正确的 response 回调。', req.originalUrl, err.timeout);
     }
     res.status(statusCode);
     res.render('error', {
