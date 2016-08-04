@@ -50,6 +50,7 @@ router.get('/claim/:userObjectId', function(req, res){
                 continue;
             }
             appHisObject.taskObjectId = results[i].id;
+            appHisObject.createdAt = results[i].createdAt;
             appHisObject.excKinds = appExcHisObject.get('taskType');
             //total count
             appHisObject.totalExcCount = results[i].get('receiveCount');
@@ -68,7 +69,6 @@ router.get('/claim/:userObjectId', function(req, res){
             var createDate = results[i].createdAt;
             var expireTimeStamp = 0;
             var createHours = createDate.getHours();
-            var nowTimestamp = new Date().getTime();
             //早10点审核 前天下午6点前接受的任务
             if (createHours < 18){
                 expireTimeStamp = createDate.getTime() + 1000*60*60*24;
@@ -110,11 +110,13 @@ router.get('/claim/:userObjectId', function(req, res){
 
                     calNumber++;
                     if (calNumber == results.length){
+                        retApps.sort(function(a, b){return a.createdAt - b.createdAt});
                         res.json({'myClaimApps':retApps, 'errorId': 0});
                     }
                 }, function (error) {
                     calNumber++;
                     if (calNumber == results.length){
+                        retApps.sort(function(a, b){return a.createdAt - b.createdAt});
                         res.json({'myClaimApps':retApps, 'errorId': 0});
                     }
                 });
