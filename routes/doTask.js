@@ -314,4 +314,38 @@ router.post('/postUsertask/:taskObjectId/:ratePrice/:appId', function(req, res){
     });
 });
 
+// 用户自己筛选的任务
+router.post('/needSave', function(req, res){
+    var userid = util.useridInReq(req);
+
+    var myDate = new Date();
+    var myDateStr = myDate.getFullYear() + '-' + (parseInt(myDate.getMonth())+1) + '-' + myDate.getDate();
+
+    var appObjectId = req.body.appObjectId;
+    var appLatesReleaseDate = req.body.latestReleaseDate;
+    var taskObjectId = req.body.taskObjectId;
+
+    var userObject = new AV.User();
+    userObject.id = userid;
+
+    // 任务的Object 和 appObject
+    var taskObject = AV.Object.createWithoutData('releaseTaskObject', taskObjectId);
+    var appObject = AV.Object.createWithoutData('IOSAppInfo', appObjectId);
+
+    var userFilterTaskObject = new receiveTaskObject();
+    userFilterTaskObject.set('userObject', userObject);
+    userFilterTaskObject.set('appUpdateInfo', appLatesReleaseDate);
+    userFilterTaskObject.set('receiveDate', myDateStr);
+    userFilterTaskObject.set('taskObject', taskObject);
+    userFilterTaskObject.set('appObject', appObject);
+    userFilterTaskObject.set('userFilter', '已经做过');
+    userFilterTaskObject.save().then(function(){
+        res.json({'errorId':0, 'errorMsg':'筛选成功,当前版本不会出现'});
+    },function (error){
+        res.json({'errorMsg':error.message, 'errorId': error.code});
+    })
+
+
+});
+
 module.exports = router;

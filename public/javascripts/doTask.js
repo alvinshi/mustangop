@@ -185,7 +185,23 @@ app.controller('doTaskCtrl', function($scope, $http) {
         app.mode=false;
     };
     //
-    $scope.filtrateApp=function(app){
+    $scope.filtrateApp=function(appInfo){
         $("#markApp").modal("show");
+
+        var needToSave = {'appObjectId': appInfo.appObjectId, 'latestReleaseDate': appInfo.latestReleaseDate,
+            'taskObjectId':appInfo.objectId};
+
+        var needSaveUrl = 'doTask/needSave';
+        $http.post(needSaveUrl, needToSave).success(function(response){
+            $scope.errorId = response.errorId;
+            $scope.errorMsg = response.errorMsg;
+
+        })
+    };
+
+    // 筛选任务, 当我点击确认时 保存
+    $scope.confirmAdd = function(appInfo){
+        $scope.filtrateApp(appInfo);
+
     }
 });
