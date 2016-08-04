@@ -62,7 +62,8 @@ app.controller('taskCheckCtrl', function($scope, $http, $location) {
 
     $scope.accept = function(entry){
         var entryId = entry.id;
-                entry.status = 3;
+        //BUGBUG
+                entry.status = 'accepted';
                 var url = '/taskCheck/accept/' + entryId;
                 $http.post(url).success(function(response){
                     specTaskCheck($scope.currentTaskId);
@@ -94,7 +95,7 @@ app.controller('taskCheckCtrl', function($scope, $http, $location) {
             })
         }
 
-    }
+    };
     $scope.addApp=function(id) {
         $('#'+ id).popover("toggle");
     };
