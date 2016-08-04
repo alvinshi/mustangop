@@ -83,7 +83,7 @@ router.get('/cancelTask/:taskId', function(req, res){
     query.get(taskId).then(function(result){
         var totalNum = parseInt(result.get('excCount'));
         var remain = result.get('remainCount');
-        result.set('excCount', totalNum - remain + '');
+        result.set('excCount', totalNum - remain);
         result.set('remainCount', 0);
         var acceptedNum = result.get('accepted');
         var abandonedNum = result.get('abandonedNum');
@@ -101,7 +101,9 @@ router.get('/cancelTask/:taskId', function(req, res){
             result.save();
         });
         result.set('cancelled', true);
-        result.save();
+        result.save().then(function(savedObject){
+
+        });
         res.json({'errorMsg':'succeed'});
     })
 })
