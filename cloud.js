@@ -126,7 +126,6 @@ AV.Cloud.define('checkTask', function(request, response){
                     var trackName = app.get('trackName'); //任务App名称
 
                     var rate_unitPrice = task.get('rateUnitPrice'); // 任务的单价
-
                     var releaseTaskUser = task.get('userObject');  // 发布任务的用户
 
                     // 每天10点 做任务人提交了任务 发布者未审核 钱付给做任务者
@@ -205,35 +204,36 @@ AV.Cloud.define('checkTask', function(request, response){
                     }
 
                     // 修改流水库 因为是异步 所以封装起来 处理
-                    (function (checkPendingTask, notDoTaskCount){
-                        var query_journal = new AV.Query(accountJournal);
-                        query_journal.equalTo('payYCoinUser', releaseTaskUser);
-                        query_journal.equalTo('taskObject', task);
-                        query_journal.equalTo('incomeYCoinUser', user);
-                        query_journal.equalTo('payYCoinStatus', 'prepare_pay');
-                        query_journal.equalTo('incomeYCoinStatus', 'prepare_income');
-                        query_journal.find().then(function(result){
-                            console.log(checkPendingTask);
-                            console.log(notDoTaskCount);
-                            for (var z = 0; z < checkPendingTask; z++){
-                                var payYB = result[z].get('payYCoin'); // 支付的YB
-                                var incomeYB = result[z].get('incomeYCoin'); // 得到的YB
-                                var systemYB = payYB - incomeYB;  // 系统得到的
-
-                                result[z].set('payYCoinStatus', 'payed');
-                                result[z].set('incomeYCoinStatus', 'incomed');
-                                result[z].set('systemYCoin', systemYB);
-
-                            }
-                            for (var f = checkPendingTask; f < notDoTaskCount + checkPendingTask; f++){
-                                result[f].set('incomeYCoinStatus', 'punish_income');
-                            }
-
-                            AV.Object.saveAll(result).then(function(){
-                                console.log('!!!!! checkTask  modify journal succeed');
-                            })
-                        });
-                    })(submitted, task_not_done);
+                    // BUGBUG
+                    //(function (checkPendingTask, notDoTaskCount){
+                    //    var query_journal = new AV.Query(accountJournal);
+                    //    query_journal.equalTo('payYCoinUser', releaseTaskUser);
+                    //    query_journal.equalTo('taskObject', task);
+                    //    query_journal.equalTo('incomeYCoinUser', user);
+                    //    query_journal.equalTo('payYCoinStatus', 'prepare_pay');
+                    //    query_journal.equalTo('incomeYCoinStatus', 'prepare_income');
+                    //    query_journal.find().then(function(result){
+                    //        console.log(checkPendingTask);
+                    //        console.log(notDoTaskCount);
+                    //        for (var z = 0; z < checkPendingTask; z++){
+                    //            var payYB = result[z].get('payYCoin'); // 支付的YB
+                    //            var incomeYB = result[z].get('incomeYCoin'); // 得到的YB
+                    //            var systemYB = payYB - incomeYB;  // 系统得到的
+                    //
+                    //            result[z].set('payYCoinStatus', 'payed');
+                    //            result[z].set('incomeYCoinStatus', 'incomed');
+                    //            result[z].set('systemYCoin', systemYB);
+                    //
+                    //        }
+                    //        for (var f = checkPendingTask; f < notDoTaskCount + checkPendingTask; f++){
+                    //            result[f].set('incomeYCoinStatus', 'punish_income');
+                    //        }
+                    //
+                    //        AV.Object.saveAll(result).then(function(){
+                    //            console.log('!!!!! checkTask  modify journal succeed');
+                    //        })
+                    //    });
+                    //})(submitted, task_not_done);
 
 
                     user.save().then(function () {
@@ -382,52 +382,20 @@ AV.Cloud.define('releaseTaskTimer', function(request, response){
     });
 });
 
-// 删除用户信息脚本
-function remove(){
-    var query = new AV.Query(IOSAppExcLogger);
-    query.notEqualTo('userId', '573bce7149830c006116ad6e');
-    return query;
-}
-
-AV.Cloud.define('removeRen', function(){
-    var userId = '573bce7149830c006116ad6e';
-
-    var user = new AV.User();
-    user.id = userId;
-    var query_IosApp = new AV.Query(IOSAppBinder);
-    query_IosApp.notEqualTo('userObject', user);
-    query_IosApp.limit(1000);
-    query_IosApp.find().then(function(removeObject){
-        console.log('AppBinder' + removeObject.length);
-        //AV.Object.destroyAll(removeObject).then(function(){
-        //    console.log('删除我添加的APP不是俞雷的数据成功')
-        //})
-    });
-
-    var query = remove();
-    query.limit(1000);
-    query.find().then(function(removeExcObject){
-        console.log('AppExc' + removeExcObject.length);
-        //AV.Object.destroyAll(removeExcObject).then(function(){
-        //    console.log('删除交换任务不是俞雷的数据成功')
-        //})
-    })
-});
-
 module.exports = AV.Cloud;
 
-//var paramsJson = {
-//    movie: "夏洛特烦恼"
-//};
-//
-//AV.Cloud.run('removeRen', paramsJson, {
-//    success: function(data) {
-//        // 调用成功，得到成功的应答data
-//    },
-//    error: function(err) {
-//        // 处理调用失败
-//    }
-//});
+var paramsJson = {
+    movie: "夏洛特烦恼"
+};
+
+AV.Cloud.run('checkTask', paramsJson, {
+    success: function(data) {
+        // 调用成功，得到成功的应答data
+    },
+    error: function(err) {
+        // 处理调用失败
+    }
+});
 
 ////Promise test code
 //var successful = new AV.Promise();
@@ -441,18 +409,22 @@ module.exports = AV.Cloud;
 //var failed = AV.Promise.error('An error message.');
 
 //临时代码,修复string to int问题
-//var query = new AV.Query(receiveTaskObject);
+//var query = new AV.Query(releaseTaskObject);
 //query.descending('createdAt');
+//query.include('appObject');
 //query.limit(1000);
 //query.find().then(function(results) {
 //    for (var i = 0; i < results.length; i++) {
 //        release_task_object = results[i];
+//        hisAppObject = release_task_object.get('appObject');
+//        hisAppObjectReleaseTimer = hisAppObject.get('latestReleaseDate');
+//        release_task_object.set('latestReleaseDate', hisAppObjectReleaseTimer);
 //        //release_task_object.set('receiveCountI', parseInt(release_task_object.get('receiveCount')));
 //        //release_task_object.set('excCountI', parseInt(release_task_object.get('excCount')));
 //        //release_task_object.set('ranKingI', parseInt(release_task_object.get('ranKing')));
 //        //release_task_object.set('excUnitPriceI', parseInt(release_task_object.get('excUnitPrice')));
 //
-//        release_task_object.set('receiveCount', release_task_object.get('receiveCountI'));
+//        //release_task_object.set('receiveCount', release_task_object.get('receiveCountI'));
 //        //release_task_object.set('excCount', release_task_object.get('excCountI'));
 //        //release_task_object.set('ranKing', release_task_object.get('ranKingI'));
 //        //release_task_object.set('excUnitPrice', release_task_object.get('excUnitPriceI'));
