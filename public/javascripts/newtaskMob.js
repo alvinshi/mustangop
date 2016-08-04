@@ -105,6 +105,7 @@ app.controller('MobControl', function($scope, $http, $location, FileUploader) {
     };
 
     uploader.onProgressAll = function (progress) {
+        $scope.progressNum = progress;
         console.info('onProgressAll', progress);
     };
     uploader.onSuccessItem = function (fileItem, response, status, headers) {
@@ -124,9 +125,6 @@ app.controller('MobControl', function($scope, $http, $location, FileUploader) {
     uploader.onCompleteAll = function () {
         console.info('onCompleteAll');
         var Url = '/newtaskMobile/add/' + excTaskId;
-
-        $scope.progressNum = 80;
-
         $http.post(Url, {
                 'uploadName':$scope.uploadName,
                 'requirementImgs': fileUrls

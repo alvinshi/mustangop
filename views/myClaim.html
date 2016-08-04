@@ -27,9 +27,8 @@
 
     <!--网站内部js-->
 
-
-    <script src="/javascripts/myClaim.min.js"></script>
-    <script src="/javascripts/indexApp.min.js"></script>
+    <script src="/javascripts/myClaim.js"></script>
+    <script src="/javascripts/indexApp.js"></script>
 </head>
 
 <body ng-app="yemaWebApp">
@@ -86,16 +85,16 @@
 
                 <div>
                     <!--<a class="task-link" href="/newtaskMobile/{{app.taskObjectId}}">{{app.trackName.substr(0,11)+'...'}}</a>-->
-                    <button class="download">下载</button>
-                    <button class="comment">评论</button>
+                    <button class="download" ng-show="app.excKinds == '下载'">{{app.excKinds}}</button>
+                    <button class="comment" ng-show="app.excKinds == '评论'">{{app.excKinds}}</button>
                     <button class=" hidden-xs left">共<span style="color:rgb(0,226,57)">{{app.totalExcCount}}</span>条</button>
-                    <button class="deadline">截止: <span>12月15日 10:00</span></button>
+                    <button class="deadline">{{app.deadlineStr}}</span></button>
                 </div>
                 <div  class="center">
-                    <button  class="proceed"  >未完成 <span>13</span></button>
-                    <button  class="pending" >审核中  <span>13</span></button>
-                    <button  class="rejected" >被拒绝 <span>13</span></button>
-                    <button  class="finish" >已通过  <span>13</span></button>
+                    <button  class="proceed" ng-show="app.status=='未完成'">未完成{{app.surplusCount}}</button>
+                    <button  class="pending" ng-show="app.status=='审核中'">审核中{{app.submitted}}</button>
+                    <button  class="rejected"ng-show="app.status=='被拒绝'" >被拒绝{{app.rejected}}</button>
+                    <button  class="finish" ng-show="app.status=='已通过'">已通过{{app.accepted}}</button>
 
 
 

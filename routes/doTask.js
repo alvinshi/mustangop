@@ -284,23 +284,23 @@ router.post('/postUsertask/:taskObjectId/:ratePrice/:appId', function(req, res){
                                     message.save().then(function(){
 
                                         // 查询流水的库, 按照领取的数量 记录
-                                        var query_account = new AV.Query(accountJournal);
-                                        query_account.equalTo('taskObject', taskObject);
-                                        query_account.doesNotExist('incomeYCoinUser');
-                                        query_account.doesNotExist('incomeYCoinDes');
-                                        query_account.limit(receive_Count);
-                                        query_account.find().then(function(accountObjects){
-                                            for (var a = 0; a < receive_Count; a++){
-                                                accountObjects[a].set('incomeYCoinUser', userObject);  //收入金额的用户
-                                                accountObjects[a].set('incomeYCoin', parseInt(req.params.ratePrice)); // 此次交易得到金额
-                                                accountObjects[a].set('incomeYCoinStatus', 'prepare_income'); // 领取任务的时候为准备收益;
-                                                accountObjects[a].set('incomeYCoinDes', '做任务');
-                                            }
-
-                                            AV.Object.saveAll(accountObjects).then(function(){
-                                                res.json({'succeeded': 0, 'errorMsg': '领取成功'});
-                                            });
-                                        });
+                                        //var query_account = new AV.Query(accountJournal);
+                                        //query_account.equalTo('taskObject', taskObject);
+                                        //query_account.doesNotExist('incomeYCoinUser');
+                                        //query_account.doesNotExist('incomeYCoinDes');
+                                        //query_account.limit(receive_Count);
+                                        //query_account.find().then(function(accountObjects){
+                                        //    for (var a = 0; a < receive_Count; a++){
+                                        //        accountObjects[a].set('incomeYCoinUser', userObject);  //收入金额的用户
+                                        //        accountObjects[a].set('incomeYCoin', parseInt(req.params.ratePrice)); // 此次交易得到金额
+                                        //        accountObjects[a].set('incomeYCoinStatus', 'prepare_income'); // 领取任务的时候为准备收益;
+                                        //        accountObjects[a].set('incomeYCoinDes', '做任务');
+                                        //    }
+                                        //
+                                        //    AV.Object.saveAll(accountObjects).then(function(){
+                                        //        res.json({'succeeded': 0, 'errorMsg': '领取成功'});
+                                        //    });
+                                        //});
                                     });
                                 });
 

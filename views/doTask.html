@@ -91,8 +91,8 @@
 <div class="container fly" style="width: 1010px; padding:0;" ng-controller="doTaskCtrl">
     <div class="row" style="margin:0;">
         <p style="font-size: 30px; color: #3498db; margin: 40px 20px 10px 0; float: left" ng-show="!noApp">任务列表</p>
-        <div ng-show="!noApp" class="alert alert-info" role="alert" style="display: inline-block; margin-top: 35px;">
-            如果您在QQ中已做过下列某个产品的任务,请不要重复认领</div>
+        <div ng-show="!noApp" class="alert alert-warning" role="alert" style="display: inline-block; margin-top: 35px;">
+            对于已经Q群换过的任务,你可以进行标记,后续除非该App更新,否则都不在展示给你</div>
         <a href="myapp" class="publishTask" ng-mouseover="changePlaneColor()" ng-mouseleave = "changePlaneColor()">
             <img src="/images/doTask/paperplane.png" ng-show="planeColor"/>
             <img src="/images/doTask/paperplane-blue.png" ng-hide="planeColor"/>
@@ -119,7 +119,9 @@
                     <table style="width: 1010px;" ng-mouseover="showDiv(app)" ng-mouseleave="hideDiv(app)">
                         <tr>
                             <td style="padding: 24px 30px 24px 30px; width: 160px;position: relative">
-                                <img ng-src="{{ app.artworkUrl100 }}" class="appIcon" > <div class="choose" ng-show="app.mode" ng-click="filtrateApp(app)">筛选</div>
+                                <img ng-src="{{ app.artworkUrl100 }}" class="appIcon" >
+                                <div class="choose" ng-show="app.mode" ng-click="filtrateApp(app)">Q群换过</div>
+
                             </td>
                             <td style="width: 500px;">
                                 <p class="appName">{{ app.trackName }}</p>
