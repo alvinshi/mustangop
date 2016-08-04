@@ -300,6 +300,10 @@
                 <div style="margin-top: 30px; margin-bottom: 30px; text-align: center;">
                     <button class="btn btn-default myPageBtn" ng-hide="!hasMoreDic['allTask']" ng-click="displayAll()">下一页</button>
                 </div>
+                <div style="margin-top: 30px; margin-bottom: 30px; text-align: center;">
+                    <button class="btn btn-default myPageBtn" ng-show="hasMoreDic['allTask'] == 0" >没有更多数据</button>
+                </div>
+
             </div>
 
             <!--评论的任务-->
@@ -485,6 +489,9 @@
                 </div>
                 <div style="margin-top: 30px; margin-bottom: 30px; text-align: center;">
                     <button class="btn btn-default myPageBtn" ng-hide="!hasMoreDic['commentTask']" ng-click="commentTasksOnly()">下一页</button>
+                </div>
+                <div style="margin-top: 30px; margin-bottom: 30px; text-align: center;">
+                    <button class="btn btn-default myPageBtn" ng-show="hasMoreDic['commentTask'] == 0" >没有更多数据</button>
                 </div>
             </div>
 
@@ -675,6 +682,9 @@
                 <div style="margin-top: 30px; margin-bottom: 30px; text-align: center;">
                     <button class="btn btn-default myPageBtn" ng-hide="!hasMoreDic['downTask']" ng-click="downloadTasksOnly()">下一页</button>
                 </div>
+                <div style="margin-top: 30px; margin-bottom: 30px; text-align: center;">
+                    <button class="btn btn-default myPageBtn" ng-show="hasMoreDic['downTask'] == 0" >没有更多数据</button>
+                </div>
             </div>
 
             <!--不能做的任务-->
@@ -709,10 +719,13 @@
                     <hr style="margin:0; border-color: #dddddd;">
                 </div>
                 <div ng-show="inactiveTask.length == undefined || inactiveTask.length == 0">
-                    <h1 style="text-align: center; margin-top: 150px; margin-bottom: 150px;">任务大厅没有你可以领取的任务</h1>
+                    <h1 style="text-align: center; margin-top: 150px; margin-bottom: 150px;">任务大厅任务您都可以领取</h1>
                 </div>
                 <div style="margin-top: 30px; margin-bottom: 30px; text-align: center;">
                     <button class="btn btn-default myPageBtn" ng-hide="!hasMoreDic['inactiveTask']" ng-click="inactiveTasksOnly()">下一页</button>
+                </div>
+                <div style="margin-top: 30px; margin-bottom: 30px; text-align: center;">
+                    <button class="btn btn-default myPageBtn" ng-show="hasMoreDic['inactiveTask'] == 0" >没有更多数据</button>
                 </div>
             </div>
         </div>

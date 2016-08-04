@@ -13,7 +13,6 @@ var receiveTaskObject = AV.Object.extend('receiveTaskObject');
 var mackTaskInfo = AV.Object.extend('mackTaskInfo');
 var messageLogger = AV.Object.extend('messageLogger');
 var accountJournal = AV.Object.extend('accountJournal'); // 记录账户变动明细表
-var User = AV.Object.extend('_User');
 
 router.get('/', function(req, res) {
     res.render('taskCheck');
@@ -55,7 +54,6 @@ router.get('/taskAudit', function(req, res){
             appInfoObject.titleKeyword = results[i].get('titleKeyword');
             appInfoObject.commentKeyword = results[i].get('commentKeyword');
 
-
             //实时数据
             appInfoObject.remainCount = results[i].get('remainCount');
             appInfoObject.pending = results[i].get('pending');
@@ -76,37 +74,15 @@ router.get('/taskAudit', function(req, res){
 router.get('/cancelTask/:taskId', function(req, res){
     var taskId = req.params.taskId;
     var query = new AV.Query(releaseTaskObject);
-    var userId = util.useridInReq(req);
-    var user = new AV.User();
-    user.id = userId;
-
     query.get(taskId).then(function(result){
-        var totalNum = parseInt(result.get('excCount'));
-        var remain = result.get('remainCount');
-        result.set('excCount', totalNum - remain);
-        result.set('remainCount', 0);
-        var acceptedNum = result.get('accepted');
-        var abandonedNum = result.get('abandonedNum');
-        if ((acceptedNum + abandonedNum) == (totalNum - remain)){
-            result.set('completed', 1);
-        }
-        var rate = result.get('rateUnitPrice');
-        var moneyReturn = remain * rate;
-        var secondaryQuery = new AV.Query(User);
-        secondaryQuery.get(userId).then(function(result){
-            var preFreezingMoney = result.get('freezingMoney');
-            result.set('freezingMoney', preFreezingMoney - moneyReturn);
-            var preTotalMoney = result.get('totalMoney');
-            result.set('totalMoney', preTotalMoney + moneyReturn);
-            result.save();
-        });
         result.set('cancelled', true);
-        result.save().then(function(savedObject){
-
+        result.save().then(function(){
+            res.json({'errorMsg':'succeed', 'errorId': 0});
+        }, function(error){
+            res.json({'errorMsg':error.errorMsg, 'errorId': error.code});
         });
-        res.json({'errorMsg':'succeed'});
-    })
-})
+    });
+});
 
 //******************点击控制器条目后触发***********************
 router.get('/specTaskCheck/:taskId', function(req, res){
@@ -114,7 +90,6 @@ router.get('/specTaskCheck/:taskId', function(req, res){
     var query = new AV.Query(receiveTaskObject);
     var taskObject = AV.Object.createWithoutData('releaseTaskObject', taskId);
     query.equalTo('taskObject', taskObject);
-    query.include('taskObject');
     query.include('userObject');
     query.ascending('createdAt');
     query.limit(1000);
@@ -124,155 +99,138 @@ router.get('/specTaskCheck/:taskId', function(req, res){
         var counter = 0;
 
         for (var i = 0; i < results.length; i++) {
-            var task = results[i].get('taskObject');
-            if (taskId == task.id){
-                promise ++;
-                var submission = Object();
-                var user = results[i].get('userObject')
-                //领取任务基本信息
-                submission.id = results[i].id;
-                submission.receiveCount = results[i].get('receiveCount');
-                submission.receivePrice = results[i].get('receivePrice');
-                submission.createdAt = results[i].createdAt;
-                var username = user.get('userNickname');
-                if (username == undefined){
-                    submission.username = user.get('username').substring(0, 7) + '****';
-                }else if (username == ''){
-                    submission.username = user.get('username').substring(0, 7) + '****';
-                }
-                else {
-                    submission.username = username;
-                }
-                submission.userId = user.id;
-
-                //领取任务实时信息
-                submission.pending = results[i].get('pending');
-                submission.submitted = results[i].get('submitted');
-                submission.rejected = results[i].get('rejected');
-                submission.accepted = results[i].get('accepted');
-                submission.abandoned = results[i].get('abandoned');
-                submission.completed = results[i].get('completed');
-
-                //获取各个上传信息
-                (function(tempSubmission){
-                    var todoFolder = AV.Object.createWithoutData('receiveTaskObject', tempSubmission.id);
-                    var relation = todoFolder.relation('mackTask');
-                    var query = relation.query();
-                    query.descending('createdAt');
-                    query.find().then(function (data) {
-                        tempSubmission.entries = new Array();
-                        for (var j = 0; j < data.length; j++) {
-                            var entry = Object();
-                            entry.id = data[j].id;
-                            entry.uploadName = data[j].get('uploadName');
-                            entry.imgs = data[j].get('requirementImgs');
-                            entry.status = data[j].get('status');
-                            entry.detail = data[j].get('detail');
-                            tempSubmission.entries.push(entry);
-                        }
-                        rtnResults.push(tempSubmission);
-                        counter++;
-                        if (counter == promise){
-                            //排序;
-                            rtnResults.sort(function(a, b){return a.createdAt - b.createdAt});
-                            res.json({'rtnResults':rtnResults});
-                        }
-                    })
-                })(submission)
-
+            //receive task object
+            promise++;
+            var submission = Object();
+            var user = results[i].get('userObject');
+            //领取任务基本信息
+            submission.id = results[i].id;
+            submission.receiveCount = results[i].get('receiveCount');
+            submission.receivePrice = results[i].get('receivePrice');
+            submission.createdAt = results[i].createdAt;
+            var username = user.get('userNickname');
+            if (username == undefined){
+                submission.username = user.get('username').substring(0, 7) + '****';
+            }else if (username == ''){
+                submission.username = user.get('username').substring(0, 7) + '****';
             }
+            else {
+                submission.username = username;
+            }
+            submission.userId = user.id;
+
+            //获取各个上传信息
+            (function(receiveTaskObject, tempSubmission){
+                var relation = receiveTaskObject.relation('mackTask');
+                var query = relation.query();
+                query.descending('createdAt');
+                query.find().then(function (data) {
+                    var submitted = 0, accepted = 0, rejected = 0;
+                    tempSubmission.entries = new Array();
+                    for (var j = 0; j < data.length; j++) {
+                        //已做任务的信息状态
+                        var taskStatus = doTaskObjects[r].get('taskStatus');
+                        if (taskStatus == 'uploaded' || taskStatus == 'reUploaded'){
+                            submitted++;
+                        }else if(taskStatus == 'systemAccepted' || taskStatus == 'accepted'){
+                            accepted++;
+                        }else if(taskStatus == 'refused'){
+                            rejected++;
+                        }
+
+                        //已做任务详情
+                        var entry = Object();
+                        entry.id = data[j].id;
+                        entry.uploadName = data[j].get('uploadName');
+                        entry.imgs = data[j].get('requirementImgs');
+                        entry.status = data[j].get('status');
+                        entry.detail = data[j].get('detail');
+                        tempSubmission.entries.push(entry);
+                    }
+
+                    tempSubmission.submitted = submitted;//待审核
+                    tempSubmission.rejected = rejected;//已拒绝
+                    tempSubmission.accepted = accepted;//已完成
+                    //未提交/已过期
+                    if (results[i].get('expiredCount') > 0){
+                        //过期(定时器走过了)
+                        tempSubmission.abandoned = results[i].get('expiredCount');
+                        tempSubmission.pending = 0;
+                    }else {
+                        var undoTask = receiveTaskObject.get('receiveCount') - data.length;
+                        tempSubmission.pending = undoTask;
+                        tempSubmission.abandoned = 0;
+                    }
+
+                    rtnResults.push(tempSubmission);
+                    counter++;
+                    if (counter == promise){
+                        //排序;
+                        rtnResults.sort(function(a, b){return a.createdAt - b.createdAt});
+                        res.json({'rtnResults':rtnResults});
+                    }
+                })
+            })(results[i], submission);
+
         }
         //没有上传,返回空值
         if (promise == 0){
             res.json({'rtnResults': []});
         }
-    })
+    });
 });
 
 //*************接收逻辑******************************
-var updateReceiveTaskDatabase = function(entryId, uploaderName){
-    var entry = AV.Object.createWithoutData('mackTaskInfo', entryId);
-    var secondQuery = new AV.Query('receiveTaskObject');
-    secondQuery.equalTo('mackTask', entry);
-    secondQuery.include('taskObject');
-    secondQuery.include('userObject');
-    secondQuery.include('appObject');
-    secondQuery.find().then(function (results) {
-        //更新领取任务数据库
-        //results返回的是数组
-        var data = results[0];
-        //待审-1
-        data.increment('submitted', - 1);
-        //接受+1
-        var preAccepted = data.get('accepted');
-        data.increment('accepted', 1);
-        //检查领取的任务是否已经完成
-        var abandoned = data.get('abandoned');
-        var receiveCount = parseInt(data.get('receiveCount'));
-        if (receiveCount == preAccepted + abandoned + 1) {
-            data.set('completed', 1);
-        }
-        data.save();
+var updateReceiveTaskDatabase = function(doTaskObject, uploaderName){
+    var receiveTaskObject = doTaskObject.get('receiveTaskObject');
 
-        //更新发布任务数据库
-        var task = data.get('taskObject');
-        //待审-1
-        //待审-1
-        task.increment('submitted', - 1);
-        //接受+1
-        preAccepted = task.get('accepted');
-        task.increment('accepted', 1);
-        //检查发布的任务是否已经完成
-        var excCount = task.get('excCount');
-        if (excCount == preAccepted + 1) {
-            task.set('completed', 1);
-        }
-        task.save();
+    //发布任务Object
+    var task = receiveTaskObject.get('taskObject');
+    var userObject = receiveTaskObject.get('userObject');
+    var senderUserObject = task.get('userObject');
+    var appObject = receiveTaskObject.get('appObject');
+    //消息产生所需数据
+    var userId = userObject.id;
+    var senderId = task.get('userObject').id;
+    var trackName = appObject.get('trackName');
+    var rateUnitPrice = task.get('rateUnitPrice');
 
-        //消息产生所需数据
-        var userObject = data.get('userObject');
-        var userId = userObject.id;
-        var appObject = data.get('appObject');
-        var trackName = appObject.get('trackName');
-        var senderId = task.get('userObject').id;
-        var rateUnitPrice = task.get('rateUnitPrice');
-
-        // 接收任务后 把钱打给用户记录流水
-        var query = new AV.Query(accountJournal);
-        query.equalTo('incomeYCoinUser', userObject);
-        query.equalTo('taskObject', task);
-        query.find().then(function(results){
-            for (var i = 0; i < results.length; i++){
-                var register = results[0];
-                var payYB = results[i].get('payYCoin'); // 支付的YB
-                var incomeYB = results[i].get('incomeYCoin'); // 得到的YB
-                var systemYB = payYB - incomeYB;  // 系统得到的
-                register.set('payYCoinStatus', 'payed');
-                register.set('incomeYCoinStatus', 'incomed');
-                register.set('systemYCoin', systemYB);
-                register.save().then(function(){
-                    //
-                });
-
-                // 接收任务后 把钱打给领取任务的用户
-                var query_user = new AV.Query(User);
-                query_user.get(userObject.id).then(function(userInfo){
-                    var totalYB = userInfo.get('totalMoney');
-                    userInfo.set('totalMoney', totalYB + incomeYB);
-                    userInfo.save();
-                });
-
-                // 接收任务后 冻结的钱减掉
-                var query_releaseUser = new AV.Query(User);
-                query_releaseUser.get(senderId).then(function(userIn){
-                    var freezingYB = userIn.get('freezingMoney');
-                    userIn.set('freezingMoney', freezingYB - payYB);
-                    userIn.save();
-                });
-            }
+    // 接收任务后 把钱打给用户记录流水
+    userObject.increment('totalMoney', rateUnitPrice);
+    // 发布任务的人冻结钱变少
+    senderUserObject.increment('freezingMoney', -rateUnitPrice);
+    //保存2份流水
+    userObject.save().then(function(leanObject){
+        senderUserObject.save().then(function(leanObject){
+            res.json({'errorMsg':'', 'errorId': 0});
+        }, function (error) {
+            //
         });
-        acceptMessage(userId, senderId, trackName, uploaderName, rateUnitPrice);
-    })
+    }, function (error) {
+        //
+    });
+
+    //流水模块
+    //var query = new AV.Query(accountJournal);
+    //query.equalTo('incomeYCoinUser', userObject);
+    //query.equalTo('taskObject', task);
+    //query.find().then(function(results){
+    //    for (var i = 0; i < results.length; i++){
+    //        var register = results[0];
+    //        var payYB = results[i].get('payYCoin'); // 支付的YB
+    //        var incomeYB = results[i].get('incomeYCoin'); // 得到的YB
+    //        var systemYB = payYB - incomeYB;  // 系统得到的
+    //        register.set('payYCoinStatus', 'payed');
+    //        register.set('incomeYCoinStatus', 'incomed');
+    //        register.set('systemYCoin', systemYB);
+    //        register.save().then(function(){
+    //            //
+    //        });
+    //    }
+    //});
+
+    //消息模块
+    acceptMessage(userId, senderId, trackName, uploaderName, rateUnitPrice);
 };
 
 var acceptMessage = function(receiverId, senderId, trackName, uploaderName, rateUnitPrice){
@@ -287,90 +245,66 @@ var acceptMessage = function(receiverId, senderId, trackName, uploaderName, rate
     message.set('type', '接受');
     message.set('firstPara', trackName);
     message.set('secondPara', uploaderName);
-    message.set('thirdPara', rateUnitPrice)
+    message.set('thirdPara', rateUnitPrice);
     message.save();
 };
 
 router.post('/accept/:entryId', function(req, res) {
     var entryId = req.params.entryId;
     var query = new AV.Query(mackTaskInfo);
-    query.get(entryId).then(function(data) {
-        var uploaderName = data.get('uploadName');
-        data.set("status", 3);
-        data.save();
-
-        updateReceiveTaskDatabase(entryId, uploaderName);
-        res.json({'msg':'accepted'});
+    query.include('taskObject');
+    query.get(entryId).then(function(doTaskObject) {
+        var uploaderName = doTaskObject.get('uploadName');
+        doTaskObject.set("taskStatus", 'accepted');
+        doTaskObject.save().then(function (doTaskObject) {
+            updateReceiveTaskDatabase(doTaskObject, uploaderName);
+        }, function(error){
+            res.json({'errorMsg':error.errorMsg, 'errorId': error.code});
+        });
+    }, function(error){
+        res.json({'errorMsg':error.errorMsg, 'errorId': error.code});
     });
 });
 
 //*************拒绝逻辑******************************
-var updateDatabaseReject = function(entryId, uploaderName){
-    var entry = AV.Object.createWithoutData('mackTaskInfo', entryId);
-    var secondQuery = new AV.Query('receiveTaskObject');
-    secondQuery.equalTo('mackTask', entry);
-    secondQuery.include('taskObject');
-    secondQuery.include('userObject');
-    secondQuery.include('appObject');
-    secondQuery.find().then(function (results) {
-        //更新领取任务数据库
-        //results返回的是数组
-        var data = results[0];
-        //待审-1
-        var preSubmitted = data.get('submitted');
-        data.set('submitted', preSubmitted - 1);
-        //拒绝+1
-        var preRejected = data.get('rejected');
-        data.set('rejected', preRejected + 1);
-        data.save();
-        //更新发布任务数据库
-        var task = data.get('taskObject');
-        //待审-1
-        //待审-1
-        preSubmitted = task.get('submitted');
-        task.set('submitted', preSubmitted - 1);
-        //拒绝+1
-        preRejected = task.get('rejected');
-        task.set('rejected', preRejected + 1);
-        task.save();
+var rejectMessage = function(doTaskObject, uploaderName){
+    var receiveTaskObject = doTaskObject.get('receiveTaskObject');
+    var userObject = data.get('userObject');
+    var userId = userObject.id;
+    var senderId = task.get('userObject').id;
 
-        var userObject = data.get('userObject');
-        var userId = userObject.id;
-        var appObject = data.get('appObject');
-        var trackName = appObject.get('trackName');
-        var senderId = task.get('userObject').id;
-
-        rejectMessage(userId, senderId, trackName, uploaderName);
-    })
-}
-
-var rejectMessage = function(receiverId, senderId, trackName, uploaderName){
     var message = new messageLogger();
     var receiver = new AV.User();
     receiver.id = receiverId;
     var sender = new AV.User();
     sender.id = senderId;
-    message.set('receiverObjectId', receiver);
-    message.set('senderObjectId', sender);
+    message.set('receiverObjectId', userId);
+    message.set('senderObjectId', senderId);
     message.set('category', '任务');
     message.set('type', '拒绝');
-    message.set('firstPara', trackName);
+    message.set('firstPara', '你有一条任务被拒绝');
     message.set('secondPara', uploaderName);
+
+    //add by wujiangwei
+    //谁谁做的任务被拒绝,点击查看任务
+    message.set('receiveTaskObject', receiveTaskObject);
+    message.set('uploaderName', uploaderName);
     message.save();
 };
 
 router.post('/reject/:entryId', function(req, res) {
     var rejectReason = req.body.rejectReason;
     var entryId = req.params.entryId;
-    var query = new AV.Query(mackTaskInfo);
-    query.get(entryId).then(function(data) {
-        var uploaderName = data.get('uploadName');
-        data.set("status", 2);
-        data.set('detail', rejectReason);
-        data.save();
 
-        updateDatabaseReject(entryId, uploaderName);
-        res.json({'msg':'rejected'});
+    var doTaskObject = new mackTaskInfo();
+    doTaskObject.id = entryId;
+    doTaskObject.set("taskStatus", 'refused');
+    doTaskObject.set('detail', rejectReason);
+
+    doTaskObject.save().then(function(doTaskObject){
+        rejectMessage(doTaskObject, uploaderName);
+    }, function (error) {
+        res.json({'errorMsg':error.errorMsg, 'errorId': error.code});
     });
 });
 

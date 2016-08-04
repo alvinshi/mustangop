@@ -127,6 +127,7 @@ router.post('/addTask/:excTaskId', function(req, res){
                 })
             }
             else {
+                //TODO error 未维护
                 var newTaskObject = new mackTaskInfo();
                 newTaskObject.set('uploadName', uploadName);
                 newTaskObject.set('requirementImgs', requirementImgs);
