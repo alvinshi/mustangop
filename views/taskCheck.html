@@ -247,18 +247,26 @@
                         </div>
                         <div style="margin-left: 70px; font-size: 22px; color: #333333;">
                             <div class="row">
-                                <div  class="col-lg-3">已完成:
-                                    <span class="imported">{{taskDisplayed.accepted}}/{{taskDisplayed.excCount - taskDisplayed.remainCount}}</span>
+                                <div  class="col-lg-4">被领取:
+                                    <span class="imported">{{taskDisplayed.totalGetTask}}</span>条
                                 </div>
-                                <div class="col-lg-3">待审核:
-                                    <span class="imported">{{taskDisplayed.submitted}}</span> 条
+                                <div class="col-lg-4">审核通过:
+                                    <span class="imported">{{taskDisplayed.totalAccepted}}</span> 条
                                 </div>
-                                <div class="col-lg-3">未提交:
-                                    <span class="imported">{{taskDisplayed.pending + taskDisplayed.rejected}}</span> 条
+                                <div class="col-lg-4">待审:
+                                    <span class="imported">{{taskDisplayed.totalSubmited}}</span> 条
                                 </div>
 
-                                <div class="col-lg-3">已过期:
-                                    <span class="imported1">{{taskDisplayed.abandoned}}</span> 条
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-4">未提交:
+                                    <span class="imported1">{{taskDisplayed.totalUndo}}</span> 条
+                                </div>
+                                <div class="col-lg-4">已拒绝:
+                                    <span class="imported1">{{taskDisplayed.totalRejected}}</span> 条
+                                </div>
+                                <div class="col-lg-4">超时未交:
+                                    <span class="imported1">{{taskDisplayed.totalTimeout}}</span> 条
                                 </div>
                             </div>
                         </div>
@@ -280,9 +288,10 @@
                                     </div>
                                     <div class="col-lg-6">
                                         <span>已完成: {{submission.accepted}}/{{submission.receiveCount}}</span>
-                                        <span>待审: {{submission.submitted}}</span>
-                                        <span>未提交: {{submission.pending + submission.rejected}}</span>
-                                        <span>已过期: {{submission.abandoned}}</span>
+                                        <span ng-show="submission.submitted>0">待审: {{submission.submitted}}</span>
+                                        <span ng-show="submission.rejected>0">已拒绝: {{submission.rejected}}</span>
+                                        <span ng-show="submission.pending>0">未提交: {{submission.pending}}</span>
+                                        <span ng-show="submission.abandoned>0">已过期: {{submission.abandoned}}</span>
                                     </div>
                                 </div>
                             </div>
