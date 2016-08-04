@@ -27,7 +27,7 @@
     <!--网站内部js-->
     <script src="/javascripts/cookieHelper.min.js"></script>
 
-    <script src="/javascripts/newtaskMob.min.js"></script>
+    <script src="/javascripts/newtaskMob.js"></script>
     <script src="/javascripts/indexApp.min.js"></script>
 
 
@@ -162,7 +162,7 @@
     </div>
 
     <div class="progress" style="margin:auto; margin-top: 20px" ng-hide="!progressNum">
-        <div ng-class="{'progress-bar': true, 'progress-bar-striped':true, active:true}" ng-style="{width: 100+ '%'}">
+        <div ng-class="{'progress-bar': true, 'progress-bar-striped':true, active:true}" ng-style="{width: progressNum+ '%'}">
         </div>
     </div>
 
