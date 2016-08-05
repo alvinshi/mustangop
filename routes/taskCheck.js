@@ -74,10 +74,11 @@ router.get('/taskAudit', function(req, res){
 router.get('/cancelTask/:taskId', function(req, res){
     var taskId = req.params.taskId;
     var query = new AV.Query(releaseTaskObject);
+    query.include('userObject');
     query.get(taskId).then(function(taskObject){
         taskObject.set('cancelled', true);
 
-        var reaminCount = taskObject.get('reaminCount');
+        var reaminCount = taskObject.get('remainCount');
         var taskPrice = taskObject.get('excUnitPrice');
         var userObject = taskObject.get('userObject');
 
@@ -95,6 +96,8 @@ router.get('/cancelTask/:taskId', function(req, res){
         }, function(error){
             res.json({'errorMsg':error.errorMsg, 'errorId': error.code});
         });
+    }, function(error){
+        res.json({'errorMsg':error.errorMsg, 'errorId': error.code});
     });
 });
 
