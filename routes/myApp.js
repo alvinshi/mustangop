@@ -895,7 +895,7 @@ router.post('/task', function(req, res){
                     unGetAllTaskCount++;
                 }
 
-                if(unGetAllTaskCount > 2){
+                if(unGetAllTaskCount >= 2){
                     res.json({'errorMsg':'你还有2个任务未被领完哦,等领完再发吧', 'errorId': -1});
                     return;
                 }
