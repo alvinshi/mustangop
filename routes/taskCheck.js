@@ -74,10 +74,24 @@ router.get('/taskAudit', function(req, res){
 router.get('/cancelTask/:taskId', function(req, res){
     var taskId = req.params.taskId;
     var query = new AV.Query(releaseTaskObject);
-    query.get(taskId).then(function(result){
-        result.set('cancelled', true);
-        result.save().then(function(){
-            res.json({'errorMsg':'succeed', 'errorId': 0});
+    query.get(taskId).then(function(taskObject){
+        taskObject.set('cancelled', true);
+
+        var reaminCount = taskObject.get('reaminCount');
+        var taskPrice = taskObject.get('excUnitPrice');
+        var userObject = taskObject.get('userObject');
+
+        userObject.increment('freezingMoney', -(taskPrice * reaminCount));
+        userObject.increment('totalMoney', (taskPrice * reaminCount));
+        taskObject.set('cancelled', true);
+
+        userObject.save().then(function(){
+            //返回冻结的Y币数量
+            taskObject.save().then(function(){
+                res.json({'errorMsg':'succeed', 'errorId': 0});
+            }, function(error){
+                res.json({'errorMsg':error.errorMsg, 'errorId': error.code});
+            });
         }, function(error){
             res.json({'errorMsg':error.errorMsg, 'errorId': error.code});
         });
