@@ -273,37 +273,31 @@
                                         </div>
                                     </div>
                                     <div class="alert alert-warning" role="alert" style="margin:0; text-align: center;">
-                                        任务需要在当天内完成, 谨慎领取, 若未完成将扣罚 1 倍Y币
+                                        重要提示: 请谨慎领取, 若领取后未完成将扣罚 1 倍Y币
                                     </div>
                                 </div>
                                 <div class="modal-footer">
                                     <div class="alert alert-danger" role="alert"
-                                         style="display: inline-block; margin: 0; float: left; padding:6px 12px 6px 12px;" ng-show= "getTaskFormData.errorMsg">
-                                        {{getTaskFormData.errorMsg}}</div>
+                                         style="display: inline-block; margin: 0; float: left; padding:6px 12px 6px 12px;" ng-show= "errorId != 0">
+                                        {{errorMsg}}</div>
                                     <button type="button" class="btn btn-default reverse"
-                                            style="width: 100px" ng-click="getTask(app)" ng-hide="getTaskFormData.result">
+                                            style="width: 100px" ng-click="getTask(app)">
                                         确认
                                     </button>
                                     <button type="button" class="btn btn-default reverse" data-dismiss="modal" aria-label="Close"
                                             style="width: 100px">
                                         关闭
                                     </button>
-                        <span class="alert alert-danger" role="alert"
-                              style="padding:6px 12px 6px 12px; margin:0; text-align: center; float:left;" ng-show= "errorId != 0">
-                            {{errorMsg}}</span>
-                                </div>
-                            </div>
-                        </div>
                         <span class="alert alert-success" role="alert"
                               style="padding:6px 12px 6px 12px; margin:0; text-align: center; float:left;" ng-show= "errorId == 0">
-                            恭喜成功领取了任务</span>
+                            {{errorMsg}}</span>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <div ng-show="taskDisplayed.length == undefined || taskDisplayed.length == 0">
+                <div ng-show="taskDisplayed == undefined || taskDisplayed.length == 0">
                     <h1 style="text-align: center; margin-top: 150px; margin-bottom: 150px;">等待任务中...</h1>
                 </div>
                 <div style="margin-top: 30px; margin-bottom: 30px; text-align: center;">
@@ -475,10 +469,10 @@
                                 </div>
                                 <div class="modal-footer">
                                     <div class="alert alert-danger" role="alert"
-                                         style="display: inline-block; margin: 0; float: left; padding:6px 12px 6px 12px;" ng-show= "getTaskFormData.errorMsg">
-                                        {{getTaskFormData.errorMsg}}</div>
+                                         style="display: inline-block; margin: 0; float: left; padding:6px 12px 6px 12px;" ng-show= "errorId != 0">
+                                        {{errorMsg}}</div>
                                     <button type="button" class="btn btn-default reverse"
-                                            style="width: 100px" ng-click="getTask(app)" ng-hide="getTaskFormData.result">
+                                            style="width: 100px" ng-click="getTask(app)">
                                         确认
                                     </button>
                                     <button type="button" class="btn btn-default reverse" data-dismiss="modal" aria-label="Close"
@@ -486,14 +480,14 @@
                                         关闭
                                     </button>
                         <span class="alert alert-success" role="alert"
-                              style="padding:6px 12px 6px 12px; margin:0; text-align: center; float:left;" ng-show= "getTaskFormData.result">
-                            恭喜成功领取了任务</span>
+                              style="padding:6px 12px 6px 12px; margin:0; text-align: center; float:left;" ng-show= "errorId == 0">
+                            {{errorMsg}}</span>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div ng-show="commentTask.length == undefined || commentTask.length == 0">
+                <div ng-show="commentTask == undefined || commentTask.length == 0">
                     <h1 style="text-align: center; margin-top: 150px; margin-bottom: 150px;">今天还没有新的评论任务</h1>
                 </div>
                 <div style="margin-top: 30px; margin-bottom: 30px; text-align: center;">
@@ -662,15 +656,15 @@
                                         </div>
                                     </div>
                                     <div class="alert alert-warning" role="alert" style="margin:0; text-align: center;">
-                                        重要提示: 请谨慎领取, 若领取后未完成将扣罚 1 倍Y币
+                                        任务需要在当天内完成, 谨慎领取, 若未完成将扣罚 1 倍Y币
                                     </div>
                                 </div>
                                 <div class="modal-footer">
                                     <div class="alert alert-danger" role="alert"
-                                         style="display: inline-block; margin: 0; float: left; padding:6px 12px 6px 12px;" ng-show= "getTaskFormData.errorMsg">
-                                        {{getTaskFormData.errorMsg}}</div>
+                                         style="display: inline-block; margin: 0; float: left; padding:6px 12px 6px 12px;" ng-show= "errorId != 0">
+                                        {{errorMsg}}</div>
                                     <button type="button" class="btn btn-default reverse"
-                                            style="width: 100px" ng-click="getTask(app)" ng-hide="getTaskFormData.result">
+                                            style="width: 100px" ng-click="getTask(app)">
                                         确认
                                     </button>
                                     <button type="button" class="btn btn-default reverse" data-dismiss="modal" aria-label="Close"
@@ -678,14 +672,14 @@
                                         关闭
                                     </button>
                         <span class="alert alert-success" role="alert"
-                              style="padding:6px 12px 6px 12px; margin:0; text-align: center; float:left;" ng-show= "getTaskFormData.result">
-                            恭喜成功领取了任务</span>
+                              style="padding:6px 12px 6px 12px; margin:0; text-align: center; float:left;" ng-show= "errorId == 0">
+                            {{errorMsg}}</span>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div ng-show="downTask.length == undefined || downTask.length == 0">
+                <div ng-show="downTask == undefined || downTask.length == 0">
                     <h1 style="text-align: center; margin-top: 150px; margin-bottom: 150px;">今天还没有新的下载任务</h1>
                 </div>
                 <div style="margin-top: 30px; margin-bottom: 30px; text-align: center;">

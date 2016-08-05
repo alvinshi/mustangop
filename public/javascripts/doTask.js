@@ -118,7 +118,7 @@ app.controller('doTaskCtrl', function($scope, $http) {
     $scope.getTaskFormData.detailRem = undefined;
 
     $scope.errorMsg = '';
-    $scope.errorId = 0;
+    $scope.errorId = -1;
 
     //点击确认按钮激发
     var getTaskLocked = false;
