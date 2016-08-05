@@ -79,7 +79,7 @@ router.get('/claim/:userObjectId', function(req, res){
             }
             var expireDate = new Date(expireTimeStamp);
             appHisObject.deadlineStr = '截止:' +
-                (expireDate.getMonth() + 1).toString() + '月' + expireDate.getDay().toString() + '日 8:00Am';
+                (expireDate.getMonth() + 1).toString() + '月' + expireDate.getDate().toString() + '日 8:00Am';
 
             //未完成 审核中 被拒绝 已通过
             (function (receTaskObject, inAppHisObject){
@@ -133,9 +133,9 @@ router.get('/claim/:userObjectId', function(req, res){
                 });
             }(results[i], appHisObject));
         }
-    }), function(error){
+    }, function(error){
         res.json({'errorMsg':error.message, 'errorId': error.code});
-    }
+    });
 });
 
 // 修改分配备注
