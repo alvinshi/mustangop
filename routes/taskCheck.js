@@ -192,10 +192,11 @@ router.get('/specTaskCheck/:taskId', function(req, res){
                     //未提交/已过期
                     if (receiveTaskObject.get('expiredCount') > 0){
                         //过期(定时器走过了)
-                        tempSubmission.abandoned = results[i].get('expiredCount');
+                        tempSubmission.abandoned = receiveTaskObject.get('expiredCount');
                         tempSubmission.pending = 0;
                         totalTimeout += tempSubmission.abandoned;
                     }else {
+                        //未提交
                         var undoTask = receiveTaskObject.get('receiveCount') - data.length;
                         tempSubmission.pending = undoTask;
                         tempSubmission.abandoned = 0;

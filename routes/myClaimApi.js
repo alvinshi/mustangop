@@ -54,6 +54,8 @@ router.get('/claim/:userObjectId', function(req, res){
             appHisObject.excKinds = appExcHisObject.get('taskType');
             //total count
             appHisObject.totalExcCount = results[i].get('receiveCount');
+            //过期
+            appHisObject.abandoned = results[i].get('expiredCount');
 
             //base info
             appHisObject.trackName = appobject.get('trackName');
@@ -97,7 +99,7 @@ router.get('/claim/:userObjectId', function(req, res){
                         }
                     }
 
-                    var undoTask = receTaskObject.get('receiveCount') - doTaskObjects.length;
+                    var undoTask = receTaskObject.get('receiveCount') - inAppHisObject.abandoned - doTaskObjects.length;
                     if (undoTask > 0){
                         inAppHisObject.surplusCount = undoTask;
                     }
@@ -105,6 +107,15 @@ router.get('/claim/:userObjectId', function(req, res){
                     inAppHisObject.submitted = submitted;
                     inAppHisObject.accepted = accepted;
                     inAppHisObject.rejected = rejected;
+
+                    //accepted + abandoned == receiveCount
+                    //暂时不做,需要手动关闭
+                    //任务已经结束
+                    if(accepted + inAppHisObject.abandoned >= receTaskObject.get('receiveCount')){
+                        inAppHisObject.canClose = true;
+                        //不自动关
+                        //inAppHisObject.set('close', true);
+                    }
 
                     retApps.push(inAppHisObject);
 

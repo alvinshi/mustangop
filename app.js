@@ -127,7 +127,6 @@ app.use(function (req, res, next) {
     }else {
       if (encodeUserId.length > 0){
         next();
-        console.log('---------- End Time Debug :', Date.now());
       }else {
         res.render('login');
       }
@@ -217,6 +216,10 @@ if (app.get('env') === 'development') {
 // 如果是非开发环境，则页面只输出简单的错误信息
 app.use(function(err, req, res, next) { // jshint ignore:line
   res.status(err.status || 500);
+  if(req.timedout) {
+    console.error('请求超时: url=%s, timeout=%d, 请确认方法执行耗时很长，或没有正确的 response 回调。', req.originalUrl, err.timeout);
+  }
+
   res.render('error', {
     message: err.message || err,
     error: {}
