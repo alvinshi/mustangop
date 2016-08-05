@@ -354,7 +354,6 @@ router.post('/fiterApp', function(req, res){
     userFilterTaskObject.set('taskObject', taskObject);
     userFilterTaskObject.set('appObject', appObject);
     userFilterTaskObject.set('close', true);
-    //userFilterTaskObject.set('userFilter', '已经做过');
     userFilterTaskObject.save().then(function(){
         res.json({'errorId':0, 'errorMsg':'筛选成功,当前版本不会出现'});
     },function (error){

@@ -83,7 +83,8 @@ AV.Cloud.define('hello', function(request, response) {
 function getTaskCheckQuery(){
     var nowTimestamp = new Date().getTime();
     //早10点审核 前天下午6点前接受的任务
-    var yesterdayTimestamp = nowTimestamp - 1000*60*60*16;
+    //var yesterdayTimestamp = nowTimestamp - 1000*60*60*16;
+    var yesterdayTimestamp = nowTimestamp;
     var yesterdayDate = new Date(yesterdayTimestamp);
 
     var query = new AV.Query(receiveTaskObject);
@@ -119,7 +120,6 @@ AV.Cloud.define('checkTask', function(request, response){
             query_a.skip(i * 1000);
             query_a.find().then(function(results){ // 查找出所有没有完成的任务
                 for (var e = 0; e < results.length; e++){
-                    results[e].set('close', true);
 
                     (function(receTaskObject){
                         var task = receTaskObject.get('taskObject'); // 领取任务的object
@@ -146,12 +146,15 @@ AV.Cloud.define('checkTask', function(request, response){
                                     doTaskObjects[r].set('taskStatus', 'systemAccepted');
                                     changeDoTasks.push(doTaskObjects[r]);
                                     //增加做任务人的钱
-                                    console.log(user.id + '++++++ checkTask add user YB' + rate_unitPrice);
+                                    console.log(user.username + ' ++++++ checkTask add user YB' + rate_unitPrice);
                                     user.increment('totalMoney', rate_unitPrice);
                                     //扣除发布任务人的冻结钱
                                     releaseTaskUser.increment('freezingMoney', -rate_unitPrice);
-                                    console.log(releaseTaskUser.id + '------ checkTask add user YB' + rate_unitPrice);
-                                }else{
+                                    console.log(releaseTaskUser.username + ' ------ checkTask add user YB' + rate_unitPrice);
+                                }else if(taskStatus == 'refused'){
+                                    //isHaveRefused = true;
+                                }
+                                else{
                                     //do nothing
                                     //query.notContainedIn('taskStatus', ['systemAccepted', 'accepted', 'refused']);
                                 }
@@ -168,9 +171,9 @@ AV.Cloud.define('checkTask', function(request, response){
                                 //protect
                                 //1.扣除用户金币入系统(汇率金币)  减少发布人冻结的钱 增加发布人总钱
                                 user.increment('totalMoney', -(rate_unitPrice * undoTask));
-                                console.log(user.id + '------ 111 checkTask add user YB' + (rate_unitPrice * undoTask));
+                                console.log(user.username + ' ------ 111 checkTask add user YB' + (rate_unitPrice * undoTask));
                                 releaseTaskUser.increment('freezingMoney', - (rate_unitPrice * undoTask));
-                                console.log(releaseTaskUser.id + '++++++ 111 checkTask add user YB' + (rate_unitPrice * undoTask));
+                                console.log(releaseTaskUser.username + ' ++++++ 111 checkTask add user YB' + (rate_unitPrice * undoTask));
                                 releaseTaskUser.increment('totalMoney', rate_unitPrice * undoTask);
 
                                 //2.过期任务增加
