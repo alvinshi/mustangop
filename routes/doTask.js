@@ -347,19 +347,33 @@ router.post('/fiterApp', function(req, res){
     var taskObject = AV.Object.createWithoutData('releaseTaskObject', taskObjectId);
     var appObject = AV.Object.createWithoutData('IOSAppInfo', appObjectId);
 
-    var userFilterTaskObject = new receiveTaskObject();
-    userFilterTaskObject.set('userObject', userObject);
-    userFilterTaskObject.set('appUpdateInfo', appLatesReleaseDate);
-    userFilterTaskObject.set('receiveDate', myDateStr);
-    userFilterTaskObject.set('taskObject', taskObject);
-    userFilterTaskObject.set('appObject', appObject);
-    userFilterTaskObject.set('close', true);
-    //userFilterTaskObject.set('userFilter', '已经做过');
-    userFilterTaskObject.save().then(function(){
-        res.json({'errorId':0, 'errorMsg':'筛选成功,当前版本不会出现'});
-    },function (error){
+    var query = new AV.Query(releaseTaskObject);
+    query.get(taskObjectId).then(function(myTaskObject){
+        var myUserId = myTaskObject.get('userObject').id;
+        if (myUserId == userid){
+            res.json({'errorId': -1, 'errorMsg':'不能筛选自己发布的任务'})
+        }else {
+            var userFilterTaskObject = new receiveTaskObject();
+            userFilterTaskObject.set('userObject', userObject);
+            userFilterTaskObject.set('appUpdateInfo', appLatesReleaseDate);
+            userFilterTaskObject.set('receiveDate', myDateStr);
+            userFilterTaskObject.set('taskObject', taskObject);
+            userFilterTaskObject.set('appObject', appObject);
+            userFilterTaskObject.set('close', true);
+            //userFilterTaskObject.set('userFilter', '已经做过');
+            userFilterTaskObject.save().then(function(){
+                res.json({'errorId':0, 'errorMsg':'筛选成功,当前版本不会出现'});
+            },function (error){
+                res.json({'errorMsg':error.message, 'errorId': error.code});
+            })
+        }
+    },function(error){
         res.json({'errorMsg':error.message, 'errorId': error.code});
-    })
+    });
+
+
+
+
 
 
 });
