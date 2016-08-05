@@ -876,7 +876,7 @@ router.post('/task', function(req, res){
     var userObject = new AV.User();
     userObject.id = userId;
 
-    //TODO 用户自己任务置顶,最多发布2个
+    //TODO 用户自己App可以置顶
 
     var appObjectQuery = new AV.Query('IOSAppInfo');
     appObjectQuery.get(appObjectid).then(function(appObject){
@@ -884,77 +884,87 @@ router.post('/task', function(req, res){
         queryMyTask.notEqualTo('cancelled', true);
         queryMyTask.notEqualTo('close', true);
         queryMyTask.equalTo('userObject', userObject);
-        queryMyTask.count().then(function(count) {
-            if(count < 2){
-                var rateunitPrice = excUnitPrice * myRate;
+        queryMyTask.find().then(function(releaseTaskObjects) {
 
-                var trackName = appObject.get('trackName');
-                var message = new messageLogger();
-                message.set("senderObjectId", userObject);
-                message.set('receiverObjectId', userObject);
-                message.set('category', 'Y币');
-                message.set('type', '发布');
-                message.set('thirdPara', rateunitPrice * excCount);
-                message.set('firstPara', trackName);
-                message.save();
+            var unGetAllTaskCount = 0;
+            // 最多有2条任务
+            for (var rTask = 0; rTask < releaseTaskObjects.length; rTask++){
+                var aRelaseTaskObejct = releaseTaskObjects[rTask];
 
-                var releasetaskObject = new releaseTaskObject();
-                releasetaskObject.set('userObject', userObject);  //和用户表关联
-                releasetaskObject.set('appObject', appObject);  //和app表关联
-                releasetaskObject.set('latestReleaseDate', appObject.get('latestReleaseDate'));
-                releasetaskObject.set('taskType', taskType);  // 任务类型
-                releasetaskObject.set('excCount', excCount);  // 任务条数
-                releasetaskObject.set('excUnitPrice', excUnitPrice);  //任务单价
-                releasetaskObject.set('screenshotCount', screenshotCount);  // 截图数
-                releasetaskObject.set('searchKeyword', searchKeyword);  // 搜索关键词
-                releasetaskObject.set('ranKing', ranKing);  // 排名
-                releasetaskObject.set('Score', Score);  // 评分
-                releasetaskObject.set('titleKeyword', titleKeyword); // 标题关键字
-                releasetaskObject.set('commentKeyword', commentKeyword); // 评论关键字
-                releasetaskObject.set('detailRem', detailRem);  // 备注详情
-                releasetaskObject.set('remainCount', excCount); // 剩余条数
-                releasetaskObject.set('myRate', myRate); // 汇率
-                releasetaskObject.set('rateUnitPrice', rateunitPrice); // 汇率后价格,实际显示价格
-                releasetaskObject.set('pending', 0);  // 未提交
-                releasetaskObject.set('submitted', 0); // 待审
-                releasetaskObject.set('rejected', 0);  // 拒绝
-                releasetaskObject.set('accepted', 0);  // 接收
-                releasetaskObject.set('abandoned', 0);  // 过期
-                releasetaskObject.set('completed', 0);  // 完成
-                releasetaskObject.set('releaseDate', myDateStr); // 添加发布日期,冗余字段
-                releasetaskObject.save().then(function() {
-                    // 实例已经成功保存.
-                    var freezing_money = excCount * excUnitPrice;  // 发布总条数 + 发布的单价 = 冻结的钱
-                    var query = new AV.Query('_User');
-                    query.get(userId).then(function(userInfo){
-                        userInfo.increment('totalMoney', - freezing_money);
-                        userInfo.increment('freezingMoney', freezing_money);
-                        userInfo.save().then(function(){
+                if(aRelaseTaskObejct.get('remainCount') > 0){
+                    unGetAllTaskCount++;
+                }
 
-                        })
-                    });
-
-                    var taskObjectId = AV.Object.createWithoutData('releaseTaskObject', releasetaskObject.id);
-
-                    // 循环发布的条数 记录单条的流水
-                    for (var e = 0; e < excCount; e++){
-                        var accountJour = new accountJournal();
-                        accountJour.set('payYCoinUser', userObject);  //支出金额的用户
-                        accountJour.set('payYCoin', excUnitPrice); // 此次交易支付金额
-                        accountJour.set('taskObject', taskObjectId); // 任务的id
-                        accountJour.set('payYCoinStatus', 'prepare_pay'); // 发布任务的时候为准备支付;
-                        accountJour.set('payYCoinDes', '发布任务');
-                        accountJour.set('releaseDate', myDateStr); // 添加发布日期,冗余字段
-                        accountJour.save().then(function(){
-                            //
-                        })
-                    }
-
-                    res.json({'errorId': 0});
-                });
-            }else {
-                res.json({'errorMsg':'最多同时发布2个任务哦', 'errorId': -1});
+                if(unGetAllTaskCount > 2){
+                    res.json({'errorMsg':'你还有2个任务未被领完哦,等领完再发吧', 'errorId': -1});
+                    return;
+                }
             }
+
+            var rateunitPrice = excUnitPrice * myRate;
+
+            var trackName = appObject.get('trackName');
+            var message = new messageLogger();
+            message.set("senderObjectId", userObject);
+            message.set('receiverObjectId', userObject);
+            message.set('category', 'Y币');
+            message.set('type', '发布');
+            message.set('thirdPara', rateunitPrice * excCount);
+            message.set('firstPara', trackName);
+            message.save();
+
+            var releasetaskObject = new releaseTaskObject();
+            releasetaskObject.set('userObject', userObject);  //和用户表关联
+            releasetaskObject.set('appObject', appObject);  //和app表关联
+            releasetaskObject.set('latestReleaseDate', appObject.get('latestReleaseDate'));
+            releasetaskObject.set('taskType', taskType);  // 任务类型
+            releasetaskObject.set('excCount', excCount);  // 任务条数
+            releasetaskObject.set('excUnitPrice', excUnitPrice);  //任务单价
+            releasetaskObject.set('screenshotCount', screenshotCount);  // 截图数
+            releasetaskObject.set('searchKeyword', searchKeyword);  // 搜索关键词
+            releasetaskObject.set('ranKing', ranKing);  // 排名
+            releasetaskObject.set('Score', Score);  // 评分
+            releasetaskObject.set('titleKeyword', titleKeyword); // 标题关键字
+            releasetaskObject.set('commentKeyword', commentKeyword); // 评论关键字
+            releasetaskObject.set('detailRem', detailRem);  // 备注详情
+            releasetaskObject.set('remainCount', excCount); // 剩余条数
+            releasetaskObject.set('myRate', myRate); // 汇率
+            releasetaskObject.set('rateUnitPrice', rateunitPrice); // 汇率后价格,实际显示价格
+            releasetaskObject.set('pending', 0);  // 未提交
+            releasetaskObject.set('submitted', 0); // 待审
+            releasetaskObject.set('rejected', 0);  // 拒绝
+            releasetaskObject.set('accepted', 0);  // 接收
+            releasetaskObject.set('abandoned', 0);  // 过期
+            releasetaskObject.set('completed', 0);  // 完成
+            releasetaskObject.set('releaseDate', myDateStr); // 添加发布日期,冗余字段
+            releasetaskObject.save().then(function() {
+                // 实例已经成功保存.
+                var freezing_money = excCount * excUnitPrice;  // 发布总条数 + 发布的单价 = 冻结的钱
+                var query = new AV.Query('_User');
+                query.get(userId).then(function(userInfo){
+                    userInfo.increment('totalMoney', - freezing_money);
+                    userInfo.increment('freezingMoney', freezing_money);
+                    userInfo.save().then(function(){
+                    })
+                });
+
+                var taskObjectId = AV.Object.createWithoutData('releaseTaskObject', releasetaskObject.id);
+                // 循环发布的条数 记录单条的流水
+                for (var e = 0; e < excCount; e++){
+                    var accountJour = new accountJournal();
+                    accountJour.set('payYCoinUser', userObject);  //支出金额的用户
+                    accountJour.set('payYCoin', excUnitPrice); // 此次交易支付金额
+                    accountJour.set('taskObject', taskObjectId); // 任务的id
+                    accountJour.set('payYCoinStatus', 'prepare_pay'); // 发布任务的时候为准备支付;
+                    accountJour.set('payYCoinDes', '发布任务');
+                    accountJour.set('releaseDate', myDateStr); // 添加发布日期,冗余字段
+                    accountJour.save().then(function(){
+                        //
+                    })
+                }
+                res.json({'errorId': 0});
+            });
+
         }, function(error){
             res.json({'errorMsg':error.message, 'errorId': error.code});
         });
