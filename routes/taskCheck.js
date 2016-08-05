@@ -196,6 +196,7 @@ router.get('/specTaskCheck/:taskId', function(req, res){
                         tempSubmission.pending = 0;
                         totalTimeout += tempSubmission.abandoned;
                     }else {
+                        //未提交
                         var undoTask = receiveTaskObject.get('receiveCount') - data.length;
                         tempSubmission.pending = undoTask;
                         tempSubmission.abandoned = 0;

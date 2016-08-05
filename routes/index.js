@@ -36,10 +36,14 @@ router.get('/index', function(req, res){
         var pengding = results[i].get('submitted');
         retApps.push(pengding);
       }
-      res.json({'Count':eval(retApps.join('+')), 'userObjectId':Base64.encode(userid)});
+      if (retApps.length > 0){
+          res.json({'Count':eval(retApps.join('+')), 'userObjectId':Base64.encode(userid)});
+      }else {
+          res.json({'errorId':0, 'errorMsg':'no date for nav', 'userObjectId':Base64.encode(userid)})
+      }
     }
   }),function (error){
-    res.json({'errorId':error.code, 'errorMsg':error.message})
+    res.json({'errorId':error.code, 'errorMsg':error.message, 'userObjectId':Base64.encode(userid)})
   }
 
 });
