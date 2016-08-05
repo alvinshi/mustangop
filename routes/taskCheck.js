@@ -76,8 +76,6 @@ router.get('/cancelTask/:taskId', function(req, res){
     var query = new AV.Query(releaseTaskObject);
     query.include('userObject');
     query.get(taskId).then(function(taskObject){
-        taskObject.set('cancelled', true);
-
         var reaminCount = taskObject.get('remainCount');
         var taskPrice = taskObject.get('excUnitPrice');
         var userObject = taskObject.get('userObject');
@@ -85,6 +83,10 @@ router.get('/cancelTask/:taskId', function(req, res){
         userObject.increment('freezingMoney', -(taskPrice * reaminCount));
         userObject.increment('totalMoney', (taskPrice * reaminCount));
         taskObject.set('cancelled', true);
+
+        if(reaminCount == taskObject.get('excCount')){
+            taskObject.set('close', true);
+        }
 
         userObject.save().then(function(){
             //返回冻结的Y币数量
