@@ -19,33 +19,17 @@ router.get('/', function(req, res, next) {
 // 首页导航栏api
 router.get('/index', function(req, res){
   var userid = util.useridInReq(req);
-  var myDate = new Date();
-  var myDateStr = myDate.getFullYear() + '-' + (parseInt(myDate.getMonth()) + 1) + '-' + myDate.getDate();
-
   var user = new AV.User();
   user.id = userid;
 
-  var query = new AV.Query(releaseTaskObject);
-  query.equalTo('userObject', user);
-  query.equalTo('releaseDate', myDateStr);
-  query.limit(1000);
-  query.find({
-    success:function(results){
-      var retApps = new Array();
-      for (var i= 0; i < results.length; i++){
-        var pengding = results[i].get('submitted');
-        retApps.push(pengding);
-      }
-      if (retApps.length > 0){
-          res.json({'Count':eval(retApps.join('+')), 'userObjectId':Base64.encode(userid)});
-      }else {
-          res.json({'errorId':0, 'errorMsg':'no date for nav', 'userObjectId':Base64.encode(userid)})
-      }
-    }
-  }),function (error){
-    res.json({'errorId':error.code, 'errorMsg':error.message, 'userObjectId':Base64.encode(userid)})
-  }
+  //TODO:
+  //1.获取需要审核的数据条数
+  //(根据用户查询,发布的哪些任务——未关闭,根据发布了哪些任务查询,有哪些人接受了我的任务,然后relation计算accepted和systemAccepted的个数)
+  //2.获取我做的任务被拒绝的条数
+  //(根据用户查询,做了哪些任务——未关闭,根据发布了哪些任务查询,有哪些人拒绝了我的任务,然后relation计算refused的个数)
 
+  //TODO:
+  res.json({'errorId':0, 'errorMsg':'no date for nav', 'userObjectId':Base64.encode(userid)});
 });
 
 // 未读消息显示
