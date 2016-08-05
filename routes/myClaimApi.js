@@ -111,7 +111,7 @@ router.get('/claim/:userObjectId', function(req, res){
                     //accepted + abandoned == receiveCount
                     //暂时不做,需要手动关闭
                     //任务已经结束
-                    if(accepted + inAppHisObject.abandoned >= receiveCount){
+                    if(accepted + inAppHisObject.abandoned >= receTaskObject.get('receiveCount')){
                         inAppHisObject.canClose = true;
                         //不自动关
                         //inAppHisObject.set('close', true);
