@@ -324,11 +324,16 @@ router.get('/taskhistory', function(req, res){
           retApps.push(whoReceive);
           counter++;
           if (counter == promise){
-            res.json({'ReleaseTaskHistory':retApps})
+            res.json({'errorMsg':'', 'errorId': 0, 'ReleaseTaskHistory':retApps})
           }
+        }, function(error){
+          counter++;
+          res.json({'errorMsg':error.errorMsg, 'errorId': error.code});
         })
       })(historyObject)
     }
+  }, function(error){
+    res.json({'errorMsg':error.errorMsg, 'errorId': error.code});
   })
 });
 

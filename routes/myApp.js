@@ -72,7 +72,7 @@ router.get('/angular', function(req, res, next) {
                 var appid = appObject.get('appleId');
 
                 var appInfoUrl = 'https://itunes.apple.com/lookup?id=' + appid +'&country=cn&entity=software';
-
+                var promiseCount = 0;
                 (function(tempAppObject){
                     https.get(appInfoUrl, function(httpRes) {
 
@@ -80,12 +80,11 @@ router.get('/angular', function(req, res, next) {
 
                         if (httpRes.statusCode != 200){
                             console.log("Add app error: " + httpRes.statusMessage);
-
                             //未检测到App的更新信息
                             dealiTunesAppFailed(retApps, tempAppObject);
-
-                            if (retApps.length == judgeLength){
-                                res.json({'myApps':retApps});
+                            promiseCount++;
+                            if (promiseCount == judgeLength){
+                                res.json({'myApps':retApps, 'errorId': -1, 'errorMsg':''});
                             }
 
                         }else {
@@ -106,24 +105,24 @@ router.get('/angular', function(req, res, next) {
                                     retApps.push(appInfoObject);
 
                                     if (retApps.length == judgeLength){
-                                        res.json({'myApps':retApps});
+                                        res.json({'myApps':retApps, 'errorId': 0, 'errorMsg': ''});
                                     }
-                                }, function(err) {
+                                }, function(error) {
                                     // 失败了.
                                     dealiTunesAppFailed(retApps, tempAppObject);
-
-                                    if (retApps.length == judgeLength){
-                                        res.json({'myApps':retApps});
+                                    promiseCount++;
+                                    if (promiseCount == judgeLength){
+                                        res.json({'myApps':retApps, 'errorId': error.code, 'errorMsg': error.errorMsg});
                                     }
                                 });
                             })
                         }
 
-                    }).on('error', function(e) {
+                    }).on('error', function(error) {
                         dealiTunesAppFailed(retApps, tempAppObject);
-
-                        if (retApps.length == results.length){
-                            res.json({'myApps':retApps});
+                        promiseCount++;
+                        if (promiseCount == judgeLength){
+                            res.json({'myApps':retApps, 'errorId': error.code, 'errorMsg': error.errorMsg});
                         }
                     });
                 })(appObject);
@@ -1046,7 +1045,11 @@ router.post('/taskneed/:appid', function(req, res){
                         results[i].set('taskDemand', taskObject);
                         results[i].save().then(function(){
                             res.json({'errorId':0, 'errorMsg':''});
+                        }, function(error){
+                            res.json({'errorMsg':error.errorMsg, 'errorId': error.code});
                         })
+                    }, function(error){
+                        res.json({'errorMsg':error.errorMsg, 'errorId': error.code});
                     });
                 }else {
                     taskdemand.set('taskType', task_type);
@@ -1061,10 +1064,14 @@ router.post('/taskneed/:appid', function(req, res){
                     taskdemand.save().then(function(){
                         //
                         res.json({'errorId':0, 'errorMsg':''});
+                    }, function(error){
+                        res.json({'errorMsg':error.errorMsg, 'errorId': error.code});
                     });
                 }
             }
         }
+    }, function(error){
+        res.json({'errorMsg':error.errorMsg, 'errorId': error.code});
     })
 });
 

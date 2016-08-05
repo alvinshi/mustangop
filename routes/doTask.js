@@ -75,7 +75,7 @@ function getTaskObjectList(taskType, query, totalCount, pageIndex, userObject, r
     var TaskObjects = [];
     var hasmore = 1;
 
-    if (taskType == 'inactiveTask' || taskType == 'downTask'){
+    if (taskType == 'inactiveTask' || pageIndex > 0){
         flagTotal = 1;
     }else {
         //查询我发布的任务
@@ -92,7 +92,6 @@ function getTaskObjectList(taskType, query, totalCount, pageIndex, userObject, r
         }
 
         queryMyTask.include('appObject');
-        queryMyTask.skip(pageIndex);
         queryMyTask.descending('createdAt');
         queryMyTask.find().then(function(results) {
             taskObjectToDic(results, TaskObjects, true);
