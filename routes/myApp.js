@@ -1008,9 +1008,9 @@ router.get('/getNeed/:appleId', function(req, res){
             }
         }
         res.json({'appNeedInfo':retApps})
-    }),function (error){
+    }, function (error){
         res.json({'errorMsg':error.message, 'errorId': error.code});
-    }
+    });
 });
 
 // 保存任务需求编辑内容
@@ -1018,10 +1018,10 @@ router.post('/taskneed/:appid', function(req, res){
     var userId = util.useridInReq(req);
     var myappId = req.params.appid;
     var task_type = req.body.taskType;
-    var exc_count = parseInt(req.body.excCount);
-    var screenshot_count = req.body.screenshotCount;
+    var exc_count = req.body.excCount;
+    var screenshot_count = parseInt(req.body.screenshotCount);
     var search_Keywords = req.body.searchKeyword;
-    var ranking = parseInt(req.body.ranKing);
+    var ranking = req.body.ranKing;
     var score = req.body.Score;
     var title_keywords = req.body.titleKeyword;
     var comment_keywords = req.body.commentKeyword;
@@ -1035,50 +1035,56 @@ router.post('/taskneed/:appid', function(req, res){
     query.include('appObject');
     query.include('taskDemand');
     query.find().then(function(results){
+        var dealIOSAppBilderObject = undefined;
+        var taskdemand = undefined;
+
         for (var i = 0; i < results.length; i++){
             var appObject = results[i].get('appObject');
             var appObjectId = appObject.get('appleId');
-            var taskdemand = results[i].get('taskDemand');
+            taskdemand = results[i].get('taskDemand');
             if (appObjectId == myappId){
-                if (taskdemand == undefined){
-                    var taskObject = new taskDemandObject();
-                    taskObject.set('taskType', task_type);
-                    taskObject.set('excCount', exc_count);
-                    taskObject.set('screenshotCount', screenshot_count);
-                    taskObject.set('searchKeyword', search_Keywords);
-                    taskObject.set('ranKing', ranking);
-                    taskObject.set('Score', score);
-                    taskObject.set('titleKeyword', title_keywords);
-                    taskObject.set('commentKeyword', comment_keywords);
-                    taskObject.set('detailRem', detail_rem);
-                    taskObject.save().then(function(){
-                        results[i].set('taskDemand', taskObject);
-                        results[i].save().then(function(){
-                            res.json({'errorId':0, 'errorMsg':''});
-                        }, function(error){
-                            res.json({'errorMsg':error.errorMsg, 'errorId': error.code});
-                        })
-                    }, function(error){
-                        res.json({'errorMsg':error.errorMsg, 'errorId': error.code});
-                    });
-                }else {
-                    taskdemand.set('taskType', task_type);
-                    taskdemand.set('excCount', exc_count);
-                    taskdemand.set('screenshotCount', screenshot_count);
-                    taskdemand.set('searchKeyword', search_Keywords);
-                    taskdemand.set('ranKing', ranking);
-                    taskdemand.set('Score', score);
-                    taskdemand.set('titleKeyword', title_keywords);
-                    taskdemand.set('commentKeyword', comment_keywords);
-                    taskdemand.set('detailRem', detail_rem);
-                    taskdemand.save().then(function(){
-                        //
-                        res.json({'errorId':0, 'errorMsg':''});
-                    }, function(error){
-                        res.json({'errorMsg':error.errorMsg, 'errorId': error.code});
-                    });
-                }
+                dealIOSAppBilderObject = results[i];
+                break;
             }
+        }
+
+        if (taskdemand == undefined){
+            var taskObject = new taskDemandObject();
+            taskObject.set('taskType', task_type);
+            taskObject.set('excCount', exc_count);
+            taskObject.set('screenshotCount', screenshot_count);
+            taskObject.set('searchKeyword', search_Keywords);
+            taskObject.set('ranKing', ranking);
+            taskObject.set('Score', score);
+            taskObject.set('titleKeyword', title_keywords);
+            taskObject.set('commentKeyword', comment_keywords);
+            taskObject.set('detailRem', detail_rem);
+            taskObject.save().then(function(lTaskObject){
+                dealIOSAppBilderObject.set('taskDemand', lTaskObject);
+                dealIOSAppBilderObject.save().then(function(){
+                    res.json({'errorId':0, 'errorMsg':''});
+                }, function(error){
+                    res.json({'errorMsg':error.errorMsg, 'errorId': error.code});
+                })
+            }, function(error){
+                res.json({'errorMsg':error.errorMsg, 'errorId': error.code});
+            });
+        }else {
+            taskdemand.set('taskType', task_type);
+            taskdemand.set('excCount', exc_count);
+            taskdemand.set('screenshotCount', screenshot_count);
+            taskdemand.set('searchKeyword', search_Keywords);
+            taskdemand.set('ranKing', ranking);
+            taskdemand.set('Score', score);
+            taskdemand.set('titleKeyword', title_keywords);
+            taskdemand.set('commentKeyword', comment_keywords);
+            taskdemand.set('detailRem', detail_rem);
+            taskdemand.save().then(function(){
+                //
+                res.json({'errorId':0, 'errorMsg':''});
+            }, function(error){
+                res.json({'errorMsg':error.errorMsg, 'errorId': error.code});
+            });
         }
     }, function(error){
         res.json({'errorMsg':error.errorMsg, 'errorId': error.code});

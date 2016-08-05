@@ -224,7 +224,6 @@ app.controller('itunesSearchControl', function($scope, $http) {
         });
     };
 
-
     //保存
     $scope.saved = false;
 
@@ -241,7 +240,6 @@ app.controller('itunesSearchControl', function($scope, $http) {
             return;
         }
 
-
         var needUrl = '/myapp/taskneed/' + $scope.selectedApp.appleId;
         var needInfo = {'taskType':$scope.appNeedInfo.taskType, 'excCount':$scope.appNeedInfo.excCount, 'excUnitPrice':$scope.appNeedInfo.excUnitPrice, 'screenshotCount':$scope.appNeedInfo.screenshotCount,
             'searchKeyword':$scope.appNeedInfo.searchKeyword, 'ranKing':$scope.appNeedInfo.ranKing, 'Score':$scope.appNeedInfo.Score,
@@ -249,27 +247,18 @@ app.controller('itunesSearchControl', function($scope, $http) {
         $http.post(needUrl, needInfo).success(function(response){
             $scope.errorId = response.errorId;
             $scope.errorMsg = response.errorMsg;
-            $scope.saved = true;
-            //location.href="/myapp"
+            $scope.saved = false;
         })
     };
 
-
-
     //检查排名不能超过50
     $scope.checkRank= function () {
-
-        if( $scope.appNeedInfo.ranKing>50){
+        if( $scope.appNeedInfo.ranKing > 50){
            $scope.errorCheck=true;
-
         }else {
             $scope.errorCheck=false;
         }
-
-
     };
-
-
 
     //发布任务
     $scope.releaseTask = function(){
@@ -363,7 +352,7 @@ app.controller('itunesSearchControl', function($scope, $http) {
 
     // 确认发布之后刷新界面
     $scope.Confirm = function(){
-        location.href="/doTask"
+        //location.href="/doTask"
     };
 
     //验证表单
@@ -396,7 +385,7 @@ app.controller('itunesSearchControl', function($scope, $http) {
     function moneyCheck(amount, accountMoney){
         if (amount != undefined){
             var taskMoney = amount * $scope.appNeedInfo.excUnitPrice;
-            if (taskMoney > accountMoney){
+            if(taskMoney > accountMoney){
                 $scope.insufficientFund = true;
 
             }
@@ -407,10 +396,10 @@ app.controller('itunesSearchControl', function($scope, $http) {
     }
 
     $scope.calcuQuantity = function(){
-        if($scope.appNeedInfo.excCount>20){
-            $scope.errorQuatity=true;
+        if($scope.appNeedInfo.excCount > 20){
+            $scope.errorQuatity = true;
         }else {
-            $scope.errorQuatity=false;
+            $scope.errorQuatity = false;
         }
         var url = 'myapp/verify';
         $http.get(url).success(function(response) {
@@ -418,12 +407,10 @@ app.controller('itunesSearchControl', function($scope, $http) {
             moneyCheck($scope.appNeedInfo.excCount, $scope.usermoney)
 
         });
-
         $scope.saved = false;
-
     };
-    //生成预览截图
 
+    //生成预览截图
     $scope.getScreenShot = function() {
         html2canvas(document.getElementById("screenShot"), {
             onrendered: function (canvas) {
