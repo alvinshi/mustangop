@@ -240,7 +240,7 @@ router.post('/postUsertask/:taskObjectId/:ratePrice/:appId', function(req, res){
                 var totalMoney = userObject.get('totalMoney');
                 if (totalMoney < 0) {
                     errorMsg = "账户余额为负, 请充值后再领取新任务";
-                    res.json({'succeeded': -100, 'errorMsg': errorMsg});
+                    res.json({'errorId': -100, 'errorMsg': errorMsg});
                 }else {
                     //3.剩余条数监测
                     query = new AV.Query(releaseTaskObject);
@@ -249,7 +249,7 @@ router.post('/postUsertask/:taskObjectId/:ratePrice/:appId', function(req, res){
                         if (remainCount < receive_Count){
                             console.log('task get failed because of task done');
                             errorMsg = "抱歉, 任务被别的用户抢走了";
-                            res.json({'succeeded': -1, 'errorMsg': errorMsg});
+                            res.json({'errorId': -1, 'errorMsg': errorMsg});
                         }else {
                         //后端效验通过
                             var ReceiveTaskObject = new receiveTaskObject();
@@ -302,10 +302,16 @@ router.post('/postUsertask/:taskObjectId/:ratePrice/:appId', function(req, res){
                                         //    });
                                         //});
                                     });
+
+                                    res.json({'errorId': 0, 'errorMsg': '任务领取成功!'});
                                 });
 
+                            }, function(error){
+                                res.json({'errorId': error.code, 'errorMsg': error.errorMsg});
                             });
                         }
+                    }, function(error){
+                        res.json({'errorId': error.code, 'errorMsg': error.errorMsg});
                     });
                 }
             });

@@ -116,38 +116,52 @@ app.controller('doTaskCtrl', function($scope, $http) {
     $scope.getTaskFormData = {};
     $scope.getTaskFormData.receiveCount = undefined;
     $scope.getTaskFormData.detailRem = undefined;
-    $scope.getTaskFormData.errorMsg = undefined;
-    $scope.getTaskFormData.result = false;
+
+    $scope.errorMsg = '';
+    $scope.errorId = 0;
 
     //点击确认按钮激发
+    var getTaskLocked = false;
     $scope.getTask = function(currentApp){
+        if (getTaskLocked == true){
+            //已经在领取中...
+            return;
+        }
         var username = getCookie('username');
         //报错条件
         if (username == ''){
-            $scope.getTaskFormData.errorMsg = '请先登陆帐号后再领取任务';
+            $scope.errorId = -1;
+            $scope.errorMsg = '请先登陆帐号后再领取任务';
         }
         else if ($scope.getTaskFormData.receiveCount == 0) {
-            $scope.getTaskFormData.errorMsg = '请正确填写领取条目';
+            $scope.errorId = -1;
+            $scope.errorMsg = '请正确填写领取条目';
         }
         else if (parseInt($scope.getTaskFormData.receiveCount) != $scope.getTaskFormData.receiveCount) {
-            $scope.getTaskFormData.errorMsg = '请正确填写领取条目';
+            $scope.errorId = -1;
+            $scope.errorMsg = '请正确填写领取条目';
         }
         else if ($scope.getTaskFormData.receiveCount > parseInt(currentApp.remainCount)){
-            $scope.getTaskFormData.errorMsg = '此任务剩余条数不足';
+            $scope.errorId = -1;
+            $scope.errorMsg = '此任务剩余条数不足';
         }
-        //else if ($scope.getTaskFormData.receiveCount > 3) {
-        //    $scope.getTaskFormData.errorMsg = '每个账户一次只能领取3条'
-        //}
-
+        else if ($scope.getTaskFormData.receiveCount > 3) {
+            $scope.errorId = -1;
+            $scope.errorMsg = '每个账户一次只能领取3条'
+        }
         //通过前端效验
         else {
+            getTaskLocked = true;
+            $scope.errorId = 0;
+            $scope.errorMsg = '领取任务中......'
+
             var url = 'doTask/postUsertask/' + currentApp.objectId + '/' + currentApp.rateUnitPrice + '/' + currentApp.appObjectId;
             var postData = {'receiveCount': $scope.getTaskFormData.receiveCount, 'detailRem': $scope.getTaskFormData.detailRem,
                 'latestReleaseDate': currentApp.latestReleaseDate};
             $http.post(url, postData).success(function(response){
                 console.log(response);
-                $scope.getTaskFormData.errorMsg = response.errorMsg;
-                $scope.getTaskFormData.result = response.succeeded;
+                $scope.errorMsg = response.errorMsg;
+                $scope.errorId = response.errorId;
 
                 //处理领取任务成功的前端逻辑
                 var dataAllTypeList = [$scope.taskDisplayed, $scope.commentTask, $scope.downTask];
@@ -167,6 +181,7 @@ app.controller('doTaskCtrl', function($scope, $http) {
                     }
                 }
 
+                getTaskLocked = false;
             });
         }
     };

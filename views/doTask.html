@@ -273,7 +273,7 @@
                                         </div>
                                     </div>
                                     <div class="alert alert-warning" role="alert" style="margin:0; text-align: center;">
-                                        重要提示: 请谨慎领取, 若领取后未完成将扣罚 1 倍Y币
+                                        任务需要在当天内完成, 谨慎领取, 若未完成将扣罚 1 倍Y币
                                     </div>
                                 </div>
                                 <div class="modal-footer">
@@ -288,8 +288,14 @@
                                             style="width: 100px">
                                         关闭
                                     </button>
+                        <span class="alert alert-danger" role="alert"
+                              style="padding:6px 12px 6px 12px; margin:0; text-align: center; float:left;" ng-show= "errorId != 0">
+                            {{errorMsg}}</span>
+                                </div>
+                            </div>
+                        </div>
                         <span class="alert alert-success" role="alert"
-                              style="padding:6px 12px 6px 12px; margin:0; text-align: center; float:left;" ng-show= "getTaskFormData.result">
+                              style="padding:6px 12px 6px 12px; margin:0; text-align: center; float:left;" ng-show= "errorId == 0">
                             恭喜成功领取了任务</span>
                                 </div>
                             </div>
