@@ -84,6 +84,12 @@ function getTaskObjectList(taskType, query, totalCount, pageIndex, userObject, r
         queryMyTask.notEqualTo('close', true);
         queryMyTask.equalTo('userObject', userObject);
         queryMyTask.greaterThan('remainCount', 0);
+       if (taskType == 'commentTask'){
+           queryMyTask.equalTo('taskType', '评论');
+        }
+        else if (taskType == 'downTask'){
+           queryMyTask.equalTo('taskType', '下载');
+        }
 
         queryMyTask.include('appObject');
         queryMyTask.skip(pageIndex);
