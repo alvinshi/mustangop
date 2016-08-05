@@ -350,15 +350,20 @@ app.controller('itunesSearchControl', function($scope, $http) {
                 $scope.errorId = response.errorId;
                 $scope.errorMsg = response.errorMsg;
 
-                $("#releaseTask").modal("show");
-                $scope.isDisabled = true;
+                if(response.errorId != 0){
+                    $scope.modelStr = response.errorMsg;
+                    $("#error").modal("show");
+                }else {
+                    $("#releaseTask").modal("show");
+                    $scope.isDisabled = true;
+                }
             })
         }
     };
 
     // 确认发布之后刷新界面
     $scope.Confirm = function(){
-        location.href="/myapp"
+        location.href="/doTask"
     };
 
     //验证表单
