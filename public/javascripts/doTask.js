@@ -208,10 +208,16 @@ app.controller('doTaskCtrl', function($scope, $http) {
 
         // 筛选任务, 当我点击确认时 保存
         $scope.confirmAdd = function(){
-            var needSaveUrl = 'doTask/needSave';
-            $http.post(needSaveUrl, needToSave).success(function(response){
+            var fiterAppUrl = 'doTask/fiterApp';
+            $http.post(fiterAppUrl, needToSave).success(function(response){
                 $scope.errorId = response.errorId;
                 $scope.errorMsg = response.errorMsg;
+
+                //TODO: 成功还是失败
+                if (response.errorId == 0){
+
+                }
+
             })
 
         }

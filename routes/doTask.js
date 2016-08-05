@@ -324,7 +324,7 @@ router.post('/postUsertask/:taskObjectId/:ratePrice/:appId', function(req, res){
 });
 
 // 用户自己筛选的任务
-router.post('/needSave', function(req, res){
+router.post('/fiterApp', function(req, res){
     var userid = util.useridInReq(req);
 
     var myDate = new Date();
@@ -347,7 +347,8 @@ router.post('/needSave', function(req, res){
     userFilterTaskObject.set('receiveDate', myDateStr);
     userFilterTaskObject.set('taskObject', taskObject);
     userFilterTaskObject.set('appObject', appObject);
-    userFilterTaskObject.set('userFilter', '已经做过');
+    userFilterTaskObject.set('close', true);
+    //userFilterTaskObject.set('userFilter', '已经做过');
     userFilterTaskObject.save().then(function(){
         res.json({'errorId':0, 'errorMsg':'筛选成功,当前版本不会出现'});
     },function (error){
