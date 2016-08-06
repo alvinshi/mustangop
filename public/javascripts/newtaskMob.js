@@ -98,7 +98,7 @@ app.controller('MobControl', function($scope, $http, $location, FileUploader) {
     };
 
     uploader.onAfterAddingAll = function (addedFileItems) {
-        $scope.imgError = 0;
+        $scope.errorId = 0;
         $scope.progressNum = 10;
         //递归函数 Fix Safari Bug
         blobToDataURI(addedFileItems, 0);
@@ -113,7 +113,8 @@ app.controller('MobControl', function($scope, $http, $location, FileUploader) {
         console.info('onSuccessItem', fileItem, response, status, headers);
     };
     uploader.onErrorItem = function (fileItem, response, status, headers) {
-        $scope.imgError = 1;
+        $scope.errorId = 1;
+        $scope.errorMsg = '上传图片失败';
         console.info('onErrorItem', fileItem, response, status, headers);
     };
     uploader.onCancelItem = function (fileItem, response, status, headers) {
@@ -136,9 +137,11 @@ app.controller('MobControl', function($scope, $http, $location, FileUploader) {
                 $scope.errorMsg = response.errorMsg;
                 console.log($scope.errorId);
                 console.log($scope.errorMsg);
-                $scope.oneAppInfo.uploadName = response.uploadName;
-                $scope.images = response.requirementImgs;
+                if($scope.errorId == 0){
+                    $scope.images = response.requirementImgs;
+                }
 
+                $scope.oneAppInfo.uploadName = response.uploadName;
                 $scope.progressNum = 0;
 
                 uploader.clearQueue();

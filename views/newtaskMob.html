@@ -161,7 +161,7 @@
         </a>
     </div>
 
-    <div class="alert alert-danger" role="alert" ng-show="imgError">图片上传失败,请刷新页面重新上传</div>
+    <div class="alert alert-danger" role="alert" ng-show="errorId">{{errorMsg}}</div>
 
     <div class="progress" style="margin:auto; margin-top: 20px" ng-hide="!progressNum">
         <div ng-class="{'progress-bar': true, 'progress-bar-striped':true, active:true}" ng-style="{width: progressNum+ '%'}">

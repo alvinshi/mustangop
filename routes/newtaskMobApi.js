@@ -118,9 +118,11 @@ router.post('/add/:excTaskId', function(req, res){
                 });
 
                 var taskStatus = newTaskObject.get('taskStatus');
-                if (taskStatus == 'accepted'){
+                if (taskStatus == 'accepted' || taskStatus == 'expired' ){
                     //任务已经完成,无需再做
                     res.json({'errorMsg':'任务已经完成喽', 'errorId': -100});
+                }else if (taskStatus == 'expired') {
+                    res.json({'errorMsg':'任务已经超时过期', 'errorId': -101});
                 }else {
                     //自己重新提交,或者被决绝后重新做任务
                     newTaskObject.set('requirementImgs', requirementImgs);
