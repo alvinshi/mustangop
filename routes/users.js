@@ -279,6 +279,8 @@ router.get('/taskhistory', function(req, res){
         })
       })(historyObject)
     }
+
+      res.json({'errorMsg':'', 'errorId': 0, 'ReleaseTaskHistory':[]})
   }, function(error){
     res.json({'errorMsg':error.message, 'errorId': error.code});
   })
