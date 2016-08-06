@@ -39,6 +39,12 @@ router.get('/claim/:userObjectId', function(req, res){
 
     var calNumber = 0;
     query.find().then(function(results){
+
+        if(results.length == 0){
+            res.json({'myClaimApps':[], 'errorId': 0});
+            return;
+        }
+
         var retApps = new Array();
         for (var i = 0; i< results.length; i++){
             var appHisObject = new Object();
