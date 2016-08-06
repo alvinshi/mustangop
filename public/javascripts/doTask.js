@@ -153,7 +153,7 @@ app.controller('doTaskCtrl', function($scope, $http) {
         else {
             getTaskLocked = true;
             $scope.errorId = 0;
-            $scope.errorMsg = '领取任务中......'
+            $scope.errorMsg = '领取任务中......';
 
             var url = 'doTask/postUsertask/' + currentApp.objectId + '/' + currentApp.rateUnitPrice + '/' + currentApp.appObjectId;
             var postData = {'receiveCount': $scope.getTaskFormData.receiveCount, 'detailRem': $scope.getTaskFormData.detailRem,
@@ -162,6 +162,8 @@ app.controller('doTaskCtrl', function($scope, $http) {
                 console.log(response);
                 $scope.errorMsg = response.errorMsg;
                 $scope.errorId = response.errorId;
+
+                getTaskFormData.receiveCount = undefined;
 
                 //处理领取任务成功的前端逻辑
                 var dataAllTypeList = [$scope.taskDisplayed, $scope.commentTask, $scope.downTask];

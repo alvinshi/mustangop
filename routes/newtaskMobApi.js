@@ -97,78 +97,95 @@ router.post('/add/:excTaskId', function(req, res){
     var task_query = new AV.Query(receiveTaskObject);
     task_query.include('taskObject');
     task_query.get(excTaskId).then(function(receiveTaskObject){
-        var relation = receiveTaskObject.relation('mackTask');
-        var remainCount = receiveTaskObject.get('remainCount');
-        var query = relation.query();
-        query.equalTo('uploadName', uploadName);
-        query.find().then(function(results){
-            if (results.length > 0){
-                //做过任务的人
-                var newTaskObject = results[0];
-                //销毁以往图片
-                var images = newTaskObject.get('requirementImgs');
-                var query_file = new AV.Query(File);
-                query_file.containedIn('url', images);
-                query_file.find().then(function(imgResults){
-                    for (var e = 0; e < imgResults.length; e++){
-                        imgResults[e].destroy().then(function(){
-                            //remove success
-                        })
-                    }
-                });
+            var relation = receiveTaskObject.relation('mackTask');
+            var remainCount = receiveTaskObject.get('remainCount');
+            var expiredCount = receiveTaskObject.get('expiredCount');
+            var query = relation.query();
+            query.find().then(function(results){
 
-                var taskStatus = newTaskObject.get('taskStatus');
-                if (taskStatus == 'accepted'){
-                    //任务已经完成,无需再做
-                    res.json({'errorMsg':'任务已经完成喽', 'errorId': -100});
-                }else if (taskStatus == 'expired') {
-                    res.json({'errorMsg':'任务已经超时过期', 'errorId': -101});
-                }else {
-                    //自己重新提交,或者被决绝后重新做任务
-                    newTaskObject.set('requirementImgs', requirementImgs);
-                    //区分 自己提交和 拒绝后提交
-                    if (taskStatus == 'refused'){
-                        newTaskObject.set('taskStatus', 'reUploaded');
-                    }else {
-                        newTaskObject.set('taskStatus', 'uploaded');
+                var uploadDoTaskObject = undefined;
+
+                for (var dj = 0; dj < results.length; dj++){
+                    var doTaskObject = results[dj];
+                    if(doTaskObject.get('uploadName') == uploadName){
+                        uploadDoTaskObject = doTaskObject;
+                        break;
                     }
-                    newTaskObject.save().then(function(){
-                        res.json({'errorId':0, 'errorMsg':'', 'uploadName':uploadName, 'requirementImgs':requirementImgs});
-                    }, function (error) {
-                        //更新任务失败
-                        console.log('reUpload task img failed(save task):' + taskStatus + 'error:' + error.message);
-                        res.json({'errorMsg':error.message, 'errorId': error.code});
-                    });
                 }
-            }else {
-                //add task imgs
-                var newTaskObject = new mackTaskInfo();
-                newTaskObject.set('uploadName', uploadName);
-                newTaskObject.set('requirementImgs', requirementImgs);
-                newTaskObject.set('taskStatus', 'uploaded');
-                newTaskObject.set('receiveTaskObject', receiveTaskObject);
-                newTaskObject.save().then(function(){
-                    var relation = receiveTaskObject.relation('mackTask');
-                    relation.add(newTaskObject);// 建立针对每一个 Todo 的 Relation
-                    receiveTaskObject.save().then(function(){
-                        res.json({'errorId':0, 'errorMsg':'', 'uploadName':uploadName, 'requirementImgs':requirementImgs});
-                    }, function (error) {
-                        //更新任务失败
-                        console.log('upload task img failed(save relation):' + taskStatus + 'error:' + error.message);
-                        res.json({'errorMsg':error.message, 'errorId': error.code});
-                    });
-                }, function (error) {
-                    //更新任务失败
-                    console.log('upload task img failed(save task):' + taskStatus + 'error:' + error.message);
-                    res.json({'errorMsg':error.message, 'errorId': error.code});
-                });
-            }
-        });
-    },
-    function (err){
-        console.log('upload task img failed(task object error):' + taskStatus + 'error:' + error.message);
-        res.json({'errorMsg':err.message, 'errorId': err.code});
-    })
+
+                if((results.length + expiredCount) == remainCount && uploadDoTaskObject == undefined){
+                    //任务已经做满,不能重新再上传
+                    res.json({'errorMsg':'参与任务者已满,若想重新提交截图,请使用之前提交截图用户的昵称', 'errorId': -200});
+                }else {
+                    if(uploadDoTaskObject == undefined){
+                        //new task
+                        //add task imgs
+                        var newTaskObject = new mackTaskInfo();
+                        newTaskObject.set('uploadName', uploadName);
+                        newTaskObject.set('requirementImgs', requirementImgs);
+                        newTaskObject.set('taskStatus', 'uploaded');
+                        newTaskObject.set('receiveTaskObject', receiveTaskObject);
+                        newTaskObject.save().then(function(){
+                            var relation = receiveTaskObject.relation('mackTask');
+                            relation.add(newTaskObject);// 建立针对每一个 Todo 的 Relation
+                            receiveTaskObject.save().then(function(){
+                                res.json({'errorId':0, 'errorMsg':'', 'uploadName':uploadName, 'requirementImgs':requirementImgs});
+                            }, function (error) {
+                                //更新任务失败
+                                console.log('upload task img failed(save relation):' + taskStatus + 'error:' + error.message);
+                                res.json({'errorMsg':error.message, 'errorId': error.code});
+                            });
+                        }, function (error) {
+                            //更新任务失败
+                            console.log('upload task img failed(save task):' + taskStatus + 'error:' + error.message);
+                            res.json({'errorMsg':error.message, 'errorId': error.code});
+                        });
+                    }else {
+                        //该用户已经做过任务,想重新传图
+                        var taskStatus = uploadDoTaskObject.get('taskStatus');
+                        if (taskStatus == 'accepted' || taskStatus == 'systemAccepted'){
+                            //任务已经完成,无需再做
+                            res.json({'errorMsg':'任务已经完成喽', 'errorId': -100});
+                        }else if (taskStatus == 'expired') {
+                            res.json({'errorMsg':'任务已经超时过期', 'errorId': -101});
+                        }else {
+                            //自己重新提交,或者被决绝后重新做任务
+                            //销毁以往图片
+                            var images = uploadDoTaskObject.get('requirementImgs');
+                            var query_file = new AV.Query(File);
+                            query_file.containedIn('url', images);
+                            query_file.find().then(function(imgResults){
+                                for (var e = 0; e < imgResults.length; e++){
+                                    imgResults[e].destroy().then(function(){
+                                        //remove success
+                                    })
+                                }
+                            });
+
+                            uploadDoTaskObject.set('requirementImgs', requirementImgs);
+                            //区分 自己提交和 拒绝后提交
+                            if (taskStatus == 'refused'){
+                                uploadDoTaskObject.set('taskStatus', 'reUploaded');
+                            }else {
+                                uploadDoTaskObject.set('taskStatus', 'uploaded');
+                            }
+                            uploadDoTaskObject.save().then(function(){
+                                res.json({'errorId':0, 'errorMsg':'', 'uploadName':uploadName, 'requirementImgs':requirementImgs});
+                            }, function (error) {
+                                //更新任务失败
+                                console.log('reUpload task img failed(save task):' + taskStatus + 'error:' + error.message);
+                                res.json({'errorMsg':error.message, 'errorId': error.code});
+                            });
+                        }
+                    }
+                }
+
+            });
+        },
+        function (err){
+            console.log('upload task img failed(task object error):' + taskStatus + 'error:' + error.message);
+            res.json({'errorMsg':err.message, 'errorId': err.code});
+        })
 });
 
 module.exports = router;
