@@ -65,7 +65,11 @@ function taskObjectToDic(results, TaskObjects, isMyTask)
         appObject.commentKeyword = results[i].get('commentKeyword');
         appObject.detailRem = results[i].get('detailRem');
 
-        TaskObjects.push(appObject);
+        if(isMyTask){
+            TaskObjects.unshift(appObject);
+        }else {
+            TaskObjects.push(appObject);
+        }
     }
 }
 
@@ -84,7 +88,7 @@ function getTaskObjectList(taskType, query, totalCount, pageIndex, userObject, r
         queryMyTask.notEqualTo('close', true);
         queryMyTask.equalTo('userObject', userObject);
         queryMyTask.greaterThan('remainCount', 0);
-       if (taskType == 'commentTask'){
+        if (taskType == 'commentTask'){
            queryMyTask.equalTo('taskType', '评论');
         }
         else if (taskType == 'downTask'){
@@ -220,95 +224,106 @@ router.post('/postUsertask/:taskObjectId/:ratePrice/:appId', function(req, res){
     userObject.id = userId;
 
     //任务ID
-    var taskObject = AV.Object.createWithoutData('releaseTaskObject', taskObjectId);
-    var appObject = AV.Object.createWithoutData('IOSAppInfo', appObjectId);
+    var releaseQuery = new AV.Query(releaseTaskObject);
+    releaseQuery.get(taskObjectId).then(function (releTaskObject) {
 
-    //后端效验
-    var flag = true;
-    var errorMsg = '';
-
-    //1.不得重复领取同一任务
-    var query = new AV.Query(receiveTaskObject);
-    query.equalTo('userObject', userObject);
-    query.equalTo('taskObject', taskObject);
-    query.equalTo('appObject', appObject);
-    query.include('taskObject');
-    query.find().then(function(results){
-        if (results.length > 0){
-            errorMsg = "任务已经被领取过";
-            flag = false;
-            res.json({'succeeded': -2, 'errorMsg': errorMsg});
+        if(releTaskObject.get('close') == true){
+            res.json({'succeeded': -2, 'errorMsg': '任务已关闭,不能领取哦'});
+        }else if(releTaskObject.get('cancelled') == true){
+            res.json({'succeeded': -2, 'errorMsg': '任务刚被发布者撤销,看看别的任务吧'});
         }else {
-            //2.账户余额不得为负
-            query = new AV.Query(User);
-            query.get(userId).then(function (userObject) {
-                var totalMoney = userObject.get('totalMoney');
-                if (totalMoney < 0) {
-                    errorMsg = "账户余额为负, 请充值后再领取新任务";
-                    res.json({'errorId': -100, 'errorMsg': errorMsg});
+            var appObject = AV.Object.createWithoutData('IOSAppInfo', appObjectId);
+
+            //后端效验
+            var flag = true;
+            var errorMsg = '';
+
+            //1.不得重复领取同一任务
+            var query = new AV.Query(receiveTaskObject);
+            query.equalTo('userObject', userObject);
+            query.equalTo('taskObject', releTaskObject);
+            query.equalTo('appObject', appObject);
+            query.include('taskObject');
+            query.find().then(function(results){
+                if (results.length > 0){
+                    errorMsg = "任务已经被领取过";
+                    flag = false;
+                    res.json({'succeeded': -2, 'errorMsg': errorMsg});
                 }else {
-                    //3.剩余条数监测
-                    query = new AV.Query(releaseTaskObject);
-                    query.get(taskObjectId).then(function (resultTaskObject) {
-                        var remainCount = resultTaskObject.get('remainCount');
-                        if (remainCount < receive_Count){
-                            console.log('task get failed because of task done');
-                            errorMsg = "抱歉, 任务被别的用户抢走了";
-                            res.json({'errorId': -1, 'errorMsg': errorMsg});
+                    //2.账户余额不得为负
+                    query = new AV.Query(User);
+                    query.get(userId).then(function (userObject) {
+                        var totalMoney = userObject.get('totalMoney');
+                        if (totalMoney < 0) {
+                            errorMsg = "账户余额为负, 请充值后再领取新任务";
+                            res.json({'errorId': -100, 'errorMsg': errorMsg});
                         }else {
-                        //后端效验通过
-                            var ReceiveTaskObject = new receiveTaskObject();
-                            ReceiveTaskObject.set('userObject', userObject);
-                            ReceiveTaskObject.set('taskObject', taskObject);
-                            ReceiveTaskObject.set('appObject', appObject);
-                            ReceiveTaskObject.set('receiveCount', receive_Count);
-                            ReceiveTaskObject.set('receivePrice', receive_Price);
-                            ReceiveTaskObject.set('detailRem', detail_Rem);
-                            ReceiveTaskObject.set('appUpdateInfo', latestReleaseDate);//版本信息
-                            ReceiveTaskObject.set('remainCount', receive_Count);
-                            ReceiveTaskObject.set('receiveDate', myDateStr);
-                            ReceiveTaskObject.save().then(function(){
-                                //更新任务剩余条数
-                                var prevRemainCount = resultTaskObject.get('remainCount');
-                                var trackName = resultTaskObject.get('trackName');
-                                resultTaskObject.set('remainCount', (prevRemainCount - receive_Count));
-                                resultTaskObject.save().then(function(){
-                                    //创建领取信息
-                                    var message = new messageLogger();
-                                    var senderName = userObject.get('username');
-                                    message.set('receiverObjectId', resultTaskObject.get('userObject'));
-                                    message.set('senderObjectId', userObject);
-                                    message.set('category', '任务');
-                                    message.set('type','领取');
-                                    message.set('firstPara', senderName);
-                                    message.set('secondPara', trackName);
-                                    message.set('thirdPara', receive_Count);
-                                    message.save().then(function(){
+                            //3.剩余条数监测
+                            query = new AV.Query(releaseTaskObject);
+                            query.get(taskObjectId).then(function (resultTaskObject) {
+                                var remainCount = resultTaskObject.get('remainCount');
+                                if (remainCount < receive_Count){
+                                    console.log('task get failed because of task done');
+                                    errorMsg = "抱歉, 任务被别的用户抢走了";
+                                    res.json({'errorId': -1, 'errorMsg': errorMsg});
+                                }else {
+                                    //后端效验通过
+                                    var ReceiveTaskObject = new receiveTaskObject();
+                                    ReceiveTaskObject.set('userObject', userObject);
+                                    ReceiveTaskObject.set('taskObject', releTaskObject);
+                                    ReceiveTaskObject.set('appObject', appObject);
+                                    ReceiveTaskObject.set('receiveCount', receive_Count);
+                                    ReceiveTaskObject.set('receivePrice', receive_Price);
+                                    ReceiveTaskObject.set('detailRem', detail_Rem);
+                                    ReceiveTaskObject.set('appUpdateInfo', latestReleaseDate);//版本信息
+                                    ReceiveTaskObject.set('remainCount', receive_Count);
+                                    ReceiveTaskObject.set('receiveDate', myDateStr);
+                                    ReceiveTaskObject.save().then(function(){
+                                        //更新任务剩余条数
+                                        var prevRemainCount = resultTaskObject.get('remainCount');
+                                        var trackName = resultTaskObject.get('trackName');
+                                        resultTaskObject.set('remainCount', (prevRemainCount - receive_Count));
+                                        resultTaskObject.save().then(function(){
+                                            //创建领取信息
+                                            var message = new messageLogger();
+                                            var senderName = userObject.get('username');
+                                            message.set('receiverObjectId', resultTaskObject.get('userObject'));
+                                            message.set('senderObjectId', userObject);
+                                            message.set('category', '任务');
+                                            message.set('type','领取');
+                                            message.set('firstPara', senderName);
+                                            message.set('secondPara', trackName);
+                                            message.set('thirdPara', receive_Count);
+                                            message.save().then(function(){
 
-                                        // 查询流水的库, 按照领取的数量 记录
-                                        //var query_account = new AV.Query(accountJournal);
-                                        //query_account.equalTo('taskObject', taskObject);
-                                        //query_account.doesNotExist('incomeYCoinUser');
-                                        //query_account.doesNotExist('incomeYCoinDes');
-                                        //query_account.limit(receive_Count);
-                                        //query_account.find().then(function(accountObjects){
-                                        //    for (var a = 0; a < receive_Count; a++){
-                                        //        accountObjects[a].set('incomeYCoinUser', userObject);  //收入金额的用户
-                                        //        accountObjects[a].set('incomeYCoin', parseInt(req.params.ratePrice)); // 此次交易得到金额
-                                        //        accountObjects[a].set('incomeYCoinStatus', 'prepare_income'); // 领取任务的时候为准备收益;
-                                        //        accountObjects[a].set('incomeYCoinDes', '做任务');
-                                        //    }
-                                        //
-                                        //    AV.Object.saveAll(accountObjects).then(function(){
-                                        //        res.json({'succeeded': 0, 'errorMsg': '领取成功'});
-                                        //    });
-                                        //});
+                                                // 查询流水的库, 按照领取的数量 记录
+                                                //var query_account = new AV.Query(accountJournal);
+                                                //query_account.equalTo('taskObject', taskObject);
+                                                //query_account.doesNotExist('incomeYCoinUser');
+                                                //query_account.doesNotExist('incomeYCoinDes');
+                                                //query_account.limit(receive_Count);
+                                                //query_account.find().then(function(accountObjects){
+                                                //    for (var a = 0; a < receive_Count; a++){
+                                                //        accountObjects[a].set('incomeYCoinUser', userObject);  //收入金额的用户
+                                                //        accountObjects[a].set('incomeYCoin', parseInt(req.params.ratePrice)); // 此次交易得到金额
+                                                //        accountObjects[a].set('incomeYCoinStatus', 'prepare_income'); // 领取任务的时候为准备收益;
+                                                //        accountObjects[a].set('incomeYCoinDes', '做任务');
+                                                //    }
+                                                //
+                                                //    AV.Object.saveAll(accountObjects).then(function(){
+                                                //        res.json({'succeeded': 0, 'errorMsg': '领取成功'});
+                                                //    });
+                                                //});
+                                            });
+
+                                            res.json({'errorId': 0, 'errorMsg': '任务领取成功!'});
+                                        }, function(error){
+                                            res.json({'errorId': error.code, 'errorMsg': error.message});
+                                        });
+                                    }, function(error){
+                                        res.json({'errorId': error.code, 'errorMsg': error.message});
                                     });
-
-                                    res.json({'errorId': 0, 'errorMsg': '任务领取成功!'});
-                                }, function(error){
-                                    res.json({'errorId': error.code, 'errorMsg': error.message});
-                                });
+                                }
                             }, function(error){
                                 res.json({'errorId': error.code, 'errorMsg': error.message});
                             });
@@ -317,11 +332,12 @@ router.post('/postUsertask/:taskObjectId/:ratePrice/:appId', function(req, res){
                         res.json({'errorId': error.code, 'errorMsg': error.message});
                     });
                 }
-            }, function(error){
-                res.json({'errorId': error.code, 'errorMsg': error.message});
             });
         }
 
+    }, function (error) {
+        // 失败了
+        res.json({'errorId': error.code, 'errorMsg': error.message});
     });
 });
 

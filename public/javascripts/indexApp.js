@@ -26,16 +26,16 @@ app.directive("thNav",function(){
                 $scope.userObjectId = response.userObjectId;
             });
 
-            //消息相关
-            var getMessage = '/user/userCenter/getMessage';
-            $http.get(getMessage).success(function(response){
-                var msg = response.rtnMsg;
-                for (var i = 0; i < msg.length; i++){
-                    if (!msg[i].read){
-                        $scope.unreadNotice = true;
-                    }
-                }
-            });
+            //消息相关 BUGBUG
+            //var getMessage = '/user/userCenter/getMessage';
+            //$http.get(getMessage).success(function(response){
+            //    var msg = response.rtnMsg;
+            //    for (var i = 0; i < msg.length; i++){
+            //        if (!msg[i].read){
+            //            $scope.unreadNotice = true;
+            //        }
+            //    }
+            //});
         }
     };
 });
