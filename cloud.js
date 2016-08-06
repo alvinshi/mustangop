@@ -85,8 +85,8 @@ AV.Cloud.define('hello', function(request, response) {
 function getTaskCheckQuery(){
     var nowTimestamp = new Date().getTime();
     //早10点审核 前天下午6点前接受的任务
-    var yesterdayTimestamp = nowTimestamp - 1000*60*60*16;
-    //var yesterdayTimestamp = nowTimestamp;    //test
+    //var yesterdayTimestamp = nowTimestamp - 1000*60*60*16;
+    var yesterdayTimestamp = nowTimestamp;    //test
     var yesterdayDate = new Date(yesterdayTimestamp);
 
     var query = new AV.Query(receiveTaskObject);
@@ -149,11 +149,11 @@ AV.Cloud.define('taskCheckForDoTask', function(request, response){
                                     doTaskObjects[r].set('taskStatus', 'systemAccepted');
                                     changeDoTasks.push(doTaskObjects[r]);
                                     //增加做任务人的钱
-                                    console.log(user.username + ' ++++++ checkTask add user YB' + rate_unitPrice);
+                                    console.log(user.id + ' ++++++ checkTask add user YB' + rate_unitPrice);
                                     user.increment('totalMoney', rate_unitPrice);
                                     //扣除发布任务人的冻结钱
                                     releaseTaskUser.increment('freezingMoney', -rate_unitPrice);
-                                    console.log(releaseTaskUser.username + ' ------ checkTask add user YB' + rate_unitPrice);
+                                    console.log(releaseTaskUser.id + ' ------ checkTask add user YB' + rate_unitPrice);
                                 }else if(taskStatus == 'refused'){
                                     //isHaveRefused = true;
                                 }
@@ -169,14 +169,15 @@ AV.Cloud.define('taskCheckForDoTask', function(request, response){
                                 });
                             }
 
-                            var undoTask = receTaskObject.get('receiveCount') - doTaskObjects.length;
+                            //还得减去已过期,不再重新结算
+                            var undoTask = receTaskObject.get('receiveCount') - doTaskObjects.length - receTaskObject.get('expiredCount');
                             if (undoTask > 0){
                                 //protect
                                 //1.扣除用户金币入系统(汇率金币)  减少发布人冻结的钱 增加发布人总钱
                                 user.increment('totalMoney', -(rate_unitPrice * undoTask));
-                                console.log(user.username + ' ------ 111 checkTask add user YB' + (rate_unitPrice * undoTask));
+                                console.log(user.id + ' ------ 111 checkTask add user YB' + (rate_unitPrice * undoTask));
                                 releaseTaskUser.increment('freezingMoney', - (rate_unitPrice * undoTask));
-                                console.log(releaseTaskUser.username + ' ++++++ 111 checkTask add user YB' + (rate_unitPrice * undoTask));
+                                console.log(releaseTaskUser.id + ' ++++++ 111 checkTask add user YB' + (rate_unitPrice * undoTask));
                                 releaseTaskUser.increment('totalMoney', rate_unitPrice * undoTask);
 
                                 //2.过期任务增加
@@ -267,8 +268,8 @@ AV.Cloud.define('refuseTaskTimerForRelease', function(request, response){
     function getRefuseDoTaskQuery(){
         var nowTimestamp = new Date().getTime();
         //早11点审核 前天下午6点前被拒绝的任务有没有重新提交
-        var yesterdayTimestamp = nowTimestamp - 1000*60*60*17;
-        //var yesterdayTimestamp = nowTimestamp;  //test
+        //var yesterdayTimestamp = nowTimestamp - 1000*60*60*17;
+        var yesterdayTimestamp = nowTimestamp;  //test
         var yesterdayDate = new Date(yesterdayTimestamp);
 
         var refuseDoTaskquery = new AV.Query(mackTaskInfoObject);
@@ -363,10 +364,12 @@ AV.Cloud.define('refuseTaskTimerForRelease', function(request, response){
 
 module.exports = AV.Cloud;
 
-//var paramsJson = {
-//    movie: "夏洛特烦恼"
-//};
-//
+var paramsJson = {
+    movie: "夏洛特烦恼"
+};
+
+//refuseTaskTimerForRelease
+//taskCheckForDoTask
 //AV.Cloud.run('refuseTaskTimerForRelease', paramsJson, {
 //    success: function(data) {
 //        // 调用成功，得到成功的应答data
