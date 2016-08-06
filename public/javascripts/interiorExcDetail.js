@@ -23,6 +23,8 @@ app.controller('interorDetailControl',function($scope, $http, $location){
                 response.macTask[i].status = '拒绝'
             }else if (response.macTask[i].status == 'accepted' || response.macTask[i].status == 'systemAccepted'){
                 response.macTask[i].status = '已完成'
+            }else if (response.macTask[i].status == 'expired'){
+                response.macTask[i].status = '已过期'
             }else {
                 response.macTask[i].status = ''
             }

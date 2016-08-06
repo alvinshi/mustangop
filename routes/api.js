@@ -28,12 +28,11 @@ router.get('/itunes/search/:searchkey', function(req, res, next) {
 
         console.log('statusCode: ', httpRes.statusCode);
         console.log('headers: ', httpRes.headers);
-        var totalLen = 0;
         var totalData = '';
 
         if (httpRes.statusCode != 200){
             console.log("Got error: " + httpRes.statusMessage);
-            res.json({'appResults':[], 'errorMsg' : httpRes.statusCode + httpRes.statusMessage})
+            res.json({'appResults':[], 'errorMsg' : httpRes.statusCode + httpRes.statusMessage, 'errorId':-2})
         }else {
             httpRes.on('data', function(data) {
                 totalData += data;
@@ -62,16 +61,15 @@ router.get('/itunes/search/:searchkey', function(req, res, next) {
                     //类别 平台信息
 
                     appResults.push(appResult);
-
                 }
 
-                res.json({'appResults':appResults, 'errorMsg':''});
+                res.json({'appResults':appResults, 'errorMsg':'', 'errorId':0});
             })
         }
 
     }).on('error', function(e) {
         console.log("Got error: " + e.message);
-        res.json({'appResults':[], 'errorMsg' : e.message})
+        res.json({'appResults':[], 'errorMsg' : e.message, 'errorId' : -1})
     });
 });
 

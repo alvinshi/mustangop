@@ -34,29 +34,30 @@ exports.postFile = function (req, res) {
         }).on('finish', function() {
 
             var totalData = base64dataList.length;
+            var promiseIndex = 0;
             var fileUrlList = Array();
 
             for (var i = 0; i < base64dataList.length; i++){
                 (function (index){
-
                     console.log('------ upload img ------ ' + pubFileNameList[index]);
-
                     var f = new AV.File(pubFileNameList[index], {
                         // 仅上传第一个文件（多个文件循环创建）
                         base64: base64dataList[index]
                     });
-                    try {
-                        f.save().then(function(fileObj) {
-                            fileUrlList.push(fileObj.url());
-                            if (fileUrlList.length == totalData){
-                                res.json({'fileUrlList':fileUrlList, 'totalCount':base64dataList.length});
-                            }
-                        });
-                    } catch (error) {
-                        totalData--;
-                        console.log('------ upload img failed ------ requirement img ' + error);
-                    }
-                }(i))
+                    f.save().then(function(fileObj) {
+                        fileUrlList.push(fileObj.url());
+                        promiseIndex++;
+                        if (promiseIndex == totalData){
+                            res.json({'fileUrlList':fileUrlList, 'totalCount':base64dataList.length});
+                        }
+                    }, function(error){
+                        promiseIndex++;
+                        if(promiseIndex == totalData){
+                            console.log('------ ' + pubFileNameList[index] + ' upload img failed ------ ' + error.message);
+                            res.json({'errorId':error.code, 'errorMsg':error.message});
+                        }
+                    });
+                }(i));
             }
         });
         req.pipe(req.busboy);

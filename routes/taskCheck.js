@@ -56,11 +56,6 @@ router.get('/taskAudit', function(req, res){
 
             //实时数据
             appInfoObject.remainCount = results[i].get('remainCount');
-            appInfoObject.pending = results[i].get('pending');
-            appInfoObject.submitted = results[i].get('submitted');
-            appInfoObject.rejected = results[i].get('rejected');
-            appInfoObject.accepted = results[i].get('accepted');
-            appInfoObject.abandoned = results[i].get('abandoned');
 
             appInfoObject.completed = results[i].get('completed');
             appInfoObject.cancelled = results[i].get('cancelled');
@@ -93,13 +88,13 @@ router.get('/cancelTask/:taskId', function(req, res){
             taskObject.save().then(function(){
                 res.json({'errorMsg':'succeed', 'errorId': 0});
             }, function(error){
-                res.json({'errorMsg':error.errorMsg, 'errorId': error.code});
+                res.json({'errorMsg':error.message, 'errorId': error.code});
             });
         }, function(error){
-            res.json({'errorMsg':error.errorMsg, 'errorId': error.code});
+            res.json({'errorMsg':error.message, 'errorId': error.code});
         });
     }, function(error){
-        res.json({'errorMsg':error.errorMsg, 'errorId': error.code});
+        res.json({'errorMsg':error.message, 'errorId': error.code});
     });
 });
 
@@ -119,6 +114,11 @@ router.get('/specTaskCheck/:taskId', function(req, res){
 
         var totalGetTask = 0,  totalAccepted = 0, totalSubmited = 0;
         var totalUndo = 0, totalRejected = 0, totalTimeout = 0;
+
+        if(results.length == 0){
+            retJsonFunc(0, '');
+            return;
+        }
 
         function retJsonFunc(errorId, errorMsg){
             if (counter == promise){
@@ -173,6 +173,8 @@ router.get('/specTaskCheck/:taskId', function(req, res){
                             accepted++;
                         }else if(taskStatus == 'refused'){
                             rejected++;
+                        }else if(taskStatus == 'expired'){
+                            //已经在定时器里增加过期数据,无需在这边计算 —— 唉
                         }
 
                         //已做任务详情
@@ -210,7 +212,7 @@ router.get('/specTaskCheck/:taskId', function(req, res){
                     retJsonFunc(0, '');
                 }, function(error){
                     counter++;
-                    retJsonFunc(error.code, error.errorMsg);
+                    retJsonFunc(error.code, error.message);
                 });
             })(results[i], submission);
 
@@ -253,10 +255,10 @@ var updateReceiveTaskDatabase = function(doTaskObject, uploaderName, res){
             senderUserObject.save().then(function(){
                 res.json({'errorMsg':'', 'errorId': 0});
             }, function (error) {
-                res.json({'errorMsg':error.errorMsg, 'errorId': error.code});
+                res.json({'errorMsg':error.message, 'errorId': error.code});
             });
         }, function (error) {
-            res.json({'errorMsg': error.errorMsg, 'errorId': error.code});
+            res.json({'errorMsg': error.message, 'errorId': error.code});
         });
 
         //流水模块
@@ -282,7 +284,7 @@ var updateReceiveTaskDatabase = function(doTaskObject, uploaderName, res){
         acceptMessage(userId, senderId, trackName, uploaderName, rateUnitPrice);
 
     }, function(error){
-        res.json({'errorMsg':error.errorMsg, 'errorId': error.code});
+        res.json({'errorMsg':error.message, 'errorId': error.code});
     });
 };
 
@@ -313,10 +315,10 @@ router.post('/accept/:entryId', function(req, res) {
         doTaskObject.save().then(function () {
             updateReceiveTaskDatabase(doTaskObject, uploaderName, res);
         }, function(error){
-            res.json({'errorMsg':error.errorMsg, 'errorId': error.code});
+            res.json({'errorMsg':error.message, 'errorId': error.code});
         });
     }, function(error){
-        res.json({'errorMsg':error.errorMsg, 'errorId': error.code});
+        res.json({'errorMsg':error.message, 'errorId': error.code});
     });
 });
 
@@ -358,7 +360,7 @@ var rejectMessage = function(res, doTaskObject, uploaderName){
 
         res.json({'errorMsg':'', 'errorId': 0});
     }, function(error){
-        res.json({'errorMsg':error.errorMsg, 'errorId': error.code});
+        res.json({'errorMsg':error.message, 'errorId': error.code});
     });
 };
 
@@ -376,10 +378,10 @@ router.post('/reject/:entryId', function(req, res) {
         doTaskObject.save().then(function () {
             rejectMessage(res, doTaskObject, uploaderName);
         }, function(error){
-            res.json({'errorMsg':error.errorMsg, 'errorId': error.code});
+            res.json({'errorMsg':error.message, 'errorId': error.code});
         });
     }, function(error){
-        res.json({'errorMsg':error.errorMsg, 'errorId': error.code});
+        res.json({'errorMsg':error.message, 'errorId': error.code});
     });
 });
 

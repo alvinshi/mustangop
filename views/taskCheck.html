@@ -310,6 +310,7 @@
                                             <button class="btn receive" ng-click="accept(entry)" ng-show="entry.status == 'uploaded' || entry.status == 'reUploaded'">确认接受</button>
                                             <button class="btn receive2" ng-show="entry.status == 'accepted' || entry.status == 'systemAccepted'">已接受</button>
                                             <button class="btn reject2" ng-show="entry.status == 'refused'">已拒绝</button>
+                                            <button class="btn reject2" ng-show="entry.status == 'expired'">已过期</button>
 
                                         </div>
                                         <div class="modal fade" id="rejectreason{{entry.id}}">

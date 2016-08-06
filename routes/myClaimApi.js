@@ -39,6 +39,12 @@ router.get('/claim/:userObjectId', function(req, res){
 
     var calNumber = 0;
     query.find().then(function(results){
+
+        if(results.length == 0){
+            res.json({'myClaimApps':[], 'errorId': 0});
+            return;
+        }
+
         var retApps = new Array();
         for (var i = 0; i< results.length; i++){
             var appHisObject = new Object();
@@ -79,7 +85,7 @@ router.get('/claim/:userObjectId', function(req, res){
             }
             var expireDate = new Date(expireTimeStamp);
             appHisObject.deadlineStr = '截止:' +
-                (expireDate.getMonth() + 1).toString() + '月' + expireDate.getDay().toString() + '日 8:00Am';
+                (expireDate.getMonth() + 1).toString() + '月' + expireDate.getDate().toString() + '日 8:00Am';
 
             //未完成 审核中 被拒绝 已通过
             (function (receTaskObject, inAppHisObject){
@@ -96,6 +102,8 @@ router.get('/claim/:userObjectId', function(req, res){
                             accepted++;
                         }else if(taskStatus == 'refused'){
                             rejected++;
+                        }else if(taskStatus == 'expired'){
+                            //已经在定时器里增加过期数据,无需在这边计算 —— 唉
                         }
                     }
 
@@ -133,9 +141,9 @@ router.get('/claim/:userObjectId', function(req, res){
                 });
             }(results[i], appHisObject));
         }
-    }), function(error){
+    }, function(error){
         res.json({'errorMsg':error.message, 'errorId': error.code});
-    }
+    });
 });
 
 // 修改分配备注

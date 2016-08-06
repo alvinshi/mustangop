@@ -8,6 +8,8 @@ var IOSAppBinder = AV.Object.extend('IOSAppBinder');
 var User = AV.Object.extend('_User');
 var receiveTaskObject = AV.Object.extend('receiveTaskObject'); // 领取任务的库
 var releaseTaskObject = AV.Object.extend('releaseTaskObject'); // 发布任务库
+var mackTaskInfoObject = AV.Object.extend('mackTaskInfo'); // 做单条任务的库
+
 var accountJournal = AV.Object.extend('accountJournal'); // 记录账户变动明细表
 var messageLogger = AV.Object.extend('messageLogger'); //消息表
 
@@ -83,8 +85,8 @@ AV.Cloud.define('hello', function(request, response) {
 function getTaskCheckQuery(){
     var nowTimestamp = new Date().getTime();
     //早10点审核 前天下午6点前接受的任务
-    //var yesterdayTimestamp = nowTimestamp - 1000*60*60*16;
-    var yesterdayTimestamp = nowTimestamp;
+    var yesterdayTimestamp = nowTimestamp - 1000*60*60*16;
+    //var yesterdayTimestamp = nowTimestamp;    //test
     var yesterdayDate = new Date(yesterdayTimestamp);
 
     var query = new AV.Query(receiveTaskObject);
@@ -95,8 +97,9 @@ function getTaskCheckQuery(){
     return query;
 }
 
+//工作日10点定时器
 // 这个定时器只处理领取任务的相关信息 每天10点处理前一天晚上6点前的数据
-AV.Cloud.define('checkTask', function(request, response){
+AV.Cloud.define('taskCheckForDoTask', function(request, response){
     var query = getTaskCheckQuery();
 
     query.count().then(function(count){
@@ -255,6 +258,107 @@ AV.Cloud.define('checkTask', function(request, response){
             response.fail('checkTask fail');
         }
     })
+});
+
+//工作日11点定时器
+//拒绝定时器,为了发布者设计的 —— 当拒绝任务后,做任务方未在2天内重新上传任务,任务会自动失效,发布者金钱+,冻结金钱-
+AV.Cloud.define('refuseTaskTimerForRelease', function(request, response){
+    //查询一定时间前拒绝的所有任务
+    function getRefuseDoTaskQuery(){
+        var nowTimestamp = new Date().getTime();
+        //早11点审核 前天下午6点前被拒绝的任务有没有重新提交
+        var yesterdayTimestamp = nowTimestamp - 1000*60*60*17;
+        //var yesterdayTimestamp = nowTimestamp;  //test
+        var yesterdayDate = new Date(yesterdayTimestamp);
+
+        var refuseDoTaskquery = new AV.Query(mackTaskInfoObject);
+        // 已经被定时器操作过的任务
+        refuseDoTaskquery.equalTo('taskStatus', 'refused');
+        // 按照操作任务的时间来算 —— 拒绝的时间点
+        refuseDoTaskquery.lessThanOrEqualTo('updatedAt', yesterdayDate);
+        return refuseDoTaskquery;
+    }
+
+    function addLeanObject(leanObject, leanObjectList){
+        for (var i = 0; i < leanObjectList.length; i++){
+            var temLeanObject = leanObjectList[i];
+            if(temLeanObject.id == leanObject.id){
+                return;
+            }
+        }
+        leanObjectList.push(leanObject);
+    }
+
+    var query = getRefuseDoTaskQuery();
+    query.count().then(function(count){
+        var totalCount = count;
+        if (totalCount == 0){
+            console.log('!!!!! no refused task: one day before');
+            response.success('********** refuseTaskTimerForRelease succeed **********');
+            return;
+        }
+
+        var remain = totalCount % 1000;
+        var totalForCount = totalCount/1000 + remain > 0 ? 1 : 0;
+        for (var i = 0; i < totalForCount; i++){
+            //receiveTaskObject
+            var query_a = getRefuseDoTaskQuery();
+            query_a.ascending('updatedAt');
+            query_a.include('receiveTaskObject');
+            query_a.include('receiveTaskObject.taskObject');
+            //query_a.include('receiveTaskObject.taskObject');
+            query_a.limit(1000);
+            query_a.skip(i * 1000);
+            query_a.find().then(function(results){ // 查找出所有满足条件的被拒绝的任务
+
+                var doReceTaskList = [];
+                var senTaskUserList = [];
+                for (var e = 0; e < results.length; e++){
+                    var doTaskObject = results[e];
+                    var doReceTaskObject = doTaskObject.get('receiveTaskObject');
+                    var taskObjectInDo = doReceTaskObject.get('taskObject');
+                    var excUnitPrice = taskObjectInDo.get('excUnitPrice'); // 任务的单价
+                    var sendTaskUserObject = taskObjectInDo.get('userObject');
+
+                    doTaskObject.set('taskStatus', 'expired');
+
+                    //任务超时个数增加
+                    doReceTaskObject.increment('expiredCount', 1);
+                    //解锁发布任务的人的YB
+                    sendTaskUserObject.increment('freezingMoney', excUnitPrice);
+                    console.log(sendTaskUserObject.id+ ' ++++++ refused task,and unlock send user money' + excUnitPrice);
+                    sendTaskUserObject.increment('totalMoney', excUnitPrice);
+
+                    addLeanObject(doReceTaskObject, doReceTaskList);
+                    addLeanObject(sendTaskUserObject, senTaskUserList);
+                }
+
+                //解锁YB
+                AV.Object.saveAll(senTaskUserList).then(function(){
+                    console.log('!!!  返还过期拒绝任务的YB给发布者 成功 !!!')
+                    //统一增加超时条目
+                    AV.Object.saveAll(doReceTaskList).then(function(){
+                        console.log('!!! 接受任务方超时任务条目增加 成功!!!');
+                        //统一改变任务状态为 expired
+                        AV.Object.saveAll(results).then(function(){
+                            console.log('!!! 保存任务状态成功 !!!')
+                            response.success('refuseTaskTimerForRelease success');
+                        }, function(error){
+                            response.fail('refuseTaskTimerForRelease fail');
+                        });
+                    }, function(error){
+                        response.fail('refuseTaskTimerForRelease fail');
+                    });
+                }, function(error){
+                    response.fail('refuseTaskTimerForRelease fail');
+                });
+            })
+        }
+        function error(){
+            console.log('----- refuseTaskTimerForRelease error: count error');
+            response.fail('refuseTaskTimerForRelease fail');
+        }
+    });
 });
 
 module.exports = AV.Cloud;

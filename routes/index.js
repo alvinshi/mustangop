@@ -127,27 +127,4 @@ router.get('/index', function(req, res){
 
 });
 
-// 未读消息显示
-router.get('/unreadMsg', function(req, res){
-  var userid = util.useridInReq(req);
-  var date = new Date().getTime();
-  var dateStr = date - 1000*60*60*24;
-  var myDate = new Date(dateStr);
-  //var myDate = new Date();
-  //var myDateStr = myDate.getFullYear() + '-' + (parseInt(myDate.getMonth()) + 1) + '-' + myDate.getDate();
-
-  var user = new AV.User();
-  user.id = userid;
-
-  var query = new AV.Query(messageLogger);
-  query.equalTo('receiverObjectId', user);
-  query.notEqualTo('read', true);
-  query.greaterThan('createdAt', myDate);
-  query.limit(1000);
-  query.count().then(function(count){
-
-    res.json({'unreadMsgCount':count})
-  })
-});
-
 module.exports = router;

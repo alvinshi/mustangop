@@ -408,10 +408,6 @@ router.post('/task/:appid', function(req, res){
             releasetaskObject.set('remainCount', excCount); // 剩余条数
             releasetaskObject.set('myRate', myRate); // 汇率
             releasetaskObject.set('rateUnitPrice', rateunitPrice); // 汇率后价格,实际显示价格
-            releasetaskObject.set('pending', 0);  // 未提交
-            releasetaskObject.set('submitted', 0); // 待审
-            releasetaskObject.set('rejected', 0);  // 拒绝
-            releasetaskObject.set('accepted', 0);  // 接收
             releasetaskObject.set('completed', 0);  // 完成
             releasetaskObject.save().then(function() {
                 // 实例已经成功保存.

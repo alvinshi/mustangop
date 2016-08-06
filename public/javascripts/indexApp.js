@@ -36,18 +36,6 @@ app.directive("thNav",function(){
                     }
                 }
             });
-
-            var unreadMsgUrl = '/unreadMsg';
-            $http.get(unreadMsgUrl).success(function(response){
-
-                if (response.unreadMsgCount > 0){
-                    $scope.unreadMsgCount = response.unreadMsgCount;
-                    $scope.chuxian = true;
-                }else {
-                    $scope.chuxian = false;
-                }
-            });
-
         }
     };
 });

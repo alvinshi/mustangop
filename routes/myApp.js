@@ -60,7 +60,6 @@ router.get('/angular', function(req, res, next) {
             var retApps = new Array();
 
             //check update apps
-
             var judgeLength = results.length;
 
             for (var i = 0; i < results.length; i++){
@@ -112,7 +111,7 @@ router.get('/angular', function(req, res, next) {
                                     dealiTunesAppFailed(retApps, tempAppObject);
                                     promiseCount++;
                                     if (promiseCount == judgeLength){
-                                        res.json({'myApps':retApps, 'errorId': error.code, 'errorMsg': error.errorMsg});
+                                        res.json({'myApps':retApps, 'errorId': error.code, 'errorMsg': error.message});
                                     }
                                 });
                             })
@@ -122,7 +121,7 @@ router.get('/angular', function(req, res, next) {
                         dealiTunesAppFailed(retApps, tempAppObject);
                         promiseCount++;
                         if (promiseCount == judgeLength){
-                            res.json({'myApps':retApps, 'errorId': error.code, 'errorMsg': error.errorMsg});
+                            res.json({'myApps':retApps, 'errorId': error.code, 'errorMsg': error.message});
                         }
                     });
                 })(appObject);
@@ -930,11 +929,6 @@ router.post('/task', function(req, res){
             releasetaskObject.set('remainCount', excCount); // 剩余条数
             releasetaskObject.set('myRate', myRate); // 汇率
             releasetaskObject.set('rateUnitPrice', rateunitPrice); // 汇率后价格,实际显示价格
-            releasetaskObject.set('pending', 0);  // 未提交
-            releasetaskObject.set('submitted', 0); // 待审
-            releasetaskObject.set('rejected', 0);  // 拒绝
-            releasetaskObject.set('accepted', 0);  // 接收
-            releasetaskObject.set('abandoned', 0);  // 过期
             releasetaskObject.set('completed', 0);  // 完成
             releasetaskObject.set('releaseDate', myDateStr); // 添加发布日期,冗余字段
             releasetaskObject.save().then(function() {
@@ -1064,10 +1058,10 @@ router.post('/taskneed/:appid', function(req, res){
                 dealIOSAppBilderObject.save().then(function(){
                     res.json({'errorId':0, 'errorMsg':''});
                 }, function(error){
-                    res.json({'errorMsg':error.errorMsg, 'errorId': error.code});
+                    res.json({'errorMsg':error.message, 'errorId': error.code});
                 })
             }, function(error){
-                res.json({'errorMsg':error.errorMsg, 'errorId': error.code});
+                res.json({'errorMsg':error.message, 'errorId': error.code});
             });
         }else {
             taskdemand.set('taskType', task_type);
@@ -1083,11 +1077,11 @@ router.post('/taskneed/:appid', function(req, res){
                 //
                 res.json({'errorId':0, 'errorMsg':''});
             }, function(error){
-                res.json({'errorMsg':error.errorMsg, 'errorId': error.code});
+                res.json({'errorMsg':error.message, 'errorId': error.code});
             });
         }
     }, function(error){
-        res.json({'errorMsg':error.errorMsg, 'errorId': error.code});
+        res.json({'errorMsg':error.message, 'errorId': error.code});
     })
 });
 

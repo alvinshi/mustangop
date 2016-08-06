@@ -119,13 +119,11 @@ router.get('/userCenter',function(req, res, next){
     var userNickname = results.get('userNickname');
     var userQQ = results.get('userQQ');
     var balance = results.get('totalMoney');
-
-
     res.json({'personAPP':PhoneNumber, 'userNickname':userNickname, 'userQQ':userQQ, 'balance': balance});
-  }), function(error){
+  }, function(error){
     //失败
     res.json({'errorId':error.code, 'errorMsg':error.message});
-  }
+  });
 });
 
 
@@ -328,12 +326,12 @@ router.get('/taskhistory', function(req, res){
           }
         }, function(error){
           counter++;
-          res.json({'errorMsg':error.errorMsg, 'errorId': error.code});
+          res.json({'errorMsg':error.message, 'errorId': error.code});
         })
       })(historyObject)
     }
   }, function(error){
-    res.json({'errorMsg':error.errorMsg, 'errorId': error.code});
+    res.json({'errorMsg':error.message, 'errorId': error.code});
   })
 });
 
