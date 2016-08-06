@@ -173,6 +173,8 @@ router.get('/specTaskCheck/:taskId', function(req, res){
                             accepted++;
                         }else if(taskStatus == 'refused'){
                             rejected++;
+                        }else if(taskStatus == 'expired'){
+                            //已经在定时器里增加过期数据,无需在这边计算 —— 唉
                         }
 
                         //已做任务详情
