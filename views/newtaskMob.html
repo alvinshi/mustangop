@@ -157,9 +157,11 @@
     <div class="text-center " ng-hide="normalBtnShow">
         <a href="javascript:;"  class="a-upload form_change ">
             <input type="file" style="width: 80%" multiple nv-file-select="" ng-click="deletFile()" uploader="uploader" accept="image/*"/>
-            上传图片(请多张同时上传)
+            上传一份任务图片(2-3张)
         </a>
     </div>
+
+    <div class="alert alert-danger" role="alert" ng-show="imgError">图片上传失败,请刷新页面重新上传</div>
 
     <div class="progress" style="margin:auto; margin-top: 20px" ng-hide="!progressNum">
         <div ng-class="{'progress-bar': true, 'progress-bar-striped':true, active:true}" ng-style="{width: progressNum+ '%'}">
