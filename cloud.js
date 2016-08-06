@@ -325,7 +325,7 @@ AV.Cloud.define('refuseTaskTimerForRelease', function(request, response){
                     //任务超时个数增加
                     doReceTaskObject.increment('expiredCount', 1);
                     //解锁发布任务的人的YB
-                    sendTaskUserObject.increment('freezingMoney', excUnitPrice);
+                    sendTaskUserObject.increment('freezingMoney', -excUnitPrice);
                     console.log(sendTaskUserObject.id+ ' ++++++ refused task,and unlock send user money' + excUnitPrice);
                     sendTaskUserObject.increment('totalMoney', excUnitPrice);
 
@@ -367,7 +367,7 @@ module.exports = AV.Cloud;
 //    movie: "夏洛特烦恼"
 //};
 //
-//AV.Cloud.run('checkTask', paramsJson, {
+//AV.Cloud.run('refuseTaskTimerForRelease', paramsJson, {
 //    success: function(data) {
 //        // 调用成功，得到成功的应答data
 //        console.log('---- test timer: succeed');
