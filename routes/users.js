@@ -119,72 +119,15 @@ router.get('/userCenter',function(req, res, next){
     var userNickname = results.get('userNickname');
     var userQQ = results.get('userQQ');
     var balance = results.get('totalMoney');
-    res.json({'personAPP':PhoneNumber, 'userNickname':userNickname, 'userQQ':userQQ, 'balance': balance});
+    var freezingYB = results.get('freezingMoney');
+    res.json({'personAPP':PhoneNumber, 'userNickname':userNickname,
+      'userQQ':userQQ, 'balance': balance, 'userFreezingYB':freezingYB});
   }, function(error){
     //失败
     res.json({'errorId':error.code, 'errorMsg':error.message});
   });
 });
 
-
-// 我的Y币 消耗
-router.get('/mypayYB', function(req, res){
-  var userId = util.useridInReq(req);
-  var myDate = new Date();
-  var myDateStr = myDate.getFullYear() + '-' + (parseInt(myDate.getMonth())+1) + '-' + myDate.getDate();
-
-  var user = new AV.User();
-  user.id = userId;
-
-  var query = new AV.Query(accountJournal);
-  query.equalTo('payYCoinUser', user);
-  query.equalTo('releaseDate', myDateStr);
-  query.find().then(function(results){
-    var userpayYCoinList = new Array();
-    for (var i = 0; i < results.length; i++){
-      var userpayYB = results[i].get('payYCoin');
-      userpayYCoinList.push(userpayYB);
-    }
-    var payYB = '';
-    if (userpayYCoinList.length > 0){
-      payYB = eval(userpayYCoinList.join('+'))
-    }else {
-      payYB = 0
-    }
-    res.json({'todyPayYB':payYB})
-
-  })
-});
-
-// 得到
-router.get('/myincomeYB', function(req, res){
-  var userId = util.useridInReq(req);
-  var myDate = new Date();
-  var myDateStr = myDate.getFullYear() + '-' + (parseInt(myDate.getMonth())+1) + '-' + myDate.getDate();
-
-  var user = new AV.User();
-  user.id = userId;
-
-  var query = new AV.Query(accountJournal);
-  query.equalTo('incomeYCoinUser', user);
-  query.equalTo('releaseDate', myDateStr);
-  query.equalTo('incomeYCoinStatus', 'incomed');
-  query.find().then(function(results){
-    var userincomeYCoinList = new Array();
-    for (var i = 0; i < results.length; i++){
-      var userincomeYB = results[i].get('incomeYCoin');
-      userincomeYCoinList.push(userincomeYB);
-    }
-    var incomeYB = '';
-    if (userincomeYCoinList.length > 0){
-      incomeYB = eval(userincomeYCoinList.join('+'))
-    }else {
-      incomeYB = 0
-    }
-    res.json({'usertodyIncome':incomeYB})
-
-  })
-});
 
 //个人中心用户保存信息
 router.post('/userCenter',function(req, res){

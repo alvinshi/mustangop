@@ -61,26 +61,6 @@ app.controller('inforManageCtrl', function($scope, $http){
     $scope.userName = true;
     var date = new Date();
 
-    var userUrl = '/user/userCenter';
-    $http.get(userUrl).success(function(response){
-        $scope.PhoneNumber = response.personAPP;
-        $scope.userNickname = response.userNickname;
-        $scope.userQQ = response.userQQ;
-        $scope.balance = response.balance;
-    });
-
-    $scope.preserve = function(){
-        var userUrl = '/user/userCenter';
-        $http.post(userUrl,{'userNickname':$scope.userNickname, 'userQQ':$scope.userQQ}).success(function(response){
-            $scope.errorId = response.errorId;
-            $scope.errorMsg = response.errorMsg;
-            if (response.errorId == 0){
-                //return to my App
-                location.href='/user';
-            }
-        })
-    };
-
     //初始
     $scope.pageNum = 0;
     $scope.msgPerPage = 6;
@@ -249,37 +229,20 @@ app.controller('userCenterCtrl', function($scope, $http){
         $scope.userNickname = response.userNickname;
         $scope.userQQ = response.userQQ;
         $scope.balance = response.balance;
-
-    });
-
-    var YBUrl = '/user/mypayYB';
-    $http.get(YBUrl).success(function(response){
-        $scope.todyPayYB = response.todyPayYB;
-    });
-
-    var incomeUrl = '/user/myincomeYB';
-    $http.get(incomeUrl).success(function(response){
-        $scope.usertodyIncome = response.usertodyIncome;
+        $scope.userFreezingYB = response.userFreezingYB;
     });
 
     $scope.preserve = function(){
-        var userUrl = '/user/userCenter';
+        var userUrl = '/user/userSaveInfo';
         $http.post(userUrl,{'userNickname':$scope.userNickname, 'userQQ':$scope.userQQ}).success(function(response){
             $scope.errorId = response.errorId;
             $scope.errorMsg = response.errorMsg;
-
             if (response.errorId == 0){
                 //return to my App
                 location.href='/user';
             }
         })
     };
-
-
-
-
-
-
 });
 
 
