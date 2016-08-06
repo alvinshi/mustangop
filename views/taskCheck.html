@@ -149,7 +149,7 @@
                         <div style="margin-left: 70px; font-size: 22px; color: #333333;">
                             <div class="row">
                                 <div class="col-lg-4">任务类型: <span class="imported">{{taskDisplayed.taskType}}</span></div>
-                                <div class="col-lg-4">任务数量: <span class="imported">{{taskDisplayed.excCount}}</span> 条</div>
+                                <div class="col-lg-4">任务领取进度: <span class="imported">{{totalGetTask}}/{{taskDisplayed.excCount}}</span> 条</div>
                                 <div class="col-lg-4">
                                     <button class="btn checkDetail" data-target="#detail" data-toggle="modal">
                                         查看详情
@@ -237,7 +237,7 @@
                             </div>
                         </div>
                         <div>
-                            <h3>任务状态:
+                            <h3>被领取任务状态:
                                     <span class="glyphicon glyphicon-question-sign"  data-placement="right"
                                         data-toggle="popover"
                                       data-content="领取:已被领取的任务数量。待审:提交后还未审核的任务数量。 未完成:未提交的任务数量。 接收:已确认接收的任务数量。已过期:22点前未提交的任务数量。"
@@ -247,20 +247,18 @@
                         </div>
                         <div style="margin-left: 70px; font-size: 22px; color: #333333;">
                             <div class="row">
-                                <div  class="col-lg-4">被领取:
-                                    <span class="imported">{{totalGetTask}}</span>条
-                                </div>
-                                <div class="col-lg-4">审核通过:
-                                    <span class="imported">{{totalAccepted}}</span> 条
-                                </div>
+
                                 <div class="col-lg-4">待审:
                                     <span class="imported">{{totalSubmited}}</span> 条
                                 </div>
-
-                            </div>
-                            <div class="row">
                                 <div class="col-lg-4">未提交:
                                     <span class="imported1">{{totalUndo}}</span> 条
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-lg-4">审核通过:
+                                    <span class="imported">{{totalAccepted}}</span> 条
                                 </div>
                                 <div class="col-lg-4">已拒绝:
                                     <span class="imported1">{{totalRejected}}</span> 条
