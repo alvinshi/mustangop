@@ -162,5 +162,11 @@ router.post('/saveRemark/:userObjectId', function(req, res){
 
 });
 
+// 一键关闭已经过期或者被成功接收的任务
+router.post('/closeTask', function(req, res){
+    var userId = Base64.decode(req.params.userObjectId);
+
+});
+
 
 module.exports = router;

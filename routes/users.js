@@ -108,7 +108,7 @@ router.get('/', function(req, res, next) {
 
 
 //个人中心
-router.get('/userCenter',function(req, res, next){
+router.get('/userCenter',function(req, res){
   var userId = util.useridInReq(req);
   var userNickname = req.body.userNickname;
   var userQQ = req.body.userQQ;
@@ -119,7 +119,13 @@ router.get('/userCenter',function(req, res, next){
     var userNickname = results.get('userNickname');
     var userQQ = results.get('userQQ');
     var balance = results.get('totalMoney');
-    var freezingYB = results.get('freezingMoney');
+    var freezingMoney = results.get('freezingMoney');
+    var freezingYB = '';
+    if (freezingMoney == undefined){
+      freezingYB = 0;
+    }else {
+      freezingYB = freezingMoney;
+    }
     res.json({'personAPP':PhoneNumber, 'userNickname':userNickname,
       'userQQ':userQQ, 'balance': balance, 'userFreezingYB':freezingYB});
   }, function(error){
