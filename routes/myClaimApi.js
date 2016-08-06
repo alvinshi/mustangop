@@ -163,8 +163,64 @@ router.post('/saveRemark/:userObjectId', function(req, res){
 });
 
 // 一键关闭已经过期或者被成功接收的任务
-router.post('/closeTask', function(req, res){
+router.post('/closeTask/:userObjectId', function(req, res){
     var userId = Base64.decode(req.params.userObjectId);
+
+    var userObject = new AV.User();
+    userObject.id = userId;
+
+    // 查询用户领取的任务 已经过期或者被成功接收的任务
+    var query = new AV.Query(receiveTaskObject);
+
+    query.equalTo('userObject', userObject);
+    query.equalTo('close', false); // 忽略关闭的任务
+    query.find().then(function(userReceiveObjects){
+        var queryIndex = 0;
+        for (var i = 0; i < userReceiveObjects.length; i++){
+            var userReceiveCount = userReceiveObjects[i].get('receiveCount');
+
+            (function(userUploadTaskObject, userRecCount){
+                var relation = userUploadTaskObject.relation('mackTask');
+                var queryUpload = relation.query();
+                queryUpload.containedIn('taskStatus', ['accepted', 'systemAccepted']);
+                queryUpload.limit(1000);
+                queryUpload.count().then(function(doTaskCount){
+
+
+                    var userDoneTask = doTaskCount + userUploadTaskObject.get('expiredCount'); // 做完的 加 过期的
+                    if (userDoneTask == userRecCount){
+                        userUploadTaskObject.set('close', true);
+                        // 判断过期和做完的任务 等不等于总数 等于总数就set
+                    }
+
+                    // 最后统一保存
+                    AV.Object.saveAll(userUploadTaskObject).then(function(){
+                        queryIndex = queryIndex +1;
+
+                        // 相当于一个计数 和查出来的总数比较 如果相等 就返回
+                        if (queryIndex == userReceiveObjects.length){
+                            res.json({'errorId': 0, 'errorMsg':'一键关闭成功'})
+                        }
+                    },function(error){
+                        queryIndex = queryIndex +1;
+
+                        if (queryIndex == userReceiveObjects.length){
+                            res.json({'errorId': 0, 'errorMsg':'一键关闭成功'})
+                        }
+                    });
+                },function(error){
+                    //
+                    queryIndex = queryIndex +1;
+                    if (queryIndex == userReceiveObjects.length){
+                        res.json({'errorId': 0, 'errorMsg':'一键关闭成功'})
+                    }
+                })
+            })(userReceiveObjects[i], userReceiveCount)
+
+        }
+    },function(error){
+        res.json({'errorMsg':error.message, 'errorId': error.code});
+    })
 
 });
 

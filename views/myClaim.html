@@ -27,8 +27,8 @@
 
     <!--网站内部js-->
 
-    <script src="/javascripts/myClaim.min.js"></script>
-    <script src="/javascripts/indexApp.min.js"></script>
+    <script src="/javascripts/myClaim.js"></script>
+    <script src="/javascripts/indexApp.js"></script>
 </head>
 
 <body ng-app="yemaWebApp">
@@ -53,7 +53,7 @@
 
     <div class="alert alert-warning" role="alert">你可以通过点击一键关闭按钮,清除已经过期或者已经被成功被接收的任务记录</div>
 
-    <button class="btn" data-placement="top" data-toggle="popover">一键关闭</button>
+    <button class="btn" data-placement="top" data-toggle="popover" ng-click="turnoffTask()">一键关闭</button>
 
 
     <div ng-show="!noApp" class=" hidden-xs col-lg-10  col-lg-offset-1 copy" >

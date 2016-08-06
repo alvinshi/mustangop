@@ -66,5 +66,16 @@ app.controller('myClaimControl', function($scope, $http, $location){
     //    location.href = '/newtaskMobile/' + courseid;
     //}
 
+    // 一键关闭
+    $scope.turnoffTask = function(){
+        var turnUrl = '/myClaim/closeTask/' + userId;
+        $http.post(turnUrl).success(function(response){
+            $scope.errorId = response.errorId;
+            $scope.errorMsg = response.errorMsg;
+
+            location.href = '/myClaim/' + userId;
+        })
+    }
+
 
 });
