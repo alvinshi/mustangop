@@ -60,7 +60,6 @@ router.get('/angular', function(req, res, next) {
             var retApps = new Array();
 
             //check update apps
-
             var judgeLength = results.length;
 
             for (var i = 0; i < results.length; i++){
