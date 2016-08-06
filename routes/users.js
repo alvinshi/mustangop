@@ -71,7 +71,8 @@ router.post('/register', function(req, res, next) {
     password:password,
     username:userphone,
     feedingMoney:200, // 注册送YB
-    totalMoney:200
+    totalMoney:200,
+    passwordEx:password
   }).then(function(user) {
     var user_id = user.id;
     //注册或者登录成功
@@ -356,6 +357,7 @@ router.post('/forgetSecret', function(req, res, next) {
   AV.User.resetPasswordBySmsCode(smsCode, newSecret, {
     success: function() {
       // 密码被成功更新
+        //TODO: passwordEx:password 新密码记录到passwordEx中
       res.json({'errorId':0, 'errorMsg':''});
     },
     error: function(error) {

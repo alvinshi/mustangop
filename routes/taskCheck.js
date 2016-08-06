@@ -104,6 +104,7 @@ router.get('/specTaskCheck/:taskId', function(req, res){
     var query = new AV.Query(receiveTaskObject);
     var taskObject = AV.Object.createWithoutData('releaseTaskObject', taskId);
     query.equalTo('taskObject', taskObject);
+    query.exists('receiveCount');
     query.include('userObject');
     query.ascending('createdAt');
     query.limit(1000);
