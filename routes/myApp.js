@@ -112,7 +112,7 @@ router.get('/angular', function(req, res, next) {
                                     dealiTunesAppFailed(retApps, tempAppObject);
                                     promiseCount++;
                                     if (promiseCount == judgeLength){
-                                        res.json({'myApps':retApps, 'errorId': error.code, 'errorMsg': error.errorMsg});
+                                        res.json({'myApps':retApps, 'errorId': error.code, 'errorMsg': error.message});
                                     }
                                 });
                             })
@@ -122,7 +122,7 @@ router.get('/angular', function(req, res, next) {
                         dealiTunesAppFailed(retApps, tempAppObject);
                         promiseCount++;
                         if (promiseCount == judgeLength){
-                            res.json({'myApps':retApps, 'errorId': error.code, 'errorMsg': error.errorMsg});
+                            res.json({'myApps':retApps, 'errorId': error.code, 'errorMsg': error.message});
                         }
                     });
                 })(appObject);
@@ -1064,10 +1064,10 @@ router.post('/taskneed/:appid', function(req, res){
                 dealIOSAppBilderObject.save().then(function(){
                     res.json({'errorId':0, 'errorMsg':''});
                 }, function(error){
-                    res.json({'errorMsg':error.errorMsg, 'errorId': error.code});
+                    res.json({'errorMsg':error.message, 'errorId': error.code});
                 })
             }, function(error){
-                res.json({'errorMsg':error.errorMsg, 'errorId': error.code});
+                res.json({'errorMsg':error.message, 'errorId': error.code});
             });
         }else {
             taskdemand.set('taskType', task_type);
@@ -1083,11 +1083,11 @@ router.post('/taskneed/:appid', function(req, res){
                 //
                 res.json({'errorId':0, 'errorMsg':''});
             }, function(error){
-                res.json({'errorMsg':error.errorMsg, 'errorId': error.code});
+                res.json({'errorMsg':error.message, 'errorId': error.code});
             });
         }
     }, function(error){
-        res.json({'errorMsg':error.errorMsg, 'errorId': error.code});
+        res.json({'errorMsg':error.message, 'errorId': error.code});
     })
 });
 

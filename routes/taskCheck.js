@@ -93,13 +93,13 @@ router.get('/cancelTask/:taskId', function(req, res){
             taskObject.save().then(function(){
                 res.json({'errorMsg':'succeed', 'errorId': 0});
             }, function(error){
-                res.json({'errorMsg':error.errorMsg, 'errorId': error.code});
+                res.json({'errorMsg':error.message, 'errorId': error.code});
             });
         }, function(error){
-            res.json({'errorMsg':error.errorMsg, 'errorId': error.code});
+            res.json({'errorMsg':error.message, 'errorId': error.code});
         });
     }, function(error){
-        res.json({'errorMsg':error.errorMsg, 'errorId': error.code});
+        res.json({'errorMsg':error.message, 'errorId': error.code});
     });
 });
 
@@ -210,7 +210,7 @@ router.get('/specTaskCheck/:taskId', function(req, res){
                     retJsonFunc(0, '');
                 }, function(error){
                     counter++;
-                    retJsonFunc(error.code, error.errorMsg);
+                    retJsonFunc(error.code, error.message);
                 });
             })(results[i], submission);
 
@@ -253,10 +253,10 @@ var updateReceiveTaskDatabase = function(doTaskObject, uploaderName, res){
             senderUserObject.save().then(function(){
                 res.json({'errorMsg':'', 'errorId': 0});
             }, function (error) {
-                res.json({'errorMsg':error.errorMsg, 'errorId': error.code});
+                res.json({'errorMsg':error.message, 'errorId': error.code});
             });
         }, function (error) {
-            res.json({'errorMsg': error.errorMsg, 'errorId': error.code});
+            res.json({'errorMsg': error.message, 'errorId': error.code});
         });
 
         //流水模块
@@ -282,7 +282,7 @@ var updateReceiveTaskDatabase = function(doTaskObject, uploaderName, res){
         acceptMessage(userId, senderId, trackName, uploaderName, rateUnitPrice);
 
     }, function(error){
-        res.json({'errorMsg':error.errorMsg, 'errorId': error.code});
+        res.json({'errorMsg':error.message, 'errorId': error.code});
     });
 };
 
@@ -313,10 +313,10 @@ router.post('/accept/:entryId', function(req, res) {
         doTaskObject.save().then(function () {
             updateReceiveTaskDatabase(doTaskObject, uploaderName, res);
         }, function(error){
-            res.json({'errorMsg':error.errorMsg, 'errorId': error.code});
+            res.json({'errorMsg':error.message, 'errorId': error.code});
         });
     }, function(error){
-        res.json({'errorMsg':error.errorMsg, 'errorId': error.code});
+        res.json({'errorMsg':error.message, 'errorId': error.code});
     });
 });
 
@@ -358,7 +358,7 @@ var rejectMessage = function(res, doTaskObject, uploaderName){
 
         res.json({'errorMsg':'', 'errorId': 0});
     }, function(error){
-        res.json({'errorMsg':error.errorMsg, 'errorId': error.code});
+        res.json({'errorMsg':error.message, 'errorId': error.code});
     });
 };
 
@@ -376,10 +376,10 @@ router.post('/reject/:entryId', function(req, res) {
         doTaskObject.save().then(function () {
             rejectMessage(res, doTaskObject, uploaderName);
         }, function(error){
-            res.json({'errorMsg':error.errorMsg, 'errorId': error.code});
+            res.json({'errorMsg':error.message, 'errorId': error.code});
         });
     }, function(error){
-        res.json({'errorMsg':error.errorMsg, 'errorId': error.code});
+        res.json({'errorMsg':error.message, 'errorId': error.code});
     });
 });
 

@@ -310,18 +310,18 @@ router.post('/postUsertask/:taskObjectId/:ratePrice/:appId', function(req, res){
 
                                     res.json({'errorId': 0, 'errorMsg': '任务领取成功!'});
                                 }, function(error){
-                                    res.json({'errorId': error.code, 'errorMsg': error.errorMsg});
+                                    res.json({'errorId': error.code, 'errorMsg': error.message});
                                 });
                             }, function(error){
-                                res.json({'errorId': error.code, 'errorMsg': error.errorMsg});
+                                res.json({'errorId': error.code, 'errorMsg': error.message});
                             });
                         }
                     }, function(error){
-                        res.json({'errorId': error.code, 'errorMsg': error.errorMsg});
+                        res.json({'errorId': error.code, 'errorMsg': error.message});
                     });
                 }
             }, function(error){
-                res.json({'errorId': error.code, 'errorMsg': error.errorMsg});
+                res.json({'errorId': error.code, 'errorMsg': error.message});
             });
         }
 

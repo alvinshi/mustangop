@@ -134,8 +134,8 @@ router.post('/add/:excTaskId', function(req, res){
                         res.json({'errorId':0, 'errorMsg':'', 'uploadName':uploadName, 'requirementImgs':requirementImgs});
                     }, function (error) {
                         //更新任务失败
-                        console.log('reUpload task img failed(save task):' + taskStatus + 'error:' + error.errorMsg);
-                        res.json({'errorMsg':error.errorMsg, 'errorId': error.code});
+                        console.log('reUpload task img failed(save task):' + taskStatus + 'error:' + error.message);
+                        res.json({'errorMsg':error.message, 'errorId': error.code});
                     });
                 }
             }else {
@@ -152,19 +152,19 @@ router.post('/add/:excTaskId', function(req, res){
                         res.json({'errorId':0, 'errorMsg':'', 'uploadName':uploadName, 'requirementImgs':requirementImgs});
                     }, function (error) {
                         //更新任务失败
-                        console.log('upload task img failed(save relation):' + taskStatus + 'error:' + error.errorMsg);
-                        res.json({'errorMsg':error.errorMsg, 'errorId': error.code});
+                        console.log('upload task img failed(save relation):' + taskStatus + 'error:' + error.message);
+                        res.json({'errorMsg':error.message, 'errorId': error.code});
                     });
                 }, function (error) {
                     //更新任务失败
-                    console.log('upload task img failed(save task):' + taskStatus + 'error:' + error.errorMsg);
-                    res.json({'errorMsg':error.errorMsg, 'errorId': error.code});
+                    console.log('upload task img failed(save task):' + taskStatus + 'error:' + error.message);
+                    res.json({'errorMsg':error.message, 'errorId': error.code});
                 });
             }
         });
     },
     function (err){
-        console.log('upload task img failed(task object error):' + taskStatus + 'error:' + error.errorMsg);
+        console.log('upload task img failed(task object error):' + taskStatus + 'error:' + error.message);
         res.json({'errorMsg':err.message, 'errorId': err.code});
     })
 });
