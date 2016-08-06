@@ -13,11 +13,14 @@ app.directive("thNav",function(){
             //用户相关
             $http.get(indexUrl).success(function(response){
                 loadNav();
-                if(response.Count>0){
-                    $scope.Count = response.Count;
+                if(response.refusedCount>0){
+                    $scope.refusedCount = response.refusedCount;
+                    $scope.pendingCount = response.pendingCount;
+                    $scope.refused = true;
                     $scope.showBadge=true;
                 }
                 else {
+                    $scope.refused = false;
                     $scope.showBadge=false;
                 }
                 $scope.userObjectId = response.userObjectId;

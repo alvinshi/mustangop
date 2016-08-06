@@ -31,10 +31,14 @@
                         <!--<li><a href="/myapp">管理我的任务应用</a></li>-->
                     <!--</ul>-->
                 <!--</li>-->
-                <li><a ng-style="{color:myColors[2]}" href="/myClaim/{{userObjectId}}">我的领取</a></li>
+                <li>
+                    <a ng-style="{color:myColors[2]}" href="/myClaim/{{userObjectId}}">我的领取
+                        <span class="badge" ng-show="refused" style="background-color: #3498db">{{refusedCount}}</span>
+                    </a>
+                </li>
                 <li>
                     <a ng-style="{color:myColors[3]}" href="/taskCheck">审核换评
-                        <span class="badge" ng-show="showBadge" style="background-color: #3498db">{{Count}}</span>
+                        <span class="badge" ng-show="showBadge" style="background-color: #3498db">{{pendingCount}}</span>
                     </a>
                 </li>
                 <!--<li><a ng-style="{color:myColors[4]}" href="">换评工具箱(即将开放)</a></li>-->
