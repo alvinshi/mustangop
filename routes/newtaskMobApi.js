@@ -118,7 +118,7 @@ router.post('/add/:excTaskId', function(req, res){
                 });
 
                 var taskStatus = newTaskObject.get('taskStatus');
-                if (taskStatus == 'accepted' || taskStatus == 'expired' ){
+                if (taskStatus == 'accepted'){
                     //任务已经完成,无需再做
                     res.json({'errorMsg':'任务已经完成喽', 'errorId': -100});
                 }else if (taskStatus == 'expired') {

@@ -40,30 +40,35 @@ router.get('/itunes/search/:searchkey', function(req, res, next) {
 
             httpRes.on('end', function(){
                 var dataStr = totalData.toString();
-                var dataObject = eval("(" + dataStr + ")");
-                var appResults = Array();
+                try{
+                    var dataObject = eval("(" + dataStr + ")");
+                    var appResults = Array();
 
-                for (var i = 0; i < dataObject.results.length; i++){
-                    var appleObject = dataObject.results[i];
+                    for (var i = 0; i < dataObject.results.length; i++){
+                        var appleObject = dataObject.results[i];
 
-                    var appResult = Object();
+                        var appResult = Object();
 
-                    appResult.trackName = appleObject['trackName'];
-                    appResult.artworkUrl512 = appleObject['artworkUrl512'];
-                    appResult.artworkUrl100 = appleObject['artworkUrl100'];
-                    appResult.appleId = appleObject['trackId'];
-                    appResult.latestReleaseDate = appleObject['currentVersionReleaseDate'];
-                    appResult.sellerName = appleObject['sellerName'];
-                    appResult.version = appleObject['version'];
-                    appResult.appleKind = appleObject['genres'][0];
-                    appResult.formattedPrice = appleObject['formattedPrice'];
+                        appResult.trackName = appleObject['trackName'];
+                        appResult.artworkUrl512 = appleObject['artworkUrl512'];
+                        appResult.artworkUrl100 = appleObject['artworkUrl100'];
+                        appResult.appleId = appleObject['trackId'];
+                        appResult.latestReleaseDate = appleObject['currentVersionReleaseDate'];
+                        appResult.sellerName = appleObject['sellerName'];
+                        appResult.version = appleObject['version'];
+                        appResult.appleKind = appleObject['genres'][0];
+                        appResult.formattedPrice = appleObject['formattedPrice'];
 
-                    //类别 平台信息
+                        //类别 平台信息
 
-                    appResults.push(appResult);
+                        appResults.push(appResult);
+                    }
+
+                    res.json({'appResults':appResults, 'errorMsg':'', 'errorId':0});
+                }catch (e){
+                    res.json({'appResults':[], 'errorMsg': e.message, 'errorId':-100});
                 }
 
-                res.json({'appResults':appResults, 'errorMsg':'', 'errorId':0});
             })
         }
 

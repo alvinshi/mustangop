@@ -95,9 +95,7 @@
                     <button  class="pending" ng-show="app.submitted > 0">审核中{{app.submitted}}</button>
                     <button  class="rejected"ng-show="app.rejected > 0" >被拒绝{{app.rejected}}</button>
                     <button  class="finish" ng-show="app.accepted > 0">已通过{{app.accepted}}</button>
-
-
-
+                    <button  class="rejected" ng-show="app.abandoned > 0">已过期{{app.abandoned}}</button>
                 </div>
                 <div class="assign">
 

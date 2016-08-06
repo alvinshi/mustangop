@@ -53,7 +53,7 @@ app.controller('itunesSearchControl', function($scope, $http) {
             }
 
         });
-    };
+    }
 
     //**************页面载入变量初始************************
     $scope.isLoadingMyApp = true;
@@ -75,7 +75,7 @@ app.controller('itunesSearchControl', function($scope, $http) {
             $scope.myApps = $scope.myApps.sort(function(a, b){return a.createdAt >= b.createdAt});
             //默认选择第一个App
             $scope.selectedApp = $scope.myApps[0];
-            getDemand()
+            getDemand();
         }
     });
 
