@@ -92,6 +92,7 @@ function getTaskCheckQuery(){
     var query = new AV.Query(receiveTaskObject);
     // 已经被定时器操作过的任务
     query.notEqualTo('close', true);
+    query.notEqualTo('timerDone', true);
     query.lessThanOrEqualTo('createdAt', yesterdayDate);
     query.ascending('createdAt');
     return query;
@@ -163,7 +164,9 @@ AV.Cloud.define('taskCheckForDoTask', function(request, response){
                                 }
                             }
 
+                            var needDoneTimer = false;
                             if(changeDoTasks.length > 0){
+                                needDoneTimer = true;
                                 AV.Object.saveAll(changeDoTasks).then(function(){
                                     console.log('!!!!! checkTask modify task is accepted succeed');
                                 });
@@ -172,6 +175,7 @@ AV.Cloud.define('taskCheckForDoTask', function(request, response){
                             //还得减去已过期,不再重新结算
                             var undoTask = receTaskObject.get('receiveCount') - doTaskObjects.length - receTaskObject.get('expiredCount');
                             if (undoTask > 0){
+                                needDoneTimer = true;
                                 //protect
                                 //1.扣除用户金币入系统(汇率金币)  减少发布人冻结的钱 增加发布人总钱
                                 user.increment('totalMoney', -(rate_unitPrice * undoTask));
@@ -193,6 +197,10 @@ AV.Cloud.define('taskCheckForDoTask', function(request, response){
                                 message.set('thirdPara', rate_unitPrice *  undoTask);
                                 message.set('fourthPara', '未在规定时间内完成任务');
                                 message.save();
+                            }
+
+                            if(needDoneTimer == false){
+                                receTaskObject.set('timerDone', true);
                             }
 
                             task.save();
@@ -370,7 +378,7 @@ var paramsJson = {
 
 //refuseTaskTimerForRelease
 //taskCheckForDoTask
-//AV.Cloud.run('refuseTaskTimerForRelease', paramsJson, {
+//AV.Cloud.run('taskCheckForDoTask', paramsJson, {
 //    success: function(data) {
 //        // 调用成功，得到成功的应答data
 //        console.log('---- test timer: succeed');

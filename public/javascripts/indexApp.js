@@ -10,20 +10,17 @@ app.directive("thNav",function(){
         controller: function($scope, $element, $http){
             var indexUrl = '/index';
 
-            //用户相关
+            //用户+拒绝任务相关
             $http.get(indexUrl).success(function(response){
                 loadNav();
-                if(response.refusedCount>0){
-                    $scope.refusedCount = response.refusedCount;
-                    $scope.pendingCount = response.pendingCount;
-                    $scope.refused = true;
-                    $scope.showBadge=true;
-                }
-                else {
-                    $scope.refused = false;
-                    $scope.showBadge=false;
-                }
+                $scope.refusedCount = response.refusedCount;
                 $scope.userObjectId = response.userObjectId;
+            });
+
+            //需要审核的任务条数相关
+            var unCheckCountUrl = '/index/unCheckTaskCount';
+            $http.get(unCheckCountUrl).success(function(response){
+                $scope.pendingCount = response.pendingCount;
             });
 
             //消息相关 BUGBUG
