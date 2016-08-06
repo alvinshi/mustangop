@@ -22,7 +22,7 @@
 
 
     <!--<script src="/javascripts/doTask.js"></script>-->
-    <script src="/javascripts/taskCheck.min.js"></script>
+    <script src="/javascripts/taskCheck.js"></script>
     <script src="/javascripts/indexApp.js"></script>
 
     <!--网站内部css-->
@@ -248,25 +248,25 @@
                         <div style="margin-left: 70px; font-size: 22px; color: #333333;">
                             <div class="row">
                                 <div  class="col-lg-4">被领取:
-                                    <span class="imported">{{taskDisplayed.totalGetTask}}</span>条
+                                    <span class="imported">{{totalGetTask}}</span>条
                                 </div>
                                 <div class="col-lg-4">审核通过:
-                                    <span class="imported">{{taskDisplayed.totalAccepted}}</span> 条
+                                    <span class="imported">{{totalAccepted}}</span> 条
                                 </div>
                                 <div class="col-lg-4">待审:
-                                    <span class="imported">{{taskDisplayed.totalSubmited}}</span> 条
+                                    <span class="imported">{{totalSubmited}}</span> 条
                                 </div>
 
                             </div>
                             <div class="row">
                                 <div class="col-lg-4">未提交:
-                                    <span class="imported1">{{taskDisplayed.totalUndo}}</span> 条
+                                    <span class="imported1">{{totalUndo}}</span> 条
                                 </div>
                                 <div class="col-lg-4">已拒绝:
-                                    <span class="imported1">{{taskDisplayed.totalRejected}}</span> 条
+                                    <span class="imported1">{{totalRejected}}</span> 条
                                 </div>
                                 <div class="col-lg-4">超时未交:
-                                    <span class="imported1">{{taskDisplayed.totalTimeout}}</span> 条
+                                    <span class="imported1">{{totalTimeout}}</span> 条
                                 </div>
                             </div>
                         </div>

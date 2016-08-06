@@ -28,7 +28,7 @@ app.controller('taskCheckCtrl', function($scope, $http, $location) {
         $scope.taskIndex = index;
         $scope.taskDisplayed = app;
         specTaskCheck(app.taskId);
-    }
+    };
 
     //**************  Helper Function *******************
     var specTaskCheck = function(taskId){
@@ -36,6 +36,13 @@ app.controller('taskCheckCtrl', function($scope, $http, $location) {
         var url = '/taskCheck/specTaskCheck/' + taskId;
         $http.get(url).success(function(response){
             $scope.specTask = response.rtnResults;
+
+            $scope.totalAccepted = response.totalAccepted;
+            $scope.totalGetTask = response.totalGetTask;
+            $scope.totalRejected = response.totalRejected;
+            $scope.totalSubmited= response.totalSubmited;
+            $scope.totalTimeout = response.totalTimeout;
+            $scope.totalUndo = response.totalUndo;
         })
     };
 
