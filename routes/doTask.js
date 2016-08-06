@@ -266,15 +266,12 @@ router.post('/postUsertask/:taskObjectId/:ratePrice/:appId', function(req, res){
                             ReceiveTaskObject.set('detailRem', detail_Rem);
                             ReceiveTaskObject.set('appUpdateInfo', latestReleaseDate);//版本信息
                             ReceiveTaskObject.set('remainCount', receive_Count);
-                            ReceiveTaskObject.set('pending', receive_Count);  // 未提交
                             ReceiveTaskObject.set('receiveDate', myDateStr);
                             ReceiveTaskObject.save().then(function(){
                                 //更新任务剩余条数
                                 var prevRemainCount = resultTaskObject.get('remainCount');
                                 var trackName = resultTaskObject.get('trackName');
                                 resultTaskObject.set('remainCount', (prevRemainCount - receive_Count));
-                                var prePending = resultTaskObject.get('pending');
-                                resultTaskObject.set('pending', prePending + receive_Count);
                                 resultTaskObject.save().then(function(){
                                     //创建领取信息
                                     var message = new messageLogger();

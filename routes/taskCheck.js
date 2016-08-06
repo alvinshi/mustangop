@@ -56,11 +56,6 @@ router.get('/taskAudit', function(req, res){
 
             //实时数据
             appInfoObject.remainCount = results[i].get('remainCount');
-            appInfoObject.pending = results[i].get('pending');
-            appInfoObject.submitted = results[i].get('submitted');
-            appInfoObject.rejected = results[i].get('rejected');
-            appInfoObject.accepted = results[i].get('accepted');
-            appInfoObject.abandoned = results[i].get('abandoned');
 
             appInfoObject.completed = results[i].get('completed');
             appInfoObject.cancelled = results[i].get('cancelled');
