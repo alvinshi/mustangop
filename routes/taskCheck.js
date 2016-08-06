@@ -120,6 +120,11 @@ router.get('/specTaskCheck/:taskId', function(req, res){
         var totalGetTask = 0,  totalAccepted = 0, totalSubmited = 0;
         var totalUndo = 0, totalRejected = 0, totalTimeout = 0;
 
+        if(results.length == 0){
+            retJsonFunc(0, '');
+            return;
+        }
+
         function retJsonFunc(errorId, errorMsg){
             if (counter == promise){
                 //排序;
