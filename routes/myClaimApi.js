@@ -148,7 +148,6 @@ router.get('/claim/:userObjectId', function(req, res){
 
 // 修改分配备注
 router.post('/saveRemark/:userObjectId', function(req, res){
-    var userId = Base64.decode(req.params.userObjectId);
     var userdetaRem = req.body.remark;
     var taskid = req.body.taskObjectId;
 
@@ -156,8 +155,13 @@ router.post('/saveRemark/:userObjectId', function(req, res){
     query.get(taskid).then(function(results){
         results.set('detailRem', userdetaRem);
         results.save().then(function(){
+            res.json({'errorId':0, 'errorMsg':''});
+        }, function(error){
+            res.json({'errorId':error.code, 'errorMsg':error.message});
         });
-        res.json({'errorId':0, 'errorMsg':''});
+
+    }, function(error){
+        res.json({'errorId':error.code, 'errorMsg':error.message});
     })
 
 });

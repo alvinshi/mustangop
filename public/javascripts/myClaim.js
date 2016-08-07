@@ -43,7 +43,7 @@ app.controller('myClaimControl', function($scope, $http, $location){
     //******备注保存逻辑**********
     //保存填写的备注到数据库
 
-    $scope.saveRemark=function(detailRem, taskObjectId,app){
+    $scope.saveRemark = function(detailRem, taskObjectId,app){
         var saveurl = '/myClaim/saveRemark/' + userId;
         $http.post(saveurl,{"remark":detailRem, 'taskObjectId': taskObjectId}).success(
             function(response){
@@ -57,7 +57,7 @@ app.controller('myClaimControl', function($scope, $http, $location){
     $scope.url=$location.absUrl();
     $scope.copyUrl= function () {
         $('#btn').popover('toggle');
-        var Url=document.getElementById("copy");
+        var Url = document.getElementById("copy");
         Url.select(); // 选择对象
         document.execCommand("Copy"); // 执行浏览器复制命令
     };

@@ -75,6 +75,7 @@ app.controller('itunesSearchControl', function($scope, $http) {
             $scope.myApps = $scope.myApps.sort(function(a, b){return a.createdAt >= b.createdAt});
             //默认选择第一个App
             $scope.selectedApp = $scope.myApps[0];
+            $scope.isDisabled = false;
             getDemand();
         }
     });
@@ -84,7 +85,8 @@ app.controller('itunesSearchControl', function($scope, $http) {
         //保存状态重新初始
         $scope.saved = false;
         $scope.selectedApp = app;
-        getDemand()
+        $scope.isDisabled = false;
+        getDemand();
     };
 
     //搜索App
@@ -172,6 +174,8 @@ app.controller('itunesSearchControl', function($scope, $http) {
                 if (flag == 0){
                     //默认选择的App是新添加的App
                     $scope.selectedApp = response.newApp;
+                    $scope.isDisabled = true;
+
                     getDemand();
                     $scope.myApps.push(response.newApp);
                     console.log($scope.myApps);
@@ -181,7 +185,7 @@ app.controller('itunesSearchControl', function($scope, $http) {
                 $scope.errorMsg = response.errorMsg;
             }
 
-            $scope.searchKey='';
+            $scope.searchKey = '';
             $scope.appResults = [];
             $("#addApp_modal").modal('hide');
 
@@ -219,6 +223,7 @@ app.controller('itunesSearchControl', function($scope, $http) {
                 //如果删除的是之前选择的App, 默认App为第一个
                 if ($scope.prepareReleaseApp == $scope.selectedApp){
                     $scope.selectedApp = $scope.myApps[0];
+                    $scope.isDisabled = false;
                     getDemand();
                 }
             }
