@@ -203,7 +203,8 @@ if (app.get('env') === 'development') {
       console.error(err.stack || err);
     }
     if(req.timedout) {
-      console.error('请求超时: url=%s, timeout=%d, 请确认方法执行耗时很长，或没有正确的 response 回调。', req.originalUrl, err.timeout);
+        console.error('请求超时: url=%s, timeout=%d, 请确认方法执行耗时很长，或没有正确的 response 回调。', req.originalUrl, err.timeout);
+        res.json({'errorMsg':err.message, 'errorId': err.code});
     }
     res.status(statusCode);
     res.render('error', {
