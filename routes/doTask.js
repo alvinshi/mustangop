@@ -276,7 +276,6 @@ router.post('/postUsertask/:taskObjectId/:ratePrice/:appId', function(req, res){
                                     ReceiveTaskObject.set('receivePrice', receive_Price);
                                     ReceiveTaskObject.set('detailRem', detail_Rem);
                                     ReceiveTaskObject.set('appUpdateInfo', latestReleaseDate);//版本信息
-                                    ReceiveTaskObject.set('remainCount', receive_Count);
                                     ReceiveTaskObject.set('receiveDate', myDateStr);
                                     ReceiveTaskObject.save().then(function(){
                                         //更新任务剩余条数

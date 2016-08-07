@@ -30,10 +30,10 @@ router.get('/claim/:excTaskId', function(req, res){
     query.include('appObject');
     query.include('taskObject');
     query.include('userObject');
-    query.get(excTaskId).then(function(results){
+    query.get(excTaskId).then(function(resultObject){
         var retObject = Object();
-        var hisappObject = results.get('appObject');
-        var taskInfo = results.get('taskObject');
+        var hisappObject = resultObject.get('appObject');
+        var taskInfo = resultObject.get('taskObject');
         retObject.artworkUrl100 = hisappObject.get('artworkUrl100');
         retObject.trackName = hisappObject.get('trackName');
         retObject.sellerName = hisappObject.get('sellerName');
@@ -44,10 +44,9 @@ router.get('/claim/:excTaskId', function(req, res){
         retObject.version = hisappObject.get('version');
         retObject.excKinds = taskInfo.get('taskType');
 
-        retObject.totalExcCount = results.get('receiveCount');
-        retObject.surplusCount = results.get('remainCount');
+        retObject.totalExcCount = resultObject.get('receiveCount');
         retObject.taskObjectId = taskInfo.id;
-        retObject.userObjectId = Base64.encode(results.get('userObject').id);
+        retObject.userObjectId = Base64.encode(resultObject.get('userObject').id);
 
         // 需求截图数据
         retObject.taskType = taskInfo.get('taskType');  //任务类型
@@ -60,11 +59,15 @@ router.get('/claim/:excTaskId', function(req, res){
         retObject.screenshotCount = taskInfo.get('screenshotCount'); // 截图数
 
         if (uploadUserName != undefined){
-            var relation = results.relation('mackTask');
+            var relation = resultObject.relation('mackTask');
             var task_query = relation.query();
             task_query.equalTo('uploadName', uploadUserName);
             task_query.find().then(function(result){
                 var mackTaskList = new Array();
+
+                //remain 需要计算
+                retObject.surplusCount = resultObject.get('receiveCount') - resultObject.get('expiredCount') - result.length;
+
                 for (var e = 0; e < result.length; e++){
                     retObject.uploadName = result[e].get('uploadName');
                     var taskImages = result[e].get('requirementImgs');

@@ -10,11 +10,11 @@ app.directive("thNav",function(){
         controller: function($scope, $element, $http){
             var indexUrl = '/index';
 
+            loadNav();
+            $scope.userObjectId = getCookie('userIdCookie');
             //用户+拒绝任务相关
             $http.get(indexUrl).success(function(response){
-                loadNav();
                 $scope.refusedCount = response.refusedCount;
-                $scope.userObjectId = response.userObjectId;
             });
 
             //需要审核的任务条数相关

@@ -36,7 +36,7 @@ router.get('/index', function(req, res){
         }else {
             var refusedPromiseIndex = 0;
             for (var i = 0; i < userReceiveObjects.length; i++){
-
+                var receiveCount = userReceiveObjects.get('receiveCount') - userReceiveObjects.get('expiredCount')
                 (function(receTaskObject){
                     var relation = receTaskObject.relation('mackTask');
                     var queryUpload = relation.query();
@@ -70,11 +70,9 @@ router.get('/index', function(req, res){
 
 // 首页导航栏api
 router.get('/index/unCheckTaskCount', function(req, res){
-    var userId = util.useridInReq(req);
-    //console.log('nav count request');
-    var flag = 0;
     var pendingCount = 0;
 
+    var userId = util.useridInReq(req);
     var userObject = new AV.User();
     userObject.id = userId;
 
