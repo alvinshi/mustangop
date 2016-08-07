@@ -101,7 +101,7 @@ router.post('/add/:excTaskId', function(req, res){
     task_query.include('taskObject');
     task_query.get(excTaskId).then(function(receiveTaskObject){
             var relation = receiveTaskObject.relation('mackTask');
-            var remainCount = receiveTaskObject.get('remainCount');
+            var receiveCount = receiveTaskObject.get('receiveCount');
             var expiredCount = receiveTaskObject.get('expiredCount');
             var query = relation.query();
             query.find().then(function(results){
@@ -116,7 +116,7 @@ router.post('/add/:excTaskId', function(req, res){
                     }
                 }
 
-                if((results.length + expiredCount) == remainCount && uploadDoTaskObject == undefined){
+                if((results.length + expiredCount) == receiveCount && uploadDoTaskObject == undefined){
                     //任务已经做满,不能重新再上传
                     res.json({'errorMsg':'参与任务者已满,若想重新提交截图,请使用之前提交截图用户的昵称', 'errorId': -200});
                 }else {
