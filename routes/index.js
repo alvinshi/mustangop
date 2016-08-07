@@ -36,10 +36,29 @@ router.get('/index', function(req, res){
         }else {
             var refusedPromiseIndex = 0;
             for (var i = 0; i < userReceiveObjects.length; i++){
-                var receiveCount = userReceiveObjects[i].get('receiveCount') - userReceiveObjects[i].get('expiredCount');
 
                 (function(receTaskObject){
                     var relation = receTaskObject.relation('mackTask');
+                    var canDoTaskCount = receTaskObject.get('receiveCount') - receTaskObject.get('expiredCount');
+
+                    var countQuery = relation.query();
+                    countQuery.limit(1000);
+                    //超时的任务数目已经计算
+                    countQuery.notEqualTo('taskStatus', 'expired');
+                    countQuery.count().then(function(totalDoTaskCount){
+                        refusedCount = refusedCount + (canDoTaskCount - totalDoTaskCount);
+
+                        refusedPromiseIndex++;
+                        if (refusedPromiseIndex == userReceiveObjects.length * 2){
+                            resposeBack();
+                        }
+                    },function(error){
+                        refusedPromiseIndex++;
+                        if (refusedPromiseIndex == userReceiveObjects.length * 2){
+                            resposeBack();
+                        }
+                    });
+
                     var queryUpload = relation.query();
                     queryUpload.equalTo('taskStatus', 'refused');
                     queryUpload.limit(1000);
@@ -47,16 +66,15 @@ router.get('/index', function(req, res){
                         refusedCount = refusedCount + subRefusedCount;
 
                         refusedPromiseIndex++;
-                        if (refusedPromiseIndex == userReceiveObjects.length){
+                        if (refusedPromiseIndex == userReceiveObjects.length * 2){
                             resposeBack();
                         }
                     },function(error){
                         refusedPromiseIndex++;
-                        if (refusedPromiseIndex == userReceiveObjects.length){
+                        if (refusedPromiseIndex == userReceiveObjects.length * 2){
                             resposeBack();
                         }
-                    })
-
+                    });
                 })(userReceiveObjects[i])
             }
         }
