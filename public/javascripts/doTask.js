@@ -33,7 +33,6 @@ app.controller('doTaskCtrl', function($scope, $http) {
 
     //发布任务飞机颜色
     $scope.planeColor = true;
-
     $scope.changePlaneColor = function(){
         $scope.planeColor = !$scope.planeColor;
     };
@@ -113,61 +112,49 @@ app.controller('doTaskCtrl', function($scope, $http) {
     };
 
     //*********领取任务弹窗逻辑*****************
-    $scope.getTaskFormData = {};
-    $scope.getTaskFormData.receiveCount = undefined;
-    $scope.getTaskFormData.detailRem = undefined;
-
-    $scope.errorMsg = '';
-    $scope.errorId = -1;
-
     //点击确认按钮激发
-    var getTaskLocked = false;
+    $scope.getTaskMarkStr = undefined; //bugbug
+
     $scope.getTask = function(currentApp){
-        if (getTaskLocked == true){
-            //已经在领取中...
-            return;
-        }
         var username = getCookie('username');
         //报错条件
         if (username == ''){
-            $scope.errorId = -1;
-            $scope.errorMsg = '请先登陆帐号后再领取任务';
+            currentApp.getTaskErrorId = -200;
+            currentApp.errorMsg = '请先登陆帐号后再领取任务';
         }
-        else if ($scope.getTaskFormData.receiveCount == 0) {
-            $scope.errorId = -1;
-            $scope.errorMsg = '请正确填写领取条目';
+        else if (parseInt(currentApp.receiveCount) != currentApp.receiveCount) {
+            currentApp.getTaskErrorId = -200;
+            currentApp.errorMsg = '请填写正确的领取条目';
         }
-        else if (parseInt($scope.getTaskFormData.receiveCount) != $scope.getTaskFormData.receiveCount) {
-            $scope.errorId = -1;
-            $scope.errorMsg = '请正确填写领取条目';
+        else if (currentApp.receiveCount > currentApp.remainCount){
+            currentApp.getTaskErrorId = -200;
+            currentApp.errorMsg = '此任务无法领取更多';
         }
-        else if ($scope.getTaskFormData.receiveCount > parseInt(currentApp.remainCount)){
-            $scope.errorId = -1;
-            $scope.errorMsg = '此任务剩余条数不足';
-        }
-        else if ($scope.getTaskFormData.receiveCount > 9) {
-            $scope.errorId = -1;
-            $scope.errorMsg = '每个账户一次只能领取10条'
+        else if (currentApp.receiveCount > 9) {
+            currentApp.getTaskErrorId = -200;
+            currentApp.errorMsg = '每个任务最多领取10条';
         }
         //通过前端效验
         else {
-            getTaskLocked = true;
-            $scope.errorId = 0;
-            $scope.errorMsg = '领取任务中......';
-
+            currentApp.isGetingTask = true;
             var url = 'doTask/postUsertask/' + currentApp.objectId + '/' + currentApp.rateUnitPrice + '/' + currentApp.appObjectId;
-            var postData = {'receiveCount': $scope.getTaskFormData.receiveCount, 'detailRem': $scope.getTaskFormData.detailRem,
+            var postData = {'receiveCount': currentApp.receiveCount, 'detailRem': currentApp.detailRem,
                 'latestReleaseDate': currentApp.latestReleaseDate};
+
             $http.post(url, postData).success(function(response){
                 console.log(response);
-                $scope.errorMsg = response.errorMsg;
-                $scope.errorId = response.errorId;
 
-                getTaskFormData.receiveCount = undefined;
+                currentApp.getTaskErrorId = response.errorId;
 
-                //处理领取任务成功的前端逻辑
+                if(response.errorId != 0){
+                    currentApp.errorMsg = response.errorMsg;
+                    currentApp.isGetingTask = false;
+                }else {
+                    currentApp.errorMsg = '';
+                }
+
+                //处理领取任务成功的前端逻辑 (标记几个标签下相同任务)
                 var dataAllTypeList = [$scope.taskDisplayed, $scope.commentTask, $scope.downTask];
-
                 for (var i = 0; i < dataAllTypeList.length; i++){
                     var taskList = dataAllTypeList[i];
 
@@ -182,8 +169,6 @@ app.controller('doTaskCtrl', function($scope, $http) {
                         }
                     }
                 }
-
-                getTaskLocked = false;
             });
         }
     };
@@ -196,15 +181,18 @@ app.controller('doTaskCtrl', function($scope, $http) {
 
    //出现筛选图标
     $scope.showDiv=function(app){
-        app.mode=true;
+        //自己的任务不用筛选
+        if(app.myTask != true){
+            app.mode=true;
+        }
     };
     $scope.hideDiv=function(app){
-        app.mode=false;
+        app.mode = false;
     };
-    //
+
+    //筛选已经做过的任务
     $scope.filtrateApp=function(appInfo){
         $("#markApp").modal("show");
-
         var needToSave = {'appObjectId': appInfo.appObjectId, 'latestReleaseDate': appInfo.latestReleaseDate,
             'taskObjectId':appInfo.objectId};
 

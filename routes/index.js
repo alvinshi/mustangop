@@ -36,7 +36,8 @@ router.get('/index', function(req, res){
         }else {
             var refusedPromiseIndex = 0;
             for (var i = 0; i < userReceiveObjects.length; i++){
-                var receiveCount = userReceiveObjects.get('receiveCount') - userReceiveObjects.get('expiredCount')
+                var receiveCount = userReceiveObjects[i].get('receiveCount') - userReceiveObjects[i].get('expiredCount');
+
                 (function(receTaskObject){
                     var relation = receTaskObject.relation('mackTask');
                     var queryUpload = relation.query();
