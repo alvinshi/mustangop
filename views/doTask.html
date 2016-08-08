@@ -120,7 +120,7 @@
                         <tr>
                             <td style="padding: 24px 30px 24px 30px; width: 160px;position: relative">
                                 <img ng-src="{{ app.artworkUrl100 }}" class="appIcon" >
-                                <div class="choose" ng-show="app.mode" ng-click="filtrateApp(app)">Q群换过</div>
+                                <div class="choose" ng-show="app.mode" ng-click="filtrateApp()">版本已换</div>
 
                             </td>
                             <td style="width: 500px;">
@@ -137,7 +137,7 @@
                                     任务详情
                                 </button>
                             </td>
-                            <td ng-if='!app.myTask' style="padding-right: 40px;">
+                            <td ng-if='!app.myTask'  style="padding-right: 40px;">
                                 <button class="mybtn reverse hvr-float-shadow" data-target="#takeTask{{$index}}" data-toggle="modal">
                                     领取任务
                                 </button>
@@ -153,6 +153,11 @@
                                     我的发布
                                 </button>
                             </td>
+                            <!--<td   style="padding-right: 40px;">-->
+                                <!--<button class="haschange">-->
+                                    <!--本版本已交换过-->
+                                <!--</button>-->
+                            <!--</td>-->
                         </tr>
                     </table>
                     <hr style="margin:0; border-color: #dddddd;">
@@ -547,7 +552,7 @@
                             <div class="modal-content" style="width: 642px;">
                                 <div class="modal-header">
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                    <h4 class="modal-title" id="">任务详情</h4>
+                                    <h4 class="modal-title">任务详情</h4>
                                 </div>
                                 <div class="modal-body" style="padding:0;">
                                     <div style="background:url(/images/appDetail/screenshot-background.png); width: 640px;
@@ -798,7 +803,7 @@
                 </div>
 
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="confirmAdd()">确认</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="confirmAdd(app)">确认</button>
                     <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
                 </div>
             </div><!-- /.modal-content -->

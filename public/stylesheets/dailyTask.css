@@ -46,7 +46,7 @@
     border: 1px solid #3498db;
     /*text-align: center;*/
     font-size: 18px;
-    margin-left: 20px;
+    margin-left: 10px;
     border-radius: 6px;
 }
 .download{
@@ -75,6 +75,7 @@
     /*text-align: center;*/
     font-size: 18px;
     border-radius: 6px;
+    margin-left: 10px;
 }
 .center{
     margin-top: 12px;
