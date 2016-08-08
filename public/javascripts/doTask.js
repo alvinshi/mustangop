@@ -88,9 +88,7 @@ app.controller('doTaskCtrl', function($scope, $http) {
                 $scope.downTask = $scope.downTask.concat(response.allTask);
             }else if(taskType == 'inactiveTask'){
                 $scope.inactiveTask = $scope.inactiveTask.concat(response.allTask);
-                for(var i=0;i<response.inactiveTask;i++){
-                    response.inactiveTask[i].inactive=true;
-                }
+                
                 $scope.disableTaskCount = response.disableTaskCount;
             }
 
