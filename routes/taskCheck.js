@@ -402,6 +402,10 @@ router.post('/turnOff', function(req, res){
     query.find().then(function(releaseTaskObjects){
         var queryIndex = 0;
         var successNumber = 0;
+        var totalCount = 0;
+        for (var j = 0; j < releaseTaskObjects.length; j++){
+            totalCount = totalCount+releaseTaskObjects[j].get('excCount');
+        }
         for (var i = 0; i < releaseTaskObjects.length; i++){
             var releaseCount = releaseTaskObjects[i].get('excCount');
 
@@ -426,22 +430,47 @@ router.post('/turnOff', function(req, res){
 
                                 AV.Object.saveAll(temReceiveTaskObject).then(function(){
                                     queryIndex = queryIndex + 1;
-
-                                    if (queryIndex == releaseCount){
-                                        sendRes('一键关闭成功', 0);
+                                    successNumber = successNumber + 1;
+                                    if (queryIndex == releaseTaskObjects.length){
+                                        if (successNumber == totalCount){
+                                            sendRes('一键关闭成功', 0);
+                                        }else {
+                                            if (successNumber == 0){
+                                                sendRes('全部失败', 1)
+                                            }else {
+                                                sendRes('部分成功', 2)
+                                            }
+                                        }
                                     }
                                 },function(error){
                                     queryIndex = queryIndex + 1;
-                                    if (queryIndex == releaseCount){
-                                        sendRes('一键关闭', 1);
-                                        //res.json({'errorId': 1, 'errorMsg':'一键关闭失败'})
+                                    if (queryIndex == releaseTaskObjects.length){
+
+                                        if (successNumber == totalCount){
+                                            sendRes('一键关闭成功', 0);
+                                        }else {
+                                            if (successNumber == 0){
+                                                sendRes('全部失败', 1)
+                                            }else {
+                                                sendRes('部分成功', 2)
+                                            }
+                                            //sendRes('一键关闭bufenchengong', 1);
+                                        }
                                     }
                                 })
                             },function(error){
                                 queryIndex = queryIndex + 1;
-                                if (queryIndex == releaseCount){
-                                    sendRes('一键关闭失败', 1);
-                                    //res.json({'errorId': 1, 'errorMsg':'一键关闭失败'})
+                                if (queryIndex == releaseTaskObjects.length){
+                                    if (successNumber == totalCount){
+                                        sendRes('一键关闭成功', 0);
+                                    }else {
+                                        if (successNumber == 0){
+                                            sendRes('全部失败', 1)
+                                        }else {
+                                            sendRes('部分成功', 2)
+                                        }
+                                        //sendRes('一键关闭bufenchengong', 1);
+                                    }
                                 }
                             })
                         })(recTaskObjects[e], expiredCount, releaseCount)
