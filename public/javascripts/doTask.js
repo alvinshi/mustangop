@@ -39,6 +39,7 @@ app.controller('doTaskCtrl', function($scope, $http) {
     $scope.noApp = false;
 
     //初始,可优化
+    $scope.isLoadingMyApp = true;
     $scope.disableTaskCount = 0;
 
     $scope.hasMoreDic = {   'allTask':1,
@@ -60,6 +61,7 @@ app.controller('doTaskCtrl', function($scope, $http) {
     function getTaskData(taskType, pageCount){
         var url = 'doTask/taskHall/' + pageCount + '/' + taskType;
         $http.get(url).success(function(response) {
+            $scope.isLoadingMyApp = false;
 
             if(pageCount == 0){
                 //第一页时保存我的App个数
@@ -88,7 +90,7 @@ app.controller('doTaskCtrl', function($scope, $http) {
                 $scope.downTask = $scope.downTask.concat(response.allTask);
             }else if(taskType == 'inactiveTask'){
                 $scope.inactiveTask = $scope.inactiveTask.concat(response.allTask);
-                
+
                 $scope.disableTaskCount = response.disableTaskCount;
             }
 
@@ -103,6 +105,7 @@ app.controller('doTaskCtrl', function($scope, $http) {
             getTaskData('allTask', 0);
         }else {
             if ($scope.hasMoreDic['allTask'] == 1){
+                $scope.isLoadingMyApp = false;
                 getTaskData('allTask', $scope.taskDisplayed.length - myAppCountDic['allTask']);
             }
         }
@@ -115,6 +118,7 @@ app.controller('doTaskCtrl', function($scope, $http) {
         }else {
             if ($scope.hasMoreDic['commentTask'] == 1) {
                 getTaskData('commentTask', $scope.commentTask.length - myAppCountDic['commentTask']);
+
             }
         }
     };
@@ -126,6 +130,7 @@ app.controller('doTaskCtrl', function($scope, $http) {
         }else {
             if ($scope.hasMoreDic['downTask'] == 1) {
                 getTaskData('downTask', $scope.downTask.length - myAppCountDic['downTask']);
+
             }
         }
     };
@@ -134,8 +139,11 @@ app.controller('doTaskCtrl', function($scope, $http) {
     $scope.inactiveTasksOnly = function(){
         if($scope.inactiveTask == undefined || $scope.inactiveTask.length == 0){
             getTaskData('inactiveTask', 0);
+
         }else {
             getTaskData('inactiveTask', $scope.inactiveTask.length);
+
+
         }
     };
 
