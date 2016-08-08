@@ -106,7 +106,7 @@ app.controller('MobControl', function($scope, $http, $location, FileUploader) {
     };
 
     uploader.onProgressAll = function (progress) {
-        $scope.progressNum = progress;
+        $scope.progressNum = progress*0.8 > 10 ? progress*0.8 : 10;
         console.info('onProgressAll', progress);
     };
     uploader.onSuccessItem = function (fileItem, response, status, headers) {
@@ -122,12 +122,20 @@ app.controller('MobControl', function($scope, $http, $location, FileUploader) {
     };
 
     uploader.onCompleteItem = function (fileItem, response, status, headers) {
-        fileUrls.push(response.fileUrlList[0]);
-        console.info('onCompleteItem', fileItem, response, status, headers);
+        if(response.fileUrlList != undefined && response.fileUrlList.length > 0){
+            fileUrls.push(response.fileUrlList[0]);
+            console.info('onCompleteItem', fileItem, response, status, headers);
+        }else {
+            $scope.errorId = -100;
+            $scope.errorMsg = '网络异常,图片上传错误,刷新网页重新上传';
+        }
+
     };
     uploader.onCompleteAll = function () {
         console.info('onCompleteAll');
         var Url = '/newtaskMobile/add/' + excTaskId;
+        $scope.progressNum = 90;
+
         $http.post(Url, {
                 'uploadName':$scope.uploadName,
                 'requirementImgs': fileUrls

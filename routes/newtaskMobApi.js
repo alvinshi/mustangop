@@ -93,17 +93,22 @@ router.post('/add/:excTaskId', function(req, res){
     var userUploadName = undefined;
     //无cookie则是新用户
     var cookieUserUploadName = req.cookies.uploadImgName;
-    var userUploadName = req.body.uploadName;
+    var reqUserUploadName = req.body.uploadName;
     if (cookieUserUploadName != undefined && cookieUserUploadName.length > 0){
         userUploadName = cookieUserUploadName;
     }
     //不优先cookie存储
-    if(userUploadName != undefined && userUploadName.length > 0) {
-        userUploadName = userUploadName;
+    if(reqUserUploadName != undefined && reqUserUploadName.length > 0) {
+        userUploadName = reqUserUploadName;
     }
 
     if(userUploadName == undefined || userUploadName.length == 0){
         res.json({'errorMsg':'未填写昵称(任务需要知道是谁做的哦)', 'errorId': -2});
+        return;
+    }
+
+    if(requirementImgs == undefined || requirementImgs.length == 0){
+        res.json({'errorMsg':'上传图片失败', 'errorId': -3});
         return;
     }
 
@@ -121,7 +126,7 @@ router.post('/add/:excTaskId', function(req, res){
 
                 for (var dj = 0; dj < results.length; dj++){
                     var doTaskObject = results[dj];
-                    if(doTaskObject.get('uploadName') == uploadName){
+                    if(doTaskObject.get('uploadName') == userUploadName){
                         uploadDoTaskObject = doTaskObject;
                         break;
                     }
@@ -130,13 +135,13 @@ router.post('/add/:excTaskId', function(req, res){
                 //这边必须不包含过期条目,因为expiredCount已经包含了
                 if((results.length + expiredCount) >= receiveCount && uploadDoTaskObject == undefined){
                     //任务已经做满,不能重新再上传
-                    res.json({'errorMsg':'参与任务者已满,若想重新提交截图,请使用之前提交截图用户的昵称', 'uploadName':uploadName, 'errorId': -200});
+                    res.json({'errorMsg':'参与任务者已满,若想重新提交截图,请使用之前提交截图用户的昵称', 'uploadName':userUploadName, 'errorId': -200});
                 }else {
                     if(uploadDoTaskObject == undefined){
                         //new task
                         //add task imgs
                         var newTaskObject = new mackTaskInfo();
-                        newTaskObject.set('uploadName', uploadName);
+                        newTaskObject.set('uploadName', userUploadName);
                         newTaskObject.set('requirementImgs', requirementImgs);
                         newTaskObject.set('taskStatus', 'uploaded');
                         newTaskObject.set('receiveTaskObject', receiveTaskObject);
@@ -144,16 +149,16 @@ router.post('/add/:excTaskId', function(req, res){
                             var relation = receiveTaskObject.relation('mackTask');
                             relation.add(newTaskObject);// 建立针对每一个 Todo 的 Relation
                             receiveTaskObject.save().then(function(){
-                                res.json({'errorId':0, 'errorMsg':'', 'uploadName':uploadName, 'requirementImgs':requirementImgs});
+                                res.json({'errorId':0, 'errorMsg':'', 'uploadName':userUploadName, 'requirementImgs':requirementImgs});
                             }, function (error) {
                                 //更新任务失败
                                 console.log('upload task img failed(save relation):' + taskStatus + 'error:' + error.message);
-                                res.json({'errorMsg':error.message, 'uploadName':uploadName,  'errorId': error.code});
+                                res.json({'errorMsg':error.message, 'uploadName':userUploadName,  'errorId': error.code});
                             });
                         }, function (error) {
                             //更新任务失败
                             console.log('upload task img failed(save task):' + taskStatus + 'error:' + error.message);
-                            res.json({'errorMsg':error.message, 'uploadName':uploadName, 'errorId': error.code});
+                            res.json({'errorMsg':error.message, 'uploadName':userUploadName, 'errorId': error.code});
                         });
                     }else {
                         //该用户已经做过任务,想重新传图
@@ -186,11 +191,11 @@ router.post('/add/:excTaskId', function(req, res){
                             }
                             uploadDoTaskObject.save().then(function(){
                                 res.cookie('uploadImgName', userUploadName);
-                                res.json({'errorId':0, 'errorMsg':'', 'uploadName':uploadName, 'requirementImgs':requirementImgs});
+                                res.json({'errorId':0, 'errorMsg':'', 'uploadName':userUploadName, 'requirementImgs':requirementImgs});
                             }, function (error) {
                                 //更新任务失败
                                 console.log('reUpload task img failed(save task):' + taskStatus + 'error:' + error.message);
-                                res.json({'errorMsg':error.message, 'uploadName':uploadName, 'errorId': error.code});
+                                res.json({'errorMsg':error.message, 'uploadName':userUploadName, 'errorId': error.code});
                             });
                         }
                     }
@@ -200,7 +205,7 @@ router.post('/add/:excTaskId', function(req, res){
         },
         function (err){
             console.log('upload task img failed(task object error):' + taskStatus + 'error:' + error.message);
-            res.json({'errorMsg':err.message, 'errorId': err.code, 'uploadName':uploadName});
+            res.json({'errorMsg':err.message, 'errorId': err.code, 'uploadName':userUploadName});
         })
 });
 

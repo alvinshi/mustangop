@@ -21,6 +21,8 @@ exports.postFile = function (req, res) {
         var base64dataList = Array();
         var pubFileNameList = Array();
         var pubMimeTypeList = Array();
+        var promiseIndex = 0;
+
         req.busboy.on('file', function (fieldName, file, fileName, encoding, mimeType) {
             var buffer = '';
             file.setEncoding('base64');
@@ -34,29 +36,39 @@ exports.postFile = function (req, res) {
         }).on('finish', function() {
 
             var totalData = base64dataList.length;
-            var promiseIndex = 0;
             var fileUrlList = Array();
 
             for (var i = 0; i < base64dataList.length; i++){
                 (function (index){
                     console.log('------ upload img ------ ' + pubFileNameList[index]);
-                    var f = new AV.File(pubFileNameList[index], {
-                        // 仅上传第一个文件（多个文件循环创建）
-                        base64: base64dataList[index]
-                    });
-                    f.save().then(function(fileObj) {
-                        fileUrlList.push(fileObj.url());
-                        promiseIndex++;
-                        if (promiseIndex == totalData){
-                            res.json({'fileUrlList':fileUrlList, 'totalCount':base64dataList.length});
-                        }
-                    }, function(error){
+                    try{
+                        var f = new AV.File(pubFileNameList[index], {
+                            // 仅上传第一个文件（多个文件循环创建）
+                            base64: base64dataList[index]
+                        });
+                        console.log('------ upload img ------ avfile succeed');
+                        f.save().then(function(fileObj) {
+                            fileUrlList.push(fileObj.url());
+                            promiseIndex++;
+                            console.log('------ upload img ------ save succeed');
+                            if (promiseIndex == totalData){
+                                res.json({'fileUrlList':fileUrlList, 'totalCount':base64dataList.length});
+                            }
+                        }, function(error){
+                            console.log('------ ' + pubFileNameList[index] + ' upload img failed ------ ' + error.message);
+                            promiseIndex++;
+                            if(promiseIndex == totalData){
+                                res.json({'errorId':error.code, 'errorMsg':error.message});
+                            }
+                        });
+                    }catch (e){
                         promiseIndex++;
                         if(promiseIndex == totalData){
-                            console.log('------ ' + pubFileNameList[index] + ' upload img failed ------ ' + error.message);
+                            console.log('------ AVFile error:' + pubFileNameList[index] + ' upload img failed ------ ' + e.message);
                             res.json({'errorId':error.code, 'errorMsg':error.message});
                         }
-                    });
+                    }
+
                 }(i));
             }
         });
