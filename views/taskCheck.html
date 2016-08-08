@@ -139,13 +139,24 @@
                                     <div class="col-lg-4">
                                         <div style="font-size: 12px; color: #666666">更新时间</div>
                                         <div>{{taskDisplayed.latestReleaseDate | date:"yyyy/MM/dd"}}</div>
-                                        <button class="but" ng-click="oneTaskOff(taskDisplayed.taskId)">关闭任务</button>
+                                        <button class="but" ng-click="oneTaskOff(taskDisplayed.taskId)" data-target="#errorMsg" data-toggle="modal">关闭任务</button>
                                     </div>
 
                                 </div>
                             </td>
                         </tr>
                     </table>
+
+                    <div class="modal fade" id="errorMsg">
+                        <div class="modal-dialog">
+                            <div class="modal-content" style="width: 320px;">
+                                <div class="modal-header" style="height: 74px;background-color:#6eb7e8;border-radius:4px;text-align: center">
+                                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+                                    <h4 class="modal-title" >{{errorMsg}}</h4>
+                                </div>
+                            </div><!-- /.modal-content -->
+                        </div><!-- /.modal-dialog -->
+                    </div>
 
                     <hr>
 

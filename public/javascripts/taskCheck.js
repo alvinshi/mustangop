@@ -34,14 +34,32 @@ app.controller('taskCheckCtrl', function($scope, $http, $location) {
 
     };
 
-    // 单条任务关闭
-
-
     //************点击左侧条目控制器**********************
     $scope.check = function(app, index){
         $scope.taskIndex = index;
         $scope.taskDisplayed = app;
         specTaskCheck(app.taskId);
+    };
+
+    // 单条任务关闭
+    $scope.oneTaskOff = function(taskId){
+        var oneTaskUrl = '/taskCheck/turnOffOneTask';
+        $http.post(oneTaskUrl, {'taskId': taskId}).success(function(response){
+            $scope.errorId = response.errorId;
+            $scope.errorMsg = response.errorMsg;
+
+            if ($scope.errorId != 0){
+                $scope.errorMsg = response.errorMsg;
+                $("#errorMsg").modal("show");
+            }else {
+                setTimeout(refresh, 2000);
+
+                function refresh(){
+                    location.href = '/taskCheck/'
+                }
+
+            }
+        })
     };
 
     //**************  Helper Function *******************

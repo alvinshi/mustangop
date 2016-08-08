@@ -180,6 +180,7 @@ router.post('/closeTask/:userObjectId', function(req, res){
     query.equalTo('close', false); // 忽略关闭的任务
     query.find().then(function(userReceiveObjects){
         var queryIndex = 0;
+        var successNub = 0;
         for (var i = 0; i < userReceiveObjects.length; i++){
             var userReceiveCount = userReceiveObjects[i].get('receiveCount');
 
@@ -200,23 +201,38 @@ router.post('/closeTask/:userObjectId', function(req, res){
                     // 最后统一保存
                     AV.Object.saveAll(userUploadTaskObject).then(function(){
                         queryIndex = queryIndex +1;
+                        successNub = successNub + 1;
 
                         // 相当于一个计数 和查出来的总数比较 如果相等 就返回
                         if (queryIndex == userReceiveObjects.length){
-                            res.json({'errorId': 0, 'errorMsg':'一键关闭成功'})
+                            if (successNub == userReceiveObjects.length){
+                                res.json({'errorId': 0, 'errorMsg':'一键关闭成功'})
+                            }else {
+                                res.json({'errorId': 1, 'errorMsg':'一键关闭失败'})
+                            }
+
                         }
                     },function(error){
                         queryIndex = queryIndex +1;
 
                         if (queryIndex == userReceiveObjects.length){
-                            res.json({'errorId': 0, 'errorMsg':'一键关闭成功'})
+                            if (successNub == userReceiveObjects.length){
+                                res.json({'errorId': 0, 'errorMsg':'一键关闭成功'})
+                            }else {
+                                res.json({'errorId': 1, 'errorMsg':'一键关闭失败'})
+                            }
                         }
                     });
                 },function(error){
                     //
                     queryIndex = queryIndex +1;
                     if (queryIndex == userReceiveObjects.length){
-                        res.json({'errorId': 0, 'errorMsg':'一键关闭成功'})
+                        if (successNub == userReceiveObjects.length){
+                            res.json({'errorId': 0, 'errorMsg':'一键关闭成功'})
+                        }else {
+                            res.json({'errorId': 1, 'errorMsg':'一键关闭失败'})
+                        }
+
                     }
                 })
             })(userReceiveObjects[i], userReceiveCount)
