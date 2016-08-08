@@ -118,7 +118,7 @@ app.controller('doTaskCtrl', function($scope, $http) {
 
     $scope.getTask = function(currentApp){
         var username = getCookie('username');
-        //报错条件
+        //报错条件  
         if (username == ''){
             currentApp.getTaskErrorId = -200;
             currentApp.errorMsg = '请先登陆帐号后再领取任务';
