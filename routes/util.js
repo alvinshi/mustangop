@@ -37,6 +37,7 @@ exports.postFile = function (req, res) {
 
             var totalData = base64dataList.length;
             var fileUrlList = Array();
+            //var promiseIndex = 0;
 
             for (var i = 0; i < base64dataList.length; i++){
                 (function (index){
@@ -123,13 +124,13 @@ function findAppIniTunes(res, userId){
         console.log("Got appInfo with appid error: " + e.message);
         res.json({'errorMsg':e.message, 'errorId': e.code});
     });
-};
+}
 
 
 exports.updateUserAppsVersion = function (req) {
     //parse appleId
-    var appleIdArray = new Array();
-    var appleIdObject = new Object();
+    var appleIdArray = Array();
+    var appleIdObject = Object();
     for (var i = 0; i < dataObject.results.length; i++) {
         var appleObject = dataObject.results[i];
         appleIdArray.push(appleObject.trackId);
@@ -181,11 +182,17 @@ exports.updateUserAppsVersion = function (req) {
             console.log(appleId + 'error in query');
         }
     });
-}
+};
 
 function updateIOSAppInfo (appstoreObject, leanAppObject){
     var genres = appstoreObject['genres'];
-    var appInfoObject = new Object();
+    var appInfoObject = Object();
+
+    //is updated
+    var isUpdated = false;
+    if(leanAppObject.get('version') != appstoreObject['version']){
+        isUpdated = true;
+    }
 
     leanAppObject.set('trackName', appstoreObject['trackName']);
     leanAppObject.set('artworkUrl100', appstoreObject['artworkUrl100']);
@@ -204,9 +211,11 @@ function updateIOSAppInfo (appstoreObject, leanAppObject){
     appInfoObject.appleKind = genres[0];
     appInfoObject.formattedPrice = appstoreObject['formattedPrice'];
     appInfoObject.latestReleaseDate = appstoreObject['currentVersionReleaseDate'];
+    appInfoObject.excUniqueCode = appstoreObject['trackId'] + appstoreObject['version'];
     appInfoObject.sellerName = appstoreObject['sellerName'];
     appInfoObject.version = appstoreObject['version'];
     appInfoObject.appObjectId = leanAppObject.id;
+    appInfoObject.isUpdated = isUpdated;
 
     appInfoObject.createdAt = leanAppObject.createdAt;
     return appInfoObject;

@@ -46,6 +46,7 @@ function taskObjectToDic(results, TaskObjects, isMyTask)
         appObject.appleKind = userReleaseAppObject.get('appleKind');
         appObject.formattedPrice = userReleaseAppObject.get('formattedPrice');
         appObject.latestReleaseDate = userReleaseAppObject.get('latestReleaseDate');
+        appObject.excUniqueCode = userReleaseAppObject.get('excUniqueCode');
         appObject.sellerName = userReleaseAppObject.get('sellerName');
 
         appObject.myTask = isMyTask;
@@ -153,35 +154,44 @@ router.get('/taskHall/:pageIndex/:taskType', function(req, res){
     //TODO 标记为已做任务,去receiveTask数据库建立相关字段
     //TODO 个人中心保存用户告诉换屏设备个数,排序这边优先排序设备个数的换屏
 
-    var query = getTaskQuery(userObject);
+    var query = undefined;
 
-    if (tasktype == 'allTask'){
-        query.greaterThan('remainCount', 0);
-        query.doesNotMatchKeyInQuery('latestReleaseDate', 'appUpdateInfo', queryReceiveExcTask);
-    }
-    else if (tasktype == 'commentTask'){
-        query.greaterThan('remainCount', 0);
-        query.equalTo('taskType', '评论');
-        query.doesNotMatchKeyInQuery('latestReleaseDate', 'appUpdateInfo', queryReceiveExcTask);
-    }
-    else if (tasktype == 'downTask'){
-        query.greaterThan('remainCount', 0);
-        query.equalTo('taskType', '下载');
-        query.doesNotMatchKeyInQuery('latestReleaseDate', 'appUpdateInfo', queryReceiveExcTask);
-    }
-    else {
+    function getDisableTaskQuery(){
+        //筛选应该是,我可以领,但是我不能领的任务(已经交换过)
         var query = new AV.Query(releaseTaskObject);
         query.greaterThan('remainCount', 0);
-        query.matchesKeyInQuery('latestReleaseDate', 'appUpdateInfo', queryReceiveExcTask);
+        query.notEqualTo('close', true);
+        query.notEqualTo('cancelled', true);
+        query.matchesKeyInQuery('excUniqueCode', 'excUniqueCode', queryReceiveExcTask);
+        return query;
+    }
+
+    if (tasktype == 'allTask'){
+        query = getTaskQuery(userObject);
+        query.greaterThan('remainCount', 0);
+        query.doesNotMatchKeyInQuery('excUniqueCode', 'excUniqueCode', queryReceiveExcTask);
+    }
+    else if (tasktype == 'commentTask'){
+        query = getTaskQuery(userObject);
+        query.greaterThan('remainCount', 0);
+        query.equalTo('taskType', '评论');
+        query.doesNotMatchKeyInQuery('excUniqueCode', 'excUniqueCode', queryReceiveExcTask);
+    }
+    else if (tasktype == 'downTask'){
+        query = getTaskQuery(userObject);
+        query.greaterThan('remainCount', 0);
+        query.equalTo('taskType', '下载');
+        query.doesNotMatchKeyInQuery('excUniqueCode', 'excUniqueCode', queryReceiveExcTask);
+    }
+    else {
+        query = getDisableTaskQuery();
     }
 
     var totalCount = 0;
     query.count().then(function(count){
         totalCount = count;
         if (pageIndex == 0){
-            var disableTaskQuery = new AV.Query(releaseTaskObject);
-            disableTaskQuery.greaterThan('remainCount', 0);
-            disableTaskQuery.matchesKeyInQuery('latestReleaseDate', 'appUpdateInfo', queryReceiveExcTask);
+            var disableTaskQuery = getDisableTaskQuery();
 
             disableTaskQuery.count().then(function(disableTaskCount){
                 getTaskObjectList(tasktype, query, totalCount, pageIndex, userObject, res, disableTaskCount);
@@ -189,9 +199,7 @@ router.get('/taskHall/:pageIndex/:taskType', function(req, res){
                 getTaskObjectList(tasktype, query, 1000, pageIndex, userObject, res, -1);
             });
         }else {
-            var disabletaskQuery = new AV.Query(releaseTaskObject);
-            disabletaskQuery.greaterThan('remainCount', 0);
-            disabletaskQuery.matchesKeyInQuery('latestReleaseDate', 'appUpdateInfo', queryReceiveExcTask);
+            var disabletaskQuery = getDisableTaskQuery();
             disabletaskQuery.count().then(function(disableTaskCount){
                 getTaskObjectList(tasktype, query, totalCount, pageIndex, userObject, res, disableTaskCount);
             },function (error){
@@ -211,7 +219,7 @@ router.post('/postUsertask/:taskObjectId/:ratePrice/:appId', function(req, res){
     //领取任务基本信息收集
     var userId = util.useridInReq(req);
     var receive_Count = parseInt(req.body.receiveCount);
-    var latestReleaseDate = req.body.latestReleaseDate;
+    var excUniqueCode = req.body.excUniqueCode;
     var receive_Price = (req.params.ratePrice) * receive_Count;
     var detail_Rem = req.body.detailRem;
     if (detail_Rem == undefined){
@@ -276,7 +284,8 @@ router.post('/postUsertask/:taskObjectId/:ratePrice/:appId', function(req, res){
                                     ReceiveTaskObject.set('receiveCount', receive_Count);
                                     ReceiveTaskObject.set('receivePrice', receive_Price);
                                     ReceiveTaskObject.set('detailRem', detail_Rem);
-                                    ReceiveTaskObject.set('appUpdateInfo', latestReleaseDate);//版本信息
+
+                                    ReceiveTaskObject.set('excUniqueCode', excUniqueCode);//换评信息
                                     ReceiveTaskObject.set('receiveDate', myDateStr);
                                     ReceiveTaskObject.save().then(function(){
                                         //更新任务剩余条数
@@ -347,7 +356,7 @@ router.post('/fiterApp', function(req, res){
     var myDateStr = myDate.getFullYear() + '-' + (parseInt(myDate.getMonth())+1) + '-' + myDate.getDate();
 
     var appObjectId = req.body.appObjectId;
-    var appLatesReleaseDate = req.body.latestReleaseDate;
+    var excUniqueCode = req.body.excUniqueCode;
     var taskObjectId = req.body.taskObjectId;
 
     var userObject = new AV.User();
@@ -365,7 +374,7 @@ router.post('/fiterApp', function(req, res){
         }else {
             var userFilterTaskObject = new receiveTaskObject();
             userFilterTaskObject.set('userObject', userObject);
-            userFilterTaskObject.set('appUpdateInfo', appLatesReleaseDate);
+            userFilterTaskObject.set('excUniqueCode', excUniqueCode);
             userFilterTaskObject.set('receiveDate', myDateStr);
             userFilterTaskObject.set('taskObject', taskObject);
             userFilterTaskObject.set('appObject', appObject);

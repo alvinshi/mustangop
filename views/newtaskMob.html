@@ -87,7 +87,7 @@
                     <p  class="trackName_one">
                         {{ oneAppInfo.trackName.substr(0,12)+"..."  }}
                     </p>
-                    <p  class="app_date">
+                    <p  class="app_date" ng-show="oneAppInfo.latestReleaseDate.length > 0">
                         更新日期: {{ oneAppInfo.latestReleaseDate.substr(0,10) }}
                     </p>
                     <p  class="taskType">

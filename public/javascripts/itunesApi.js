@@ -16,6 +16,8 @@ app.controller('itunesSearchControl', function($scope, $http) {
         $scope.usermoney = response.usermoney;
     });
 
+    $scope.numOfApps = 10;//默认不显示 + 号App
+
     //************* Helper Function ********************
     //请求每个任务的任务需求, function封装
     function getDemand(){
@@ -155,9 +157,19 @@ app.controller('itunesSearchControl', function($scope, $http) {
 
     //添加App
     $scope.chooseMyApp = function(appInfo){
+        if(appInfo.isBinlding == true){
+            //防止重复绑定
+            return;
+        }
+
         var searchUrl = 'myapp/add';
+        appInfo.isBinlding = true;
         $http.post(searchUrl, {'appInfo':appInfo}).success(function(response){
+
+            appInfo.isBinlding = false;
+
             if (response.errorId == 0 || response.errorId === undefined){
+                appInfo.isMine = true;
                 var flag = 0;
                 //本地没有App, 初始Array
                 if ($scope.myApps == undefined){
@@ -171,6 +183,7 @@ app.controller('itunesSearchControl', function($scope, $http) {
                         break;
                     }
                 }
+
                 if (flag == 0){
                     //默认选择的App是新添加的App
                     $scope.selectedApp = response.newApp;

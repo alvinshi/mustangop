@@ -22,15 +22,9 @@ var userApps = require('./routes/myApp');//user app related center
 
 var loadHtml = require('./routes/loadHtml');//load static html
 var index = require('./routes/index');
-var appDetail = require('./routes/appDetail');
-var dailyTask = require('./routes/dailyTask');
-var taskDetail = require('./routes/taskDetail');
-var taskDetailMobile = require('./routes/taskDetailMobApi');
 var doTask = require('./routes/doTask');
 var taskCheck = require('./routes/taskCheck');
 var taskInfor = require('./routes/taskInfor');
-var doInnerTask = require('./routes/doInnerTask');
-var doOuterTask = require('./routes/doOuterTask');
 var alipay = require('./routes/pay');
 var myClaim = require('./routes/myClaimApi');
 var newtaskMobile = require('./routes/newtaskMobApi');
@@ -100,19 +94,16 @@ function routeHasPrefix(originalUrl, judgeArray){
 
 // 没有挂载路径的中间件，应用的每个请求都会执行该中间件
 app.use(function (req, res, next) {
-  var loginWhiteList  = new Array();
-  loginWhiteList[0] = "/user";
-  loginWhiteList[1] = "/upload";
-  loginWhiteList[2] = "/pay";
-  loginWhiteList[3] = "/html";
+  var loginWhiteList  =  Array();
+  loginWhiteList.push("/user");
+  loginWhiteList.push("/upload");
+  loginWhiteList.push("/pay");
+  loginWhiteList.push("/html");
 
-  loginWhiteList[4] = "/dailyTask";
-  loginWhiteList[5] = "/taskDetailMobile";
-  loginWhiteList[6] = "/taskDetail";
-  loginWhiteList[7] = "/myClaim";
-  loginWhiteList[8] = "/newtaskMobile";
-  loginWhiteList[9] = "/interiorExcDetail";
-  loginWhiteList[10] = "/doTask";
+  loginWhiteList.push("/myClaim");
+  loginWhiteList.push("/newtaskMobile");
+  loginWhiteList.push("/interiorExcDetail");
+  loginWhiteList.push("/doTask");
 
   var needLogin = !routeHasPrefix(req.originalUrl, loginWhiteList);
 
@@ -165,15 +156,9 @@ app.use('/api', api);
 app.use('/user', users);
 app.use('/myapp', userApps);
 app.use('/', index);
-app.use('/app', appDetail);
-app.use('/dailyTask', dailyTask);
-app.use('/taskDetail', taskDetail);
-app.use('/taskDetailMobile', taskDetailMobile);
 app.use('/doTask', doTask);
 app.use('/taskCheck', taskCheck);
 app.use('/taskInfor', taskInfor);
-app.use('/doInnerTask', doInnerTask);
-app.use('/doOuterTask', doOuterTask);
 app.use('/pay', alipay);
 app.use('/myClaim', myClaim);
 app.use('/newtaskMobile', newtaskMobile);
