@@ -179,7 +179,8 @@ router.post('/closeTask/:userObjectId', function(req, res){
     query.equalTo('close', false); // 忽略关闭的任务
     query.find().then(function(userReceiveObjects){
         var queryIndex = 0;
-        var successNub = 0;
+        //var successNub = 0;
+        var userFinishTaskList = [];
         for (var i = 0; i < userReceiveObjects.length; i++){
             var userReceiveCount = userReceiveObjects[i].get('receiveCount');
 
@@ -194,48 +195,39 @@ router.post('/closeTask/:userObjectId', function(req, res){
                     var userDoneTask = doTaskCount + userUploadTaskObject.get('expiredCount'); // 做完的 加 过期的
                     if (userDoneTask >= userRecCount){
                         userUploadTaskObject.set('close', true);
+                        userFinishTaskList.push(userUploadTaskObject);
                         // 判断过期和做完的任务 等不等于总数 等于总数就set
                     }
+                    queryIndex = queryIndex + 1;
+                    //successNub = successNub + 1;
 
-                    // 最后统一保存
-                    AV.Object.saveAll(userUploadTaskObject).then(function(){
-                        queryIndex = queryIndex +1;
-                        successNub = successNub + 1;
-
-                        // 相当于一个计数 和查出来的总数比较 如果相等 就返回
-                        if (queryIndex == userReceiveObjects.length){
-                            if (successNub == userReceiveObjects.length){
-                                res.json({'errorId': 0, 'errorMsg':'一键关闭成功'})
-                            }else {
-                                res.json({'errorId': 1, 'errorMsg':'一键关闭失败'})
-                            }
-
-                        }
-                    },function(error){
-                        queryIndex = queryIndex +1;
-
-                        if (queryIndex == userReceiveObjects.length){
-                            if (successNub == userReceiveObjects.length){
-                                res.json({'errorId': 0, 'errorMsg':'一键关闭成功'})
-                            }else {
-                                res.json({'errorId': error.code, 'errorMsg':error.message})
-                            }
-                        }
-                    });
+                    // 相当于一个计数 和查出来的总数比较 如果相等 就返回
+                    if (queryIndex == userReceiveObjects.length){
+                        saveAll();
+                    }
                 },function(error){
                     //
-                    queryIndex = queryIndex +1;
+                    queryIndex = queryIndex + 1;
                     if (queryIndex == userReceiveObjects.length){
-                        if (successNub == userReceiveObjects.length){
-                            res.json({'errorId': 0, 'errorMsg':'一键关闭成功'})
-                        }else {
-                            res.json({'errorId': error.code, 'errorMsg':error.message})
-                        }
-
+                        saveAll();
                     }
                 })
             })(userReceiveObjects[i], userReceiveCount)
 
+        }
+
+        function saveAll(){
+            // 最后统一保存
+            if (userFinishTaskList.length == 0 || userFinishTaskList == undefined){
+                res.json({'errorId': 1, 'errorMsg':'没有任务可关闭'})
+            }else {
+                AV.Object.saveAll(userFinishTaskList).then(function(){
+                    res.json({'errorId': 0, 'errorMsg':'一键关闭成功'})
+
+                },function(error){
+                    res.json({'errorMsg':error.message, 'errorId': error.code});
+                });
+            }
         }
     },function(error){
         res.json({'errorMsg':error.message, 'errorId': error.code});

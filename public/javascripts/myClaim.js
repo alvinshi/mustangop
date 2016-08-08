@@ -73,7 +73,15 @@ app.controller('myClaimControl', function($scope, $http, $location){
             $scope.errorId = response.errorId;
             $scope.errorMsg = response.errorMsg;
 
-            location.href = '/myClaim/' + userId;
+            if (response.errorId != 0){
+                $scope.errorMsg = response.errorMsg;
+                $("#popover").modal("show");
+            }else {
+                setTimeout(refresh, 2000);
+            }
+            function refresh(){
+                location.href = '/myClaim/' + userId;
+            }
         })
     }
 
