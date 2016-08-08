@@ -93,17 +93,22 @@ router.post('/add/:excTaskId', function(req, res){
     var userUploadName = undefined;
     //无cookie则是新用户
     var cookieUserUploadName = req.cookies.uploadImgName;
-    var userUploadName = req.body.uploadName;
+    var reqUserUploadName = req.body.uploadName;
     if (cookieUserUploadName != undefined && cookieUserUploadName.length > 0){
         userUploadName = cookieUserUploadName;
     }
     //不优先cookie存储
-    if(userUploadName != undefined && userUploadName.length > 0) {
-        userUploadName = userUploadName;
+    if(reqUserUploadName != undefined && reqUserUploadName.length > 0) {
+        userUploadName = reqUserUploadName;
     }
 
     if(userUploadName == undefined || userUploadName.length == 0){
         res.json({'errorMsg':'未填写昵称(任务需要知道是谁做的哦)', 'errorId': -2});
+        return;
+    }
+
+    if(requirementImgs == undefined || requirementImgs.length == 0){
+        res.json({'errorMsg':'上传图片失败', 'errorId': -3});
         return;
     }
 

@@ -122,8 +122,14 @@ app.controller('MobControl', function($scope, $http, $location, FileUploader) {
     };
 
     uploader.onCompleteItem = function (fileItem, response, status, headers) {
-        fileUrls.push(response.fileUrlList[0]);
-        console.info('onCompleteItem', fileItem, response, status, headers);
+        if(response.fileUrlList != undefined && response.fileUrlList.length > 0){
+            fileUrls.push(response.fileUrlList[0]);
+            console.info('onCompleteItem', fileItem, response, status, headers);
+        }else {
+            $scope.errorId = -100;
+            $scope.errorMsg = '网络异常,图片上传错误,刷新网页重新上传';
+        }
+
     };
     uploader.onCompleteAll = function () {
         console.info('onCompleteAll');
