@@ -75,8 +75,10 @@ app.controller('doTaskCtrl', function($scope, $http) {
                         response.allTask[i].mode = true;
                     }
                 }
-                for(var j=0;j<response.allTask;i++){
-                    response.allTask[j].hasChanged = false;
+                for(var j=0;j<response.allTask;j++){
+                    response.allTask[j].hasChange = false;
+
+
                 }
 
                 $scope.disableTaskCount = response.disableTaskCount;
@@ -86,6 +88,9 @@ app.controller('doTaskCtrl', function($scope, $http) {
                 $scope.downTask = $scope.downTask.concat(response.allTask);
             }else if(taskType == 'inactiveTask'){
                 $scope.inactiveTask = $scope.inactiveTask.concat(response.allTask);
+                for(var i=0;i<response.inactiveTask;i++){
+                    response.inactiveTask[i].inactive=true;
+                }
                 $scope.disableTaskCount = response.disableTaskCount;
             }
 
@@ -217,7 +222,6 @@ app.controller('doTaskCtrl', function($scope, $http) {
 
     //筛选已经做过的任务
     $scope.filtrateApp=function(appInfo){
-        $("#markApp").modal("show");
         var needToSave = {'appObjectId': appInfo.appObjectId, 'latestReleaseDate': appInfo.latestReleaseDate,
             'taskObjectId':appInfo.objectId};
 
@@ -231,7 +235,7 @@ app.controller('doTaskCtrl', function($scope, $http) {
 
                 //TODO: 成功还是失败
                 if (response.errorId == 0){
-                    $scope.hasChanged=true;
+                    app.hasChange=true;
 
 
 
