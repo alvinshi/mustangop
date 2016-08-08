@@ -401,11 +401,14 @@ router.post('/turnOff', function(req, res){
     query.descending('createdAt');
     query.find().then(function(releaseTaskObjects){
         var queryIndex = 0;
-        var successNumber = 0;
-        var totalCount = 0;
-        for (var j = 0; j < releaseTaskObjects.length; j++){
-            totalCount = totalCount+releaseTaskObjects[j].get('excCount');
-        }
+
+        //var totalCount = 0;
+        //for (var j = 0; j < releaseTaskObjects.length; j++){
+        //    totalCount = totalCount+releaseTaskObjects[j].get('excCount');
+        //}
+
+        var needSaveReleaseTaskList = [];
+
         for (var i = 0; i < releaseTaskObjects.length; i++){
             var releaseCount = releaseTaskObjects[i].get('excCount');
 
@@ -426,57 +429,37 @@ router.post('/turnOff', function(req, res){
                             queryUpload.count().then(function(finishCount){
                                 if (releaseCount == expiredcount + finishCount){
                                     temReceiveTaskObject.set('close', true);
+                                    needSaveReleaseTaskList.push(temReceiveTaskObject);
                                 }
+                                queryIndex = queryIndex + 1;
 
-                                AV.Object.saveAll(temReceiveTaskObject).then(function(){
-                                    queryIndex = queryIndex + 1;
-                                    successNumber = successNumber + 1;
-                                    if (queryIndex == releaseTaskObjects.length){
-                                        if (successNumber == totalCount){
-                                            sendRes('一键关闭成功', 0);
-                                        }else {
-                                            if (successNumber == 0){
-                                                sendRes('全部失败', 1)
-                                            }else {
-                                                sendRes('部分成功', 2)
-                                            }
-                                        }
-                                    }
-                                },function(error){
-                                    queryIndex = queryIndex + 1;
-                                    if (queryIndex == releaseTaskObjects.length){
-
-                                        if (successNumber == totalCount){
-                                            sendRes('一键关闭成功', 0);
-                                        }else {
-                                            if (successNumber == 0){
-                                                sendRes('全部失败', 1)
-                                            }else {
-                                                sendRes('部分成功', 2)
-                                            }
-                                            //sendRes('一键关闭bufenchengong', 1);
-                                        }
-                                    }
-                                })
+                                if (queryIndex == releaseTaskObjects.length){
+                                    allSave();
+                                }
                             },function(error){
                                 queryIndex = queryIndex + 1;
                                 if (queryIndex == releaseTaskObjects.length){
-                                    if (successNumber == totalCount){
-                                        sendRes('一键关闭成功', 0);
-                                    }else {
-                                        if (successNumber == 0){
-                                            sendRes('全部失败', 1)
-                                        }else {
-                                            sendRes('部分成功', 2)
-                                        }
-                                        //sendRes('一键关闭bufenchengong', 1);
-                                    }
+                                    allSave();
                                 }
                             })
                         })(recTaskObjects[e], expiredCount, releaseCount)
                     }
                 })
             })(releaseTaskObjects[i], releaseCount)
+        }
+
+        function allSave(){
+            if (needSaveReleaseTaskList.length == 0 || needSaveReleaseTaskList == undefined){
+                sendRes('没有任务可以关闭', 1)
+
+            }else {
+                AV.Object.saveAll(needSaveReleaseTaskList).then(function(){
+                    sendRes("一键关闭成功", 0);
+                },function(error){
+                    sendRes(error.message, error.code);
+                })
+            }
+
         }
 
     },function(error){

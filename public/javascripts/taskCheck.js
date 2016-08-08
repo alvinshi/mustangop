@@ -29,7 +29,15 @@ app.controller('taskCheckCtrl', function($scope, $http, $location) {
             $scope.errorId = response.errorId;
             $scope.errorMsg = response.errorMsg;
 
-            location.href = '/taskCheck/';
+            if (response.errorId != 0){
+                $scope.errorMsg = response.errorMsg;
+                $("#errorMsg").modal("show");
+            }else {
+                setTimeout(refresh, 2000);
+            }
+            function refresh(){
+                location.href = '/taskCheck/';
+            }
         })
 
     };
@@ -48,7 +56,7 @@ app.controller('taskCheckCtrl', function($scope, $http, $location) {
             $scope.errorId = response.errorId;
             $scope.errorMsg = response.errorMsg;
 
-            if ($scope.errorId != 0){
+            if (response.errorId != 0){
                 $scope.errorMsg = response.errorMsg;
                 $("#errorMsg").modal("show");
             }else {
