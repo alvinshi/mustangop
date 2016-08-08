@@ -63,7 +63,6 @@ function taskObjectToDic(results, TaskObjects, isMyTask)
         appObject.screenshotCount = results[i].get('screenshotCount');
         appObject.titleKeyword = results[i].get('titleKeyword');
         appObject.commentKeyword = results[i].get('commentKeyword');
-        appObject.detailRem = results[i].get('detailRem');
 
         if(isMyTask){
             TaskObjects.unshift(appObject);
@@ -78,6 +77,7 @@ function getTaskObjectList(taskType, query, totalCount, pageIndex, userObject, r
     var flagTotal = 2;
     var TaskObjects = [];
     var hasmore = 1;
+    var myAppCount = 0;
 
     if (taskType == 'inactiveTask' || pageIndex > 0){
         flagTotal = 1;
@@ -98,6 +98,7 @@ function getTaskObjectList(taskType, query, totalCount, pageIndex, userObject, r
         queryMyTask.include('appObject');
         queryMyTask.descending('createdAt');
         queryMyTask.find().then(function(results) {
+            myAppCount = results.length;
             taskObjectToDic(results, TaskObjects, true);
             retTaskFunc(disableCount, 0);
         }, function(error){
@@ -109,9 +110,9 @@ function getTaskObjectList(taskType, query, totalCount, pageIndex, userObject, r
         flag = flag + 1;
         if (flag == flagTotal) {
             if(disableCount >= 0){
-                res.json({'allTask':TaskObjects, 'hasMore':hasmore, 'errorId': errorId, 'disableTaskCount':disableCount})
+                res.json({'allTask':TaskObjects, 'myAppCount':myAppCount, 'hasMore':hasmore, 'errorId': errorId, 'disableTaskCount':disableCount})
             }else {
-                res.json({'allTask':TaskObjects, 'hasMore':hasmore, 'errorId': errorId, 'disableTaskCount':disableCount})
+                res.json({'allTask':TaskObjects, 'myAppCount':myAppCount, 'hasMore':hasmore, 'errorId': errorId, 'disableTaskCount':disableCount})
             }
         }
     }

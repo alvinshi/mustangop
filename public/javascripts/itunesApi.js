@@ -174,7 +174,7 @@ app.controller('itunesSearchControl', function($scope, $http) {
                 if (flag == 0){
                     //默认选择的App是新添加的App
                     $scope.selectedApp = response.newApp;
-                    $scope.isDisabled = true;
+                    $scope.isDisabled = false;
 
                     getDemand();
                     $scope.myApps.push(response.newApp);

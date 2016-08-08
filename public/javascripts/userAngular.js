@@ -189,7 +189,7 @@ app.controller('userAccountCtrl', function($scope, $http) {
                             $scope.errorMsg = response.errorMsg;
                         }else {
                             $scope.isError = 0
-                        };
+                        }
                         $scope.displayMsg();
                     });
                 }

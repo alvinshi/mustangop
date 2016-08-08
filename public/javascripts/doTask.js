@@ -46,6 +46,12 @@ app.controller('doTaskCtrl', function($scope, $http) {
                             'downTask':1,
                             'inactiveTask':1
                             };
+
+    var myAppCountDic = {   'allTask':0,
+        'commentTask':0,
+        'downTask':0
+    };
+
     $scope.taskDisplayed = [];
     $scope.commentTask = [];
     $scope.downTask = [];
@@ -54,10 +60,23 @@ app.controller('doTaskCtrl', function($scope, $http) {
     function getTaskData(taskType, pageCount){
         var url = 'doTask/taskHall/' + pageCount + '/' + taskType;
         $http.get(url).success(function(response) {
+
+            if(pageCount == 0){
+                //第一页时保存我的App个数
+                if(response.myAppCount != undefined){
+                    myAppCountDic[taskType] = response.myAppCount;
+                }
+            }
+
             if (taskType == 'allTask'){
                 $scope.taskDisplayed = $scope.taskDisplayed.concat(response.allTask);
-                for(var i=0;i<response.allTask;i++){
-                    response.allTask[i].mode = true;
+                for(var i = 0; i < response.allTask; i++){
+                    if(response.allTask[i].myTask != false){
+                        response.allTask[i].mode = true;
+                    }
+                }
+                for(var j=0;j<response.allTask;i++){
+                    response.allTask[j].hasChanged = false;
                 }
 
                 $scope.disableTaskCount = response.disableTaskCount;
@@ -80,8 +99,9 @@ app.controller('doTaskCtrl', function($scope, $http) {
         if($scope.taskDisplayed == undefined || $scope.taskDisplayed.length == 0){
             getTaskData('allTask', 0);
         }else {
-            getTaskData('allTask', $scope.taskDisplayed.length);
-
+            if ($scope.hasMoreDic['allTask'] == 1){
+                getTaskData('allTask', $scope.taskDisplayed.length - myAppCountDic['allTask']);
+            }
         }
     };
 
@@ -90,7 +110,9 @@ app.controller('doTaskCtrl', function($scope, $http) {
         if($scope.commentTask == undefined || $scope.commentTask.length == 0){
             getTaskData('commentTask', 0);
         }else {
-            getTaskData('commentTask', $scope.commentTask.length);
+            if ($scope.hasMoreDic['commentTask'] == 1) {
+                getTaskData('commentTask', $scope.commentTask.length - myAppCountDic['commentTask']);
+            }
         }
     };
 
@@ -99,7 +121,9 @@ app.controller('doTaskCtrl', function($scope, $http) {
         if($scope.downTask == undefined || $scope.downTask.length == 0){
             getTaskData('downTask', 0);
         }else {
-            getTaskData('downTask', $scope.downTask.length);
+            if ($scope.hasMoreDic['downTask'] == 1) {
+                getTaskData('downTask', $scope.downTask.length - myAppCountDic['downTask']);
+            }
         }
     };
 
@@ -118,7 +142,7 @@ app.controller('doTaskCtrl', function($scope, $http) {
 
     $scope.getTask = function(currentApp){
         var username = getCookie('username');
-        //报错条件  
+        //报错条件
         if (username == ''){
             currentApp.getTaskErrorId = -200;
             currentApp.errorMsg = '请先登陆帐号后再领取任务';
@@ -198,7 +222,8 @@ app.controller('doTaskCtrl', function($scope, $http) {
             'taskObjectId':appInfo.objectId};
 
         // 筛选任务, 当我点击确认时 保存
-        $scope.confirmAdd = function(){
+        $scope.confirmAdd = function(app){
+
             var fiterAppUrl = 'doTask/fiterApp';
             $http.post(fiterAppUrl, needToSave).success(function(response){
                 $scope.errorId = response.errorId;
@@ -206,6 +231,8 @@ app.controller('doTaskCtrl', function($scope, $http) {
 
                 //TODO: 成功还是失败
                 if (response.errorId == 0){
+                    $scope.hasChanged=true;
+
 
 
                 }

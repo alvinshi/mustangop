@@ -102,30 +102,32 @@ router.get('/index/unCheckTaskCount', function(req, res){
     queryMyRelease.equalTo('close', false);
     function dealReceTaskUplaod(receTaskObjectList){
         var acceptedPromiseIndex = 0;
+        if(receTaskObjectList == undefined || receTaskObjectList.length == 0){
+            refusedResposeBack();
+        }else{
+            for (var reIndex = 0; reIndex < receTaskObjectList.length; reIndex++){
+                (function(receiveTaskObject){
+                    var relation = receiveTaskObject.relation('mackTask');
+                    var queryUpload = relation.query();
+                    queryUpload.limit(1000);
+                    queryUpload.containedIn('taskStatus', ['uploaded', 'reUploaded']);
+                    queryUpload.count().then(function(uploadTaskCount){
+                        pendingCount = pendingCount + uploadTaskCount;
 
-        for (var reIndex = 0; reIndex < receTaskObjectList.length; reIndex++){
-            (function(receiveTaskObject){
-                var relation = receiveTaskObject.relation('mackTask');
-                var queryUpload = relation.query();
-                queryUpload.limit(1000);
-                queryUpload.containedIn('taskStatus', ['uploaded', 'reUploaded']);
-                queryUpload.count().then(function(uploadTaskCount){
-                    pendingCount = pendingCount + uploadTaskCount;
+                        acceptedPromiseIndex++;
+                        if (acceptedPromiseIndex == receTaskObjectList.length){
+                            refusedResposeBack();
+                        }
+                    },function(error){
+                        acceptedPromiseIndex++;
+                        if (acceptedPromiseIndex == receTaskObjectList.length){
+                            refusedResposeBack();
+                        }
+                    })
 
-                    acceptedPromiseIndex++;
-                    if (acceptedPromiseIndex == receTaskObjectList.length){
-                        refusedResposeBack();
-                    }
-                },function(error){
-                    acceptedPromiseIndex++;
-                    if (acceptedPromiseIndex == receTaskObjectList.length){
-                        refusedResposeBack();
-                    }
-                })
-
-            })(receTaskObjectList[reIndex])
+                })(receTaskObjectList[reIndex])
+            }
         }
-
     }
 
     queryMyRelease.find().then(function(userReleaseTaskObjects){
