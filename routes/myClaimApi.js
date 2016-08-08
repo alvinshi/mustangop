@@ -115,6 +115,8 @@ router.get('/claim/:userObjectId', function(req, res){
                     inAppHisObject.accepted = accepted;
                     inAppHisObject.rejected = rejected;
 
+                    inAppHisObject.noticeNumber = undoTask + rejected;
+
                     //accepted + abandoned == receiveCount
                     //暂时不做,需要手动关闭
                     //任务已经结束

@@ -193,7 +193,7 @@
                                                                     {{ taskDisplayed.trackName.substr(0,12)+"..."  }}
                                                                 </p>
                                                                 <p style="color: #ffffff;
-                                width: 330px;">
+                                width: 330px;" ng-show="taskDisplayed.latestReleaseDate.length > 0">
                                                                     更新日期: {{ taskDisplayed.latestReleaseDate | date: "yyyy/MM/dd"  }}
                                                                 </p>
                                                                 <p style="color: #ffffff; font-size: 20px;">

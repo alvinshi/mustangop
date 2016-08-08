@@ -42,6 +42,7 @@ router.get('/taskAudit', function(req, res){
             appInfoObject.appId = appObject.get('appleId');
             appInfoObject.sellerName = appObject.get('sellerName');
             appInfoObject.latestReleaseDate = appObject.get('latestReleaseDate');
+            appInfoObject.excUniqueCode = appObject.get('excUniqueCode');
 
             //任务需求
             appInfoObject.taskType = results[i].get('taskType');

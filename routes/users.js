@@ -137,7 +137,7 @@ router.get('/userCenter',function(req, res){
 
 
 //个人中心用户保存信息
-router.post('/userCenter',function(req, res){
+router.post('/userSaveInfo',function(req, res){
   var userId = util.useridInReq(req);
   var userNickname = req.body.userNickname;
   var userQQ = req.body.userQQ;

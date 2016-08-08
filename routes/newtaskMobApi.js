@@ -24,7 +24,7 @@ router.get('/:userId', function(req, res) {
 // 内部交换
 router.get('/claim/:excTaskId', function(req, res){
     var excTaskId = req.params.excTaskId;
-    var uploadUserName = req.cookies.uploadImgName;
+    var uploadUserName = req.cookies.uploadName;
 
     var query = new AV.Query(receiveTaskObject);
     query.include('appObject');
@@ -41,6 +41,7 @@ router.get('/claim/:excTaskId', function(req, res){
         retObject.appleId = hisappObject.get('appleId');
         retObject.formattedPrice = hisappObject.get('formattedPrice');
         retObject.latestReleaseDate = hisappObject.get('latestReleaseDate');
+        retObject.excUniqueCode = hisappObject.get('excUniqueCode');
         retObject.version = hisappObject.get('version');
         retObject.excKinds = taskInfo.get('taskType');
 

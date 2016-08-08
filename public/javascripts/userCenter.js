@@ -222,6 +222,7 @@ app.controller('taskHistoryCtrl', function($scope, $http){
 
 app.controller('userCenterCtrl', function($scope, $http){
     $scope.userName = true;
+    $scope.userNickname = getCookie('uploadName');
 
     var userUrl = '/user/userCenter';
     $http.get(userUrl).success(function(response){
@@ -239,7 +240,7 @@ app.controller('userCenterCtrl', function($scope, $http){
             $scope.errorMsg = response.errorMsg;
             if (response.errorId == 0){
                 //return to my App
-                location.href='/user';
+                //location.href='/user';
             }
         })
     };

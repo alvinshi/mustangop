@@ -39,7 +39,6 @@ app.controller('doTaskCtrl', function($scope, $http) {
     $scope.noApp = false;
 
     //初始,可优化
-    $scope.isLoadingMyApp = true;
     $scope.disableTaskCount = 0;
 
     $scope.hasMoreDic = {   'allTask':1,
@@ -61,8 +60,11 @@ app.controller('doTaskCtrl', function($scope, $http) {
     function getTaskData(taskType, pageCount){
         var url = 'doTask/taskHall/' + pageCount + '/' + taskType;
         $http.get(url).success(function(response) {
+<<<<<<< HEAD
 
             $scope.isLoadingMyApp = false;
+=======
+>>>>>>> ae35b982fae85f1e0df3752911a28fe2ed4e9a3e
 
             if(pageCount == 0){
                 //第一页时保存我的App个数
@@ -78,10 +80,8 @@ app.controller('doTaskCtrl', function($scope, $http) {
                         response.allTask[i].mode = true;
                     }
                 }
-                for(var j=0;j<response.allTask;j++){
-                    response.allTask[j].hasChange = false;
-
-
+                for(var j=0;j<response.allTask;i++){
+                    response.allTask[j].hasChanged = false;
                 }
 
                 $scope.disableTaskCount = response.disableTaskCount;
@@ -91,7 +91,6 @@ app.controller('doTaskCtrl', function($scope, $http) {
                 $scope.downTask = $scope.downTask.concat(response.allTask);
             }else if(taskType == 'inactiveTask'){
                 $scope.inactiveTask = $scope.inactiveTask.concat(response.allTask);
-
                 $scope.disableTaskCount = response.disableTaskCount;
             }
 
@@ -106,7 +105,6 @@ app.controller('doTaskCtrl', function($scope, $http) {
             getTaskData('allTask', 0);
         }else {
             if ($scope.hasMoreDic['allTask'] == 1){
-                $scope.isLoadingMyApp = false;
                 getTaskData('allTask', $scope.taskDisplayed.length - myAppCountDic['allTask']);
             }
         }
@@ -119,7 +117,6 @@ app.controller('doTaskCtrl', function($scope, $http) {
         }else {
             if ($scope.hasMoreDic['commentTask'] == 1) {
                 getTaskData('commentTask', $scope.commentTask.length - myAppCountDic['commentTask']);
-
             }
         }
     };
@@ -131,7 +128,6 @@ app.controller('doTaskCtrl', function($scope, $http) {
         }else {
             if ($scope.hasMoreDic['downTask'] == 1) {
                 getTaskData('downTask', $scope.downTask.length - myAppCountDic['downTask']);
-
             }
         }
     };
@@ -140,11 +136,8 @@ app.controller('doTaskCtrl', function($scope, $http) {
     $scope.inactiveTasksOnly = function(){
         if($scope.inactiveTask == undefined || $scope.inactiveTask.length == 0){
             getTaskData('inactiveTask', 0);
-
         }else {
             getTaskData('inactiveTask', $scope.inactiveTask.length);
-
-
         }
     };
 
@@ -176,7 +169,7 @@ app.controller('doTaskCtrl', function($scope, $http) {
             currentApp.isGetingTask = true;
             var url = 'doTask/postUsertask/' + currentApp.objectId + '/' + currentApp.rateUnitPrice + '/' + currentApp.appObjectId;
             var postData = {'receiveCount': currentApp.receiveCount, 'detailRem': currentApp.detailRem,
-                'latestReleaseDate': currentApp.latestReleaseDate};
+                'excUniqueCode': currentApp.excUniqueCode};
 
             $http.post(url, postData).success(function(response){
                 console.log(response);
@@ -228,8 +221,9 @@ app.controller('doTaskCtrl', function($scope, $http) {
     };
 
     //筛选已经做过的任务
-    $scope.filtrateApp=function(appInfo){
-        var needToSave = {'appObjectId': appInfo.appObjectId, 'latestReleaseDate': appInfo.latestReleaseDate,
+    $scope.filtrateApp = function(appInfo){
+        $("#markApp").modal("show");
+        var needToSave = {'appObjectId': appInfo.appObjectId, 'excUniqueCode': appInfo.excUniqueCode,
             'taskObjectId':appInfo.objectId};
 
         // 筛选任务, 当我点击确认时 保存
@@ -242,7 +236,7 @@ app.controller('doTaskCtrl', function($scope, $http) {
 
                 //TODO: 成功还是失败
                 if (response.errorId == 0){
-                    app.hasChange=true;
+                    $scope.hasChanged=true;
 
 
 

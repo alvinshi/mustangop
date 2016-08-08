@@ -206,7 +206,7 @@
                                                     {{ app.trackName.substr(0,12)+"..."  }}
                                                 </p>
                                                 <p style="color: #ffffff;
-                                width: 330px;">
+                                width: 330px;" ng-show="app.latestReleaseDate.length > 0">
                                                     更新日期: {{ app.latestReleaseDate | date:"yyyy/MM/dd"  }}
                                                 </p>
                                                 <p style="color: #ffffff; font-size: 20px;">
@@ -406,7 +406,7 @@
                                                     {{ app.trackName.substr(0,12)+"..."  }}
                                                 </p>
                                                 <p style="color: #ffffff;
-                                width: 330px;">
+                                width: 330px;" ng-show="app.latestReleaseDate.length > 0">
                                                     更新日期: {{ app.latestReleaseDate | date:"yyyy/MM/dd"  }}
                                                 </p>
                                                 <p style="color: #ffffff; font-size: 20px;">
@@ -601,7 +601,7 @@
                                                     {{ app.trackName.substr(0,12)+"..."  }}
                                                 </p>
                                                 <p style="color: #ffffff;
-                                width: 330px;">
+                                width: 330px;" ng-show="app.latestReleaseDate.length > 0">
                                                     更新日期: {{ app.latestReleaseDate | date:"yyyy/MM/dd"  }}
                                                 </p>
                                                 <p style="color: #ffffff; font-size: 20px;">
@@ -756,7 +756,7 @@
                             </td>
                             <td  style="padding-right: 40px;">
                                 <button class="btn-inactive">
-                                    已与此版本APP进行过操作
+                                    此版本APP你已经操作过
                                 </button>
                             </td>
 
