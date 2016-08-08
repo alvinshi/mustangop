@@ -45,15 +45,16 @@
 
     <!--标题-->
     <div class="header-wrapper col-lg-12" ng-show="!noApp">
-        <h1 class="header hidden-xs">今日认领的任务</h1>
-
+        <h1 class="header hidden-xs" style="display: inline-block">今日认领的任务</h1>
+        <div class="alert alert-warning" role="alert" style="display: inline-block;margin-left: 40px;">你可以通过点击一键关闭按钮,清除已经过期或者已经被成功被接收的任务记录</div>
+        <button class="btn close_btn" data-placement="top" data-toggle="popover" ng-click="turnoffTask()" >一键关闭</button>
         <hr class="hidden-xs" style="border: 1px solid  #3498db;width: 1024px">
     </div>
 
 
-    <div class="alert alert-warning" role="alert">你可以通过点击一键关闭按钮,清除已经过期或者已经被成功被接收的任务记录</div>
 
-    <button class="btn" data-placement="top" data-toggle="popover" ng-click="turnoffTask()">一键关闭</button>
+
+
 
 
     <div ng-show="!noApp" class=" hidden-xs col-lg-10  col-lg-offset-1 copy" >

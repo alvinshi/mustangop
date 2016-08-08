@@ -59,6 +59,7 @@ app.controller('doTaskCtrl', function($scope, $http) {
                 for(var i=0;i<response.allTask;i++){
                     response.allTask[i].mode = true;
                 }
+
                 $scope.disableTaskCount = response.disableTaskCount;
             }else if(taskType == 'commentTask'){
                 $scope.commentTask = $scope.commentTask.concat(response.allTask);
@@ -205,6 +206,7 @@ app.controller('doTaskCtrl', function($scope, $http) {
 
                 //TODO: 成功还是失败
                 if (response.errorId == 0){
+
 
                 }
 
