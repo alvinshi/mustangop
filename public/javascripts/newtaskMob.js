@@ -14,6 +14,12 @@ app.controller('MobControl', function($scope, $http, $location, FileUploader) {
     $http.get(claimUrl).success(function (response) {
         $scope.oneAppInfo = response.oneAppInfo;
         $scope.images = response.macTask;
+
+        if($scope.images != undefined && $scope.images.length > 0){
+            $scope.uploadImgDes = '重新上传一份任务图片: ' + $scope.uploadName;
+        }else {
+            $scope.uploadImgDes = '上传一份任务图片(2-3张)';
+        }
     });
 
     function blobToDataURI(addedFileItems, dealIndex){

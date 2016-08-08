@@ -150,14 +150,14 @@
 
     <div class="text-center ">
         <button class="btn btn-default cust2" data-toggle="modal" data-target="#mymodal" ng-hide="!normalBtnShow">
-            上传图片
+            {{uploadImgDes}}
         </button>
     </div>
 
     <div class="text-center " ng-hide="normalBtnShow">
         <a href="javascript:;"  class="a-upload form_change ">
             <input type="file" style="width: 80%" multiple nv-file-select="" ng-click="deletFile()" uploader="uploader" accept="image/*"/>
-            上传一份任务图片(2-3张)
+            {{uploadImgDes}}
         </a>
     </div>
 

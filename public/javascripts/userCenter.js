@@ -222,6 +222,7 @@ app.controller('taskHistoryCtrl', function($scope, $http){
 
 app.controller('userCenterCtrl', function($scope, $http){
     $scope.userName = true;
+    $scope.userNickname = getCookie('uploadName');
 
     var userUrl = '/user/userCenter';
     $http.get(userUrl).success(function(response){

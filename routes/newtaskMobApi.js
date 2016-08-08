@@ -24,7 +24,7 @@ router.get('/:userId', function(req, res) {
 // 内部交换
 router.get('/claim/:excTaskId', function(req, res){
     var excTaskId = req.params.excTaskId;
-    var uploadUserName = req.cookies.uploadImgName;
+    var uploadUserName = req.cookies.uploadName;
 
     var query = new AV.Query(receiveTaskObject);
     query.include('appObject');
