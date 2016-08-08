@@ -59,6 +59,7 @@ router.get('/claim/:userObjectId', function(req, res){
             appHisObject.createdAt = results[i].createdAt;
             appHisObject.excKinds = appExcHisObject.get('taskType');
             //total count
+            appHisObject.detailRem = results[i].get('detailRem');
             appHisObject.totalExcCount = results[i].get('receiveCount');
             //过期
             appHisObject.abandoned = results[i].get('expiredCount');
