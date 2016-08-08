@@ -108,9 +108,7 @@ router.get('/claim/:userObjectId', function(req, res){
                     }
 
                     var undoTask = receTaskObject.get('receiveCount') - inAppHisObject.abandoned - doTaskObjects.length;
-                    if (undoTask > 0){
-                        inAppHisObject.surplusCount = undoTask;
-                    }
+                    inAppHisObject.surplusCount = undoTask;
 
                     inAppHisObject.submitted = submitted;
                     inAppHisObject.accepted = accepted;
