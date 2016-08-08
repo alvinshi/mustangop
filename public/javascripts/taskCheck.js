@@ -22,6 +22,20 @@ app.controller('taskCheckCtrl', function($scope, $http, $location) {
         }
     });
 
+    // 一键关闭
+    $scope.turnOffTask = function(){
+        var turnUrl = '/taskCheck/turnOff';
+        $http.post(turnUrl).success(function(response){
+            $scope.errorId = response.errorId;
+            $scope.errorMsg = response.errorMsg;
+
+            location.href = '/taskCheck/';
+        })
+
+    };
+
+    // 单条任务关闭
+
 
     //************点击左侧条目控制器**********************
     $scope.check = function(app, index){
