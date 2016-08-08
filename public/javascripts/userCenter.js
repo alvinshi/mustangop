@@ -240,7 +240,7 @@ app.controller('userCenterCtrl', function($scope, $http){
             $scope.errorMsg = response.errorMsg;
             if (response.errorId == 0){
                 //return to my App
-                location.href='/user';
+                //location.href='/user';
             }
         })
     };

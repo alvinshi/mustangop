@@ -16,8 +16,6 @@ app.controller('itunesSearchControl', function($scope, $http) {
         $scope.usermoney = response.usermoney;
     });
 
-    $scope.numOfApps = 10;//默认不显示 + 号App
-
     //************* Helper Function ********************
     //请求每个任务的任务需求, function封装
     function getDemand(){
@@ -59,7 +57,7 @@ app.controller('itunesSearchControl', function($scope, $http) {
 
     //**************页面载入变量初始************************
     $scope.isLoadingMyApp = true;
-    $scope.numOfApps = undefined;
+    $scope.numOfApps = 10;  // > 5 不显示+号
     $scope.selectedApp = undefined;
     $scope.saved = false;
 
@@ -94,11 +92,12 @@ app.controller('itunesSearchControl', function($scope, $http) {
     //搜索App
     var progressTimerHandle = undefined;
     $scope.progressNum = 0;
+    var searchLocked = false;
 
     $scope.searchApp = function(){
         $scope.isError = 0;
 
-        if ($scope.searchUrl != ''){
+        if ($scope.searchUrl != '' && searchLocked == false){
 
             var searchUrl = 'api/itunes/search/' + $scope.searchKey;
             $scope.progressNum = 100;
@@ -110,9 +109,10 @@ app.controller('itunesSearchControl', function($scope, $http) {
             //progressTimerHandle = setTimeout(timerFunc(), 1);
 
             console.log('--------- searchApp searchApp');
-
+            searchLocked = true;
             $http.get(searchUrl).success(function(response){
 
+                searchLocked = false;
                 console.log('searchApp' + response);
 
                 $scope.appResults = response.appResults;
