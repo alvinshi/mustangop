@@ -192,7 +192,7 @@ router.post('/closeTask/:userObjectId', function(req, res){
 
 
                     var userDoneTask = doTaskCount + userUploadTaskObject.get('expiredCount'); // 做完的 加 过期的
-                    if (userDoneTask == userRecCount){
+                    if (userDoneTask >= userRecCount){
                         userUploadTaskObject.set('close', true);
                         // 判断过期和做完的任务 等不等于总数 等于总数就set
                     }
@@ -218,7 +218,7 @@ router.post('/closeTask/:userObjectId', function(req, res){
                             if (successNub == userReceiveObjects.length){
                                 res.json({'errorId': 0, 'errorMsg':'一键关闭成功'})
                             }else {
-                                res.json({'errorId': 1, 'errorMsg':'一键关闭失败'})
+                                res.json({'errorId': error.code, 'errorMsg':error.message})
                             }
                         }
                     });
@@ -229,7 +229,7 @@ router.post('/closeTask/:userObjectId', function(req, res){
                         if (successNub == userReceiveObjects.length){
                             res.json({'errorId': 0, 'errorMsg':'一键关闭成功'})
                         }else {
-                            res.json({'errorId': 1, 'errorMsg':'一键关闭失败'})
+                            res.json({'errorId': error.code, 'errorMsg':error.message})
                         }
 
                     }
