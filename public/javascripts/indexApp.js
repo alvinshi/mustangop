@@ -12,6 +12,7 @@ app.directive("thNav",function(){
 
             loadNav();
             $scope.userObjectId = getCookie('userIdCookie');
+
             //用户+拒绝任务相关
             $http.get(indexUrl).success(function(response){
                 $scope.refusedCount = response.refusedCount;
