@@ -162,6 +162,8 @@ app.controller('MobControl', function($scope, $http, $location, FileUploader) {
         if ($scope.uploadName != undefined && $scope.uploadName.length > 0) {
             $scope.uploadNameError = '';
             $scope.normalBtnShow = 0;
+            setCookie('uploadName', $scope.uploadName);
+            console.log('save do task nickname succeed', $scope.uploadName);
         }else {
             $scope.uploadNameError = '昵称不能为空';
         }

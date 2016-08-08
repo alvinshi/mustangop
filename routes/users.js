@@ -152,6 +152,8 @@ router.post('/userCenter',function(req, res){
     res.cookie('username', user.get('username'), { maxAge: 1000*60*60*24*30, path:'/'});
     if (userNickname != undefined && userNickname != ''){
       res.cookie('username',userNickname);
+      res.cookie('uploadName', userNickname);
+      console.log('service ----- save do task nickname succeed', userNickname);
     }
 
     res.json({'errorId':0, 'errorMsg':''});
