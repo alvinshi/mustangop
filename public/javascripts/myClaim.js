@@ -7,7 +7,8 @@ var app = angular.module('yemaWebApp', []);
 var navIndex = 2;
 
 app.controller('myClaimControl', function($scope, $http, $location){
-    $scope.noApp = true;
+    $scope.noApp = false;
+    $scope.isLoadingMyApp = true;
 
     //$scope.hideContent=true;
     var appurlList = $location.absUrl().split('/');
@@ -17,7 +18,7 @@ app.controller('myClaimControl', function($scope, $http, $location){
 
 
     $http.get(todayUrl).success(function(response){
-
+        $scope.isLoadingMyApp = false;
         $scope.dailyTask = response.myClaimApps;
         for (var i = 0; i < response.myClaimApps.length; i++){
             response.myClaimApps[i].mode = true;
@@ -25,8 +26,10 @@ app.controller('myClaimControl', function($scope, $http, $location){
             console.log(response.myClaimApps[i].rejected);
         }
 
-        if($scope.dailyTask.length>0){
-            $scope.noApp=false;
+        if($scope.dailyTask.length > 0){
+            $scope.noApp = false;
+        }else {
+            $scope.noApp = true;
         }
 
 
@@ -34,7 +37,7 @@ app.controller('myClaimControl', function($scope, $http, $location){
     $scope.copy = $location.absUrl();
 
    //重新填写备注
-    $scope.reAssign=function(app){
+    $scope.reAssign = function(app){
         app.mode = false;
         console.log("changed");
 
@@ -47,7 +50,7 @@ app.controller('myClaimControl', function($scope, $http, $location){
         var saveurl = '/myClaim/saveRemark/' + userId;
         $http.post(saveurl,{"remark":detailRem, 'taskObjectId': taskObjectId}).success(
             function(response){
-                app.mode=true;
+                app.mode = true;
             }
         )
     };

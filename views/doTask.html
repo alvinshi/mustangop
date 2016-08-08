@@ -16,6 +16,7 @@
     <script src="//cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 
     <link rel="stylesheet" href="/stylesheets/vendor/hover/hover-min.css">
+    <link rel="stylesheet" href="../stylesheets/loading.css">
     <script src="/javascripts/vendor/scrollreveal.min.js"></script>
 
     <!--网站内部js-->
@@ -336,12 +337,13 @@
 
             <!--评论的任务-->
             <div role="tabpanel" class="tab-pane" id="comment">
-                <div class="spinner" ng-hide="!isLoadingMyApp">
-                    <div class="double-bounce1"></div>
-                    <div class="double-bounce2"></div>
 
-                </div>
                 <div class="taskPanel" ng-repeat="app in commentTask">
+                    <div class="spinner" ng-hide="!isLoadingMyApp">
+                        <div class="double-bounce1"></div>
+                        <div class="double-bounce2"></div>
+
+                    </div>
                     <table style="width: 1010px;">
                         <tr>
                             <td style="padding: 24px 30px 24px 30px; width: 160px;">
@@ -520,6 +522,7 @@
 
                 </div>
                 <div ng-show="commentTask == undefined || commentTask.length == 0">
+
                     <h1 style="text-align: center; margin-top: 150px; margin-bottom: 150px;">今天还没有新的评论任务</h1>
                 </div>
                 <div style="margin-top: 30px; margin-bottom: 30px; text-align: center;">
@@ -532,12 +535,11 @@
 
             <!--下载的-->
             <div role="tabpanel" class="tab-pane" id="download">
-                <div class="spinner" ng-hide="!isLoadingMyApp">
-                    <div class="double-bounce1"></div>
-                    <div class="double-bounce2"></div>
-
-                </div>
                 <div class="taskPanel" ng-repeat="app in downTask">
+                    <div class="spinner" ng-hide="!isLoadingMyApp">
+                        <div class="double-bounce1"></div>
+                        <div class="double-bounce2"></div>
+                    </div>
                     <table style="width: 1010px;">
                         <tr>
                             <td style="padding: 24px 30px 24px 30px; width: 160px;">
@@ -736,6 +738,7 @@
                     <div class="double-bounce2"></div>
 
                 </div>
+
                 <div class="taskPanel" ng-repeat="app in inactiveTask">
                     <table style="width: 1010px;">
                         <tr>
