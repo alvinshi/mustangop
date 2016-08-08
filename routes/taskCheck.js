@@ -412,7 +412,7 @@ router.post('/turnOff', function(req, res){
         for (var i = 0; i < releaseTaskObjects.length; i++){
             var releaseCount = releaseTaskObjects[i].get('excCount');
 
-            (function(temReceiveTaskObject, releaseCount){
+            (function(temReceiveTaskObject, tempReleaseCount){
                 var receiveQuery = new AV.Query(receiveTaskObject);
                 receiveQuery.equalTo('taskObject', temReceiveTaskObject);
                 receiveQuery.limit(1000);
@@ -421,13 +421,13 @@ router.post('/turnOff', function(req, res){
                     for (var e = 0; e < recTaskObjects.length; e++){
                         var expiredCount = recTaskObjects[e].get('expiredCount');
 
-                        (function(doTaskObject, expiredcount, releaseCount){
+                        (function(doTaskObject, expiredcount, temptempReleaseCount){
                             var relation = doTaskObject.relation('mackTask');
                             var queryUpload = relation.query();
                             queryUpload.containedIn('taskStatus', ['accepted', 'systemAccepted', 'expired']);
                             queryUpload.limit(1000);
                             queryUpload.count().then(function(finishCount){
-                                if (releaseCount == expiredcount + finishCount){
+                                if (temptempReleaseCount == expiredcount + finishCount){
                                     temReceiveTaskObject.set('close', true);
                                     needSaveReleaseTaskList.push(temReceiveTaskObject);
                                 }
@@ -442,7 +442,7 @@ router.post('/turnOff', function(req, res){
                                     allSave();
                                 }
                             })
-                        })(recTaskObjects[e], expiredCount, releaseCount)
+                        })(recTaskObjects[e], expiredCount, tempReleaseCount)
                     }
                 })
             })(releaseTaskObjects[i], releaseCount)
