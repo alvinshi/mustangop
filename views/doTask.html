@@ -120,7 +120,7 @@
                         <tr>
                             <td style="padding: 24px 30px 24px 30px; width: 160px;position: relative">
                                 <img ng-src="{{ app.artworkUrl100 }}" class="appIcon" >
-                                <div class="choose" ng-show="app.mode" ng-click="filtrateApp()">版本已换</div>
+                                <div class="choose" ng-show="app.mode" ng-click="filtrateApp(app)">标记已换</div>
 
                             </td>
                             <td style="width: 500px;">
@@ -153,11 +153,11 @@
                                     我的发布
                                 </button>
                             </td>
-                            <!--<td   style="padding-right: 40px;">-->
-                                <!--<button class="haschange">-->
-                                    <!--本版本已交换过-->
-                                <!--</button>-->
-                            <!--</td>-->
+                            <td   style="padding-right: 40px;">
+                                <button  class="haschange" ng-show="app.hasChanged">
+                                    本版本已交换过
+                                </button>
+                            </td>
                         </tr>
                     </table>
                     <hr style="margin:0; border-color: #dddddd;">
