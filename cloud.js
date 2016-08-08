@@ -85,8 +85,8 @@ AV.Cloud.define('hello', function(request, response) {
 function getTaskCheckQuery(){
     var nowTimestamp = new Date().getTime();
     //早10点审核 前天下午6点前接受的任务
-    //var yesterdayTimestamp = nowTimestamp - 1000*60*60*16;
-    var yesterdayTimestamp = nowTimestamp;    //test
+    var yesterdayTimestamp = nowTimestamp - 1000*60*60*16;
+    //var yesterdayTimestamp = nowTimestamp;    //test
     var yesterdayDate = new Date(yesterdayTimestamp);
 
     var query = new AV.Query(receiveTaskObject);
@@ -276,8 +276,8 @@ AV.Cloud.define('refuseTaskTimerForRelease', function(request, response){
     function getRefuseDoTaskQuery(){
         var nowTimestamp = new Date().getTime();
         //早11点审核 前天下午6点前被拒绝的任务有没有重新提交
-        //var yesterdayTimestamp = nowTimestamp - 1000*60*60*17;
-        var yesterdayTimestamp = nowTimestamp;  //test
+        var yesterdayTimestamp = nowTimestamp - 1000*60*60*17;
+        //var yesterdayTimestamp = nowTimestamp;  //test
         var yesterdayDate = new Date(yesterdayTimestamp);
 
         var refuseDoTaskquery = new AV.Query(mackTaskInfoObject);
