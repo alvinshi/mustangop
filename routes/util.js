@@ -21,6 +21,8 @@ exports.postFile = function (req, res) {
         var base64dataList = Array();
         var pubFileNameList = Array();
         var pubMimeTypeList = Array();
+        var promiseIndex = 0;
+
         req.busboy.on('file', function (fieldName, file, fileName, encoding, mimeType) {
             var buffer = '';
             file.setEncoding('base64');
@@ -34,7 +36,6 @@ exports.postFile = function (req, res) {
         }).on('finish', function() {
 
             var totalData = base64dataList.length;
-            var promiseIndex = 0;
             var fileUrlList = Array();
 
             for (var i = 0; i < base64dataList.length; i++){
