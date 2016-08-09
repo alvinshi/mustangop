@@ -194,9 +194,9 @@ router.get('/taskAudit', function(req, res){
                                 }
 
                                 counter++;
+                                tempAppInfoObject.submissions.push(tempSubmission);
 
                                 if (counter == promise){
-                                    tempAppInfoObject.submissions.push(tempSubmission);
                                     retApps.push(tempAppInfoObject);
                                     counterForReceive++;
                                     tryReturn(0, '');

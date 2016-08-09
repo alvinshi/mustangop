@@ -60,7 +60,10 @@
                 <hr>
                 <div ng-repeat="app in taskAudit">
                     <div ng-class="{true :'icon1 selected', false :'icon1'}[$index == taskIndex]" ng-click="check(app, $index)">
-                        <img ng-src="{{app.artworkUrl100}}" alt="">
+                        <span style="position: relative">
+                            <img ng-src="{{app.artworkUrl100}}" alt="">
+                            <span ng-hide='app.totalSubmited == 0' style="position:absolute; left: -5px; top: -15px; padding: 0 4px 0 4px; border-radius: 3px; background-color: #eb3030; color: white">{{app.totalSubmited}}</span>
+                        </span>
                         <span style="margin:10px 17px 0 17px; font-size:16px;">{{app.taskType}}</span>
                         <span ng-show='app.cancelled == true && app.completed == 0' class='taskStatus' style="background-color: #eb3030">已撤销</span>
                         <span ng-show='app.completed == 1' class='taskStatus'  style="background-color: #00ee00">已完成</span>
