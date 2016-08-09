@@ -9,12 +9,12 @@ app.controller('taskCheckCtrl', function($scope, $http, $location) {
     //**************得到左侧控制器条目*******************
     var taskUrl = '/taskCheck/taskAudit';
     $http.get(taskUrl).success(function(response){
+        $scope.isLoadingMyApp = false;
         $scope.taskAudit = response.taskAudit;
         if ($scope.taskAudit.length > 0){
             //初始显示返回的第一个
             $scope.taskIndex = 0;
             $scope.taskDisplayed = $scope.taskAudit[0];
-            $scope.isLoadingMyApp = false;
         }
         else {
             //如果没有返回值, 需要在前端显示按钮
