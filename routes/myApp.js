@@ -13,7 +13,7 @@ var IOSAppSql = AV.Object.extend('IOSAppInfo');
 var IOSAppBinder = AV.Object.extend('IOSAppBinder');
 var IOSAppInfoSQL = AV.Object.extend('IOSAppInfo');
 var IOSAppExcLogger = AV.Object.extend('IOSAppExcLogger');
-var taskDemandObject = AV.Object.extend('taskDemandObject');
+var taskDemandSQL = AV.Object.extend('taskDemandObject');
 var releaseTaskObject = AV.Object.extend('releaseTaskObject');
 var accountJournal = AV.Object.extend('accountJournal'); // 记录账户变动明细表
 var messageLogger = AV.Object.extend('messageLogger');
@@ -485,7 +485,7 @@ router.post('/taskneed/:appObjectId', function(req, res){
 
         if (taskDemandObject == undefined){
             //第一次保存需求
-            taskDemandObject = new taskDemandObject();
+            taskDemandObject = new taskDemandSQL();
             dealIOSAppBilderObject.set('taskDemand', taskDemandObject);
         }
 
