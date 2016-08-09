@@ -62,7 +62,7 @@ router.get('/claim/:excTaskId', function(req, res){
         if (uploadUserName != undefined){
             var relation = resultObject.relation('mackTask');
             var task_query = relation.query();
-            //task_query.equalTo('uploadName', uploadUserName);
+            task_query.equalTo('uploadName', uploadUserName);
             task_query.notEqualTo('taskStatus', 'expired');
             task_query.find().then(function(result){
                 var mackTaskList = Array();
@@ -71,14 +71,11 @@ router.get('/claim/:excTaskId', function(req, res){
                 retObject.surplusCount = resultObject.get('receiveCount') - resultObject.get('expiredCount') - result.length;
 
                 for (var e = 0; e < result.length; e++){
-                    if (uploadUserName == result[e].get('uploadName')){
-                        retObject.uploadName = result[e].get('uploadName');
-
-                        var taskImages = result[e].get('requirementImgs');
-                        for (var w = 0; w < taskImages.length; w++){
-                            var taskImage = taskImages[w];
-                            mackTaskList.push(taskImage);
-                        }
+                    retObject.uploadName = result[e].get('uploadName');
+                    var taskImages = result[e].get('requirementImgs');
+                    for (var w = 0; w < taskImages.length; w++){
+                        var taskImage = taskImages[w];
+                        mackTaskList.push(taskImage);
                     }
                 }
                 res.json({'oneAppInfo':retObject, 'macTask':mackTaskList})
