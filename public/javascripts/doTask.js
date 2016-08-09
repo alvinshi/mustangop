@@ -224,6 +224,8 @@ app.controller('doTaskCtrl', function($scope, $http) {
                     currentApp.errorMsg = response.errorMsg;
                     currentApp.isGetingTask = false;
                 }else {
+                    //需要通知系统才可以,不在一个contoroller里的
+                    //$scope.refusedCount += currentApp.receiveCount;
                     currentApp.errorMsg = '';
                 }
 

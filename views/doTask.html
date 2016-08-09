@@ -130,7 +130,10 @@
 
                             </td>
                             <td style="width: 500px;">
-                                <p class="appName">{{ app.trackName }}</p>
+                                <p class="appName">
+                                    <span class="label label-info" ng-show="app.isNewVersion">版本已更新</span>
+                                    {{ app.trackName }}
+                                </p>
                                 <div>
                                     <span class="infoBubble">{{ app.taskType }}</span>
                                     <span class="infoBubble">剩余: <span style="color:#53d435">{{ app.remainCount }}</span> 条</span>
