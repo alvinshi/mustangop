@@ -117,7 +117,7 @@
     background: #f4f4f4;
     height: 50px;
     padding-left:28px;
-    padding-top: 2px;
+    padding-top: 7px;
 }
 
 .selected{
@@ -126,11 +126,11 @@
     background: white;
     height: 50px;
     padding-left: 28px;
-    padding-top: 2px;
+    padding-top: 7px;
 }
 
 .icon1 > img{
-    width: 28px;
+    width: 36px;
     border: 1px solid #e0e0e0;
     display: inline-block;
     border-radius: 4px;
@@ -232,4 +232,23 @@ h3{
 .synwords{
     color: #fff727;
     font-size: 20px;
+}
+
+.oneTaskClose{
+    float: right;
+    font-size: 1.5em;
+    margin-top: -10px;
+    margin-right: 5px;
+    cursor: hand;
+}
+
+.oneTaskClose:hover{
+    color: #7a7a7a;
+}
+
+.taskStatus{
+    padding: 3px 5px 3px 5px;
+    font-size: 12px;
+    color: white;
+    border-radius: 4px;
 }
