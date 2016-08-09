@@ -183,41 +183,44 @@ router.post('/closeTask/:userObjectId', function(req, res){
         var queryIndex = 0;
         //var successNub = 0;
         var userFinishTaskList = [];
-        for (var i = 0; i < userReceiveObjects.length; i++){
-            var userReceiveCount = userReceiveObjects[i].get('receiveCount');
+        if (userReceiveObjects.length == 0 || userReceiveObjects == undefined){
+            res.json({'errorId': 1, 'errorMsg':'数据异常,没有任务可关闭'})
+        }else {
+            for (var i = 0; i < userReceiveObjects.length; i++){
+                var userReceiveCount = userReceiveObjects[i].get('receiveCount');
 
-            (function(userUploadTaskObject, userRecCount){
-                var relation = userUploadTaskObject.relation('mackTask');
-                var queryUpload = relation.query();
-                queryUpload.containedIn('taskStatus', ['accepted', 'systemAccepted']);
-                queryUpload.limit(1000);
-                queryUpload.count().then(function(doTaskCount){
+                (function(userUploadTaskObject, userRecCount){
+                    var relation = userUploadTaskObject.relation('mackTask');
+                    var queryUpload = relation.query();
+                    queryUpload.containedIn('taskStatus', ['accepted', 'systemAccepted']);
+                    queryUpload.limit(1000);
+                    queryUpload.count().then(function(doTaskCount){
 
 
-                    var userDoneTask = doTaskCount + userUploadTaskObject.get('expiredCount'); // 做完的 加 过期的
-                    if (userDoneTask >= userRecCount){
-                        userUploadTaskObject.set('close', true);
-                        userFinishTaskList.push(userUploadTaskObject);
-                        // 判断过期和做完的任务 等不等于总数 等于总数就set
-                    }
-                    queryIndex = queryIndex + 1;
-                    //successNub = successNub + 1;
+                        var userDoneTask = doTaskCount + userUploadTaskObject.get('expiredCount'); // 做完的 加 过期的
+                        if (userDoneTask >= userRecCount){
+                            userUploadTaskObject.set('close', true);
+                            userFinishTaskList.push(userUploadTaskObject);
+                            // 判断过期和做完的任务 等不等于总数 等于总数就set
+                        }
+                        queryIndex = queryIndex + 1;
+                        //successNub = successNub + 1;
 
-                    // 相当于一个计数 和查出来的总数比较 如果相等 就返回
-                    if (queryIndex == userReceiveObjects.length){
-                        saveAll();
-                    }
-                },function(error){
-                    //
-                    queryIndex = queryIndex + 1;
-                    if (queryIndex == userReceiveObjects.length){
-                        saveAll();
-                    }
-                })
-            })(userReceiveObjects[i], userReceiveCount)
+                        // 相当于一个计数 和查出来的总数比较 如果相等 就返回
+                        if (queryIndex == userReceiveObjects.length){
+                            saveAll();
+                        }
+                    },function(error){
+                        //
+                        queryIndex = queryIndex + 1;
+                        if (queryIndex == userReceiveObjects.length){
+                            saveAll();
+                        }
+                    })
+                })(userReceiveObjects[i], userReceiveCount)
 
+            }
         }
-
         function saveAll(){
             // 最后统一保存
             if (userFinishTaskList.length == 0 || userFinishTaskList == undefined){

@@ -556,51 +556,49 @@ router.post('/turnOff', function(req, res){
     query.descending('createdAt');
     query.find().then(function(releaseTaskObjects){
         var queryIndex = 0;
-
-        //var totalCount = 0;
-        //for (var j = 0; j < releaseTaskObjects.length; j++){
-        //    totalCount = totalCount+releaseTaskObjects[j].get('excCount');
-        //}
-
         var needSaveReleaseTaskList = [];
 
-        for (var i = 0; i < releaseTaskObjects.length; i++){
-            var releaseCount = releaseTaskObjects[i].get('excCount');
+        if (releaseTaskObjects.length == 0 || releaseTaskObjects == undefined){
+            sendRes('数据异常,没有任务可以关闭', 1)
+        }else {
+            for (var i = 0; i < releaseTaskObjects.length; i++){
+                var releaseCount = releaseTaskObjects[i].get('excCount');
 
-            (function(temReceiveTaskObject, tempReleaseCount){
-                var receiveQuery = new AV.Query(receiveTaskObject);
-                receiveQuery.equalTo('taskObject', temReceiveTaskObject);
-                receiveQuery.limit(1000);
-                receiveQuery.descending('createdAt');
-                receiveQuery.find().then(function(recTaskObjects){
-                    for (var e = 0; e < recTaskObjects.length; e++){
-                        var expiredCount = recTaskObjects[e].get('expiredCount');
+                (function(temReceiveTaskObject, tempReleaseCount){
+                    var receiveQuery = new AV.Query(receiveTaskObject);
+                    receiveQuery.equalTo('taskObject', temReceiveTaskObject);
+                    receiveQuery.limit(1000);
+                    receiveQuery.descending('createdAt');
+                    receiveQuery.find().then(function(recTaskObjects){
+                        for (var e = 0; e < recTaskObjects.length; e++){
+                            var expiredCount = recTaskObjects[e].get('expiredCount');
 
-                        (function(doTaskObject, expiredcount, temptempReleaseCount){
-                            var relation = doTaskObject.relation('mackTask');
-                            var queryUpload = relation.query();
-                            queryUpload.containedIn('taskStatus', ['accepted', 'systemAccepted', 'expired']);
-                            queryUpload.limit(1000);
-                            queryUpload.count().then(function(finishCount){
-                                if (temptempReleaseCount == expiredcount + finishCount){
-                                    temReceiveTaskObject.set('close', true);
-                                    needSaveReleaseTaskList.push(temReceiveTaskObject);
-                                }
-                                queryIndex = queryIndex + 1;
+                            (function(doTaskObject, expiredcount, temptempReleaseCount){
+                                var relation = doTaskObject.relation('mackTask');
+                                var queryUpload = relation.query();
+                                queryUpload.containedIn('taskStatus', ['accepted', 'systemAccepted', 'expired']);
+                                queryUpload.limit(1000);
+                                queryUpload.count().then(function(finishCount){
+                                    if (temptempReleaseCount == expiredcount + finishCount){
+                                        temReceiveTaskObject.set('close', true);
+                                        needSaveReleaseTaskList.push(temReceiveTaskObject);
+                                    }
+                                    queryIndex = queryIndex + 1;
 
-                                if (queryIndex == releaseTaskObjects.length){
-                                    allSave();
-                                }
-                            },function(error){
-                                queryIndex = queryIndex + 1;
-                                if (queryIndex == releaseTaskObjects.length){
-                                    allSave();
-                                }
-                            })
-                        })(recTaskObjects[e], expiredCount, tempReleaseCount)
-                    }
-                })
-            })(releaseTaskObjects[i], releaseCount)
+                                    if (queryIndex == releaseTaskObjects.length){
+                                        allSave();
+                                    }
+                                },function(error){
+                                    queryIndex = queryIndex + 1;
+                                    if (queryIndex == releaseTaskObjects.length){
+                                        allSave();
+                                    }
+                                })
+                            })(recTaskObjects[e], expiredCount, tempReleaseCount)
+                        }
+                    })
+                })(releaseTaskObjects[i], releaseCount)
+            }
         }
 
         function allSave(){
@@ -614,12 +612,10 @@ router.post('/turnOff', function(req, res){
                     sendRes(error.message, error.code);
                 })
             }
-
         }
 
     },function(error){
         sendRes(error.message, error.code);
-        //res.json({'errorMsg':error.message, 'errorId': error.code});
     });
 
     function sendRes(errorMsg,errorId){
@@ -635,38 +631,41 @@ router.post('/turnOffOneTask', function(req, res){
     var query = new AV.Query(releaseTaskObject);
     query.get(taskId).then(function(taskObject){
         var releaseCount = taskObject.get('excCount');
+        if(taskObject.length == 0 || taskObject == undefined){
+            sendRes('数据异常,没有可关闭的任务', 1)
+        }else {
+            (function(temTaskObject){
+                var receiveQuery = new AV.Query(receiveTaskObject);
+                receiveQuery.equalTo('taskObject', temTaskObject);
+                receiveQuery.limit(1000);
+                receiveQuery.descending('createdAt');
+                receiveQuery.find().then(function(recTaskObjects){
+                    for (var e = 0; e < recTaskObjects.length; e++){
+                        var expiredCount = recTaskObjects[e].get('expiredCount');
 
-        (function(temTaskObject){
-            var receiveQuery = new AV.Query(receiveTaskObject);
-            receiveQuery.equalTo('taskObject', temTaskObject);
-            receiveQuery.limit(1000);
-            receiveQuery.descending('createdAt');
-            receiveQuery.find().then(function(recTaskObjects){
-                for (var e = 0; e < recTaskObjects.length; e++){
-                    var expiredCount = recTaskObjects[e].get('expiredCount');
+                        (function(doTaskObject, expiredcount, releaseCount){
+                            var relation = doTaskObject.relation('mackTask');
+                            var queryUpload = relation.query();
+                            queryUpload.containedIn('taskStatus', ['accepted', 'systemAccepted', 'expired']);
+                            queryUpload.limit(1000);
+                            queryUpload.count().then(function(finishCount){
+                                if (releaseCount == expiredcount + finishCount){
+                                    temTaskObject.set('close', true);
+                                    temTaskObject.save();
+                                    //res.json({'errorId': 0, 'errorMsg':'关闭成功'})
+                                    sendRes('关闭成功',0)
+                                }else {
+                                    sendRes('任务没有完成', 1);
+                                }
+                            },function(error){
+                                sendRes(error.errorMsg,error.errorId)
+                            })
+                        })(recTaskObjects[e], expiredCount, releaseCount)
+                    }
 
-                    (function(doTaskObject, expiredcount, releaseCount){
-                        var relation = doTaskObject.relation('mackTask');
-                        var queryUpload = relation.query();
-                        queryUpload.containedIn('taskStatus', ['accepted', 'systemAccepted', 'expired']);
-                        queryUpload.limit(1000);
-                        queryUpload.count().then(function(finishCount){
-                            if (releaseCount == expiredcount + finishCount){
-                                temTaskObject.set('close', true);
-                                temTaskObject.save();
-                                //res.json({'errorId': 0, 'errorMsg':'关闭成功'})
-                                sendRes('关闭成功',0)
-                            }else {
-                                sendRes('任务没有完成', 1);
-                            }
-                        },function(error){
-                            sendRes(error.errorMsg,error.errorId)
-                        })
-                    })(recTaskObjects[e], expiredCount, releaseCount)
-                }
-
-            })
-        })(taskObject, releaseCount)
+                })
+            })(taskObject, releaseCount)
+        }
 
     },function(error){
         //res.json({'errorMsg':error.message, 'errorId': error.code});
