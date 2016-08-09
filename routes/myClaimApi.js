@@ -183,7 +183,7 @@ router.post('/closeTask/:userObjectId', function(req, res){
         var queryIndex = 0;
         //var successNub = 0;
         var userFinishTaskList = [];
-        if (userReceiveObjects.length == 0 || userReceiveObjects == undefined){
+        if (userReceiveObjects == undefined || userReceiveObjects.length == 0){
             res.json({'errorId': 1, 'errorMsg':'数据异常,没有任务可关闭'})
         }else {
             for (var i = 0; i < userReceiveObjects.length; i++){
@@ -193,9 +193,7 @@ router.post('/closeTask/:userObjectId', function(req, res){
                     var relation = userUploadTaskObject.relation('mackTask');
                     var queryUpload = relation.query();
                     queryUpload.containedIn('taskStatus', ['accepted', 'systemAccepted']);
-                    queryUpload.limit(1000);
                     queryUpload.count().then(function(doTaskCount){
-
 
                         var userDoneTask = doTaskCount + userUploadTaskObject.get('expiredCount'); // 做完的 加 过期的
                         if (userDoneTask >= userRecCount){
@@ -221,23 +219,23 @@ router.post('/closeTask/:userObjectId', function(req, res){
 
             }
         }
-        function saveAll(){
-            // 最后统一保存
-            if (userFinishTaskList.length == 0 || userFinishTaskList == undefined){
-                res.json({'errorId': 1, 'errorMsg':'没有任务可关闭'})
-            }else {
-                AV.Object.saveAll(userFinishTaskList).then(function(){
-                    res.json({'errorId': 0, 'errorMsg':'一键关闭成功'})
-
-                },function(error){
-                    res.json({'errorMsg':error.message, 'errorId': error.code});
-                });
-            }
-        }
     },function(error){
         res.json({'errorMsg':error.message, 'errorId': error.code});
-    })
+    });
 
+    function saveAll(){
+        // 最后统一保存
+        if (userFinishTaskList.length == 0 || userFinishTaskList == undefined){
+            res.json({'errorId': 1, 'errorMsg':'没有任务可关闭'})
+        }else {
+            AV.Object.saveAll(userFinishTaskList).then(function(){
+                res.json({'errorId': 0, 'errorMsg':'一键关闭成功'})
+
+            },function(error){
+                res.json({'errorMsg':error.message, 'errorId': error.code});
+            });
+        }
+    }
 });
 
 
