@@ -16,6 +16,7 @@
 
     <link rel="stylesheet" href="/stylesheets/vendor/hover/hover-min.css">
     <link rel="stylesheet" href="/stylesheets/taskCheck.css">
+    <link rel="stylesheet" href="../stylesheets/loading.css">
 
     <!--网站内部js-->
 
@@ -44,7 +45,13 @@
 </div>
 
 <div ng-controller="taskCheckCtrl" style="margin-top: 100px">
-    <div ng-show="noApp">
+    <div class="spinner" ng-hide="!isLoadingMyApp">
+        <div class="double-bounce1"></div>
+        <div class="double-bounce2"></div>
+    </div>
+    <div style="width:400px;margin: auto;font-size: 24px;margin-bottom: 100px" ng-hide="!isLoadingMyApp">正在请求你所发布任务的最新信息...</div>
+
+    <div ng-show="!isLoadingMyApp && taskAudit.length == 0">
         <div style="text-align: center;">
             <img style="margin-top: 100px;" src="../images/horse.png">
         </div>
@@ -55,7 +62,10 @@
             <div class="col-lg-2 change" style="background: #f4f4f4; padding-top:60px; padding-left:0; padding-right:0;" >
                 <div style="text-align:center;">
                     <div  style="font-size: 20px;">任务列表</div>
-                    <button class="btn cancel" style='margin-top: 10px;' ng-click="turnOffTask()" ng-show="taskAudit.length > 4">一键关闭</button>
+                    <button class="btn cancel" style='margin-top: 10px; width: 110px' ng-click="turnOffTask()" ng-show="taskAudit.length > 4"
+                            data-toggle="tooltip" data-placement="bottom" title="此按钮用于移除全部通过或活过期的无效任务记录">
+                        清除已结束任务
+                    </button>
                 </div>
                 <hr>
                 <div ng-repeat="app in taskAudit">
@@ -65,9 +75,9 @@
                             <span ng-hide='app.totalSubmited == 0' style="position:absolute; left: -5px; top: -15px; padding: 0 4px 0 4px; border-radius: 3px; background-color: #eb3030; color: white">{{app.totalSubmited}}</span>
                         </span>
                         <span style="margin:10px 17px 0 17px; font-size:16px;">{{app.taskType}}</span>
-                        <span ng-show='app.cancelled == true && app.completed == 0' class='taskStatus' style="background-color: #eb3030">已撤销</span>
-                        <span ng-show='app.completed == 1' class='taskStatus'  style="background-color: #00ee00">已完成</span>
-                        <span ng-show='app.completed == 0 && app.cancelled == false' class='taskStatus'  style="background-color: #3498db">进行中</span>
+                        <span ng-show='app.cancelled == true && app.totalTimeout + app.totalAccepted != app.excCount' class='taskStatus' style="background-color: #eb3030">已撤销</span>
+                        <span ng-show='app.totalTimeout + app.totalAccepted == app.excCount' class='taskStatus'  style="background-color: #00ee00">已完成</span>
+                        <span ng-show='app.totalTimeout + app.totalAccepted != app.excCount && app.cancelled == false' class='taskStatus'  style="background-color: #3498db">进行中</span>
                     </div>
                 </div>
             </div><!--左边侧边栏-->
@@ -91,17 +101,17 @@
                                         </div>
                                     </div>
                                     <div class="col-lg-4" style="padding-top: 10px;">
-                                        <button ng-show='(!taskDisplayed.cancelled) && (taskDisplayed.completed == 0) && (taskDisplayed.remainCount != 0)'
+                                        <button ng-show='(!taskDisplayed.cancelled) && (taskDisplayed.totalTimeout + taskDisplayed.totalAccepted != taskDisplayed.excCount) && (taskDisplayed.remainCount != 0)'
                                                 class="btn cancel" data-target="#cancelTask" data-toggle="modal">
                                             撤销任务
                                         </button>
-                                        <button ng-show='taskDisplayed.cancelled && taskDisplayed.completed == 0' class="btn cancelled">
+                                        <button ng-show='taskDisplayed.cancelled && (taskDisplayed.totalTimeout + taskDisplayed.totalAccepted != taskDisplayed.excCount)' class="btn cancelled">
                                             已撤销
                                         </button>
-                                        <button ng-show='taskDisplayed.completed == 1' class="btn completed">
+                                        <button ng-show='taskDisplayed.totalTimeout + taskDisplayed.totalAccepted == taskDisplayed.excCount' class="btn completed">
                                             已完成
                                         </button>
-                                        <button ng-show='taskDisplayed.remainCount == 0 && taskDisplayed.completed == 0' class="btn noRemain">
+                                        <button ng-show='taskDisplayed.remainCount == 0 && (taskDisplayed.totalTimeout + taskDisplayed.totalAccepted != taskDisplayed.excCount)' class="btn noRemain">
                                             已领完
                                         </button>
 
@@ -129,18 +139,7 @@
                                             </div>
                                         </div>
 
-                                        <span class="glyphicon glyphicon-remove oneTaskClose" ng-click="oneTaskOff(taskDisplayed.taskId)"></span>
-                                        <!--button class="but" ng-click="oneTaskOff(taskDisplayed.taskId)" data-target="#errorMsg" data-toggle="modal">关闭任务</button-->
-                                        <!--<div class="modal fade" id="errorMsg">-->
-                                            <!--<div class="modal-dialog">-->
-                                                <!--<div class="modal-content" style="width: 320px;">-->
-                                                    <!--<div class="modal-header" style="height: 74px;background-color:#6eb7e8;border-radius:4px;text-align: center">-->
-                                                        <!--<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>-->
-                                                        <!--<h4 class="modal-title" >{{errorMsg}}</h4>-->
-                                                    <!--</div>-->
-                                                <!--</div>&lt;!&ndash; /.modal-content &ndash;&gt;-->
-                                            <!--</div>&lt;!&ndash; /.modal-dialog &ndash;&gt;-->
-                                        <!--</div>-->
+                                        <span class="glyphicon glyphicon-remove oneTaskClose" ng-show="taskDisplayed.totalTimeout + taskDisplayed.totalAccepted == taskDisplayed.excCount" ng-click="oneTaskOff(taskDisplayed.taskId)"></span>
                                     </div>
                                 </div>
                                 <div style="margin-left: 25px; font-size: 14px;" class="row">
@@ -385,6 +384,13 @@
 
 </th-footer>
 
+
+
 <script src="/javascripts/cookieHelper.js"></script>
+<script>
+    $(function () {
+        $('[data-toggle="tooltip"]').tooltip()
+    })
+</script>
 </body>
 </html>

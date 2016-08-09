@@ -7,7 +7,9 @@ var app = angular.module('yemaWebApp',[]);
 var navIndex = 0;
 
 
+
 app.controller('doTaskCtrl', function($scope, $http) {
+
     //自动轮播
     $("#myCarousel").carousel({
         interval:5000
@@ -37,6 +39,7 @@ app.controller('doTaskCtrl', function($scope, $http) {
         $scope.planeColor = !$scope.planeColor;
     };
     $scope.noApp = false;
+    $scope.isLoadingMyApp = true;
 
     //初始,可优化
     $scope.disableTaskCount = 0;
@@ -82,13 +85,43 @@ app.controller('doTaskCtrl', function($scope, $http) {
                 }
 
                 $scope.disableTaskCount = response.disableTaskCount;
+
+
+
+                if($scope.allTask.length > 0){
+                    $scope.noApp = false;
+                }else {
+                    $scope.noApp = true;
+                }
             }else if(taskType == 'commentTask'){
                 $scope.commentTask = $scope.commentTask.concat(response.allTask);
+
+                if($scope.commentTask.length > 0){
+                    $scope.noApp = false;
+                }else {
+                    $scope.noApp = true;
+                }
             }else if(taskType == 'downTask'){
                 $scope.downTask = $scope.downTask.concat(response.allTask);
+
+                if($scope.downTask.length > 0){
+                    $scope.noApp = false;
+                }else {
+                    $scope.noApp = true;
+                }
+
+
+
+
             }else if(taskType == 'inactiveTask'){
                 $scope.inactiveTask = $scope.inactiveTask.concat(response.allTask);
                 $scope.disableTaskCount = response.disableTaskCount;
+
+                if($scope.inactiveTask.length > 0){
+                    $scope.noApp = false;
+                }else {
+                    $scope.noApp = true;
+                }
             }
 
             $scope.hasMoreDic[taskType] = response.hasMore;
@@ -100,9 +133,12 @@ app.controller('doTaskCtrl', function($scope, $http) {
     $scope.displayAll = function(){
         if($scope.taskDisplayed == undefined || $scope.taskDisplayed.length == 0){
             getTaskData('allTask', 0);
+            $scope.isLoadingMyApp = true;
+
         }else {
             if ($scope.hasMoreDic['allTask'] == 1){
                 getTaskData('allTask', $scope.taskDisplayed.length - myAppCountDic['allTask']);
+                $scope.isLoadingMyApp = false;
             }
         }
     };
@@ -111,9 +147,16 @@ app.controller('doTaskCtrl', function($scope, $http) {
     $scope.commentTasksOnly = function(){
         if($scope.commentTask == undefined || $scope.commentTask.length == 0){
             getTaskData('commentTask', 0);
+            $scope.isLoadingMyApp = true;
+
+
         }else {
             if ($scope.hasMoreDic['commentTask'] == 1) {
+
                 getTaskData('commentTask', $scope.commentTask.length - myAppCountDic['commentTask']);
+                $scope.isLoadingMyApp = false;
+
+
             }
         }
     };
@@ -122,9 +165,11 @@ app.controller('doTaskCtrl', function($scope, $http) {
     $scope.downloadTasksOnly = function(){
         if($scope.downTask == undefined || $scope.downTask.length == 0){
             getTaskData('downTask', 0);
+            $scope.isLoadingMyApp = true;
         }else {
             if ($scope.hasMoreDic['downTask'] == 1) {
                 getTaskData('downTask', $scope.downTask.length - myAppCountDic['downTask']);
+                $scope.isLoadingMyApp = false;
             }
         }
     };
@@ -133,8 +178,10 @@ app.controller('doTaskCtrl', function($scope, $http) {
     $scope.inactiveTasksOnly = function(){
         if($scope.inactiveTask == undefined || $scope.inactiveTask.length == 0){
             getTaskData('inactiveTask', 0);
+            $scope.isLoadingMyApp = true;
         }else {
             getTaskData('inactiveTask', $scope.inactiveTask.length);
+            $scope.isLoadingMyApp = false;
         }
     };
 
