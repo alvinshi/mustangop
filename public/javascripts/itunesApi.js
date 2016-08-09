@@ -23,7 +23,7 @@ app.controller('itunesSearchControl', function($scope, $http) {
             $scope.appNeedInfo == undefined;
             return;
         }
-        var getneedUrl = '/myapp/getNeed/' + $scope.selectedApp.appleId;
+        var getneedUrl = '/myapp/getNeed/' + $scope.selectedApp.appObjectId;
         $http.get(getneedUrl).success(function (response) {
             $scope.appNeedInfo = response.appNeedInfo;
 
@@ -259,7 +259,7 @@ app.controller('itunesSearchControl', function($scope, $http) {
             return;
         }
 
-        var needUrl = '/myapp/taskneed/' + $scope.selectedApp.appleId;
+        var needUrl = '/myapp/taskneed/' + $scope.selectedApp.appObjectId;
         var needInfo = {'taskType':$scope.appNeedInfo.taskType, 'excCount':$scope.appNeedInfo.excCount, 'excUnitPrice':$scope.appNeedInfo.excUnitPrice, 'screenshotCount':$scope.appNeedInfo.screenshotCount,
             'searchKeyword':$scope.appNeedInfo.searchKeyword, 'ranKing':$scope.appNeedInfo.ranKing, 'Score':$scope.appNeedInfo.Score,
             'titleKeyword':$scope.appNeedInfo.titleKeyword, 'commentKeyword':$scope.appNeedInfo.commentKeyword, 'detailRem':$scope.appNeedInfo.detailRem};
