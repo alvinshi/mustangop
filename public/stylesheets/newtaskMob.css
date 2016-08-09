@@ -214,15 +214,21 @@
 @media (max-width: 768px){
     .logo{
         display: inline-block;
-        height:90px;
-        width: 90px;
+        height:80px;
+        width: 80px;
         border: 1px solid #e0e0e0;
-        border-radius: 8px;
-        /*vertical-align: top;*/
+        border-radius: 6px;
+
     }
 
     /* 移动端需求截图*/
-
+    .download{
+        font-size:10px;
+        color: white;
+        margin-top: 8px;
+        /*margin-bottom: 6px;*/
+        /*font-weight:bold;*/
+    }
 
     .needImg{
         margin-bottom:10px;
@@ -231,7 +237,7 @@
     #screenShot {
         background: url(/images/appDetail/screenshot-background.png);
         background-size: cover;
-        width: 106%;
+        width:94%;
         height: 100%;
         padding:10px;
 
@@ -245,22 +251,22 @@
         /*padding-left:10px;*/
     }
     .trackName_one{
-        font-size:14px; color: #ffffff;
-         margin-top: 10px
+        font-size:10px; color: #ffffff;
+        margin-top: 10px
     }
     .app_date{
         color: #ffffff;
 
     }
     .taskType{
-        color: #ffffff; font-size: 14px;
+        color: #ffffff; font-size: 10px;
     }
     .synwords{
         color: #fff727;
     }
 
     .serach_app{
-        font-size:14px; color: #ffffff;
+        font-size:10px; color: #ffffff;
         list-style-position: inside; padding:0; margin:0;
     }
     .serach_app li{
@@ -275,7 +281,7 @@
         padding: 10px 10px 10px 10px;"
     }
     .comment{
-        font-size:14px; color: #ffffff;
+        font-size:10px; color: #ffffff;
     }
 
 
@@ -283,8 +289,8 @@
 
     .logo{
         display: inline-block;
-        height:101px;
-        width: 101px;
+        height:90px;
+        width: 90px;
         border: 1px solid #e0e0e0;
         border-radius: 8px;
         /*vertical-align: top;*/
@@ -306,116 +312,51 @@
     .button_type{
         background-color: #79c3f7;
         border: 1px solid #79c3f7 ;
-        border-radius:4px;
-        height:30px;
+        border-radius:2px;
+        height:20px;
         color: white;
-        font-size: 14px;
-        width:70px;}
+        font-size: 10px;
+        width:40px;
+    }
 
     .button_num{
         background-color:white;
         border: 1px solid #acddfe ;
-        border-radius:4px;
-        height:30px;
+        border-radius:2px;
+        height:20px;
         color: #acddfe;
-        font-size: 16px;
-        width:110px;
+        font-size: 10px;
+        width:60px;
         margin-left:4px;
         text-align: center;
     }
     .button_surplus{
         background-color:white;
         border: 1px solid #acddfe ;
-        border-radius:4px;
-        height:30px;
+        border-radius:2px;
+        height:20px;
         color: #acddfe;
-        font-size: 16px;
-        width:110px;
+        font-size: 10px;
+        width:60px;
         margin-left:4px;
         text-align: center;
     }
 
-
-}
-
-@media screen and (max-width:640px){
-    .task-link{
-        font-size:18px;
-        margin-top:0px;
-
+    .num{
+        text-decoration: none;
+        font-size: 10px;
+        color: #f55e5a;
+    }
+    .task-link {
+        font-size: 16px;
+        margin-top: 4px;
         color:#000000;
-        margin-bottom:2px;
+        margin-bottom: 0px;
     }
-    .id{
-        font-size: 14px;
-        margin-bottom:2px;
-        color: #7a7a7a;
-    }
-    .logo{
-        display: inline-block;
-        height:80px;
-        width:80px;
-        border: 1px solid #e0e0e0;
-        border-radius: 8px;
-        /*vertical-align: top;*/
-    }
-    .button_type{
-        background-color: #79c3f7;
-        border: 1px solid #79c3f7 ;
-        border-radius:4px;
-        height:25px;
-        line-height: 25px;
-        color: white;
-        font-size: 14px;
-        width:70px;
-        text-align: center;
-    }
-    .button_num{
-        background-color:white;
-        border: 1px solid #acddfe ;
-        border-radius:4px;
-        height:25px;
-        line-height: 21px;
-        color: #acddfe;
-        font-size: 14px;
-        width:80px;
-        margin-left:5px;
-        text-align: center;
-    }
-    .button_surplus{
-        background-color:white;
-        border: 1px solid #acddfe ;
-        border-radius:4px;
-        height:25px;
-        line-height: 21px;
-        color: #acddfe;
-        font-size: 14px;
-        width:80px;
-        margin-left:0px;
-        text-align: center;
-
-    }
-    .needImg{
-        margin-bottom:10px;
-        width:320px;
-    }
-    .media-body{
-        padding-left:0px;
-    }
-    #screenShot {
-        background: url(/images/appDetail/screenshot-background.png);
-        width: 107%;
-        height: 100%;
-        padding: 10px;
-
-    }
-    .appicon{
-        display: inline-block;
-        margin: 0 10px 20px 10px;
-        width:90px; height:90px; border-radius:10px
-    }
-
 }
+
+
+
 @media screen and (min-width: 800px) and (max-width: 1800px){
     .modal-dialog{
         width: 50%;
