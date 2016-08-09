@@ -23,7 +23,7 @@ app.controller('itunesSearchControl', function($scope, $http) {
             $scope.appNeedInfo == undefined;
             return;
         }
-        var getneedUrl = '/myapp/getNeed/' + $scope.selectedApp.appleId;
+        var getneedUrl = '/myapp/getNeed/' + $scope.selectedApp.appObjectId;
         $http.get(getneedUrl).success(function (response) {
             $scope.appNeedInfo = response.appNeedInfo;
 
@@ -57,7 +57,7 @@ app.controller('itunesSearchControl', function($scope, $http) {
 
     //**************页面载入变量初始************************
     $scope.isLoadingMyApp = true;
-    $scope.numOfApps = undefined;
+    $scope.numOfApps = 10;  // > 5 不显示+号
     $scope.selectedApp = undefined;
     $scope.saved = false;
 
@@ -92,11 +92,12 @@ app.controller('itunesSearchControl', function($scope, $http) {
     //搜索App
     var progressTimerHandle = undefined;
     $scope.progressNum = 0;
+    var searchLocked = false;
 
     $scope.searchApp = function(){
         $scope.isError = 0;
 
-        if ($scope.searchUrl != ''){
+        if ($scope.searchUrl != '' && searchLocked == false){
 
             var searchUrl = 'api/itunes/search/' + $scope.searchKey;
             $scope.progressNum = 100;
@@ -108,9 +109,10 @@ app.controller('itunesSearchControl', function($scope, $http) {
             //progressTimerHandle = setTimeout(timerFunc(), 1);
 
             console.log('--------- searchApp searchApp');
-
+            searchLocked = true;
             $http.get(searchUrl).success(function(response){
 
+                searchLocked = false;
                 console.log('searchApp' + response);
 
                 $scope.appResults = response.appResults;
@@ -155,9 +157,19 @@ app.controller('itunesSearchControl', function($scope, $http) {
 
     //添加App
     $scope.chooseMyApp = function(appInfo){
+        if(appInfo.isBinlding == true){
+            //防止重复绑定
+            return;
+        }
+
         var searchUrl = 'myapp/add';
+        appInfo.isBinlding = true;
         $http.post(searchUrl, {'appInfo':appInfo}).success(function(response){
+
+            appInfo.isBinlding = false;
+
             if (response.errorId == 0 || response.errorId === undefined){
+                appInfo.isMine = true;
                 var flag = 0;
                 //本地没有App, 初始Array
                 if ($scope.myApps == undefined){
@@ -171,6 +183,7 @@ app.controller('itunesSearchControl', function($scope, $http) {
                         break;
                     }
                 }
+
                 if (flag == 0){
                     //默认选择的App是新添加的App
                     $scope.selectedApp = response.newApp;
@@ -232,7 +245,7 @@ app.controller('itunesSearchControl', function($scope, $http) {
 
     //保存
     $scope.saved = false;
-
+    var saveNetLock = false;
     $scope.saveNeed = function(){
         if ($scope.selectedApp == undefined || $scope.selectedApp.appleId == undefined){
             $scope.modelStr = '未选择换评的App,检查一下吧';
@@ -246,14 +259,22 @@ app.controller('itunesSearchControl', function($scope, $http) {
             return;
         }
 
-        var needUrl = '/myapp/taskneed/' + $scope.selectedApp.appleId;
+        if(saveNetLock == true){
+            console.log('保存中...');
+            return;
+        }
+
+        var needUrl = '/myapp/taskneed/' + $scope.selectedApp.appObjectId;
         var needInfo = {'taskType':$scope.appNeedInfo.taskType, 'excCount':$scope.appNeedInfo.excCount, 'excUnitPrice':$scope.appNeedInfo.excUnitPrice, 'screenshotCount':$scope.appNeedInfo.screenshotCount,
             'searchKeyword':$scope.appNeedInfo.searchKeyword, 'ranKing':$scope.appNeedInfo.ranKing, 'Score':$scope.appNeedInfo.Score,
             'titleKeyword':$scope.appNeedInfo.titleKeyword, 'commentKeyword':$scope.appNeedInfo.commentKeyword, 'detailRem':$scope.appNeedInfo.detailRem};
+
+        saveNetLock = true;
         $http.post(needUrl, needInfo).success(function(response){
             $scope.errorId = response.errorId;
             $scope.errorMsg = response.errorMsg;
             $scope.saved = false;
+            saveNetLock = false;
         })
     };
 

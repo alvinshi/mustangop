@@ -24,7 +24,7 @@
     <script src="//cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 
     <!--第三方 CSS JS-->
-    <link rel="stylesheet" href="../stylesheets/loading.min.css">
+    <link rel="stylesheet" href="../stylesheets/loading.css">
     <link rel="stylesheet" href="/stylesheets/vendor/hover/hover-min.css">
     <link rel="stylesheet" href="../stylesheets/dailyTask.css">
     <link rel="stylesheet" href="../stylesheets/myClaim.css">
@@ -50,7 +50,7 @@
     <!--标题-->
     <div class="header-wrapper col-lg-12" ng-show="!noApp">
         <h1 class="header hidden-xs" style="display: inline-block">今日认领的任务</h1>
-        <div class="alert alert-warning hidden-xs" role="alert" style="display: inline-block;margin-left: 40px;">你可以通过点击一键关闭按钮,清除已经过期或者已经被成功被接收的任务记录</div>
+        <div class="alert alert-warning hidden-xs" role="alert" style="display: inline-block;margin-left: 40px;">一键关闭按钮,用于清除已经全部完成或已经过期的任务记录</div>
         <button class="btn close_btn hidden-xs" data-placement="top" data-toggle="#popover" ng-click="turnoffTask()" data-target="#errorMsg">一键关闭</button>
         <hr class="hidden-xs" style="border: 1px solid  #3498db;width: 1024px">
     </div>
@@ -81,6 +81,11 @@
         <p class="message">复制此链接,通过QQ或微信等发送到您完成任务的手机上，直接从手机端上传任务截图</p>
     </div>
 
+    <div class="spinner"  ng-hide="!isLoadingMyApp"  style="margin-top:450px;">
+        <div class="double-bounce1"></div>
+        <div class="double-bounce2"></div>
+
+    </div>
 
 
 
@@ -88,13 +93,18 @@
         <div style="text-align: center;">
             <img style="margin-top: 200px;margin-left:-30px;"  src="../images/horse.png"/>
         </div>
+
         <h1 style="text-align:center;">亲, 你还没有任何任务哦, 赶紧去"<a href="/doTask">任务大厅</a>"领取任务吧</h1>
     </div>
     <hr class="hr-header hidden-xs"/>
+
+
+
     <div class="row " ng-repeat="app in dailyTask">
         <div class="col-lg-10  col-lg-offset-1 col-xs-12 media dailyTask" >
             <div class="media-left">
                 <a href="/newtaskMobile/{{app.taskObjectId}}">
+                    <span class="badge" ng-show="app.noticeNumber > 0" style="background-color:rgb(239,0,0)">{{app.noticeNumber}}</span>
                     <img class="logo" ng-src="{{app.artworkUrl100}}" alt="app-icon" class="img-thumbnail"/>
                 </a>
 
@@ -141,11 +151,14 @@
                     </button>
                 </a>
             </div>
-            <!--<hr class="hr_bottom">-->
+
 
 
         </div>
     </div>
+
+
+
 </div>
 <th-footer class="hidden-xs">
 

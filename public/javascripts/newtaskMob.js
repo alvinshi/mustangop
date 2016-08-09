@@ -9,9 +9,17 @@ app.controller('MobControl', function($scope, $http, $location, FileUploader) {
     var excTaskId = appurlList[appurlList.length - 1];
 
     var claimUrl = '/newtaskMobile/claim' + '/' + excTaskId;
+    $scope.uploadName = getCookie('uploadName');
+
     $http.get(claimUrl).success(function (response) {
         $scope.oneAppInfo = response.oneAppInfo;
         $scope.images = response.macTask;
+
+        if($scope.images != undefined && $scope.images.length > 0){
+            $scope.uploadImgDes = '重新上传一份任务图片: ' + $scope.uploadName;
+        }else {
+            $scope.uploadImgDes = '上传一份任务图片(2-3张)';
+        }
     });
 
     function blobToDataURI(addedFileItems, dealIndex){
@@ -160,7 +168,7 @@ app.controller('MobControl', function($scope, $http, $location, FileUploader) {
     console.info('uploader', uploader);
 
     $scope.normalBtnShow = 1;
-    if (getCookie('uploadImgName').length > 0) {
+    if (getCookie('uploadName').length > 0) {
         $scope.normalBtnShow = 0;
     } else {
         $scope.normalBtnShow = 1;

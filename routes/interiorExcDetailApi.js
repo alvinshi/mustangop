@@ -31,6 +31,7 @@ router.get('/interior/:excTaskId', function(req, res){
         retObject.appleId = hisappObject.get('appleId');
         retObject.formattedPrice = hisappObject.get('formattedPrice');
         retObject.latestReleaseDate = hisappObject.get('latestReleaseDate');
+        retObject.excUniqueCode = hisappObject.get('excUniqueCode');
         retObject.version = hisappObject.get('version');
 
         retObject.totalExcCount = results.get('receiveCount');

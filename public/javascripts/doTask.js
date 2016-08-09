@@ -3,7 +3,7 @@
  */
 
 
-var app=angular.module('yemaWebApp',[]);
+var app = angular.module('yemaWebApp',[]);
 var navIndex = 0;
 
 
@@ -60,6 +60,8 @@ app.controller('doTaskCtrl', function($scope, $http) {
     function getTaskData(taskType, pageCount){
         var url = 'doTask/taskHall/' + pageCount + '/' + taskType;
         $http.get(url).success(function(response) {
+
+            $scope.isLoadingMyApp = false;
 
             if(pageCount == 0){
                 //第一页时保存我的App个数
@@ -164,7 +166,7 @@ app.controller('doTaskCtrl', function($scope, $http) {
             currentApp.isGetingTask = true;
             var url = 'doTask/postUsertask/' + currentApp.objectId + '/' + currentApp.rateUnitPrice + '/' + currentApp.appObjectId;
             var postData = {'receiveCount': currentApp.receiveCount, 'detailRem': currentApp.detailRem,
-                'latestReleaseDate': currentApp.latestReleaseDate};
+                'excUniqueCode': currentApp.excUniqueCode};
 
             $http.post(url, postData).success(function(response){
                 console.log(response);
@@ -216,9 +218,9 @@ app.controller('doTaskCtrl', function($scope, $http) {
     };
 
     //筛选已经做过的任务
-    $scope.filtrateApp=function(appInfo){
+    $scope.filtrateApp = function(appInfo){
         $("#markApp").modal("show");
-        var needToSave = {'appObjectId': appInfo.appObjectId, 'latestReleaseDate': appInfo.latestReleaseDate,
+        var needToSave = {'appObjectId': appInfo.appObjectId, 'excUniqueCode': appInfo.excUniqueCode,
             'taskObjectId':appInfo.objectId};
 
         // 筛选任务, 当我点击确认时 保存

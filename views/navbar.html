@@ -15,22 +15,10 @@
         </div>
         <div class="collapse navbar-collapse" id="example-navbar-collapse-1">
             <ul class="nav navbar-nav">
-                <!--<li ><a ng-style="{color:myColors[0]}" href="/" >首页</a></li>-->
+
                 <li ><a ng-style="{color:myColors[0]}" href="/doTask" >换评大厅</a></li>
                 <li><a ng-style="{color:myColors[1]}" href="/myapp">发布换评</a></li>
-                <!--<li><a ng-style="{color:myColors[1]}" href="/myapp/history" >交换记录</a></li>-->
 
-                <!--<li class="dropdown">-->
-                    <!--<a  ng-style="{color:myColors[1]}" href="/myapp" data-toggle="dropdown" class="dropdown">发布任务<span class="caret"></span></a>-->
-                    <!--<ul class="dropdown-menu" >-->
-                        <!--<li class="myapp-list" ng-repeat="app in tracknameAPPs">-->
-
-                            <!--<a href="/app/{{app.appid}}">{{ app.trackName }}</a>-->
-
-                        <!--</li>-->
-                        <!--<li><a href="/myapp">管理我的任务应用</a></li>-->
-                    <!--</ul>-->
-                <!--</li>-->
                 <li>
                     <a ng-style="{color:myColors[2]}" href="/myClaim/{{userObjectId}}">我的领取
                         <span class="badge" ng-show="refusedCount > 0" style="background-color:rgb(239,0,0)">{{refusedCount}}</span>
@@ -41,14 +29,6 @@
                         <span class="badge" ng-show="pendingCount > 0" style="background-color:rgb(239,0,0)">{{pendingCount}}</span>
                     </a>
                 </li>
-                <!--<li><a ng-style="{color:myColors[4]}" href="">换评工具箱(即将开放)</a></li>-->
-                <!--/doOuterTask-->
-                <li>
-                    <a ng-style="{color:myColors[5]}" href="/user#/inforManage" style="margin-left:270px">换评消息
-                        <span class="badge" ng-show="chuxian" style="background-color:rgb(239,0,0)">{{unreadMsgCount}}</span>
-                    </a>
-                </li>
-
 
             </ul>
             <ul class="nav navbar-nav navbar-right">

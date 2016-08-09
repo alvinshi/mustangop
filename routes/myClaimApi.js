@@ -86,7 +86,7 @@ router.get('/claim/:userObjectId', function(req, res){
             }
             var expireDate = new Date(expireTimeStamp);
             appHisObject.deadlineStr = '截止:' +
-                (expireDate.getMonth() + 1).toString() + '月' + expireDate.getDate().toString() + '日 8:00Am';
+                (expireDate.getMonth() + 1).toString() + '月' + expireDate.getDate().toString() + '日 9:50am';
 
             //未完成 审核中 被拒绝 已通过
             (function (receTaskObject, inAppHisObject){
@@ -114,6 +114,8 @@ router.get('/claim/:userObjectId', function(req, res){
                     inAppHisObject.submitted = submitted;
                     inAppHisObject.accepted = accepted;
                     inAppHisObject.rejected = rejected;
+
+                    inAppHisObject.noticeNumber = undoTask + rejected;
 
                     //accepted + abandoned == receiveCount
                     //暂时不做,需要手动关闭
