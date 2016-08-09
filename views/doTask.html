@@ -323,7 +323,7 @@
                     </div>
                 </div>
 
-                <div ng-show="taskDisplayed == undefined || taskDisplayed.length == 0">
+                <div ng-show="noApp">
                     <h1 style="text-align: center; margin-top: 150px; margin-bottom: 150px;">暂时没有可做的任务</h1>
                 </div>
                 <div style="margin-top: 30px; margin-bottom: 30px; text-align: center;">
@@ -337,13 +337,13 @@
 
             <!--评论的任务-->
             <div role="tabpanel" class="tab-pane" id="comment">
+                <div class="spinner" ng-hide="!isLoadingMyApp">
+                    <div class="double-bounce1"></div>
+                    <div class="double-bounce2"></div>
+
+                </div>
 
                 <div class="taskPanel" ng-repeat="app in commentTask">
-                    <div class="spinner" ng-hide="!isLoadingMyApp">
-                        <div class="double-bounce1"></div>
-                        <div class="double-bounce2"></div>
-
-                    </div>
                     <table style="width: 1010px;">
                         <tr>
                             <td style="padding: 24px 30px 24px 30px; width: 160px;">
@@ -521,7 +521,7 @@
                     </div>
 
                 </div>
-                <div ng-show="commentTask == undefined || commentTask.length == 0">
+                <div ng-show="noApp">
 
                     <h1 style="text-align: center; margin-top: 150px; margin-bottom: 150px;">今天还没有新的评论任务</h1>
                 </div>
@@ -535,11 +535,12 @@
 
             <!--下载的-->
             <div role="tabpanel" class="tab-pane" id="download">
+                <div class="spinner" ng-hide="!isLoadingMyApp">
+                    <div class="double-bounce1"></div>
+                    <div class="double-bounce2"></div>
+                </div>
                 <div class="taskPanel" ng-repeat="app in downTask">
-                    <div class="spinner" ng-hide="!isLoadingMyApp">
-                        <div class="double-bounce1"></div>
-                        <div class="double-bounce2"></div>
-                    </div>
+
                     <table style="width: 1010px;">
                         <tr>
                             <td style="padding: 24px 30px 24px 30px; width: 160px;">
@@ -720,7 +721,7 @@
 
 
                 </div>
-                <div ng-show="downTask == undefined || downTask.length == 0">
+                <div ng-show="noApp">
                     <h1 style="text-align: center; margin-top: 150px; margin-bottom: 150px;">今天还没有新的下载任务</h1>
                 </div>
                 <div style="margin-top: 30px; margin-bottom: 30px; text-align: center;">
@@ -764,8 +765,9 @@
                     </table>
                     <hr style="margin:0; border-color: #dddddd;">
                 </div>
-                <div ng-show="inactiveTask.length == undefined || inactiveTask.length == 0">
+                <div ng-show="noApp">
                     <h1 style="text-align: center; margin-top: 150px; margin-bottom: 150px;">任务大厅任务您都可以领取</h1>
+
                 </div>
                 <div style="margin-top: 30px; margin-bottom: 30px; text-align: center;">
                     <button class="btn btn-default myPageBtn" ng-hide="!hasMoreDic['inactiveTask']" ng-click="inactiveTasksOnly()">下一页</button>
