@@ -101,6 +101,7 @@ router.get('/taskAudit', function(req, res){
 
                     function tryReturn(errorId, errorMsg){
                         if (counterForReceive == promiseForReceive){
+                            retApps.sort(function(a, b){return (a.createdAt > b.createdAt)?1:-1});
                             res.json({'taskAudit':retApps, 'errorId': errorId, 'errorMsg': errorMsg});
                         }
                     }
@@ -219,6 +220,8 @@ router.get('/cancelTask/:taskId', function(req, res){
         var reaminCount = taskObject.get('remainCount');
         var taskPrice = taskObject.get('excUnitPrice');
         var userObject = taskObject.get('userObject');
+        var excCount = taskObject.get('excCount');
+
 
         userObject.increment('freezingMoney', -(taskPrice * reaminCount));
         userObject.increment('totalMoney', (taskPrice * reaminCount));
@@ -227,7 +230,10 @@ router.get('/cancelTask/:taskId', function(req, res){
         if(reaminCount == taskObject.get('excCount')){
             taskObject.set('close', true);
         }
+
+        taskObject.set('excCount', excCount - reaminCount);
         taskObject.set('remainCount', 0);
+
 
         userObject.save().then(function(){
             //返回冻结的Y币数量
