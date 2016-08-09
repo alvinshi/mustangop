@@ -88,7 +88,7 @@ app.controller('doTaskCtrl', function($scope, $http) {
 
 
 
-                if($scope.allTask.length > 0){
+                if($scope.allTask == undefined || $scope.allTask.length > 0){
                     $scope.noApp = false;
                 }else {
                     $scope.noApp = true;
@@ -96,7 +96,7 @@ app.controller('doTaskCtrl', function($scope, $http) {
             }else if(taskType == 'commentTask'){
                 $scope.commentTask = $scope.commentTask.concat(response.allTask);
 
-                if($scope.commentTask.length > 0){
+                if($scope.allTask == undefined ||$scope.commentTask.length > 0){
                     $scope.noApp = false;
                 }else {
                     $scope.noApp = true;
@@ -104,7 +104,7 @@ app.controller('doTaskCtrl', function($scope, $http) {
             }else if(taskType == 'downTask'){
                 $scope.downTask = $scope.downTask.concat(response.allTask);
 
-                if($scope.downTask.length > 0){
+                if($scope.allTask == undefined ||$scope.downTask.length > 0){
                     $scope.noApp = false;
                 }else {
                     $scope.noApp = true;
@@ -157,6 +157,8 @@ app.controller('doTaskCtrl', function($scope, $http) {
                 $scope.isLoadingMyApp = false;
 
 
+
+
             }
         }
     };
@@ -166,6 +168,7 @@ app.controller('doTaskCtrl', function($scope, $http) {
         if($scope.downTask == undefined || $scope.downTask.length == 0){
             getTaskData('downTask', 0);
             $scope.isLoadingMyApp = true;
+
         }else {
             if ($scope.hasMoreDic['downTask'] == 1) {
                 getTaskData('downTask', $scope.downTask.length - myAppCountDic['downTask']);

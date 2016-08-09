@@ -111,7 +111,7 @@
                                         <button ng-show='taskDisplayed.totalTimeout + taskDisplayed.totalAccepted == taskDisplayed.excCount' class="btn completed">
                                             已完成
                                         </button>
-                                        <button ng-show='taskDisplayed.remainCount == 0 && (taskDisplayed.totalTimeout + taskDisplayed.totalAccepted != taskDisplayed.excCount)' class="btn noRemain">
+                                        <button ng-show='(!taskDisplayed.cancelled) && (taskDisplayed.remainCount == 0) && (taskDisplayed.totalTimeout + taskDisplayed.totalAccepted != taskDisplayed.excCount)' class="btn noRemain">
                                             已领完
                                         </button>
 
