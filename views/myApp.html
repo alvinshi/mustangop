@@ -68,7 +68,7 @@
              ng-click="selectedAppFunc(app)"
              ng-repeat="app in myApps"
              ng-class="{true: 'border'}[selectedApp == app]"
-             style="border-radius: 10px;">
+             style="border-radius: 10px;position: relative">
 
             <a href="" ng-click="releaseBtnClick(app)" data-toggle="modal" data-target="#mymodal">
                 <p class=" btn-sm_release">
@@ -77,8 +77,9 @@
             </a>
 
             <a href="">
-                <img ng-show="app.isUpdated" src="/images/doTask/new_flag.png" class="img-responsive"  alt="New flag">
-                <img ng-src="{{ app.artworkUrl512 }}" class="img-responsive"  alt="App Icon">
+
+                <img ng-src="{{ app.artworkUrl512 }}" class="img-responsive"  alt="App Icon" >
+                <img  src="/images/doTask/update.png" ng-show="app.isUpdated" class="img-responsive"  alt="New flag" style="position: absolute;top: -1px;left:-22px;width: 60px;height: 60px">
             </a>
 
             <p class="app_name">{{ (app.trackName.length > 6)?(app.trackName.substring(0,6)+'...'):app.trackName}}</p>
