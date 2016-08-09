@@ -72,7 +72,11 @@
                     <div ng-class="{true :'icon1 selected', false :'icon1'}[$index == taskIndex]" ng-click="check(app, $index)">
                         <span style="position: relative">
                             <img ng-src="{{app.artworkUrl100}}" alt="">
-                            <span ng-hide='app.totalSubmited == 0' style="position:absolute; left: -5px; top: -15px; padding: 0 4px 0 4px; border-radius: 3px; background-color: #eb3030; color: white">{{app.totalSubmited}}</span>
+                            <span ng-hide='app.totalSubmited == 0' style="position:absolute; left: -5px; top: -15px;background-color: #f4556c;
+                              width: 30px;
+                              height: 20px;
+                              font-size: 14px;
+                              border-radius: 8px;text-align: center;color: #FFFFFF">{{app.totalSubmited}}</span>
                         </span>
                         <span style="margin:10px 17px 0 17px; font-size:16px;">{{app.taskType}}</span>
                         <span ng-show='app.cancelled == true && app.totalTimeout + app.totalAccepted != app.excCount' class='taskStatus' style="background-color: #eb3030">已撤销</span>
