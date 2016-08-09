@@ -1,3 +1,4 @@
+
 <h4 class="mytitle" >Y币账户</h4>
 <hr style="margin-top: 12px;margin-left: 20px;border: 2px solid #3498db;margin-right: 20px">
 
@@ -7,9 +8,14 @@
             <div class="panel-body">
                 <div class="leftmoney">
                     <span> <img src="/images/home/leavemoney.png" alt="" class="moneyimg"></span>
-                    <span>冻结YB</span>
+                    <span>冻结Y币</span>
+                    <span class="glyphicon glyphicon-question-sign"  data-placement="top"
+                          data-toggle="popover"
+                          data-content="还没有结算的Y币将会暂时存放在冻结账户中。" id="glyphicon"
+                          ng-click="addApp('glyphicon')" style="font-size: 0.8em">
+                    </span>
                 </div>
-                <div class="money">
+                <div class="money" style="float: right; margin-right: 50px;">
                     <span>{{userFreezingYB}}</span><span>Y币</span>
                 </div>
 
@@ -28,7 +34,7 @@
                     <span> <img src="/images/home/leavemoney.png" alt="" class="moneyimg"></span>
                     <span>账户余额</span>
                 </div>
-                <div class="money">
+                <div class="money" style="float: right; margin-right: 50px;">
                     <span>{{balance}}</span><span>Y币</span>
                 </div>
 

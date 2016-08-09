@@ -221,6 +221,10 @@ app.controller('taskHistoryCtrl', function($scope, $http){
 });
 
 app.controller('userCenterCtrl', function($scope, $http){
+    $scope.addApp=function(id) {
+        $('#'+ id).popover("toggle");
+    };
+
     $scope.userName = true;
     $scope.userNickname = getCookie('uploadName');
 
