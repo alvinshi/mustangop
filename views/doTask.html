@@ -141,12 +141,12 @@
                                     <span class="infoBubble"><span style="color:#53d435">IOS</span></span>
                                 </div>
                             </td>
-                            <td ng-if='!app.myTask' ng-show="!app.hasChange" style="padding-right: 0px;">
+                            <td ng-if='!app.myTask' ng-show="!app.hasChanged" style="padding-right: 0px;">
                                 <button class="mybtn reverse hvr-float-shadow" data-target="#detail{{$index}}" data-toggle="modal">
                                     任务详情
                                 </button>
                             </td>
-                            <td ng-if='!app.myTask' ng-show="!app.hasChange" style="padding-right: 40px;">
+                            <td ng-if='!app.myTask' ng-show="!app.hasChanged" style="padding-right: 40px;">
                                 <button class="mybtn reverse hvr-float-shadow" data-target="#takeTask{{$index}}" data-toggle="modal">
                                     领取任务
                                 </button>
@@ -163,7 +163,7 @@
                                 </button>
                             </td>
                             <td   >
-                                <button  class="haschange" ng-show="app.hasChange" >
+                                <button  class="haschange" ng-show="app.hasChanged" >
                                     本版本标记为已换
                                 </button>
                             </td>

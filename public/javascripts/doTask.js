@@ -268,7 +268,7 @@ app.controller('doTaskCtrl', function($scope, $http) {
 
     //筛选已经做过的任务
     $scope.filtrateApp = function(appInfo){
-        $("#markApp").modal("show");
+        //$("#markApp").modal("show");
         var needToSave = {'appObjectId': appInfo.appObjectId, 'excUniqueCode': appInfo.excUniqueCode,
             'taskObjectId':appInfo.objectId};
 
@@ -282,7 +282,7 @@ app.controller('doTaskCtrl', function($scope, $http) {
 
                 //TODO: 成功还是失败
                 if (response.errorId == 0){
-                    $scope.hasChanged=true;
+                    app.hasChanged=true;
 
 
 
