@@ -102,15 +102,17 @@
 
     <div class="row " ng-repeat="app in dailyTask">
         <div class="col-lg-10  col-lg-offset-1 col-xs-12 media dailyTask" >
-            <div class="media-left">
+            <div class="media-left" style="position: relative">
                 <a href="/newtaskMobile/{{app.taskObjectId}}">
-                    <span class="badge" ng-show="app.noticeNumber > 0" style="background-color:rgb(239,0,0)">{{app.noticeNumber}}</span>
-                    <img class="logo" ng-src="{{app.artworkUrl100}}" alt="app-icon" class="img-thumbnail"/>
+                    <img class="logo" ng-src="{{app.artworkUrl100}}" alt="app-icon" class="img-thumbnail" style="display: inline-block" >
+
                 </a>
+                <div class="badge" ng-show="app.noticeNumber > 0" style="background-color:rgb(239,0,0);position: absolute;top: 2px;left:100px">{{app.noticeNumber}}</div>
 
             </div>
 
-            <div class="media-body information" >
+            <div class="media-body information"  >
+
 
                 <div>
                     <!--<a class="task-link" href="/newtaskMobile/{{app.taskObjectId}}">{{app.trackName.substr(0,11)+'...'}}</a>-->
