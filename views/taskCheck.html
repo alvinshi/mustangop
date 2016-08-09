@@ -55,7 +55,7 @@
             <div class="col-lg-2 change" style="background: #f4f4f4; padding-top:60px; padding-left:0; padding-right:0;" >
                 <div style="text-align:center;">
                     <div  style="font-size: 20px;">任务列表</div>
-                    <button class="btn cancel" style='margin-top: 10px;' ng-click="turnOffTask()">一键关闭</button>
+                    <button class="btn cancel" style='margin-top: 10px;' ng-click="turnOffTask()" ng-show="taskAudit.length > 4">一键关闭</button>
                 </div>
                 <hr>
                 <div ng-repeat="app in taskAudit">
@@ -166,7 +166,7 @@
                         <div style="margin-left: 70px; font-size: 22px; color: #333333;">
                             <div class="row">
                                 <div class="col-lg-4">任务类型: <span class="imported">{{taskDisplayed.taskType}}</span></div>
-                                <div class="col-lg-4">任务领取进度: <span class="imported">{{totalGetTask}}/{{taskDisplayed.excCount}}</span> 条</div>
+                                <div class="col-lg-4">任务领取进度: <span class="imported">{{taskDisplayed.totalGetTask}}/{{taskDisplayed.excCount}}</span> 条</div>
                                 <div class="col-lg-4">
                                     <button class="btn checkDetail" data-target="#detail" data-toggle="modal">
                                         查看详情
@@ -268,13 +268,13 @@
                                     <!--<span class="imported">{{totalGetTask}}</span> 条-->
                                 <!--</div>-->
                                 <div class="col-lg-4"> 等待审核:
-                                    <span class="imported">{{totalSubmited}}</span> 条
+                                    <span class="imported">{{taskDisplayed.totalSubmited}}</span> 条
                                 </div>
                                 <div class="col-lg-4">尚未提交:
-                                    <span class="imported1">{{totalUndo}}</span> 条
+                                    <span class="imported1">{{taskDisplayed.totalUndo}}</span> 条
                                 </div>
                                 <div class="col-lg-4">已经拒绝:
-                                    <span class="imported1">{{totalRejected}}</span> 条
+                                    <span class="imported1">{{taskDisplayed.totalRejected}}</span> 条
                                 </div>
 
 
@@ -286,11 +286,11 @@
                             <div class="row">
 
                                 <div class="col-lg-4">审核通过:
-                                    <span class="imported">{{totalAccepted}}</span> 条
+                                    <span class="imported">{{taskDisplayed.totalAccepted}}</span> 条
                                 </div>
 
                                 <div class="col-lg-4">超时未交:
-                                    <span class="imported1">{{totalTimeout}}</span> 条
+                                    <span class="imported1">{{taskDisplayed.totalTimeout}}</span> 条
                                 </div>
                             </div>
                         </div>
@@ -298,11 +298,11 @@
                     <hr>
 
                     <div style="font-size: 24px; border-left: 4px solid #3498db; padding-left: 10px;
-                color: #3498db; margin-top: 15px; margin-bottom: 24px;" ng-show="specTask.length">
+                color: #3498db; margin-top: 15px; margin-bottom: 24px;" ng-show="taskDisplayed.submissions.length">
                         任务审核
                     </div>
                     <div class="panel-group" id="accordion">
-                        <div class="panel panel-default" ng-repeat="submission in specTask">
+                        <div class="panel panel-default" ng-repeat="submission in taskDisplayed.submissions">
                             <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="/#collapse{{$index}}">
                                 <div class="row panel-receivetask" style="height: 64px">
                                     <div class="col-lg-5">
@@ -328,7 +328,7 @@
                             </div>
                             <div id="collapse{{$index}}" class="panel-collapse collapse in">
                                 <div class="panel-body" style="padding-left:50px;padding-right:50px;">
-                                    <div class=" row receiveinfor" ng-repeat="entry in (specTask[$index].entries)">
+                                    <div class=" row receiveinfor" ng-repeat="entry in (submission.entries)">
                                         <div class="col-lg-3 ">第 {{$index + 1}} 组</div>
                                         <div class="text-right" style="margin-right: 50px;">
                                             提交人: <span>{{entry.uploadName}}</span>

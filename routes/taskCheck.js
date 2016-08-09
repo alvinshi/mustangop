@@ -19,6 +19,7 @@ router.get('/', function(req, res) {
 });
 
 //*************页面左侧控制器条目*************************
+//************* 全新合并,一次性请求全部的数据 *************
 router.get('/taskAudit', function(req, res){
     var userId = util.useridInReq(req);
     var user = new AV.User();
@@ -31,6 +32,11 @@ router.get('/taskAudit', function(req, res){
     query.ascending('createdAt');
     query.find().then(function(results){
         var retApps = new Array();
+
+        //第一个异步准备
+        var promiseForReceive = results.length;
+        var counterForReceive = 0;
+
         for (var i = 0; i < results.length; i++){
             var appInfoObject = Object();
 
@@ -63,9 +69,153 @@ router.get('/taskAudit', function(req, res){
 
             appInfoObject.completed = results[i].get('completed');
             appInfoObject.cancelled = results[i].get('cancelled');
-            retApps.push(appInfoObject);
+
+            //查询领取任务数据库
+            (function(tempAppInfoObject){
+                tempAppInfoObject.submissions = new Array();
+                var taskId = tempAppInfoObject.taskId;
+                var query = new AV.Query(receiveTaskObject);
+                var taskObject = AV.Object.createWithoutData('releaseTaskObject', taskId);
+                query.equalTo('taskObject', taskObject);
+                query.exists('receiveCount');
+                query.include('userObject');
+                query.ascending('createdAt');
+                query.limit(1000);
+                query.find().then(function(results){
+                    var rtnResults = new Array();
+                    var promise = results.length;
+                    var counter = 0;
+
+                    tempAppInfoObject.totalGetTask = 0;
+                    tempAppInfoObject.totalAccepted = 0;
+                    tempAppInfoObject.totalSubmited = 0;
+                    tempAppInfoObject.totalUndo = 0;
+                    tempAppInfoObject.totalRejected = 0
+                    tempAppInfoObject.totalTimeout = 0;
+
+                    //function retJsonFunc(errorId, errorMsg){
+                    //    if (counter == promise){
+                    //        //排序;
+                    //        rtnResults.sort(function(a, b){return a.createdAt - b.createdAt});
+                    //        res.json({
+                    //            'rtnResults':rtnResults,
+                    //            'errorId': errorId, 'errorMsg': errorMsg,
+                    //            'totalGetTask' : totalGetTask, 'totalAccepted': totalAccepted,
+                    //            'totalSubmited': totalSubmited, 'totalUndo': totalUndo,
+                    //            'totalRejected' : totalRejected, 'totalTimeout': totalTimeout
+                    //        });
+                    //    }
+                    //}
+
+                    function tryReturn(errorId, errorMsg){
+                        if (counterForReceive == promiseForReceive){
+                            console.log(retApps);
+                            res.json({'taskAudit':retApps, 'errorId': errorId, 'errorMsg': errorMsg});
+                        }
+                    }
+
+                    if(results.length == 0){
+                        retApps.push(tempAppInfoObject);
+                        counterForReceive++;
+                        tryReturn(0, '');
+                        return;
+                    }
+
+                    for (var i = 0; i < results.length; i++) {
+                        //receive task object
+                        var submission = Object();
+                        var user = results[i].get('userObject');
+                        //领取任务基本信息
+                        submission.id = results[i].id;
+                        submission.receiveCount = results[i].get('receiveCount');
+                        tempAppInfoObject.totalGetTask += submission.receiveCount;
+                        submission.receivePrice = results[i].get('receivePrice');
+                        submission.createdAt = results[i].createdAt;
+                        var username = user.get('userNickname');
+                        if (username == undefined){
+                            submission.username = user.get('username').substring(0, 7) + '****';
+                        }else if (username == ''){
+                            submission.username = user.get('username').substring(0, 7) + '****';
+                        }
+                        else {
+                            submission.username = username;
+                        }
+                        submission.userId = user.id;
+
+                        //获取各个上传信息
+                        (function(receTaskObject, tempSubmission){
+                            var relation = receTaskObject.relation('mackTask');
+                            var query = relation.query();
+                            query.descending('createdAt');
+                            query.find().then(function (data) {
+                                var submitted = 0, accepted = 0, rejected = 0;
+                                tempSubmission.entries = new Array();
+                                for (var j = 0; j < data.length; j++) {
+                                    //已做任务的信息状态
+                                    var taskStatus = data[j].get('taskStatus');
+                                    if (taskStatus == 'uploaded' || taskStatus == 'reUploaded'){
+                                        submitted++;
+                                    }else if(taskStatus == 'systemAccepted' || taskStatus == 'accepted'){
+                                        accepted++;
+                                    }else if(taskStatus == 'refused'){
+                                        rejected++;
+                                    }else if(taskStatus == 'expired'){
+                                        //已经在定时器里增加过期数据,无需在这边计算 —— 唉
+                                    }
+
+                                    //已做任务详情
+                                    var entry = Object();
+                                    entry.id = data[j].id;
+                                    entry.uploadName = data[j].get('uploadName');
+                                    entry.imgs = data[j].get('requirementImgs');
+                                    entry.status = data[j].get('taskStatus');
+                                    entry.detail = data[j].get('detail');
+                                    tempSubmission.entries.push(entry);
+                                }
+
+                                tempSubmission.submitted = submitted;//待审核
+                                tempAppInfoObject.totalSubmited += submitted;
+                                tempSubmission.rejected = rejected;//已拒绝
+                                tempAppInfoObject.totalRejected += rejected;
+                                tempSubmission.accepted = accepted;//已完成
+                                tempAppInfoObject.totalAccepted += accepted;
+                                //未提交/已过期
+                                if (receTaskObject.get('expiredCount') != undefined && receTaskObject.get('expiredCount') > 0){
+                                    //过期(定时器走过了)
+                                    tempSubmission.abandoned = receTaskObject.get('expiredCount');
+                                    tempSubmission.pending = 0;
+                                    tempAppInfoObject.totalTimeout += tempSubmission.abandoned;
+                                }else {
+                                    //未提交
+                                    var undoTask = receTaskObject.get('receiveCount') - data.length;
+                                    tempSubmission.pending = undoTask;
+                                    tempSubmission.abandoned = 0;
+                                    tempAppInfoObject.totalUndo += undoTask;
+                                }
+
+                                counter++;
+
+                                if (counter == promise){
+                                    tempAppInfoObject.submissions.push(tempSubmission);
+                                    retApps.push(tempAppInfoObject);
+                                    counterForReceive++;
+                                    tryReturn(0, '');
+                                    return;
+                                }
+                            }, function(error){
+                                counter++;
+                                retJsonFunc(error.code, error.message);
+                            });
+                        })(results[i], submission);
+
+                    }
+                    //没有上传,返回空值
+                    if (promise == 0){
+                        retJsonFunc(0, '');
+                    }
+                });
+            })(appInfoObject);
         }
-        res.json({'taskAudit':retApps, 'taskInfo':appInfoObject})
     })
 });
 
@@ -102,132 +252,132 @@ router.get('/cancelTask/:taskId', function(req, res){
     });
 });
 
-//******************点击控制器条目后触发***********************
-router.get('/specTaskCheck/:taskId', function(req, res){
-    var taskId = req.params.taskId;
-    var query = new AV.Query(receiveTaskObject);
-    var taskObject = AV.Object.createWithoutData('releaseTaskObject', taskId);
-    query.equalTo('taskObject', taskObject);
-    query.exists('receiveCount');
-    query.include('userObject');
-    query.ascending('createdAt');
-    query.limit(1000);
-    query.find().then(function(results){
-        var rtnResults = new Array();
-        var promise = 0;
-        var counter = 0;
-
-        var totalGetTask = 0,  totalAccepted = 0, totalSubmited = 0;
-        var totalUndo = 0, totalRejected = 0, totalTimeout = 0;
-
-        if(results.length == 0){
-            retJsonFunc(0, '');
-            return;
-        }
-
-        function retJsonFunc(errorId, errorMsg){
-            if (counter == promise){
-                //排序;
-                rtnResults.sort(function(a, b){return a.createdAt - b.createdAt});
-                res.json({
-                    'rtnResults':rtnResults,
-                    'errorId': errorId, 'errorMsg': errorMsg,
-                    'totalGetTask' : totalGetTask, 'totalAccepted': totalAccepted,
-                    'totalSubmited': totalSubmited, 'totalUndo': totalUndo,
-                    'totalRejected' : totalRejected, 'totalTimeout': totalTimeout
-                });
-            }
-        }
-
-        for (var i = 0; i < results.length; i++) {
-            //receive task object
-            promise++;
-            var submission = Object();
-            var user = results[i].get('userObject');
-            //领取任务基本信息
-            submission.id = results[i].id;
-            submission.receiveCount = results[i].get('receiveCount');
-            totalGetTask += submission.receiveCount;
-            submission.receivePrice = results[i].get('receivePrice');
-            submission.createdAt = results[i].createdAt;
-            var username = user.get('userNickname');
-            if (username == undefined){
-                submission.username = user.get('username').substring(0, 7) + '****';
-            }else if (username == ''){
-                submission.username = user.get('username').substring(0, 7) + '****';
-            }
-            else {
-                submission.username = username;
-            }
-            submission.userId = user.id;
-
-            //获取各个上传信息
-            (function(receTaskObject, tempSubmission){
-                var relation = receTaskObject.relation('mackTask');
-                var query = relation.query();
-                query.descending('createdAt');
-                query.find().then(function (data) {
-                    var submitted = 0, accepted = 0, rejected = 0;
-                    tempSubmission.entries = new Array();
-                    for (var j = 0; j < data.length; j++) {
-                        //已做任务的信息状态
-                        var taskStatus = data[j].get('taskStatus');
-                        if (taskStatus == 'uploaded' || taskStatus == 'reUploaded'){
-                            submitted++;
-                        }else if(taskStatus == 'systemAccepted' || taskStatus == 'accepted'){
-                            accepted++;
-                        }else if(taskStatus == 'refused'){
-                            rejected++;
-                        }else if(taskStatus == 'expired'){
-                            //已经在定时器里增加过期数据,无需在这边计算 —— 唉
-                        }
-
-                        //已做任务详情
-                        var entry = Object();
-                        entry.id = data[j].id;
-                        entry.uploadName = data[j].get('uploadName');
-                        entry.imgs = data[j].get('requirementImgs');
-                        entry.status = data[j].get('taskStatus');
-                        entry.detail = data[j].get('detail');
-                        tempSubmission.entries.push(entry);
-                    }
-
-                    tempSubmission.submitted = submitted;//待审核
-                    totalSubmited += submitted;
-                    tempSubmission.rejected = rejected;//已拒绝
-                    totalRejected += rejected;
-                    tempSubmission.accepted = accepted;//已完成
-                    totalAccepted += accepted;
-                    //未提交/已过期
-                    if (receTaskObject.get('expiredCount') != undefined && receTaskObject.get('expiredCount') > 0){
-                        //过期(定时器走过了)
-                        tempSubmission.abandoned = receTaskObject.get('expiredCount');
-                        tempSubmission.pending = 0;
-                        totalTimeout += tempSubmission.abandoned;
-                    }else {
-                        //未提交
-                        var undoTask = receTaskObject.get('receiveCount') - data.length;
-                        tempSubmission.pending = undoTask;
-                        tempSubmission.abandoned = 0;
-                        totalUndo += undoTask;
-                    }
-
-                    rtnResults.push(tempSubmission);
-                    counter++;
-                    retJsonFunc(0, '');
-                }, function(error){
-                    counter++;
-                    retJsonFunc(error.code, error.message);
-                });
-            })(results[i], submission);
-
-        }
-        //没有上传,返回空值
-        if (promise == 0){
-            retJsonFunc(0, '');
-        }
-    });
-});
+////******************点击控制器条目后触发***********************
+//router.get('/specTaskCheck/:taskId', function(req, res){
+//    var taskId = req.params.taskId;
+//    var query = new AV.Query(receiveTaskObject);
+//    var taskObject = AV.Object.createWithoutData('releaseTaskObject', taskId);
+//    query.equalTo('taskObject', taskObject);
+//    query.exists('receiveCount');
+//    query.include('userObject');
+//    query.ascending('createdAt');
+//    query.limit(1000);
+//    query.find().then(function(results){
+//        var rtnResults = new Array();
+//        var promise = 0;
+//        var counter = 0;
+//
+//        var totalGetTask = 0,  totalAccepted = 0, totalSubmited = 0;
+//        var totalUndo = 0, totalRejected = 0, totalTimeout = 0;
+//
+//        if(results.length == 0){
+//            retJsonFunc(0, '');
+//            return;
+//        }
+//
+//        function retJsonFunc(errorId, errorMsg){
+//            if (counter == promise){
+//                //排序;
+//                rtnResults.sort(function(a, b){return a.createdAt - b.createdAt});
+//                res.json({
+//                    'rtnResults':rtnResults,
+//                    'errorId': errorId, 'errorMsg': errorMsg,
+//                    'totalGetTask' : totalGetTask, 'totalAccepted': totalAccepted,
+//                    'totalSubmited': totalSubmited, 'totalUndo': totalUndo,
+//                    'totalRejected' : totalRejected, 'totalTimeout': totalTimeout
+//                });
+//            }
+//        }
+//
+//        for (var i = 0; i < results.length; i++) {
+//            //receive task object
+//            promise++;
+//            var submission = Object();
+//            var user = results[i].get('userObject');
+//            //领取任务基本信息
+//            submission.id = results[i].id;
+//            submission.receiveCount = results[i].get('receiveCount');
+//            totalGetTask += submission.receiveCount;
+//            submission.receivePrice = results[i].get('receivePrice');
+//            submission.createdAt = results[i].createdAt;
+//            var username = user.get('userNickname');
+//            if (username == undefined){
+//                submission.username = user.get('username').substring(0, 7) + '****';
+//            }else if (username == ''){
+//                submission.username = user.get('username').substring(0, 7) + '****';
+//            }
+//            else {
+//                submission.username = username;
+//            }
+//            submission.userId = user.id;
+//
+//            //获取各个上传信息
+//            (function(receTaskObject, tempSubmission){
+//                var relation = receTaskObject.relation('mackTask');
+//                var query = relation.query();
+//                query.descending('createdAt');
+//                query.find().then(function (data) {
+//                    var submitted = 0, accepted = 0, rejected = 0;
+//                    tempSubmission.entries = new Array();
+//                    for (var j = 0; j < data.length; j++) {
+//                        //已做任务的信息状态
+//                        var taskStatus = data[j].get('taskStatus');
+//                        if (taskStatus == 'uploaded' || taskStatus == 'reUploaded'){
+//                            submitted++;
+//                        }else if(taskStatus == 'systemAccepted' || taskStatus == 'accepted'){
+//                            accepted++;
+//                        }else if(taskStatus == 'refused'){
+//                            rejected++;
+//                        }else if(taskStatus == 'expired'){
+//                            //已经在定时器里增加过期数据,无需在这边计算 —— 唉
+//                        }
+//
+//                        //已做任务详情
+//                        var entry = Object();
+//                        entry.id = data[j].id;
+//                        entry.uploadName = data[j].get('uploadName');
+//                        entry.imgs = data[j].get('requirementImgs');
+//                        entry.status = data[j].get('taskStatus');
+//                        entry.detail = data[j].get('detail');
+//                        tempSubmission.entries.push(entry);
+//                    }
+//
+//                    tempSubmission.submitted = submitted;//待审核
+//                    totalSubmited += submitted;
+//                    tempSubmission.rejected = rejected;//已拒绝
+//                    totalRejected += rejected;
+//                    tempSubmission.accepted = accepted;//已完成
+//                    totalAccepted += accepted;
+//                    //未提交/已过期
+//                    if (receTaskObject.get('expiredCount') != undefined && receTaskObject.get('expiredCount') > 0){
+//                        //过期(定时器走过了)
+//                        tempSubmission.abandoned = receTaskObject.get('expiredCount');
+//                        tempSubmission.pending = 0;
+//                        totalTimeout += tempSubmission.abandoned;
+//                    }else {
+//                        //未提交
+//                        var undoTask = receTaskObject.get('receiveCount') - data.length;
+//                        tempSubmission.pending = undoTask;
+//                        tempSubmission.abandoned = 0;
+//                        totalUndo += undoTask;
+//                    }
+//
+//                    rtnResults.push(tempSubmission);
+//                    counter++;
+//                    retJsonFunc(0, '');
+//                }, function(error){
+//                    counter++;
+//                    retJsonFunc(error.code, error.message);
+//                });
+//            })(results[i], submission);
+//
+//        }
+//        //没有上传,返回空值
+//        if (promise == 0){
+//            retJsonFunc(0, '');
+//        }
+//    });
+//});
 
 //*************接收逻辑******************************
 var updateReceiveTaskDatabase = function(doTaskObject, uploaderName, res){

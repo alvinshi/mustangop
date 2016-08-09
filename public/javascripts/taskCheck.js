@@ -13,8 +13,8 @@ app.controller('taskCheckCtrl', function($scope, $http, $location) {
             //初始显示返回的第一个
             $scope.taskIndex = 0;
             $scope.taskDisplayed = $scope.taskAudit[0];
-            //获取左侧信息
-            specTaskCheck($scope.taskDisplayed.taskId);
+            ////获取左侧信息
+            //specTaskCheck($scope.taskDisplayed.taskId);
         }
         else {
             //如果没有返回值, 需要在前端显示按钮
@@ -46,7 +46,7 @@ app.controller('taskCheckCtrl', function($scope, $http, $location) {
     $scope.check = function(app, index){
         $scope.taskIndex = index;
         $scope.taskDisplayed = app;
-        specTaskCheck(app.taskId);
+        console.log(app);
     };
 
     // 单条任务关闭
