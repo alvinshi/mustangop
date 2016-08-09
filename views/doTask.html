@@ -347,10 +347,11 @@
                 </div>
 
                 <div class="taskPanel" ng-repeat="app in commentTask">
-                    <table style="width: 1010px;">
+                    <table style="width: 1010px;" style="width: 1010px;" ng-mouseover="showDiv(app)" ng-mouseleave="hideDiv(app)">
                         <tr>
-                            <td style="padding: 24px 30px 24px 30px; width: 160px;">
+                            <td style="padding: 24px 30px 24px 30px; width: 160px; position: relative;">
                                 <img ng-src="{{ app.artworkUrl100 }}" class="appIcon"/>
+                                <div class="choose" ng-show='app.mode' ng-click="filtrateApp(app)" data-target="#markCommentApp{{$index}}" data-toggle="modal">标记已换</div>
                             </td>
                             <td style="width: 500px;">
                                 <p class="appName">{{ app.trackName }}</p>
@@ -361,12 +362,12 @@
                                     <span class="infoBubble"><span style="color:#53d435">IOS</span></span>
                                 </div>
                             </td>
-                            <td ng-if='!app.myTask' style="padding-right: 0px;">
+                            <td ng-if='!app.myTask'ng-show="!app.hasChanged" style="padding-right: 0px;">
                                 <button class="mybtn reverse hvr-float-shadow" data-target="#detail_comment{{$index}}" data-toggle="modal">
                                     任务详情
                                 </button>
                             </td>
-                            <td ng-if='!app.myTask' style="padding-right: 40px;">
+                            <td ng-if='!app.myTask'ng-show="!app.hasChanged" style="padding-right: 40px;">
                                 <button class="mybtn reverse hvr-float-shadow" data-target="#takeTask_comment{{$index}}" data-toggle="modal">
                                     领取任务
                                 </button>
@@ -382,8 +383,30 @@
                                     我的发布
                                 </button>
                             </td>
+                            <td   >
+                                <button  class="haschange" ng-show="app.hasChanged" >
+                                    本版本标记为已换
+                                </button>
+                            </td>
                         </tr>
                     </table>
+                    <div class="modal fade" id="markCommentApp{{$index}}">
+                        <div class="modal-dialog">
+                            <div class="modal-content" style="width: 320px;">
+                                <div class="modal-header" style="height: 74px;background-color:#6eb7e8;border-radius:4px;text-align: center">
+                                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+                                    <h4 class="modal-title"  style="font-size:20px;color: #FFFFFF">是否把此APP标记为"本版本已换"?</h4>
+                                </div>
+
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="confirmAdd(app)">确认</button>
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                                </div>
+                            </div><!-- /.modal-content -->
+                        </div><!-- /.modal-dialog -->
+                    </div>
+
+
                     <hr style="margin:0; border-color: #dddddd;">
 
                     <!---Modal-->
@@ -524,6 +547,7 @@
                     </div>
 
                 </div>
+
                 <div ng-show="noApp">
 
                     <h1 style="text-align: center; margin-top: 150px; margin-bottom: 150px;">今天还没有新的评论任务</h1>
@@ -544,10 +568,11 @@
                 </div>
                 <div class="taskPanel" ng-repeat="app in downTask">
 
-                    <table style="width: 1010px;">
+                    <table style="width: 1010px;" ng-mouseover="showDiv(app)" ng-mouseleave="hideDiv(app)">
                         <tr>
-                            <td style="padding: 24px 30px 24px 30px; width: 160px;">
+                            <td style="padding: 24px 30px 24px 30px; width: 160px;position: relative">
                                 <img ng-src="{{ app.artworkUrl100 }}" class="appIcon"/>
+                                <div class="choose" ng-show='app.mode' ng-click="filtrateApp(app)" data-target="#markDownloadApp{{$index}}" data-toggle="modal">标记已换</div>
                             </td>
                             <td style="width: 500px;">
                                 <p class="appName">{{ app.trackName }}</p>
@@ -558,12 +583,12 @@
                                     <span class="infoBubble"><span style="color:#53d435">IOS</span></span>
                                 </div>
                             </td>
-                            <td ng-if="!app.myTask"   style="padding-right: 0px;">
+                            <td ng-if="!app.myTask" ng-show="!app.hasChanged"  style="padding-right: 0px;">
                                 <button class="mybtn reverse hvr-float-shadow" data-target="#detail_download{{$index}}" data-toggle="modal">
                                     任务详情
                                 </button>
                             </td>
-                            <td ng-if="!app.myTask"   style="padding-right: 40px;">
+                            <td ng-if="!app.myTask"  ng-show="!app.hasChanged" style="padding-right: 40px;">
                                 <button class="mybtn reverse hvr-float-shadow" data-target="#takeTask_download{{$index}}" data-toggle="modal">
                                     领取任务
                                 </button>
@@ -578,8 +603,28 @@
                                     我的发布
                                 </button>
                             </td>
+                            <td   >
+                                <button  class="haschange" ng-show="app.hasChanged" >
+                                    本版本标记为已换
+                                </button>
+                            </td>
                         </tr>
                     </table>
+                    <div class="modal fade" id="markDownloadApp{{$index}}">
+                        <div class="modal-dialog">
+                            <div class="modal-content" style="width: 320px;">
+                                <div class="modal-header" style="height: 74px;background-color:#6eb7e8;border-radius:4px;text-align: center">
+                                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+                                    <h4 class="modal-title"  style="font-size:20px;color: #FFFFFF">是否把此APP标记为"本版本已换"?</h4>
+                                </div>
+
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="confirmAdd(app)">确认</button>
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                                </div>
+                            </div><!-- /.modal-content -->
+                        </div><!-- /.modal-dialog -->
+                    </div>
                     <hr style="margin:0; border-color: #dddddd;">
 
                     <!---Modal-->

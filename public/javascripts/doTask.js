@@ -65,14 +65,13 @@ app.controller('doTaskCtrl', function($scope, $http) {
     function getTaskData(taskType, pageCount){
         var url = 'doTask/taskHall/' + pageCount + '/' + taskType;
         $http.get(url).success(function(response) {
+            console.log(response.allTask);
 
             $scope.isLoadingMyApp = false;
 
             //请求回App之后, 初始, mode: 代表标记一环, hasChanged: 代表出现本版本已还灰色按钮
             for(var i = 0; i < response.allTask; i++){
-                if(response.allTask[i].myTask != false){
-                    response.allTask[i].mode = true;
-                }
+                response.allTask[i].mode = false;
             }
             for(var j=0;j<response.allTask;i++){
                 response.allTask[j].hasChanged = false;
