@@ -11,6 +11,7 @@ var https = require('https');
 // 详见： https://leancloud.cn/docs/js_guide.html#对象
 var IOSAppSql = AV.Object.extend('IOSAppInfo');
 var IOSAppBinder = AV.Object.extend('IOSAppBinder');
+var IOSAppInfoSQL = AV.Object.extend('IOSAppInfo');
 var IOSAppExcLogger = AV.Object.extend('IOSAppExcLogger');
 var taskDemandObject = AV.Object.extend('taskDemandObject');
 var releaseTaskObject = AV.Object.extend('releaseTaskObject');
@@ -312,11 +313,11 @@ router.post('/task', function(req, res){
                 if(aRelaseTaskObejct.get('remainCount') > 0){
                     unGetAllTaskCount++;
                 }
+            }
 
-                if(unGetAllTaskCount >= 2){
-                    res.json({'errorMsg':'你还有2个任务未被领完哦,等领完再发吧', 'errorId': -1});
-                    return;
-                }
+            if(unGetAllTaskCount >= 2){
+                res.json({'errorMsg':'你还有2个任务未被领完哦,等领完再发吧', 'errorId': -1});
+                return;
             }
 
             var rateunitPrice = excUnitPrice * myRate;
@@ -393,47 +394,59 @@ router.post('/task', function(req, res){
 });
 
 //获取需求编辑信息
-router.get('/getNeed/:appleId', function(req, res){
+router.get('/getNeed/:appObjectId', function(req, res){
     var userId = util.useridInReq(req);
-    var myappId = req.params.appleId;
+    var appObjectId = req.params.appObjectId;
 
     var userObject = new AV.User();
     userObject.id = userId;
+
+    var appObject = new AV.IOSAppInfoSQL();
+    appObject.id = appObjectId;
+
     var query = new AV.Query(IOSAppBinder);
     query.equalTo('userObject', userObject);
+    query.equalTo('appObject', appObject);
     query.include('appObject');
+    query.include('userObject');
     query.include('taskDemand');
     query.find().then(function(results){
-        var retApps = Object();
-        for (var i = 0; i < results.length; i++){
-            var appObject = results[i].get('appObject');
-            var appObjectId = appObject.get('appleId');
-            var taskdemand = results[i].get('taskDemand');
-            if (taskdemand != undefined){
-                if (appObjectId == myappId){
-                    retApps.taskType = taskdemand.get('taskType');
-                    retApps.excCount = taskdemand.get('excCount');
-                    retApps.screenshotCount = taskdemand.get('screenshotCount');
-                    retApps.searchKeyword = taskdemand.get('searchKeyword');
-                    retApps.ranKing = taskdemand.get('ranKing');
+        var taskDemandObject = undefined;
+        var appObject = undefined;
 
-                    retApps.Score = taskdemand.get('Score');
-                    retApps.titleKeyword = taskdemand.get('titleKeyword');
-                    retApps.commentKeyword = taskdemand.get('commentKeyword');
-                    retApps.detailRem = taskdemand.get('detailRem');
-                }
-            }
+        if(results.length > 0){
+            appObject = results[0].get('appObject');
+            taskDemandObject = results[0].get('taskDemand');
+        }else {
+            res.json({'errorMsg': '该账号未绑定该App 请先绑定', 'errorId': -100});
+            return;
         }
-        res.json({'appNeedInfo':retApps})
-    }, function (error){
+
+        var appDemandInfo = Object();
+        if (taskDemandObject != undefined){
+            //已经保存过需求
+            appDemandInfo.taskType = taskDemandObject.get('taskType');
+            appDemandInfo.excCount = taskDemandObject.get('excCount');
+            appDemandInfo.screenshotCount = taskDemandObject.get('screenshotCount');
+            appDemandInfo.searchKeyword = taskDemandObject.get('searchKeyword');
+            appDemandInfo.ranKing = taskDemandObject.get('ranKing');
+
+            appDemandInfo.Score = taskDemandObject.get('Score');
+            appDemandInfo.titleKeyword = taskDemandObject.get('titleKeyword');
+            appDemandInfo.commentKeyword = taskDemandObject.get('commentKeyword');
+            appDemandInfo.detailRem = taskDemandObject.get('detailRem');
+        }
+
+        res.json({'appNeedInfo':appDemandInfo})
+    }, function(error){
         res.json({'errorMsg':error.message, 'errorId': error.code});
     });
 });
 
 // 保存任务需求编辑内容
-router.post('/taskneed/:appid', function(req, res){
+router.post('/taskneed/:appObjectId', function(req, res){
     var userId = util.useridInReq(req);
-    var myappId = req.params.appid;
+    var appObjectId = req.params.appObjectId;
     var task_type = req.body.taskType;
     var exc_count = req.body.excCount;
     var screenshot_count = parseInt(req.body.screenshotCount);
@@ -444,68 +457,57 @@ router.post('/taskneed/:appid', function(req, res){
     var comment_keywords = req.body.commentKeyword;
     var detail_rem = req.body.detailRem;
 
-    var user = new AV.User();
-    user.id = userId;
+    var userObject = new AV.User();
+    userObject.id = userId;
+
+    var appObject = new AV.IOSAppInfoSQL();
+    appObject.id = appObjectId;
 
     var query = new AV.Query(IOSAppBinder);
-    query.equalTo('userObject', user);
+    query.equalTo('userObject', userObject);
+    query.equalTo('appObject', appObject);
     query.include('appObject');
+    query.include('userObject');
     query.include('taskDemand');
     query.find().then(function(results){
-        var dealIOSAppBilderObject = undefined;
-        var taskdemand = undefined;
+        var dealIOSAppBilderObject = undefined; //must exist
+        var taskDemandObject = undefined;
+        var appObject = undefined;
 
-        for (var i = 0; i < results.length; i++){
-            var appObject = results[i].get('appObject');
-            var appObjectId = appObject.get('appleId');
-            taskdemand = results[i].get('taskDemand');
-            if (appObjectId == myappId){
-                dealIOSAppBilderObject = results[i];
-                break;
-            }
-        }
-
-        if (taskdemand == undefined){
-            var taskObject = new taskDemandObject();
-            taskObject.set('taskType', task_type);
-            taskObject.set('excCount', exc_count);
-            taskObject.set('screenshotCount', screenshot_count);
-            taskObject.set('searchKeyword', search_Keywords);
-            taskObject.set('ranKing', ranking);
-            taskObject.set('Score', score);
-            taskObject.set('titleKeyword', title_keywords);
-            taskObject.set('commentKeyword', comment_keywords);
-            taskObject.set('detailRem', detail_rem);
-            taskObject.save().then(function(lTaskObject){
-                dealIOSAppBilderObject.set('taskDemand', lTaskObject);
-                dealIOSAppBilderObject.save().then(function(){
-                    res.json({'errorId':0, 'errorMsg':''});
-                }, function(error){
-                    res.json({'errorMsg':error.message, 'errorId': error.code});
-                })
-            }, function(error){
-                res.json({'errorMsg':error.message, 'errorId': error.code});
-            });
+        if(results.length > 0){
+            dealIOSAppBilderObject = results[0];
+            appObject = results[0].get('appObject');
+            taskDemandObject = results[0].get('taskDemand');
         }else {
-            taskdemand.set('taskType', task_type);
-            taskdemand.set('excCount', exc_count);
-            taskdemand.set('screenshotCount', screenshot_count);
-            taskdemand.set('searchKeyword', search_Keywords);
-            taskdemand.set('ranKing', ranking);
-            taskdemand.set('Score', score);
-            taskdemand.set('titleKeyword', title_keywords);
-            taskdemand.set('commentKeyword', comment_keywords);
-            taskdemand.set('detailRem', detail_rem);
-            taskdemand.save().then(function(){
-                //
-                res.json({'errorId':0, 'errorMsg':''});
-            }, function(error){
-                res.json({'errorMsg':error.message, 'errorId': error.code});
-            });
+            res.json({'errorMsg': '该账号未绑定该App 请先绑定', 'errorId': -100});
+            return;
         }
+
+        if (taskDemandObject == undefined){
+            //第一次保存需求
+            taskDemandObject = new taskDemandObject();
+            dealIOSAppBilderObject.set('taskDemand', taskDemandObject);
+        }
+
+        taskDemandObject.set('taskType', task_type);
+        taskDemandObject.set('excCount', exc_count);
+        taskDemandObject.set('screenshotCount', screenshot_count);
+        taskDemandObject.set('searchKeyword', search_Keywords);
+        taskDemandObject.set('ranKing', ranking);
+        taskDemandObject.set('Score', score);
+        taskDemandObject.set('titleKeyword', title_keywords);
+        taskDemandObject.set('commentKeyword', comment_keywords);
+        taskDemandObject.set('detailRem', detail_rem);
+
+        //2个都会保存
+        dealIOSAppBilderObject.save().then(function(){
+            res.json({'errorId':0, 'errorMsg':''});
+        }, function(error){
+            res.json({'errorMsg':error.message, 'errorId': error.code});
+        });
     }, function(error){
         res.json({'errorMsg':error.message, 'errorId': error.code});
-    })
+    });
 });
 
 // 验证钱够不够发布任务
