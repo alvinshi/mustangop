@@ -120,7 +120,7 @@ router.get('/angular', function(req, res, next) {
                     }).on('error', function(error) {
                         dealiTunesAppFailed(retApps, tempAppObject);
                         promiseCount++;
-                        if (promiseCount == judgeLength){
+                        if (promiseCount == results.length){
                             res.json({'myApps':retApps, 'errorId': error.code, 'errorMsg': error.message});
                         }
                     });
