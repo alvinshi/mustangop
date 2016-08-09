@@ -235,6 +235,16 @@ exports.leanObjectListIdList = function(leanObjectList){
     return idList;
 };
 
+exports.addLeanObject = function(leanObject, leanObjectList){
+    for (var i = 0; i < leanObjectList.length; i++){
+        var temLeanObject = leanObjectList[i];
+        if(temLeanObject.id == leanObject.id){
+            return;
+        }
+    }
+    leanObjectList.push(leanObject);
+}
+
 exports.updateIOSAppInfo = updateIOSAppInfo;
 
 

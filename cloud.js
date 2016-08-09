@@ -3,6 +3,7 @@
  */
 
 var AV = require('leanengine');
+var util = require('./routes/util');
 var IOSAppExcLogger = AV.Object.extend('IOSAppExcLogger');
 var IOSAppBinder = AV.Object.extend('IOSAppBinder');
 var User = AV.Object.extend('_User');
@@ -229,16 +230,6 @@ AV.Cloud.define('refuseTaskTimerForRelease', function(request, response){
         return refuseDoTaskquery;
     }
 
-    function addLeanObject(leanObject, leanObjectList){
-        for (var i = 0; i < leanObjectList.length; i++){
-            var temLeanObject = leanObjectList[i];
-            if(temLeanObject.id == leanObject.id){
-                return;
-            }
-        }
-        leanObjectList.push(leanObject);
-    }
-
     var query = getRefuseDoTaskQuery();
     query.count().then(function(count){
         var totalCount = count;
@@ -279,8 +270,8 @@ AV.Cloud.define('refuseTaskTimerForRelease', function(request, response){
                     console.log(sendTaskUserObject.id+ ' ++++++ refused task,and unlock send user money' + excUnitPrice);
                     sendTaskUserObject.increment('totalMoney', excUnitPrice);
 
-                    addLeanObject(doReceTaskObject, doReceTaskList);
-                    addLeanObject(sendTaskUserObject, senTaskUserList);
+                    util.addLeanObject(doReceTaskObject, doReceTaskList);
+                    util.addLeanObject(sendTaskUserObject, senTaskUserList);
                 }
 
                 //解锁YB
