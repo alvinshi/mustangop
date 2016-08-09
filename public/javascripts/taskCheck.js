@@ -67,22 +67,6 @@ app.controller('taskCheckCtrl', function($scope, $http, $location) {
         })
     };
 
-    //**************  Helper Function *******************
-    var specTaskCheck = function(taskId){
-        $scope.currentTaskId = taskId;
-        var url = '/taskCheck/specTaskCheck/' + taskId;
-        $http.get(url).success(function(response){
-            $scope.specTask = response.rtnResults;
-
-            $scope.totalAccepted = response.totalAccepted;
-            $scope.totalGetTask = response.totalGetTask;
-            $scope.totalRejected = response.totalRejected;
-            $scope.totalSubmited= response.totalSubmited;
-            $scope.totalTimeout = response.totalTimeout;
-            $scope.totalUndo = response.totalUndo;
-        })
-    };
-
     //***************撤销任务逻辑************************
     $scope.confirmCancel = function(taskId){
         var url = '/taskCheck/cancelTask/' + taskId;
@@ -117,7 +101,8 @@ app.controller('taskCheckCtrl', function($scope, $http, $location) {
 
 
     //*****************拒绝接收****************************
-    $scope.reject = function(entryId){
+    $scope.reject = function(entry){
+        var entryId = entry.id;
         var flag=true;
         $scope.required = false;
         if($scope.myObj.rejectReason==""||$scope.myObj.rejectReason==undefined){
@@ -130,11 +115,9 @@ app.controller('taskCheckCtrl', function($scope, $http, $location) {
             var url = '/taskCheck/reject/' + entryId;
             var reject_reason = {'rejectReason': $scope.myObj.rejectReason};
             $http.post(url, reject_reason).success(function(response){
-
                 $("#rejectreason"+entryId).modal("hide");
                 $scope.myObj.rejectReason="";
-
-                specTaskCheck($scope.currentTaskId);
+                entry.status = 'refused';
             })
         }
 
@@ -142,7 +125,4 @@ app.controller('taskCheckCtrl', function($scope, $http, $location) {
     $scope.addApp=function(id) {
         $('#'+ id).popover("toggle");
     };
-
-
-
 });

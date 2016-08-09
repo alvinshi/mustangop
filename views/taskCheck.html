@@ -331,7 +331,7 @@
                                         <img ng-repeat="img in entry.imgs" src="{{img}}" alt="">
                                         <div class=" text-right receive_btn">
 
-                                            <button class="btn reject "data-target="#rejectreason{{entry.id}}" data-toggle="modal" ng-show="(entry.status == 'uploaded' || entry.status == 'reUploaded') && taskDisplayed.cancelled == false">拒绝</button>
+                                            <button class="btn reject "data-target="#rejectreason{{entry}}" data-toggle="modal" ng-show="(entry.status == 'uploaded' || entry.status == 'reUploaded') && taskDisplayed.cancelled == false">拒绝</button>
                                             <button class="btn noReject disabled" ng-show="(entry.status == 'uploaded' || entry.status == 'reUploaded') && taskDisplayed.cancelled == true">任务撤销后不得拒绝提交</button>
                                             <button class="btn receive" ng-click="accept(entry)" ng-show="entry.status == 'uploaded' || entry.status == 'reUploaded'">确认接受</button>
                                             <button class="btn receive2" ng-show="entry.status == 'accepted' || entry.status == 'systemAccepted'">已接受</button>
@@ -339,7 +339,7 @@
                                             <button class="btn reject2" ng-show="entry.status == 'expired'">已过期</button>
 
                                         </div>
-                                        <div class="modal fade" id="rejectreason{{entry.id}}">
+                                        <div class="modal fade" id="rejectreason{{entry}}">
                                             <div class="modal-dialog">
                                                 <div class="modal-content" style="width:320px;height:230px">
                                                     <div class="modal-header" style="height:50px;margin:0px;background-color:#6eb7e8;border-radius:4px;text-align: center">
@@ -355,7 +355,7 @@
 
                                                             <span ng-show="required" style="color: red">必填</span>
                                                             <button type="button"  style="width: 60px;
-                                                                background-color: #3498db;border: 1px solid #3498db;border-radius:4px;color: whitesmoke;height: 30px;font-size: 14px" ng-click="reject(entry.id)">确认</button>
+                                                                background-color: #3498db;border: 1px solid #3498db;border-radius:4px;color: whitesmoke;height: 30px;font-size: 14px" ng-click="reject(entry)">确认</button>
                                                         </div>
 
                                                     </div>
