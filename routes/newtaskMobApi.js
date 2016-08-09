@@ -62,7 +62,6 @@ router.get('/claim/:excTaskId', function(req, res){
         if (uploadUserName != undefined){
             var relation = resultObject.relation('mackTask');
             var task_query = relation.query();
-            task_query.equalTo('uploadName', uploadUserName);
             task_query.notEqualTo('taskStatus', 'expired');
             task_query.find().then(function(result){
                 var mackTaskList = Array();
