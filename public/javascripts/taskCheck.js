@@ -102,6 +102,7 @@ app.controller('taskCheckCtrl', function($scope, $http, $location) {
 
     //*****************拒绝接收****************************
     $scope.reject = function(entry){
+        console.log(entry);
         var entryId = entry.id;
         var flag=true;
         $scope.required = false;
@@ -118,6 +119,7 @@ app.controller('taskCheckCtrl', function($scope, $http, $location) {
                 $("#rejectreason"+entryId).modal("hide");
                 $scope.myObj.rejectReason="";
                 entry.status = 'refused';
+                console.log(entry);
             })
         }
 
