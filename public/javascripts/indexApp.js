@@ -41,8 +41,6 @@ app.directive("thFooter",function(){
     return {
         restrict: 'E',
         templateUrl: '/html/footer.html'
-
-
     };
 });
 
@@ -59,9 +57,5 @@ app.controller('indexAppCtrl', function($scope, $http, $location){
         clearCookie('username');
         location.href='/';
     };
-
-
-
-
 });
 
