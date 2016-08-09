@@ -312,11 +312,11 @@ router.post('/task', function(req, res){
                 if(aRelaseTaskObejct.get('remainCount') > 0){
                     unGetAllTaskCount++;
                 }
+            }
 
-                if(unGetAllTaskCount >= 2){
-                    res.json({'errorMsg':'你还有2个任务未被领完哦,等领完再发吧', 'errorId': -1});
-                    return;
-                }
+            if(unGetAllTaskCount >= 2){
+                res.json({'errorMsg':'你还有2个任务未被领完哦,等领完再发吧', 'errorId': -1});
+                return;
             }
 
             var rateunitPrice = excUnitPrice * myRate;
