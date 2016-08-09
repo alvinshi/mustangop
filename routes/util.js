@@ -221,6 +221,20 @@ function updateIOSAppInfo (appstoreObject, leanAppObject){
     return appInfoObject;
 }
 
+
+//tools for leancloud
+exports.leanObjectListIdList = function(leanObjectList){
+    var idList = Array();
+
+    for(var i = 0; i < leanObjectList.length; i++){
+        var leanObject = leanObjectList[i];
+        if(leanObject != undefined){
+            idList.push(leanObject.id);
+        }
+    }
+    return idList;
+};
+
 exports.updateIOSAppInfo = updateIOSAppInfo;
 
 

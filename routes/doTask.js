@@ -24,6 +24,7 @@ function getTaskQuery(userObject){
     var query = new AV.Query(releaseTaskObject);
     query.notEqualTo('cancelled', true);
     query.notEqualTo('close', true);
+    query.greaterThan('remainCount', 0);
     query.notEqualTo('userObject', userObject);
     return query;
 }
@@ -73,12 +74,40 @@ function taskObjectToDic(results, TaskObjects, isMyTask)
     }
 }
 
+function getDisableTaskQuery(userObject){
+    //筛选应该是,我可以领,但是我不能领的任务(已经交换过)
+    //查询用户无法做任务的query (使用非精准的App发布时间进行区分)
+    var queryReceiveExcTask = new AV.Query(receiveTaskObject);
+    queryReceiveExcTask.equalTo('userObject', userObject);
+    queryReceiveExcTask.limit(1000);
+    queryReceiveExcTask.descending('updatedAt');
+
+    var query = new AV.Query(releaseTaskObject);
+    query.greaterThan('remainCount', 0);
+    query.notEqualTo('close', true);
+    query.notEqualTo('cancelled', true);
+    query.matchesKeyInQuery('excUniqueCode', 'excUniqueCode', queryReceiveExcTask);
+    return query;
+}
+
 function getTaskObjectList(taskType, query, totalCount, pageIndex, userObject, res, disableCount){
     var flag = 0;
     var flagTotal = 2;
     var TaskObjects = [];
     var hasmore = 1;
     var myAppCount = 0;
+    var disableTaskObjectList = Array();
+
+    function dealOperationNewVersion(vaildTaskObjectList, operatedTaskOperationList){
+        //isNewVersion
+        for(var i = 0; i < vaildTaskObjectList.length; i++){
+            for(var j = 0; j < operatedTaskOperationList.length; j++){
+                if(vaildTaskObjectList[i]['myTask'] != true && vaildTaskObjectList[i]['appleId'] == operatedTaskOperationList[j].get('appObject').get('appleId')){
+                    vaildTaskObjectList[i].isNewVersion = true;
+                }
+            }
+        }
+    }
 
     if (taskType == 'inactiveTask' || pageIndex > 0){
         flagTotal = 1;
@@ -110,6 +139,7 @@ function getTaskObjectList(taskType, query, totalCount, pageIndex, userObject, r
     function retTaskFunc(disableCount, errorId){
         flag = flag + 1;
         if (flag == flagTotal) {
+            dealOperationNewVersion(TaskObjects, disableTaskObjectList);
             if(disableCount >= 0){
                 res.json({'allTask':TaskObjects, 'myAppCount':myAppCount, 'hasMore':hasmore, 'errorId': errorId, 'disableTaskCount':disableCount})
             }else {
@@ -124,13 +154,36 @@ function getTaskObjectList(taskType, query, totalCount, pageIndex, userObject, r
     query.skip(pageIndex);
     query.limit(20);
     query.find().then(function(results){
+
         taskObjectToDic(results, TaskObjects, false);
         if (totalCount > results.length + pageIndex){
             hasmore = 1;
         }else {
             hasmore = 0;
         }
-        retTaskFunc(disableCount, 0);
+
+        if(taskType != 'inactiveTask'){
+            //查询已换过App
+            var queryReceiveExcTask = new AV.Query(receiveTaskObject);
+            queryReceiveExcTask.equalTo('userObject', userObject);
+            queryReceiveExcTask.limit(1000);
+            queryReceiveExcTask.descending('updatedAt');
+
+            var disableQuery = new AV.Query(releaseTaskObject);
+            //曾经操作过的App即可
+            disableQuery.matchesKeyInQuery('appObject', 'appObject', queryReceiveExcTask);
+
+            disableQuery.containedIn('objectId', util.leanObjectListIdList(results));
+            disableQuery.include('appObject');
+            disableQuery.find().then(function(disableSubResults){
+                disableTaskObjectList = disableSubResults;
+                retTaskFunc(disableCount, 0);
+            }, function(error){
+                retTaskFunc(disableCount, 0);
+            });
+        }else {
+            retTaskFunc(disableCount, 0);
+        }
     }, function (error){
         retTaskFunc(disableCount, error.code);
     });
@@ -145,53 +198,39 @@ router.get('/taskHall/:pageIndex/:taskType', function(req, res){
     var userObject = new AV.User();
     userObject.id = userId;
 
-    //查询用户无法做任务的query (使用非精准的App发布时间进行区分)
-    var queryReceiveExcTask = new AV.Query(receiveTaskObject);
-    queryReceiveExcTask.equalTo('userObject', userObject);
-    queryReceiveExcTask.limit(1000);
-    queryReceiveExcTask.descending('updatedAt');
+    //查询用户无法做任务的query (使用精准的AppID+version作为标记位)
+    var queryReceiveExcTask = getDisableTaskQuery(userObject);
 
     //TODO 标记为已做任务,去receiveTask数据库建立相关字段
     //TODO 个人中心保存用户告诉换屏设备个数,排序这边优先排序设备个数的换屏
 
     var query = undefined;
 
-    function getDisableTaskQuery(){
-        //筛选应该是,我可以领,但是我不能领的任务(已经交换过)
-        var query = new AV.Query(releaseTaskObject);
-        query.greaterThan('remainCount', 0);
-        query.notEqualTo('close', true);
-        query.notEqualTo('cancelled', true);
-        query.matchesKeyInQuery('excUniqueCode', 'excUniqueCode', queryReceiveExcTask);
-        return query;
-    }
-
     if (tasktype == 'allTask'){
         query = getTaskQuery(userObject);
-        query.greaterThan('remainCount', 0);
         query.doesNotMatchKeyInQuery('excUniqueCode', 'excUniqueCode', queryReceiveExcTask);
     }
     else if (tasktype == 'commentTask'){
         query = getTaskQuery(userObject);
-        query.greaterThan('remainCount', 0);
         query.equalTo('taskType', '评论');
         query.doesNotMatchKeyInQuery('excUniqueCode', 'excUniqueCode', queryReceiveExcTask);
     }
     else if (tasktype == 'downTask'){
         query = getTaskQuery(userObject);
-        query.greaterThan('remainCount', 0);
         query.equalTo('taskType', '下载');
         query.doesNotMatchKeyInQuery('excUniqueCode', 'excUniqueCode', queryReceiveExcTask);
     }
     else {
-        query = getDisableTaskQuery();
+        //已筛选任务
+        //query = getDisableTaskQuery(userObject);
     }
 
     var totalCount = 0;
     query.count().then(function(count){
         totalCount = count;
         if (pageIndex == 0){
-            var disableTaskQuery = getDisableTaskQuery();
+            //首次请求时,查询筛选任务个数
+            var disableTaskQuery = getDisableTaskQuery(userObject);
 
             disableTaskQuery.count().then(function(disableTaskCount){
                 getTaskObjectList(tasktype, query, totalCount, pageIndex, userObject, res, disableTaskCount);
@@ -199,7 +238,7 @@ router.get('/taskHall/:pageIndex/:taskType', function(req, res){
                 getTaskObjectList(tasktype, query, 1000, pageIndex, userObject, res, -1);
             });
         }else {
-            var disabletaskQuery = getDisableTaskQuery();
+            var disabletaskQuery = getDisableTaskQuery(userObject);
             disabletaskQuery.count().then(function(disableTaskCount){
                 getTaskObjectList(tasktype, query, totalCount, pageIndex, userObject, res, disableTaskCount);
             },function (error){
