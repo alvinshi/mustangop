@@ -60,12 +60,7 @@ app.controller('doTaskCtrl', function($scope, $http) {
     function getTaskData(taskType, pageCount){
         var url = 'doTask/taskHall/' + pageCount + '/' + taskType;
         $http.get(url).success(function(response) {
-<<<<<<< HEAD
-
             $scope.isLoadingMyApp = false;
-=======
->>>>>>> ae35b982fae85f1e0df3752911a28fe2ed4e9a3e
-
             if(pageCount == 0){
                 //第一页时保存我的App个数
                 if(response.myAppCount != undefined){
