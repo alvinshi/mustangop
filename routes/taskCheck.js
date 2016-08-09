@@ -84,7 +84,6 @@ router.get('/taskAudit', function(req, res){
                 query.ascending('createdAt');
                 query.limit(1000);
                 query.find().then(function(results){
-                    var rtnResults = Array();
                     var promise = results.length;
                     var counter = 0;
 
