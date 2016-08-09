@@ -6,6 +6,7 @@
     font-size: 30px;
     color: #3498db;
     margin-bottom: 9px;
+    margin-left: 50px;
 }
 
 /*.media-body div{*/
@@ -87,8 +88,8 @@ color: #999999;
 .pending{
     /*height:28px;*/
     font-size: 18px;
-    background-color: #3498db;
-    color: white;
+    background-color: white;
+    color: #3498db;
     margin-right: 20px;
     border: 1px solid  #3498db;
     border-radius: 6px;
@@ -98,6 +99,15 @@ color: #999999;
     font-size: 18px;
     background-color:#f7798b;
     color: white;
+    margin-right: 20px;
+    border: 1px solid  #f7798b;
+    border-radius: 6px;
+
+}
+.abandonde{
+    font-size: 18px;
+    background-color:white;
+    color:#f7798b;
     margin-right: 20px;
     border: 1px solid  #f7798b;
     border-radius: 6px;
@@ -116,8 +126,8 @@ color: #999999;
 }
 .finish{
     font-size: 18px;
-    background-color:rgb(0,226,57);
-    color: white;
+    background-color:white;
+    color:rgb(0,226,57);
     margin-right: 20px;
     border: 1px solid  rgb(0,226,57);
     border-radius: 6px;
@@ -235,6 +245,16 @@ color: #999999;
         border-radius: 2px;
 
     }
+    .abandoned{
+        height:20px;
+        font-size: 12px;
+        background-color:white;
+        color: #f7798b;
+        margin-right: 5px;
+        border: 1px solid  #f7798b;
+        border-radius: 2px;
+
+    }
 
     .proceed{
         height:20px;
@@ -248,8 +268,8 @@ color: #999999;
     .pending {
         height: 20px;
         font-size: 12px;
-        background-color: #3498db;
-        color: white;
+        background-color:white;
+        color: #3498db;
         margin-right: 5px;
         border: 1px solid #3498db;
         border-radius: 2px;
@@ -258,8 +278,8 @@ color: #999999;
     .finish{
         height:20px;
         font-size: 12px;
-        background-color:rgb(0,226,57);
-        color: white;
+        background-color:white;
+        color: rgb(0,226,57);
         margin-right: 5px;
         border: 1px solid  rgb(0,226,57);
         border-radius: 2px;
