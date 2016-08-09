@@ -222,7 +222,7 @@ router.get('/taskHall/:pageIndex/:taskType', function(req, res){
     }
     else {
         //已筛选任务
-        //query = getDisableTaskQuery(userObject);
+        query = queryReceiveExcTask;
     }
 
     var totalCount = 0;
