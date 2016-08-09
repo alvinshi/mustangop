@@ -76,6 +76,9 @@ app.controller('doTaskCtrl', function($scope, $http) {
             for(var j=0;j<response.allTask;i++){
                 response.allTask[j].hasChanged = false;
             }
+            for(var j=0;j<response.allTask;i++){
+                response.allTask[j].hasTaken = false;
+            }
 
             if(pageCount == 0){
                 //第一页时保存我的App个数
@@ -245,6 +248,7 @@ app.controller('doTaskCtrl', function($scope, $http) {
                 }else {
                     //需要通知系统才可以,不在一个contoroller里的
                     //$scope.refusedCount += currentApp.receiveCount;
+                    currentApp.hasTaken = true;
                     currentApp.errorMsg = '';
                 }
 

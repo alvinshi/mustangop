@@ -71,6 +71,7 @@ router.get('/claim/:excTaskId', function(req, res){
 
                 for (var e = 0; e < result.length; e++){
                     retObject.uploadName = result[e].get('uploadName');
+                    retObject.detail = result[e].get('detail');
                     var taskImages = result[e].get('requirementImgs');
                     for (var w = 0; w < taskImages.length; w++){
                         var taskImage = taskImages[w];
