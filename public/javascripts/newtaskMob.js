@@ -107,9 +107,9 @@ app.controller('MobControl', function($scope, $http, $location, FileUploader) {
 
     uploader.onAfterAddingAll = function (addedFileItems) {
         $scope.errorId = 0;
-        $scope.progressNum = 10;
-        //递归函数 Fix Safari Bug
-        blobToDataURI(addedFileItems, 0);
+        $scope.progressNum = 5;
+        //递归函数 Fix Safari Bug 分辨率过大时有问题
+        //blobToDataURI(addedFileItems, 0);
         console.info('onAfterAddingAll', addedFileItems);
     };
 
@@ -161,7 +161,7 @@ app.controller('MobControl', function($scope, $http, $location, FileUploader) {
                 $scope.progressNum = 0;
 
                 uploader.clearQueue();
-                fileUrls = new Array();
+                fileUrls = Array();
             });
     };
 
