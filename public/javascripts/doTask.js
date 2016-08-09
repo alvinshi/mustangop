@@ -234,7 +234,7 @@ app.controller('doTaskCtrl', function($scope, $http) {
         else {
             currentApp.isGetingTask = true;
             var url = 'doTask/postUsertask/' + currentApp.objectId + '/' + currentApp.rateUnitPrice + '/' + currentApp.appObjectId;
-            var postData = {'receiveCount': currentApp.receiveCount, 'detailRem': currentApp.detailRem,
+            var postData = {'receiveCount': currentApp.receiveCount, 'detailRem': currentApp.detail,
                 'excUniqueCode': currentApp.excUniqueCode};
 
             $http.post(url, postData).success(function(response){
