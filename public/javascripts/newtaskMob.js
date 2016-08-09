@@ -108,8 +108,12 @@ app.controller('MobControl', function($scope, $http, $location, FileUploader) {
     uploader.onAfterAddingAll = function (addedFileItems) {
         $scope.errorId = 0;
         $scope.progressNum = 5;
+
         //递归函数 Fix Safari Bug 分辨率过大时有问题
         //blobToDataURI(addedFileItems, 0);
+
+
+        uploader.uploadAll();
         console.info('onAfterAddingAll', addedFileItems);
     };
 
