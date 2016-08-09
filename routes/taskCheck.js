@@ -586,22 +586,26 @@ router.post('/turnOff', function(req, res){
         sendRes(error.message, error.code);
     });
 
+    var needSaveReleaseTaskList = [];
+    //function just can call once!!!
     function dealAllReceObjectList(receList){
-        var needSaveReleaseTaskList = [];
         var receQueryIndex = 0;
         for (var e = 0; e < receList.length; e++){
 
-            (function(doTaskObject){
+            (function(receTaskObject){
                 var expiredCount = receList[e].get('expiredCount');
-                var relation = doTaskObject.relation('mackTask');
+                var relation = receTaskObject.relation('mackTask');
                 var queryUpload = relation.query();
                 queryUpload.containedIn('taskStatus', ['accepted', 'systemAccepted']);
                 queryUpload.count().then(function(finishCount){
-                    if (doTaskObject.get('receiveCount') <= expiredCount + finishCount){
-                        temReceiveTaskObject.set('close', true);
-                        needSaveReleaseTaskList.push(temReceiveTaskObject);
+                    var taskObject = receTaskObject.get('taskObject');
+                    if (receTaskObject.get('receiveCount') <= expiredCount + finishCount){
+                        taskObject.set('close', true);
+                    }else {
+                        taskObject.set('close', false);
                     }
 
+                    util.addLeanObject(taskObject, needSaveReleaseTaskList);
                     receQueryIndex++;
                     if (receQueryIndex == receList.length){
                         allSave();
