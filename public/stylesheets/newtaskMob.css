@@ -240,6 +240,7 @@
         width:94%;
         height: 100%;
         padding:10px;
+        margin: 0px;
 
     }
     .appicon{
@@ -317,6 +318,7 @@
         color: white;
         font-size: 10px;
         width:40px;
+        padding: 0px;
     }
 
     .button_num{
@@ -326,9 +328,10 @@
         height:20px;
         color: #acddfe;
         font-size: 10px;
-        width:60px;
+        width:55px;
         margin-left:4px;
         text-align: center;
+        padding: 0px;
     }
     .button_surplus{
         background-color:white;
@@ -337,9 +340,10 @@
         height:20px;
         color: #acddfe;
         font-size: 10px;
-        width:60px;
+        width:55px;
         margin-left:4px;
         text-align: center;
+        padding: 0px;
     }
 
     .num{
