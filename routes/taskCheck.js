@@ -549,8 +549,8 @@ router.post('/turnOff', function(req, res){
         var queryIndex = 0;
         var needSaveReleaseTaskList = [];
 
-        if (releaseTaskObjects.length == 0 || releaseTaskObjects == undefined){
-            sendRes('数据异常,没有任务可以关闭', 1)
+        if (releaseTaskObjects == undefined || releaseTaskObjects.length == 0){
+            sendRes('没有任务可以关闭哦', 0)
         }else {
             for (var i = 0; i < releaseTaskObjects.length; i++){
                 var releaseCount = releaseTaskObjects[i].get('excCount');
@@ -561,26 +561,26 @@ router.post('/turnOff', function(req, res){
                     receiveQuery.limit(1000);
                     receiveQuery.descending('createdAt');
                     receiveQuery.find().then(function(recTaskObjects){
+                        
                         for (var e = 0; e < recTaskObjects.length; e++){
                             var expiredCount = recTaskObjects[e].get('expiredCount');
 
                             (function(doTaskObject, expiredcount, temptempReleaseCount){
                                 var relation = doTaskObject.relation('mackTask');
                                 var queryUpload = relation.query();
-                                queryUpload.containedIn('taskStatus', ['accepted', 'systemAccepted', 'expired']);
-                                queryUpload.limit(1000);
+                                queryUpload.containedIn('taskStatus', ['accepted', 'systemAccepted']);
                                 queryUpload.count().then(function(finishCount){
-                                    if (temptempReleaseCount == expiredcount + finishCount){
+                                    if (temptempReleaseCount <= expiredcount + finishCount){
                                         temReceiveTaskObject.set('close', true);
                                         needSaveReleaseTaskList.push(temReceiveTaskObject);
                                     }
-                                    queryIndex = queryIndex + 1;
+                                    queryIndex++;
 
                                     if (queryIndex == releaseTaskObjects.length){
                                         allSave();
                                     }
                                 },function(error){
-                                    queryIndex = queryIndex + 1;
+                                    queryIndex++;
                                     if (queryIndex == releaseTaskObjects.length){
                                         allSave();
                                     }
