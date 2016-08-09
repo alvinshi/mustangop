@@ -86,17 +86,15 @@ app.controller('doTaskCtrl', function($scope, $http) {
 
                 $scope.disableTaskCount = response.disableTaskCount;
 
-
-
-                if($scope.allTask == undefined || $scope.allTask.length > 0){
-                    $scope.noApp = false;
-                }else {
+                  if( $scope.taskDisplayed .length > 0){
+                      $scope.noApp = false;
+                    }else {
                     $scope.noApp = true;
-                }
+                   }
             }else if(taskType == 'commentTask'){
                 $scope.commentTask = $scope.commentTask.concat(response.allTask);
 
-                if($scope.allTask == undefined ||$scope.commentTask.length > 0){
+                if( $scope.commentTask.length > 0){
                     $scope.noApp = false;
                 }else {
                     $scope.noApp = true;
@@ -104,7 +102,7 @@ app.controller('doTaskCtrl', function($scope, $http) {
             }else if(taskType == 'downTask'){
                 $scope.downTask = $scope.downTask.concat(response.allTask);
 
-                if($scope.allTask == undefined ||$scope.downTask.length > 0){
+                if( $scope.downTask.length > 0){
                     $scope.noApp = false;
                 }else {
                     $scope.noApp = true;
@@ -131,30 +129,36 @@ app.controller('doTaskCtrl', function($scope, $http) {
     //默认请求所有
     getTaskData('allTask', 0);
     $scope.displayAll = function(){
+
         if($scope.taskDisplayed == undefined || $scope.taskDisplayed.length == 0){
             getTaskData('allTask', 0);
-            $scope.isLoadingMyApp = true;
+
+
 
         }else {
             if ($scope.hasMoreDic['allTask'] == 1){
                 getTaskData('allTask', $scope.taskDisplayed.length - myAppCountDic['allTask']);
-                $scope.isLoadingMyApp = false;
+
+
             }
         }
     };
 
     ////评论任务
     $scope.commentTasksOnly = function(){
+
         if($scope.commentTask == undefined || $scope.commentTask.length == 0){
             getTaskData('commentTask', 0);
-            $scope.isLoadingMyApp = true;
+
+
 
 
         }else {
             if ($scope.hasMoreDic['commentTask'] == 1) {
 
                 getTaskData('commentTask', $scope.commentTask.length - myAppCountDic['commentTask']);
-                $scope.isLoadingMyApp = false;
+
+
 
 
 
@@ -165,26 +169,32 @@ app.controller('doTaskCtrl', function($scope, $http) {
 
     ////下载任务
     $scope.downloadTasksOnly = function(){
+
         if($scope.downTask == undefined || $scope.downTask.length == 0){
             getTaskData('downTask', 0);
-            $scope.isLoadingMyApp = true;
+
+
 
         }else {
             if ($scope.hasMoreDic['downTask'] == 1) {
                 getTaskData('downTask', $scope.downTask.length - myAppCountDic['downTask']);
-                $scope.isLoadingMyApp = false;
+
+
             }
         }
     };
 
     ////已做过任务
     $scope.inactiveTasksOnly = function(){
+
         if($scope.inactiveTask == undefined || $scope.inactiveTask.length == 0){
             getTaskData('inactiveTask', 0);
-            $scope.isLoadingMyApp = true;
+
+
         }else {
             getTaskData('inactiveTask', $scope.inactiveTask.length);
-            $scope.isLoadingMyApp = false;
+
+
         }
     };
 

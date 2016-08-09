@@ -66,31 +66,31 @@
     border: 1px solid #acddfe;
     border-radius: 4px;
     margin-right: 6px;
-    font-size: 22px;
+    font-size: 18px;
     color: #58b7f7;
     height:30px;
-    padding: 9px 10px 9px 10px;
+    padding: 5px 5px 5px 5px;
 
 }
 .infoBubble1{
-    border: 1px solid #acddfe;
+    border: 1px solid #f78649;
     border-radius: 4px;
     margin-right: 6px;
-    font-size: 22px;
-    color: orangered;
+    font-size: 18px;
+    color: #f78649;
     height: 30px;
-    padding: 9px 10px 9px 10px;
+    padding: 5px 5px 5px 5px;
 
 }
 
 .mybtn{
     float: right;
     width: 130px;
-    height: 44px;
+    height: 36px;
     border: 1px solid #3498db;
     color: #3498db;
     background: transparent;
-    font-size: 20px;
+    font-size: 18px;
     border-radius: 4px;
     margin-left: 44px;
 }
@@ -109,11 +109,11 @@
 .haschange{
     float: right;
     width: 300px;
-    height: 44px;
+    height: 36px;
     color: white;
-    font-size: 20px;
+    font-size: 18px;
     border-radius: 4px;
-    margin-left: 44px;
+    margin-left: 42px;
     border: 1px solid #9d9d9d;
     background: #9d9d9d;
     margin-right: 40px;
