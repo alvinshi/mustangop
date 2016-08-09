@@ -236,6 +236,7 @@ router.get('/cancelTask/:taskId', function(req, res){
         if(reaminCount == taskObject.get('excCount')){
             taskObject.set('close', true);
         }
+        taskObject.set('remainCount', 0);
 
         userObject.save().then(function(){
             //返回冻结的Y币数量
