@@ -32,7 +32,7 @@ router.get('/taskAudit', function(req, res){
     query.ascending('createdAt');
     query.find().then(function(results){
         if (results.length == 0){
-            res.json({'errorId': 0, 'errorMsg': ''});
+            res.json({'errorId': 0, 'errorMsg': '', 'taskAudit': []});
         }
 
         var retApps = new Array();
@@ -56,6 +56,8 @@ router.get('/taskAudit', function(req, res){
             appInfoObject.sellerName = appObject.get('sellerName');
             appInfoObject.latestReleaseDate = appObject.get('latestReleaseDate');
             appInfoObject.excUniqueCode = appObject.get('excUniqueCode');
+            appInfoObject.createdAt = appObject.createdAt;
+
 
             //任务需求
             appInfoObject.taskType = results[i].get('taskType');
@@ -96,23 +98,9 @@ router.get('/taskAudit', function(req, res){
                     tempAppInfoObject.totalRejected = 0
                     tempAppInfoObject.totalTimeout = 0;
 
-                    //function retJsonFunc(errorId, errorMsg){
-                    //    if (counter == promise){
-                    //        //排序;
-                    //        rtnResults.sort(function(a, b){return a.createdAt - b.createdAt});
-                    //        res.json({
-                    //            'rtnResults':rtnResults,
-                    //            'errorId': errorId, 'errorMsg': errorMsg,
-                    //            'totalGetTask' : totalGetTask, 'totalAccepted': totalAccepted,
-                    //            'totalSubmited': totalSubmited, 'totalUndo': totalUndo,
-                    //            'totalRejected' : totalRejected, 'totalTimeout': totalTimeout
-                    //        });
-                    //    }
-                    //}
 
                     function tryReturn(errorId, errorMsg){
                         if (counterForReceive == promiseForReceive){
-                            console.log(retApps);
                             res.json({'taskAudit':retApps, 'errorId': errorId, 'errorMsg': errorMsg});
                         }
                     }

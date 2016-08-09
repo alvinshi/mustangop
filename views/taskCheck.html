@@ -16,6 +16,7 @@
 
     <link rel="stylesheet" href="/stylesheets/vendor/hover/hover-min.css">
     <link rel="stylesheet" href="/stylesheets/taskCheck.css">
+    <link rel="stylesheet" href="../stylesheets/loading.css">
 
     <!--网站内部js-->
 
@@ -44,7 +45,13 @@
 </div>
 
 <div ng-controller="taskCheckCtrl" style="margin-top: 100px">
-    <div ng-show="noApp">
+    <div class="spinner" ng-hide="!isLoadingMyApp">
+        <div class="double-bounce1"></div>
+        <div class="double-bounce2"></div>
+    </div>
+    <div style="width:400px;margin: auto;font-size: 24px;margin-bottom: 100px" ng-hide="!isLoadingMyApp">正在请求你所发布任务的最新信息...</div>
+
+    <div ng-show="!isLoadingMyApp && taskAudit.length == 0">
         <div style="text-align: center;">
             <img style="margin-top: 100px;" src="../images/horse.png">
         </div>
@@ -55,7 +62,10 @@
             <div class="col-lg-2 change" style="background: #f4f4f4; padding-top:60px; padding-left:0; padding-right:0;" >
                 <div style="text-align:center;">
                     <div  style="font-size: 20px;">任务列表</div>
-                    <button class="btn cancel" style='margin-top: 10px;' ng-click="turnOffTask()" ng-show="taskAudit.length > 4">一键关闭</button>
+                    <button class="btn cancel" style='margin-top: 10px; width: 110px' ng-click="turnOffTask()" ng-show="taskAudit.length > 4"
+                            data-toggle="tooltip" data-placement="bottom" title="此按钮用于移除全部通过或活过期的无效任务记录">
+                        清除已结束任务
+                    </button>
                 </div>
                 <hr>
                 <div ng-repeat="app in taskAudit">
@@ -374,6 +384,13 @@
 
 </th-footer>
 
+
+
 <script src="/javascripts/cookieHelper.js"></script>
+<script>
+    $(function () {
+        $('[data-toggle="tooltip"]').tooltip()
+    })
+</script>
 </body>
 </html>

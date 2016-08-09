@@ -2,6 +2,7 @@ var app=angular.module('yemaWebApp',[]);
 var navIndex =3;
 
 app.controller('taskCheckCtrl', function($scope, $http, $location) {
+    $scope.isLoadingMyApp = true;
     $scope.currentTaskId = undefined;
     $scope.noApp = false;
     $scope.myObj = Object();
@@ -13,8 +14,7 @@ app.controller('taskCheckCtrl', function($scope, $http, $location) {
             //初始显示返回的第一个
             $scope.taskIndex = 0;
             $scope.taskDisplayed = $scope.taskAudit[0];
-            ////获取左侧信息
-            //specTaskCheck($scope.taskDisplayed.taskId);
+            $scope.isLoadingMyApp = false;
         }
         else {
             //如果没有返回值, 需要在前端显示按钮
@@ -46,7 +46,6 @@ app.controller('taskCheckCtrl', function($scope, $http, $location) {
     $scope.check = function(app, index){
         $scope.taskIndex = index;
         $scope.taskDisplayed = app;
-        console.log(app);
     };
 
     // 单条任务关闭
@@ -89,7 +88,6 @@ app.controller('taskCheckCtrl', function($scope, $http, $location) {
     //***************撤销任务逻辑************************
     $scope.confirmCancel = function(taskId){
         var url = '/taskCheck/cancelTask/' + taskId;
-        console.log(taskId);
         $http.get(url).success(function(response){
             location.reload();
         })
