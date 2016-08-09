@@ -10,7 +10,7 @@ var navIndex = 0;
 
 app.controller('doTaskCtrl', function($scope, $http) {
 
-    //自动轮播
+    //******************* 自动轮播 *************************
     $("#myCarousel").carousel({
         interval:5000
     });
@@ -33,15 +33,17 @@ app.controller('doTaskCtrl', function($scope, $http) {
     };
 
 
-    //发布任务飞机颜色
+    //******************* 飞机 *************************
     $scope.planeColor = true;
     $scope.changePlaneColor = function(){
         $scope.planeColor = !$scope.planeColor;
     };
+
+
+    //************** 初始,可优化 ****************
     $scope.noApp = false;
     $scope.isLoadingMyApp = true;
 
-    //初始,可优化
     $scope.disableTaskCount = 0;
 
     $scope.hasMoreDic = {   'allTask':1,
@@ -66,6 +68,16 @@ app.controller('doTaskCtrl', function($scope, $http) {
 
             $scope.isLoadingMyApp = false;
 
+            //请求回App之后, 初始, mode: 代表标记一环, hasChanged: 代表出现本版本已还灰色按钮
+            for(var i = 0; i < response.allTask; i++){
+                if(response.allTask[i].myTask != false){
+                    response.allTask[i].mode = true;
+                }
+            }
+            for(var j=0;j<response.allTask;i++){
+                response.allTask[j].hasChanged = false;
+            }
+
             if(pageCount == 0){
                 //第一页时保存我的App个数
                 if(response.myAppCount != undefined){
@@ -75,23 +87,18 @@ app.controller('doTaskCtrl', function($scope, $http) {
 
             if (taskType == 'allTask'){
                 $scope.taskDisplayed = $scope.taskDisplayed.concat(response.allTask);
-                for(var i = 0; i < response.allTask; i++){
-                    if(response.allTask[i].myTask != false){
-                        response.allTask[i].mode = true;
-                    }
-                }
-                for(var j=0;j<response.allTask;i++){
-                    response.allTask[j].hasChanged = false;
-                }
 
                 $scope.disableTaskCount = response.disableTaskCount;
 
-                  if( $scope.taskDisplayed .length > 0){
-                      $scope.noApp = false;
-                    }else {
+                if( $scope.taskDisplayed .length > 0){
+                    $scope.noApp = false;
+                }else {
                     $scope.noApp = true;
-                   }
+                }
+
+
             }else if(taskType == 'commentTask'){
+
                 $scope.commentTask = $scope.commentTask.concat(response.allTask);
 
                 if( $scope.commentTask.length > 0){
@@ -99,6 +106,7 @@ app.controller('doTaskCtrl', function($scope, $http) {
                 }else {
                     $scope.noApp = true;
                 }
+
             }else if(taskType == 'downTask'){
                 $scope.downTask = $scope.downTask.concat(response.allTask);
 
@@ -135,63 +143,65 @@ app.controller('doTaskCtrl', function($scope, $http) {
         }else {
             if ($scope.hasMoreDic['allTask'] == 1){
                 getTaskData('allTask', $scope.taskDisplayed.length - myAppCountDic['allTask']);
-
-
+            }
+            else {
+                $scope.isLoadingMyApp = false;
+                $scope.noApp = false;
             }
         }
     };
 
     ////评论任务
     $scope.commentTasksOnly = function(){
+        $scope.isLoadingMyApp = true;
 
         if($scope.commentTask == undefined || $scope.commentTask.length == 0){
             getTaskData('commentTask', 0);
 
-
-
-
         }else {
             if ($scope.hasMoreDic['commentTask'] == 1) {
-
                 getTaskData('commentTask', $scope.commentTask.length - myAppCountDic['commentTask']);
 
-
-
-
-
-
+            }
+            else {
+                $scope.isLoadingMyApp = false;
+                $scope.noApp = false;
             }
         }
     };
 
     ////下载任务
     $scope.downloadTasksOnly = function(){
+        $scope.isLoadingMyApp = true;
 
         if($scope.downTask == undefined || $scope.downTask.length == 0){
             getTaskData('downTask', 0);
 
-
-
         }else {
             if ($scope.hasMoreDic['downTask'] == 1) {
                 getTaskData('downTask', $scope.downTask.length - myAppCountDic['downTask']);
-
-
+            }
+            else {
+                $scope.isLoadingMyApp = false;
+                $scope.noApp = false;
             }
         }
     };
 
     ////已做过任务
     $scope.inactiveTasksOnly = function(){
+        $scope.isLoadingMyApp = true;
 
         if($scope.inactiveTask == undefined || $scope.inactiveTask.length == 0){
             getTaskData('inactiveTask', 0);
-
-
         }else {
-            getTaskData('inactiveTask', $scope.inactiveTask.length);
-
-
+            if ($scope.hasMoreDic['inactiveTask'] == 1) {
+                getTaskData('inactiveTask', $scope.inactiveTask.length - myAppCountDic['inactiveTask']);
+            }
+            else {
+                $scope.isLoadingMyApp = false;
+                $scope.noApp = false;
+            }
         }
     };
 
