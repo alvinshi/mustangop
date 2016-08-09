@@ -174,6 +174,7 @@ router.post('/closeTask/:userObjectId', function(req, res){
     var userObject = new AV.User();
     userObject.id = userId;
 
+    var userFinishTaskList = Array();
     // 查询用户领取的任务 已经过期或者被成功接收的任务
     var query = new AV.Query(receiveTaskObject);
 
@@ -182,7 +183,6 @@ router.post('/closeTask/:userObjectId', function(req, res){
     query.find().then(function(userReceiveObjects){
         var queryIndex = 0;
         //var successNub = 0;
-        var userFinishTaskList = [];
         if (userReceiveObjects == undefined || userReceiveObjects.length == 0){
             res.json({'errorId': 1, 'errorMsg':'数据异常,没有任务可关闭'})
         }else {
