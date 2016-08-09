@@ -3,7 +3,7 @@
  */
 
 
-var app=angular.module('yemaWebApp',[]);
+var app = angular.module('yemaWebApp',[]);
 var navIndex = 0;
 
 
