@@ -31,6 +31,10 @@ router.get('/taskAudit', function(req, res){
     query.include('appObject');
     query.ascending('createdAt');
     query.find().then(function(results){
+        if (results.length == 0){
+            res.json({'errorId': 0, 'errorMsg': ''});
+        }
+
         var retApps = new Array();
 
         //第一个异步准备
@@ -67,7 +71,6 @@ router.get('/taskAudit', function(req, res){
             //实时数据
             appInfoObject.remainCount = results[i].get('remainCount');
 
-            appInfoObject.completed = results[i].get('completed');
             appInfoObject.cancelled = results[i].get('cancelled');
 
             //查询领取任务数据库
