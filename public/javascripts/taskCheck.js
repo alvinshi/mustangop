@@ -33,7 +33,7 @@ app.controller('taskCheckCtrl', function($scope, $http, $location) {
                 $scope.errorMsg = response.errorMsg;
                 $("#errorMsg").modal("show");
             }else {
-                setTimeout(refresh, 2000);
+                setTimeout(refresh, 1000);
             }
             function refresh(){
                 location.href = '/taskCheck/';
