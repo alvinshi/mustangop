@@ -16,17 +16,33 @@
         <div class="collapse navbar-collapse" id="example-navbar-collapse-1">
             <ul class="nav navbar-nav">
 
-                <li ><a ng-style="{color:myColors[0]}" href="/doTask" >换评大厅</a></li>
-                <li><a ng-style="{color:myColors[1]}" href="/myapp">发布换评</a></li>
+                <li style="width: 140px"><a ng-style="{color:myColors[0]}" href="/doTask" >换评大厅</a></li>
+                <li style="width: 140px"><a ng-style="{color:myColors[1]}" href="/myapp">发布换评</a></li>
 
-                <li>
-                    <a ng-style="{color:myColors[2]}" href="/myClaim/{{userObjectId}}">我的领取
-                        <span class="badge" ng-show="refusedCount > 0" style="background-color:rgb(239,0,0)">{{refusedCount}}</span>
+                <li style="width: 140px">
+                    <a ng-style="{color:myColors[2]}" href="/myClaim/{{userObjectId}}" style="position: relative">我的领取
+                        <span class="" ng-show="refusedCount > 0" style="position: absolute;
+                              top: 7px;
+                              left: 83px;
+                              display: inline-block;
+                              background-color: #f4556c;
+                              width: 30px;
+                              height: 20px;
+                              font-size: 14px;
+                              border-radius: 8px;text-align: center;color: #FFFFFF">{{refusedCount}}</span>
                     </a>
                 </li>
-                <li>
-                    <a ng-style="{color:myColors[3]}" href="/taskCheck">审核换评
-                        <span class="badge" ng-show="pendingCount > 0" style="background-color:rgb(239,0,0)">{{pendingCount}}</span>
+                <li style="width: 140px">
+                    <a ng-style="{color:myColors[3]}" href="/taskCheck" style="position: relative">审核换评
+                        <span class="badge" ng-show="pendingCount > 0" style="position: absolute;
+                              top: 7px;
+                              left: 83px;
+                              display: inline-block;
+                              background-color: #f4556c;
+                              width: 30px;
+                              height: 20px;
+                              font-size: 14px;
+                              border-radius: 8px;text-align: center;color: #FFFFFF">{{pendingCount}}</span>
                     </a>
                 </li>
 
