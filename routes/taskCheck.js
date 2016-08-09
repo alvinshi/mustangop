@@ -39,6 +39,9 @@ router.get('/taskAudit', function(req, res){
             appInfoObject.taskId = results[i].id;
             appInfoObject.artworkUrl100 = appObject.get('artworkUrl100');
             appInfoObject.trackName = appObject.get('trackName');
+            if (appInfoObject.trackName.length > 20){
+                appInfoObject.trackName = appInfoObject.trackName.substring(0,19) + '...';
+            }
             appInfoObject.appId = appObject.get('appleId');
             appInfoObject.sellerName = appObject.get('sellerName');
             appInfoObject.latestReleaseDate = appObject.get('latestReleaseDate');

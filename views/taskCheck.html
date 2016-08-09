@@ -15,7 +15,7 @@
     <script src="//cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 
     <link rel="stylesheet" href="/stylesheets/vendor/hover/hover-min.css">
-    <link rel="stylesheet" href="/stylesheets/taskCheck.min.css">
+    <link rel="stylesheet" href="/stylesheets/taskCheck.css">
 
     <!--网站内部js-->
 
@@ -53,18 +53,18 @@
     <div class="container" style="border: 1px solid #e0e0e0" ng-show="taskAudit.length">
         <div class="row">
             <div class="col-lg-2 change" style="background: #f4f4f4; padding-top:60px; padding-left:0; padding-right:0;" >
-                <div style="text-align: center; font-size: 20px;">任务列表</div>
-                <button style="text-align: center; font-size: 20px;" ng-click="turnOffTask()">一键关闭</button>
+                <div style="text-align:center;">
+                    <div  style="font-size: 20px;">任务列表</div>
+                    <button class="btn cancel" style='margin-top: 10px;' ng-click="turnOffTask()">一键关闭</button>
+                </div>
                 <hr>
                 <div ng-repeat="app in taskAudit">
                     <div ng-class="{true :'icon1 selected', false :'icon1'}[$index == taskIndex]" ng-click="check(app, $index)">
                         <img ng-src="{{app.artworkUrl100}}" alt="">
-                        <span style="margin-left: 10px; font-size: 16px;">任务 {{$index + 1}}</span>
-                        <span ng-show='app.cancelled == true && app.completed == 0' style="margin-left: 5px; font-size: 12px; color: #eb3030">已撤销</span>
-                        <span ng-show='app.completed == 1' style="margin-left: 5px; font-size: 12px; color: #00ee00">已完成</span>
-                        <div>
-                            <span style="width:100px;height:20px;font-size:12px;margin-left:45px;color:#3498db">{{app.taskType}}</span>
-                        </div>
+                        <span style="margin:10px 17px 0 17px; font-size:16px;">{{app.taskType}}</span>
+                        <span ng-show='app.cancelled == true && app.completed == 0' class='taskStatus' style="background-color: #eb3030">已撤销</span>
+                        <span ng-show='app.completed == 1' class='taskStatus'  style="background-color: #00ee00">已完成</span>
+                        <span ng-show='app.completed == 0 && app.cancelled == false' class='taskStatus'  style="background-color: #3498db">进行中</span>
                     </div>
                 </div>
             </div><!--左边侧边栏-->
@@ -125,6 +125,19 @@
                                                 </div>
                                             </div>
                                         </div>
+
+                                        <span class="glyphicon glyphicon-remove oneTaskClose" ng-click="oneTaskOff(taskDisplayed.taskId)"></span>
+                                        <!--button class="but" ng-click="oneTaskOff(taskDisplayed.taskId)" data-target="#errorMsg" data-toggle="modal">关闭任务</button-->
+                                        <!--<div class="modal fade" id="errorMsg">-->
+                                            <!--<div class="modal-dialog">-->
+                                                <!--<div class="modal-content" style="width: 320px;">-->
+                                                    <!--<div class="modal-header" style="height: 74px;background-color:#6eb7e8;border-radius:4px;text-align: center">-->
+                                                        <!--<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>-->
+                                                        <!--<h4 class="modal-title" >{{errorMsg}}</h4>-->
+                                                    <!--</div>-->
+                                                <!--</div>&lt;!&ndash; /.modal-content &ndash;&gt;-->
+                                            <!--</div>&lt;!&ndash; /.modal-dialog &ndash;&gt;-->
+                                        <!--</div>-->
                                     </div>
                                 </div>
                                 <div style="margin-left: 25px; font-size: 14px;" class="row">
@@ -139,24 +152,12 @@
                                     <div class="col-lg-4">
                                         <div style="font-size: 12px; color: #666666">更新时间</div>
                                         <div>{{taskDisplayed.latestReleaseDate | date:"yyyy/MM/dd"}}</div>
-                                        <button class="but" ng-click="oneTaskOff(taskDisplayed.taskId)" data-target="#errorMsg" data-toggle="modal">关闭任务</button>
                                     </div>
 
                                 </div>
                             </td>
                         </tr>
                     </table>
-
-                    <div class="modal fade" id="errorMsg">
-                        <div class="modal-dialog">
-                            <div class="modal-content" style="width: 320px;">
-                                <div class="modal-header" style="height: 74px;background-color:#6eb7e8;border-radius:4px;text-align: center">
-                                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
-                                    <h4 class="modal-title" >{{errorMsg}}</h4>
-                                </div>
-                            </div><!-- /.modal-content -->
-                        </div><!-- /.modal-dialog -->
-                    </div>
 
                     <hr>
 
