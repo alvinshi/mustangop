@@ -73,11 +73,12 @@ router.get('/claim/:excTaskId', function(req, res){
                 for (var e = 0; e < result.length; e++){
                     if (uploadUserName == result[e].get('uploadName')){
                         retObject.uploadName = result[e].get('uploadName');
-                    }
-                    var taskImages = result[e].get('requirementImgs');
-                    for (var w = 0; w < taskImages.length; w++){
-                        var taskImage = taskImages[w];
-                        mackTaskList.push(taskImage);
+
+                        var taskImages = result[e].get('requirementImgs');
+                        for (var w = 0; w < taskImages.length; w++){
+                            var taskImage = taskImages[w];
+                            mackTaskList.push(taskImage);
+                        }
                     }
                 }
                 res.json({'oneAppInfo':retObject, 'macTask':mackTaskList})
