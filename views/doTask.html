@@ -135,7 +135,7 @@
                                     {{ app.trackName }}
                                 </p>
                                 <div>
-                                    <span class="infoBubble" ng-class="{true: 'infoBubble', false: 'infoBubble1'}[ app.taskType=='评论']">{{ app.taskType }}</span>
+                                    <span ng-class="{true: 'infoBubble2', false: 'infoBubble1'}[ app.taskType=='评论']">{{ app.taskType }}</span>
                                     <span class="infoBubble">剩余: <span style="color:#53d435">{{ app.remainCount }}</span> 条</span>
                                     <span class="infoBubble">任务单价: <span style="color:#53d435">{{app.rateUnitPrice}}</span> Y币</span>
                                     <span class="infoBubble"><span style="color:#53d435">IOS</span></span>

@@ -270,29 +270,22 @@
                                     <!--<span class="imported">{{totalGetTask}}</span> 条-->
                                 <!--</div>-->
                                 <div class="col-lg-4"> 等待审核:
-                                    <span class="imported">{{taskDisplayed.totalSubmited}}</span> 条
+                                    <span style="color: #eb3030">{{taskDisplayed.totalSubmited}}</span> 条
                                 </div>
                                 <div class="col-lg-4">尚未提交:
-                                    <span class="imported1">{{taskDisplayed.totalUndo}}</span> 条
+                                    <span style="color: #3498db">{{taskDisplayed.totalUndo}}</span> 条
                                 </div>
                                 <div class="col-lg-4">已经拒绝:
-                                    <span class="imported1">{{taskDisplayed.totalRejected}}</span> 条
+                                    <span style="color: #cc9900">{{taskDisplayed.totalRejected}}</span> 条
                                 </div>
-
-
-
-
-
                             </div>
 
                             <div class="row">
-
                                 <div class="col-lg-4">审核通过:
-                                    <span class="imported">{{taskDisplayed.totalAccepted}}</span> 条
+                                    <span style="color: #00e239">{{taskDisplayed.totalAccepted}}</span> 条
                                 </div>
-
                                 <div class="col-lg-4">超时未交:
-                                    <span class="imported1">{{taskDisplayed.totalTimeout}}</span> 条
+                                    <span>{{taskDisplayed.totalTimeout}}</span> 条
                                 </div>
                             </div>
                         </div>
@@ -316,10 +309,10 @@
                                         <div class="row">
                                             <div class="col-lg-12">
                                                 <span ng-show="submission.receiveCount>0">领取:{{submission.receiveCount}}</span>
-                                                <span style="margin-left: 10px" >通过: {{submission.accepted}} </span>
-                                                <span style="margin-left: 10px" >待审: {{submission.submitted}}</span>
-                                                <span style="margin-left: 10px">未交: {{submission.pending}}</span>
-                                                <span style="margin-left: 10px">拒绝: {{submission.rejected}}</span>
+                                                <span style="margin-left: 10px" >待审:<span style="color: #eb3030">{{submission.submitted}}</span></span>
+                                                <span style="margin-left: 10px">未交:<span style="color: #3498db">{{submission.pending}}</span></span>
+                                                <span style="margin-left: 10px">拒绝:<span style="color: #cc9900">{{submission.rejected}}</span></span>
+                                                <span style="margin-left: 10px" >通过:<span style="color: #00e239">{{submission.accepted}}</span></span>
                                                 <span style="margin-left: 10px">过期: {{submission.abandoned}}</span>
                                             </div>
                                         </div>
