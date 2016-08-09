@@ -146,17 +146,16 @@
                                     <span class="infoBubble"><span style="color:#53d435">IOS</span></span>
                                 </div>
                             </td>
-                            <td ng-if='!app.myTask' ng-show="!app.hasChanged" style="padding-right: 0px;">
+                            <td ng-if='!app.myTask && !app.hasTaken' ng-show="!app.hasChanged" style="padding-right: 0px;">
                                 <button class="mybtn reverse hvr-float-shadow" data-target="#detail{{$index}}" data-toggle="modal">
                                     任务详情
                                 </button>
                             </td>
-                            <td ng-if='!app.myTask' ng-show="!app.hasChanged" style="padding-right: 40px;">
+                            <td ng-if='!app.myTask && !app.hasTaken' ng-show="!app.hasChanged" style="padding-right: 40px;">
                                 <button class="mybtn reverse hvr-float-shadow" data-target="#takeTask{{$index}}" data-toggle="modal">
                                     领取任务
                                 </button>
                             </td>
-
                             <td ng-if="app.myTask"  style="padding-right: 0px;">
                                 <button class="mybtn myTask hvr-float-shadow" data-target="#detail{{$index}}" data-toggle="modal">
                                     任务详情
@@ -167,9 +166,14 @@
                                     我的发布
                                 </button>
                             </td>
-                            <td   >
-                                <button  class="haschange" ng-show="app.hasChanged" >
+                            <td  ng-show="app.hasChanged" >
+                                <button  class="haschange">
                                     本版本标记为已换
+                                </button>
+                            </td>
+                            <td  ng-show="app.hasTaken" >
+                                <button  class="haschange">
+                                    已经领取了该任务
                                 </button>
                             </td>
                         </tr>
@@ -367,19 +371,18 @@
                                     <span class="infoBubble"><span style="color:#53d435">IOS</span></span>
                                 </div>
                             </td>
-                            <td ng-if='!app.myTask'ng-show="!app.hasChanged" style="padding-right: 0px;">
-                                <button class="mybtn reverse hvr-float-shadow" data-target="#detail_comment{{$index}}" data-toggle="modal">
+                            <td ng-if='!app.myTask && !app.hasTaken' ng-show="!app.hasChanged" style="padding-right: 0px;">
+                                <button class="mybtn reverse hvr-float-shadow" data-target="#detail{{$index}}" data-toggle="modal">
                                     任务详情
                                 </button>
                             </td>
-                            <td ng-if='!app.myTask'ng-show="!app.hasChanged" style="padding-right: 40px;">
-                                <button class="mybtn reverse hvr-float-shadow" data-target="#takeTask_comment{{$index}}" data-toggle="modal">
+                            <td ng-if='!app.myTask && !app.hasTaken' ng-show="!app.hasChanged" style="padding-right: 40px;">
+                                <button class="mybtn reverse hvr-float-shadow" data-target="#takeTask{{$index}}" data-toggle="modal">
                                     领取任务
                                 </button>
                             </td>
-
                             <td ng-if="app.myTask"  style="padding-right: 0px;">
-                                <button class="mybtn myTask hvr-float-shadow" data-target="#detail_comment{{$index}}" data-toggle="modal">
+                                <button class="mybtn myTask hvr-float-shadow" data-target="#detail{{$index}}" data-toggle="modal">
                                     任务详情
                                 </button>
                             </td>
@@ -388,9 +391,14 @@
                                     我的发布
                                 </button>
                             </td>
-                            <td   >
-                                <button  class="haschange" ng-show="app.hasChanged" >
+                            <td  ng-show="app.hasChanged" >
+                                <button  class="haschange">
                                     本版本标记为已换
+                                </button>
+                            </td>
+                            <td  ng-show="app.hasTaken" >
+                                <button  class="haschange">
+                                    已经领取了该任务
                                 </button>
                             </td>
                         </tr>
@@ -588,18 +596,18 @@
                                     <span class="infoBubble"><span style="color:#53d435">IOS</span></span>
                                 </div>
                             </td>
-                            <td ng-if="!app.myTask" ng-show="!app.hasChanged"  style="padding-right: 0px;">
-                                <button class="mybtn reverse hvr-float-shadow" data-target="#detail_download{{$index}}" data-toggle="modal">
+                            <td ng-if='!app.myTask && !app.hasTaken' ng-show="!app.hasChanged" style="padding-right: 0px;">
+                                <button class="mybtn reverse hvr-float-shadow" data-target="#detail{{$index}}" data-toggle="modal">
                                     任务详情
                                 </button>
                             </td>
-                            <td ng-if="!app.myTask"  ng-show="!app.hasChanged" style="padding-right: 40px;">
-                                <button class="mybtn reverse hvr-float-shadow" data-target="#takeTask_download{{$index}}" data-toggle="modal">
+                            <td ng-if='!app.myTask && !app.hasTaken' ng-show="!app.hasChanged" style="padding-right: 40px;">
+                                <button class="mybtn reverse hvr-float-shadow" data-target="#takeTask{{$index}}" data-toggle="modal">
                                     领取任务
                                 </button>
                             </td>
                             <td ng-if="app.myTask"  style="padding-right: 0px;">
-                                <button class="mybtn myTask hvr-float-shadow" data-target="#detail_download{{$index}}" data-toggle="modal">
+                                <button class="mybtn myTask hvr-float-shadow" data-target="#detail{{$index}}" data-toggle="modal">
                                     任务详情
                                 </button>
                             </td>
@@ -608,9 +616,14 @@
                                     我的发布
                                 </button>
                             </td>
-                            <td   >
-                                <button  class="haschange" ng-show="app.hasChanged" >
+                            <td  ng-show="app.hasChanged" >
+                                <button  class="haschange">
                                     本版本标记为已换
+                                </button>
+                            </td>
+                            <td  ng-show="app.hasTaken" >
+                                <button  class="haschange">
+                                    已经领取了该任务
                                 </button>
                             </td>
                         </tr>
