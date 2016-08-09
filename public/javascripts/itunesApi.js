@@ -23,7 +23,7 @@ app.controller('itunesSearchControl', function($scope, $http) {
             $scope.appNeedInfo == undefined;
             return;
         }
-        var getneedUrl = '/myapp/getNeed/' + $scope.selectedApp.appleId;
+        var getneedUrl = '/myapp/getNeed/' + $scope.selectedApp.appObjectId;
         $http.get(getneedUrl).success(function (response) {
             $scope.appNeedInfo = response.appNeedInfo;
 
@@ -245,7 +245,7 @@ app.controller('itunesSearchControl', function($scope, $http) {
 
     //保存
     $scope.saved = false;
-
+    var saveNetLock = false;
     $scope.saveNeed = function(){
         if ($scope.selectedApp == undefined || $scope.selectedApp.appleId == undefined){
             $scope.modelStr = '未选择换评的App,检查一下吧';
@@ -259,14 +259,22 @@ app.controller('itunesSearchControl', function($scope, $http) {
             return;
         }
 
-        var needUrl = '/myapp/taskneed/' + $scope.selectedApp.appleId;
+        if(saveNetLock == true){
+            console.log('保存中...');
+            return;
+        }
+
+        var needUrl = '/myapp/taskneed/' + $scope.selectedApp.appObjectId;
         var needInfo = {'taskType':$scope.appNeedInfo.taskType, 'excCount':$scope.appNeedInfo.excCount, 'excUnitPrice':$scope.appNeedInfo.excUnitPrice, 'screenshotCount':$scope.appNeedInfo.screenshotCount,
             'searchKeyword':$scope.appNeedInfo.searchKeyword, 'ranKing':$scope.appNeedInfo.ranKing, 'Score':$scope.appNeedInfo.Score,
             'titleKeyword':$scope.appNeedInfo.titleKeyword, 'commentKeyword':$scope.appNeedInfo.commentKeyword, 'detailRem':$scope.appNeedInfo.detailRem};
+
+        saveNetLock = true;
         $http.post(needUrl, needInfo).success(function(response){
             $scope.errorId = response.errorId;
             $scope.errorMsg = response.errorMsg;
             $scope.saved = false;
+            saveNetLock = false;
         })
     };
 
