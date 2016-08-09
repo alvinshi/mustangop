@@ -62,16 +62,18 @@ router.get('/claim/:excTaskId', function(req, res){
         if (uploadUserName != undefined){
             var relation = resultObject.relation('mackTask');
             var task_query = relation.query();
-            task_query.equalTo('uploadName', uploadUserName);
+            //task_query.equalTo('uploadName', uploadUserName);
             task_query.notEqualTo('taskStatus', 'expired');
             task_query.find().then(function(result){
-                var mackTaskList = new Array();
+                var mackTaskList = Array();
 
                 //remain 需要计算,并且不能取具体任务里过期的数目,过期的数目统一在 receive的 resultObject的expiredCount取
                 retObject.surplusCount = resultObject.get('receiveCount') - resultObject.get('expiredCount') - result.length;
 
                 for (var e = 0; e < result.length; e++){
-                    retObject.uploadName = result[e].get('uploadName');
+                    if (uploadUserName == result[e].get('uploadName')){
+                        retObject.uploadName = result[e].get('uploadName');
+                    }
                     var taskImages = result[e].get('requirementImgs');
                     for (var w = 0; w < taskImages.length; w++){
                         var taskImage = taskImages[w];
