@@ -33,14 +33,18 @@
 
 
 
+
     <!--第三方 CSS JS-->
     <link rel="stylesheet" href="../stylesheets/vendor/font-awesome.min.css">
+    <link rel="stylesheet" href="../stylesheets/index.min.css">
 
     <script src="/javascripts/vendor/scrollreveal.min.js"></script>
 
-    <link rel="stylesheet" href="../stylesheets/index.min.css">
 
+    <script src="/javascripts/home.js"></script>
     <script src="/javascripts/indexApp.js"></script>
+
+
 </head>
 
 
@@ -48,53 +52,7 @@
 <!--[if lt IE 8]>
 <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">更新您的浏览器</a> 从而获得更好的体验.</p>
 <![endif]-->
-<!--<nav class="navbar  navbar-inverse" style="margin: 0px">-->
-    <!--<div class="container"  ng-controller="indexAppCtrl">-->
-        <!--<div class="navbar-header">-->
-            <!--<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#example-navbar-collapse-1" aria-expanded="false">-->
-                <!--<span class="sr-only"></span>-->
-                <!--<span class="icon-bar"></span>-->
-                <!--<span class="icon-bar"></span>-->
-                <!--<span class="icon-bar"></span>-->
-            <!--</button>-->
-            <!--<li><a  class="navbar-brand" href="/"><img src="images/home/logo1.png" alt=""></a></li>-->
-        <!--</div>-->
-        <!--<div class="collapse navbar-collapse" id="example-navbar-collapse-1">-->
-            <!--<ul class="nav navbar-nav">-->
-                <!--<li ><a style="color: white" href="/doTask">换评大厅</a></li>-->
-                <!--<li class="dropdown">-->
-                    <!--<a   href="/myapp" style="color: white">发布换评-->
-                        <!--&lt;!&ndash;<span   class="caret"></span>&ndash;&gt;-->
-                    <!--</a>-->
-                    <!--&lt;!&ndash;<ul class="dropdown-menu" >&ndash;&gt;-->
-                    <!--&lt;!&ndash;<li class="myapp-list" ng-repeat="app in tracknameAPPs">&ndash;&gt;-->
-                    <!--&lt;!&ndash;<a ng-href="app/{{app.appid}}">{{ app.trackName }}</a>&ndash;&gt;-->
-                    <!--&lt;!&ndash;</li>&ndash;&gt;-->
-                    <!--&lt;!&ndash;<li><a  class="" href="/myapp">管理我的应用</a></li>&ndash;&gt;-->
-                    <!--&lt;!&ndash;</ul>&ndash;&gt;-->
-                <!--</li>-->
 
-                <!--<li><a  style="color: white"  href="/myClaim/{{userObjectId}}">我的换评</a></li>-->
-                <!--<li><a  style="color: white"  href="/taskCheck">审核换评</a></li>-->
-                <!--&lt;!&ndash;<li><a   style="color: white" href="">换评工具箱(即将开放)</a></li>     &ndash;&gt;-->
-                <!--&lt;!&ndash;/doOuterTask&ndash;&gt;-->
-                <!--<li>-->
-                    <!--<a  style="color: white;margin-left:250px"  href="/user#/inforManage">换评消息-->
-                    <!--</a>-->
-                <!--</li>-->
-
-
-            <!--</ul>-->
-            <!--<ul id="nav-right-id" class="nav navbar-nav navbar-right">-->
-                <!--&lt;!&ndash;<li><a id="nav-username-display" href="/user" style="color:#17ddaa"></a></li>&ndash;&gt;-->
-                <!--<li><a style="color:white" href="/user/login">登录</a></li>-->
-                <!--<button type="button" class="btn btn-primary btn-sm navbar-btn"-->
-                        <!--onclick="javascript:window.location.href='/user/register'">快速注册-->
-                <!--</button>-->
-            <!--</ul>-->
-        <!--</div>-->
-    <!--</div>&lt;!&ndash;container &ndash;&gt;-->
-<!--</nav>&lt;!&ndash;.navbar-collapse &ndash;&gt;-->
 
 
 <div class="container" ng-controller="indexAppCtrl" >
@@ -102,19 +60,23 @@
     <th-nav></th-nav>
 </div>
 
-   <div class="col-xs-12"  id="pageone" style="
+
+
+
+
+<div class="col-xs-12"  id="pageone" style="
          background-image: url(/images/index/home_one.jpg);
            background-size: cover;padding-top: 150px">
-       <div class='fly'  style="margin:auto; background: rgba(0, 0, 0, 0.3);width:620px;">
+    <div class='fly'  style="margin:auto; background: rgba(0, 0, 0, 0.3);width:620px;">
 
-           <p class="pageone_p" >
+        <p class="pageone_p" >
                换评2.0&nbsp&nbsp&nbsp震撼内测
-           </p>
-           <button  class=" hvr-float-shadow pageone_button" >
+        </p>
+        <button  class=" hvr-float-shadow pageone_button" >
                <a href="/doTask"  class="start" style="color: white">Start&nbsp&nbspNow</a>
-           </button>
-       </div>
-   </div>
+        </button>
+    </div>
+</div>
 
 
 
@@ -154,10 +116,7 @@
             <li  class="flyright">逃离繁琐的图片整理</li>
         </ul>
     </div>
-
-
     <ul>
-
         <li style="float: left;margin-left:12%;margin-top: 40px;list-style: none">
             <a href="" style="display: inline-block;" data-toggle="modal" data-target="#releaseTaskVideo">
                 <img src="images/index/radio.png" alt="" class="task_img" >
@@ -171,13 +130,12 @@
             </a>
         </li>
     </ul>
-
 </div>
 
 
 
 
-    <div  class="col-xs-12" id="pagefour">
+ <div  class="col-xs-12" id="pagefour">
       <div  class="pagefour_div" >
        <p  class="pagefour_p" >他们正在用</p>
        <p class="pagefour_p2">专业运营的首选</p>
@@ -198,7 +156,7 @@
       </div>
 
    </div>
-   </div>
+ </div>
 
 <div  class="footer col-lg-12 col-xs-12 hidden-xs" style="height:264px;background-color: #1c1f20;width: 100%">
     <div class="row">
@@ -352,6 +310,8 @@
 
 
 </script>
+
+
 <script src="/javascripts/cookieHelper.js"></script>
 
 

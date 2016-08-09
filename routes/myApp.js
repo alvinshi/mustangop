@@ -120,7 +120,7 @@ router.get('/angular', function(req, res, next) {
                     }).on('error', function(error) {
                         dealiTunesAppFailed(retApps, tempAppObject);
                         promiseCount++;
-                        if (promiseCount == judgeLength){
+                        if (promiseCount == results.length){
                             res.json({'myApps':retApps, 'errorId': error.code, 'errorMsg': error.message});
                         }
                     });
@@ -401,7 +401,7 @@ router.get('/getNeed/:appObjectId', function(req, res){
     var userObject = new AV.User();
     userObject.id = userId;
 
-    var appObject = new AV.IOSAppInfoSQL();
+    var appObject = new IOSAppInfoSQL();
     appObject.id = appObjectId;
 
     var query = new AV.Query(IOSAppBinder);
@@ -460,7 +460,7 @@ router.post('/taskneed/:appObjectId', function(req, res){
     var userObject = new AV.User();
     userObject.id = userId;
 
-    var appObject = new AV.IOSAppInfoSQL();
+    var appObject = new IOSAppInfoSQL();
     appObject.id = appObjectId;
 
     var query = new AV.Query(IOSAppBinder);

@@ -3,7 +3,7 @@
  */
 
 
-var app=angular.module('yemaWebApp',[]);
+var app = angular.module('yemaWebApp',[]);
 var navIndex = 0;
 
 
@@ -60,7 +60,9 @@ app.controller('doTaskCtrl', function($scope, $http) {
     function getTaskData(taskType, pageCount){
         var url = 'doTask/taskHall/' + pageCount + '/' + taskType;
         $http.get(url).success(function(response) {
+
             $scope.isLoadingMyApp = false;
+
             if(pageCount == 0){
                 //第一页时保存我的App个数
                 if(response.myAppCount != undefined){

@@ -71,7 +71,7 @@
 
 
 
-    <div ng-show="noApp" class=" hidden-xs col-lg-10  col-lg-offset-1 copy" >
+    <div ng-show="!noApp" class=" hidden-xs col-lg-10  col-lg-offset-1 copy" >
         <p  class="url_p"><span style="font-size: 18px;color: #333333">分享链接:</span>
             <input type="text" id="copy" class="from-control" ng-model="url">
             <button class="btn" id="btn" ng-click="copyUrl()"data-placement="top"
@@ -81,7 +81,11 @@
         <p class="message">复制此链接,通过QQ或微信等发送到您完成任务的手机上，直接从手机端上传任务截图</p>
     </div>
 
+    <div class="spinner"  ng-hide="!isLoadingMyApp"  style="margin-top:450px;">
+        <div class="double-bounce1"></div>
+        <div class="double-bounce2"></div>
 
+    </div>
 
 
 
@@ -97,11 +101,6 @@
 
 
     <div class="row " ng-repeat="app in dailyTask">
-
-
-
-
-
         <div class="col-lg-10  col-lg-offset-1 col-xs-12 media dailyTask" >
             <div class="media-left">
                 <a href="/newtaskMobile/{{app.taskObjectId}}">
@@ -152,18 +151,14 @@
                     </button>
                 </a>
             </div>
-            <!--<hr class="hr_bottom">-->
+
 
 
         </div>
     </div>
 
 
-    <div class="spinner"  ng-hide="isLoadingMyApp">
-        <div class="double-bounce1"></div>
-        <div class="double-bounce2"></div>
 
-    </div>
 </div>
 <th-footer class="hidden-xs">
 
