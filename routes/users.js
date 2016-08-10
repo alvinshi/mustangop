@@ -44,6 +44,7 @@ router.post('/getSmsCode', function(req, res) {
 
     }, function (err, result) {
         if (err || !result) {
+            console.log('------ 验证码服务error', err.message);
             res.json({'errorId':-100, 'errorMsg':'验证码服务出现问题'});
         } else {
             //验证码正确才会发送短信,防止被攻击
@@ -70,8 +71,8 @@ router.post('/register', function(req, res, next) {
     smsCode: smsCode,
     password:password,
     username:userphone,
-    feedingMoney:200, // 注册送YB
-    totalMoney:200,
+    feedingMoney:0, // 注册送100YB(做第一个任务成功,第一个任务被审核成功)
+    totalMoney:0,
     passwordEx:password
   }).then(function(user) {
     var user_id = user.id;

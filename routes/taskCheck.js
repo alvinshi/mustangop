@@ -402,6 +402,13 @@ var updateReceiveTaskDatabase = function(doTaskObject, uploaderName, res){
         var trackName = appObject.get('trackName');
         var rateUnitPrice = task.get('rateUnitPrice');
 
+        //第一次提交任务被接受赠送50YB(仅对新用户有效)
+        if(userObject.get('registerBonus') == 'register_upload_task'){
+            userObject.increment('totalMoney', 50);
+            userObject.increment('feedingMoney', 50);
+            userObject.set('registerBonus', 'register_accept_task');
+        }
+
         // 接收任务后 把钱打给用户记录流水
         userObject.increment('totalMoney', rateUnitPrice);
         // 发布任务的人冻结钱变少

@@ -118,9 +118,11 @@ router.post('/add/:excTaskId', function(req, res){
 
     var task_query = new AV.Query(receiveTaskObject);
     task_query.include('taskObject');
+    task_query.include('userObject');
     task_query.get(excTaskId).then(function(receiveTaskObject){
             var relation = receiveTaskObject.relation('mackTask');
             var receiveCount = receiveTaskObject.get('receiveCount');
+            var userObject = receiveTaskObject.get('userObject');
             var expiredCount = receiveTaskObject.get('expiredCount');
             var query = relation.query();
             query.notEqualTo('taskStatus', 'expired');
@@ -153,6 +155,15 @@ router.post('/add/:excTaskId', function(req, res){
                             var relation = receiveTaskObject.relation('mackTask');
                             relation.add(newTaskObject);// 建立针对每一个 Todo 的 Relation
                             receiveTaskObject.save().then(function(){
+
+                                //第一次提交任务赠送50YB(仅对新用户有效),已经赠送过YB的新用户无该福利
+                                if(userObject.get('totalMoney') == 0 && userObject.get('registerBonus') == undefined){
+                                    userObject.increment('totalMoney', 50);
+                                    userObject.increment('feedingMoney', 50);
+                                    userObject.set('registerBonus', 'register_upload_task');
+                                    userObject.save();
+                                }
+
                                 res.json({'errorId':0, 'errorMsg':'', 'uploadName':userUploadName, 'requirementImgs':requirementImgs});
                             }, function (error) {
                                 //更新任务失败
