@@ -13,6 +13,7 @@ app.controller('MobControl', function($scope, $http, $location, FileUploader) {
 
     $http.get(claimUrl).success(function (response) {
         $scope.oneAppInfo = response.oneAppInfo;
+
         $scope.images = response.macTask;
 
         if($scope.images != undefined && $scope.images.length > 0){
