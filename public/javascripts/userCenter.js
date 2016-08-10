@@ -226,7 +226,6 @@ app.controller('userCenterCtrl', function($scope, $http,$location){
     //复制链接
     $scope.inviteUrl = "http://www.mustangop.com/user/register/"+getCookie("userIdCookie");
 
-
     $scope.copyUrl= function () {
         $('#btn').popover('toggle');
         var Url = document.getElementById("inviteUrlcopy");
