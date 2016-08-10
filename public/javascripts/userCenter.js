@@ -125,14 +125,14 @@ app.controller('inforManageCtrl', function($scope, $http){
         }
         else{
             return parseInt(totalTaskNum / msgPerPage) + 2;
-        };
+        }
     }
 
     function updateMsgDisplayed(){
         firstTaskIndex = $scope.msgPerPage * $scope.pageNum;
         lastTaskIndex = firstTaskIndex + $scope.msgPerPage;
         $scope.taskMsgDisplayed = $scope.taskDisplayed.slice(firstTaskIndex, lastTaskIndex);
-        var msgIdArray = new Array;
+        var msgIdArray = Array;
         for (var i = 0; i < $scope.taskMsgDisplayed.length; i++){
             msgIdArray.push($scope.taskMsgDisplayed[i].id);
             }
@@ -235,6 +235,7 @@ app.controller('userCenterCtrl', function($scope, $http){
         $scope.userQQ = response.userQQ;
         $scope.balance = response.balance;
         $scope.userFreezingYB = response.userFreezingYB;
+        $scope.register_status = response.registerBonus;
     });
 
     $scope.preserve = function(){

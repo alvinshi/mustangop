@@ -124,6 +124,7 @@ router.get('/userCenter',function(req, res){
     var userQQ = results.get('userQQ');
     var balance = results.get('totalMoney');
     var freezingMoney = results.get('freezingMoney');
+      var registerBonus = results.get('registerBonus');
     var freezingYB = '';
     if (freezingMoney == undefined){
       freezingYB = 0;
@@ -131,7 +132,7 @@ router.get('/userCenter',function(req, res){
       freezingYB = freezingMoney;
     }
     res.json({'personAPP':PhoneNumber, 'userNickname':userNickname,
-      'userQQ':userQQ, 'balance': balance, 'userFreezingYB':freezingYB});
+      'userQQ':userQQ, 'balance': balance, 'userFreezingYB':freezingYB, 'registerBonus':registerBonus});
   }, function(error){
     //失败
     res.json({'errorId':error.code, 'errorMsg':error.message});

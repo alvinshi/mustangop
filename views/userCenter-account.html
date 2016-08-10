@@ -45,6 +45,17 @@
         </div>
     </div>
     </div>
+
+<div class="alert alert-info" role="alert" ng-show="register_status != undefined && register_status=='register_new'">
+    您好,系统赠送了您100YB(我的冻结中),完成新手任务解锁他吧(成功完成一条任务大厅的任务)
+</div>
+<div class="alert alert-success" role="alert" ng-show="register_status != undefined && register_status=='register_upload_task'">
+    您已经提交任务,系统赠送50YB已经在您的账户余额中,待对方接受你的任务后,将会再次获赠50YB
+</div>
+<div class="alert alert-success" role="alert" ng-show="register_status != undefined && register_status=='register_accept_task'">
+    您已经完成了新手任务,获赠100YB已经成功打入您的YB余额
+</div>
+
 <hr style="border: 0.5px solid #e0e0e0;margin-top: 30px;margin-left: 20px;margin-right: 20px;">
 <p  style="font-size: 20px;color: #333333;margin-left: 20px;margin-top: 30px;margin-right: 20px">如果您需要更多的Y币,请到任务大厅完成更多的任务,或者关注我们的微信公众号联系客服.微信关注:野马ASO</p>
 </div>
