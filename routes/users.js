@@ -60,50 +60,59 @@ router.post('/getSmsCode', function(req, res) {
 
 });
 
+function userRegister(req, res, next){
+    var userphone = req.body.mobile;
+    var password = req.body.password;
+    var smsCode = req.body.smsCode;
+    var inviteUserId = util.decodeUserId(req.params.inviteUserId);
+
+    var user = new AV.User();
+    user.signUpOrlogInWithMobilePhone({
+        mobilePhoneNumber: userphone,
+        smsCode: smsCode,
+        password:password,
+        username:userphone,
+        feedingMoney:0,
+        totalMoney:0,
+        freezingMoney:100,// 注册送100YB(做第一个任务成功,第一个任务被审核成功后解锁)
+        registerBonus:'register_new',
+        passwordEx:password,
+        inviteUserId:inviteUserId
+    }).then(function(user) {
+        var user_id = user.id;
+        //注册或者登录成功
+        console.log("tried");
+        var message = new messageLogger();
+        message.set("senderObjectId", user);
+        message.set('receiverObjectId', user);
+        message.set('category', '系统');
+        message.set('type', '欢迎');
+        message.save();
+
+        var userNickname = user.get('userNickname');
+        //encode userid
+        var encodeUserId = Base64.encode(user_id);
+        //login succeed,response cookie to browser
+        //cookie 30天有效期
+        res.cookie('username', user.get('username'));
+        res.cookie('userIdCookie',encodeUserId, { maxAge: 1000*60*60*24*30,httpOnly:true, path:'/'});
+        if (userNickname != undefined && userNickname != ''){
+            res.cookie('username', userNickname)
+        }
+        res.json({'errorId':0, 'errorMsg':''});
+
+    }, function(error) {
+        // 失败
+        res.json({'errorId':error.code, 'errorMsg':error.message});
+    });
+}
+
 router.post('/register', function(req, res, next) {
-  var userphone = req.body.mobile;
-  var password = req.body.password;
-  var smsCode = req.body.smsCode;
+    userRegister(req, res, next);
+});
 
-  var user = new AV.User();
-  user.signUpOrlogInWithMobilePhone({
-      mobilePhoneNumber: userphone,
-      smsCode: smsCode,
-      password:password,
-      username:userphone,
-      feedingMoney:0,
-      totalMoney:0,
-      freezingMoney:100,// 注册送100YB(做第一个任务成功,第一个任务被审核成功后解锁)
-      registerBonus:'register_new',
-      passwordEx:password
-  }).then(function(user) {
-    var user_id = user.id;
-    //注册或者登录成功
-    console.log("tried");
-    var message = new messageLogger();
-    message.set("senderObjectId", user);
-    message.set('receiverObjectId', user);
-    message.set('category', '系统');
-    message.set('type', '欢迎');
-    message.save();
-
-    var userNickname = user.get('userNickname');
-    //encode userid
-    var encodeUserId = Base64.encode(user_id);
-    //login succeed,response cookie to browser
-    //cookie 30天有效期
-    res.cookie('username', user.get('username'));
-    res.cookie('userIdCookie',encodeUserId, { maxAge: 1000*60*60*24*30,httpOnly:true, path:'/'});
-    if (userNickname != undefined && userNickname != ''){
-      res.cookie('username', userNickname)
-    }
-    res.json({'errorId':0, 'errorMsg':''});
-
-  }, function(error) {
-    // 失败
-    res.json({'errorId':error.code, 'errorMsg':error.message});
-  });
-
+router.post('/register/inviteUserId', function(req, res, next) {
+    userRegister(req, res, next);
 });
 
 router.get('/', function(req, res, next) {
