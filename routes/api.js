@@ -124,7 +124,12 @@ router.get('/itunes/search/:searchkey', function(req, res, next) {
                         appResults.push(appResult);
                     }
 
-                    res.json({'appResults':appResults, 'errorMsg':'', 'errorId':0});
+                    if(dataObject.results.length > 0){
+                        res.json({'appResults':appResults, 'errorMsg':'', 'errorId':0});
+                    }else {
+                        res.json({'appResults':[], 'errorMsg':'试试减少一些字符进行搜索吧', 'errorId':-1});
+                    }
+
                 }catch (e){
                     res.json({'appResults':[], 'errorMsg': e.message, 'errorId':-100});
                 }

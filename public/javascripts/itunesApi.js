@@ -126,7 +126,7 @@ app.controller('itunesSearchControl', function($scope, $http) {
                     $scope.isError = response.errorId != 0;
                     if ($scope.appResults.length == 0){
                         $scope.isError = 1;
-                        $scope.errorMsg = '未找到你搜索的App,请尝试输入它的全称';
+                        $scope.errorMsg = '未找到您的App,请尝试减少搜索字符';
                     }
 
                     for (var i = 0; i < $scope.appResults.length; i++){
