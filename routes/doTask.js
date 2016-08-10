@@ -51,6 +51,8 @@ function taskObjectToDic(results, TaskObjects, isMyTask)
         appObject.sellerName = userReleaseAppObject.get('sellerName');
 
         appObject.myTask = isMyTask;
+        //黑名单描述
+        appObject.blackDes = userReleaseAppObject.get('blackDes');
 
         appObject.objectId = results[i].id;
         appObject.excCount = results[i].get('excCount');

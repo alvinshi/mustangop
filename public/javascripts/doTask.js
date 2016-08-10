@@ -279,13 +279,13 @@ app.controller('doTaskCtrl', function($scope, $http) {
 
 
    //出现筛选图标
-    $scope.showDiv=function(app){
+    $scope.showDiv = function(app){
         //自己的任务不用筛选
         if(app.myTask != true){
-            app.mode=true;
+            app.mode = true;
         }
     };
-    $scope.hideDiv=function(app){
+    $scope.hideDiv = function(app){
         app.mode = false;
     };
 
@@ -297,20 +297,14 @@ app.controller('doTaskCtrl', function($scope, $http) {
 
         // 筛选任务, 当我点击确认时 保存
         $scope.confirmAdd = function(app){
-
             var fiterAppUrl = 'doTask/fiterApp';
             $http.post(fiterAppUrl, needToSave).success(function(response){
                 $scope.errorId = response.errorId;
                 $scope.errorMsg = response.errorMsg;
-
                 //TODO: 成功还是失败
                 if (response.errorId == 0){
-                    app.hasChanged=true;
-
-
-
+                    app.hasChanged = true;
                 }
-
             })
 
         }
