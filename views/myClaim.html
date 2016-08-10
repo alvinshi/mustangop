@@ -103,7 +103,7 @@
 
 
     <div class="row " ng-repeat="app in dailyTask">
-        <div class="col-lg-10  col-lg-offset-1 col-xs-12 media dailyTask" >
+        <div class="col-lg-10  col-lg-offset-1 col-xs-12 media dailyTask"  >
             <div class="media-left" style="position: relative">
                 <a href="/newtaskMobile/{{app.taskObjectId}}">
                     <img class="logo" ng-src="{{app.artworkUrl100}}" alt="app-icon" class="img-thumbnail" style="display: inline-block" >
@@ -126,9 +126,10 @@
                 <div  class="center">
                     <button  class="proceed" ng-show="app.surplusCount > 0">未完成{{app.surplusCount}}</button>
                     <button  class="pending" ng-show="app.submitted > 0">审核中{{app.submitted}}</button>
-                    <button  class="rejected"ng-show="app.rejected > 0" >被拒绝{{app.rejected}}</button>
+                    <button  class="rejected" ng-show="app.rejected > 0" >被拒绝{{app.rejected}}</button>
                     <button  class="finish" ng-show="app.accepted > 0">已通过{{app.accepted}}</button>
                     <button  class="abandoned" ng-show="app.abandoned > 0">已过期{{app.abandoned}}</button>
+                    <button  class="virtula_button hidden-lg" style="width:130px" ng-click="openNewPage(app.taskObjectId)"></button>
                 </div>
                 <div class="assign">
 
@@ -139,31 +140,37 @@
 
                     <img src="../images/home/pen.png" class="imgpen hidden-xs" ng-show="app.mode" ng-click="reAssign(app)">
                     <button  class="btnSave hidden-xs" ng-hide="app.mode" ng-click="saveRemark(app.detailRem, app.taskObjectId,app)">保存</button>
+                    <button  class="virtula_button hidden-lg" style="width:130px" ng-click="openNewPage(app.taskObjectId)"></button>
                 </div>
             </div>
-            <!--<div class=" hidden-xs  media-right" >-->
+
+
+
                 <!--<a href="/newtaskMobile/{{app.taskObjectId}}">-->
-                    <!--<button  type="button" style="margin-right: 40px">-->
-                        <!--做任务-->
+                    <!--<button  style="width:200px">-->
+
+
                     <!--</button>-->
                 <!--</a>-->
-            <!--</div>-->
+
             <div class=" hidden-xs  media-right">
                 <a href="/interiorExcDetail/{{app.taskObjectId}}">
                     <button  type="button">
                         查看任务图
                     </button>
                 </a>
-            </div>
-
-
-
         </div>
-    </div>
+        </div>
+   </div>
+
+
+
+
 
 
 
 </div>
+
 <th-footer class="hidden-xs">
 
 </th-footer>

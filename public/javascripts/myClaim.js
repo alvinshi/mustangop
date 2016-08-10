@@ -65,9 +65,9 @@ app.controller('myClaimControl', function($scope, $http, $location){
         document.execCommand("Copy"); // 执行浏览器复制命令
     };
 
-    //$scope.openCourse = function(courseid){
-    //    location.href = '/newtaskMobile/' + courseid;
-    //}
+    $scope.openNewPage = function(courseid){
+        location.href = '/newtaskMobile/' + courseid;
+    }
 
     // 一键关闭
     $scope.turnoffTask = function(){

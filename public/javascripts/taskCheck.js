@@ -2,6 +2,14 @@ var app=angular.module('yemaWebApp',[]);
 var navIndex =3;
 
 app.controller('taskCheckCtrl', function($scope, $http, $location) {
+
+
+
+    //******************* 自动轮播 *************************
+    $("#myCarousel").carousel({
+        interval:3000
+    });
+    //*******************初始化 *************************
     $scope.isLoadingMyApp = true;
     $scope.currentTaskId = undefined;
     $scope.noApp = false;
