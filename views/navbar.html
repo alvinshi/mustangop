@@ -47,11 +47,21 @@
                 </li>
 
             </ul>
-            <ul class="nav navbar-nav navbar-right">
+            <ul class="nav navbar-nav navbar-right" style="position: relative">
                 <li class="dropdown">
                     <a id="nav-username-display" href="/user" data-toggle="dropdown" class="dropdown" ng-style="{color:myColors[5]}">
                         <span class="caret"></span>
                     </a>
+
+                    <span class="msgDot " ng-show="unreadMsgCount > 0"
+                         style="position: absolute; top: 20px;
+                              left: 130px;
+                              display: inline-block;
+                              background-color: #f4556c;
+                              width: 10px;
+                              height: 10px;
+                              border-radius: 10px;">
+                    </span>
                     <ul class="dropdown-menu">
                         <li><a href="/user#/" >个人中心</a></li>
                         <li><a href="/user#/account">我的Y币</a></li>

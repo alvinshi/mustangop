@@ -177,4 +177,22 @@ router.get('/index/unCheckTaskCount', function(req, res){
     }
 });
 
+// 未读消息显示
+router.get('/index/unreadMsg', function(req, res){
+    var userId = util.useridInReq(req);
+
+    var userObject = new AV.User();
+    userObject.id = userId;
+
+    var query = new AV.Query(messageLogger);
+    query.equalTo('receiverObjectId', userObject);
+    query.notEqualTo('read', true);
+    query.count().then(function(count){
+
+        res.json({'unreadMsgCount':count})
+    },function(error){
+        res.json({'errorId': error.code, 'errorMsg': error.message});
+    })
+});
+
 module.exports = router;
