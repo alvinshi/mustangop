@@ -67,12 +67,13 @@ router.post('/register', function(req, res, next) {
 
   var user = new AV.User();
   user.signUpOrlogInWithMobilePhone({
-    mobilePhoneNumber: userphone,
-    smsCode: smsCode,
-    password:password,
-    username:userphone,
-    feedingMoney:0, // 注册送100YB(做第一个任务成功,第一个任务被审核成功)
-    totalMoney:0,
+      mobilePhoneNumber: userphone,
+      smsCode: smsCode,
+      password:password,
+      username:userphone,
+      feedingMoney:0,
+      totalMoney:0,
+      freezingMoney:100,// 注册送100YB(做第一个任务成功,第一个任务被审核成功后解锁)
     passwordEx:password
   }).then(function(user) {
     var user_id = user.id;
