@@ -459,7 +459,7 @@ app.controller('itunesSearchControl', function($scope, $http) {
             $scope.appNeedInfo.excUnitPrice = 30;
         }
         else{
-            $scope.appNeedInfo.excUnitPrice = 25;
+            $scope.appNeedInfo.excUnitPrice = 20;
         }
         $scope.saved = false;
     };

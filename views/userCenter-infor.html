@@ -24,7 +24,8 @@
 
 <div class=" form-group  user-content">
     <button type="button" onclick="javascript:window.location.href='/user/forgetSecret'" class="btn btn-danger">修改密码</button>
-    <button type="button" ng-click="preserve()" class="btn btn-danger save">保存</button>
+    <button type="button" ng-click="preserve()" class="btn btn-danger save" ng-show="errorId != 0">保存</button>
+    <button type="button" class="btn btn-danger save" ng-show="errorId == 0">已保存</button>
 </div>
 
 
