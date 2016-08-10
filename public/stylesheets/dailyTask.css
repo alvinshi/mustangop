@@ -9,12 +9,18 @@
     margin-left: 50px;
 }
 
-/*.media-body div{*/
-    /*margin-bottom: 10px;*/
-/*}*/
-/*.media-body span{*/
-    /*margin-right: 10%;*/
-/*}*/
+.dailyTask {
+    border-bottom: 1px solid #e0e0e0;
+    padding-bottom: 18px;
+    margin-bottom: 15px;
+    padding-top: 18px;
+}
+
+.dailyTask:hover{
+    box-shadow: 0 0 5px 2px #888888;
+    border-radius: 4px;
+
+}
 .information{
     padding-left: 20px
 }
@@ -133,6 +139,15 @@ color: #999999;
     border-radius: 6px;
 
 }
+.abandoned{
+    font-size: 18px;
+    background-color:white;
+    color: #f7798b;
+    margin-right: 20px;
+    border: 1px solid  #f7798b;
+    border-radius: 6px;
+
+}
 .noticeNumber{
     background-color: #f4556c;
     width: 30px;
@@ -166,10 +181,18 @@ color: #999999;
         border-radius: 8px;
         border: 1px solid #e0e0e0;
     }
-    /*.media-body div{*/
-        /*margin-bottom: 5px;*/
-    /*}*/
+    .dailyTask {
+        border-bottom: 1px solid #e0e0e0;
+        padding-bottom: 12px;
+        margin-bottom: 12px;
+        padding-top: 12px;
+    }
 
+    .dailyTask:hover{
+        box-shadow: 0 0 4px 2px #888888;
+        border-radius: 4px;
+
+    }
     .task-link{
         font-size: 18px;
         /*margin-bottom: 14px;*/
@@ -262,6 +285,17 @@ color: #999999;
         border-radius: 2px;
 
     }
+    .virtula_button{
+        height:20px;
+        font-size: 12px;
+        background-color:white;
+        color: white;
+        margin-right: 5px;
+        border: 1px solid  white;
+        outline: none;
+
+
+    }
 
     .proceed{
         height:20px;
@@ -303,7 +337,7 @@ color: #999999;
     }
 
     .assign{
-        margin-top:10px;
+        margin-top:8px;
         font-size: 12px;
         color: #999999;
 
@@ -332,9 +366,18 @@ color: #999999;
         border-radius: 6px;
         border: 1px solid #e0e0e0;
     }
-    /*.media-body div{*/
-    /*margin-bottom: 5px;*/
-    /*}*/
+    .dailyTask {
+        border-bottom: 1px solid #e0e0e0;
+        padding-bottom:6px;
+        margin-bottom:6px;
+        padding-top: 6px;
+    }
+
+    .dailyTask:hover{
+        box-shadow: 0 0 2px 2px #888888;
+        border-radius: 3px;
+
+    }
 
     .task-link{
         font-size:14px;
@@ -421,6 +464,17 @@ color: #999999;
         border-radius: 2px;
 
     }
+    .virtula_button{
+        height:20px;
+        font-size: 10px;
+        background-color:white;
+        color: white;
+        margin-right: 5px;
+        border: 1px solid white;
+        outline: none;
+
+
+    }
 
     .proceed{
         height:20px;
@@ -462,7 +516,7 @@ color: #999999;
     }
 
     .assign{
-        margin-top:10px;
+        margin-top:8px;
         font-size: 10px;
         color: #999999;
 
