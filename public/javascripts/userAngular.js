@@ -4,7 +4,7 @@
 
 var app=angular.module('userAccountApp',[]);
 
-app.controller('userAccountCtrl', function($scope, $http) {
+app.controller('userAccountCtrl', function($scope, $http, $location) {
     $scope.displayMsg = function(){
         console.log($scope.errorMsg);
         if ($scope.errorMsg === "Could not find user") $(".alert").text("无法找到用户");
@@ -13,12 +13,15 @@ app.controller('userAccountCtrl', function($scope, $http) {
     };
 
     $scope.userRegister = function(){
-
         var registerUrl = '/user/register';
 
-        console.log($scope.userSmsCode);
+        //获取邀请ID
+        console.log($location.absUrl());
+        var registerParams = $location.absUrl().split("/");
+        //删除并返回数组最后一个元素
+        var inviteCode = registerParams.pop();
 
-        $http.post(registerUrl, {'mobile': $scope.userMobile, 'password': $scope.userSecret, 'smsCode':$scope.userSmsCode}).success(function(response){
+        $http.post(registerUrl, {'inviteCode': inviteCode, 'mobile': $scope.userMobile, 'password': $scope.userSecret, 'smsCode':$scope.userSmsCode}).success(function(response){
             $scope.errorId = response.errorId;
             $scope.errorMsg = response.errorMsg;
 
