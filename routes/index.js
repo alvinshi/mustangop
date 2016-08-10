@@ -179,13 +179,13 @@ router.get('/index/unCheckTaskCount', function(req, res){
 
 // 未读消息显示
 router.get('/index/unreadMsg', function(req, res){
-    var userid = util.useridInReq(req);
+    var userId = util.useridInReq(req);
 
-    var user = new AV.User();
-    user.id = userid;
+    var userObject = new AV.User();
+    userObject.id = userId;
 
     var query = new AV.Query(messageLogger);
-    query.equalTo('receiverObjectId', user);
+    query.equalTo('receiverObjectId', userObject);
     query.notEqualTo('read', true);
     query.count().then(function(count){
 
