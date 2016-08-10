@@ -668,10 +668,7 @@ router.post('/turnOffOneTask', function(req, res){
                                 if (releaseCount <= expiredcount + finishCount){
                                     temTaskObject.set('close', true);
                                     temTaskObject.save();
-                                    //res.json({'errorId': 0, 'errorMsg':'关闭成功'})
                                     sendRes('关闭成功',0)
-                                }else {
-                                    sendRes('任务未全部结束,不能关闭', 0);
                                 }
                             },function(error){
                                 sendRes(error.message, error.errorId)

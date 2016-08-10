@@ -20,7 +20,7 @@ var messageLogger = AV.Object.extend('messageLogger');
 
 // 查询 我的App
 router.get('/', function(req, res, next) {
-    var userid = util.useridInReq(req);
+    //var userid = util.useridInReq(req);
     return res.render('myApp');
 });
 

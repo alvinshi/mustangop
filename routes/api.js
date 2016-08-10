@@ -22,60 +22,60 @@ router.get('/', function(req, res, next) {
 router.get('/itunes/search/:searchkey', function(req, res, next) {
 
     //http://backend.cqaso.com/search/趣恋爱?limit=100&offset=0
-    var searchCAAsoUrl = 'http://backend.cqaso.com/search/' + req.params.searchkey +'?limit=120&offset=0';
-    searchCAAsoUrl = encodeURI(searchCAAsoUrl);
-    var appResults = Array();
-
-    http.get(searchCAAsoUrl, function(response) {
-        response.setEncoding('utf-8');
-        console.log("状态码 %d \nheaders:\n %s \n当前的请求方式为【GET】请求",response.statusCode,
-            JSON.stringify(response.headers));
-
-        if (response.statusCode != 200){
-            res.json({'appResults':[], 'errorMsg' : response.statusCode, 'errorId':-2})
-        }else {
-            var receiveData = "";
-            response.on('data', function (chunk) {
-                receiveData += chunk;
-            }).on('end', function () {
-                //打印
-                var appObjectList = JSON.parse(receiveData);
-
-                for (var i = 0; i < appObjectList.contents.length; i++){
-                    var appleObject = appObjectList.contents[i];
-
-                    var appResult = Object();
-
-                    appResult.trackName = appleObject['name'];
-                    appResult.artworkUrl512 = appleObject['artworkUrl60'];
-                    appResult.artworkUrl100 = appleObject['artworkUrl60'];
-                    appResult.appleId = appleObject['appid'];//number
-                    //Appid+版本号来做匹配的唯一识别码
-                    appResult.excUniqueCode = appleObject['appId'] + appleObject['version'];
-                    appResult.sellerName = appleObject['artistName'];
-                    appResult.version = appleObject['version'];
-                    appResult.appleKind = appleObject['genreValue'];
-
-                    var appType = appleObject['subGenre']['type'];
-                    if(appType == undefined || appType.indexOf('付费') == -1 ){
-                        appResult.formattedPrice = '免费';
-                    }else {
-                        appResult.formattedPrice = '付费';
-                    }
-
-                    //类别 平台信息
-                    appResults.push(appResult);
-                }
-
-                res.json({'appResults':appResults, 'errorMsg':'', 'errorId':0});
-            });
-        }
-    }).on('error', function(e) {
-        console.log("Got error: " + e.message);
-        res.json({'appResults':[], 'errorMsg' : e.message, 'errorId' : -1})
-    });
-
-    return;
+    //var searchCAAsoUrl = 'http://backend.cqaso.com/search/' + req.params.searchkey +'?limit=120&offset=0';
+    //searchCAAsoUrl = encodeURI(searchCAAsoUrl);
+    //var appResults = Array();
+    //
+    //http.get(searchCAAsoUrl, function(response) {
+    //    response.setEncoding('utf-8');
+    //    console.log("状态码 %d \nheaders:\n %s \n当前的请求方式为【GET】请求",response.statusCode,
+    //        JSON.stringify(response.headers));
+    //
+    //    if (response.statusCode != 200){
+    //        res.json({'appResults':[], 'errorMsg' : response.statusCode, 'errorId':-2})
+    //    }else {
+    //        var receiveData = "";
+    //        response.on('data', function (chunk) {
+    //            receiveData += chunk;
+    //        }).on('end', function () {
+    //            //打印
+    //            var appObjectList = JSON.parse(receiveData);
+    //
+    //            for (var i = 0; i < appObjectList.contents.length; i++){
+    //                var appleObject = appObjectList.contents[i];
+    //
+    //                var appResult = Object();
+    //
+    //                appResult.trackName = appleObject['name'];
+    //                appResult.artworkUrl512 = appleObject['artworkUrl60'];
+    //                appResult.artworkUrl100 = appleObject['artworkUrl60'];
+    //                appResult.appleId = appleObject['appid'];//number
+    //                //Appid+版本号来做匹配的唯一识别码
+    //                appResult.excUniqueCode = appleObject['appId'] + appleObject['version'];
+    //                appResult.sellerName = appleObject['artistName'];
+    //                appResult.version = appleObject['version'];
+    //                appResult.appleKind = appleObject['genreValue'];
+    //
+    //                var appType = appleObject['subGenre']['type'];
+    //                if(appType == undefined || appType.indexOf('付费') == -1 ){
+    //                    appResult.formattedPrice = '免费';
+    //                }else {
+    //                    appResult.formattedPrice = '付费';
+    //                }
+    //
+    //                //类别 平台信息
+    //                appResults.push(appResult);
+    //            }
+    //
+    //            res.json({'appResults':appResults, 'errorMsg':'', 'errorId':0});
+    //        });
+    //    }
+    //}).on('error', function(e) {
+    //    console.log("Got error: " + e.message);
+    //    res.json({'appResults':[], 'errorMsg' : e.message, 'errorId' : -1})
+    //});
+    //
+    //return;
 
 
     //iTunes接口API(速度较慢)
@@ -124,7 +124,12 @@ router.get('/itunes/search/:searchkey', function(req, res, next) {
                         appResults.push(appResult);
                     }
 
-                    res.json({'appResults':appResults, 'errorMsg':'', 'errorId':0});
+                    if(dataObject.results.length > 0){
+                        res.json({'appResults':appResults, 'errorMsg':'', 'errorId':0});
+                    }else {
+                        res.json({'appResults':[], 'errorMsg':'请尝试搜索App的全名', 'errorId':-1});
+                    }
+
                 }catch (e){
                     res.json({'appResults':[], 'errorMsg': e.message, 'errorId':-100});
                 }
