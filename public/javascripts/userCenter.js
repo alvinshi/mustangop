@@ -236,6 +236,8 @@ app.controller('userCenterCtrl', function($scope, $http){
         $scope.balance = response.balance;
         $scope.userFreezingYB = response.userFreezingYB;
         $scope.register_status = response.registerBonus;
+        $scope.inviteCount = response.inviteCount;
+        $scope.inviteSucceedCount = response.inviteSucceedCount;
     });
 
     $scope.preserve = function(){

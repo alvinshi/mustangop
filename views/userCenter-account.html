@@ -48,22 +48,24 @@
 
 <div class="alert alert-info" role="alert" ng-show="register_status != undefined && register_status=='register_new'">
     您好,系统赠送了您100YB(冻结Y币中查看),完成新手任务后解锁
-    <br>
-    <br>
     新手任务: 任务大厅——>领取任务 ——> 做任务——>上传换评图片
 </div>
 <div class="alert alert-success" role="alert" ng-show="register_status != undefined && register_status=='register_upload_task'">
     新手任务完成进度50%,您已经获赠50Y币(账户余额中查看)
-    <br>
-    <br>
     等待对方接受你的任务成功,将继续获赠另外50Y币
 </div>
 <div class="alert alert-success" role="alert" ng-show="register_status != undefined && register_status=='register_accept_task'">
     您已经完成了新手任务,总计获赠100Y币
-    <br>
-    <br>
     有了Y币后,可以去任务大厅发布任务喽
 </div>
+
+
+<!--邀请区域-->
+<div class="alert alert-success" role="alert" ng-show="register_status != undefined && register_status=='register_accept_task'">
+    您已经完成了新手任务,总计获赠100Y币
+    有了Y币后,可以去任务大厅发布任务喽
+</div>
+
 
 <hr style="border: 0.5px solid #e0e0e0;margin-top: 30px;margin-left: 20px;margin-right: 20px;">
 <p  style="font-size: 20px;color: #333333;margin-left: 20px;margin-top: 30px;margin-right: 20px">如果您需要更多的Y币,请到任务大厅完成更多的任务,或者关注我们的微信公众号联系客服.微信关注:野马ASO</p>
