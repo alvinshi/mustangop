@@ -24,16 +24,12 @@ app.directive("thNav",function(){
                 $scope.pendingCount = response.pendingCount;
             });
 
-            //消息相关 BUGBUG
-            //var getMessage = '/user/userCenter/getMessage';
-            //$http.get(getMessage).success(function(response){
-            //    var msg = response.rtnMsg;
-            //    for (var i = 0; i < msg.length; i++){
-            //        if (!msg[i].read){
-            //            $scope.unreadNotice = true;
-            //        }
-            //    }
-            //});
+            // 未读消息 BUGBUG
+            var getMessage = '/index/unreadMsg';
+            $http.get(getMessage).success(function(response){
+                $scope.unreadMsgCount = response.unreadMsgCount;
+
+            });
         }
     };
 });
