@@ -64,7 +64,7 @@ function userRegister(req, res, next){
     var userphone = req.body.mobile;
     var password = req.body.password;
     var smsCode = req.body.smsCode;
-    var inviteUserId = util.decodeUserId(req.params.inviteUserId);
+    var inviteUserId = util.decodeUserId(req.body.inviteCode);
 
     var user = new AV.User();
     user.signUpOrlogInWithMobilePhone({
@@ -81,7 +81,14 @@ function userRegister(req, res, next){
     }).then(function(user) {
         var user_id = user.id;
         //注册或者登录成功
-        console.log("tried");
+
+        if(inviteUserId != undefined){
+            var inviteUserObject = new AV.User();
+            inviteUserObject.id = inviteUserId;
+            inviteUserObject.increment('inviteCount', 1);
+            inviteUserObject.save();
+        }
+
         var message = new messageLogger();
         message.set("senderObjectId", user);
         message.set('receiverObjectId', user);
@@ -111,14 +118,9 @@ router.post('/register', function(req, res, next) {
     userRegister(req, res, next);
 });
 
-router.post('/register/inviteUserId', function(req, res, next) {
-    userRegister(req, res, next);
-});
-
 router.get('/', function(req, res, next) {
-  res.render('userCenter');
+    res.render('userCenter');
 });
-
 
 //个人中心
 router.get('/userCenter',function(req, res){
@@ -305,6 +307,10 @@ router.get('/taskhistory', function(req, res){
 router.get('/register', function(req, res, next) {
   //res.send('user register :' + encodeUserId);
   res.render('register');
+});
+
+router.get('/register/:inviteUserId', function(req, res, next) {
+    res.render('register');
 });
 
 router.get('/login', function(req, res, next) {

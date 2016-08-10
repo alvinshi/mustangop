@@ -172,6 +172,7 @@ router.post('/add/:excTaskId', function(req, res){
                                     inviteUserObject.increment('totalMoney', 100);
                                     inviteUserObject.increment('feedingMoney', 100);
                                     inviteUserObject.set('inviteUserId', 'invite_done');
+                                    inviteUserObject.increment('inviteSucceedCount', 1);
                                     inviteUserObject.save();
                                 }
 
