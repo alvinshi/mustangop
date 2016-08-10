@@ -407,10 +407,11 @@ var updateReceiveTaskDatabase = function(doTaskObject, uploaderName, res){
             userObject.increment('totalMoney', 50);
             userObject.increment('feedingMoney', 50);
             userObject.set('registerBonus', 'register_accept_task');
+        }else {
+            // 接收任务后 把钱打给用户记录流水
+            userObject.increment('totalMoney', rateUnitPrice);
         }
 
-        // 接收任务后 把钱打给用户记录流水
-        userObject.increment('totalMoney', rateUnitPrice);
         // 发布任务的人冻结钱变少
         senderUserObject.increment('freezingMoney', -rateUnitPrice);
         //保存2份流水
