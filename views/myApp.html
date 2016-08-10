@@ -201,9 +201,11 @@
                         <div class="col-lg-3">
                             <input type="text" class="form-control" style="width: 75px;" placeholder="" ng-model="appNeedInfo.ranKing"
                                      ng-change="checkRank()"    ng-change="saveStatusChange()">
+                            <span class="label label-warning">排名需要精准,若差异太大,任务将自动被撤销,且不退还Y币</span>
+
                         </div>
                         <div class="col-lg-2" style="margin-left: -150px">
-                            <span ng-show="errorCheck" style="color: red;font-size:14px">排名不能超过50</span>
+                            <span ng-show="errorCheck" class="label label-danger">排名不能超过50</span>
                         </div>
                     </div>
                 </form>
