@@ -15,6 +15,13 @@ exports.useridInReq = function(req){
     return Base64.decode(encodeUserId);
 };
 
+exports.decodeUserId = function(encodeUserId){
+    if(encodeUserId == undefined){
+        return undefined;
+    }
+    return Base64.decode(encodeUserId);
+};
+
 exports.postFile = function (req, res) {
 
     if (req.busboy) {
