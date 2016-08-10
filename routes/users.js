@@ -74,7 +74,8 @@ router.post('/register', function(req, res, next) {
       feedingMoney:0,
       totalMoney:0,
       freezingMoney:100,// 注册送100YB(做第一个任务成功,第一个任务被审核成功后解锁)
-    passwordEx:password
+      registerBonus:'register_new',
+      passwordEx:password
   }).then(function(user) {
     var user_id = user.id;
     //注册或者登录成功
