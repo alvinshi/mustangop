@@ -65,6 +65,8 @@ function taskObjectToDic(results, TaskObjects, isMyTask)
         appObject.screenshotCount = results[i].get('screenshotCount');
         appObject.titleKeyword = results[i].get('titleKeyword');
         appObject.commentKeyword = results[i].get('commentKeyword');
+        appObject.detailRem = results[i].get('detailRem');
+
 
         if(isMyTask){
             TaskObjects.unshift(appObject);

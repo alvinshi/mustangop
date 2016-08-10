@@ -70,12 +70,15 @@ router.get('/claim/:excTaskId', function(req, res){
                 retObject.surplusCount = resultObject.get('receiveCount') - resultObject.get('expiredCount') - result.length;
 
                 for (var e = 0; e < result.length; e++){
-                    retObject.uploadName = result[e].get('uploadName');
-                    retObject.detail = result[e].get('detail');
-                    var taskImages = result[e].get('requirementImgs');
-                    for (var w = 0; w < taskImages.length; w++){
-                        var taskImage = taskImages[w];
-                        mackTaskList.push(taskImage);
+                    var uploadTaskName = result[e].get('uploadName');
+                    if (uploadTaskName == uploadUserName){
+                        retObject.uploadName = uploadTaskName;
+                        retObject.detail = result[e].get('detail');
+                        var taskImages = result[e].get('requirementImgs');
+                        for (var w = 0; w < taskImages.length; w++){
+                            var taskImage = taskImages[w];
+                            mackTaskList.push(taskImage);
+                        }
                     }
                 }
                 res.json({'oneAppInfo':retObject, 'macTask':mackTaskList})

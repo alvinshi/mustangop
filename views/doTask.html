@@ -55,6 +55,7 @@
         <li data-target="#myCarousel" data-slide-to="1"></li>
         <li data-target="#myCarousel" data-slide-to="2"></li>
         <li data-target="#myCarousel" data-slide-to="3"></li>
+        <li data-target="#myCarousel" data-slide-to="4"></li>
 
     </ol>
      <!--轮播（Carousel）项目-->
@@ -66,6 +67,9 @@
         </div>
         <div class="item">
             <img class='foo' src="/images/doTask/newrule.png" style="width: 100vw; margin-top: 50px;"/>
+        </div>
+        <div class="item">
+            <img class='foo' src="/images/doTask/address.png" style="width: 100vw; margin-top: 50px;"/>
         </div>
         <div class="item">
             <img class='foo' src="/images/doTask/guide.png" style="width: 100vw; margin-top: 50px;"/>
@@ -96,8 +100,8 @@
 
 <div class="container fly" style="width: 1010px; padding:0;" ng-controller="doTaskCtrl">
     <div class="row" style="margin:0;">
-        <p style="font-size: 30px; color: #3498db; margin: 40px 20px 10px 0; float: left" ng-show="!noApp">任务列表</p>
-        <div ng-show="!noApp" class="alert alert-warning" role="alert" style="display: inline-block; margin-top: 35px;">
+        <p style="font-size: 30px; color: #3498db; margin: 40px 20px 10px 0; float: left">任务列表</p>
+        <div  class="alert alert-warning" role="alert" style="display: inline-block; margin-top: 35px;">
             对于已经Q群换过的任务,你可以进行标记,后续除非该App更新,否则都不在展示给你</div>
         <a href="myapp" class="publishTask" ng-mouseover="changePlaneColor()" ng-mouseleave = "changePlaneColor()">
             <img src="/images/doTask/paperplane.png" ng-show="planeColor"/>
@@ -305,7 +309,7 @@
                                         <div style="margin: 15px 10px 15px 10px;">
                                             <span>备注: </span>
                                 <span>
-                                    <input type="text" placeholder="用于内部分配(张三1条, 王五1条...)" ng-model='app.detailRem'
+                                    <input type="text" placeholder="用于内部分配(张三1条, 王五1条...)" ng-model='app.detail'
                                            style="border-radius: 6px; width: 350px;"/>
                                 </span>
                                         </div>
@@ -372,17 +376,17 @@
                                 </div>
                             </td>
                             <td ng-if='!app.myTask && !app.hasTaken' ng-show="!app.hasChanged" style="padding-right: 0px;">
-                                <button class="mybtn reverse hvr-float-shadow" data-target="#detail{{$index}}" data-toggle="modal">
+                                <button class="mybtn reverse hvr-float-shadow" data-target="#detail_comment{{$index}}" data-toggle="modal">
                                     任务详情
                                 </button>
                             </td>
                             <td ng-if='!app.myTask && !app.hasTaken' ng-show="!app.hasChanged" style="padding-right: 40px;">
-                                <button class="mybtn reverse hvr-float-shadow" data-target="#takeTask{{$index}}" data-toggle="modal">
+                                <button class="mybtn reverse hvr-float-shadow" data-target="#takeTask_comment{{$index}}" data-toggle="modal">
                                     领取任务
                                 </button>
                             </td>
                             <td ng-if="app.myTask"  style="padding-right: 0px;">
-                                <button class="mybtn myTask hvr-float-shadow" data-target="#detail{{$index}}" data-toggle="modal">
+                                <button class="mybtn myTask hvr-float-shadow" data-target="#detail_comment{{$index}}" data-toggle="modal">
                                     任务详情
                                 </button>
                             </td>
@@ -530,7 +534,7 @@
                                         <div style="margin: 15px 10px 15px 10px;">
                                             <span>备注: </span>
                                 <span>
-                                    <input type="text" placeholder="用于内部分配(张三1条, 王五1条...)" ng-model='app.detailRem'
+                                    <input type="text" placeholder="用于内部分配(张三1条, 王五1条...)" ng-model='app.detail'
                                            style="border-radius: 6px; width: 350px;"/>
                                 </span>
                                         </div>
@@ -597,17 +601,17 @@
                                 </div>
                             </td>
                             <td ng-if='!app.myTask && !app.hasTaken' ng-show="!app.hasChanged" style="padding-right: 0px;">
-                                <button class="mybtn reverse hvr-float-shadow" data-target="#detail{{$index}}" data-toggle="modal">
+                                <button class="mybtn reverse hvr-float-shadow" data-target="#detail_download{{$index}}" data-toggle="modal">
                                     任务详情
                                 </button>
                             </td>
                             <td ng-if='!app.myTask && !app.hasTaken' ng-show="!app.hasChanged" style="padding-right: 40px;">
-                                <button class="mybtn reverse hvr-float-shadow" data-target="#takeTask{{$index}}" data-toggle="modal">
+                                <button class="mybtn reverse hvr-float-shadow" data-target="#takeTask_download{{$index}}" data-toggle="modal">
                                     领取任务
                                 </button>
                             </td>
                             <td ng-if="app.myTask"  style="padding-right: 0px;">
-                                <button class="mybtn myTask hvr-float-shadow" data-target="#detail{{$index}}" data-toggle="modal">
+                                <button class="mybtn myTask hvr-float-shadow" data-target="#detail_download{{$index}}" data-toggle="modal">
                                     任务详情
                                 </button>
                             </td>
@@ -756,7 +760,7 @@
                                         <div style="margin: 15px 10px 15px 10px;">
                                             <span>备注: </span>
                                 <span>
-                                    <input type="text" placeholder="用于内部分配(张三1条, 王五1条...)" ng-model='app.detailRem'
+                                    <input type="text" placeholder="用于内部分配(张三1条, 王五1条...)" ng-model='app.detail'
                                            style="border-radius: 6px; width: 350px;"/>
                                 </span>
                                         </div>
