@@ -226,7 +226,7 @@ app.controller('doTaskCtrl', function($scope, $http) {
             currentApp.getTaskErrorId = -200;
             currentApp.errorMsg = '此任务无法领取更多';
         }
-        else if (currentApp.receiveCount > 9) {
+        else if (currentApp.receiveCount > 10) {
             currentApp.getTaskErrorId = -200;
             currentApp.errorMsg = '每个任务最多领取10条';
         }
