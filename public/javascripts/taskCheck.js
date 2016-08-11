@@ -67,7 +67,7 @@ app.controller('taskCheckCtrl', function($scope, $http, $location) {
                 $scope.errorMsg = response.errorMsg;
                 $("#errorMsg").modal("show");
             }else {
-                setTimeout(refresh, 1000);
+                setTimeout(refresh, 100);
             }
             function refresh(){
                 location.href = '/taskCheck/'
