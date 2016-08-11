@@ -1,3 +1,4 @@
+
 .header-wrapper{
     margin-top: 79px;
 }
@@ -37,6 +38,8 @@
 .task-link{
     font-size: 24px;
     color:black;
+    cursor: default;
+    outline: none;
 
 }
 .task-link:hover{
@@ -44,6 +47,8 @@
 }
 .infor button{
     margin-right: 30px;
+    cursor: default;
+    outline: none;
 
 }
 .left,.surplus{
@@ -55,6 +60,8 @@
     font-size: 18px;
     margin-left: 10px;
     border-radius: 6px;
+    cursor: default;
+    outline: none;
 }
 .download{
     width: 70px;
@@ -64,6 +71,8 @@
     /*text-align: center;*/
     font-size: 18px;
     border-radius: 6px;
+    cursor: default;
+    outline: none;
 }
 .comment{
     width: 70px;
@@ -73,6 +82,8 @@
     /*text-align: center;*/
     font-size: 18px;
     border-radius: 6px;
+    cursor: default;
+    outline: none;
 }
 .deadline{
     width:200px;
@@ -83,6 +94,8 @@
     font-size: 18px;
     border-radius: 6px;
     margin-left: 10px;
+    cursor: default;
+    outline: none;
 }
 .center{
     margin-top: 12px;
