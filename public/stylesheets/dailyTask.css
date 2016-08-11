@@ -112,6 +112,8 @@ color: #999999;
     margin-right: 20px;
     border: 1px solid  #3498db;
     border-radius: 6px;
+    cursor: default;
+    outline: none;
 
 }
 .rejected{
@@ -121,6 +123,8 @@ color: #999999;
     margin-right: 20px;
     border: 1px solid  #f7798b;
     border-radius: 6px;
+    cursor: default;
+    outline: none;
 
 }
 .abandonde{
@@ -130,6 +134,8 @@ color: #999999;
     margin-right: 20px;
     border: 1px solid  #f7798b;
     border-radius: 6px;
+    cursor: default;
+    outline: none;
 
 }
 
@@ -141,6 +147,8 @@ color: #999999;
     margin-right: 20px;
     border: 1px solid  #e68900;
     border-radius: 6px;
+    cursor: default;
+    outline: none;
 
 }
 .finish{
@@ -150,6 +158,8 @@ color: #999999;
     margin-right: 20px;
     border: 1px solid  rgb(0,226,57);
     border-radius: 6px;
+    cursor: default;
+    outline: none;
 
 }
 .abandoned{
@@ -158,7 +168,8 @@ color: #999999;
     color: #f7798b;
     margin-right: 20px;
     border: 1px solid  #f7798b;
-    border-radius: 6px;
+    border-radius: 6px; cursor: default;
+    outline: none;
 
 }
 .noticeNumber{
