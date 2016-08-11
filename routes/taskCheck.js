@@ -653,9 +653,10 @@ router.post('/turnOff', function(req, res){
 router.post('/turnOffOneTask', function(req, res){
     var taskId = req.body.taskId;
 
+    var receiveTaskList = Array();
+
     var query = new AV.Query(releaseTaskObject);
     query.get(taskId).then(function(taskObject){
-        var releaseCount = taskObject.get('excCount');
         if(taskObject.length == 0 || taskObject == undefined){
             sendRes('任务不存在', -1);
         }else {
@@ -665,35 +666,67 @@ router.post('/turnOffOneTask', function(req, res){
                 receiveQuery.limit(1000);
                 receiveQuery.descending('createdAt');
                 receiveQuery.find().then(function(recTaskObjects){
-                    for (var e = 0; e < recTaskObjects.length; e++){
-                        var expiredCount = recTaskObjects[e].get('expiredCount');
+                    receiveTaskList = receiveTaskList.concat(recTaskObjects);
+                    dealAllReceObjectList(receiveTaskList);
 
-                        (function(doTaskObject, expiredcount, releaseCount){
-                            var relation = doTaskObject.relation('mackTask');
-                            var queryUpload = relation.query();
-                            queryUpload.containedIn('taskStatus', ['accepted', 'systemAccepted']);
-                            queryUpload.count().then(function(finishCount){
-                                if (releaseCount <= expiredcount + finishCount){
-                                    temTaskObject.set('close', true);
-                                    temTaskObject.save();
-                                    sendRes('关闭成功',0)
-                                }
-                            },function(error){
-                                sendRes(error.message, error.errorId)
-                            })
-                        })(recTaskObjects[e], expiredCount, releaseCount)
-                    }
-
-                })
-            })(taskObject, releaseCount)
+                }, function(error){
+                    dealAllReceObjectList(receiveTaskList);
+                });
+            })(taskObject)
         }
 
     },function(error){
-        //res.json({'errorMsg':error.message, 'errorId': error.code});
         sendRes(error.message, error.code)
     });
-    function  sendRes(errorMsg,errorID){
-        res.json({'errorMsg':errorMsg, 'errorId': errorID});
+
+    var needSaveReleaseTaskList = [];
+    //function just can call once!!!
+    function dealAllReceObjectList(receiveList){
+        var receQueryIndex = 0;
+        for (var e = 0; e < receiveList.length; e++){
+
+            (function(receTaskObject){
+                var expiredCount = receiveList[e].get('expiredCount');
+                var relation = receTaskObject.relation('mackTask');
+                var queryUpload = relation.query();
+                queryUpload.containedIn('taskStatus', ['accepted', 'systemAccepted']);
+                queryUpload.count().then(function(finishCount){
+                    var enTaskObject = receTaskObject.get('taskObject');
+                    if (receTaskObject.get('receiveCount') <= expiredCount + finishCount){
+                        enTaskObject.set('close', true);
+                    }else {
+                        enTaskObject.set('close', false);
+                    }
+
+                    util.addLeanObject(enTaskObject, needSaveReleaseTaskList);
+                    receQueryIndex++;
+                    if (receQueryIndex == receiveList.length){
+                        allSave();
+                    }
+                },function(error){
+                    receQueryIndex++;
+                    if (receQueryIndex == receiveList.length){
+                        allSave();
+                    }
+                });
+            })(receiveList[e]);
+        }
+    }
+
+    function allSave(){
+        if (needSaveReleaseTaskList == undefined || needSaveReleaseTaskList.length == 0 ){
+            sendRes('没有任务可以关闭', 0)
+        }else {
+            AV.Object.saveAll(needSaveReleaseTaskList).then(function(){
+                sendRes("关闭成功", 0);
+            },function(error){
+                sendRes(error.message, error.code);
+            })
+        }
+    }
+
+    function sendRes(errorMsg,errorId){
+        res.json({'errorMsg':errorMsg, 'errorId': errorId});
     }
 });
 
