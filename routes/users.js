@@ -47,14 +47,25 @@ router.post('/getSmsCode', function(req, res) {
             console.log('------ 验证码服务error', err.message);
             res.json({'errorId':-100, 'errorMsg':'验证码服务出现问题'});
         } else {
-            //验证码正确才会发送短信,防止被攻击
-            AV.Cloud.requestSmsCode(userphone).then(function() {
-                //发送成功
-                res.json({'errorId':0, 'errorMsg':''});
-            }, function(error) {
-                //发送失败
+            var query = new AV.Query(User);
+            query.equalTo('username', userphone);
+            query.first().then(function(userObject){
+                if (userObject == undefined || userObject.length == 0){
+                    //验证码正确才会发送短信,防止被攻击
+                    AV.Cloud.requestSmsCode(userphone).then(function() {
+                        //发送成功
+                        res.json({'errorId':0, 'errorMsg':''});
+                    }, function(error) {
+                        //发送失败
+                        res.json({'errorId':error.code, 'errorMsg':error.message});
+                    });
+                }else {
+                    res.json({'errorId':1, 'errorMsg':'手机号码已存在'})
+                }
+            },function(error){
                 res.json({'errorId':error.code, 'errorMsg':error.message});
-            });
+            })
+
         }
     });
 
