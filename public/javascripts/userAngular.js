@@ -20,6 +20,9 @@ app.controller('userAccountCtrl', function($scope, $http, $location) {
         var registerParams = $location.absUrl().split("/");
         //删除并返回数组最后一个元素
         var inviteCode = registerParams.pop();
+        if(inviteCode.length < 15){
+            inviteCode = undefined;
+        }
 
         $http.post(registerUrl, {'inviteCode': inviteCode, 'mobile': $scope.userMobile, 'password': $scope.userSecret, 'smsCode':$scope.userSmsCode}).success(function(response){
             $scope.errorId = response.errorId;

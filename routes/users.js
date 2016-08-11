@@ -82,7 +82,7 @@ function userRegister(req, res, next){
         var user_id = user.id;
         //注册或者登录成功
 
-        if(inviteUserId != undefined){
+        if(inviteUserId != undefined && inviteUserId.length > 0){
             var inviteUserObject = new AV.User();
             inviteUserObject.id = inviteUserId;
             inviteUserObject.increment('inviteCount', 1);
