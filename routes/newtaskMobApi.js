@@ -165,7 +165,8 @@ router.post('/add/:excTaskId', function(req, res){
                                     userObject.save();
                                 }
 
-                                if(userObject.get('inviteUserId') != undefined && userObject.get('inviteUserId') != 'invite_done'){
+                                var inviteUserId = userObject.get('inviteUserId');
+                                if(inviteUserId != undefined && inviteUserId.length > 0 && inviteUserId != 'invite_done'){
                                     var inviteUserObject = new AV.User();
                                     inviteUserObject.id = userObject.get('inviteUserId');
                                     //邀请的人得100YB
