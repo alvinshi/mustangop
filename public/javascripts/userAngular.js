@@ -35,6 +35,8 @@ app.controller('userAccountCtrl', function($scope, $http, $location) {
             if (response.errorId == 0){
                 //return to my App
                 location.href='/guide';
+            }else {
+                $scope.errorMsg = response.errorMsg;
             }
         });
     };
