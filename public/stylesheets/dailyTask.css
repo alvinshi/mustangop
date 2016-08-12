@@ -56,7 +56,6 @@
     background-color: white;
     color: #3498db;
     border: 1px solid #3498db;
-    /*text-align: center;*/
     font-size: 18px;
     margin-left: 10px;
     border-radius: 6px;
@@ -68,7 +67,6 @@
     background-color: white;
     color:rgb(149,242,158);
     border: 1px solid rgb(149,242,158);
-    /*text-align: center;*/
     font-size: 18px;
     border-radius: 6px;
     cursor: default;
@@ -79,7 +77,6 @@
     background-color: white;
     color:rgb(255,196,158);
     border: 1px solid rgb(255,196,158);
-    /*text-align: center;*/
     font-size: 18px;
     border-radius: 6px;
     cursor: default;
@@ -105,7 +102,7 @@
 color: #999999;
 }
 .pending{
-    /*height:28px;*/
+
     font-size: 18px;
     background-color: white;
     color: #3498db;
@@ -219,7 +216,7 @@ color: #999999;
     }
     .task-link{
         font-size: 18px;
-        /*margin-bottom: 14px;*/
+
     }
 
     .appid{
@@ -357,7 +354,7 @@ color: #999999;
         width:20px;
         height:15px;
         font-size: 12px;
-        border-radius:4px;text-align: center;color: #FFFFFF;position: absolute;top: -8px;left:60px
+        border-radius:4px;text-align: center;color: #FFFFFF;position: absolute;top: -4px;left:60px
     }
 
     .assign{
@@ -375,10 +372,7 @@ color: #999999;
         margin-top: 10px;
     }
 
-    /*.row{*/
-        /*margin-top: 24px;*/
-        /*margin-bottom: 24px;*/
-    /*}*/
+
 }
 
 
@@ -536,7 +530,7 @@ color: #999999;
         width:20px;
         height:15px;
         font-size: 10px;
-        border-radius:4px;text-align: center;color: #FFFFFF;position: absolute;top: -8px;left:55px
+        border-radius:4px;text-align: center;color: #FFFFFF;position: absolute;top:-4px;left:55px
     }
 
     .assign{
@@ -554,9 +548,6 @@ color: #999999;
         margin-top: 10px;
     }
 
-    /*.row{*/
-    /*margin-top: 24px;*/
-    /*margin-bottom: 24px;*/
-    /*}*/
+
 }
 

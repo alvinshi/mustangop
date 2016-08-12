@@ -107,15 +107,10 @@
             <div class="media-left" style="position: relative">
                 <a href="/newtaskMobile/{{app.taskObjectId}}">
                     <img class="logo" ng-src="{{app.artworkUrl100}}" alt="app-icon" class="img-thumbnail" style="display: inline-block" >
-
                 </a>
                 <div class="noticeNumber" ng-show="app.noticeNumber > 0">{{app.noticeNumber}}</div>
-
             </div>
-
             <div class="media-body information"  >
-
-
                 <div>
                     <!--<a class="task-link" href="/newtaskMobile/{{app.taskObjectId}}">{{app.trackName.substr(0,11)+'...'}}</a>-->
                     <button class="download" ng-show="app.excKinds == '下载'" ng-click="openNewPage(app.taskObjectId)">{{app.excKinds}}</button>
@@ -132,18 +127,13 @@
                     <button  class="virtula_button hidden-lg" style="width:50px" ng-click="openNewPage(app.taskObjectId)"></button>
                 </div>
                 <div class="assign">
-
                     分配备注:<span style="margin-left: 15px" class="num  assignTask" ng-show="app.mode" ng-click="openNewPage(app.taskObjectId)">{{app.detailRem}}</span>
-
-
                     <input  class="input1 hidden-xs" type="text" style="width:400px" ng-hide="app.mode" ng-model="app.detailRem">
-
                     <img src="../images/home/pen.png" class="imgpen hidden-xs" ng-show="app.mode" ng-click="reAssign(app)">
                     <button  class="btnSave hidden-xs" ng-hide="app.mode" ng-click="saveRemark(app.detailRem, app.taskObjectId,app)">保存</button>
                     <button  class="virtula_button hidden-lg" style="width:50px" ng-click="openNewPage(app.taskObjectId)"></button>
                 </div>
             </div>
-
 
             <div class=" hidden-xs  media-right">
                 <a href="/interiorExcDetail/{{app.taskObjectId}}">
