@@ -252,21 +252,7 @@ app.controller('doTaskCtrl', function($scope, $http) {
                 }
 
                 //处理领取任务成功的前端逻辑 (标记几个标签下相同任务)
-                var dataAllTypeList = [$scope.taskDisplayed, $scope.commentTask, $scope.downTask];
-                for (var i = 0; i < dataAllTypeList.length; i++){
-                    var taskList = dataAllTypeList[i];
-
-                    for (var j = 0; j < taskList.length; j++){
-                        var taskObect = taskList[j];
-
-                        if (taskObect.appleId == currentApp.appleId)
-                        {
-                            taskList.disable = true;
-                            $scope.inactiveTask.push(taskObect);
-                            $scope.disableTaskCount = $scope.disableTaskCount + 1;
-                        }
-                    }
-                }
+                filterSameTask(currentApp, 'hasTaken');
             });
         }
     };
@@ -304,11 +290,30 @@ app.controller('doTaskCtrl', function($scope, $http) {
                 //TODO: 成功还是失败
                 if (response.errorId == 0){
                     app.hasChanged = true;
-
+                    //标记其它同样应该被筛选的条目
+                    filterSameTask(app, 'hasChanged');
                 }
             })
 
         }
     };
 
+
+    var filterSameTask = function(task, keyName){
+        var allTasks = [$scope.taskDisplayed, $scope.commentTask, $scope.downTask];
+        for (var i = 0; i < allTasks.length; i++){
+            var taskList = allTasks[i];
+
+            for (var j = 0; j < taskList.length; j++){
+                var taskToCheck = taskList[j];
+
+                if (taskToCheck.appleId == task.appleId)
+                {
+                    taskToCheck[keyName] = true;
+                    $scope.inactiveTask.push(taskToCheck);
+                    $scope.disableTaskCount = $scope.disableTaskCount + 1;
+                }
+            }
+        }
+    }
 });
