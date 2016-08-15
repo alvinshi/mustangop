@@ -16,6 +16,12 @@ app.controller('MobControl', function($scope, $http, $location, FileUploader) {
         $scope.uploadName = getCookie('uploadName');
     }
 
+    if ($scope.uploadName.length > 0) {
+        $scope.normalBtnShow = 0;
+    } else {
+        $scope.normalBtnShow = 1;
+    }
+
     $http.get(claimUrl).success(function (response) {
         $scope.oneAppInfo = response.oneAppInfo;
 
@@ -176,13 +182,6 @@ app.controller('MobControl', function($scope, $http, $location, FileUploader) {
     };
 
     console.info('uploader', uploader);
-
-    $scope.normalBtnShow = 1;
-    if (getCookie('uploadName').length > 0) {
-        $scope.normalBtnShow = 0;
-    } else {
-        $scope.normalBtnShow = 1;
-    }
 
     $scope.saveUploadName = function() {
         if ($scope.uploadName != undefined && $scope.uploadName.length > 0) {

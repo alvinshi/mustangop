@@ -148,14 +148,14 @@
     </div>
 
 
-    <div class="text-center ">
-        <button class="btn btn-default cust2" data-toggle="modal" data-target="#mymodal" ng-hide="!normalBtnShow">
+    <div class="text-center" ng-hide="!normalBtnShow">
+        <button class="btn btn-default cust2" data-toggle="modal" data-target="#mymodal">
             {{uploadImgDes}}
         </button>
     </div>
 
     <div class="text-center " ng-hide="normalBtnShow">
-        <a href="javascript:;"  class="a-upload form_change ">
+        <a href="javascript:"  class="a-upload form_change ">
             <input type="file" style="width: 80%" multiple nv-file-select="" ng-click="deletFile()" uploader="uploader" accept="image/*"/>
             {{uploadImgDes}}
         </a>
