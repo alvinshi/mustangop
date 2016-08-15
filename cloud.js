@@ -83,6 +83,7 @@ AV.Cloud.define('taskCheckForDoTask', function(request, response){
                         // 修改任务为已经接收 最多可以做1000个任务
                         var relation = receTaskObject.relation('mackTask');
                         var query = relation.query();
+                        query.notEqualTo('taskStatus', 'expired');
                         query.limit(1000);
                         query.find().then(function(doTaskObjects){
                             var changeDoTasks = [];
@@ -267,7 +268,7 @@ AV.Cloud.define('refuseTaskTimerForRelease', function(request, response){
                     doReceTaskObject.increment('expiredCount', 1);
                     //解锁发布任务的人的YB
                     sendTaskUserObject.increment('freezingMoney', -excUnitPrice);
-                    console.log(sendTaskUserObject.id+ ' ++++++ refused task,and unlock send user money' + excUnitPrice);
+                    console.log(sendTaskUserObject.id + ' ++++++ refused task,and unlock send user money' + excUnitPrice);
                     sendTaskUserObject.increment('totalMoney', excUnitPrice);
 
                     util.addLeanObject(doReceTaskObject, doReceTaskList);
