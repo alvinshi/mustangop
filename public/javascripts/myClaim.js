@@ -54,6 +54,14 @@ app.controller('myClaimControl', function($scope, $http, $location){
             }
         )
     };
+    //按回车保存
+    $scope.keySaveAssign = function(e,detailRem, taskObjectId,app){
+        var keycode = window.event?e.keyCode:e.which;
+        if(keycode==13 ){
+
+            $scope.saveRemark(detailRem, taskObjectId,app);
+        }
+    };
 
     //复制链接
 

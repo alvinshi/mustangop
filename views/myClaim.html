@@ -111,24 +111,24 @@
                 <div class="noticeNumber" ng-show="app.noticeNumber > 0">{{app.noticeNumber}}</div>
             </div>
             <div class="media-body information"  >
-                <div>
+                <div ng-click="openNewPage(app.taskObjectId)">
                     <!--<a class="task-link" href="/newtaskMobile/{{app.taskObjectId}}">{{app.trackName.substr(0,11)+'...'}}</a>-->
-                    <button class="download" ng-show="app.excKinds == '下载'" ng-click="openNewPage(app.taskObjectId)">{{app.excKinds}}</button>
-                    <button class="comment" ng-show="app.excKinds == '评论'" ng-click="openNewPage(app.taskObjectId)">{{app.excKinds}}</button>
-                    <button class=" hidden-xs left">共<span style="color:rgb(0,226,57)" ng-click="openNewPage(app.taskObjectId)">{{app.totalExcCount}}</span>条</button>
-                    <button class="deadline" ng-click="openNewPage(app.taskObjectId)">{{app.deadlineStr}}</button>
+                    <button class="download" ng-show="app.excKinds == '下载'" >{{app.excKinds}}</button>
+                    <button class="comment" ng-show="app.excKinds == '评论'" >{{app.excKinds}}</button>
+                    <button class=" hidden-xs left">共<span style="color:rgb(0,226,57)" >{{app.totalExcCount}}</span>条</button>
+                    <button class="deadline">{{app.deadlineStr}}</button>
                 </div>
-                <div  class="center">
-                    <button  class="proceed" ng-show="app.surplusCount  > 0" ng-click="openNewPage(app.taskObjectId)">未完成{{app.surplusCount}}</button>
-                    <button  class="pending" ng-show="app.submitted > 0" ng-click="openNewPage(app.taskObjectId)">审核中{{app.submitted}}</button>
-                    <button  class="rejected" ng-show="app.rejected > 0" ng-click="openNewPage(app.taskObjectId)" >被拒绝{{app.rejected}}</button>
-                    <button  class="finish" ng-show="app.accepted > 0" ng-click="openNewPage(app.taskObjectId)">已通过{{app.accepted}}</button>
-                    <button  class="abandoned" ng-show="app.abandoned > 0" ng-click="openNewPage(app.taskObjectId)">已过期{{app.abandoned}}</button>
+                <div  class="center" ng-click="openNewPage(app.taskObjectId)">
+                    <button  class="proceed" ng-show="app.surplusCount  > 0" >未完成{{app.surplusCount}}</button>
+                    <button  class="pending" ng-show="app.submitted > 0" >审核中{{app.submitted}}</button>
+                    <button  class="rejected" ng-show="app.rejected > 0" >被拒绝{{app.rejected}}</button>
+                    <button  class="finish" ng-show="app.accepted > 0" >已通过{{app.accepted}}</button>
+                    <button  class="abandoned" ng-show="app.abandoned > 0" >已过期{{app.abandoned}}</button>
                     <button  class="virtula_button hidden-lg" style="width:50px" ng-click="openNewPage(app.taskObjectId)"></button>
                 </div>
                 <div class="assign">
                     分配备注:<span style="margin-left: 15px" class="num  assignTask" ng-show="app.mode" ng-click="openNewPage(app.taskObjectId)">{{app.detailRem}}</span>
-                    <input  class="input1 hidden-xs" type="text" style="width:400px" ng-hide="app.mode" ng-model="app.detailRem">
+                    <input  class="input1 hidden-xs" type="text" style="width:400px" ng-hide="app.mode" ng-model="app.detailRem" ng-keyup="keySaveAssign($event,app.detailRem, app.taskObjectId,app)" >
                     <img src="../images/home/pen.png" class="imgpen hidden-xs" ng-show="app.mode" ng-click="reAssign(app)">
                     <button  class="btnSave hidden-xs" ng-hide="app.mode" ng-click="saveRemark(app.detailRem, app.taskObjectId,app)">保存</button>
                     <button  class="virtula_button hidden-lg" style="width:50px" ng-click="openNewPage(app.taskObjectId)"></button>

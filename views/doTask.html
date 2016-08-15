@@ -115,8 +115,9 @@
                             </td>
                             <td style="width: 500px;">
                                 <p class="appName">
-                                    <span class="label label-info" ng-show="app.isNewVersion">版本已更新</span>
+                                    <span class="label label-danger" style="background-color: #f26e50;font-size: 14px;margin-right: 8px" ng-show="app.isNewVersion">App已更新</span>
                                     {{ app.trackName }}
+
                                 </p>
                                 <div>
                                     <span ng-class="{true: 'infoBubble2', false: 'infoBubble1'}[ app.taskType=='评论']">{{ app.taskType }}</span>
