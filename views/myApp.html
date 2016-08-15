@@ -143,8 +143,8 @@
                         </div>
                         <div class="col-lg-3 " style="margin-left: -36px">
                             <p ng-show="error.excCount" style="color: red;text-align: center;padding-top: 5px">必填</p>
-                            <p class=" label label-danger"  ng-show="errorQuatity" style="margin-left: 10px;">(亲,目前一次最多只可发布20条任务哦)</p>
-                            <p class=" label label-danger" ng-show="insufficientFund" style="display: inline-block;margin-top: 10px;margin-left: 20px">亲,Y币不足哟,去<a href="/doTask" style="color: #3498db">任务大厅</a>做任务获取Y币吧</p>
+                            <p  class="label label-danger" ng-show="errorQuatity" style="margin-left: 10px;">(亲,目前一次最多只可发布20条任务哦)</p>
+                            <p class="label label-danger" ng-show="insufficientFund" style="display: inline-block;margin-top: 10px;margin-left: 20px">亲,Y币不足哟,去<a href="/doTask" style="color: #3498db">任务大厅</a>做任务获取Y币吧</p>
 
                         </div>
                         <label  class="col-lg-2 control-label" style="margin-left: -100px" > 任务单价:</label>
@@ -252,7 +252,7 @@
                     <div class="form-group">
                         <label  class="col-lg-2 control-label" >详情备注:</label>
                         <div class="col-lg-5">
-                               <textarea  class="form-control" rows="5" placeholder="1.标题不少于2个关键词 2.请两日内不卸载
+                               <textarea  class="form-control" rows="5" placeholder="您可以在这里填写更多详细要求,如:'删除前请再次打开'   ,    '已经做过的请删除原来的评论重新写评论'等
                                " ng-model="appNeedInfo.detailRem"
                                           ng-change="checkText3()">
                                </textarea>

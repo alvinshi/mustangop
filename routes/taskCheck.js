@@ -388,6 +388,7 @@ var updateReceiveTaskDatabase = function(doTaskObject, uploaderName, res){
     query.include('appObject');
     query.include('userObject');
     query.include('taskObject');
+    query.include('taskObject.userObject');
     query.get(receiveTaskObject.id).then(function(receiveTaskObject) {
 
         //发布任务Object
