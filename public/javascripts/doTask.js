@@ -281,7 +281,7 @@ app.controller('doTaskCtrl', function($scope, $http) {
     $scope.showDiv = function(app){
         //自己的任务不用筛选
         if(app.myTask != true){
-            
+
             app.mode = true;
         }
     };
