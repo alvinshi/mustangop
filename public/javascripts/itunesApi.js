@@ -285,7 +285,7 @@ app.controller('itunesSearchControl', function($scope, $http) {
 
     //发布任务
     $scope.releaseTask = function(){
-        $scope.isDisabled = false;
+        $scope.isDisabled = true;
         $scope.saveNeed();
         //初始参数
         var flag = true;
@@ -329,7 +329,7 @@ app.controller('itunesSearchControl', function($scope, $http) {
                     $scope.modelStr = '你的Y币余额不足';
                     $("#error").modal("show");
                     flag = false;
-                    $scope.isDisabled = false;
+                    $scope.isDisabled = true;
                 }
             }
         }
@@ -367,7 +367,7 @@ app.controller('itunesSearchControl', function($scope, $http) {
                     $("#error").modal("show");
                 }else {
                     $("#releaseTask").modal("show");
-                    $scope.isDisabled = true;
+                    //$scope.isDisabled = true;
                 }
             })
         }
