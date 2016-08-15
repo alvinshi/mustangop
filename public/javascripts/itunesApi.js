@@ -300,24 +300,28 @@ app.controller('itunesSearchControl', function($scope, $http) {
         }else {
             if ($scope.appNeedInfo.excCount == undefined || $scope.appNeedInfo.excCount == '') {
                 flag = false;
+                $scope.isDisabled = false;
                 $scope.error.excCount = true;
                 $scope.modelStr = '您有未填写完整的信息';
                 $("#error").modal("show");
             }
             if($scope.appNeedInfo.searchKeyword == '' || $scope.appNeedInfo.searchKeyword == undefined) {
                 flag = false;
+                $scope.isDisabled = false;
                 $scope.error.searchKeyword = true;
                 $scope.modelStr = '您有未填写完整的信息';
                 $("#error").modal("show");
             }
             if($scope.appNeedInfo.excCount>20){
                 flag = false;
+                $scope.isDisabled = false;
                 $scope.modelStr = '任务条数暂时最多20条哦';
                 $("#error").modal("show");
 
             }
             if($scope.appNeedInfo.ranKing>50){
                 flag = false;
+                $scope.isDisabled = false;
                 $scope.modelStr = '关键字搜索排名要在50名以内哦';
                 $("#error").modal("show");
 
@@ -329,13 +333,14 @@ app.controller('itunesSearchControl', function($scope, $http) {
                     $scope.modelStr = '你的Y币余额不足';
                     $("#error").modal("show");
                     flag = false;
-                    $scope.isDisabled = true;
+                    $scope.isDisabled = false;
                 }
             }
         }
 
         if ($scope.selectedApp == undefined || $scope.selectedApp.appObjectId == undefined || $scope.selectedApp.appObjectId.length < 0){
             flag = false;
+            $scope.isDisabled = false;
             $scope.modelStr = '未选择换评的App,检查一下吧';
             $("#error").modal("show");
         }
