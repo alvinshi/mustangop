@@ -84,6 +84,7 @@ router.get('/claim/:excTaskId', function(req, res){
                 res.json({'oneAppInfo':retObject, 'macTask':mackTaskList})
             })
         }else {
+            retObject.surplusCount = resultObject.get('receiveCount') - resultObject.get('expiredCount');
             res.json({'oneAppInfo':retObject})
         }
     })

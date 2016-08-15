@@ -9,7 +9,12 @@ app.controller('MobControl', function($scope, $http, $location, FileUploader) {
     var excTaskId = appurlList[appurlList.length - 1];
 
     var claimUrl = '/newtaskMobile/claim' + '/' + excTaskId;
-    $scope.uploadName = getCookie('uploadName');
+
+    if (window.localStorage) {
+        $scope.uploadName = localStorage.getItem("uploadName");
+    } else {
+        $scope.uploadName = getCookie('uploadName');
+    }
 
     $http.get(claimUrl).success(function (response) {
         $scope.oneAppInfo = response.oneAppInfo;
@@ -183,8 +188,14 @@ app.controller('MobControl', function($scope, $http, $location, FileUploader) {
         if ($scope.uploadName != undefined && $scope.uploadName.length > 0) {
             $scope.uploadNameError = '';
             $scope.normalBtnShow = 0;
-            setCookie('uploadName', $scope.uploadName);
-            console.log('save do task nickname succeed', $scope.uploadName);
+
+            if (window.localStorage) {
+                localStorage.setItem("uploadName", $scope.uploadName);
+                console.log('save do task nickname succeed in localStorage', $scope.uploadName);
+            } else {
+                setCookie('uploadName', $scope.uploadName);
+                console.log('save do task nickname succeed in cookie', $scope.uploadName);
+            }
         }else {
             $scope.uploadNameError = '昵称不能为空';
         }
