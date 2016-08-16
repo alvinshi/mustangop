@@ -113,17 +113,20 @@
                                 <div class="choose" ng-show="app.mode" ng-click="filtrateApp(app)" data-target="#markApp{{$index}}" data-toggle="modal">标记已换</div>
 
                             </td>
-                            <td style="width: 500px;">
+                            <td style="width:600px;">
                                 <p class="appName">
                                     <span class="label label-danger" style="background-color: #f26e50;font-size: 14px;margin-right: 8px" ng-show="app.isNewVersion">App已更新</span>
                                     {{ app.trackName }}
 
                                 </p>
+
                                 <div>
                                     <span ng-class="{true: 'infoBubble2', false: 'infoBubble1'}[ app.taskType=='评论']">{{ app.taskType }}</span>
                                     <span class="infoBubble">剩余: <span style="color:#53d435">{{ app.remainCount }}</span> 条</span>
-                                    <span class="infoBubble">任务单价: <span style="color:#53d435">{{app.rateUnitPrice}}</span> Y币</span>
+                                    <span class="infoBubble">单价: <span style="color:#53d435">{{app.rateUnitPrice}}</span> Y币</span>
                                     <span class="infoBubble"><span style="color:#53d435">IOS</span></span>
+                                    <span class="infoBubble"><span style="color:red">更新日期:{{ app.latestReleaseDate | date:"yyyy/MM/dd"  }}</span></span>
+
                                 </div>
                             </td>
                             <td ng-if='!app.myTask && !app.hasTaken' ng-show="!app.hasChanged" style="padding-right: 0px;">
