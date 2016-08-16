@@ -115,7 +115,7 @@
                             </td>
                             <td style="width:600px;">
                                 <p class="appName">
-                                    <span class="label label-danger" style="background-color: #f26e50;font-size: 14px;margin-right: 8px" ng-show="app.isNewVersion">App已更新</span>
+                                    <!--<span class="label label-danger" style="background-color: #f26e50;font-size: 14px;margin-right: 8px" ng-show="app.isNewVersion">App已更新</span>-->
                                     {{ app.trackName }}
 
                                 </p>
@@ -339,19 +339,20 @@
                 </div>
 
                 <div class="taskPanel" ng-repeat="app in commentTask">
-                    <table style="width: 1010px;" style="width: 1010px;" ng-mouseover="showDiv(app)" ng-mouseleave="hideDiv(app)">
+                    <table style="width: 1010px;" ng-mouseover="showDiv(app)" ng-mouseleave="hideDiv(app)">
                         <tr>
-                            <td style="padding: 24px 30px 24px 30px; width: 160px; position: relative;">
+                            <td style="padding: 24px 24px 24px 24px; width: 140px; position: relative;">
                                 <img ng-src="{{ app.artworkUrl100 }}" class="appIcon"/>
                                 <div class="choose" ng-show='app.mode' ng-click="filtrateApp(app)" data-target="#markCommentApp{{$index}}" data-toggle="modal">标记已换</div>
                             </td>
-                            <td style="width: 500px;">
+                            <td style="width: 600px;">
                                 <p class="appName">{{ app.trackName }}</p>
                                 <div>
                                     <span class="infoBubble">{{ app.taskType }}</span>
                                     <span class="infoBubble">剩余: <span style="color:#53d435">{{ app.remainCount }}</span> 条</span>
                                     <span class="infoBubble">单价: <span style="color:#53d435">{{app.rateUnitPrice}}</span> Y币</span>
                                     <span class="infoBubble"><span style="color:#53d435">IOS</span></span>
+                                    <span class="infoBubble"><span style="color:red">更新日期:{{ app.latestReleaseDate | date:"yyyy/MM/dd"  }}</span></span>
                                 </div>
                             </td>
                             <td ng-if='!app.myTask && !app.hasTaken' ng-show="!app.hasChanged" style="padding-right: 0px;">
@@ -566,17 +567,18 @@
 
                     <table style="width: 1010px;" ng-mouseover="showDiv(app)" ng-mouseleave="hideDiv(app)">
                         <tr>
-                            <td style="padding: 24px 30px 24px 30px; width: 160px;position: relative">
+                            <td style="padding: 24px 24px 24px 24px; width: 140px;position: relative">
                                 <img ng-src="{{ app.artworkUrl100 }}" class="appIcon"/>
                                 <div class="choose" ng-show='app.mode' ng-click="filtrateApp(app)" data-target="#markDownloadApp{{$index}}" data-toggle="modal">标记已换</div>
                             </td>
-                            <td style="width: 500px;">
+                            <td style="width: 600px;">
                                 <p class="appName">{{ app.trackName }}</p>
                                 <div>
                                     <span class="infoBubble">{{ app.taskType }}</span>
                                     <span class="infoBubble">剩余: <span style="color:#53d435">{{ app.remainCount }}</span> 条</span>
                                     <span class="infoBubble">单价: <span style="color:#53d435">{{app.rateUnitPrice}}</span> Y币</span>
                                     <span class="infoBubble"><span style="color:#53d435">IOS</span></span>
+                                    <span class="infoBubble"><span style="color:red">更新日期:{{ app.latestReleaseDate | date:"yyyy/MM/dd"  }}</span></span>
                                 </div>
                             </td>
                             <td ng-if='!app.myTask && !app.hasTaken' ng-show="!app.hasChanged" style="padding-right: 0px;">

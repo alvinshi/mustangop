@@ -71,13 +71,10 @@ app.controller('doTaskCtrl', function($scope, $http) {
             //请求回App之后, 初始, mode: 代表标记已换, hasChanged: 代表出现本版本已换灰色按钮
             for(var i = 0; i < response.allTask; i++){
                 response.allTask[i].mode = false;
+                response.allTask[i].hasChanged = false;
+                response.allTask[i].hasTaken = false;
             }
-            for(var j=0;j<response.allTask;i++){
-                response.allTask[j].hasChanged = false;
-            }
-            for(var j=0;j<response.allTask;i++){
-                response.allTask[j].hasTaken = false;
-            }
+
 
             if(pageCount == 0){
                 //第一页时保存我的App个数
@@ -136,19 +133,11 @@ app.controller('doTaskCtrl', function($scope, $http) {
     var date=new Date();
     getTaskData('allTask', 0);
     $scope.displayAll = function(){
+        
+
 
         if($scope.taskDisplayed == undefined || $scope.taskDisplayed.length == 0){
             getTaskData('allTask', 0);
-            for (var i = 0; i < $scope.taskDisplayed; i++){
-                if (dateCompare($scope.taskDisplayed[i].latestReleaseDate, date) == '今天'){
-                    $scope.taskDisplayed[i].latestReleaseDate = '今天';
-                }
-                else if (dateCompare($scope.taskDisplayed[i].latestReleaseDate, date) == '昨天'){
-                    $scope.taskDisplayed[i].latestReleaseDate  = '昨天';
-                }
-            }
-
-
 
         }else {
             if ($scope.hasMoreDic['allTask'] == 1){
