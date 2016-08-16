@@ -61,7 +61,7 @@ app.controller('doTaskCtrl', function($scope, $http) {
     $scope.commentTask = [];
     $scope.downTask = [];
     $scope.inactiveTask = [];
-
+    
     function getTaskData(taskType, pageCount){
         var url = 'doTask/taskHall/' + pageCount + '/' + taskType;
         $http.get(url).success(function(response) {
@@ -74,7 +74,6 @@ app.controller('doTaskCtrl', function($scope, $http) {
                 response.allTask[i].hasChanged = false;
                 response.allTask[i].hasTaken = false;
             }
-
 
             if(pageCount == 0){
                 //第一页时保存我的App个数
@@ -130,12 +129,8 @@ app.controller('doTaskCtrl', function($scope, $http) {
     }
 
     //默认请求所有
-    var date=new Date();
     getTaskData('allTask', 0);
     $scope.displayAll = function(){
-        
-
-
         if($scope.taskDisplayed == undefined || $scope.taskDisplayed.length == 0){
             getTaskData('allTask', 0);
 
@@ -254,29 +249,6 @@ app.controller('doTaskCtrl', function($scope, $http) {
             });
         }
     };
-
-    //*************************比较日期*********************************
-    function dateCompare(DateA, DateB) {
-        var a = new Date(DateA);
-        var b = new Date(DateB);
-        var msDateA = Date.UTC(a.getFullYear(), a.getMonth()+1, a.getDate());
-        var msDateB = Date.UTC(b.getFullYear(), b.getMonth()+1, b.getDate());
-        if (parseFloat(msDateA) < parseFloat(msDateB)) {
-            if ((a.getDate() - b.getDate()) == -1) {
-                return '昨天';
-            }
-            else {
-                return '更早';
-            }
-        }// lt
-        else if (parseFloat(msDateA) == parseFloat(msDateB)){
-            return '今天';}  // eq
-        else if (parseFloat(msDateA) > parseFloat(msDateB)){
-            return '未来';} // gt
-        else{
-            console.log("fail");
-        }
-    }
 
     //*******关闭弹窗自动刷新*********
     $scope.refresh = function(){
