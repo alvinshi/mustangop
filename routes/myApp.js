@@ -380,7 +380,9 @@ router.post('/task', function(req, res){
                         //
                     })
                 }
-                res.json({'errorId': 0});
+                res.json({'errorId': 0, 'errorMsg':''});
+            },function(error){
+                res.json({'errorMsg':error.message, 'errorId': error.code});
             });
 
         }, function(error){
