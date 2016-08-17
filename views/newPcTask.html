@@ -25,7 +25,7 @@
     <script src="/javascripts/vendor/AngularJS/angular-file-upload.min.js"></script>
 
     <!--网站内部js-->
-    <script src="/javascripts/cookieHelper.min.js"></script>
+
     <script src="/javascripts/newPcTask.js"></script>
     <script src="/javascripts/indexApp.min.js"></script>
 
@@ -93,7 +93,7 @@
 
             <ol class="serach_app">
                 <li >
-                    <p><span class="synwords">IOS App Store</span> 搜索"<span class="synwords">{{oneAppInfo.searchKeyword}}</span>"
+                    <p><span class="synwords">IOS App Store</span> 搜索"<span class="synwords">{{}}</span>"
                         第<span class="synwords">{{oneAppInfo.ranKing}}</span>
                         名左右, 找到应用,如上图图标, 下载.</p>
                 </li>
@@ -142,16 +142,16 @@
     </div>
 
 
-    <div class="text-center" ng-hide="!normalBtnShow">
+    <div class="text-center" >
         <button class="btn btn-default cust2" data-toggle="modal" data-target="#mymodal">
             {{uploadImgDes}}
         </button>
     </div>
 
-    <div class="text-center " ng-hide="normalBtnShow">
+    <div class="text-center " >
         <a href="javascript:"  class="a-upload form_change ">
             <input type="file" style="width: 80%" multiple nv-file-select="" ng-click="deletFile()" uploader="uploader" accept="image/*"/>
-            {{uploadImgDes}}
+
         </a>
     </div>
 
@@ -164,28 +164,28 @@
 
     <hr/>
     <div class="row" style="margin: 30px 30px 30px 30px;">
-        <span style='float: right; font-size: 20px' ng-hide="oneAppInfo.uploadName == undefined">提交人: {{oneAppInfo.uploadName}}</span>
+        <span style='float: right; font-size: 20px' >提交人: </span>
     </div>
 
-    <div class="row"  ng-hide="errorId == 2">
+    <div class="row"  >
         <div class="col-xs-12">
-             <span class="submission-screenshot" ng-repeat="image in images">
-                  <img  ng-src="{{image}}"/>
+             <span class="submission-screenshot" >
+                  <img  ng-src="{{}}"/>
              </span>
         </div>
     </div>
 
-    <div class="row" style="margin: 30px 30px 30px 30px;" ng-hide='oneAppInfo.detail == undefined'>
-        <span style='float: left; font-size: 20px;' ng-hide='oneAppInfo.detail == undefined'}}>拒绝理由: {{oneAppInfo.detail}}</span>
+    <div class="row" style="margin: 30px 30px 30px 30px;" >
+        <span style='float: left; font-size: 20px;' >拒绝理由: }</span>
     </div>
 
 
 
-    <div class="submit"  ng-hide="errorId == 2">
-        <button class="btn btn_primary" ng-click="commitConfirm()" ng-show="images.length">确认提交</button>
+    <div class="submit"  >
+        <button class="btn btn_primary" ng-click="commitConfirm()" >确认提交</button>
     </div>
 
-    <div class="submit text-center"  ng-show="errorId == 2">
+    <div class="submit text-center"  >
         <button class="btn btn_primary warning" ng-click="commitConfirm()" >提交超量, 返回列表</button>
     </div>
 
@@ -212,5 +212,6 @@
         </div><!-- /.modal-dialog -->
     </div><!-- /.modal -->
 </div>
+<script src="/javascripts/cookieHelper.min.js"></script>
 </body>
 </html>
