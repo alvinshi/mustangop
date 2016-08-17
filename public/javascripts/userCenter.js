@@ -55,9 +55,7 @@ app.controller('inforManageCtrl', function($scope, $http){
         else{
             console.log("fail");
         }
-    }
-
-
+    };
     $scope.userName = true;
     var date = new Date();
 

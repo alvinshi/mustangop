@@ -133,7 +133,14 @@ app.controller('doTaskCtrl', function($scope, $http) {
     var date=new Date();
     getTaskData('allTask', 0);
     $scope.displayAll = function(){
-        
+        //for (var i = 0; i < $scope.taskDisplayed; i++){
+        //    if (dateCompare($scope.taskDisplayed[i].latestReleaseDate, date) == '今天'){
+        //        $scope.taskDisplayed[i].latestReleaseDate = '今天';
+        //    }
+        //    else if (dateCompare($scope.taskDisplayed[i].latestReleaseDate, date) == '昨天'){
+        //        $scope.taskDisplayed[i].latestReleaseDate  = '昨天';
+        //    }
+        //}
 
 
         if($scope.taskDisplayed == undefined || $scope.taskDisplayed.length == 0){
