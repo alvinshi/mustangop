@@ -61,7 +61,7 @@ app.controller('doTaskCtrl', function($scope, $http) {
     $scope.commentTask = [];
     $scope.downTask = [];
     $scope.inactiveTask = [];
-    
+
     function getTaskData(taskType, pageCount){
         var url = 'doTask/taskHall/' + pageCount + '/' + taskType;
         $http.get(url).success(function(response) {
