@@ -130,13 +130,13 @@ router.get('/claim/:userObjectId', function(req, res){
 
                     calNumber++;
                     if (calNumber == results.length){
-                        retApps.sort(function(a, b){return a.createdAt - b.createdAt});
+                        retApps.sort(function(b, a){return a.createdAt - b.createdAt});
                         res.json({'myClaimApps':retApps, 'errorId': 0});
                     }
                 }, function (error) {
                     calNumber++;
                     if (calNumber == results.length){
-                        retApps.sort(function(a, b){return a.createdAt - b.createdAt});
+                        retApps.sort(function(b, a){return a.createdAt - b.createdAt});
                         res.json({'myClaimApps':retApps, 'errorId': 0});
                     }
                 });
