@@ -14,6 +14,28 @@ var mackTaskInfo = AV.Object.extend('mackTaskInfo');
 var messageLogger = AV.Object.extend('messageLogger');
 var accountJournal = AV.Object.extend('accountJournal'); // 记录账户变动明细表
 
+function dateCompare(DateA, DateB) {
+    var a = new Date(DateA);
+    var b = new Date(DateB);
+    var msDateA = Date.UTC(a.getFullYear(), a.getMonth()+1, a.getDate());
+    var msDateB = Date.UTC(b.getFullYear(), b.getMonth()+1, b.getDate());
+    if (parseFloat(msDateA) < parseFloat(msDateB)) {
+        if ((a.getDate() - b.getDate()) == -1) {
+            return '昨天';
+        }
+        else {
+            return a;
+        }
+    }// lt
+    else if (parseFloat(msDateA) == parseFloat(msDateB)){
+        return '今天';}  // eq
+    else if (parseFloat(msDateA) > parseFloat(msDateB)){
+        return a;} // gt
+    else{
+        console.log("fail");
+    }
+};
+
 router.get('/', function(req, res) {
     res.render('taskCheck');
 });
@@ -158,6 +180,7 @@ router.get('/taskAudit', function(req, res){
                                     entry.status = data[j].get('taskStatus');
                                     entry.detail = data[j].get('detail');
                                     entry.updatedAt = data[j].updatedAt;
+                                    entry.updatedAt = dateCompare(entry.updatedAt, Date());
                                     tempSubmission.entries.push(entry);
                                 }
 
