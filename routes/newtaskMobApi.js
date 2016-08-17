@@ -29,6 +29,7 @@ var transporter = nodemailer.createTransport("SMTP",{
 });
 
 function submissionNotification(qq){
+    console.log(qq);
     if (qq == undefined){
         return;
     }
@@ -166,7 +167,6 @@ router.post('/add/:excTaskId', function(req, res){
             var userObject = receiveTaskObject.get('userObject');
             var expiredCount = receiveTaskObject.get('expiredCount');
             var qq = receiveTaskObject.get('taskObject').get('userObject').get('userQQ');
-            console.log(qq);
             var query = relation.query();
             query.notEqualTo('taskStatus', 'expired');
             query.find().then(function(results){
@@ -262,7 +262,8 @@ router.post('/add/:excTaskId', function(req, res){
                             }
                             uploadDoTaskObject.save().then(function(){
                                 //发送邮件
-                                submissionNotification(qq)
+                                console.log("runned");
+                                submissionNotification(qq);
 
                                 res.cookie('uploadImgName', userUploadName);
                                 res.json({'errorId':0, 'errorMsg':'', 'uploadName':userUploadName, 'requirementImgs':requirementImgs});
