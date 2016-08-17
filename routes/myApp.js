@@ -26,7 +26,7 @@ router.get('/', function(req, res, next) {
 
 
 function dealiTunesAppFailed(retApps, appObject){
-    var appInfoObject = new Object();
+    var appInfoObject = Object();
 
     appInfoObject.trackName = appObject.get('trackName');
     appInfoObject.artworkUrl100 = appObject.get('artworkUrl100');
@@ -38,11 +38,12 @@ function dealiTunesAppFailed(retApps, appObject){
     appInfoObject.excUniqueCode = appObject.get('excUniqueCode');
     appInfoObject.sellerName = appObject.get('sellerName');
     appInfoObject.version = appObject.get('version');
+    appInfoObject.appObjectId = appObject.id;
     appInfoObject.createdAt = appObject.createdAt;
     retApps.push(appInfoObject);
 }
 
-router.get('/angular', function(req, res, next) {
+router.get('/angular', function(req, res) {
     var userId = util.useridInReq(req);
 
     var user = new AV.User();
