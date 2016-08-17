@@ -45,8 +45,9 @@
 </div>
 <div class="container">
     <div  class=" main_content"  ng-controller="itunesSearchControl">
-        <button class="add_app" ng-click="updateApp()" ng-hide="numOfApps >= 5">
+        <button class="add_app" ng-hide="numOfApps >= 5" ng-click="updateApp()">
             <span class="glyphicon glyphicon-repeat" style="color: #3498db"></span>&nbsp;更新APP信息
+            <span class="" ng-show="errorMsg == 0">{{errorMsg}}</span>
         </button>
         <h3 class="mytitle">第一步:选择或添加任务应用
             <span class="glyphicon glyphicon-question-sign"  data-placement="top"

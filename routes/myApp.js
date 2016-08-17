@@ -137,7 +137,7 @@ router.get('/angular', function(req, res) {
 });
 
 //更新APP信息
-router.get('/UpdateApp', function(req, res){
+router.post('/UpdateApp', function(req, res){
     var userId = util.useridInReq(req);
 
     var user = new AV.User();
@@ -147,11 +147,11 @@ router.get('/UpdateApp', function(req, res){
     var query = new AV.Query(IOSAppBinder);
     query.equalTo('userObject', user);
     query.include('appObject');
-    query.addDescending('updatedAt')
+    query.addDescending('updatedAt');
     query.find({
         success: function(results) {
             if (results.length == 0){
-                res.json({'myApps': [], 'errorId': 0});
+                res.json({'errorId': -1, 'errorMsg': '请先添加APP'});
                 return;
             }
 
@@ -178,7 +178,7 @@ router.get('/UpdateApp', function(req, res){
                             //未检测到App的更新信息
                             promiseCount++;
                             if (promiseCount == results.length){
-                                res.json({'myApps':retApps, 'errorId': -1, 'errorMsg':''});
+                                res.json({'errorId': 0, 'errorMsg': 'APP更新成功'});
                             }
 
                         }else {
@@ -198,7 +198,7 @@ router.get('/UpdateApp', function(req, res){
                                     // 实例已经成功保存.
                                     retApps.push(appInfoObject);
 
-                                    if (retApps.length == results.length){
+                                    if (promiseCount == results.length){
                                         res.json({'errorId': 0, 'errorMsg': 'APP更新成功'});
                                     }
                                 }, function(error) {

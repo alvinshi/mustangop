@@ -152,8 +152,8 @@ app.controller('itunesSearchControl', function($scope, $http) {
 
     // 更新APP信息
     $scope.updateApp = function(){
-        var updateAppURL = '/myapp/UpdateApp'
-        $http.get(updateAppURL).success(function(response){
+        var updateAppURL = '/myapp/UpdateApp';
+        $http.post(updateAppURL).success(function(response){
             $scope.errorId = response.errorId;
             $scope.errorMsg = response.errorMsg;
             if (response.errorId == 0){
