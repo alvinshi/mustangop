@@ -9,7 +9,7 @@ var AV = require('leanengine');
 //var APP_KEY = process.env.LC_APP_KEY || '3fxdvjsqHrd2LIVBqpS23A9N';
 //var MASTER_KEY = process.env.LC_APP_MASTER_KEY || 'mK0myEemUe7RqzLifjnAYVgN';
 
-//测试服务器
+////测试服务器
 var APP_ID = process.env.LC_APP_ID || 'wE0Latdv4MLlP3g89PFryaRb-gzGzoHsz';
 var APP_KEY = process.env.LC_APP_KEY || '5zTMEbLD5ftLLjTLFkb3a759';
 var MASTER_KEY = process.env.LC_APP_MASTER_KEY || 'Xm2ejLLlrpSMENRxIo3qAgRW';

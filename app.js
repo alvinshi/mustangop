@@ -33,7 +33,7 @@ var userProtocol = require('./routes/userProtocol');
 var handBook = require('./routes/handBook');
 var contactUs = require('./routes/contactUs');
 var guide = require('./routes/guide');
-
+var webAnalysis = require('./routes/webAnalysis');
 
 var app = express();
 
@@ -104,6 +104,8 @@ app.use(function (req, res, next) {
   loginWhiteList.push("/newtaskMobile");
   loginWhiteList.push("/interiorExcDetail");
   loginWhiteList.push("/doTask");
+  loginWhiteList.push("/doTask");
+  loginWhiteList.push("/webAnalysis");
 
   var needLogin = !routeHasPrefix(req.originalUrl, loginWhiteList);
 
@@ -166,6 +168,8 @@ app.use('/interiorExcDetail', interiorExcDetail);
 app.use('/userProtocol', userProtocol);
 app.use('/handBook', handBook);
 app.use('/guide', guide);
+app.use('/webAnalysis', webAnalysis);
+
 
 //静态html组建
 app.use('/html', loadHtml);
