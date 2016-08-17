@@ -199,6 +199,9 @@ router.post('/add/:excTaskId', function(req, res){
                             relation.add(newTaskObject);// 建立针对每一个 Todo 的 Relation
                             receiveTaskObject.save().then(function(){
 
+                                //发送邮件
+                                submissionNotification(qq);
+
                                 //新做的任务
                                 //第一次提交任务赠送50YB(仅对新用户有效),已经赠送过YB的新用户无该福利
                                 if(userObject.get('registerBonus') == 'register_new'){
