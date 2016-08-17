@@ -157,6 +157,7 @@ router.get('/taskAudit', function(req, res){
                                     entry.imgs = data[j].get('requirementImgs');
                                     entry.status = data[j].get('taskStatus');
                                     entry.detail = data[j].get('detail');
+                                    entry.updatedAt = data[j].updatedAt;
                                     tempSubmission.entries.push(entry);
                                 }
 

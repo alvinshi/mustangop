@@ -39,41 +39,6 @@ router.get('/', function(req, res) {
     res.render('webAnalysis');
 });
 
-router.get('/sendEmail', function(req, res){
-    var nodemailer = require('nodemailer');
-
-    // create reusable transporter object using the default SMTP transport
-    var transporter = nodemailer.createTransport("SMTP",{
-        service: 'QQ',
-        auth: {
-            user: "719480449@qq.com", // 账号
-            pass: "kabggqckzbuwbdgi" // 密码
-        }
-    });
-
-    // setup e-mail data with unicode symbols
-    var mailOptions = {
-        from: '"野马ASO" <719480449@qq.com>', // sender address
-        to: '853914702@qq.com', // list of receivers
-        subject: '野马任务审核提醒', // Subject line
-        html: '<p>尊敬的野马用户,您今日发布的任务已经有人领取并提交了,请快速到' +
-        '<a style="color:red" href="http://www.mustangop.com/taskCheck">审核界面</a>审核提交结果.</p>' // html body
-    };
-
-    // send mail with defined transport object
-    transporter.sendMail(mailOptions, function(error, info){
-        if(error){
-            res.json({'errorId': 1});
-            return console.log(error);
-        }
-        else{
-            console.log('Message sent: ' + info.response);
-            res.json({'errorId': 0});
-        }
-        transporter.close();
-    });
-});
-
 router.post('/webData', function(req, res){
     console.log('webData Post');
     var timePosted = req.body.currentTime;

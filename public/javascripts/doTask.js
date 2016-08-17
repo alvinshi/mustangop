@@ -131,6 +131,7 @@ app.controller('doTaskCtrl', function($scope, $http) {
     //默认请求所有
     getTaskData('allTask', 0);
     $scope.displayAll = function(){
+
         if($scope.taskDisplayed == undefined || $scope.taskDisplayed.length == 0){
             getTaskData('allTask', 0);
 
