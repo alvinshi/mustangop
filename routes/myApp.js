@@ -148,81 +148,65 @@ router.post('/UpdateApp', function(req, res){
     query.equalTo('userObject', user);
     query.include('appObject');
     query.addDescending('updatedAt');
-    query.find({
-        success: function(results) {
-            if (results.length == 0){
-                res.json({'errorId': -1, 'errorMsg': '请先添加APP'});
-                return;
-            }
-
-            //has blinded
-            var retApps = Array();
-
-            for (var i = 0; i < results.length; i++){
-                var appObject = results[i].get('appObject');
-                if (appObject == undefined){
-                    promiseCount++;
-                    continue;
-                }
-                var appid = appObject.get('appleId');
-
-                var appInfoUrl = 'https://itunes.apple.com/lookup?id=' + appid +'&country=cn&entity=software';
-
-                (function(tempAppObject){
-                    https.get(appInfoUrl, function(httpRes) {
-
-                        var totalData = '';
-
-                        if (httpRes.statusCode != 200){
-                            console.log("Add app error: " + httpRes.statusMessage);
-                            //未检测到App的更新信息
-                            promiseCount++;
-                            if (promiseCount == results.length){
-                                res.json({'errorId': 0, 'errorMsg': 'APP更新成功'});
-                            }
-
-                        }else {
-                            httpRes.on('data', function(data) {
-                                totalData += data;
-                            });
-
-                            httpRes.on('end', function(){
-                                var dataStr = totalData.toString();
-                                var dataObject = eval("(" + dataStr + ")");
-
-                                //appid just 1 result
-                                var appInfo = dataObject.results[0];
-
-                                var appInfoObject = util.updateIOSAppInfo(appInfo, tempAppObject);
-                                tempAppObject.save().then(function() {
-                                    // 实例已经成功保存.
-                                    retApps.push(appInfoObject);
-
-                                    if (promiseCount == results.length){
-                                        res.json({'errorId': 0, 'errorMsg': 'APP更新成功'});
-                                    }
-                                }, function(error) {
-                                    // 失败了.
-                                    promiseCount++;
-                                    if (promiseCount == results.length){
-                                        res.json({'errorId': error.code, 'errorMsg': error.message});
-                                    }
-                                });
-                            })
-                        }
-                    }).on('error', function(error) {
-                        promiseCount++;
-                        if (promiseCount == results.length){
-                            res.json({'errorId': error.code, 'errorMsg': error.message});
-                        }
-                    });
-                })(appObject);
-            }
-        },
-        error: function(err) {
-            res.json({'errorId': err.code, 'errorMsg':err.message});
+    query.find().then(function(results){
+        if (results.length == 0){
+            res.json({'errorId': 0, 'errorMsg':'请先添加APP'});
         }
-    });
+
+        var retApps = Array();
+
+        for (var i = 0; i < results.length; i++){
+            var appObject = results[i].get('appObject');
+            if (appObject == undefined){
+                promiseCount++;
+                continue;
+            }
+            var appid = appObject.get('appleId');
+
+            var appInfoUrl = 'https://itunes.apple.com/lookup?id=' + appid +'&country=cn&entity=software';
+
+            (function(tempAppObject){
+                https.get(appInfoUrl, function(httpRes) {
+
+                    var totalData = '';
+
+                    if (httpRes.statusCode != 200){
+                        //未检测到App的更新信息
+                        res.json({'errorId': 0, 'errorMsg':'APP更新成功'});
+                    }else {
+                        httpRes.on('data', function(data) {
+                            totalData += data;
+                        });
+
+                        httpRes.on('end', function(){
+                            var dataStr = totalData.toString();
+                            var dataObject = eval("(" + dataStr + ")");
+
+                            //appid just 1 result
+                            var appInfo = dataObject.results[0];
+
+                            var appInfoObject = util.updateIOSAppInfo(appInfo, tempAppObject);
+                            tempAppObject.save().then(function() {
+                                // 实例已经成功保存.
+                                retApps.push(appInfoObject);
+                                if (retApps.length == results.length){
+                                    res.json({'errorId': 0, 'errorMsg': 'APP更新成功'});
+                                }
+
+                            }, function(error) {
+                                // 失败了.
+                                res.json({'errorId': -1, 'errorMsg': 'APP更新成功'});
+                            });
+                        })
+                    }
+                }).on('error', function(error) {
+                    res.json({'errorId': error.code, 'errorMsg': error.message});
+                });
+            })(appObject);
+        }
+    },function(error){
+        res.json({'errorId': error.code, 'errorMsg': error.message});
+    })
 });
 
 function blindAppToUser(res, userId, appObject, appInfoObject){
