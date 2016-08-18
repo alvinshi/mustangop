@@ -141,23 +141,30 @@ router.get('/userCenter',function(req, res){
 
   var query = new AV.Query(User);
   query.get(userId).then(function(results){
-    var PhoneNumber = results.get('mobilePhoneNumber');
-    var userNickname = results.get('userNickname');
-    var userQQ = results.get('userQQ');
-    var balance = results.get('totalMoney');
-    var freezingMoney = results.get('freezingMoney');
+      var PhoneNumber = results.get('mobilePhoneNumber');
+      var userNickname = results.get('userNickname');
+      var userQQ = results.get('userQQ');
+      var balance = results.get('totalMoney');
+      var freezingMoney = results.get('freezingMoney');
       var registerBonus = results.get('registerBonus');
       var inviteCount = results.get('inviteCount');
-      var inviteSucceedCount = results.get('inviteSucceedCount');
-    var freezingYB = '';
-    if (freezingMoney == undefined){
-      freezingYB = 0;
-    }else {
-      freezingYB = freezingMoney;
-    }
-    res.json({'personAPP':PhoneNumber, 'userNickname':userNickname,
-      'userQQ':userQQ, 'balance': balance, 'userFreezingYB':freezingYB,
-        'registerBonus':registerBonus, 'inviteCount':inviteCount, 'inviteSucceedCount':inviteSucceedCount});
+      var invitesucceedCount = results.get('inviteSucceedCount');
+      var inviteSucceedCount = '';
+      if (invitesucceedCount == undefined || invitesucceedCount == 0){
+          inviteSucceedCount = 0;
+      }else {
+          inviteSucceedCount = invitesucceedCount
+      }
+      var freezingYB = '';
+      if (freezingMoney == undefined){
+          freezingYB = 0;
+      }else {
+          freezingYB = freezingMoney;
+      }
+      res.json({'personAPP':PhoneNumber, 'userNickname':userNickname,
+          'userQQ':userQQ, 'balance': balance, 'userFreezingYB':freezingYB,
+          'registerBonus':registerBonus, 'inviteCount':inviteCount, 'inviteSucceedCount':inviteSucceedCount
+      });
   }, function(error){
     //失败
     res.json({'errorId':error.code, 'errorMsg':error.message});
