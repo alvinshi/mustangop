@@ -152,13 +152,17 @@ app.controller('itunesSearchControl', function($scope, $http) {
 
     // 更新APP信息
     $scope.updateApp = function(){
+        $("#updateApp").modal('show');
+        $scope.isLoadingApp=true;
+        $scope.errorMsg="";
         var updateAppURL = '/myapp/UpdateApp';
         $http.post(updateAppURL).success(function(response){
             $scope.errorId = response.errorId;
             $scope.errorMsg = response.errorMsg;
             if (response.errorId == 0){
                 $scope.errorMsg = response.errorMsg;
-                $("#updateApp").modal('show');
+                $scope.isLoadingApp=false;
+
             }
         })
     };
