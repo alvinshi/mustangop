@@ -609,6 +609,8 @@ router.get('/verify', function(req, res){
             var usermoney = userObject.get('totalMoney');
             res.json({'usermoney': usermoney});
         }
+    },function(error){
+        res.json({'errorMsg':error.message, 'errorId': error.code});
     })
 });
 
