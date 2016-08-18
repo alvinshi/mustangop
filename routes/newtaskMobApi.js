@@ -17,6 +17,46 @@ var releaseTaskObject = AV.Object.extend('releaseTaskObject');
 var receiveTaskObject = AV.Object.extend('receiveTaskObject'); // 领取任务的库
 var File = AV.Object.extend('_File');
 
+var nodemailer = require('nodemailer');
+
+// create reusable transporter object using the default SMTP transport
+var transporter = nodemailer.createTransport("SMTP",{
+    service: 'QQ',
+    auth: {
+        user: "719480449@qq.com", // 账号
+        pass: "kabggqckzbuwbdgi" // 密码
+    }
+});
+
+function submissionNotification(qq){
+    console.log(qq);
+    if (qq == undefined){
+        return;
+    }
+    else {
+        // setup e-mail data with unicode symbols
+        var mailOptions = {
+            from: '"野马ASO" <719480449@qq.com>', // sender address
+            to: qq + '@qq.com', // list of receivers
+            subject: '野马任务审核提醒', // Subject line
+            html: '<p>尊敬的野马用户,您今日发布的任务已经有人领取并提交了,请快速到' +
+            '<a style="color:red" href="http://www.mustangop.com/taskCheck">审核界面</a>审核提交结果.</p>' // html body
+        };
+
+        // send mail with defined transport object
+        transporter.sendMail(mailOptions, function(error, info){
+            if(error){
+                res.json({'errorId': 1});
+            }
+            else{
+                console.log('Message sent: ' + info.response);
+            }
+            return;
+        });
+    }
+}
+
+
 router.get('/:userId', function(req, res) {
     res.render('newtaskMob');
 });
@@ -120,11 +160,13 @@ router.post('/add/:excTaskId', function(req, res){
     var task_query = new AV.Query(receiveTaskObject);
     task_query.include('taskObject');
     task_query.include('userObject');
+    task_query.include('taskObject.userObject');
     task_query.get(excTaskId).then(function(receiveTaskObject){
             var relation = receiveTaskObject.relation('mackTask');
             var receiveCount = receiveTaskObject.get('receiveCount');
             var userObject = receiveTaskObject.get('userObject');
             var expiredCount = receiveTaskObject.get('expiredCount');
+            var qq = receiveTaskObject.get('taskObject').get('userObject').get('userQQ');
             var query = relation.query();
             query.notEqualTo('taskStatus', 'expired');
             query.find().then(function(results){
@@ -156,9 +198,10 @@ router.post('/add/:excTaskId', function(req, res){
                             var relation = receiveTaskObject.relation('mackTask');
                             relation.add(newTaskObject);// 建立针对每一个 Todo 的 Relation
                             receiveTaskObject.save().then(function(){
+                                //发送邮件
+                                submissionNotification(qq);
 
                                 var needSaveUserObjects = Array();
-
                                 //新做的任务
                                 //第一次提交任务赠送50YB(仅对新用户有效),已经赠送过YB的新用户无该福利
                                 if(userObject.get('registerBonus') == 'register_new'){
@@ -235,6 +278,10 @@ router.post('/add/:excTaskId', function(req, res){
                                 uploadDoTaskObject.set('taskStatus', 'uploaded');
                             }
                             uploadDoTaskObject.save().then(function(){
+                                //发送邮件
+                                console.log("runned");
+                                submissionNotification(qq);
+
                                 res.cookie('uploadImgName', userUploadName);
                                 res.json({'errorId':0, 'errorMsg':'', 'uploadName':userUploadName, 'requirementImgs':requirementImgs});
                             }, function (error) {

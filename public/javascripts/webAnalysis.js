@@ -22,5 +22,5 @@ app.controller('myCtrl', function($scope, $http, $location){
             $scope.receiveTaskUserIds = response.receiveTaskUserIds;
             $scope.totalReceiveTaskError = response.totalReceiveTaskError;
         }
-    })
+    });
 });

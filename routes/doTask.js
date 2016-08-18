@@ -16,6 +16,29 @@ var receiveTaskObject = AV.Object.extend('receiveTaskObject'); // 领取任务�
 var accountJournal = AV.Object.extend('accountJournal'); // 记录账户变动明细表
 var messageLogger = AV.Object.extend('messageLogger');
 
+
+function dateCompare(DateA, DateB) {
+    var a = new Date(DateA);
+    var b = new Date(DateB);
+    var msDateA = Date.UTC(a.getFullYear(), a.getMonth()+1, a.getDate());
+    var msDateB = Date.UTC(b.getFullYear(), b.getMonth()+1, b.getDate());
+    if (parseFloat(msDateA) < parseFloat(msDateB)) {
+        if ((a.getDate() - b.getDate()) == -1) {
+            return '昨天';
+        }
+        else {
+            return a;
+        }
+    }// lt
+    else if (parseFloat(msDateA) == parseFloat(msDateB)){
+        return '今天';}  // eq
+    else if (parseFloat(msDateA) > parseFloat(msDateB)){
+        return a;} // gt
+    else{
+        console.log("fail");
+    }
+};
+
 router.get('/', function(req, res) {
     res.render('doTask');
 });
@@ -24,7 +47,7 @@ function getTaskQuery(userObject){
     var query = new AV.Query(releaseTaskObject);
     query.notEqualTo('cancelled', true);
     query.notEqualTo('close', true);
-    query.greaterThan('remainCount', 0);
+    //query.greaterThan('remainCount', 0);
     query.notEqualTo('userObject', userObject);
     return query;
 }
@@ -47,6 +70,7 @@ function taskObjectToDic(results, TaskObjects, isMyTask)
         appObject.appleKind = userReleaseAppObject.get('appleKind');
         appObject.formattedPrice = userReleaseAppObject.get('formattedPrice');
         appObject.latestReleaseDate = userReleaseAppObject.get('latestReleaseDate');
+        appObject.latestReleaseDate = dateCompare(appObject.latestReleaseDate, new Date());
         appObject.excUniqueCode = userReleaseAppObject.get('excUniqueCode');
         appObject.sellerName = userReleaseAppObject.get('sellerName');
 
@@ -154,7 +178,7 @@ function getTaskObjectList(taskType, query, totalCount, pageIndex, userObject, r
 
     query.include('appObject');
     query.ascending('createdAt');
-    query.ascending('remainCount');
+    query.descending('remainCount');
     query.skip(pageIndex);
     query.limit(20);
     query.find().then(function(results){

@@ -354,6 +354,7 @@
                                         <img src="/images/appDetail/receiveTask.png" alt="" style="display: inline-block;margin-left: 24px;padding-bottom: 10px">
                                         <span >任务领取人:</span>
                                         <span>{{submission.username}}</span>
+
                                     </div>
                                     <div class="col-lg-7">
                                         <div class="row">
@@ -377,6 +378,7 @@
                                         <div class="col-lg-3 ">第 {{$index + 1}} 组</div>
                                         <div class="text-right" style="margin-right: 50px;">
                                             提交人: <span>{{entry.uploadName}}</span>
+                                            <span style="margin-left:30px">日期:{{ entry.updatedAt | date:"MM/dd/h:mma"  }}</span>
                                         </div>
                                         <img ng-repeat="img in entry.imgs" src="{{img}}" alt="">
                                         <div class=" text-right receive_btn">

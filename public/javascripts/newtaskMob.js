@@ -39,7 +39,6 @@ app.controller('MobControl', function($scope, $http, $location, FileUploader) {
     });
 
     function blobToDataURI(addedFileItems, dealIndex){
-        console.log("runned");
         var reader = new FileReader();
         reader.addEventListener("load", function (event) {
             // Here you can use `e.target.result` or `this.result`
@@ -73,7 +72,6 @@ app.controller('MobControl', function($scope, $http, $location, FileUploader) {
             addedFileItems[dealIndex]._file = compressImg;
 
             dealIndex++;
-            console.log("compressed");
             //if compress all, upload all
             if (dealIndex == addedFileItems.length){
                 $scope.progressNum = 50;

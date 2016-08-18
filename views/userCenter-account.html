@@ -46,27 +46,21 @@
     </div>
     </div>
 
-<div class="alert alert-info" role="alert" ng-show="register_status != undefined && register_status=='register_new'">
+<div class="alert alert-info invite_info" role="alert"  ng-show="register_status != undefined && register_status=='register_new'">
     您好,系统赠送了您100YB(冻结Y币中查看),完成新手任务后解锁
     新手任务: 任务大厅——>领取任务 ——> 做任务——>上传换评图片
 </div>
-<div class="alert alert-success" role="alert" ng-show="register_status != undefined && register_status=='register_upload_task'">
+<div class="alert alert-success invite_info" role="alert" ng-show="register_status != undefined && register_status=='register_upload_task'">
     新手任务完成进度50%,您已经获赠50Y币(账户余额中查看)
     等待对方接受你的任务成功,将继续获赠另外50Y币
 </div>
-<div class="alert alert-success" role="alert" ng-show="register_status != undefined && register_status=='register_accept_task'">
+<div class="alert alert-success invite_info" role="alert" ng-show="register_status != undefined && register_status=='register_accept_task'">
     您已经完成了新手任务,总计获赠100Y币
     有了Y币后,可以去任务大厅发布任务喽
 </div>
 
 
-<!--邀请区域-->
-<div class="alert alert-success" role="alert" ng-show="inviteCount != undefined && inviteCount > 0">
-    已邀请{{inviteCount}}个好友加入野马,他们完成新手任务后,您将获得{{inviteCount*100}}个Y币的奖励
-</div>
-<div class="alert alert-success" role="alert" ng-show="inviteSucceedCount != undefined && inviteSucceedCount > 0">
-    已有{{inviteSucceedCount}}好友完成新手任务,您累计获得{{inviteSucceedCount*100}}个Y币的奖励,非常感谢您的支持
-</div>
+
 
 
 <div  class=" col-lg-12  copy" >
@@ -76,49 +70,60 @@
                 data-toggle="popover"
                 data-content="复制成功!">复制邀请链接</button>
     </p>
-    <p class="message">好友通过你的链接注册野马，完成新手任务后，你和好友都将获得100Y币</p>
+    <p style="font-size: 22px;margin-left: 130px" >您共成功邀请<span style="color: #3498db">{{inviteSucceedCount}}</span>人,总计获得<span style="color: #ff7f40">{{inviteSucceedCount*100}}</span>Y币的奖励</p>
+    <p  class="invite" >邀请流程:好友  <span style="color: #3498db">通过</span>您的  <span style="color: #3498db">链接注册野马,完成新手任务</span>后,您和您的好友都将获得  <span style="color: #3498db">100Y币</span> 奖励</p>
 </div>
 
 
 <hr style="border: 0.5px solid #e0e0e0;margin-top: 30px;margin-left: 20px;margin-right: 20px;">
-<p  style="font-size: 20px;color: #333333;margin-left: 20px;margin-top: 30px;margin-right: 20px">如果您需要更多的Y币,请到任务大厅完成更多的任务,或者关注我们的微信公众号联系客服.微信关注:野马ASO</p>
+<!--邀请区域-->
+<div class="alert alert-info invite_info" role="alert" ng-show="inviteCount != undefined && inviteCount > 0">
+    已邀请{{inviteCount}}个好友加入野马,他们完成新手任务后,您将获得{{inviteCount*100}}个Y币的奖励
 </div>
-<!--<h4 class="account">Y币充值</h4>-->
-<!--<div class="myMoney">-->
-    <!--<div class="mine">-->
-        <!--<span class="mine_one">300</span><span class="mine_two">Y币</span>-->
-    <!--</div>-->
-    <!--<img src="/images/userCenter/30.jpg" class="mine_img">-->
-    <!--<button class=" mine_btn1">30元</button>-->
-<!--</div>-->
-<!--<div class="myMoney">-->
-    <!--<div class="mine">-->
-        <!--<span class="mine_one">1100</span><span class="mine_two">Y币</span>-->
-    <!--</div>-->
-    <!--<img src="/images/userCenter/100.jpg" class="mine_img">-->
-    <!--<button class=" mine_btn2">100元</button>-->
-<!--</div>-->
-<!--<div class="myMoney">-->
-    <!--<div class="mine">-->
-        <!--<span class="mine_one">5700</span><span class="mine_two">Y币</span>-->
-    <!--</div>-->
-    <!--<img src="/images/userCenter/500.jpg" class="mine_img">-->
-    <!--<button class=" mine_btn3">500元</button>-->
-<!--</div>-->
-<!--<div class="myMoney">-->
-    <!--<div class="mine2">-->
-        <!--<span class="mine_one">12000</span><span class="mine_two">Y币</span>-->
-    <!--</div>-->
-    <!--<img src="/images/userCenter/1000.jpg" class="mine_img">-->
-    <!--<button class=" mine_btn4">1000元</button>-->
-<!--</div>-->
-<!--<div class="myMoney">-->
-    <!--<div class="mine2">-->
-        <!--<span class="mine_one">37000</span><span class="mine_two">Y币</span>-->
-    <!--</div>-->
-    <!--<img src="/images/userCenter/3000.jpg" class="mine_img">-->
-    <!--<button class=" mine_btn5">3000元</button>-->
-<!--</div>-->
+<div class="alert alert-info invite_info"  role="alert" ng-show="inviteSucceedCount != undefined && inviteSucceedCount > 0">
+    已有{{inviteSucceedCount}}好友完成新手任务,您累计获得{{inviteSucceedCount*100}}个Y币的奖励,非常感谢您的支持
+</div>
+<p  style="font-size: 20px;color: #333333;margin-left: 20px;margin-top: 30px;margin-right: 20px">如果您需要更多的Y币,请到任务大厅完成更多的任务,或者关注我们的微信公众号联系客服.微信关注:野马ASO</p>
+
+
+
+
+<h4 class="account">Y币充值</h4>
+<div class="myMoney">
+    <div class="mine">
+        <span class="mine_one">300</span><span class="mine_two">Y币</span>
+    </div>
+    <img src="/images/userCenter/30.jpg" class="mine_img">
+    <button class=" mine_btn1">30元</button>
+</div>
+<div class="myMoney">
+    <div class="mine">
+        <span class="mine_one">1100</span><span class="mine_two">Y币</span>
+    </div>
+    <img src="/images/userCenter/100.jpg" class="mine_img">
+    <button class=" mine_btn2">100元</button>
+</div>
+<div class="myMoney">
+    <div class="mine">
+        <span class="mine_one">5700</span><span class="mine_two">Y币</span>
+    </div>
+    <img src="/images/userCenter/500.jpg" class="mine_img">
+    <button class=" mine_btn3">500元</button>
+</div>
+<div class="myMoney">
+    <div class="mine2">
+        <span class="mine_one">12000</span><span class="mine_two">Y币</span>
+    </div>
+    <img src="/images/userCenter/1000.jpg" class="mine_img">
+    <button class=" mine_btn4">1000元</button>
+</div>
+<div class="myMoney">
+    <div class="mine2">
+        <span class="mine_one">37000</span><span class="mine_two">Y币</span>
+    </div>
+    <img src="/images/userCenter/3000.jpg" class="mine_img">
+    <button class=" mine_btn5">3000元</button>
+</div>
 
 
 <div style="clear: both"></div>
