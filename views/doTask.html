@@ -129,12 +129,12 @@
 
                                 </div>
                             </td>
-                            <td ng-if='!app.myTask && !app.hasTaken' ng-show="!app.hasChanged" style="padding-right: 0px;">
+                            <td ng-if='!app.myTask && !app.hasTaken && app.remainCount' ng-show="!app.hasChanged" style="padding-right: 0px;">
                                 <button class="mybtn reverse hvr-float-shadow" data-target="#detail{{$index}}" data-toggle="modal">
                                     任务详情
                                 </button>
                             </td>
-                            <td ng-if='!app.myTask && !app.hasTaken' ng-show="!app.hasChanged" style="padding-right: 40px;">
+                            <td ng-if='!app.myTask && !app.hasTaken && app.remainCount' ng-show="!app.hasChanged" style="padding-right: 40px;">
                                 <button class="mybtn reverse hvr-float-shadow" data-target="#takeTask{{$index}}" data-toggle="modal">
                                     领取任务
                                 </button>
@@ -157,6 +157,11 @@
                             <td  ng-show="app.hasTaken && !app.hasChanged">
                                 <button  class="haschange">
                                     已经领取了该任务
+                                </button>
+                            </td>
+                            <td  ng-show="app.remainCount == 0">
+                                <button  class="haschange">
+                                    任务已经领取完
                                 </button>
                             </td>
                         </tr>
