@@ -46,7 +46,7 @@
 <div class="container">
     <div  class=" main_content"  ng-controller="itunesSearchControl">
         <button class="add_app" ng-hide="numOfApps >= 5" ng-click="updateApp()"  data-toggle="modal" >
-            <span class="glyphicon glyphicon-repeat" style="color: #3498db"></span>&nbsp;更新APP信息
+            <span class="glyphicon glyphicon-repeat" style="color: #3498db" ></span>&nbsp;更新APP信息
 
         </button>
         <h3 class="mytitle">第一步:选择或添加任务应用
@@ -360,6 +360,10 @@
                     <div class="modal-header" style="height: 74px;background-color:#6eb7e8;border-radius:4px;text-align: center">
                         <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
                         <h4 class="modal-title" ng-show="errorId == 0" style="font-size: 26px;color: #FFFFFF">{{errorMsg}}</h4>
+                        <div class="spinner" ng-hide="!isLoadingMyApp">
+                            <div class="double-bounce1"></div>
+                            <div class="double-bounce2"></div>
+                        </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">确认</button>

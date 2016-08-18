@@ -172,7 +172,8 @@ router.post('/UpdateApp', function(req, res){
 
                     if (httpRes.statusCode != 200){
                         //未检测到App的更新信息
-                        res.json({'errorId': 0, 'errorMsg':'APP更新成功'});
+                        dealiTunesAppFailed(retApps, tempAppObject);
+                        res.json({'errorId': 0, 'errorMsg':'未检测到APP更新'});
                     }else {
                         httpRes.on('data', function(data) {
                             totalData += data;
@@ -195,12 +196,20 @@ router.post('/UpdateApp', function(req, res){
 
                             }, function(error) {
                                 // 失败了.
-                                res.json({'errorId': -1, 'errorMsg': 'APP更新成功'});
+                                dealiTunesAppFailed(retApps, tempAppObject);
+                                promiseCount++;
+                                if (promiseCount == results.length){
+                                    res.json({'errorId': -1, 'errorMsg': 'APP更新失败'});
+                                }
                             });
                         })
                     }
                 }).on('error', function(error) {
-                    res.json({'errorId': error.code, 'errorMsg': error.message});
+                    dealiTunesAppFailed(retApps, tempAppObject);
+                    promiseCount++;
+                    if (promiseCount == results.length){
+                        res.json({'errorId': error.code, 'errorMsg': error.message});
+                    }
                 });
             })(appObject);
         }
