@@ -28,7 +28,16 @@
     <button type="button" class="btn btn-danger save" ng-show="errorId == 0">已保存</button>
 </div>
 
-
+<div  class=" col-lg-12  copy" >
+    <p  class="url_p"><span style="font-size: 18px;color: #333333">邀请好友:</span>
+        <input type="text" id="inviteUrlcopy" class="from-control" ng-model="inviteUrl">
+        <button class="btn" id="btn" ng-click="copyUrl()" data-placement="top"
+                data-toggle="popover"
+                data-content="复制成功!">复制邀请链接</button>
+    </p>
+    <p style="font-size: 22px;margin-left: 130px" >您共成功邀请<span style="color: #3498db">{{inviteSucceedCount}}</span>人,总计获得<span style="color: #ff7f40">{{inviteSucceedCount*100}}</span>Y币的奖励</p>
+    <p  class="invite" >邀请流程:好友  <span style="color: #3498db">通过</span>您的  <span style="color: #3498db">链接注册野马,完成新手任务</span>后,您和您的好友都将获得  <span style="color: #3498db">100Y币</span> 奖励</p>
+</div>
 <!--测试支付的代码-->
 <!--<div align="center">-->
     <!--&lt;!&ndash;<img src="https://source.unsplash.com/random">&ndash;&gt;-->
