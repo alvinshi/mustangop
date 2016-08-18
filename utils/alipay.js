@@ -6,20 +6,23 @@ var request = require('request');
 var config = require('../config/alipay.json');
 
 var defaultParams = {
-  service: 'create_direct_pay_by_user',
-  partner: config.partner,
-  '_input_charset': 'utf-8',
-  //支付类型，必填，不能修改
-  payment_type: '1',
-  notify_url: config.notify_url,
-  return_url: config.return_url
+    service: 'create_direct_pay_by_user',
+    partner: config.partner,
+    seller_id: config.seller_id,
+    '_input_charset': 'utf-8',
+    //支付类型，必填，不能修改
+    payment_type: '1',
+    notify_url: config.notify_url,
+    return_url: config.return_url
 };
 
 // 生成及时到账交易请求 html
 exports.getDirectPayReqHtml = function(params, strMethod) {
   var finalParams = JSON.parse(JSON.stringify(defaultParams));
   for (var k in params) {
-    finalParams[k] = params[k];
+      if(params[k] != undefined){
+          finalParams[k] = params[k];
+      }
   }
   debug('params: %j', finalParams);
   var result = '<form id="alipaysubmit" name="alipaysubmit"' +
