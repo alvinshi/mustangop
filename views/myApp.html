@@ -45,9 +45,9 @@
 </div>
 <div class="container">
     <div  class=" main_content"  ng-controller="itunesSearchControl">
-        <button class="add_app" ng-hide="numOfApps >= 5" ng-click="updateApp()">
+        <button class="add_app" ng-hide="numOfApps >= 5" ng-click="updateApp()"  data-toggle="modal" >
             <span class="glyphicon glyphicon-repeat" style="color: #3498db"></span>&nbsp;更新APP信息
-            <span class="" ng-show="errorId == 0">{{errorMsg}}</span>
+
         </button>
         <h3 class="mytitle">第一步:选择或添加任务应用
             <span class="glyphicon glyphicon-question-sign"  data-placement="top"
@@ -354,6 +354,19 @@
 
 
         <!--Modal-->
+        <div class="modal fade" id="updateApp">
+            <div class="modal-dialog">
+                <div class="modal-content" style="width: 320px;">
+                    <div class="modal-header" style="height: 74px;background-color:#6eb7e8;border-radius:4px;text-align: center">
+                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+                        <h4 class="modal-title" ng-show="errorId == 0" style="font-size: 26px;color: #FFFFFF">{{errorMsg}}</h4>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">确认</button>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div>
         <div class="modal fade" id="meiQian">
             <div class="modal-dialog">
                 <div class="modal-content" style="width: 320px;">
@@ -383,34 +396,7 @@
             </div><!-- /.modal-dialog -->
         </div><!--信息没填提示-->
 
-        <!--<div class="modal fade" id="limitexcCount">-->
-            <!--<div class="modal-dialog">-->
-                <!--<div class="modal-content" style="width: 320px;">-->
-                    <!--<div class="modal-header" style="height: 74px;background-color:#6eb7e8;border-radius:4px;text-align: center">-->
-                        <!--<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>-->
-                        <!--<h4 class="modal-title"  style="font-size: 26px;color: #FFFFFF">亲,超过20条任务啦</h4>-->
-                    <!--</div>-->
 
-                    <!--<div class="modal-footer">-->
-                        <!--<button type="button" class="btn btn-default" data-dismiss="modal">确认</button>-->
-                    <!--</div>-->
-                <!--</div>&lt;!&ndash; /.modal-content &ndash;&gt;-->
-            <!--</div>&lt;!&ndash; /.modal-dialog &ndash;&gt;-->
-        <!--</div>&lt;!&ndash;超过20条&ndash;&gt;-->
-        <!--<div class="modal fade" id="exceedrank">-->
-            <!--<div class="modal-dialog">-->
-                <!--<div class="modal-content" style="width: 320px;">-->
-                    <!--<div class="modal-header" style="height: 74px;background-color:#6eb7e8;border-radius:4px;text-align: center">-->
-                        <!--<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>-->
-                        <!--<h4 class="modal-title"  style="font-size: 20px;color: #FFFFFF">亲,排名都超过50啦,再核实一下排名吧</h4>-->
-                    <!--</div>-->
-
-                    <!--<div class="modal-footer">-->
-                        <!--<button type="button" class="btn btn-default" data-dismiss="modal">确认</button>-->
-                    <!--</div>-->
-                <!--</div>&lt;!&ndash; /.modal-content &ndash;&gt;-->
-            <!--</div>&lt;!&ndash; /.modal-dialog &ndash;&gt;-->
-        <!--</div>&lt;!&ndash;信息没填提示&ndash;&gt;-->
         <div class="modal fade" id="mymodal">
             <div class="modal-dialog">
                 <div class="modal-content" style="width: 360px;">

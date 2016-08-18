@@ -158,6 +158,7 @@ app.controller('itunesSearchControl', function($scope, $http) {
             $scope.errorMsg = response.errorMsg;
             if (response.errorId == 0){
                 $scope.errorMsg = response.errorMsg;
+                $("#updateApp").modal('show');
             }
         })
     };
