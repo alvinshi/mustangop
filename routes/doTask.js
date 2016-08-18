@@ -47,7 +47,7 @@ function getTaskQuery(userObject){
     var query = new AV.Query(releaseTaskObject);
     query.notEqualTo('cancelled', true);
     query.notEqualTo('close', true);
-    query.greaterThan('remainCount', 0);
+    //query.greaterThan('remainCount', 0);
     query.notEqualTo('userObject', userObject);
     return query;
 }
@@ -178,7 +178,7 @@ function getTaskObjectList(taskType, query, totalCount, pageIndex, userObject, r
 
     query.include('appObject');
     query.ascending('createdAt');
-    query.ascending('remainCount');
+    query.descending('remainCount');
     query.skip(pageIndex);
     query.limit(20);
     query.find().then(function(results){
