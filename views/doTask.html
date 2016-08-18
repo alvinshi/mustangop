@@ -360,12 +360,12 @@
                                     <span class="infoBubble"><span style="color:red">更新日期:{{ app.latestReleaseDate | date:"yyyy/MM/dd"  }}</span></span>
                                 </div>
                             </td>
-                            <td ng-if='!app.myTask && !app.hasTaken' ng-show="!app.hasChanged" style="padding-right: 0px;">
+                            <td ng-if='!app.myTask && !app.hasTaken && app.remainCount' ng-show="!app.hasChanged" style="padding-right: 0px;">
                                 <button class="mybtn reverse hvr-float-shadow" data-target="#detail_comment{{$index}}" data-toggle="modal">
                                     任务详情
                                 </button>
                             </td>
-                            <td ng-if='!app.myTask && !app.hasTaken' ng-show="!app.hasChanged" style="padding-right: 40px;">
+                            <td ng-if='!app.myTask && !app.hasTaken && app.remainCount' ng-show="!app.hasChanged" style="padding-right: 40px;">
                                 <button class="mybtn reverse hvr-float-shadow" data-target="#takeTask_comment{{$index}}" data-toggle="modal">
                                     领取任务
                                 </button>
@@ -390,6 +390,12 @@
                                     已经领取了该任务
                                 </button>
                             </td>
+                            <td  ng-show="app.remainCount == 0">
+                                <button  class="haschange">
+                                    任务已经领取完
+                                </button>
+                            </td>
+
                         </tr>
                     </table>
                     <div class="modal fade" id="markCommentApp{{$index}}">
@@ -586,12 +592,12 @@
                                     <span class="infoBubble"><span style="color:red">更新日期:{{ app.latestReleaseDate | date:"yyyy/MM/dd"  }}</span></span>
                                 </div>
                             </td>
-                            <td ng-if='!app.myTask && !app.hasTaken' ng-show="!app.hasChanged" style="padding-right: 0px;">
+                            <td ng-if='!app.myTask && !app.hasTaken && app.remainCount' ng-show="!app.hasChanged" style="padding-right: 0px;">
                                 <button class="mybtn reverse hvr-float-shadow" data-target="#detail_download{{$index}}" data-toggle="modal">
                                     任务详情
                                 </button>
                             </td>
-                            <td ng-if='!app.myTask && !app.hasTaken' ng-show="!app.hasChanged" style="padding-right: 40px;">
+                            <td ng-if='!app.myTask && !app.hasTaken && app.remainCount' ng-show="!app.hasChanged" style="padding-right: 40px;">
                                 <button class="mybtn reverse hvr-float-shadow" data-target="#takeTask_download{{$index}}" data-toggle="modal">
                                     领取任务
                                 </button>
@@ -614,6 +620,11 @@
                             <td  ng-show="app.hasTaken && !app.hasChanged" >
                                 <button  class="haschange">
                                     已经领取了该任务
+                                </button>
+                            </td>
+                            <td  ng-show="app.remainCount == 0">
+                                <button  class="haschange">
+                                    任务已经领取完
                                 </button>
                             </td>
                         </tr>
