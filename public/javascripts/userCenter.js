@@ -17,6 +17,11 @@ app.config(['$stateProvider','$urlRouterProvider',function($stateProvider, $urlR
             templateUrl:'/html/userCenter-account.html',
             controller:'userCenterCtrl'
         })
+        .state('YRecharge',{
+            url:'/YRecharge',
+            templateUrl:'/html/userCenter-YRecharge.html',
+            controller:'YRecharge'
+        })
         .state('inforManage',{
             url:'/inforManage',
             templateUrl:'/html/userCenter-inforManage.html',
