@@ -46,7 +46,7 @@
 <div class="container">
     <div  class=" main_content"  ng-controller="itunesSearchControl">
         <button class="add_app" ng-hide="numOfApps >= 5" ng-click="updateApp()"  data-toggle="modal" >
-            <span class="glyphicon glyphicon-repeat" style="color: #3498db"></span>&nbsp;更新APP信息
+            <span class="glyphicon glyphicon-repeat" style="color: #3498db" ></span>&nbsp;更新APP信息
 
         </button>
         <h3 class="mytitle">第一步:选择或添加任务应用
@@ -86,11 +86,6 @@
             <p class="app_name">{{ (app.trackName.length > 6)?(app.trackName.substring(0,6)+'...'):app.trackName}}</p>
             <p class="app_version">版本号 {{ app.version }}</p>
             <p class="app_update" ng-show="app.latestReleaseDate.length > 0">更新日期 {{ app.latestReleaseDate | date: 'yy/MM/dd'}}</p>
-
-
-            <!--<a >-->
-            <!--<button  class="app_button_bottom hvr-box-shadow-inset" >解绑</button>-->
-            <!--</a>-->
         </div>
 
 
@@ -352,18 +347,19 @@
 
 
 
-
         <!--Modal-->
         <div class="modal fade" id="updateApp">
             <div class="modal-dialog">
-                <div class="modal-content" style="width: 320px;">
-                    <div class="modal-header" style="height: 74px;background-color:#6eb7e8;border-radius:4px;text-align: center">
+                <div class="modal-content" style="width: 400px;">
+                    <div class="modal-header" style="height:200px;border-radius:4px;text-align: center">
                         <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
-                        <h4 class="modal-title" ng-show="errorId == 0" style="font-size: 26px;color: #FFFFFF">{{errorMsg}}</h4>
+                        <h4 class="modal-title"  style="font-size: 26px;text-align: center;margin-top: 50px">{{errorMsg}}</h4>
+                        <div class="spinner" ng-hide="!isLoadingApp" style="margin-top: 50px">
+                            <div class="double-bounce1"></div>
+                            <div class="double-bounce2"></div>
+                        </div>
                     </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">确认</button>
-                    </div>
+
                 </div><!-- /.modal-content -->
             </div><!-- /.modal-dialog -->
         </div>
