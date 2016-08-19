@@ -217,6 +217,7 @@ function updateIOSAppInfo (appstoreObject, leanAppObject){
     leanAppObject.set('latestReleaseDate', appstoreObject['currentVersionReleaseDate']);
     leanAppObject.set('sellerName', appstoreObject['sellerName']);
     leanAppObject.set('version', appstoreObject['version']);
+    leanAppObject.set('excUniqueCode', appstoreObject['trackId'] + appstoreObject['version']);
 
     appInfoObject.trackName = appstoreObject['trackName'];
     appInfoObject.artworkUrl100 = appstoreObject['artworkUrl100'];
