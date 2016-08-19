@@ -5,6 +5,6 @@
   "partner": "2088121476194254",
   "seller_id": "2088121476194254",
   "key": "m98h1ixlhvj3xcfh9p9zxan0788iqko9",
-  "notify_url": "http://localhost:3000/pay/test",
+  "notify_url": "http://localhost:3000/pay/notify",
   "return_url": "http://localhost:3000/pay/return"
 }
