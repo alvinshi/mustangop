@@ -1,27 +1,32 @@
 'use strict';
 var router = require('express').Router();
 var alipay = require('../utils/alipay');
+var AV = require('leanengine');
 var util = require('./util');
 
-router.post('/', function(req, res) {
+router.post('/:chargeMoney', function(req, res) {
+    var chargeMoney = req.params.chargeMoney;
+    var username = req.cookies.username;
+    var total_fee = chargeMoney;
+    var body = username + '充值YB——' + '付款金额RMB:' + chargeMoney;
+    var subject = username + '充值YB——' + '付款金额RMB:' + chargeMoney;
+
     //生成订单号
     var originalOrderId = Date.parse(new Date()) + req.cookies.userIdCookie;
     var out_trade_no = util.encodeStr(originalOrderId);
 
     var params = {
         //加密的user_id
-        user_id: req.cookies.userIdCookie,
+        extra_common_param: req.cookies.userIdCookie,
         //商户网站订单系统中唯一订单号，必填
         out_trade_no: out_trade_no,
         //订单名称，必填
-        subject: req.body.subject,
+        subject: subject,
         // 付款金额，必填
-        total_fee: req.body.total_fee,
+        total_fee: total_fee,
 
-        //卖家支付宝帐户，必填
-        seller_id: req.body.seller_id,
         // 订单描述
-        body: req.body.body
+        body: body
         // 商品展示地址
         //需以http://开头的完整路径，例如：http://www.商户网址.com/myorder.html
         //show_url: req.body.show_url
@@ -56,15 +61,16 @@ router.get('/return', function(req, res) {
 
         var rechargeUserObject = new AV.User();
         rechargeUserObject.id = chargeUserId;
+        var addYB = (chargeMoney + chargeReward) * 10;
         //总金额增加
-        rechargeUserObject.increment('totalMoney', (chargeMoney + chargeReward) * 10);
+        rechargeUserObject.increment('totalMoney', addYB);
         //记录奖励金额
         rechargeUserObject.increment('feedingMoney', chargeReward * 10);
         rechargeUserObject.increment('rechargeRMB', chargeMoney);
 
         rechargeUserObject.save().then(function() {
             // 充值成功,YB增加成功
-            res.json({'errorMsg':'', 'errorId':0, 'message':'充值成功,请刷新个人中心查看最新YB金额'});
+            res.json({'errorMsg':'', 'errorId':0, 'message':'充值成功,获得' + addYB + 'YB,请刷新个人中心查看最新YB金额'});
         }, function(err) {
             // 充值成功,YB增加失败,请联系客服人员
             // 其他基本没用,不精准

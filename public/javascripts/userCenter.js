@@ -17,12 +17,6 @@ app.config(['$stateProvider','$urlRouterProvider',function($stateProvider, $urlR
             templateUrl:'/html/userCenter-account.html',
             controller:'userCenterCtrl'
         })
-
-        .state('YRecharge',{
-            url:'/YRecharge',
-            templateUrl:'/html/userCenter-YRecharge.html',
-            controller:'userCenterCtrl'
-        })
         .state('inforManage',{
             url:'/inforManage',
             templateUrl:'/html/userCenter-inforManage.html',
@@ -265,61 +259,9 @@ app.controller('userCenterCtrl', function($scope, $http,$location){
             }
         })
     };
-
-    //充值
-    $scope.recharge = function(chargeMoney){
-        var chargeRMB = [30, 100, 500, 1000, 3000];
-        var judgeRMB = false;
-        for (var i = 0; i < chargeRMB.length; i++){
-            if(chargeMoney == chargeRMB[i]){
-                judgeRMB = true;
-                break;
-            }
-        }
-
-        if(judgeRMB == true){
-            //订单号,金额
-            var userUrl = '/pay';
-
-            //商户网站订单系统中唯一订单号，必填
-            //out_trade_no: req.body.out_trade_no,
-            //    //订单名称，必填
-            //    subject: req.body.subject,
-            //    // 付款金额，必填
-            //    total_fee: req.body.total_fee,
-            //
-            //    //卖家支付宝帐户，必填
-            //    seller_id: req.body.seller_id,
-            //    // 订单描述
-            //    body: req.body.body
-
-            var payParams = Object();
-            payParams.total_fee = chargeMoney;
-            payParams.body = getCookie('username') + '充值YB——' + '付款金额RMB:' + chargeMoney;
-            payParams.subject = getCookie('username') + '充值YB——' + '付款金额RMB:' + chargeMoney;
-
-            $http.post(userUrl, payParams);
-            //    .success(function(response){
-            //    $scope.rechargeErrorId = response.errorId;
-            //    $scope.rechargeMsg = response.errorMsg;
-            //    if (response.errorId == 0){
-            //        //return to my App
-            //        //location.href='/user';
-            //    }
-            //}, function (error) {
-            //    $scope.rechargeErrorId = error.errorCode;
-            //    $scope.rechargeMsg = error.message;
-            //});
-        }else {
-            $scope.rechargeMsg = '充值金额不对';
-        }
-    }
 });
 
-
-
 function logout(){
-
     clearCookie('userIdCookie');
     clearCookie('username');
 
