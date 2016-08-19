@@ -66,13 +66,11 @@ app.controller('itunesSearchControl', function($scope, $http) {
     $http.get(appsUrl).success(function(response){
         //接收到服务器信息反馈
         $scope.isLoadingMyApp = false;
-        (response.myApps).sort(function(a, b){return (a.createdAt < b.createdAt)?1:-1});
-        $scope.myApps = response.myApps;
-        $scope.numOfApps = $scope.myApps.length;
+        $scope.numOfApps = response.myApps.length;
 
         if ($scope.numOfApps > 0) {
             //App排序
-            $scope.myApps = $scope.myApps.sort(function(a, b){return a.createdAt >= b.createdAt});
+            $scope.myApps = response.myApps.sort(function(a, b){return a.createdAt >= b.createdAt});
             //默认选择第一个App
             $scope.selectedApp = $scope.myApps[0];
             $scope.isDisabled = false;
@@ -161,8 +159,16 @@ app.controller('itunesSearchControl', function($scope, $http) {
             $scope.errorMsg = response.errorMsg;
             if (response.errorId == 0){
                 $scope.errorMsg = response.errorMsg;
-                $scope.isLoadingApp=false;
+                $scope.isLoadingApp = false;
 
+                $scope.numOfApps = response.myApps.length;
+                if ($scope.numOfApps > 0) {
+                    //App排序
+                    $scope.myApps = response.myApps.sort(function(a, b){return a.createdAt >= b.createdAt});
+                    //默认选择第一个App
+                    $scope.selectedApp = $scope.myApps[0];
+                    $scope.isDisabled = false;
+                }
             }
         })
     };

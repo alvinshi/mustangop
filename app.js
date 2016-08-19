@@ -45,7 +45,7 @@ app.set('view engine', 'html');
 app.use(express.static('public'));
 
 //接口强制超时
-app.use(timeout('10s'));
+app.use(timeout('30s'));
 // 加载云代码方法
 app.use(cloud);
 

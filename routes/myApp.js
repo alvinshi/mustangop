@@ -191,7 +191,7 @@ router.post('/UpdateApp', function(req, res){
                                 // 实例已经成功保存.
                                 retApps.push(appInfoObject);
                                 if (retApps.length == results.length){
-                                    res.json({'errorId': 0, 'errorMsg': 'APP更新成功'});
+                                    res.json({'myApps':retApps, 'errorId': 0, 'errorMsg': 'APP更新成功'});
                                 }
 
                             }, function(error) {

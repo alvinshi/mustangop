@@ -208,50 +208,52 @@ router.get('/userCenter/getMessage', function(req, res){
   query.equalTo('receiverObjectId', user);
   query.descending('createdAt');
   query.find().then(function(results){
-    var rtnMsgs = new Array();
-    for (var i = 0; i < results.length; i++){
-      var msg = Object();
-      msg.id = results[i].id;
-      msg.category = results[i].get('category');
-      msg.type = results[i].get('type');
-      msg.time = results[i].createdAt;
-      msg.para1 = results[i].get('firstPara');
-      if (msg.para1 == undefined){
-        msg.para1 = ''
-      }else if (msg.para1.length > 16){
-        msg.para1 = msg.para1.substring(0, 16) + '...';
-      }else if (!isNaN(msg.para1)){ // 判断是不是数字
-        msg.para1 = msg.para1.substring(0, 7) + '****'
+      var rtnMsgs = new Array();
+      for (var i = 0; i < results.length; i++){
+          var msg = Object();
+          msg.id = results[i].id;
+          msg.category = results[i].get('category');
+          msg.type = results[i].get('type');
+          msg.time = results[i].createdAt;
+          msg.para1 = results[i].get('firstPara');
+          if (msg.para1 == undefined){
+              msg.para1 = ''
+          }else if (msg.para1.length > 16){
+              msg.para1 = msg.para1.substring(0, 16) + '...';
+          }else if (!isNaN(msg.para1)){ // 判断是不是数字
+              msg.para1 = msg.para1.substring(0, 7) + '****'
+          }
+          msg.para2 = results[i].get('secondPara');
+          if (msg.para2 == undefined){
+              msg.para2 = ''
+          }else if (msg.para2.length > 16){
+              msg.para2 = msg.para2.substring(0, 16) + '...';
+          }
+          msg.para3 = results[i].get('thirdPara');
+          msg.para4 = results[i].get('fourthPara');
+          msg.para5 = results[i].get('fifthPara');
+          msg.read = results[i].get('read');
+          rtnMsgs.push(msg);
       }
-      msg.para2 = results[i].get('secondPara');
-      if (msg.para2 == undefined){
-        msg.para2 = ''
-      }else if (msg.para2.length > 16){
-        msg.para2 = msg.para2.substring(0, 16) + '...';
-      }
-      msg.para3 = results[i].get('thirdPara');
-      msg.para4 = results[i].get('fourthPara');
-      msg.para5 = results[i].get('fifthPara');
-      msg.read = results[i].get('read');
-      rtnMsgs.push(msg);
-    }
-    var encodedId = Base64.encode(userId);
-    res.json({'rtnMsg': rtnMsgs, 'yourId': encodedId});
+      var encodedId = Base64.encode(userId);
+      res.json({'rtnMsg': rtnMsgs, 'yourId': encodedId});
+  },function(error){
+      res.json({'errorId': error.code, 'errorMsg': error.message});
   })
 });
 
 //更新已读未读消息
 router.post('/userCenter/readMsg', function(req, res) {
-  var msgIdArray = req.body.msgIdArray;
-  var msgObjectArray = new Array()
-  for (var i = 0; i < msgIdArray.length; i++) {
-    var msgObject = new messageLogger();
-    msgObject.id = msgIdArray[i];
-    msgObject.set('read', true);
-    msgObjectArray.push(msgObject);
-  }
-  AV.Object.saveAll(msgObjectArray);
-  res.json({'errorMsg': ''});
+    var msgIdArray = req.body.msgIdArray;
+    var msgObjectArray = new Array()
+    for (var i = 0; i < msgIdArray.length; i++) {
+        var msgObject = new messageLogger();
+        msgObject.id = msgIdArray[i];
+        msgObject.set('read', true);
+        msgObjectArray.push(msgObject);
+    }
+    AV.Object.saveAll(msgObjectArray);
+    res.json({'errorMsg': ''});
 });
 
 // 任务历史
