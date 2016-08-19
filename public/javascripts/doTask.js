@@ -211,7 +211,7 @@ app.controller('doTaskCtrl', function($scope, $http) {
             currentApp.getTaskErrorId = -200;
             currentApp.errorMsg = '请先登陆帐号后再领取任务';
         }
-        else if (parseInt(currentApp.receiveCount) != currentApp.receiveCount) {
+        else if (parseInt(currentApp.receiveCount) != currentApp.receiveCount || currentApp.receiveCount <= 0) {
             currentApp.getTaskErrorId = -200;
             currentApp.errorMsg = '请填写正确的领取条目';
         }
