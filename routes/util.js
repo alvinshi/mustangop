@@ -22,6 +22,13 @@ exports.decodeUserId = function(encodeUserId){
     return Base64.decode(encodeUserId);
 };
 
+exports.encodeStr = function(encodeStr){
+    if(encodeStr == undefined){
+        return undefined;
+    }
+    return Base64.encode(encodeStr);
+};
+
 exports.postFile = function (req, res) {
 
     if (req.busboy) {

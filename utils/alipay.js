@@ -12,6 +12,8 @@ var defaultParams = {
     '_input_charset': 'utf-8',
     //支付类型，必填，不能修改
     payment_type: '1',
+    //商品类型,虚拟
+    goods_type: '0',
     notify_url: config.notify_url,
     return_url: config.return_url
 };
