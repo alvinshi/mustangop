@@ -103,7 +103,15 @@
         </div>
         <h1 style="text-align:center;">亲, 你还没有发布任何任务哦, 赶紧去"<a href="myapp">发布任务</a>"试试吧</h1>
     </div>
+
     <div class="container" style="border: 1px solid #e0e0e0" ng-show="taskAudit.length">
+        <div  class="alert alert-warning" role="alert" style="display: inline-block; margin-top: 35px;">
+            1.请及时审核别人提交的任务（次日早上9:50前），超时未即使审核的任务会被默认审核通过（Y币会被自动支付）
+            <br>
+            <br>
+            2.过期的任务，指别人领取未做的任务（超时），此时会把你发布任务花费的相关Y币退还给你（我的Y币中查看）
+        </div>
+
         <div class="row">
             <div class="col-lg-2 change" style="background: #f4f4f4; padding-top:60px; padding-left:0; padding-right:0;" >
                 <div style="text-align:center;">

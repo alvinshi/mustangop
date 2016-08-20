@@ -38,7 +38,7 @@ app.controller('interorDetailControl',function($scope, $http, $location, FileUpl
     //解析上传者姓名
     $scope.setUploaderName = function(name){
         if (name == undefined){
-            $scope.uploaderName =  '电脑' + parseInt($scope.nextTaskNum);
+            $scope.uploaderName = '批量传图' + parseInt($scope.nextTaskNum);
         }
         else {
             $scope.uploaderName = name;

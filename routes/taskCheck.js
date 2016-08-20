@@ -118,15 +118,19 @@ router.get('/taskAudit', function(req, res){
                         tempAppInfoObject.totalGetTask += submission.receiveCount;
                         submission.receivePrice = results[i].get('receivePrice');
                         submission.createdAt = results[i].createdAt;
-                        var username = user.get('userNickname');
-                        if (username == undefined){
-                            submission.username = user.get('username').substring(0, 7) + '****';
-                        }else if (username == ''){
-                            submission.username = user.get('username').substring(0, 7) + '****';
+                        var userNickname = user.get('userNickname');
+                        var userQQ = user.get('userQQ');
+                        //优先QQ,其次昵称,其次手机号(有码)
+                        if(userQQ != undefined && userQQ.length > 0){
+                            submission.username = 'QQ: ' + userQQ;
+                        }else {
+                            if (userNickname == undefined || userNickname.length == 0){
+                                submission.username = user.get('username').substring(0, 7) + '****';
+                            }else{
+                                submission.username = userNickname;
+                            }
                         }
-                        else {
-                            submission.username = username;
-                        }
+
                         submission.userId = user.id;
 
                         //获取各个上传信息

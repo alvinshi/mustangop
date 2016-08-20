@@ -68,19 +68,15 @@
         </div><!-- /.modal-dialog -->
     </div>
 
-
-
-
-
-
     <div ng-show="!noApp" class=" hidden-xs col-lg-10  col-lg-offset-1 copy" >
         <p  class="url_p"><span style="font-size: 18px;color: #333333">分享链接:</span>
             <input type="text" id="copy" class="from-control" ng-model="url">
-            <button class="btn" id="btn" ng-click="copyUrl()"data-placement="top"
+            <button class="btn" id="btn" ng-click="copyUrl()" data-placement="top"
                     data-toggle="popover"
                     data-content="复制成功!">分享至手机</button>
         </p>
-        <p class="message">复制此链接,通过QQ或微信等发送到您完成任务的手机上，直接从手机端上传任务截图</p>
+        <p class="message">复制链接，通过QQ或微信发送给你的伙伴，直接在手机上传任务截图，无需你再次整理换评图片</p>
+        <p class="message"></p>
     </div>
 
     <div class="spinner"  ng-hide="!isLoadingMyApp"  style="margin-top:450px;">
