@@ -16,13 +16,16 @@ app.controller('MobControl', function($scope, $http, $location, FileUploader) {
         $scope.uploadName = getCookie('uploadName');
     }
 
+    //uploadName
+    var claimParams = Object();
     if ($scope.uploadName != undefined && $scope.uploadName.length > 0) {
         $scope.normalBtnShow = 0;
+        claimParams.uploadName = $scope.uploadName;
     } else {
         $scope.normalBtnShow = 1;
     }
 
-    $http.get(claimUrl).success(function (response) {
+    $http.post(claimUrl, claimParams).success(function (response) {
         $scope.oneAppInfo = response.oneAppInfo;
 
         $scope.images = response.macTask;
@@ -153,7 +156,7 @@ app.controller('MobControl', function($scope, $http, $location, FileUploader) {
             console.info('onCompleteItem', fileItem, response, status, headers);
         }else {
             $scope.errorId = -100;
-            $scope.errorMsg = '网络异常,图片上传错误,刷新网页重新上传';
+            $scope.errorMsg = '一张或多张图片上传失败,刷新网页重新上传';
         }
 
     };

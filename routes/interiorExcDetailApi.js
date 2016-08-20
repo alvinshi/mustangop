@@ -61,8 +61,12 @@ router.get('/interior/:excTaskId', function(req, res){
                 mackTaskObject.status = result[e].get('taskStatus'); // 任务状态
                 mackTaskList.push(mackTaskObject);
             }
-            res.json({'oneAppInfo':retObject, 'macTask':mackTaskList})
+            res.json({'oneAppInfo':retObject, errorId:0, 'macTask':mackTaskList})
+        },function(error){
+            res.json({'errorMsg':error.message, 'errorId': error.code});
         })
+    },function(error){
+        res.json({'errorMsg':error.message, 'errorId': error.code});
     })
 });
 

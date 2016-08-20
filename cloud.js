@@ -58,10 +58,10 @@ AV.Cloud.define('taskCheckForDoTask', function(request, response){
         for (var i = 0; i < totalForCount; i++){
             //receiveTaskObject
             var query_a = getTaskCheckQuery();
-            //query_a.include('userObject');
-            //query_a.include('taskObject');
-            //query_a.include('appObject');
-            //query_a.include('taskObject.userObject');
+            query_a.include('userObject');
+            query_a.include('taskObject');
+            query_a.include('appObject');
+            query_a.include('taskObject.userObject');
             query_a.limit(1000);
             query_a.skip(i * 1000);
             query_a.find().then(function(results){ // 查找出所有没有完成的任务
@@ -72,14 +72,16 @@ AV.Cloud.define('taskCheckForDoTask', function(request, response){
                         var relation = receTaskObject.relation('mackTask');
                         var query = relation.query();
                         query.notEqualTo('taskStatus', 'expired');
-                        query.include('receiveTaskObject');
-                        query.include('receiveTaskObject.taskObject');
-                        query.include('receiveTaskObject.userObject');
-                        query.include('receiveTaskObject.appObject');
+                        //query.include('receiveTaskObject');
+                        //query.include('receiveTaskObject.taskObject');
+                        //query.include('receiveTaskObject.taskObject.userObject');
+                        //query.include('receiveTaskObject.userObject');
+                        //query.include('receiveTaskObject.appObject');
                         query.limit(1000);
                         query.find().then(function(doTaskObjects){
+
                             //闭包
-                            var inReceTaskObject = doTaskObjects.get('receiveTaskObject');
+                            var inReceTaskObject = receTaskObject;
                             var task = inReceTaskObject.get('taskObject'); // 领取任务的object
                             var user = inReceTaskObject.get('userObject'); // 领取任务的用户
                             var app = inReceTaskObject.get('appObject'); // 领取的任务App
@@ -91,6 +93,9 @@ AV.Cloud.define('taskCheckForDoTask', function(request, response){
                             var trackName = app.get('trackName'); //任务App名称
                             var rate_unitPrice = task.get('rateUnitPrice'); // 任务的单价
                             var releaseTaskUser = task.get('userObject');  // 发布任务的用户
+                            if(releaseTaskUser == undefined){
+                                return;
+                            }
 
                             var changeDoTasks = [];
                             for (var r = 0; r < doTaskObjects.length; r++){
@@ -293,13 +298,13 @@ AV.Cloud.define('refuseTaskTimerForRelease', function(request, response){
 
                 //解锁YB
                 AV.Object.saveAll(senTaskUserList).then(function(){
-                    console.log('!!!  返还过期拒绝任务的YB给发布者 成功 !!!')
+                    console.log('!!!  返还过期拒绝任务的YB给发布者 成功 !!!');
                     //统一增加超时条目
                     AV.Object.saveAll(doReceTaskList).then(function(){
                         console.log('!!! 接受任务方超时任务条目增加 成功!!!');
                         //统一改变任务状态为 expired
                         AV.Object.saveAll(results).then(function(){
-                            console.log('!!! 保存任务状态成功 !!!')
+                            console.log('!!! 保存任务状态成功 !!!');
                             response.success('refuseTaskTimerForRelease success');
                         }, function(error){
                             response.fail('refuseTaskTimerForRelease fail');
@@ -327,6 +332,17 @@ var paramsJson = {
 
 //refuseTaskTimerForRelease
 //taskCheckForDoTask
+//AV.Cloud.run('taskCheckForDoTask', paramsJson, {
+//    success: function(data) {
+//        // 调用成功，得到成功的应答data
+//        console.log('---- test timer: succeed');
+//    },
+//    error: function(err) {
+//        // 处理调用失败
+//        console.log('---- test timer: error');
+//    }
+//});
+//
 //AV.Cloud.run('refuseTaskTimerForRelease', paramsJson, {
 //    success: function(data) {
 //        // 调用成功，得到成功的应答data

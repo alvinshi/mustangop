@@ -51,20 +51,18 @@ function submissionNotification(qq){
             else{
                 console.log('Message sent: ' + info.response);
             }
-            return;
         });
     }
 }
-
 
 router.get('/:userId', function(req, res) {
     res.render('newtaskMob');
 });
 
 // 内部交换
-router.get('/claim/:excTaskId', function(req, res){
+router.post('/claim/:excTaskId', function(req, res){
     var excTaskId = req.params.excTaskId;
-    var uploadUserName = req.cookies.uploadName;
+    var uploadUserName = req.body.uploadName;
 
     var query = new AV.Query(receiveTaskObject);
     query.include('appObject');
@@ -99,34 +97,29 @@ router.get('/claim/:excTaskId', function(req, res){
         retObject.detailRem = taskInfo.get('detailRem'); // 备注详情
         retObject.screenshotCount = taskInfo.get('screenshotCount'); // 截图数
 
-        if (uploadUserName != undefined){
-            var relation = resultObject.relation('mackTask');
-            var task_query = relation.query();
-            task_query.notEqualTo('taskStatus', 'expired');
-            task_query.find().then(function(result){
-                var mackTaskList = Array();
+        var relation = resultObject.relation('mackTask');
+        var task_query = relation.query();
+        task_query.notEqualTo('taskStatus', 'expired');
+        task_query.find().then(function(result){
+            var mackTaskList = Array();
 
-                //remain 需要计算,并且不能取具体任务里过期的数目,过期的数目统一在 receive的 resultObject的expiredCount取
-                retObject.surplusCount = resultObject.get('receiveCount') - resultObject.get('expiredCount') - result.length;
+            //remain 需要计算,并且不能取具体任务里过期的数目,过期的数目统一在 receive的 resultObject的expiredCount取
+            retObject.surplusCount = resultObject.get('receiveCount') - resultObject.get('expiredCount') - result.length;
 
-                for (var e = 0; e < result.length; e++){
-                    var uploadTaskName = result[e].get('uploadName');
-                    if (uploadTaskName == uploadUserName){
-                        retObject.uploadName = uploadTaskName;
-                        retObject.detail = result[e].get('detail');
-                        var taskImages = result[e].get('requirementImgs');
-                        for (var w = 0; w < taskImages.length; w++){
-                            var taskImage = taskImages[w];
-                            mackTaskList.push(taskImage);
-                        }
+            for (var e = 0; e < result.length; e++){
+                var uploadTaskName = result[e].get('uploadName');
+                if (uploadTaskName == uploadUserName){
+                    retObject.uploadName = uploadTaskName;
+                    retObject.detail = result[e].get('detail');
+                    var taskImages = result[e].get('requirementImgs');
+                    for (var w = 0; w < taskImages.length; w++){
+                        var taskImage = taskImages[w];
+                        mackTaskList.push(taskImage);
                     }
                 }
-                res.json({'oneAppInfo':retObject, 'macTask':mackTaskList})
-            })
-        }else {
-            retObject.surplusCount = resultObject.get('receiveCount') - resultObject.get('expiredCount');
-            res.json({'oneAppInfo':retObject})
-        }
+            }
+            res.json({'oneAppInfo':retObject, 'macTask':mackTaskList})
+        })
     })
 });
 
