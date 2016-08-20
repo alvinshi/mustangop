@@ -17,10 +17,9 @@ app.config(['$stateProvider','$urlRouterProvider',function($stateProvider, $urlR
             templateUrl:'/html/userCenter-account.html',
             controller:'userCenterCtrl'
         })
-
         .state('YRecharge',{
             url:'/YRecharge',
-            templateUrl:'/html/userCenter-YRecharge.html',
+            templateUrl:'/html/userCenterYRecharge.html',
             controller:'userCenterCtrl'
         })
         .state('inforManage',{
@@ -225,21 +224,17 @@ app.controller('taskHistoryCtrl', function($scope, $http){
 });
 
 app.controller('userCenterCtrl', function($scope, $http,$location){
-
-
     //复制链接
-    $scope.inviteUrl = "http://www.mustangop.com/user/register/"+getCookie("userIdCookie");
+    $scope.inviteUrl = "http://www.mustangop.com/user/register/" + getCookie("userIdCookie");
 
-    $scope.copyUrl= function () {
+    $scope.copyUrl = function () {
         $('#btn').popover('toggle');
         var Url = document.getElementById("inviteUrlcopy");
         Url.select(); // 选择对象
         document.execCommand("Copy"); // 执行浏览器复制命令
     };
 
-
-
-    $scope.addApp=function(id) {
+    $scope.addApp = function(id) {
         $('#'+ id).popover("toggle");
     };
 
@@ -271,10 +266,7 @@ app.controller('userCenterCtrl', function($scope, $http,$location){
     };
 });
 
-
-
 function logout(){
-
     clearCookie('userIdCookie');
     clearCookie('username');
 

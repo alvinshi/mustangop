@@ -16,8 +16,19 @@ app.controller('myClaimControl', function($scope, $http, $location){
 
     var todayUrl = '/myClaim/claim/' + userId;
 
+    //uploadName
+    var claimParams = Object();
+    var uploadName = undefined;
+    if (window.localStorage) {
+        uploadName = localStorage.getItem("uploadName");
+    } else {
+        uploadName = getCookie('uploadName');
+    }
+    if(uploadName != undefined){
+        claimParams.uploadName = uploadName;
+    }
 
-    $http.get(todayUrl).success(function(response){
+    $http.post(todayUrl, claimParams).success(function(response){
         $scope.isLoadingMyApp = false;
         $scope.dailyTask = response.myClaimApps;
         for (var i = 0; i < response.myClaimApps.length; i++){
@@ -31,9 +42,8 @@ app.controller('myClaimControl', function($scope, $http, $location){
         }else {
             $scope.noApp = true;
         }
-
-
     });
+
     $scope.copy = $location.absUrl();
 
    //重新填写备注

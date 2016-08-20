@@ -105,7 +105,6 @@ router.get('/interior/:excTaskId', function(req, res){
                 mackTaskObject.type = 'real';
                 mackTaskList.push(mackTaskObject);
             }
-
             //未提交条目计算
             retObject.tasksRemain = retObject.totalExcCount - mackTaskList.length;
 
@@ -115,8 +114,12 @@ router.get('/interior/:excTaskId', function(req, res){
                 dummyObject.type = 'dummy';
                 mackTaskList.push(dummyObject);
             }
-            res.json({'oneAppInfo':retObject, 'macTasks':mackTaskList})
+            res.json({'oneAppInfo':retObject, errorId:0, 'macTask':mackTaskList})
+        },function(error){
+            res.json({'errorMsg':error.message, 'errorId': error.code});
         })
+    },function(error){
+        res.json({'errorMsg':error.message, 'errorId': error.code});
     })
 });
 
