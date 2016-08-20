@@ -92,11 +92,8 @@
     margin-top: 20px;
 }
 .page-wrapper{
-    width: 1101px;
+    width: 1100px;
     margin: auto;
-    /*margin-top: 30px;*/
-    /*margin-left: 40px;*/
-    /*margin-right: 40px;*/
 }
 .text-center{
     font-size: 24px;
@@ -139,25 +136,126 @@
 }
 
 .submission-info{
+    padding: 0;
     font-size: 20px;
-    margin-bottom: 20px;
-    float: left;
-    width:50%;
-    margin-left: 1%;
-    height: 450px ;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    width:530px;
+    margin-left: 10px;
+    margin-right: 10px;
     border: 1px solid #e0e0e0;
 }
 
-
+.taskTitle{
+    width: 100%;
+    height: 44px;
+    background: #f5f5f5;
+    padding: 10px 24px 10px 24px;
+    color: #333333;
+}
 
 .submission-screenshot img{
-    width:30%;
-    height: 320px;
-    margin-right: 10px;
-    object-fit: contain;
-    /*border: 1px solid #e0e0e0;*/
-
+    border: 1px solid #eeeeee;
+    width:160px;
+    height:260px;
+    margin-right: 2px;
+    margin-left: 2px;
 }
+
+.submittedTab{
+    border-radius: 4px;
+    display: inline-block;
+    width: 80px;
+    height: 36px;
+    background-color: #f5fbff;
+    color: #79c4f7;
+    font-size: 16px;
+    padding-top: 7px;
+    text-align: center;
+}
+
+.rejectedTab{
+    border-radius: 4px;
+    display: inline-block;
+    width: 80px;
+    height: 36px;
+    background-color: #fff2f4;
+    color: #f7798b;
+    font-size: 16px;
+    padding-top: 7px;
+    text-align: center;
+}
+
+.completedTab{
+    border-radius: 4px;
+    width: 80px;
+    height: 36px;
+    background-color: #e0e0e0;
+    margin: auto;
+    color: white;
+    font-size: 16px;
+    padding-top: 7px;
+    text-align: center;
+}
+
+.rejectedTab{
+    border-radius: 4px;
+    display: inline-block;
+    width: 80px;
+    height: 36px;
+    background-color: #fff2f4;
+    color: #f7798b;
+    font-size: 16px;
+    padding-top: 7px;
+    text-align: center;
+}
+
+.btn-primary-customized{
+    width: 180px;
+    height: 48px;
+    margin: auto;
+    font-size: 20px;
+    background-color: #3498db;
+    border: 0;
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-primary-customized input.upload {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 0;
+    padding: 0;
+    font-size: 20px;
+    cursor: pointer;
+    opacity: 0;
+    filter: alpha(opacity=0);
+}
+
+.btn-primary-resubmit{
+    width: 92px;
+    height: 36px;
+    font-size: 16px;
+    background-color: #3498db;
+    border: 0;
+    float: right;
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-primary-resubmit input.upload {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 0;
+    padding: 0;
+    font-size: 20px;
+    cursor: pointer;
+    opacity: 0;
+    filter: alpha(opacity=0);
+}
+
 @media (max-width: 768px){
     .media{
         margin-top: 80px;
