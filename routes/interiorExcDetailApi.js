@@ -114,7 +114,7 @@ router.get('/interior/:excTaskId', function(req, res){
                 dummyObject.type = 'dummy';
                 mackTaskList.push(dummyObject);
             }
-            res.json({'oneAppInfo':retObject, errorId:0, 'macTask':mackTaskList})
+            res.json({'oneAppInfo':retObject, errorId:0, 'macTasks':mackTaskList})
         },function(error){
             res.json({'errorMsg':error.message, 'errorId': error.code});
         })
