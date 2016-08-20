@@ -58,45 +58,60 @@ AV.Cloud.define('taskCheckForDoTask', function(request, response){
         for (var i = 0; i < totalForCount; i++){
             //receiveTaskObject
             var query_a = getTaskCheckQuery();
-            query_a.include('userObject');
-            query_a.include('taskObject');
-            query_a.include('appObject');
-            query_a.include('taskObject.userObject');
+            //query_a.include('userObject');
+            //query_a.include('taskObject');
+            //query_a.include('appObject');
+            //query_a.include('taskObject.userObject');
             query_a.limit(1000);
             query_a.skip(i * 1000);
             query_a.find().then(function(results){ // 查找出所有没有完成的任务
                 for (var e = 0; e < results.length; e++){
-
+                    //闭包
                     (function(receTaskObject){
-                        var task = receTaskObject.get('taskObject'); // 领取任务的object
-                        var user = receTaskObject.get('userObject'); // 领取任务的用户
-                        var app = receTaskObject.get('appObject'); // 领取的任务App
-                        if(task == undefined || user == undefined || app == undefined){
-                            console.log('********** task or user or app is undefine in timer func');
-                            return;
-                        }
-
-                        var trackName = app.get('trackName'); //任务App名称
-                        var rate_unitPrice = task.get('rateUnitPrice'); // 任务的单价
-                        var releaseTaskUser = task.get('userObject');  // 发布任务的用户
-
                         // 修改任务为已经接收 最多可以做1000个任务
                         var relation = receTaskObject.relation('mackTask');
                         var query = relation.query();
                         query.notEqualTo('taskStatus', 'expired');
+                        query.include('receiveTaskObject');
+                        query.include('receiveTaskObject.taskObject');
+                        query.include('receiveTaskObject.userObject');
+                        query.include('receiveTaskObject.appObject');
                         query.limit(1000);
                         query.find().then(function(doTaskObjects){
+                            //闭包
+                            var inReceTaskObject = doTaskObjects.get('receiveTaskObject');
+                            var task = inReceTaskObject.get('taskObject'); // 领取任务的object
+                            var user = inReceTaskObject.get('userObject'); // 领取任务的用户
+                            var app = inReceTaskObject.get('appObject'); // 领取的任务App
+                            if(task == undefined || user == undefined || app == undefined){
+                                console.log('********** task or user or app is undefine in timer func');
+                                return;
+                            }
+
+                            var trackName = app.get('trackName'); //任务App名称
+                            var rate_unitPrice = task.get('rateUnitPrice'); // 任务的单价
+                            var releaseTaskUser = task.get('userObject');  // 发布任务的用户
+
                             var changeDoTasks = [];
                             for (var r = 0; r < doTaskObjects.length; r++){
                                 var taskStatus = doTaskObjects[r].get('taskStatus');
                                 if (taskStatus == 'uploaded' || taskStatus == 'reUploaded'){
                                     doTaskObjects[r].set('taskStatus', 'systemAccepted');
                                     changeDoTasks.push(doTaskObjects[r]);
-                                    //增加做任务人的钱
-                                    console.log(user.id + ' ++++++ checkTask add user YB' + rate_unitPrice);
-                                    user.increment('totalMoney', rate_unitPrice);
+                                    //第一次提交任务被接受赠送50YB(仅对新用户有效)
+                                    if(changeDoTasks.length == 1 && user.get('registerBonus') == 'register_upload_task'){
+                                        user.increment('totalMoney', 50);
+                                        user.increment('feedingMoney', 50);
+                                        user.increment('freezingMoney', -50);
+                                        user.set('registerBonus', 'register_accept_task');
+                                        //新手任务奖励消息(50YB)
+                                    }else {
+                                        //增加做任务人的钱
+                                        console.log(user.id + ' ++++++ checkTask add user YB' + rate_unitPrice);
+                                        user.increment('totalMoney', rate_unitPrice);
+                                    }
                                     //扣除发布任务人的冻结钱
-                                    releaseTaskUser.increment('freezingMoney', -rate_unitPrice);
+                                    releaseTaskUser.increment('freezingMoney', -rate_unitPrice); //bubug
                                     console.log(releaseTaskUser.id + ' ------ checkTask add user YB' + rate_unitPrice);
                                 }else if(taskStatus == 'refused'){
                                     //isHaveRefused = true;
@@ -116,19 +131,19 @@ AV.Cloud.define('taskCheckForDoTask', function(request, response){
                             }
 
                             //还得减去已过期,不再重新结算
-                            var undoTask = receTaskObject.get('receiveCount') - doTaskObjects.length - receTaskObject.get('expiredCount');
+                            var undoTask = inReceTaskObject.get('receiveCount') - doTaskObjects.length - inReceTaskObject.get('expiredCount');
                             if (undoTask > 0){
                                 needDoneTimer = true;
                                 //protect
                                 //1.扣除用户金币入系统(汇率金币)  减少发布人冻结的钱 增加发布人总钱
                                 user.increment('totalMoney', -(rate_unitPrice * undoTask));
                                 console.log(user.id + ' ------ 111 checkTask add user YB' + (rate_unitPrice * undoTask));
-                                releaseTaskUser.increment('freezingMoney', - (rate_unitPrice * undoTask));
+                                releaseTaskUser.increment('freezingMoney', - (rate_unitPrice * undoTask));//bugbug
                                 console.log(releaseTaskUser.id + ' ++++++ 111 checkTask add user YB' + (rate_unitPrice * undoTask));
                                 releaseTaskUser.increment('totalMoney', rate_unitPrice * undoTask);
 
                                 //2.过期任务增加
-                                receTaskObject.increment('expiredCount', undoTask);
+                                inReceTaskObject.increment('expiredCount', undoTask);
 
                                 //发布罚钱信息
                                 var message = new messageLogger();
@@ -143,11 +158,11 @@ AV.Cloud.define('taskCheckForDoTask', function(request, response){
                             }
 
                             if(needDoneTimer == false){
-                                receTaskObject.set('timerDone', true);
+                                inReceTaskObject.set('timerDone', true);
                             }
 
                             task.save();
-                            receTaskObject.save();
+                            inReceTaskObject.save();
                             releaseTaskUser.save();
                             user.save().then(function (saveUserObject) {
                                 console.log('!!!!! checkTask receiveUser YB succeed');
@@ -224,7 +239,7 @@ AV.Cloud.define('refuseTaskTimerForRelease', function(request, response){
         var yesterdayDate = new Date(yesterdayTimestamp);
 
         var refuseDoTaskquery = new AV.Query(mackTaskInfoObject);
-        // 已经被定时器操作过的任务
+        // 已经被拒绝的任务
         refuseDoTaskquery.equalTo('taskStatus', 'refused');
         // 按照操作任务的时间来算 —— 拒绝的时间点
         refuseDoTaskquery.lessThanOrEqualTo('updatedAt', yesterdayDate);
@@ -252,7 +267,7 @@ AV.Cloud.define('refuseTaskTimerForRelease', function(request, response){
             query_a.limit(1000);
             query_a.skip(i * 1000);
             query_a.find().then(function(results){ // 查找出所有满足条件的被拒绝的任务
-
+                //闭包
                 var doReceTaskList = [];
                 var senTaskUserList = [];
                 for (var e = 0; e < results.length; e++){
@@ -262,6 +277,7 @@ AV.Cloud.define('refuseTaskTimerForRelease', function(request, response){
                     var excUnitPrice = taskObjectInDo.get('excUnitPrice'); // 任务的单价
                     var sendTaskUserObject = taskObjectInDo.get('userObject');
 
+                    //拒绝任务1天内未重新做,设定为过期
                     doTaskObject.set('taskStatus', 'expired');
 
                     //任务超时个数增加

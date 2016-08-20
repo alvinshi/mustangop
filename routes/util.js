@@ -261,5 +261,3 @@ exports.addLeanObject = function(leanObject, leanObjectList){
 }
 
 exports.updateIOSAppInfo = updateIOSAppInfo;
-
-

@@ -226,7 +226,6 @@ router.get('/cancelTask/:taskId', function(req, res){
         var userObject = taskObject.get('userObject');
         var excCount = taskObject.get('excCount');
 
-
         userObject.increment('freezingMoney', -(taskPrice * remainCount));
         userObject.increment('totalMoney', (taskPrice * remainCount));
         taskObject.set('cancelled', true);
@@ -406,11 +405,15 @@ var updateReceiveTaskDatabase = function(doTaskObject, uploaderName, res){
         //第一次提交任务被接受赠送50YB(仅对新用户有效)
         if(userObject.get('registerBonus') == 'register_upload_task'){
             userObject.increment('totalMoney', 50);
+            userObject.increment('feedingMoney', 50);
             userObject.increment('freezingMoney', -50);
             userObject.set('registerBonus', 'register_accept_task');
+            //新手任务奖励消息(50YB)
         }else {
             // 接收任务后 把钱打给用户记录流水
             userObject.increment('totalMoney', rateUnitPrice);
+            //消息模块
+            acceptMessage(userId, senderId, trackName, uploaderName, rateUnitPrice);
         }
 
         // 发布任务的人冻结钱变少
@@ -444,10 +447,6 @@ var updateReceiveTaskDatabase = function(doTaskObject, uploaderName, res){
         //        });
         //    }
         //});
-
-        //消息模块
-        acceptMessage(userId, senderId, trackName, uploaderName, rateUnitPrice);
-
     }, function(error){
         res.json({'errorMsg':error.message, 'errorId': error.code});
     });
