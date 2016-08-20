@@ -109,15 +109,16 @@ AV.Cloud.define('taskCheckForDoTask', function(request, response){
                                         user.increment('feedingMoney', 50);
                                         user.increment('freezingMoney', -50);
                                         user.set('registerBonus', 'register_accept_task');
+                                        console.log('****** task be accept by timer ****** do task user ' + user.id + ' (add total&&Feed YB) +50');
                                         //新手任务奖励消息(50YB)
                                     }else {
                                         //增加做任务人的钱
-                                        console.log(user.id + ' ++++++ checkTask add user YB' + rate_unitPrice);
+                                        console.log('****** task be accept by timer ****** do task user ' + user.id + '(add total YB) -' + rate_unitPrice);
                                         user.increment('totalMoney', rate_unitPrice);
                                     }
                                     //扣除发布任务人的冻结钱
-                                    releaseTaskUser.increment('freezingMoney', -rate_unitPrice); //bubug
-                                    console.log(releaseTaskUser.id + ' ------ checkTask add user YB' + rate_unitPrice);
+                                    releaseTaskUser.increment('freezingMoney', -rate_unitPrice);
+                                    console.log('****** task be accept by timer ****** release task user : ' + releaseTaskUser.id + '(minus freeze YB) +' + rate_unitPrice);
                                 }else if(taskStatus == 'refused'){
                                     //isHaveRefused = true;
                                 }
@@ -131,7 +132,7 @@ AV.Cloud.define('taskCheckForDoTask', function(request, response){
                             if(changeDoTasks.length > 0){
                                 needDoneTimer = true;
                                 AV.Object.saveAll(changeDoTasks).then(function(){
-                                    console.log('!!!!! checkTask modify task is accepted succeed');
+                                    console.log('______ task status for systemAccepted Saved succeed');
                                 });
                             }
 
@@ -142,10 +143,10 @@ AV.Cloud.define('taskCheckForDoTask', function(request, response){
                                 //protect
                                 //1.扣除用户金币入系统(汇率金币)  减少发布人冻结的钱 增加发布人总钱
                                 user.increment('totalMoney', -(rate_unitPrice * undoTask));
-                                console.log(user.id + ' ------ 111 checkTask add user YB' + (rate_unitPrice * undoTask));
+                                console.log('****** task be expired by timer ****** do task user : ' + user.id + '(minus/punish total YB) +' + (rate_unitPrice * undoTask));
                                 releaseTaskUser.increment('freezingMoney', - (rate_unitPrice * undoTask));//bugbug
-                                console.log(releaseTaskUser.id + ' ++++++ 111 checkTask add user YB' + (rate_unitPrice * undoTask));
                                 releaseTaskUser.increment('totalMoney', rate_unitPrice * undoTask);
+                                console.log('****** task be expired by timer ****** release task user : ' + user.id + '(minus freeze YB,add total YB) +' + (rate_unitPrice * undoTask));
 
                                 //2.过期任务增加
                                 inReceTaskObject.increment('expiredCount', undoTask);
@@ -170,7 +171,7 @@ AV.Cloud.define('taskCheckForDoTask', function(request, response){
                             inReceTaskObject.save();
                             releaseTaskUser.save();
                             user.save().then(function (saveUserObject) {
-                                console.log('!!!!! checkTask receiveUser YB succeed');
+                                console.log('______ do task YB info saved succeed');
                                 //如果欠费,发布欠费消息
                                 var moneyLeft = saveUserObject.get('totalMoney');
                                 if (moneyLeft < 0){
@@ -289,8 +290,8 @@ AV.Cloud.define('refuseTaskTimerForRelease', function(request, response){
                     doReceTaskObject.increment('expiredCount', 1);
                     //解锁发布任务的人的YB
                     sendTaskUserObject.increment('freezingMoney', -excUnitPrice);
-                    console.log(sendTaskUserObject.id + ' ++++++ refused task,and unlock send user money' + excUnitPrice);
                     sendTaskUserObject.increment('totalMoney', excUnitPrice);
+                    console.log('****** refused task be expired by timer ****** release task user : ' + sendTaskUserObject.id + '(minus freeze YB,add total YB) +' + excUnitPrice);
 
                     util.addLeanObject(doReceTaskObject, doReceTaskList);
                     util.addLeanObject(sendTaskUserObject, senTaskUserList);

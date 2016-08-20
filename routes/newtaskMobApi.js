@@ -146,7 +146,7 @@ router.post('/add/:excTaskId', function(req, res){
     }
 
     if(requirementImgs == undefined || requirementImgs.length == 0){
-        res.json({'errorMsg':'上传图片失败', 'errorId': -3});
+        res.json({'errorMsg':'未上传图片', 'errorId': -3});
         return;
     }
 
@@ -159,7 +159,8 @@ router.post('/add/:excTaskId', function(req, res){
             var receiveCount = receiveTaskObject.get('receiveCount');
             var userObject = receiveTaskObject.get('userObject');
             var expiredCount = receiveTaskObject.get('expiredCount');
-            var qq = receiveTaskObject.get('taskObject').get('userObject').get('userQQ');
+            var releaseTaskUserObject = receiveTaskObject.get('taskObject').get('userObject');
+            var doTaskUserQQ = releaseTaskUserObject.get('userQQ');
             var query = relation.query();
             query.notEqualTo('taskStatus', 'expired');
             query.find().then(function(results){
@@ -187,6 +188,14 @@ router.post('/add/:excTaskId', function(req, res){
                         newTaskObject.set('requirementImgs', requirementImgs);
                         newTaskObject.set('taskStatus', 'uploaded');
                         newTaskObject.set('receiveTaskObject', receiveTaskObject);
+
+                        if(qq != undefined){
+                            newTaskObject.set('doTaskUserQQ', doTaskUserQQ);
+                        }
+                        //做任务的人
+                        newTaskObject.set('doTaskUser', userObject);
+                        //发布任务的人
+                        newTaskObject.set('releaseTaskUser', releaseTaskUserObject);
                         newTaskObject.save().then(function(){
                             var relation = receiveTaskObject.relation('mackTask');
                             relation.add(newTaskObject);// 建立针对每一个 Todo 的 Relation
