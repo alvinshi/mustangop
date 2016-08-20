@@ -9,7 +9,7 @@ router.post('/:chargeMoney', function(req, res) {
     var username = req.cookies.username;
     var total_fee = chargeMoney;
     var body = username + '充值YB——' + '付款金额RMB:' + chargeMoney;
-    var subject = username + '充值YB——' + '付款金额RMB:' + chargeMoney;
+    var subject = '购买' + parseInt(chargeMoney)*10 + 'Y币(至少)';
 
     //生成订单号
     var originalOrderId = Date.parse(new Date()) + req.cookies.userIdCookie;
