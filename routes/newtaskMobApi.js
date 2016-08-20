@@ -192,7 +192,7 @@ router.post('/add/:excTaskId', function(req, res){
                             relation.add(newTaskObject);// 建立针对每一个 Todo 的 Relation
                             receiveTaskObject.save().then(function(){
                                 //发送邮件
-                                submissionNotification(qq);
+                                //submissionNotification(qq);
 
                                 var needSaveUserObjects = Array();
                                 //新做的任务
@@ -274,8 +274,7 @@ router.post('/add/:excTaskId', function(req, res){
                             }
                             uploadDoTaskObject.save().then(function(){
                                 //发送邮件
-                                console.log("runned");
-                                submissionNotification(qq);
+                                //submissionNotification(qq);
 
                                 res.cookie('uploadImgName', userUploadName);
                                 res.json({'errorId':0, 'errorMsg':'', 'uploadName':userUploadName, 'requirementImgs':requirementImgs});
