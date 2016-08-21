@@ -76,6 +76,7 @@ router.get('/interior/:excTaskId', function(req, res){
         retObject.version = hisappObject.get('version');
 
         retObject.totalExcCount = results.get('receiveCount');
+        retObject.expiredCount = results.get('expiredCount');
         retObject.excKinds = taskObject.get('taskType');
         retObject.taskObjectId = taskObject.id;
 
@@ -105,8 +106,8 @@ router.get('/interior/:excTaskId', function(req, res){
                 mackTaskObject.type = 'real';
                 mackTaskList.push(mackTaskObject);
             }
-            //未提交条目计算
-            retObject.tasksRemain = retObject.totalExcCount - mackTaskList.length;
+            //未提交条目计算, 如果任务已经过期则不再推送假的Object
+            retObject.tasksRemain = retObject.totalExcCount - mackTaskList.length - retObject.expiredCount;
 
             //初始假的Object
             for (var j = 0; j < retObject.tasksRemain; j++){
@@ -115,6 +116,49 @@ router.get('/interior/:excTaskId', function(req, res){
                 mackTaskList.push(dummyObject);
             }
             res.json({'oneAppInfo':retObject, errorId:0, 'macTasks':mackTaskList})
+        },function(error){
+            res.json({'errorMsg':error.message, 'errorId': error.code});
+        })
+    },function(error){
+        res.json({'errorMsg':error.message, 'errorId': error.code});
+    })
+});
+
+//重新请求mackTask表
+router.get('/refresh/:excTaskId', function(req, res){
+    var excTaskId = req.params.excTaskId;
+    var query = new AV.Query(receiveTaskObject);
+    query.include('taskObject');
+    query.include('appObject');
+    query.get(excTaskId).then(function(results){
+        var totalExcCount = results.get('receiveCount');
+        var expiredCount = results.get('expiredCount');
+        // 请求已经上交的数据
+        var relation = results.relation('mackTask');
+        var task_query = relation.query();
+        task_query.ascending('updatedAt');
+        task_query.find().then(function(result){
+            var mackTaskList = new Array();
+            for (var i = 0; i < result.length; i++){
+                var mackTaskObject = Object();
+                mackTaskObject.uploadName = result[i].get('uploadName');
+                mackTaskObject.taskImages = result[i].get('requirementImgs');
+                mackTaskObject.detail = result[i].get('detail');  // 拒绝理由
+                //Error for
+                mackTaskObject.status = result[i].get('taskStatus'); // 任务状态
+                mackTaskObject.type = 'real';
+                mackTaskList.push(mackTaskObject);
+            }
+            //未提交条目计算, 如果任务已经过期则不再推送假的Object
+            var tasksRemain = totalExcCount - mackTaskList.length - expiredCount;
+
+            //初始假的Object
+            for (var j = 0; j < tasksRemain; j++){
+                var dummyObject = Object();
+                dummyObject.type = 'dummy';
+                mackTaskList.push(dummyObject);
+            }
+            res.json({errorId:0, 'macTasks':mackTaskList})
         },function(error){
             res.json({'errorMsg':error.message, 'errorId': error.code});
         })
