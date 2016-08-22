@@ -44,10 +44,15 @@ router.get('/', function(req, res) {
 });
 
 function getTaskQuery(userObject){
-    var query = new AV.Query(releaseTaskObject);
+    var today = new Date();
+    var timeString = parseInt(today.getFullYear()) + '-' + parseInt(today.getMonth() + 1) + '-' + parseInt(today.getDate());
+    var remainCountQuery = new AV.Query('releaseTaskObject');
+    remainCountQuery.greaterThan('remainCount', 0);
+    var timeQuery = new AV.Query('releaseTaskObject');
+    timeQuery.equalTo('releaseDate', timeString);
+    var query = AV.Query.or(remainCountQuery, timeQuery);
     query.notEqualTo('cancelled', true);
     query.notEqualTo('close', true);
-    //query.greaterThan('remainCount', 0);
     query.notEqualTo('userObject', userObject);
     return query;
 }
