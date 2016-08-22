@@ -472,12 +472,12 @@
                                             <li style="margin-bottom: 30px" ng-hide="app.taskType == '下载'">
                                                 <p> 截图 <span class="synwords">{{app.screenshotCount}}</span> 张, 详情见备注.</p>
                                             </li>
-                                            <li  style="margin-bottom: 30px" ng-hide="app.taskType == '下载'">
+                                            <li  style="margin-bottom: 30px" ng-show = "app.detailRem.length > 0">
                                                 <p>备注:</p>
                                                 <p style="border: 1px solid #cdf1ff; font-size: 18px;
                                     margin-top: 20px; margin-bottom: 70px;
                                     padding: 18px 20px 18px 20px;" ng-show = "app.detailRem.length > 0">
-                                                    {{app.detailRem}}
+                                                    <span class="synwords">{{app.detailRem}}</span>
                                                 </p>
                                             </li>
                                         </ol>

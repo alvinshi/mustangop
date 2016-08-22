@@ -126,11 +126,11 @@
                 <li style="margin-bottom: 30px" ng-hide="oneAppInfo.taskType == '下载'">
                     <p> 截图 <span style="color:#fff727">{{oneAppInfo.screenshotCount}}</span> 张, 详情见备注.</p>
                 </li>
-                <li  style="margin-bottom: 30px; " ng-hide="oneAppInfo.taskType == '下载'">
+                <li  style="margin-bottom: 30px; " ng-show = "oneAppInfo.detailRem.length">
                     <p> 备注:</p>
                     <p style="border: 1px solid #cdf1ff; font-size: 18px;
                                     margin-top: 20px; margin-bottom: 70px;
-                                    padding: 18px 20px 18px 20px; color:#fff727;" ng-show = "oneAppInfo.detailRem.length">
+                                    padding: 18px 20px 18px 20px; color:#fff727;">
                         {{oneAppInfo.detailRem}}
                     </p>
                 </li>
@@ -212,6 +212,10 @@
             </div>
         </div>
     </div>
+</div>
+
+<div ng-click="jump()">
+
 </div>
 
 

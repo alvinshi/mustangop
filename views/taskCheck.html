@@ -273,6 +273,9 @@
                                                             <li style="margin-bottom: 30px">
                                                                 <p>打开app, 请务必过引导页.</p>
                                                             </li>
+                                                            <li style="margin-bottom: 30px" ng-hide="taskDisplayed.taskType == '评论'">
+                                                                <p> 截图2张,一张搜索图,一张打开激活图.</p>
+                                                            </li>
                                                             <li  style="margin-bottom: 30px" ng-hide="taskDisplayed.taskType == '下载'">
                                                                 <p  style="margin-bottom: 20px">
                                                                     返回app store, 好评"<span class="synwords">{{taskDisplayed.score}}</span>星"
@@ -285,11 +288,11 @@
                                                             <li style="margin-bottom: 30px" ng-hide="taskDisplayed.taskType == '下载'">
                                                                 <p> 截图 <span class="synwords">{{taskDisplayed.screenshotCount}}</span> 张, 详情见备注.</p>
                                                             </li>
-                                                            <li  style="margin-bottom: 30px" ng-hide="taskDisplayed.taskType == '下载'">
+                                                            <li  style="margin-bottom: 30px" ng-show = "taskDisplayed.detailRem.length">
                                                                 <p>备注:</p>
                                                                 <p style="border: 1px solid #cdf1ff; font-size: 18px;
                                     margin-top: 20px; margin-bottom: 70px;
-                                    padding: 18px 20px 18px 20px;" ng-show = "taskDisplayed.detailRem.length">
+                                    padding: 18px 20px 18px 20px;">
                                                                     {{taskDisplayed.detailRem}}
                                                                 </p>
                                                             </li>
