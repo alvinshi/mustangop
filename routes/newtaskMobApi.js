@@ -160,7 +160,7 @@ router.post('/add/:excTaskId', function(req, res){
             var userObject = receiveTaskObject.get('userObject');
             var expiredCount = receiveTaskObject.get('expiredCount');
             var releaseTaskUserObject = receiveTaskObject.get('taskObject').get('userObject');
-            var doTaskUserQQ = releaseTaskUserObject.get('userQQ');
+            var qq = releaseTaskUserObject.get('userQQ');
             var query = relation.query();
             query.notEqualTo('taskStatus', 'expired');
             query.find().then(function(results){
@@ -189,9 +189,9 @@ router.post('/add/:excTaskId', function(req, res){
                         newTaskObject.set('taskStatus', 'uploaded');
                         newTaskObject.set('receiveTaskObject', receiveTaskObject);
 
-                        if(qq != undefined){
-                            newTaskObject.set('doTaskUserQQ', doTaskUserQQ);
-                        }
+                        //if(qq != undefined){
+                        //    newTaskObject.set('doTaskUserQQ', doTaskUserQQ);
+                        //}
                         //做任务的人
                         newTaskObject.set('doTaskUser', userObject);
                         //发布任务的人
@@ -201,7 +201,7 @@ router.post('/add/:excTaskId', function(req, res){
                             relation.add(newTaskObject);// 建立针对每一个 Todo 的 Relation
                             receiveTaskObject.save().then(function(){
                                 //发送邮件
-                                //submissionNotification(qq);
+                                submissionNotification(qq);
 
                                 var needSaveUserObjects = Array();
                                 //新做的任务
