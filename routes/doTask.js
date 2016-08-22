@@ -56,6 +56,8 @@ function getTaskQuery(userObject){
     query.notEqualTo('cancelled', true);
     query.notEqualTo('close', true);
     query.notEqualTo('userObject', userObject);
+    console.log(typeof query);
+    console.log(query);
     return query;
 }
 
