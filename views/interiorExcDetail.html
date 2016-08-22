@@ -173,10 +173,19 @@
                         </button>
                     </div>
                 </div>
-                <div style="padding-left: 10px; padding-right: 10px; padding-bottom: 20px;">
+                <div style="padding-left: 10px; padding-right: 10px; padding-bottom: 20px;" ng-hide="progressBarCtrl[$index]">
                     <span class="submission-screenshot" ng-repeat="taskImg in task.taskImages">
                         <img ng-src="{{taskImg}}">
                     </span>
+                </div>
+                <div style="height: 280px; padding:50px 20px 0 20px" ng-show="progressBarCtrl[$index]">
+                    <div class="progress" ng-show="progressBarCtrl[$index] && errorId == 0">
+                        <div ng-class="{'progress-bar': true, 'progress-bar-striped':true, active:true}" ng-style="{width: progressNum+ '%'}">
+                        </div>
+                    </div>
+                    <div ng-show="progressBarCtrl[$index] && errorId != 0">
+                        {{errorMsg}}
+                    </div>
                 </div>
             </div>
 
