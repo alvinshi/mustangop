@@ -29,7 +29,6 @@ var transporter = nodemailer.createTransport("SMTP",{
 });
 
 function submissionNotification(qq){
-    console.log(qq);
     if (qq == undefined){
         return;
     }
