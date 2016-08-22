@@ -93,7 +93,7 @@ router.get('/interior/:excTaskId', function(req, res){
         // 请求已经上交的数据
         var relation = results.relation('mackTask');
         var task_query = relation.query();
-        task_query.ascending('updatedAt');
+        task_query.ascending('createdAt');
         task_query.find().then(function(result){
             var mackTaskList = new Array();
             for (var i = 0; i < result.length; i++){
@@ -136,7 +136,7 @@ router.get('/refresh/:excTaskId', function(req, res){
         // 请求已经上交的数据
         var relation = results.relation('mackTask');
         var task_query = relation.query();
-        task_query.ascending('updatedAt');
+        task_query.ascending('createdAt');
         task_query.find().then(function(result){
             var mackTaskList = new Array();
             for (var i = 0; i < result.length; i++){
@@ -158,7 +158,7 @@ router.get('/refresh/:excTaskId', function(req, res){
                 dummyObject.type = 'dummy';
                 mackTaskList.push(dummyObject);
             }
-            res.json({errorId:0, 'macTasks':mackTaskList})
+            res.json({errorId:0, 'macTasks':mackTaskList, 'taskRemain':tasksRemain})
         },function(error){
             res.json({'errorMsg':error.message, 'errorId': error.code});
         })

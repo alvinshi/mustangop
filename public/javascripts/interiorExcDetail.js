@@ -146,6 +146,7 @@ app.controller('interorDetailControl',function($scope, $http, $location, FileUpl
                             }
                         }
                         $scope.taskInfo = response.macTasks;
+                        $scope.oneAppInfo.tasksRemain = response.taskRemain;
                         //进度条显示前端
                         if ($scope.taskInfo != undefined){
                             $scope.progressBarCtrl = new Array($scope.taskInfo.length);
@@ -155,6 +156,8 @@ app.controller('interorDetailControl',function($scope, $http, $location, FileUpl
                         }
 
                         //这个信息被用来給电脑批量上传的任务取名.
+                        console.log($scope.oneAppInfo.tasksRemain);
+                        console.log($scope.nextTaskNum);
                         $scope.nextTaskNum = ($scope.oneAppInfo.totalExcCount - $scope.oneAppInfo.tasksRemain) + 1;
                     });
                 }
