@@ -135,12 +135,13 @@ app.controller('inforManageCtrl', function($scope, $http){
         firstTaskIndex = $scope.msgPerPage * $scope.pageNum;
         lastTaskIndex = firstTaskIndex + $scope.msgPerPage;
         $scope.taskMsgDisplayed = $scope.taskDisplayed.slice(firstTaskIndex, lastTaskIndex);
-        var msgIdArray = Array;
+        var msgIdArray = Array();
         for (var i = 0; i < $scope.taskMsgDisplayed.length; i++){
             msgIdArray.push($scope.taskMsgDisplayed[i].id);
             }
         var url = "/user/userCenter/readMsg";
         $http.post(url, {'msgIdArray': msgIdArray}).success(function(response){
+            console.log('succeed');
         })
     }
 
