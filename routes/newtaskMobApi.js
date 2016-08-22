@@ -201,7 +201,7 @@ router.post('/add/:excTaskId', function(req, res){
                             relation.add(newTaskObject);// 建立针对每一个 Todo 的 Relation
                             receiveTaskObject.save().then(function(){
                                 //发送邮件
-                                submissionNotification(qq);
+                                //submissionNotification(qq);
 
                                 var needSaveUserObjects = Array();
                                 //新做的任务
