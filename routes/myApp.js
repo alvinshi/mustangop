@@ -54,7 +54,8 @@ router.get('/angular', function(req, res) {
     var query = new AV.Query(IOSAppBinder);
     query.equalTo('userObject', user);
     query.include('appObject');
-    query.addDescending('updatedAt')
+    query.include('userObject');
+    query.addDescending('updatedAt');
     query.find({
         success: function(results) {
             if (results.length == 0){
@@ -65,7 +66,12 @@ router.get('/angular', function(req, res) {
             //has blinded
             var retApps = Array();
 
+            var userObject = undefined;
+            if(results.length > 0){
+                userObject = results[0].get('userObject');
+            }
             for (var i = 0; i < results.length; i++){
+
                 var appObject = results[i].get('appObject');
                 if (appObject == undefined){
                     promiseCount++;
@@ -129,7 +135,7 @@ router.get('/angular', function(req, res) {
                 //    });
                 //})(appObject);
             }
-            res.json({'myApps':retApps});
+            res.json({'myApps':retApps, 'inviteSucceedCount': userObject.get('inviteSucceedCount'), 'errorId': 0});
         },
         error: function(err) {
             res.json({'errorMsg':err.message, 'errorId': err.code, 'myApps':[]});
@@ -144,6 +150,8 @@ router.post('/UpdateApp', function(req, res){
     var user = new AV.User();
     user.id = userId;
     var promiseCount = 0;
+
+    //TODO: 邀请x个用户,放可以多绑定x个App(未邀请的用户仅可以绑定1个App)
 
     var query = new AV.Query(IOSAppBinder);
     query.equalTo('userObject', user);
@@ -228,7 +236,7 @@ function blindAppToUser(res, userId, appObject, appInfoObject){
     var query = new AV.Query(IOSAppBinder);
     query.equalTo('appObject', appObject);
     query.equalTo('userObject', user);
-
+    query.include('userObject');
     query.find({
         success: function(results) {
             //has blinded
