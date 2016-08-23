@@ -56,6 +56,15 @@ html{
     display: inline;
 }
 
+.appIcon-small{
+    display: inline-block;
+    margin: 20px 14px 20px 26px;
+    border: 1px solid #dddddd;
+    width: 76px;
+    height: 76px;
+    border-radius: 16px
+}
+
 .appName{
     margin-top: 3px;
     margin-bottom: 13px;
@@ -199,4 +208,18 @@ html{
     font-size: 12px;
     line-height: 25px;
     cursor: pointer;
+}
+
+.confirmGet{
+    width: 220px;
+    background-color: #3498db;
+    color: white;
+    font-size: 20px;
+}
+
+.btn-close{
+    width: 150px;
+    border: 1px solid #adadad;
+    color: #333333;
+    font-size: 20px;
 }

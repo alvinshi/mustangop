@@ -17,6 +17,7 @@ var taskDemandSQL = AV.Object.extend('taskDemandObject');
 var releaseTaskObject = AV.Object.extend('releaseTaskObject');
 var accountJournal = AV.Object.extend('accountJournal'); // 记录账户变动明细表
 var messageLogger = AV.Object.extend('messageLogger');
+var User = AV.Object.extend('_User');
 
 // 查询 我的App
 router.get('/', function(req, res, next) {
@@ -385,107 +386,115 @@ router.post('/task', function(req, res){
     var commentKeyword = req.body.commentKeyword;
     var detailRem = req.body.detailRem;
 
-    var userObject = new AV.User();
-    userObject.id = userId;
+    var userQuery = new AV.Query(User);
+    userQuery.get(userId).then(function(userObject){
+        var userMoney = userObject.get('totalMoney');
+        if (userMoney >= excCount * excUnitPrice){
+            var appObjectQuery = new AV.Query('IOSAppInfo');
+            appObjectQuery.get(appObjectid).then(function(appObject){
+                var queryMyTask = new AV.Query(releaseTaskObject);
+                queryMyTask.notEqualTo('cancelled', true);
+                queryMyTask.notEqualTo('close', true);
+                queryMyTask.equalTo('userObject', userObject);
+                queryMyTask.find().then(function(releaseTaskObjects) {
 
-    //TODO 用户自己App可以置顶
+                    var unGetAllTaskCount = 0;
+                    // 最多有2条任务
+                    for (var rTask = 0; rTask < releaseTaskObjects.length; rTask++){
+                        var aRelaseTaskObejct = releaseTaskObjects[rTask];
 
-    var appObjectQuery = new AV.Query('IOSAppInfo');
-    appObjectQuery.get(appObjectid).then(function(appObject){
-        var queryMyTask = new AV.Query(releaseTaskObject);
-        queryMyTask.notEqualTo('cancelled', true);
-        queryMyTask.notEqualTo('close', true);
-        queryMyTask.equalTo('userObject', userObject);
-        queryMyTask.find().then(function(releaseTaskObjects) {
+                        if(aRelaseTaskObejct.get('remainCount') > 0){
+                            unGetAllTaskCount++;
+                        }
+                    }
 
-            var unGetAllTaskCount = 0;
-            // 最多有2条任务
-            for (var rTask = 0; rTask < releaseTaskObjects.length; rTask++){
-                var aRelaseTaskObejct = releaseTaskObjects[rTask];
+                    if(unGetAllTaskCount >= 2){
+                        res.json({'errorMsg':'你还有2个任务未被领完哦,等领完再发吧', 'errorId': -1});
+                        return;
+                    }
 
-                if(aRelaseTaskObejct.get('remainCount') > 0){
-                    unGetAllTaskCount++;
-                }
-            }
+                    var rateunitPrice = excUnitPrice * myRate;
 
-            if(unGetAllTaskCount >= 2){
-                res.json({'errorMsg':'你还有2个任务未被领完哦,等领完再发吧', 'errorId': -1});
-                return;
-            }
+                    var trackName = appObject.get('trackName');
+                    var message = new messageLogger();
+                    message.set("senderObjectId", userObject);
+                    message.set('receiverObjectId', userObject);
+                    message.set('category', 'Y币');
+                    message.set('type', '发布');
+                    message.set('thirdPara', rateunitPrice * excCount);
+                    message.set('firstPara', trackName);
+                    message.save();
 
-            var rateunitPrice = excUnitPrice * myRate;
+                    var releasetaskObject = new releaseTaskObject();
+                    releasetaskObject.set('userObject', userObject);  //和用户表关联
+                    releasetaskObject.set('appObject', appObject);  //和app表关联
 
-            var trackName = appObject.get('trackName');
-            var message = new messageLogger();
-            message.set("senderObjectId", userObject);
-            message.set('receiverObjectId', userObject);
-            message.set('category', 'Y币');
-            message.set('type', '发布');
-            message.set('thirdPara', rateunitPrice * excCount);
-            message.set('firstPara', trackName);
-            message.save();
+                    //use excUniqueCode now,latestReleaseDate just for display
+                    releasetaskObject.set('latestReleaseDate', appObject.get('latestReleaseDate'));
+                    releasetaskObject.set('excUniqueCode', appObject.get('excUniqueCode'));
 
-            var releasetaskObject = new releaseTaskObject();
-            releasetaskObject.set('userObject', userObject);  //和用户表关联
-            releasetaskObject.set('appObject', appObject);  //和app表关联
+                    releasetaskObject.set('taskType', taskType);  // 任务类型
+                    releasetaskObject.set('excCount', excCount);  // 任务条数
+                    releasetaskObject.set('excUnitPrice', excUnitPrice);  //任务单价
+                    releasetaskObject.set('screenshotCount', screenshotCount);  // 截图数
+                    releasetaskObject.set('searchKeyword', searchKeyword);  // 搜索关键词
+                    releasetaskObject.set('ranKing', ranKing);  // 排名
+                    releasetaskObject.set('Score', Score);  // 评分
+                    releasetaskObject.set('titleKeyword', titleKeyword); // 标题关键字
+                    releasetaskObject.set('commentKeyword', commentKeyword); // 评论关键字
+                    releasetaskObject.set('detailRem', detailRem);  // 备注详情
+                    releasetaskObject.set('remainCount', excCount); // 剩余条数
+                    releasetaskObject.set('myRate', myRate); // 汇率
+                    releasetaskObject.set('rateUnitPrice', rateunitPrice); // 汇率后价格,实际显示价格
+                    releasetaskObject.set('completed', 0);  // 完成
+                    releasetaskObject.set('releaseDate', myDateStr); // 添加发布日期,冗余字段
+                    releasetaskObject.save().then(function() {
+                        // 实例已经成功保存.
+                        var freezing_money = excCount * excUnitPrice;  // 发布总条数 + 发布的单价 = 冻结的钱
+                        var query = new AV.Query('_User');
+                        query.get(userId).then(function(userInfo){
+                            userInfo.increment('totalMoney', - freezing_money);
+                            userInfo.increment('freezingMoney', freezing_money);
+                            userInfo.save().then(function(){
+                            })
+                        });
 
-            //use excUniqueCode now,latestReleaseDate just for display
-            releasetaskObject.set('latestReleaseDate', appObject.get('latestReleaseDate'));
-            releasetaskObject.set('excUniqueCode', appObject.get('excUniqueCode'));
+                        var taskObjectId = AV.Object.createWithoutData('releaseTaskObject', releasetaskObject.id);
+                        // 循环发布的条数 记录单条的流水
+                        for (var e = 0; e < excCount; e++){
+                            var accountJour = new accountJournal();
+                            accountJour.set('payYCoinUser', userObject);  //支出金额的用户
+                            accountJour.set('payYCoin', excUnitPrice); // 此次交易支付金额
+                            accountJour.set('taskObject', taskObjectId); // 任务的id
+                            accountJour.set('payYCoinStatus', 'prepare_pay'); // 发布任务的时候为准备支付;
+                            accountJour.set('payYCoinDes', '发布任务');
+                            accountJour.set('releaseDate', myDateStr); // 添加发布日期,冗余字段
+                            accountJour.save().then(function(){
+                                //
+                            })
+                        }
+                        res.json({'errorId': 0, 'errorMsg':''});
+                    },function(error){
+                        res.json({'errorMsg':error.message, 'errorId': error.code});
+                    });
 
-            releasetaskObject.set('taskType', taskType);  // 任务类型
-            releasetaskObject.set('excCount', excCount);  // 任务条数
-            releasetaskObject.set('excUnitPrice', excUnitPrice);  //任务单价
-            releasetaskObject.set('screenshotCount', screenshotCount);  // 截图数
-            releasetaskObject.set('searchKeyword', searchKeyword);  // 搜索关键词
-            releasetaskObject.set('ranKing', ranKing);  // 排名
-            releasetaskObject.set('Score', Score);  // 评分
-            releasetaskObject.set('titleKeyword', titleKeyword); // 标题关键字
-            releasetaskObject.set('commentKeyword', commentKeyword); // 评论关键字
-            releasetaskObject.set('detailRem', detailRem);  // 备注详情
-            releasetaskObject.set('remainCount', excCount); // 剩余条数
-            releasetaskObject.set('myRate', myRate); // 汇率
-            releasetaskObject.set('rateUnitPrice', rateunitPrice); // 汇率后价格,实际显示价格
-            releasetaskObject.set('completed', 0);  // 完成
-            releasetaskObject.set('releaseDate', myDateStr); // 添加发布日期,冗余字段
-            releasetaskObject.save().then(function() {
-                // 实例已经成功保存.
-                var freezing_money = excCount * excUnitPrice;  // 发布总条数 + 发布的单价 = 冻结的钱
-                var query = new AV.Query('_User');
-                query.get(userId).then(function(userInfo){
-                    userInfo.increment('totalMoney', - freezing_money);
-                    userInfo.increment('freezingMoney', freezing_money);
-                    userInfo.save().then(function(){
-                    })
+                }, function(error){
+                    res.json({'errorMsg':error.message, 'errorId': error.code});
                 });
 
-                var taskObjectId = AV.Object.createWithoutData('releaseTaskObject', releasetaskObject.id);
-                // 循环发布的条数 记录单条的流水
-                for (var e = 0; e < excCount; e++){
-                    var accountJour = new accountJournal();
-                    accountJour.set('payYCoinUser', userObject);  //支出金额的用户
-                    accountJour.set('payYCoin', excUnitPrice); // 此次交易支付金额
-                    accountJour.set('taskObject', taskObjectId); // 任务的id
-                    accountJour.set('payYCoinStatus', 'prepare_pay'); // 发布任务的时候为准备支付;
-                    accountJour.set('payYCoinDes', '发布任务');
-                    accountJour.set('releaseDate', myDateStr); // 添加发布日期,冗余字段
-                    accountJour.save().then(function(){
-                        //
-                    })
-                }
-                res.json({'errorId': 0, 'errorMsg':''});
-            },function(error){
+            }, function(error) {
+                // 失败了.
                 res.json({'errorMsg':error.message, 'errorId': error.code});
             });
-
-        }, function(error){
-            res.json({'errorMsg':error.message, 'errorId': error.code});
-        });
-
-    }, function(error) {
-        // 失败了.
-        res.json({'errorMsg':error.message, 'errorId': error.code});
+        }
+        else {
+            res.json({'errorId': 1, 'errorMsg':'账户余额不足'})
+        }
+    },function(error){
+        res.json({'errorMsg':error.message, 'errorId': error.messageCode});
     });
+
+    //TODO 用户自己App可以置顶
 });
 
 //获取需求编辑信息
