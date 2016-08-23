@@ -227,6 +227,7 @@ router.post('/add/:excTaskId', function(req, res){
                                 //第一次提交任务赠送50YB(仅对新用户有效),已经赠送过YB的新用户无该福利
                                 if(userObject.get('registerBonus') == 'register_new' && userObject.get('feedingMoney') == 0){
                                     userObject.increment('totalMoney', 50);
+                                    userObject.increment('feedingMoney', 50);
                                     userObject.increment('freezingMoney', -50);
                                     userObject.set('registerBonus', 'register_upload_task');
                                     needSaveUserObjects.push(userObject);
