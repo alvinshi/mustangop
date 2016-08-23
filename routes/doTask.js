@@ -224,72 +224,121 @@ function getTaskObjectList(taskType, query, totalCount, pageIndex, userObject, r
     });
 }
 
+function queryRelTask(){
+    var remainCountQuery = new AV.Query('releaseTaskObject');
+    remainCountQuery.greaterThan('remainCount', 0);
+
+    var today = new Date();
+    var timeString = parseInt(today.getFullYear()) + '-' + parseInt(today.getMonth() + 1) + '-' + parseInt(today.getDate());
+    var timeQuery = new AV.Query('releaseTaskObject');
+    timeQuery.equalTo('releaseDate', timeString);
+
+    var queryRelTask = AV.Query.or(remainCountQuery, timeQuery);
+    queryRelTask.notEqualTo('cancelled', true);
+    queryRelTask.notEqualTo('close', true);
+    return queryRelTask
+}
+
 // get do task list
 router.get('/taskHall/:pageIndex/:taskType', function(req, res){
     var userId = util.useridInReq(req);
     var pageIndex = parseInt(req.params.pageIndex);
     var tasktype = req.params.taskType;
 
-    var query = new AV.Query(User);
-    query.get(userId).then(function(userObject){
-        //is sub seller user
+    var user = new User();
+    user.id = userId;
 
-        //查询用户无法做任务的query (使用精准的AppID+version作为标记位)
-        var queryReceiveExcTask = getDisableTaskQuery(userObject);
-        //TODO 标记为已做任务,去receiveTask数据库建立相关字段
-        //TODO 个人中心保存用户告诉换屏设备个数,排序这边优先排序设备个数的换屏
-
-        var query = undefined;
-
+    if (userId == undefined ){
+        var queryNotRegisteredUser = undefined;
         if (tasktype == 'allTask'){
-            query = getTaskQuery(userObject);
-            if(userObject.get('isSellerChannel') == undefined || userObject.get('isSellerChannel') != 'yangyang'){
-                query.doesNotMatchKeyInQuery('excUniqueCode', 'excUniqueCode', queryReceiveExcTask);
-            }
+            queryNotRegisteredUser = queryRelTask();
         }
         else if (tasktype == 'commentTask'){
-            query = getTaskQuery(userObject);
-            query.equalTo('taskType', '评论');
-            query.doesNotMatchKeyInQuery('excUniqueCode', 'excUniqueCode', queryReceiveExcTask);
+            queryNotRegisteredUser = queryRelTask();
+            queryNotRegisteredUser.equalTo('taskType', '评论');
         }
         else if (tasktype == 'downTask'){
-            query = getTaskQuery(userObject);
-            query.equalTo('taskType', '下载');
-            query.doesNotMatchKeyInQuery('excUniqueCode', 'excUniqueCode', queryReceiveExcTask);
+            queryNotRegisteredUser = queryRelTask();
+            queryNotRegisteredUser.equalTo('taskType', '下载');
         }
         else {
             //已筛选任务
-            query = queryReceiveExcTask;
+
         }
 
         var totalCount = 0;
-        query.count().then(function(count){
+        queryNotRegisteredUser.count().then(function(count){
             totalCount = count;
-            if (pageIndex == 0){
-                //首次请求时,查询筛选任务个数
-                var disableTaskQuery = getDisableTaskQuery(userObject);
-
-                disableTaskQuery.count().then(function(disableTaskCount){
-                    getTaskObjectList(tasktype, query, totalCount, pageIndex, userObject, res, disableTaskCount);
-                }, function (error){
-                    getTaskObjectList(tasktype, query, 1000, pageIndex, userObject, res, -1);
-                });
-            }else {
-                var disabletaskQuery = getDisableTaskQuery(userObject);
-                disabletaskQuery.count().then(function(disableTaskCount){
-                    getTaskObjectList(tasktype, query, totalCount, pageIndex, userObject, res, disableTaskCount);
-                },function (error){
-                    getTaskObjectList(tasktype, query, 1000, pageIndex, userObject, res, -1);
-                });
-            }
+            getTaskObjectList(tasktype, queryNotRegisteredUser, totalCount, pageIndex, user, res, 0);
         }, function (error){
-            getTaskObjectList(tasktype, query, 1000, pageIndex, userObject, res, -1);
+            getTaskObjectList(tasktype, queryNotRegisteredUser, 1000, pageIndex, user, res, 0);
         });
 
-    }, function(error){
-        //error
-        res.json({'allTask':[], 'myAppCount':0, 'hasMore':0, 'errorId': error.errorCode, 'disableTaskCount':0})
-    });
+    }
+    else {
+        var query = new AV.Query(User);
+        query.get(userId).then(function(userObject){
+            //is sub seller user
+
+            //查询用户无法做任务的query (使用精准的AppID+version作为标记位)
+            var queryReceiveExcTask = getDisableTaskQuery(userObject);
+            //TODO 标记为已做任务,去receiveTask数据库建立相关字段
+            //TODO 个人中心保存用户告诉换屏设备个数,排序这边优先排序设备个数的换屏
+
+            var query = undefined;
+
+            if (tasktype == 'allTask'){
+                query = getTaskQuery(userObject);
+                if(userObject.get('isSellerChannel') == undefined || userObject.get('isSellerChannel') != 'yangyang'){
+                    query.doesNotMatchKeyInQuery('excUniqueCode', 'excUniqueCode', queryReceiveExcTask);
+                }
+            }
+            else if (tasktype == 'commentTask'){
+                query = getTaskQuery(userObject);
+                query.equalTo('taskType', '评论');
+                query.doesNotMatchKeyInQuery('excUniqueCode', 'excUniqueCode', queryReceiveExcTask);
+            }
+            else if (tasktype == 'downTask'){
+                query = getTaskQuery(userObject);
+                query.equalTo('taskType', '下载');
+                query.doesNotMatchKeyInQuery('excUniqueCode', 'excUniqueCode', queryReceiveExcTask);
+            }
+            else {
+                //已筛选任务
+                query = queryReceiveExcTask;
+            }
+
+            var totalCount = 0;
+            query.count().then(function(count){
+                totalCount = count;
+                if (pageIndex == 0){
+                    //首次请求时,查询筛选任务个数
+                    var disableTaskQuery = getDisableTaskQuery(userObject);
+
+                    disableTaskQuery.count().then(function(disableTaskCount){
+                        getTaskObjectList(tasktype, query, totalCount, pageIndex, userObject, res, disableTaskCount);
+                    }, function (error){
+                        getTaskObjectList(tasktype, query, 1000, pageIndex, userObject, res, -1);
+                    });
+                }else {
+                    var disabletaskQuery = getDisableTaskQuery(userObject);
+                    disabletaskQuery.count().then(function(disableTaskCount){
+                        getTaskObjectList(tasktype, query, totalCount, pageIndex, userObject, res, disableTaskCount);
+                    },function (error){
+                        getTaskObjectList(tasktype, query, 1000, pageIndex, userObject, res, -1);
+                    });
+                }
+            }, function (error){
+                getTaskObjectList(tasktype, query, 1000, pageIndex, userObject, res, -1);
+            });
+
+        }, function(error){
+            //error
+            res.json({'allTask':[], 'myAppCount':0, 'hasMore':0, 'errorId': error.errorCode, 'disableTaskCount':0})
+        });
+    }
+
+
 });
 
 
@@ -471,5 +520,21 @@ router.post('/fiterApp', function(req, res){
         res.json({'errorMsg':error.message, 'errorId': error.code});
     });
 });
+
+// banner
+//router.get('/banner', function(req, res){
+//    var query = new AV.Query('bannerObject');
+//    query.equalTo('close', true);
+//    query.find().then(function(bannerObject){
+//        var bannerList = Array();
+//        for (var i = 0; i < bannerObject.length; i++){
+//            var bannerUrl = bannerObject[i].get('bannerURL');
+//            bannerList.push(bannerUrl)
+//        }
+//        res.json({'bannerUrl': bannerList, 'errorId': 0, 'errorMsg':''})
+//    },function(error){
+//        res.json({'errorMsg':error.message, 'errorId': error.code});
+//    })
+//});
 
 module.exports = router;

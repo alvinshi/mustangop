@@ -10,6 +10,11 @@ var navIndex = 0;
 
 app.controller('doTaskCtrl', function($scope, $http) {
 
+    //var bannerurl = 'doTask/banner';
+    //$http.get(bannerurl).success(function(response){
+    //    $scope.bannerURL = response.bannerUrl;
+    //});
+
     //******************* 自动轮播 *************************
     $("#myCarousel").carousel({
         interval:3000
@@ -31,7 +36,6 @@ app.controller('doTaskCtrl', function($scope, $http) {
         var myVideo=document.getElementById("uploadTask");
         myVideo.pause();
     };
-
 
     //******************* 飞机 *************************
     $scope.planeColor = true;

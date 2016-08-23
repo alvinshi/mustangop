@@ -12,7 +12,11 @@ var IOSAppSql = AV.Object.extend('IOSAppInfo');
 exports.useridInReq = function(req){
     //获取cookie的值,进行解密
     var encodeUserId = req.cookies.userIdCookie;
-    return Base64.decode(encodeUserId);
+    if(encodeUserId == undefined){
+        return encodeUserId;
+    }else {
+        return Base64.decode(encodeUserId);
+    }
 };
 
 exports.decodeUserId = function(encodeUserId){
