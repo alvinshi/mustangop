@@ -104,7 +104,7 @@ AV.Cloud.define('taskCheckForDoTask', function(request, response){
                                     doTaskObjects[r].set('taskStatus', 'systemAccepted');
                                     changeDoTasks.push(doTaskObjects[r]);
                                     //第一次提交任务被接受赠送50YB(仅对新用户有效)
-                                    if(changeDoTasks.length == 1 && user.get('registerBonus') == 'register_upload_task'){
+                                    if(changeDoTasks.length == 1 && user.get('registerBonus') == 'register_upload_task' && user.get('feedingMoney') == 0){
                                         user.increment('totalMoney', 50);
                                         user.increment('feedingMoney', 50);
                                         user.increment('freezingMoney', -50);
