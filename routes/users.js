@@ -92,7 +92,6 @@ function userRegister(req, res, next){
     }).then(function(user) {
         var user_id = user.id;
         //注册或者登录成功
-
         if(inviteUserId != undefined && inviteUserId.length > 0){
             var inviteUserObject = new AV.User();
             inviteUserObject.id = inviteUserId;
@@ -107,16 +106,10 @@ function userRegister(req, res, next){
         message.set('type', '欢迎');
         message.save();
 
-        var userNickname = user.get('userNickname');
         //encode userid
         var encodeUserId = Base64.encode(user_id);
-        //login succeed,response cookie to browser
-        //cookie 30天有效期
-        res.cookie('username', user.get('username'));
-        res.cookie('userIdCookie',encodeUserId, { maxAge: 1000*60*60*24*30,httpOnly:true, path:'/'});
-        if (userNickname != undefined && userNickname != ''){
-            res.cookie('username', userNickname)
-        }
+        res.cookie('username', user.get('username'), { maxAge: 1000*60*60*24*30, path:'/'});
+        res.cookie('userIdCookie', encodeUserId, { maxAge: 1000*60*60*24*30, path:'/'});
         res.json({'errorId':0, 'errorMsg':''});
 
     }, function(error) {
@@ -353,9 +346,7 @@ router.post('/login', function(req, res, next) {
     //login succeed,response cookie to browser
     //cookie 30天有效期
     res.cookie('username', user.get('username'), { maxAge: 1000*60*60*24*30, path:'/'});
-    //res.cookie('wjwtest', 'wujiangweiLucy');
     res.cookie('userIdCookie',encodeUserId, { maxAge: 1000*60*60*24*30, path:'/'});
-    //res.cookie['username'] = user.username;
     if (userNickname != undefined && userNickname != ''){
       res.cookie('username',userNickname);
     }
