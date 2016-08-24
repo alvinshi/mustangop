@@ -48,36 +48,65 @@ router.get('/return', function(req, res) {
         var chargeUserId = util.decodeUserId(req.query.extra_common_param);//充值的用户
         var aliOrderId = req.query.trade_no;//订单号
 
-        var chargeRMB = [30, 100, 500, 1000, 3000];
-        var chargeRewardYB = [0, 10, 70, 200, 700];
+        var rechargeHistorySQL = AV.Object.extend('rechargeHistory');
 
-        var chargeReward = 0;
-        for (var i = 0; i < chargeRMB.length; i++){
-            if(chargeMoney == chargeRMB[i]){
-                chargeReward = chargeRewardYB[i];
-                break;
+        function chargeUser(){
+
+            var chargeRMB = [30, 100, 500, 1000, 3000];
+            var chargeRewardYB = [0, 10, 70, 200, 700];
+
+            var chargeReward = 0;
+            for (var i = 0; i < chargeRMB.length; i++){
+                if(chargeMoney == chargeRMB[i]){
+                    chargeReward = chargeRewardYB[i];
+                    break;
+                }
             }
+
+            var rechargeUserObject = new AV.User();
+            rechargeUserObject.id = chargeUserId;
+            var addYB = (chargeMoney + chargeReward) * 10;
+            //总金额增加
+            rechargeUserObject.increment('totalMoney', addYB);
+            //记录奖励金额
+            rechargeUserObject.increment('feedingMoney', chargeReward * 10);
+            rechargeUserObject.increment('rechargeRMB', chargeMoney);
+
+            var rechargeHistoryObject = new rechargeHistorySQL();
+            rechargeHistoryObject.set('chargeUserId', chargeUserId);
+            rechargeHistoryObject.set('aliOrderId', aliOrderId);
+            rechargeHistoryObject.set('chargeMoney', chargeMoney);
+            rechargeHistoryObject.set('chargeReward', chargeReward);
+            rechargeHistoryObject.save();
+
+            rechargeUserObject.save().then(function() {
+                // 充值成功,YB增加成功
+                res.json({'errorMsg':'', 'errorId':0, 'message':'充值成功,获得' + addYB + 'YB,请刷新个人中心查看最新YB金额'});
+            }, function(err) {
+                // 充值成功,YB增加失败,请联系客服人员
+                // 其他基本没用,不精准
+                rechargeUserObject.increment('rechargeFailedRMB', chargeMoney);
+                rechargeUserObject.save();
+
+                res.json({'errorMsg':'充值成功,增加Y币失败(服务器出错),请放心,我们已经记录,联系QQ768826903,为你恢复充值的Y币', 'errorId': err.code});
+            });
         }
 
-        var rechargeUserObject = new AV.User();
-        rechargeUserObject.id = chargeUserId;
-        var addYB = (chargeMoney + chargeReward) * 10;
-        //总金额增加
-        rechargeUserObject.increment('totalMoney', addYB);
-        //记录奖励金额
-        rechargeUserObject.increment('feedingMoney', chargeReward * 10);
-        rechargeUserObject.increment('rechargeRMB', chargeMoney);
-
-        rechargeUserObject.save().then(function() {
-            // 充值成功,YB增加成功
-            res.json({'errorMsg':'', 'errorId':0, 'message':'充值成功,获得' + addYB + 'YB,请刷新个人中心查看最新YB金额'});
-        }, function(err) {
-            // 充值成功,YB增加失败,请联系客服人员
-            // 其他基本没用,不精准
-            rechargeUserObject.increment('rechargeFailedRMB', chargeMoney);
-            rechargeUserObject.save();
-
-            res.json({'errorMsg':err.message, 'errorId': err.code});
+        //查询充值记录
+        var rechargeQuery = new AV.Query(rechargeHistorySQL);
+        // 查询有没有被充值过
+        rechargeQuery.equalTo('aliOrderId', aliOrderId);
+        rechargeQuery.equalTo('userId', chargeUserId);
+        rechargeQuery.descending('createdAt');
+        rechargeQuery.find().then(function(rechargeObjectList) {
+            if(rechargeObjectList.length == 0){
+                chargeUser();
+            }else {
+                //重复的支付宝回调
+                res.json({'errorMsg':'成功充值', 'errorId': 0});
+            }
+        }, function (error) {
+            chargeUser();
         });
     });
 });
