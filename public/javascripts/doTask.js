@@ -10,10 +10,10 @@ var navIndex = 0;
 
 app.controller('doTaskCtrl', function($scope, $http) {
 
-    //var bannerurl = 'doTask/banner';
-    //$http.get(bannerurl).success(function(response){
-    //    $scope.bannerURL = response.bannerUrl;
-    //});
+    var bannerurl = 'doTask/banner';
+    $http.get(bannerurl).success(function(response){
+        $scope.bannerUrl = response.bannerUrl;
+    });
 
     //******************* 自动轮播 *************************
     $("#myCarousel").carousel({
