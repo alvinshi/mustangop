@@ -3,7 +3,10 @@ var navIndex =3;
 
 app.controller('taskCheckCtrl', function($scope, $http, $location) {
 
-
+    var bannerurl = 'taskCheck/banner';
+    $http.get(bannerurl).success(function(response){
+        $scope.bannerUrl = response.bannerUrl;
+    });
 
     //******************* 自动轮播 *************************
     $("#myCarousel").carousel({
