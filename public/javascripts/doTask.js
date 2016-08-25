@@ -29,8 +29,17 @@ app.controller('doTaskCtrl', function($scope, $http) {
         interval:3000
     });
 
+    $scope.inviteUrl = "http://www.mustangop.com/user/register/" + getCookie("userIdCookie");
+
+    $scope.copyUrl = function () {
+        $('#alert-btn').popover('toggle');
+        var Url = document.getElementById("inviteUrlcopy");
+        Url.select(); // 选择对象
+        document.execCommand("Copy"); // 执行浏览器复制命令
+    };
+
    //关闭视频弹窗 视屏停止
-    $scope.releaseTaskVideo=function(){
+    $scope.releaseTaskVideo = function(){
         $("#releaseTaskVideo").modal("hide");
         var myVideo=document.getElementById("releaseTask");
         myVideo.pause();
