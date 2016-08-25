@@ -60,14 +60,14 @@ app.controller('itunesSearchControl', function($scope, $http) {
     $scope.numOfApps = 10;  // > 5 不显示+号
     $scope.selectedApp = undefined;
     $scope.saved = false;
-
+$scope.inviteCount=0;
     //****************请求绑定的App条目***********************
     var appsUrl = 'myapp/angular';
     $http.get(appsUrl).success(function(response){
         //接收到服务器信息反馈
         $scope.isLoadingMyApp = false;
         $scope.numOfApps = response.myApps.length;
-
+        $scope.inviteCount = response.inviteSucceedCount;
         if ($scope.numOfApps > 0) {
             //App排序
             $scope.myApps = response.myApps.sort(function(a, b){return a.createdAt >= b.createdAt});
@@ -91,59 +91,76 @@ app.controller('itunesSearchControl', function($scope, $http) {
         var myVideo=document.getElementById("release");
         myVideo.pause();
     };
+    //邀请人数
+    //$("#invite").modal('hide');
+    //$scope.invite1=false;
+    //$scope.panduan=function(){
+    //if ($scope.inviteCount < $scope.numOfApps) {
+    //    $scope.invite1 = true;
+    //}};
     //搜索App
     var progressTimerHandle = undefined;
     $scope.progressNum = 0;
     var searchLocked = false;
-
+    $scope.invite1 = false;
+$scope.invite2 = true;
     $scope.searchApp = function(){
-        $scope.isError = 0;
+        if ($scope.inviteCount < $scope.numOfApps) {
+            $scope.invite1 = true;
+            $scope.invite2 = false;
+        }
+        else {
 
-        if ($scope.searchUrl != '' && searchLocked == false){
+            $scope.isError = 0;
 
-            var searchUrl = 'api/itunes/search/' + $scope.searchKey;
-            $scope.progressNum = 100;
-            //timer
-            if (progressTimerHandle != undefined){
-                //clearTimeout(progressTimerHandle);
-            }
+            if ($scope.searchUrl != '' && searchLocked == false) {
 
-            //progressTimerHandle = setTimeout(timerFunc(), 1);
+                var searchUrl = 'api/itunes/search/' + $scope.searchKey;
+                $scope.progressNum = 100;
+                //timer
+                if (progressTimerHandle != undefined) {
+                    //clearTimeout(progressTimerHandle);
+                }
 
-            console.log('--------- searchApp searchApp');
-            searchLocked = true;
-            $http.get(searchUrl).success(function(response){
+                //progressTimerHandle = setTimeout(timerFunc(), 1);
 
-                searchLocked = false;
-                console.log('searchApp' + response);
+                console.log('--------- searchApp searchApp');
+                searchLocked = true;
+                $http.get(searchUrl).success(function (response) {
 
-                $scope.appResults = response.appResults;
-                $scope.progressNum = 0;
+                    searchLocked = false;
+                    console.log('searchApp' + response);
 
-                if (response.errorMsg.length > 0){
-                    $scope.isError = 1;
-                    $scope.errorMsg = response.errorMsg;
-                }else {
-                    $scope.errorMsg = response.errorMsg;
-                    $scope.isError = response.errorId != 0;
+                    $scope.appResults = response.appResults;
+                    $scope.progressNum = 0;
 
-                    for (var i = 0; i < $scope.appResults.length; i++){
-                        var appRe = $scope.appResults[i];
+                    if (response.errorMsg.length > 0) {
+                        $scope.isError = 1;
+                        $scope.errorMsg = response.errorMsg;
+                    } else {
+                        $scope.errorMsg = response.errorMsg;
+                        $scope.isError = response.errorId != 0;
 
-                        appRe.isMine = false;
-                        for (var j = 0; j < $scope.myApps.length; j++){
-                            var myApp = $scope.myApps[j];
-                            if (myApp.appleId === appRe.appleId){
-                                appRe.isMine = true;
-                                console.log(appRe.appleId + 'isMine');
-                                break;
+                        for (var i = 0; i < $scope.appResults.length; i++) {
+                            var appRe = $scope.appResults[i];
+
+                            appRe.isMine = false;
+                            for (var j = 0; j < $scope.myApps.length; j++) {
+                                var myApp = $scope.myApps[j];
+                                if (myApp.appleId === appRe.appleId) {
+                                    appRe.isMine = true;
+                                    console.log(appRe.appleId + 'isMine');
+                                    break;
+                                }
                             }
                         }
                     }
-                }
-            });
+                });
+            }
         }
+
     };
+
 
     $scope.keySearchApp = function(e){
         var keycode = window.event?e.keyCode:e.which;
