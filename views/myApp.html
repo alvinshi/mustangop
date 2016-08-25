@@ -73,7 +73,7 @@
         <h3 class="mytitle">第一步:选择或添加任务应用
             <span class="glyphicon glyphicon-question-sign"  data-placement="top"
                   data-toggle="popover"
-                  data-content="目前只能添加5个应用哦!" id="glyphicon"
+                  data-content="目前最多添加5个应用哦!" id="glyphicon"
                   ng-click="addApp('glyphicon')" style="font-size: 0.8em"></span>
         </h3>
 
@@ -81,7 +81,7 @@
             <div class="double-bounce1"></div>
             <div class="double-bounce2"></div>
         </div>
-        <div style="width:400px;margin: auto;font-size: 24px;margin-bottom: 100px" ng-hide="!isLoadingMyApp">正在更新,请求你的App最新信息...</div>
+        <div style="width:400px;margin: auto;font-size: 24px;margin-bottom: 100px" ng-hide="!isLoadingMyApp">正在请求你的App信息...</div>
 
 
         <div class="list-group thumbnail_wrap"
@@ -110,11 +110,12 @@
 <!--判断邀请人数-->
 
         <div class="addApp" ng-hide="numOfApps >= 5">
-            <button class="btn_addApp"  data-target="#addApp_modal" data-toggle="modal">
+            <button class="btn_addApp" data-target="#addApp_modal" data-toggle="modal">
                 <span class="glyphicon glyphicon-plus" style="font-size: 3em;"></span>
             </button>
         </div>
-        <div class="modal fade" ng-show="invite1" id="invite" >
+
+        <div class="modal fade" id="invite" >
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -127,6 +128,15 @@
                     </div>
                     <div class="modal-body">
                         你需要邀请其他人才能继续添加新应用
+
+                        <button  class="alert alert-info Copy" id="alert-btn" ng-click="copyUrl()" role="alert"
+                                 data-placement="top" data-toggle="popover" data-content="复制成功!"
+                                 style="display: inline-block; margin-top: 35px;" >
+                            邀请好友体验野马,还可以获赠100Y币,点击复制邀请链接 :
+
+                            <input type="text" id="inviteUrlcopy" class="from-control" ng-model="inviteUrl">
+                        </button>
+
                     </div>
                     <div class="modal-footer">
                         <button   type="button" class="btn btn-default" data-dismiss="modal">关闭
@@ -453,7 +463,7 @@
         </div><!--解绑弹窗提示-->
 
 
-        <div class="modal fade" ng-show="invite2"  id="addApp_modal">
+        <div class="modal fade" id="addApp_modal">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">

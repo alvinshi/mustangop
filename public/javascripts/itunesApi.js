@@ -12,6 +12,15 @@ app.controller('itunesSearchControl', function($scope, $http) {
     var url = 'myapp/verify';
     $scope.insufficientFund = false;
 
+    $scope.inviteUrl = "http://www.mustangop.com/user/register/" + getCookie("userIdCookie");
+
+    $scope.copyUrl = function () {
+        $('#alert-btn').popover('toggle');
+        var Url = document.getElementById("inviteUrlcopy");
+        Url.select(); // 选择对象
+        document.execCommand("Copy"); // 执行浏览器复制命令
+    };
+
     $http.get(url).success(function(response) {
         $scope.usermoney = response.usermoney;
     });
@@ -60,7 +69,15 @@ app.controller('itunesSearchControl', function($scope, $http) {
     $scope.numOfApps = 10;  // > 5 不显示+号
     $scope.selectedApp = undefined;
     $scope.saved = false;
-$scope.inviteCount=0;
+    $scope.inviteCount = 0;
+
+    function refreshAddBtn(){
+        if($scope.inviteCount > $scope.myApps.length - 1){
+            $("button.btn_addApp").attr('data-target', '#addApp_modal');
+        }else {
+            $("button.btn_addApp").attr('data-target', '#invite');
+        }
+    }
     //****************请求绑定的App条目***********************
     var appsUrl = 'myapp/angular';
     $http.get(appsUrl).success(function(response){
@@ -71,6 +88,9 @@ $scope.inviteCount=0;
         if ($scope.numOfApps > 0) {
             //App排序
             $scope.myApps = response.myApps.sort(function(a, b){return a.createdAt >= b.createdAt});
+
+            refreshAddBtn();
+
             //默认选择第一个App
             $scope.selectedApp = $scope.myApps[0];
             $scope.isDisabled = false;
@@ -91,19 +111,11 @@ $scope.inviteCount=0;
         var myVideo=document.getElementById("release");
         myVideo.pause();
     };
-    //邀请人数
-    //$("#invite").modal('hide');
-    //$scope.invite1=false;
-    //$scope.panduan=function(){
-    //if ($scope.inviteCount < $scope.numOfApps) {
-    //    $scope.invite1 = true;
-    //}};
+
     //搜索App
     var progressTimerHandle = undefined;
     $scope.progressNum = 0;
     var searchLocked = false;
-    $scope.invite1 = false;
-$scope.invite2 = true;
     $scope.searchApp = function(){
         if ($scope.inviteCount < $scope.numOfApps) {
             $scope.invite1 = true;
@@ -189,6 +201,8 @@ $scope.invite2 = true;
                     //默认选择第一个App
                     $scope.selectedApp = $scope.myApps[0];
                     $scope.isDisabled = false;
+
+                    refreshAddBtn();
                 }
             }
         })
@@ -233,6 +247,8 @@ $scope.invite2 = true;
                     $scope.myApps.push(response.newApp);
                     console.log($scope.myApps);
                     $scope.numOfApps ++;
+
+                    refreshAddBtn();
                 }
             }else {
                 $scope.errorMsg = response.errorMsg;
@@ -260,6 +276,7 @@ $scope.invite2 = true;
                     var app = $scope.myApps[i];
                     if (app.appleId == appid){
                         $scope.myApps.splice(i, 1);
+                        refreshAddBtn();
                         break;
                     }
                 }
