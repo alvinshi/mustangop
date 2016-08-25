@@ -88,7 +88,7 @@ app.controller('itunesSearchControl', function($scope, $http) {
     };
     $scope.releaseTaskVideo=function(){
         $("#releaseTaskVideo").modal("hide");
-        var myVideo=document.getElementById("releaseTask");
+        var myVideo=document.getElementById("release");
         myVideo.pause();
     };
     //搜索App
