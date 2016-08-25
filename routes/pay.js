@@ -96,14 +96,14 @@ router.get('/return', function(req, res) {
         var rechargeQuery = new AV.Query(rechargeHistorySQL);
         // 查询有没有被充值过
         rechargeQuery.equalTo('aliOrderId', aliOrderId);
-        rechargeQuery.equalTo('userId', chargeUserId);
+        rechargeQuery.equalTo('chargeUserId', chargeUserId);
         rechargeQuery.descending('createdAt');
         rechargeQuery.find().then(function(rechargeObjectList) {
             if(rechargeObjectList.length == 0){
                 chargeUser();
             }else {
                 //重复的支付宝回调
-                res.json({'errorMsg':'成功充值', 'errorId': 0});
+                res.json({'errorMsg':'已经成功充值', 'errorId': 0});
             }
         }, function (error) {
             chargeUser();

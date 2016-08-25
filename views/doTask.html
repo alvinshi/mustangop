@@ -21,7 +21,7 @@
 
     <!--网站内部js-->
 
-
+    <script src="/javascripts/cookieHelper.min.js"></script>
     <script src="/javascripts/doTask.js"></script>
     <script src="/javascripts/indexApp.js"></script>
 
@@ -89,9 +89,15 @@
         <div class="row" style="margin:0;">
             <button class="release1"  data-target="#getTaskVideo" data-toggle="modal" ></button>
             <p style="font-size: 30px; color: #3498db; margin: 40px 20px 10px 0; float: left">任务列表</p>
-            <div  class="alert alert-warning" role="alert" style="display: inline-block; margin-top: 35px;">
-                Y币支持支付宝充值拉(个人中心-Y币充值),号外:8.23-8.26充值额外赠送Y币
-            </div>
+
+            <button  class="alert alert-info" ng-click="copyUrl()" role="alert" style="display: inline-block; margin-top: 35px;"             >
+                邀请好友体验野马,获赠100Y币,点击复制邀请链接 ——
+
+                <input type="text" id="inviteUrlcopy" class="from-control" ng-model="inviteUrl" data-placement="top"
+                       data-toggle="popover"
+                       data-content="复制成功!">
+            </button>
+
             <a href="myapp" class="publishTask" ng-mouseover="changePlaneColor()" ng-mouseleave = "changePlaneColor()">
                 <img src="/images/doTask/paperplane.png" ng-show="planeColor"/>
                 <img src="/images/doTask/paperplane-blue.png" ng-hide="planeColor"/>
