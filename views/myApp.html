@@ -107,12 +107,37 @@
             <p class="app_update" ng-show="app.latestReleaseDate.length > 0">更新日期 {{ app.latestReleaseDate | date: 'yy/MM/dd'}}</p>
         </div>
 
+<!--判断邀请人数-->
 
         <div class="addApp" ng-hide="numOfApps >= 5">
-            <button class="btn_addApp" data-target="#addApp_modal" data-toggle="modal">
+            <button class="btn_addApp"  data-target="#addApp_modal,#invite" data-toggle="modal">
                 <span class="glyphicon glyphicon-plus" style="font-size: 3em;"></span>
             </button>
         </div>
+        <div class="modal fade" ng-show="invite1" id="invite" >
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                            &times;
+                        </button>
+                        <h4 class="modal-title" id="inviteLabel">
+                            你邀请人数不足
+                        </h4>
+                    </div>
+                    <div class="modal-body">
+                        你需要邀请其他人才能继续添加新应用
+                    </div>
+                    <div class="modal-footer">
+                        <button   type="button" class="btn btn-default" data-dismiss="modal">关闭
+                        </button>
+
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal -->
+        </div>
+
+
         <div style="clear: both"></div>
         <hr style="margin-top:30px;width: 1001px">
         <div id="need">
@@ -440,7 +465,8 @@
             </div><!-- /.modal-dialog -->
         </div><!--解绑弹窗提示-->
 
-        <div class="modal fade" id="addApp_modal">
+
+        <div class="modal fade" ng-show="invite2"  id="addApp_modal">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
