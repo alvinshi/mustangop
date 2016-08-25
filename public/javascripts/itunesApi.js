@@ -335,10 +335,10 @@ app.controller('itunesSearchControl', function($scope, $http) {
                 $scope.modelStr = '您有未填写完整的信息';
                 $("#error").modal("show");
             }
-            if($scope.appNeedInfo.excCount>20){
+            if($scope.appNeedInfo.excCount > 50){
                 flag = false;
                 $scope.isDisabled = false;
-                $scope.modelStr = '任务条数暂时最多20条哦';
+                $scope.modelStr = '任务条数暂时最多50条哦';
                 $("#error").modal("show");
 
             }
