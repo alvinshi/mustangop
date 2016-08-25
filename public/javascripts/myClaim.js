@@ -7,6 +7,9 @@ var app = angular.module('yemaWebApp', []);
 var navIndex = 2;
 
 app.controller('myClaimControl', function($scope, $http, $location){
+
+
+
     $scope.noApp = false;
     $scope.isLoadingMyApp = true;
 
@@ -31,6 +34,8 @@ app.controller('myClaimControl', function($scope, $http, $location){
     $http.post(todayUrl, claimParams).success(function(response){
         $scope.isLoadingMyApp = false;
         $scope.dailyTask = response.myClaimApps;
+        //被拒绝的Task Objects, 数据类型(Array)
+        $scope.rejectedTaskObjects = response.rejectedTaskObjects;
         for (var i = 0; i < response.myClaimApps.length; i++){
             response.myClaimApps[i].mode = true;
             console.log(response.myClaimApps[i]);
@@ -53,6 +58,11 @@ app.controller('myClaimControl', function($scope, $http, $location){
 
     };
 
+    $scope.uploadTaskVideo=function(){
+        $("#uploadTaskVideo").modal("hide");
+        var myVideo=document.getElementById("uploadTask");
+        myVideo.pause();
+    };
     //******备注保存逻辑**********
     //保存填写的备注到数据库
 

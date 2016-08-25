@@ -28,7 +28,16 @@ html{
     top:60%;left: 60%;
 }
 
-
+.release1{
+    position: absolute;
+    right: 1px;
+    width: 44px;
+    height: 140px;
+    top: 400px;
+    background:url(/images/doTask/video1.png);
+    border: 1px solid #3498db;
+    border-radius: 4px;
+}
 
 .publishTask{
     float: right;

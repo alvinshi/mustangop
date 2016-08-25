@@ -21,7 +21,7 @@
 
                 <li style="width: 140px">
                     <a ng-style="{color:myColors[2]}" href="/myClaim/{{userObjectId}}" style="position: relative">我的领取
-                        <span class="" ng-show="refusedCount > 0" style="position: absolute;
+                        <span class="" ng-show="(toDoCount + refusedCount) > 0" style="position: absolute;
                               top: 7px;
                               left: 83px;
                               display: inline-block;
@@ -29,7 +29,7 @@
                               width: 30px;
                               height: 20px;
                               font-size: 14px;
-                              border-radius: 8px;text-align: center;color: #FFFFFF">{{refusedCount}}</span>
+                              border-radius: 8px;text-align: center;color: #FFFFFF">{{toDoCount + refusedCount}}</span>
                     </a>
                 </li>
                 <li style="width: 140px">

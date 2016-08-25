@@ -19,6 +19,9 @@ router.get('/', function(req, res, next) {
 
 router.get('/index', function(req, res){
     var userId = util.useridInReq(req);
+    //还没有做的条数
+    var toDoCount = 0;
+    //被拒绝的条数
     var refusedCount = 0;
 
     var userObject = new AV.User();
@@ -46,7 +49,7 @@ router.get('/index', function(req, res){
                     //超时的任务数目已经计算
                     countQuery.notEqualTo('taskStatus', 'expired');
                     countQuery.count().then(function(totalDoTaskCount){
-                        refusedCount = refusedCount + (canDoTaskCount - totalDoTaskCount);
+                        toDoCount = toDoCount + (canDoTaskCount - totalDoTaskCount);
 
                         refusedPromiseIndex++;
                         if (refusedPromiseIndex == userReceiveObjects.length * 2){
@@ -83,7 +86,7 @@ router.get('/index', function(req, res){
     });
 
     function resposeBack(){
-        res.json({'refusedCount':refusedCount, 'userObjectId':Base64.encode(userId), 'errorId':0, 'errorMsg':''})
+        res.json({'toDoCount':toDoCount, 'refusedCount':refusedCount, 'userObjectId':Base64.encode(userId), 'errorId':0, 'errorMsg':''})
     }
 });
 

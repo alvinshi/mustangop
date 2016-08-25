@@ -39,7 +39,16 @@ color: orange;
 
 }
 
-
+.release3{
+    position: absolute;
+    right: 0.1px;
+    width: 44px;
+    height: 140px;
+    top: 350px;
+    background:url(/images/doTask/video3.png);
+    border: 1px solid #3498db;
+    border-radius: 7px;
+}
 .button_right{
     padding-left:50px
 }

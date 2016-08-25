@@ -232,13 +232,25 @@ button{
     border: 1px solid #aab2bd;
     border-style: none none solid none ;
 }
-.add_app{
-    position: absolute;right:144px;
-    width: 160px;height: 40px;
+.add_app {
+    position: absolute;
+    right: 144px;
+    width: 160px;
+    height: 40px;
     top: 100px;
     font-size: 18px;
     background-color: white;
     color: #3498db;
+    border: 1px solid #3498db;
+    border-radius: 4px;
+}
+.release2{
+    position: absolute;
+    right: 0.1px;
+    width: 44px;
+    height: 140px;
+    top: 350px;
+    background:url(/images/doTask/video2.png);
     border: 1px solid #3498db;
     border-radius: 4px;
 }

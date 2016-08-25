@@ -24,6 +24,7 @@
 
     <script src="/javascripts/doTask.js"></script>
     <script src="/javascripts/indexApp.js"></script>
+
     <!--网站内部css-->
     <link rel="stylesheet" href="/stylesheets/doTask.css"/>
 
@@ -41,6 +42,7 @@
 <!--导航栏-->
 <div class="container" ng-controller="indexAppCtrl" >
     <th-nav></th-nav>
+
 </div>
 <div class="" ng-controller="doTaskCtrl">
     <div id="myCarousel" class="carousel slide" style="z-index: 1">
@@ -63,14 +65,29 @@
         </a>
 
     </div>
-
+    
     <div class="container fly" style="width: 1010px; padding:0;">
 
         <!--<a href=""  data-toggle="modal" data-target="#releaseTaskVideo" class="releaseTaskVideo" style="outline: none"></a>-->
         <!--<a href=""  data-toggle="modal" data-target="#getTaskVideo"  class="getTaskVideo"  style="outline: none" ></a>-->
         <!--<a href=""  data-toggle="modal" data-target="#uploadTaskVideo" class="uploadTaskVideo" style="outline: none"></a>-->
+        <div class="modal fade" id="getTaskVideo"  style="padding: 0px;margin: 0px;position: absolute;top:50px;left: 200px">
+            <div class="modal-dialog" style="display: table-cell;vertical-align: middle;">
+                <div class="modal-content"style="width:960px;height:600px;">
+                    <div class="modal-header">
+                        <button type="button" class="close" ng-click="getTaskVideo()" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    </div>
+                    <div class="modal-body">
+                        <video src="/videos/getTaskDemo.mp4" controls="controls" id="getTask" preload style="width:960px;height:500px">
+                            您的浏览器不支持 video 标签。
+                        </video>
+                    </div>
 
+                </div>
+            </div>
+        </div><!-- getTaskVideo-->
         <div class="row" style="margin:0;">
+            <button class="release1" img src="images/doTask/video1.png" data-target="#getTaskVideo" data-toggle="modal" ></button>
             <p style="font-size: 30px; color: #3498db; margin: 40px 20px 10px 0; float: left">任务列表</p>
             <div  class="alert alert-warning" role="alert" style="display: inline-block; margin-top: 35px;">
                 Y币支持支付宝充值拉(个人中心-Y币充值),号外:8.23-8.26充值额外赠送Y币
@@ -719,7 +736,7 @@
                                 <!--</button>-->
                                 <!--</td>-->
                                 <td ng-if='!app.myTask && !app.hasTaken && app.remainCount' ng-show="!app.hasChanged" style="padding-right: 40px;">
-                                    <button class="mybtn reverse hvr-float-shadow" style="width:300px" data-target="#takeTask_download{{$index}}" data-toggle="modal">
+                                    <button class="mybtn reverse hvr-float-shadow" style="width:300px" data-target="#" data-toggle="modal">
                                         领取任务
                                     </button>
                                 </td>
@@ -1029,37 +1046,23 @@
                 </div>
             </div>
         </div>
-        <div class="modal fade" id="releaseTaskVideo" style="padding: 0px;margin: 0px;position: absolute;top:50px;left: 200px">
-            <div class="modal-dialog" style="display: table-cell;vertical-align: middle;">
-                <div class="modal-content"style="width:960px;height:550px;padding: 0px;margin: 0px">
-                    <div class="modal-header">
-                        <button type="button" class="close" ng-click="releaseTaskVideo()" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title"></h4>
-                    </div>
-                    <div class="modal-body">
-                        <video src="/videos/releaseTaskDemo.mp4" controls="controls" id="releaseTask" preload style="width:960px;height:500px;">
-                            您的浏览器不支持 video 标签。
-                        </video>
-                    </div>
+        <!--<div class="modal fade" id="releaseTaskVideo" style="padding: 0px;margin: 0px;position: absolute;top:50px;left: 200px">-->
+            <!--<div class="modal-dialog" style="display: table-cell;vertical-align: middle;">-->
+                <!--<div class="modal-content"style="width:960px;height:550px;padding: 0px;margin: 0px">-->
+                    <!--<div class="modal-header">-->
+                        <!--<button type="button" class="close" ng-click="releaseTaskVideo()" aria-label="Close"><span aria-hidden="true">&times;</span></button>-->
+                        <!--<h4 class="modal-title"></h4>-->
+                    <!--</div>-->
+                    <!--<div class="modal-body">-->
+                        <!--<video src="/videos/releaseTaskDemo.mp4" controls="controls" id="releaseTask" preload style="width:960px;height:500px;">-->
+                            <!--您的浏览器不支持 video 标签。-->
+                        <!--</video>-->
+                    <!--</div>-->
 
-                </div>
-            </div>
-        </div><!-- releaseTaskVideo-->
-        <div class="modal fade" id="getTaskVideo"  style="padding: 0px;margin: 0px;position: absolute;top:50px;left: 200px">
-            <div class="modal-dialog" style="display: table-cell;vertical-align: middle;">
-                <div class="modal-content"style="width:960px;height:600px;">
-                    <div class="modal-header">
-                        <button type="button" class="close" ng-click="getTaskVideo()" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    </div>
-                    <div class="modal-body">
-                        <video src="/videos/getTaskDemo.mp4" controls="controls" id="getTask" preload style="width:960px;height:500px">
-                            您的浏览器不支持 video 标签。
-                        </video>
-                    </div>
+                <!--</div>-->
+            <!--</div>-->
+        <!--</div>&lt;!&ndash; releaseTaskVideo&ndash;&gt;-->
 
-                </div>
-            </div>
-        </div><!-- getTaskVideo-->
         <div class="modal fade" id="uploadTaskVideo" style="padding: 0px;margin: 0px;position: absolute;top:50px;left: 200px">
             <div class="modal-dialog" style="display: table-cell;vertical-align: middle;">
                 <div class="modal-content"style="width:960px;height:600px;">

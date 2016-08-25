@@ -39,6 +39,8 @@ router.post('/claim/:userObjectId', function(req, res){
     query.descending('createdAt');
 
     var calNumber = 0;
+    //所有被拒绝的任务
+    var rejectedTaskObjects = Array();
     query.find().then(function(results){
 
         if(results.length == 0){
@@ -115,8 +117,11 @@ router.post('/claim/:userObjectId', function(req, res){
                     inAppHisObject.submitted = submitted;
                     inAppHisObject.accepted = accepted;
                     inAppHisObject.rejected = rejected;
-
                     inAppHisObject.noticeNumber = undoTask + rejected;
+
+                    if (rejected > 0){
+                        rejectedTaskObjects.push(inAppHisObject);
+                    }
 
                     //accepted + abandoned == receiveCount
                     //暂时不做,需要手动关闭
@@ -132,13 +137,13 @@ router.post('/claim/:userObjectId', function(req, res){
                     calNumber++;
                     if (calNumber == results.length){
                         retApps.sort(function(b, a){return a.createdAt - b.createdAt});
-                        res.json({'myClaimApps':retApps, 'errorId': 0});
+                        res.json({'myClaimApps':retApps, 'rejectedTaskObjects':rejectedTaskObjects, 'errorId': 0});
                     }
                 }, function (error) {
                     calNumber++;
                     if (calNumber == results.length){
                         retApps.sort(function(b, a){return a.createdAt - b.createdAt});
-                        res.json({'myClaimApps':retApps, 'errorId': 0});
+                        res.json({'myClaimApps':retApps, 'rejectedTaskObjects': rejectedTaskObjects, 'errorId': 0});
                     }
                 });
             }(results[i], appHisObject));
