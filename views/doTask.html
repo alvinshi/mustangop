@@ -42,341 +42,336 @@
 <div class="container" ng-controller="indexAppCtrl" >
     <th-nav></th-nav>
 </div>
-
-
-
-
-
-<div id="myCarousel" class="carousel slide" style="z-index: 1">
-     <!--轮播（Carousel）指标-->
-    <ol class="carousel-indicators">
-        <li data-target="#myCarousel" data-slide-to="0" class="active" ></li>
-        <li data-target="#myCarousel" data-slide-to="1"></li>
-        <!--<li data-target="#myCarousel" data-slide-to="2"></li>-->
-    </ol>
-     <!--轮播（Carousel）项目-->
-    <div class="carousel-inner">
-        <div class="item active">
-            <img class='foo' src="/images/doTask/huanping.png" style="width: 100vw; margin-top: 50px;"/>
-        </div>
-        <div class="item">
-            <img class='foo' src="/images/doTask/guide.png" style="width: 100vw; margin-top: 50px;"/>
-        </div>
-        <!--<div class="item">-->
-            <!--<img class='foo' src="/images/doTask/contactkefu.png" style="width: 100vw; margin-top: 50px;"/>-->
-        <!--</div>-->
-    </div>
-     <!--轮播（Carousel）导航-->
-    <a class="carousel-control left" href="#myCarousel"
-       data-slide="prev">&lsaquo;</a>
-    <a class="carousel-control right" href="#myCarousel"
-       data-slide="next">&rsaquo;</a>
-    <a href=""  data-toggle="modal" data-target="#releaseTaskVideo" class="releaseTaskVideo" style="outline: none"></a>
-    <a href=""  data-toggle="modal" data-target="#getTaskVideo"  class="getTaskVideo"  style="outline: none" ></a>
-    <a href=""  data-toggle="modal" data-target="#uploadTaskVideo" class="uploadTaskVideo" style="outline: none"></a>
-</div>
-
-<div class="container fly" style="width: 1010px; padding:0;" ng-controller="doTaskCtrl">
-    <div class="row" style="margin:0;">
-        <p style="font-size: 30px; color: #3498db; margin: 40px 20px 10px 0; float: left">任务列表</p>
-        <div  class="alert alert-warning" role="alert" style="display: inline-block; margin-top: 35px;">
-            Y币支持支付宝充值拉(个人中心-Y币充值),号外:8.23-8.26充值额外赠送Y币
+<div class="" ng-controller="doTaskCtrl">
+    <div id="myCarousel" class="carousel slide" style="z-index: 1">
+        <!-- 轮播（Carousel）指标 -->
+        <ol class="carousel-indicators" >
+            <li data-target="#myCarousel" class="active" ng-repeat="banner in bannerUrl"></li>
+        </ol>
+        <!-- 轮播（Carousel）项目 -->
+        <div class="carousel-inner">
+            <div ng-repeat="banner in bannerUrl"  ng-class="{'item':true, 'active':$index==0}" >
+                <img class='foo' ng-src="{{banner}}" style="width: 100vw; margin-top: 50px;">
             </div>
-        <a href="myapp" class="publishTask" ng-mouseover="changePlaneColor()" ng-mouseleave = "changePlaneColor()">
-            <img src="/images/doTask/paperplane.png" ng-show="planeColor"/>
-            <img src="/images/doTask/paperplane-blue.png" ng-hide="planeColor"/>
-            快速发布任务
+        </div>
+
+        <a class="carousel-control left" href="#myCarousel"
+           data-slide="prev">&lsaquo;
         </a>
+        <a class="carousel-control right" href="#myCarousel"
+           data-slide="next">&rsaquo;
+        </a>
+
     </div>
-    <hr style="border: 1px solid #3498db; margin: 0 0 20px 0;">
+    
+    <div class="container fly" style="width: 1010px; padding:0;">
 
-    <div>
-        <!-- Nav tabs -->
-        <ul class="nav nav-tabs" role="tablist" style="font-size: 16px;">
-            <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab" ng-click="displayAll()">全部</a></li>
-            <li role="presentation"><a href="#comment" aria-controls="messages" role="tab" data-toggle="tab" ng-click="commentTasksOnly()">评论</a></li>
-            <li role="presentation"><a href="#download" aria-controls="profile" role="tab" data-toggle="tab" ng-click="downloadTasksOnly()">下载</a></li>
-            <li role="presentation"><a href="#inactive" aria-controls="settings" role="tab" data-toggle="tab" ng-click="inactiveTasksOnly()">已筛选任务 ( {{disableTaskCount}} )</a></li>
-        </ul>
-        <div class="tab-content ">
-            <!--全部任务-->
-            <div role="tabpanel" class="tab-pane active" id="home">
-                <div class="spinner" ng-hide="!isLoadingMyApp">
-                    <div class="double-bounce1"></div>
-                    <div class="double-bounce2"></div>
+        <!--<a href=""  data-toggle="modal" data-target="#releaseTaskVideo" class="releaseTaskVideo" style="outline: none"></a>-->
+        <!--<a href=""  data-toggle="modal" data-target="#getTaskVideo"  class="getTaskVideo"  style="outline: none" ></a>-->
+        <!--<a href=""  data-toggle="modal" data-target="#uploadTaskVideo" class="uploadTaskVideo" style="outline: none"></a>-->
 
-                </div>
-                <div class="taskPanel" ng-repeat="app in taskDisplayed">
-                    <table style="width: 1010px;" ng-mouseover="showDiv(app)" ng-mouseleave="hideDiv(app)">
-                        <tr>
-                            <td style="padding: 24px 24px 24px 24px; width: 140px;position: relative">
-                                <img ng-src="{{ app.artworkUrl100 }}" class="appIcon" >
-                                <div class="choose" ng-show="app.mode" ng-click="filtrateApp(app)" data-target="#markApp{{$index}}" data-toggle="modal">标记已换</div>
+        <div class="row" style="margin:0;">
+            <p style="font-size: 30px; color: #3498db; margin: 40px 20px 10px 0; float: left">任务列表</p>
+            <div  class="alert alert-warning" role="alert" style="display: inline-block; margin-top: 35px;">
+                Y币支持支付宝充值拉(个人中心-Y币充值),号外:8.23-8.26充值额外赠送Y币
+            </div>
+            <a href="myapp" class="publishTask" ng-mouseover="changePlaneColor()" ng-mouseleave = "changePlaneColor()">
+                <img src="/images/doTask/paperplane.png" ng-show="planeColor"/>
+                <img src="/images/doTask/paperplane-blue.png" ng-hide="planeColor"/>
+                快速发布任务
+            </a>
+        </div>
 
-                            </td>
-                            <td style="width:600px;">
-                                <p class="appName">
-                                    <!--<span class="label label-danger" style="background-color: #f26e50;font-size: 14px;margin-right: 8px" ng-show="app.isNewVersion">App已更新</span>-->
-                                    {{ app.trackName }}
+        <hr style="border: 1px solid #3498db; margin: 0 0 20px 0;">
 
-                                </p>
+        <div>
+            <!-- Nav tabs -->
+            <ul class="nav nav-tabs" role="tablist" style="font-size: 16px;">
+                <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab" ng-click="displayAll()">全部</a></li>
+                <li role="presentation"><a href="#comment" aria-controls="messages" role="tab" data-toggle="tab" ng-click="commentTasksOnly()">评论</a></li>
+                <li role="presentation"><a href="#download" aria-controls="profile" role="tab" data-toggle="tab" ng-click="downloadTasksOnly()">下载</a></li>
+                <li role="presentation"><a href="#inactive" aria-controls="settings" role="tab" data-toggle="tab" ng-click="inactiveTasksOnly()">已筛选任务 ( {{disableTaskCount}} )</a></li>
+            </ul>
+            <div class="tab-content ">
+                <!--全部任务-->
+                <div role="tabpanel" class="tab-pane active" id="home">
+                    <div class="spinner" ng-hide="!isLoadingMyApp">
+                        <div class="double-bounce1"></div>
+                        <div class="double-bounce2"></div>
 
-                                <div>
-                                    <span ng-class="{true: 'infoBubble2', false: 'infoBubble1'}[ app.taskType=='评论']">{{ app.taskType }}</span>
-                                    <span class="infoBubble">剩余: <span style="color:#53d435">{{ app.remainCount }}</span> 条</span>
-                                    <span class="infoBubble">单价: <span style="color:#53d435">{{app.rateUnitPrice}}</span> Y币</span>
-                                    <span class="infoBubble"><span style="color:#53d435">IOS</span></span>
-                                    <span class="infoBubble"><span style="color:red">更新日期:{{ app.latestReleaseDate | date:"yyyy/MM/dd"  }}</span></span>
+                    </div>
+                    <div class="taskPanel" ng-repeat="app in taskDisplayed">
+                        <table style="width: 1010px;" ng-mouseover="showDiv(app)" ng-mouseleave="hideDiv(app)">
+                            <tr>
+                                <td style="padding: 24px 24px 24px 24px; width: 140px;position: relative">
+                                    <img ng-src="{{ app.artworkUrl100 }}" class="appIcon" >
+                                    <div class="choose" ng-show="app.mode" ng-click="filtrateApp(app)" data-target="#markApp{{$index}}" data-toggle="modal">标记已换</div>
 
-                                </div>
-                            </td>
-                            <!--<td ng-if='!app.myTask && !app.hasTaken && app.remainCount' ng-show="!app.hasChanged" style="padding-right: 0px;">-->
+                                </td>
+                                <td style="width:600px;">
+                                    <p class="appName">
+                                        <!--<span class="label label-danger" style="background-color: #f26e50;font-size: 14px;margin-right: 8px" ng-show="app.isNewVersion">App已更新</span>-->
+                                        {{ app.trackName }}
+
+                                    </p>
+
+                                    <div>
+                                        <span ng-class="{true: 'infoBubble2', false: 'infoBubble1'}[ app.taskType=='评论']">{{ app.taskType }}</span>
+                                        <span class="infoBubble">剩余: <span style="color:#53d435">{{ app.remainCount }}</span> 条</span>
+                                        <span class="infoBubble">单价: <span style="color:#53d435">{{app.rateUnitPrice}}</span> Y币</span>
+                                        <span class="infoBubble"><span style="color:#53d435">IOS</span></span>
+                                        <span class="infoBubble"><span style="color:red">更新日期:{{ app.latestReleaseDate | date:"yyyy/MM/dd"  }}</span></span>
+
+                                    </div>
+                                </td>
+                                <!--<td ng-if='!app.myTask && !app.hasTaken && app.remainCount' ng-show="!app.hasChanged" style="padding-right: 0px;">-->
                                 <!--<button class="mybtn reverse hvr-float-shadow" data-target="#detail{{$index}}" data-toggle="modal">-->
-                                    <!--任务详情-->
+                                <!--任务详情-->
                                 <!--</button>-->
-                            <!--</td>-->
-                            <td ng-if='!app.myTask && !app.hasTaken && app.remainCount' ng-show="!app.hasChanged" style="padding-right: 40px;">
-                                <button class="mybtn reverse hvr-float-shadow" style="width: 300px" data-target="#takeTask{{$index}}" data-toggle="modal">
-                                    领取任务
-                                </button>
-                            </td>
-                            <td ng-if="app.myTask"  style="padding-right: 0px;">
-                                <button class="mybtn myTask hvr-float-shadow" data-target="#detail{{$index}}" data-toggle="modal">
-                                    任务详情
-                                </button>
-                            </td>
-                            <td ng-if="app.myTask"  style="padding-right: 40px;">
-                                <button class="myTask">
-                                    我的发布
-                                </button>
-                            </td>
-                            <td  ng-show="app.hasChanged">
-                                <button  class="haschange">
-                                    本版本标记为已换
-                                </button>
-                            </td>
-                            <td  ng-show="app.hasTaken && !app.hasChanged">
-                                <button  class="haschange">
-                                    已经领取了该任务
-                                </button>
-                            </td>
-                            <td  ng-show="app.remainCount == 0">
-                                <button  class="haschange">
-                                    任务已经领取完
-                                </button>
-                            </td>
-                        </tr>
-                    </table>
-                    <div class="modal fade" id="markApp{{$index}}">
-                        <div class="modal-dialog">
-                            <div class="modal-content" style="width: 320px;">
-                                <div class="modal-header" style="height: 74px;background-color:#6eb7e8;border-radius:4px;text-align: center">
-                                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
-                                    <h4 class="modal-title"  style="font-size:20px;color: #FFFFFF">是否把此APP标记为"本版本已换"?</h4>
-                                </div>
+                                <!--</td>-->
+                                <td ng-if='!app.myTask && !app.hasTaken && app.remainCount' ng-show="!app.hasChanged" style="padding-right: 40px;">
+                                    <button class="mybtn reverse hvr-float-shadow" style="width: 300px" data-target="#takeTask{{$index}}" data-toggle="modal">
+                                        领取任务
+                                    </button>
+                                </td>
+                                <td ng-if="app.myTask"  style="padding-right: 0px;">
+                                    <button class="mybtn myTask hvr-float-shadow" data-target="#detail{{$index}}" data-toggle="modal">
+                                        任务详情
+                                    </button>
+                                </td>
+                                <td ng-if="app.myTask"  style="padding-right: 40px;">
+                                    <button class="myTask">
+                                        我的发布
+                                    </button>
+                                </td>
+                                <td  ng-show="app.hasChanged">
+                                    <button  class="haschange">
+                                        本版本标记为已换
+                                    </button>
+                                </td>
+                                <td  ng-show="app.hasTaken && !app.hasChanged">
+                                    <button  class="haschange">
+                                        已经领取了该任务
+                                    </button>
+                                </td>
+                                <td  ng-show="app.remainCount == 0">
+                                    <button  class="haschange">
+                                        任务已经领取完
+                                    </button>
+                                </td>
+                            </tr>
+                        </table>
+                        <div class="modal fade" id="markApp{{$index}}">
+                            <div class="modal-dialog">
+                                <div class="modal-content" style="width: 320px;">
+                                    <div class="modal-header" style="height: 74px;background-color:#6eb7e8;border-radius:4px;text-align: center">
+                                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+                                        <h4 class="modal-title"  style="font-size:20px;color: #FFFFFF">是否把此APP标记为"本版本已换"?</h4>
+                                    </div>
 
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="confirmAdd(app)">确认</button>
-                                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-                                </div>
-                            </div><!-- /.modal-content -->
-                        </div><!-- /.modal-dialog -->
-                    </div>
-                    <hr style="margin:0; border-color: #dddddd;">
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="confirmAdd(app)">确认</button>
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                                    </div>
+                                </div><!-- /.modal-content -->
+                            </div><!-- /.modal-dialog -->
+                        </div>
+                        <hr style="margin:0; border-color: #dddddd;">
 
-                    <!---Modal-->
-                    <div class="modal fade" id="detail{{$index}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-                        <div class="modal-dialog" role="document">
-                            <div class="modal-content" style="width: 642px;">
-                                <div class="modal-header">
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                    <h4 class="modal-title">任务详情</h4>
-                                </div>
-                                <div class="modal-body" style="padding:0;">
-                                    <div style="background:url(/images/appDetail/screenshot-background.png); width: 640px;
+                        <!---Modal-->
+                        <div class="modal fade" id="detail{{$index}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content" style="width: 642px;">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                        <h4 class="modal-title">任务详情</h4>
+                                    </div>
+                                    <div class="modal-body" style="padding:0;">
+                                        <div style="background:url(/images/appDetail/screenshot-background.png); width: 640px;
                         padding: 36px 54px 60px 30px; margin: auto;">
-                                        <div class="row">
-                                            <div class="col-sm-3">
-                                                <img  class="appicon" style="display: inline-block; margin: 0 26px 40px 20px;
+                                            <div class="row">
+                                                <div class="col-sm-3">
+                                                    <img  class="appicon" style="display: inline-block; margin: 0 26px 40px 20px;
                                 width: 120px; height: 120px; border-radius: 20px"
-                                                      ng-src="{{  app.artworkUrl100 }}" alt="App Icon">
-                                            </div>
-                                            <div class="col-sm-9" style="padding-left: 50px;">
-                                                <p style="font-size: 24px; color: #ffffff;
+                                                          ng-src="{{  app.artworkUrl100 }}" alt="App Icon">
+                                                </div>
+                                                <div class="col-sm-9" style="padding-left: 50px;">
+                                                    <p style="font-size: 24px; color: #ffffff;
                                 width: 330px; margin-top: 10px">
-                                                    {{ app.trackName.substr(0,12)+"..."  }}
-                                                </p>
-                                                <p style="color: #ffffff;
+                                                        {{ app.trackName.substr(0,12)+"..."  }}
+                                                    </p>
+                                                    <p style="color: #ffffff;
                                 width: 330px;" ng-show="app.latestReleaseDate.length > 0">
-                                                    更新日期: {{ app.latestReleaseDate | date:"yyyy/MM/dd"  }}
-                                                </p>
-                                                <p style="color: #ffffff; font-size: 20px;">
-                                                    任务类型: <span class="synwords">{{app.taskType}}</span>
-                                                </p>
+                                                        更新日期: {{ app.latestReleaseDate | date:"yyyy/MM/dd"  }}
+                                                    </p>
+                                                    <p style="color: #ffffff; font-size: 20px;">
+                                                        任务类型: <span class="synwords">{{app.taskType}}</span>
+                                                    </p>
+                                                </div>
                                             </div>
-                                        </div>
 
-                                        <ol style="font-size: 20px; color: #ffffff;
+                                            <ol style="font-size: 20px; color: #ffffff;
                             list-style-position: inside; padding:0; margin:0;">
-                                            <li style="margin-bottom: 30px">
-                                                <p><span class="synwords">IOS App Store</span> 搜索"<span class="synwords">{{app.searchKeyword}}</span>"
-                                                    第<span class="synwords"> {{app.ranking}}</span>
-                                                    名左右, 找到应用,如上图图标, 下载.</p>
-                                            </li>
-                                            <li style="margin-bottom: 30px">
-                                                <p>打开app, 请务必过引导页.</p>
-                                            </li>
-                                            <li style="margin-bottom: 30px" ng-hide="app.taskType == '评论'">
-                                                <p> 截图2张,一张搜索图,一张打开激活图.</p>
-                                            </li>
-                                            <li  style="margin-bottom: 30px" ng-hide="app.taskType == '下载'">
-                                                <p  style="margin-bottom: 20px">
-                                                    返回app store, 好评"<span class="synwords">{{app.score}}</span>星"
-                                                </p>
-                                                <p style="margin-bottom: 20px">
-                                                    &nbsp &nbsp &nbsp 标题关键词: <span class="synwords">{{app.titleKeyword}}</span></p>
-                                                <p style="margin-bottom: 20px">
-                                                    &nbsp &nbsp &nbsp评论关键词: <span class="synwords">{{app.commentKeyword}}</span></p>
-                                            </li>
-                                            <li style="margin-bottom: 30px" ng-hide="app.taskType == '下载'">
-                                                <p> 截图 <span class="synwords">{{app.screenshotCount}}</span> 张, 详情见备注.</p>
-                                            </li>
-                                            <li  style="margin-bottom: 30px" ng-show = "app.detailRem.length > 0">
-                                                <p>备注:</p>
-                                                <p style="border: 1px solid #cdf1ff; font-size: 18px;
+                                                <li style="margin-bottom: 30px">
+                                                    <p><span class="synwords">IOS App Store</span> 搜索"<span class="synwords">{{app.searchKeyword}}</span>"
+                                                        第<span class="synwords"> {{app.ranking}}</span>
+                                                        名左右, 找到应用,如上图图标, 下载.</p>
+                                                </li>
+                                                <li style="margin-bottom: 30px">
+                                                    <p>打开app, 请务必过引导页.</p>
+                                                </li>
+                                                <li style="margin-bottom: 30px" ng-hide="app.taskType == '评论'">
+                                                    <p> 截图2张,一张搜索图,一张打开激活图.</p>
+                                                </li>
+                                                <li  style="margin-bottom: 30px" ng-hide="app.taskType == '下载'">
+                                                    <p  style="margin-bottom: 20px">
+                                                        返回app store, 好评"<span class="synwords">{{app.score}}</span>星"
+                                                    </p>
+                                                    <p style="margin-bottom: 20px">
+                                                        &nbsp &nbsp &nbsp 标题关键词: <span class="synwords">{{app.titleKeyword}}</span></p>
+                                                    <p style="margin-bottom: 20px">
+                                                        &nbsp &nbsp &nbsp评论关键词: <span class="synwords">{{app.commentKeyword}}</span></p>
+                                                </li>
+                                                <li style="margin-bottom: 30px" ng-hide="app.taskType == '下载'">
+                                                    <p> 截图 <span class="synwords">{{app.screenshotCount}}</span> 张, 详情见备注.</p>
+                                                </li>
+                                                <li  style="margin-bottom: 30px" ng-show = "app.detailRem.length > 0">
+                                                    <p>备注:</p>
+                                                    <p style="border: 1px solid #cdf1ff; font-size: 18px;
                                     margin-top: 20px; margin-bottom: 70px;
                                     padding: 18px 20px 18px 20px;">
-                                                    <span class="synwords">{{app.detailRem}}</span>
-                                                </p>
-                                            </li>
-                                        </ol>
+                                                        <span class="synwords">{{app.detailRem}}</span>
+                                                    </p>
+                                                </li>
+                                            </ol>
 
-                                        <p style="font-size: 24px; color: #ffffff;">
-                                            手机评论, 不要无卡机, iPad, 一条以上用手机流量哦, 亲.
-                                            &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp;&nbsp &nbsp &nbsp
-                                            &nbsp &nbsp &nbsp&nbsp &nbsp &nbsp&nbsp &nbsp &nbsp
-                                            &nbsp &nbsp &nbsp&nbsp &nbsp &nbsp&nbsp
-                                            -友情提醒, 避免撕逼
-                                        </p>
+                                            <p style="font-size: 24px; color: #ffffff;">
+                                                手机评论, 不要无卡机, iPad, 一条以上用手机流量哦, 亲.
+                                                &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp;&nbsp &nbsp &nbsp
+                                                &nbsp &nbsp &nbsp&nbsp &nbsp &nbsp&nbsp &nbsp &nbsp
+                                                &nbsp &nbsp &nbsp&nbsp &nbsp &nbsp&nbsp
+                                                -友情提醒, 避免撕逼
+                                            </p>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
 
-                    <div class="modal fade" id="takeTask{{$index}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-                        <div class="modal-dialog modal-lg" role="document">
-                            <div class="modal-content">
-                                <div class="modal-body">
-                                    <div class="row">
-                                        <div class="col-sm-6">
-                                            <div style="background:url(/images/appDetail/screenshot-background.png); width: 100%; margin: 20px 12px 20px 20px;">
-                                                <div class="row">
-                                                    <div class="col-sm-3">
-                                                        <img  class="appIcon-small" ng-src="{{  app.artworkUrl100 }}" alt="App Icon">
+                        <div class="modal fade" id="takeTask{{$index}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                            <div class="modal-dialog modal-lg" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-body">
+                                        <div class="row">
+                                            <div class="col-sm-6">
+                                                <div style="background:url(/images/appDetail/screenshot-background.png); width: 100%; margin: 20px 12px 20px 20px;">
+                                                    <div class="row">
+                                                        <div class="col-sm-3">
+                                                            <img  class="appIcon-small" ng-src="{{  app.artworkUrl100 }}" alt="App Icon">
+                                                        </div>
+                                                        <div class="col-sm-9">
+                                                            <p style="font-size: 20px; color: #ffffff; width: 330px; margin-top: 20px; margin-bottom: 6px;">
+                                                                {{ app.trackName.substr(0,12)+"..."  }}
+                                                            </p>
+                                                            <p style="color: #ffffff; width: 330px; font-size: 14px; margin:0" ng-show="app.latestReleaseDate.length > 0">
+                                                                更新日期: {{ app.latestReleaseDate | date:"yyyy/MM/dd"  }}
+                                                            </p>
+                                                            <p style="color: #ffffff; font-size: 14px;margin:0">
+                                                                任务类型: <span class="synwords">{{app.taskType}}</span>
+                                                            </p>
+                                                        </div>
                                                     </div>
-                                                    <div class="col-sm-9">
-                                                        <p style="font-size: 20px; color: #ffffff; width: 330px; margin-top: 20px; margin-bottom: 6px;">
-                                                            {{ app.trackName.substr(0,12)+"..."  }}
-                                                        </p>
-                                                        <p style="color: #ffffff; width: 330px; font-size: 14px; margin:0" ng-show="app.latestReleaseDate.length > 0">
-                                                            更新日期: {{ app.latestReleaseDate | date:"yyyy/MM/dd"  }}
-                                                        </p>
-                                                        <p style="color: #ffffff; font-size: 14px;margin:0">
-                                                            任务类型: <span class="synwords">{{app.taskType}}</span>
-                                                        </p>
+
+                                                    <ol style="font-size: 14px; color: #ffffff; list-style-position: inside; padding:0; margin:0 15px 0 15px;">
+                                                        <li style="margin-bottom: 14px">
+                                                            <p><span class="synwords">IOS App Store</span> 搜索"<span class="synwords">{{app.searchKeyword}}</span>"
+                                                                第<span class="synwords"> {{app.ranking}}</span>
+                                                                名左右, 找到应用,如上图图标, 下载.</p>
+                                                        </li>
+                                                        <li style="margin-bottom: 14px">
+                                                            <p>打开app, 请务必过引导页.</p>
+                                                        </li>
+                                                        <li style="margin-bottom: 14px" ng-hide="app.taskType == '评论'">
+                                                            <p> 截图2张,一张搜索图,一张打开激活图.</p>
+                                                        </li>
+                                                        <li  style="margin-bottom: 14px" ng-hide="app.taskType == '下载'">
+                                                            <p  style="margin-bottom: 12px">
+                                                                返回app store, 好评"<span class="synwords">{{app.score}}</span>星"
+                                                            </p>
+                                                            <p style="margin-bottom: 12px">
+                                                                &nbsp &nbsp &nbsp 标题关键词: <span class="synwords">{{app.titleKeyword}}</span></p>
+                                                            <p style="margin-bottom: 12px">
+                                                                &nbsp &nbsp &nbsp 评论关键词: <span class="synwords">{{app.commentKeyword}}</span></p>
+                                                        </li>
+                                                        <li style="margin-bottom: 14px" ng-hide="app.taskType == '下载'">
+                                                            <p> 截图 <span class="synwords">{{app.screenshotCount}}</span> 张, 详情见备注.</p>
+                                                        </li>
+                                                        <li  style="margin-bottom: 14px" ng-show = "app.detailRem.length > 0">
+                                                            <p>备注:</p>
+                                                            <p style="border: 1px solid #cdf1ff; font-size: 14px; margin-top: 12px; margin-bottom: 18px; padding: 9px 10px 9px 10px;">
+                                                                <span class="synwords">{{app.detailRem}}</span>
+                                                            </p>
+                                                        </li>
+                                                    </ol>
+
+                                                    <p style="font-size: 14px; color: #ffffff; padding:0 15px 26px 15px">
+                                                        手机评论, 不要无卡机, iPad, 一条以上用手机流量哦, 亲.
+                                                        &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp;
+                                                        -友情提醒, 避免撕逼
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <div style="text-align: center; margin-top: 30px; margin-bottom:12px; font-size: 24px; color: #3498db;">
+                                                    领取任务
+                                                </div>
+                                                <hr style="border-color: #3498db; margin: 0 30px 0 12px">
+                                                <div style="font-size: 18px; color: #333333">
+                                                    <div style="margin: 16px 30px 22px 10px;">
+                                                        <span>剩余:</span>
+                                                        <span style="color:#3498db">{{app.remainCount}}</span>
+                                                        <span>条</span>
                                                     </div>
-                                                </div>
-
-                                                <ol style="font-size: 14px; color: #ffffff; list-style-position: inside; padding:0; margin:0 15px 0 15px;">
-                                                    <li style="margin-bottom: 14px">
-                                                        <p><span class="synwords">IOS App Store</span> 搜索"<span class="synwords">{{app.searchKeyword}}</span>"
-                                                            第<span class="synwords"> {{app.ranking}}</span>
-                                                            名左右, 找到应用,如上图图标, 下载.</p>
-                                                    </li>
-                                                    <li style="margin-bottom: 14px">
-                                                        <p>打开app, 请务必过引导页.</p>
-                                                    </li>
-                                                    <li style="margin-bottom: 14px" ng-hide="app.taskType == '评论'">
-                                                        <p> 截图2张,一张搜索图,一张打开激活图.</p>
-                                                    </li>
-                                                    <li  style="margin-bottom: 14px" ng-hide="app.taskType == '下载'">
-                                                        <p  style="margin-bottom: 12px">
-                                                            返回app store, 好评"<span class="synwords">{{app.score}}</span>星"
-                                                        </p>
-                                                        <p style="margin-bottom: 12px">
-                                                            &nbsp &nbsp &nbsp 标题关键词: <span class="synwords">{{app.titleKeyword}}</span></p>
-                                                        <p style="margin-bottom: 12px">
-                                                            &nbsp &nbsp &nbsp 评论关键词: <span class="synwords">{{app.commentKeyword}}</span></p>
-                                                    </li>
-                                                    <li style="margin-bottom: 14px" ng-hide="app.taskType == '下载'">
-                                                        <p> 截图 <span class="synwords">{{app.screenshotCount}}</span> 张, 详情见备注.</p>
-                                                    </li>
-                                                    <li  style="margin-bottom: 14px" ng-show = "app.detailRem.length > 0">
-                                                        <p>备注:</p>
-                                                        <p style="border: 1px solid #cdf1ff; font-size: 14px; margin-top: 12px; margin-bottom: 18px; padding: 9px 10px 9px 10px;">
-                                                            <span class="synwords">{{app.detailRem}}</span>
-                                                        </p>
-                                                    </li>
-                                                </ol>
-
-                                                <p style="font-size: 14px; color: #ffffff; padding:0 15px 26px 15px">
-                                                    手机评论, 不要无卡机, iPad, 一条以上用手机流量哦, 亲.
-                                                    &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp;
-                                                    -友情提醒, 避免撕逼
-                                                </p>
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-6">
-                                            <div style="text-align: center; margin-top: 30px; margin-bottom:12px; font-size: 24px; color: #3498db;">
-                                                领取任务
-                                            </div>
-                                            <hr style="border-color: #3498db; margin: 0 30px 0 12px">
-                                            <div style="font-size: 18px; color: #333333">
-                                                <div style="margin: 16px 30px 22px 10px;">
-                                                    <span>剩余:</span>
-                                                    <span style="color:#3498db">{{app.remainCount}}</span>
-                                                    <span>条</span>
-                                                </div>
-                                                <div style="margin: 0 30px 22px 10px;">
-                                                    <span>领取:</span>
+                                                    <div style="margin: 0 30px 22px 10px;">
+                                                        <span>领取:</span>
                                                     <span>
                                                         <input type="text" ng-model="app.receiveCount" placeholder="0" style="border-radius: 6px; width: 50px;"/>
                                                     </span>
-                                                    <span>条</span>
-                                                    <span style="margin-left: 56px;">获得</span>
-                                                    <span style="color:#3498db">{{(app.receiveCount == undefined) ? 0 : (app.receiveCount* app.rateUnitPrice)}}</span>
-                                                    <span>Y币</span>
+                                                        <span>条</span>
+                                                        <span style="margin-left: 56px;">获得</span>
+                                                        <span style="color:#3498db">{{(app.receiveCount == undefined) ? 0 : (app.receiveCount* app.rateUnitPrice)}}</span>
+                                                        <span>Y币</span>
+                                                    </div>
+                                                    <div style="margin: 0px 30px 14px 12px;">
+                                                        <div style="margin-bottom: 12px;">备注: </div>
+                                                        <textarea  class="form-control" rows="5"  placeholder="用于内部分配(张三1条, 王五1条...)" ng-model='app.detail' style="border-radius: 6px; height: 102px; width: 380px;"></textarea>
+                                                    </div>
                                                 </div>
-                                                <div style="margin: 0px 30px 14px 12px;">
-                                                    <div style="margin-bottom: 12px;">备注: </div>
-                                                    <textarea  class="form-control" rows="5"  placeholder="用于内部分配(张三1条, 王五1条...)" ng-model='app.detail' style="border-radius: 6px; height: 102px; width: 380px;"></textarea>
+                                                <div class="alert alert-warning" role="alert" style="margin:0 30px 14px 12px; width: 380px">
+                                                    当天下午6点前任务,需要当天完成(若未完成将受到一定Y币惩罚)
                                                 </div>
-                                            </div>
-                                            <div class="alert alert-warning" role="alert" style="margin:0 30px 14px 12px; width: 380px">
-                                                当天下午6点前任务,需要当天完成(若未完成将受到一定Y币惩罚)
-                                            </div>
 
-                                            <div style="margin-left: 12px; margin-bottom: 14px;">
-                                                <button type="button" class="btn btn-default confirmGet" style="margin-right: 10px;"
-                                                        ng-class="{true:'disabled'}[app.isGetingTask]" ng-click="getTask(app)">
-                                                    确认领取
-                                                </button>
-                                                <button type="button" class="btn btn-default btn-close" data-dismiss="modal" aria-label="Close">
-                                                    关闭
-                                                </button>
-                                            </div>
-                                            <div style="margin-bottom: 14px; margin-left: 12px">
-                                                <div class="alert alert-danger" role="alert"
-                                                     style="padding:6px 12px 6px 12px; width: 380px" ng-show= "app.errorMsg != undefined && app.errorMsg.length > 0">
-                                                    {{app.errorMsg}}
+                                                <div style="margin-left: 12px; margin-bottom: 14px;">
+                                                    <button type="button" class="btn btn-default confirmGet" style="margin-right: 10px;"
+                                                            ng-class="{true:'disabled'}[app.isGetingTask]" ng-click="getTask(app)">
+                                                        确认领取
+                                                    </button>
+                                                    <button type="button" class="btn btn-default btn-close" data-dismiss="modal" aria-label="Close">
+                                                        关闭
+                                                    </button>
                                                 </div>
-                                                <div class="alert alert-success" role="alert"
-                                                     style="padding:6px 12px 6px 12px; width: 380px" ng-show= "app.getTaskErrorId != undefined && app.getTaskErrorId == 0">
-                                                    任务领取成功(我的认领中查看)
+                                                <div style="margin-bottom: 14px; margin-left: 12px">
+                                                    <div class="alert alert-danger" role="alert"
+                                                         style="padding:6px 12px 6px 12px; width: 380px" ng-show= "app.errorMsg != undefined && app.errorMsg.length > 0">
+                                                        {{app.errorMsg}}
+                                                    </div>
+                                                    <div class="alert alert-success" role="alert"
+                                                         style="padding:6px 12px 6px 12px; width: 380px" ng-show= "app.getTaskErrorId != undefined && app.getTaskErrorId == 0">
+                                                        任务领取成功(我的认领中查看)
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -385,293 +380,293 @@
                             </div>
                         </div>
                     </div>
-                </div>
 
-                <div ng-show="noApp">
-                    <h1 style="text-align: center; margin-top: 150px; margin-bottom: 150px;">暂时没有可做的任务</h1>
-                </div>
-                <div style="margin-top: 30px; margin-bottom: 30px; text-align: center;">
-                    <button class="btn btn-default myPageBtn" ng-hide="!hasMoreDic['allTask']" ng-click="displayAll()">下一页</button>
-                </div>
-                <div style="margin-top: 30px; margin-bottom: 30px; text-align: center;">
-                    <button class="btn btn-default myPageBtn" ng-show="hasMoreDic['allTask'] == 0" >没有更多数据</button>
-                </div>
-
-            </div>
-
-            <!--评论的任务-->
-            <div role="tabpanel" class="tab-pane" id="comment">
-                <div class="spinner" ng-hide="!isLoadingMyApp">
-                    <div class="double-bounce1"></div>
-                    <div class="double-bounce2"></div>
+                    <div ng-show="noApp">
+                        <h1 style="text-align: center; margin-top: 150px; margin-bottom: 150px;">暂时没有可做的任务</h1>
+                    </div>
+                    <div style="margin-top: 30px; margin-bottom: 30px; text-align: center;">
+                        <button class="btn btn-default myPageBtn" ng-hide="!hasMoreDic['allTask']" ng-click="displayAll()">下一页</button>
+                    </div>
+                    <div style="margin-top: 30px; margin-bottom: 30px; text-align: center;">
+                        <button class="btn btn-default myPageBtn" ng-show="hasMoreDic['allTask'] == 0" >没有更多数据</button>
+                    </div>
 
                 </div>
 
-                <div class="taskPanel" ng-repeat="app in commentTask">
-                    <table style="width: 1010px;" ng-mouseover="showDiv(app)" ng-mouseleave="hideDiv(app)">
-                        <tr>
-                            <td style="padding: 24px 24px 24px 24px; width: 140px; position: relative;">
-                                <img ng-src="{{ app.artworkUrl100 }}" class="appIcon"/>
-                                <div class="choose" ng-show='app.mode' ng-click="filtrateApp(app)" data-target="#markCommentApp{{$index}}" data-toggle="modal">标记已换</div>
-                            </td>
-                            <td style="width: 600px;">
-                                <p class="appName">{{ app.trackName }}</p>
-                                <div>
-                                    <span class="infoBubble">{{ app.taskType }}</span>
-                                    <span class="infoBubble">剩余: <span style="color:#53d435">{{ app.remainCount }}</span> 条</span>
-                                    <span class="infoBubble">单价: <span style="color:#53d435">{{app.rateUnitPrice}}</span> Y币</span>
-                                    <span class="infoBubble"><span style="color:#53d435">IOS</span></span>
-                                    <span class="infoBubble"><span style="color:red">更新日期:{{ app.latestReleaseDate | date:"yyyy/MM/dd"  }}</span></span>
-                                </div>
-                            </td>
-                            <!--<td ng-if='!app.myTask && !app.hasTaken && app.remainCount' ng-show="!app.hasChanged" style="padding-right: 0px;">-->
+                <!--评论的任务-->
+                <div role="tabpanel" class="tab-pane" id="comment">
+                    <div class="spinner" ng-hide="!isLoadingMyApp">
+                        <div class="double-bounce1"></div>
+                        <div class="double-bounce2"></div>
+
+                    </div>
+
+                    <div class="taskPanel" ng-repeat="app in commentTask">
+                        <table style="width: 1010px;" ng-mouseover="showDiv(app)" ng-mouseleave="hideDiv(app)">
+                            <tr>
+                                <td style="padding: 24px 24px 24px 24px; width: 140px; position: relative;">
+                                    <img ng-src="{{ app.artworkUrl100 }}" class="appIcon"/>
+                                    <div class="choose" ng-show='app.mode' ng-click="filtrateApp(app)" data-target="#markCommentApp{{$index}}" data-toggle="modal">标记已换</div>
+                                </td>
+                                <td style="width: 600px;">
+                                    <p class="appName">{{ app.trackName }}</p>
+                                    <div>
+                                        <span class="infoBubble">{{ app.taskType }}</span>
+                                        <span class="infoBubble">剩余: <span style="color:#53d435">{{ app.remainCount }}</span> 条</span>
+                                        <span class="infoBubble">单价: <span style="color:#53d435">{{app.rateUnitPrice}}</span> Y币</span>
+                                        <span class="infoBubble"><span style="color:#53d435">IOS</span></span>
+                                        <span class="infoBubble"><span style="color:red">更新日期:{{ app.latestReleaseDate | date:"yyyy/MM/dd"  }}</span></span>
+                                    </div>
+                                </td>
+                                <!--<td ng-if='!app.myTask && !app.hasTaken && app.remainCount' ng-show="!app.hasChanged" style="padding-right: 0px;">-->
                                 <!--<button class="mybtn reverse hvr-float-shadow" data-target="#detail_comment{{$index}}" data-toggle="modal">-->
-                                    <!--任务详情-->
+                                <!--任务详情-->
                                 <!--</button>-->
-                            <!--</td>-->
-                            <td ng-if='!app.myTask && !app.hasTaken && app.remainCount' ng-show="!app.hasChanged" style="padding-right: 40px;">
-                                <button class="mybtn reverse hvr-float-shadow" style="width:300px" data-target="#takeTask_comment{{$index}}" data-toggle="modal">
-                                    领取任务
-                                </button>
-                            </td>
-                            <td ng-if="app.myTask"  style="padding-right: 0px;">
-                                <button class="mybtn myTask hvr-float-shadow" data-target="#detail_comment{{$index}}" data-toggle="modal">
-                                    任务详情
-                                </button>
-                            </td>
-                            <td ng-if="app.myTask"  style="padding-right: 40px;">
-                                <button class="myTask">
-                                    我的发布
-                                </button>
-                            </td>
-                            <td  ng-show="app.hasChanged" >
-                                <button  class="haschange">
-                                    本版本标记为已换
-                                </button>
-                            </td>
-                            <td  ng-show="app.hasTaken && !app.hasChanged" >
-                                <button  class="haschange">
-                                    已经领取了该任务
-                                </button>
-                            </td>
-                            <td  ng-show="app.remainCount == 0">
-                                <button  class="haschange">
-                                    任务已经领取完
-                                </button>
-                            </td>
+                                <!--</td>-->
+                                <td ng-if='!app.myTask && !app.hasTaken && app.remainCount' ng-show="!app.hasChanged" style="padding-right: 40px;">
+                                    <button class="mybtn reverse hvr-float-shadow" style="width:300px" data-target="#takeTask_comment{{$index}}" data-toggle="modal">
+                                        领取任务
+                                    </button>
+                                </td>
+                                <td ng-if="app.myTask"  style="padding-right: 0px;">
+                                    <button class="mybtn myTask hvr-float-shadow" data-target="#detail_comment{{$index}}" data-toggle="modal">
+                                        任务详情
+                                    </button>
+                                </td>
+                                <td ng-if="app.myTask"  style="padding-right: 40px;">
+                                    <button class="myTask">
+                                        我的发布
+                                    </button>
+                                </td>
+                                <td  ng-show="app.hasChanged" >
+                                    <button  class="haschange">
+                                        本版本标记为已换
+                                    </button>
+                                </td>
+                                <td  ng-show="app.hasTaken && !app.hasChanged" >
+                                    <button  class="haschange">
+                                        已经领取了该任务
+                                    </button>
+                                </td>
+                                <td  ng-show="app.remainCount == 0">
+                                    <button  class="haschange">
+                                        任务已经领取完
+                                    </button>
+                                </td>
 
-                        </tr>
-                    </table>
-                    <div class="modal fade" id="markCommentApp{{$index}}">
-                        <div class="modal-dialog">
-                            <div class="modal-content" style="width: 320px;">
-                                <div class="modal-header" style="height: 74px;background-color:#6eb7e8;border-radius:4px;text-align: center">
-                                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
-                                    <h4 class="modal-title"  style="font-size:20px;color: #FFFFFF">是否把此APP标记为"本版本已换"?</h4>
-                                </div>
+                            </tr>
+                        </table>
+                        <div class="modal fade" id="markCommentApp{{$index}}">
+                            <div class="modal-dialog">
+                                <div class="modal-content" style="width: 320px;">
+                                    <div class="modal-header" style="height: 74px;background-color:#6eb7e8;border-radius:4px;text-align: center">
+                                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+                                        <h4 class="modal-title"  style="font-size:20px;color: #FFFFFF">是否把此APP标记为"本版本已换"?</h4>
+                                    </div>
 
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="confirmAdd(app)">确认</button>
-                                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-                                </div>
-                            </div><!-- /.modal-content -->
-                        </div><!-- /.modal-dialog -->
-                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="confirmAdd(app)">确认</button>
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                                    </div>
+                                </div><!-- /.modal-content -->
+                            </div><!-- /.modal-dialog -->
+                        </div>
 
 
-                    <hr style="margin:0; border-color: #dddddd;">
+                        <hr style="margin:0; border-color: #dddddd;">
 
-                    <!---Modal-->
-                    <div class="modal fade" id="detail_comment{{$index}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-                        <div class="modal-dialog" role="document">
-                            <div class="modal-content" style="width: 642px;">
-                                <div class="modal-header">
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                    <h4 class="modal-title" id="">任务详情</h4>
-                                </div>
-                                <div class="modal-body" style="padding:0;">
-                                    <div style="background:url(/images/appDetail/screenshot-background.png); width: 640px;
+                        <!---Modal-->
+                        <div class="modal fade" id="detail_comment{{$index}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content" style="width: 642px;">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                        <h4 class="modal-title" id="">任务详情</h4>
+                                    </div>
+                                    <div class="modal-body" style="padding:0;">
+                                        <div style="background:url(/images/appDetail/screenshot-background.png); width: 640px;
                         padding: 36px 54px 60px 30px; margin: auto;">
-                                        <div class="row">
-                                            <div class="col-sm-3">
-                                                <img  class="appicon" style="display: inline-block; margin: 0 26px 40px 20px;
+                                            <div class="row">
+                                                <div class="col-sm-3">
+                                                    <img  class="appicon" style="display: inline-block; margin: 0 26px 40px 20px;
                                 width: 120px; height: 120px; border-radius: 20px"
-                                                      ng-src="{{  app.artworkUrl100 }}" alt="App Icon">
-                                            </div>
-                                            <div class="col-sm-9" style="padding-left: 50px;">
-                                                <p style="font-size: 24px; color: #ffffff;
+                                                          ng-src="{{  app.artworkUrl100 }}" alt="App Icon">
+                                                </div>
+                                                <div class="col-sm-9" style="padding-left: 50px;">
+                                                    <p style="font-size: 24px; color: #ffffff;
                                 width: 330px; margin-top: 10px">
-                                                    {{ app.trackName.substr(0,12)+"..."  }}
-                                                </p>
-                                                <p style="color: #ffffff;
+                                                        {{ app.trackName.substr(0,12)+"..."  }}
+                                                    </p>
+                                                    <p style="color: #ffffff;
                                 width: 330px;" ng-show="app.latestReleaseDate.length > 0">
-                                                    更新日期: {{ app.latestReleaseDate | date:"yyyy/MM/dd"  }}
-                                                </p>
-                                                <p style="color: #ffffff; font-size: 20px;">
-                                                    任务类型: <span class="synwords">{{app.taskType}}</span>
-                                                </p>
+                                                        更新日期: {{ app.latestReleaseDate | date:"yyyy/MM/dd"  }}
+                                                    </p>
+                                                    <p style="color: #ffffff; font-size: 20px;">
+                                                        任务类型: <span class="synwords">{{app.taskType}}</span>
+                                                    </p>
+                                                </div>
                                             </div>
-                                        </div>
 
-                                        <ol style="font-size: 20px; color: #ffffff;
+                                            <ol style="font-size: 20px; color: #ffffff;
                             list-style-position: inside; padding:0; margin:0;">
-                                            <li style="margin-bottom: 30px">
-                                                <p><span class="synwords">IOS App Store</span> 搜索"<span class="synwords">{{app.searchKeyword}}</span>"
-                                                    第<span class="synwords"> {{app.ranking}}</span>
-                                                    名左右, 找到应用,如上图图标, 下载.</p>
-                                            </li>
-                                            <li style="margin-bottom: 30px">
-                                                <p>打开app, 请务必过引导页.</p>
-                                            </li>
-                                            <li  style="margin-bottom: 30px" ng-hide="app.taskType == '下载'">
-                                                <p  style="margin-bottom: 20px">
-                                                    返回app store, 好评"<span class="synwords">{{app.score}}</span>星"
-                                                </p>
-                                                <p style="margin-bottom: 20px">
-                                                    &nbsp &nbsp &nbsp 标题关键词: <span class="synwords">{{app.titleKeyword}}</span></p>
-                                                <p style="margin-bottom: 20px">
-                                                    &nbsp &nbsp &nbsp评论关键词: <span class="synwords">{{app.commentKeyword}}</span></p>
-                                            </li>
-                                            <li style="margin-bottom: 30px" ng-hide="app.taskType == '下载'">
-                                                <p> 截图 <span class="synwords">{{app.screenshotCount}}</span> 张, 详情见备注.</p>
-                                            </li>
-                                            <li  style="margin-bottom: 30px" ng-show = "app.detailRem.length > 0">
-                                                <p>备注:</p>
-                                                <p style="border: 1px solid #cdf1ff; font-size: 18px;
+                                                <li style="margin-bottom: 30px">
+                                                    <p><span class="synwords">IOS App Store</span> 搜索"<span class="synwords">{{app.searchKeyword}}</span>"
+                                                        第<span class="synwords"> {{app.ranking}}</span>
+                                                        名左右, 找到应用,如上图图标, 下载.</p>
+                                                </li>
+                                                <li style="margin-bottom: 30px">
+                                                    <p>打开app, 请务必过引导页.</p>
+                                                </li>
+                                                <li  style="margin-bottom: 30px" ng-hide="app.taskType == '下载'">
+                                                    <p  style="margin-bottom: 20px">
+                                                        返回app store, 好评"<span class="synwords">{{app.score}}</span>星"
+                                                    </p>
+                                                    <p style="margin-bottom: 20px">
+                                                        &nbsp &nbsp &nbsp 标题关键词: <span class="synwords">{{app.titleKeyword}}</span></p>
+                                                    <p style="margin-bottom: 20px">
+                                                        &nbsp &nbsp &nbsp评论关键词: <span class="synwords">{{app.commentKeyword}}</span></p>
+                                                </li>
+                                                <li style="margin-bottom: 30px" ng-hide="app.taskType == '下载'">
+                                                    <p> 截图 <span class="synwords">{{app.screenshotCount}}</span> 张, 详情见备注.</p>
+                                                </li>
+                                                <li  style="margin-bottom: 30px" ng-show = "app.detailRem.length > 0">
+                                                    <p>备注:</p>
+                                                    <p style="border: 1px solid #cdf1ff; font-size: 18px;
                                     margin-top: 20px; margin-bottom: 70px;
                                     padding: 18px 20px 18px 20px;">
-                                                    <span class="synwords">{{app.detailRem}}</span>
-                                                </p>
-                                            </li>
-                                        </ol>
+                                                        <span class="synwords">{{app.detailRem}}</span>
+                                                    </p>
+                                                </li>
+                                            </ol>
 
-                                        <p style="font-size: 24px; color: #ffffff;">
-                                            手机评论, 不要无卡机, iPad, 一条以上用手机流量哦, 亲.
-                                            &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp;&nbsp &nbsp &nbsp
-                                            &nbsp &nbsp &nbsp&nbsp &nbsp &nbsp&nbsp &nbsp &nbsp
-                                            &nbsp &nbsp &nbsp&nbsp &nbsp &nbsp&nbsp
-                                            -友情提醒, 避免撕逼
-                                        </p>
+                                            <p style="font-size: 24px; color: #ffffff;">
+                                                手机评论, 不要无卡机, iPad, 一条以上用手机流量哦, 亲.
+                                                &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp;&nbsp &nbsp &nbsp
+                                                &nbsp &nbsp &nbsp&nbsp &nbsp &nbsp&nbsp &nbsp &nbsp
+                                                &nbsp &nbsp &nbsp&nbsp &nbsp &nbsp&nbsp
+                                                -友情提醒, 避免撕逼
+                                            </p>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
 
-                    <!--领取任务弹窗-->
-                    <div class="modal fade" id="takeTask_comment{{$index}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-                        <div class="modal-dialog modal-lg" role="document">
-                            <div class="modal-content">
-                                <div class="modal-body">
-                                    <div class="row">
-                                        <div class="col-sm-6">
-                                            <div style="background:url(/images/appDetail/screenshot-background.png); width: 100%; margin: 20px 12px 20px 20px;">
-                                                <div class="row">
-                                                    <div class="col-sm-3">
-                                                        <img  class="appIcon-small" ng-src="{{  app.artworkUrl100 }}" alt="App Icon">
+                        <!--领取任务弹窗-->
+                        <div class="modal fade" id="takeTask_comment{{$index}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                            <div class="modal-dialog modal-lg" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-body">
+                                        <div class="row">
+                                            <div class="col-sm-6">
+                                                <div style="background:url(/images/appDetail/screenshot-background.png); width: 100%; margin: 20px 12px 20px 20px;">
+                                                    <div class="row">
+                                                        <div class="col-sm-3">
+                                                            <img  class="appIcon-small" ng-src="{{  app.artworkUrl100 }}" alt="App Icon">
+                                                        </div>
+                                                        <div class="col-sm-9">
+                                                            <p style="font-size: 20px; color: #ffffff; width: 330px; margin-top: 20px; margin-bottom: 6px;">
+                                                                {{ app.trackName.substr(0,12)+"..."  }}
+                                                            </p>
+                                                            <p style="color: #ffffff; width: 330px; font-size: 14px; margin:0" ng-show="app.latestReleaseDate.length > 0">
+                                                                更新日期: {{ app.latestReleaseDate | date:"yyyy/MM/dd"  }}
+                                                            </p>
+                                                            <p style="color: #ffffff; font-size: 14px;margin:0">
+                                                                任务类型: <span class="synwords">{{app.taskType}}</span>
+                                                            </p>
+                                                        </div>
                                                     </div>
-                                                    <div class="col-sm-9">
-                                                        <p style="font-size: 20px; color: #ffffff; width: 330px; margin-top: 20px; margin-bottom: 6px;">
-                                                            {{ app.trackName.substr(0,12)+"..."  }}
-                                                        </p>
-                                                        <p style="color: #ffffff; width: 330px; font-size: 14px; margin:0" ng-show="app.latestReleaseDate.length > 0">
-                                                            更新日期: {{ app.latestReleaseDate | date:"yyyy/MM/dd"  }}
-                                                        </p>
-                                                        <p style="color: #ffffff; font-size: 14px;margin:0">
-                                                            任务类型: <span class="synwords">{{app.taskType}}</span>
-                                                        </p>
+
+                                                    <ol style="font-size: 14px; color: #ffffff; list-style-position: inside; padding:0; margin:0 15px 0 15px;">
+                                                        <li style="margin-bottom: 14px">
+                                                            <p><span class="synwords">IOS App Store</span> 搜索"<span class="synwords">{{app.searchKeyword}}</span>"
+                                                                第<span class="synwords"> {{app.ranking}}</span>
+                                                                名左右, 找到应用,如上图图标, 下载.</p>
+                                                        </li>
+                                                        <li style="margin-bottom: 14px">
+                                                            <p>打开app, 请务必过引导页.</p>
+                                                        </li>
+                                                        <li style="margin-bottom: 14px" ng-hide="app.taskType == '评论'">
+                                                            <p> 截图2张,一张搜索图,一张打开激活图.</p>
+                                                        </li>
+                                                        <li  style="margin-bottom: 14px" ng-hide="app.taskType == '下载'">
+                                                            <p  style="margin-bottom: 12px">
+                                                                返回app store, 好评"<span class="synwords">{{app.score}}</span>星"
+                                                            </p>
+                                                            <p style="margin-bottom: 12px">
+                                                                &nbsp &nbsp &nbsp 标题关键词: <span class="synwords">{{app.titleKeyword}}</span></p>
+                                                            <p style="margin-bottom: 12px">
+                                                                &nbsp &nbsp &nbsp 评论关键词: <span class="synwords">{{app.commentKeyword}}</span></p>
+                                                        </li>
+                                                        <li style="margin-bottom: 14px" ng-hide="app.taskType == '下载'">
+                                                            <p> 截图 <span class="synwords">{{app.screenshotCount}}</span> 张, 详情见备注.</p>
+                                                        </li>
+                                                        <li  style="margin-bottom: 14px" ng-show = "app.detailRem.length > 0">
+                                                            <p>备注:</p>
+                                                            <p style="border: 1px solid #cdf1ff; font-size: 14px; margin-top: 12px; margin-bottom: 18px; padding: 9px 10px 9px 10px;">
+                                                                <span class="synwords">{{app.detailRem}}</span>
+                                                            </p>
+                                                        </li>
+                                                    </ol>
+
+                                                    <p style="font-size: 14px; color: #ffffff; padding:0 15px 26px 15px">
+                                                        手机评论, 不要无卡机, iPad, 一条以上用手机流量哦, 亲.
+                                                        &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp;
+                                                        -友情提醒, 避免撕逼
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <div style="text-align: center; margin-top: 30px; margin-bottom:12px; font-size: 24px; color: #3498db;">
+                                                    领取任务
+                                                </div>
+                                                <hr style="border-color: #3498db; margin: 0 30px 0 12px">
+                                                <div style="font-size: 18px; color: #333333">
+                                                    <div style="margin: 16px 30px 22px 10px;">
+                                                        <span>剩余:</span>
+                                                        <span style="color:#3498db">{{app.remainCount}}</span>
+                                                        <span>条</span>
                                                     </div>
-                                                </div>
-
-                                                <ol style="font-size: 14px; color: #ffffff; list-style-position: inside; padding:0; margin:0 15px 0 15px;">
-                                                    <li style="margin-bottom: 14px">
-                                                        <p><span class="synwords">IOS App Store</span> 搜索"<span class="synwords">{{app.searchKeyword}}</span>"
-                                                            第<span class="synwords"> {{app.ranking}}</span>
-                                                            名左右, 找到应用,如上图图标, 下载.</p>
-                                                    </li>
-                                                    <li style="margin-bottom: 14px">
-                                                        <p>打开app, 请务必过引导页.</p>
-                                                    </li>
-                                                    <li style="margin-bottom: 14px" ng-hide="app.taskType == '评论'">
-                                                        <p> 截图2张,一张搜索图,一张打开激活图.</p>
-                                                    </li>
-                                                    <li  style="margin-bottom: 14px" ng-hide="app.taskType == '下载'">
-                                                        <p  style="margin-bottom: 12px">
-                                                            返回app store, 好评"<span class="synwords">{{app.score}}</span>星"
-                                                        </p>
-                                                        <p style="margin-bottom: 12px">
-                                                            &nbsp &nbsp &nbsp 标题关键词: <span class="synwords">{{app.titleKeyword}}</span></p>
-                                                        <p style="margin-bottom: 12px">
-                                                            &nbsp &nbsp &nbsp 评论关键词: <span class="synwords">{{app.commentKeyword}}</span></p>
-                                                    </li>
-                                                    <li style="margin-bottom: 14px" ng-hide="app.taskType == '下载'">
-                                                        <p> 截图 <span class="synwords">{{app.screenshotCount}}</span> 张, 详情见备注.</p>
-                                                    </li>
-                                                    <li  style="margin-bottom: 14px" ng-show = "app.detailRem.length > 0">
-                                                        <p>备注:</p>
-                                                        <p style="border: 1px solid #cdf1ff; font-size: 14px; margin-top: 12px; margin-bottom: 18px; padding: 9px 10px 9px 10px;">
-                                                            <span class="synwords">{{app.detailRem}}</span>
-                                                        </p>
-                                                    </li>
-                                                </ol>
-
-                                                <p style="font-size: 14px; color: #ffffff; padding:0 15px 26px 15px">
-                                                    手机评论, 不要无卡机, iPad, 一条以上用手机流量哦, 亲.
-                                                    &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp;
-                                                    -友情提醒, 避免撕逼
-                                                </p>
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-6">
-                                            <div style="text-align: center; margin-top: 30px; margin-bottom:12px; font-size: 24px; color: #3498db;">
-                                                领取任务
-                                            </div>
-                                            <hr style="border-color: #3498db; margin: 0 30px 0 12px">
-                                            <div style="font-size: 18px; color: #333333">
-                                                <div style="margin: 16px 30px 22px 10px;">
-                                                    <span>剩余:</span>
-                                                    <span style="color:#3498db">{{app.remainCount}}</span>
-                                                    <span>条</span>
-                                                </div>
-                                                <div style="margin: 0 30px 22px 10px;">
-                                                    <span>领取:</span>
+                                                    <div style="margin: 0 30px 22px 10px;">
+                                                        <span>领取:</span>
                                                     <span>
                                                         <input type="text" ng-model="app.receiveCount" placeholder="0" style="border-radius: 6px; width: 50px;"/>
                                                     </span>
-                                                    <span>条</span>
-                                                    <span style="margin-left: 56px;">获得</span>
-                                                    <span style="color:#3498db">{{(app.receiveCount == undefined) ? 0 : (app.receiveCount* app.rateUnitPrice)}}</span>
-                                                    <span>Y币</span>
+                                                        <span>条</span>
+                                                        <span style="margin-left: 56px;">获得</span>
+                                                        <span style="color:#3498db">{{(app.receiveCount == undefined) ? 0 : (app.receiveCount* app.rateUnitPrice)}}</span>
+                                                        <span>Y币</span>
+                                                    </div>
+                                                    <div style="margin: 0px 30px 14px 12px;">
+                                                        <div style="margin-bottom: 12px;">备注: </div>
+                                                        <textarea  class="form-control" rows="5"  placeholder="用于内部分配(张三1条, 王五1条...)" ng-model='app.detail' style="border-radius: 6px; height: 102px; width: 380px;"></textarea>
+                                                    </div>
                                                 </div>
-                                                <div style="margin: 0px 30px 14px 12px;">
-                                                    <div style="margin-bottom: 12px;">备注: </div>
-                                                    <textarea  class="form-control" rows="5"  placeholder="用于内部分配(张三1条, 王五1条...)" ng-model='app.detail' style="border-radius: 6px; height: 102px; width: 380px;"></textarea>
+                                                <div class="alert alert-warning" role="alert" style="margin:0 30px 14px 12px; width: 380px">
+                                                    当天下午6点前任务,需要当天完成(若未完成将受到一定Y币惩罚)
                                                 </div>
-                                            </div>
-                                            <div class="alert alert-warning" role="alert" style="margin:0 30px 14px 12px; width: 380px">
-                                                当天下午6点前任务,需要当天完成(若未完成将受到一定Y币惩罚)
-                                            </div>
 
-                                            <div style="margin-left: 12px; margin-bottom: 14px;">
-                                                <button type="button" class="btn btn-default confirmGet" style="margin-right: 10px;"
-                                                        ng-class="{true:'disabled'}[app.isGetingTask]" ng-click="getTask(app)">
-                                                    确认领取
-                                                </button>
-                                                <button type="button" class="btn btn-default btn-close" data-dismiss="modal" aria-label="Close">
-                                                    关闭
-                                                </button>
-                                            </div>
-                                            <div style="margin-bottom: 14px; margin-left: 12px">
-                                                <div class="alert alert-danger" role="alert"
-                                                     style="padding:6px 12px 6px 12px; width: 380px" ng-show= "app.errorMsg != undefined && app.errorMsg.length > 0">
-                                                    {{app.errorMsg}}
+                                                <div style="margin-left: 12px; margin-bottom: 14px;">
+                                                    <button type="button" class="btn btn-default confirmGet" style="margin-right: 10px;"
+                                                            ng-class="{true:'disabled'}[app.isGetingTask]" ng-click="getTask(app)">
+                                                        确认领取
+                                                    </button>
+                                                    <button type="button" class="btn btn-default btn-close" data-dismiss="modal" aria-label="Close">
+                                                        关闭
+                                                    </button>
                                                 </div>
-                                                <div class="alert alert-success" role="alert"
-                                                     style="padding:6px 12px 6px 12px; width: 380px" ng-show= "app.getTaskErrorId != undefined && app.getTaskErrorId == 0">
-                                                    任务领取成功(我的认领中查看)
+                                                <div style="margin-bottom: 14px; margin-left: 12px">
+                                                    <div class="alert alert-danger" role="alert"
+                                                         style="padding:6px 12px 6px 12px; width: 380px" ng-show= "app.errorMsg != undefined && app.errorMsg.length > 0">
+                                                        {{app.errorMsg}}
+                                                    </div>
+                                                    <div class="alert alert-success" role="alert"
+                                                         style="padding:6px 12px 6px 12px; width: 380px" ng-show= "app.getTaskErrorId != undefined && app.getTaskErrorId == 0">
+                                                        任务领取成功(我的认领中查看)
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -679,294 +674,294 @@
                                 </div>
                             </div>
                         </div>
+
                     </div>
 
+                    <div ng-show="noApp">
+
+                        <h1 style="text-align: center; margin-top: 150px; margin-bottom: 150px;">今天还没有新的评论任务</h1>
+                    </div>
+                    <div style="margin-top: 30px; margin-bottom: 30px; text-align: center;">
+                        <button class="btn btn-default myPageBtn" ng-hide="!hasMoreDic['commentTask']" ng-click="commentTasksOnly()">下一页</button>
+                    </div>
+                    <div style="margin-top: 30px; margin-bottom: 30px; text-align: center;">
+                        <button class="btn btn-default myPageBtn" ng-show="hasMoreDic['commentTask'] == 0" >没有更多数据</button>
+                    </div>
                 </div>
 
-                <div ng-show="noApp">
+                <!--下载的-->
+                <div role="tabpanel" class="tab-pane" id="download">
+                    <div class="spinner" ng-hide="!isLoadingMyApp">
+                        <div class="double-bounce1"></div>
+                        <div class="double-bounce2"></div>
+                    </div>
+                    <div class="taskPanel" ng-repeat="app in downTask">
 
-                    <h1 style="text-align: center; margin-top: 150px; margin-bottom: 150px;">今天还没有新的评论任务</h1>
-                </div>
-                <div style="margin-top: 30px; margin-bottom: 30px; text-align: center;">
-                    <button class="btn btn-default myPageBtn" ng-hide="!hasMoreDic['commentTask']" ng-click="commentTasksOnly()">下一页</button>
-                </div>
-                <div style="margin-top: 30px; margin-bottom: 30px; text-align: center;">
-                    <button class="btn btn-default myPageBtn" ng-show="hasMoreDic['commentTask'] == 0" >没有更多数据</button>
-                </div>
-            </div>
-
-            <!--下载的-->
-            <div role="tabpanel" class="tab-pane" id="download">
-                <div class="spinner" ng-hide="!isLoadingMyApp">
-                    <div class="double-bounce1"></div>
-                    <div class="double-bounce2"></div>
-                </div>
-                <div class="taskPanel" ng-repeat="app in downTask">
-
-                    <table style="width: 1010px;" ng-mouseover="showDiv(app)" ng-mouseleave="hideDiv(app)">
-                        <tr>
-                            <td style="padding: 24px 24px 24px 24px; width: 140px;position: relative">
-                                <img ng-src="{{ app.artworkUrl100 }}" class="appIcon"/>
-                                <div class="choose" ng-show='app.mode' ng-click="filtrateApp(app)" data-target="#markDownloadApp{{$index}}" data-toggle="modal">标记已换</div>
-                            </td>
-                            <td style="width: 600px;">
-                                <p class="appName">{{ app.trackName }}</p>
-                                <div>
-                                    <span class="infoBubble">{{ app.taskType }}</span>
-                                    <span class="infoBubble">剩余: <span style="color:#53d435">{{ app.remainCount }}</span> 条</span>
-                                    <span class="infoBubble">单价: <span style="color:#53d435">{{app.rateUnitPrice}}</span> Y币</span>
-                                    <span class="infoBubble"><span style="color:#53d435">IOS</span></span>
-                                    <span class="infoBubble"><span style="color:red">更新日期:{{ app.latestReleaseDate | date:"yyyy/MM/dd"  }}</span></span>
-                                </div>
-                            </td>
-                            <!--<td ng-if='!app.myTask && !app.hasTaken && app.remainCount' ng-show="!app.hasChanged" style="padding-right: 0px;">-->
+                        <table style="width: 1010px;" ng-mouseover="showDiv(app)" ng-mouseleave="hideDiv(app)">
+                            <tr>
+                                <td style="padding: 24px 24px 24px 24px; width: 140px;position: relative">
+                                    <img ng-src="{{ app.artworkUrl100 }}" class="appIcon"/>
+                                    <div class="choose" ng-show='app.mode' ng-click="filtrateApp(app)" data-target="#markDownloadApp{{$index}}" data-toggle="modal">标记已换</div>
+                                </td>
+                                <td style="width: 600px;">
+                                    <p class="appName">{{ app.trackName }}</p>
+                                    <div>
+                                        <span class="infoBubble">{{ app.taskType }}</span>
+                                        <span class="infoBubble">剩余: <span style="color:#53d435">{{ app.remainCount }}</span> 条</span>
+                                        <span class="infoBubble">单价: <span style="color:#53d435">{{app.rateUnitPrice}}</span> Y币</span>
+                                        <span class="infoBubble"><span style="color:#53d435">IOS</span></span>
+                                        <span class="infoBubble"><span style="color:red">更新日期:{{ app.latestReleaseDate | date:"yyyy/MM/dd"  }}</span></span>
+                                    </div>
+                                </td>
+                                <!--<td ng-if='!app.myTask && !app.hasTaken && app.remainCount' ng-show="!app.hasChanged" style="padding-right: 0px;">-->
                                 <!--<button class="mybtn reverse hvr-float-shadow" data-target="#detail_download{{$index}}" data-toggle="modal">-->
-                                    <!--任务详情-->
+                                <!--任务详情-->
                                 <!--</button>-->
-                            <!--</td>-->
-                            <td ng-if='!app.myTask && !app.hasTaken && app.remainCount' ng-show="!app.hasChanged" style="padding-right: 40px;">
-                                <button class="mybtn reverse hvr-float-shadow" style="width:300px" data-target="#takeTask_download{{$index}}" data-toggle="modal">
-                                    领取任务
-                                </button>
-                            </td>
-                            <td ng-if="app.myTask"  style="padding-right: 0px;">
-                                <button class="mybtn myTask hvr-float-shadow" data-target="#detail_download{{$index}}" data-toggle="modal">
-                                    任务详情
-                                </button>
-                            </td>
-                            <td ng-if="app.myTask"  style="padding-right: 40px;">
-                                <button class="myTask">
-                                    我的发布
-                                </button>
-                            </td>
-                            <td  ng-show="app.hasChanged" >
-                                <button  class="haschange">
-                                    本版本标记为已换
-                                </button>
-                            </td>
-                            <td  ng-show="app.hasTaken && !app.hasChanged" >
-                                <button  class="haschange">
-                                    已经领取了该任务
-                                </button>
-                            </td>
-                            <td  ng-show="app.remainCount == 0">
-                                <button  class="haschange">
-                                    任务已经领取完
-                                </button>
-                            </td>
-                        </tr>
-                    </table>
-                    <div class="modal fade" id="markDownloadApp{{$index}}">
-                        <div class="modal-dialog">
-                            <div class="modal-content" style="width: 320px;">
-                                <div class="modal-header" style="height: 74px;background-color:#6eb7e8;border-radius:4px;text-align: center">
-                                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
-                                    <h4 class="modal-title"  style="font-size:20px;color: #FFFFFF">是否把此APP标记为"本版本已换"?</h4>
-                                </div>
+                                <!--</td>-->
+                                <td ng-if='!app.myTask && !app.hasTaken && app.remainCount' ng-show="!app.hasChanged" style="padding-right: 40px;">
+                                    <button class="mybtn reverse hvr-float-shadow" style="width:300px" data-target="#takeTask_download{{$index}}" data-toggle="modal">
+                                        领取任务
+                                    </button>
+                                </td>
+                                <td ng-if="app.myTask"  style="padding-right: 0px;">
+                                    <button class="mybtn myTask hvr-float-shadow" data-target="#detail_download{{$index}}" data-toggle="modal">
+                                        任务详情
+                                    </button>
+                                </td>
+                                <td ng-if="app.myTask"  style="padding-right: 40px;">
+                                    <button class="myTask">
+                                        我的发布
+                                    </button>
+                                </td>
+                                <td  ng-show="app.hasChanged" >
+                                    <button  class="haschange">
+                                        本版本标记为已换
+                                    </button>
+                                </td>
+                                <td  ng-show="app.hasTaken && !app.hasChanged" >
+                                    <button  class="haschange">
+                                        已经领取了该任务
+                                    </button>
+                                </td>
+                                <td  ng-show="app.remainCount == 0">
+                                    <button  class="haschange">
+                                        任务已经领取完
+                                    </button>
+                                </td>
+                            </tr>
+                        </table>
+                        <div class="modal fade" id="markDownloadApp{{$index}}">
+                            <div class="modal-dialog">
+                                <div class="modal-content" style="width: 320px;">
+                                    <div class="modal-header" style="height: 74px;background-color:#6eb7e8;border-radius:4px;text-align: center">
+                                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+                                        <h4 class="modal-title"  style="font-size:20px;color: #FFFFFF">是否把此APP标记为"本版本已换"?</h4>
+                                    </div>
 
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="confirmAdd(app)">确认</button>
-                                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-                                </div>
-                            </div><!-- /.modal-content -->
-                        </div><!-- /.modal-dialog -->
-                    </div>
-                    <hr style="margin:0; border-color: #dddddd;">
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="confirmAdd(app)">确认</button>
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                                    </div>
+                                </div><!-- /.modal-content -->
+                            </div><!-- /.modal-dialog -->
+                        </div>
+                        <hr style="margin:0; border-color: #dddddd;">
 
-                    <!---Modal-->
-                    <div class="modal fade" id="detail_download{{$index}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-                        <div class="modal-dialog" role="document">
-                            <div class="modal-content" style="width: 642px;">
-                                <div class="modal-header">
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                    <h4 class="modal-title">任务详情</h4>
-                                </div>
-                                <div class="modal-body" style="padding:0;">
-                                    <div style="background:url(/images/appDetail/screenshot-background.png); width: 640px;
+                        <!---Modal-->
+                        <div class="modal fade" id="detail_download{{$index}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content" style="width: 642px;">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                        <h4 class="modal-title">任务详情</h4>
+                                    </div>
+                                    <div class="modal-body" style="padding:0;">
+                                        <div style="background:url(/images/appDetail/screenshot-background.png); width: 640px;
                         padding: 36px 54px 60px 30px; margin: auto;">
-                                        <div class="row">
-                                            <div class="col-sm-3">
-                                                <img  class="appicon" style="display: inline-block; margin: 0 26px 40px 20px;
+                                            <div class="row">
+                                                <div class="col-sm-3">
+                                                    <img  class="appicon" style="display: inline-block; margin: 0 26px 40px 20px;
                                 width: 120px; height: 120px; border-radius: 20px"
-                                                      ng-src="{{  app.artworkUrl100 }}" alt="App Icon">
-                                            </div>
-                                            <div class="col-sm-9" style="padding-left: 50px;">
-                                                <p style="font-size: 24px; color: #ffffff;
+                                                          ng-src="{{  app.artworkUrl100 }}" alt="App Icon">
+                                                </div>
+                                                <div class="col-sm-9" style="padding-left: 50px;">
+                                                    <p style="font-size: 24px; color: #ffffff;
                                 width: 330px; margin-top: 10px">
-                                                    {{ app.trackName.substr(0,12)+"..."  }}
-                                                </p>
-                                                <p style="color: #ffffff;
+                                                        {{ app.trackName.substr(0,12)+"..."  }}
+                                                    </p>
+                                                    <p style="color: #ffffff;
                                 width: 330px;" ng-show="app.latestReleaseDate.length > 0">
-                                                    更新日期: {{ app.latestReleaseDate | date:"yyyy/MM/dd"  }}
-                                                </p>
-                                                <p style="color: #ffffff; font-size: 20px;">
-                                                    任务类型: <span class="synwords">{{app.taskType}}</span>
-                                                </p>
+                                                        更新日期: {{ app.latestReleaseDate | date:"yyyy/MM/dd"  }}
+                                                    </p>
+                                                    <p style="color: #ffffff; font-size: 20px;">
+                                                        任务类型: <span class="synwords">{{app.taskType}}</span>
+                                                    </p>
+                                                </div>
                                             </div>
-                                        </div>
 
-                                        <ol style="font-size: 20px; color: #ffffff;
+                                            <ol style="font-size: 20px; color: #ffffff;
                             list-style-position: inside; padding:0; margin:0;">
-                                            <li style="margin-bottom: 30px">
-                                                <p><span class="synwords">IOS App Store</span> 搜索"<span class="synwords">{{app.searchKeyword}}</span>"
-                                                    第<span class="synwords"> {{app.ranking}}</span>
-                                                    名左右, 找到应用,如上图图标, 下载.</p>
-                                            </li>
-                                            <li style="margin-bottom: 30px">
-                                                <p>打开app, 请务必过引导页.</p>
+                                                <li style="margin-bottom: 30px">
+                                                    <p><span class="synwords">IOS App Store</span> 搜索"<span class="synwords">{{app.searchKeyword}}</span>"
+                                                        第<span class="synwords"> {{app.ranking}}</span>
+                                                        名左右, 找到应用,如上图图标, 下载.</p>
+                                                </li>
+                                                <li style="margin-bottom: 30px">
+                                                    <p>打开app, 请务必过引导页.</p>
 
-                                            </li>
-                                            <li  ng-hide="app.taskType == '评论'">
-                                                <p> 截图2张,一张搜索图,一张打开激活图.</p>
-                                            </li>
-                                            <li  style="margin-bottom: 30px" ng-hide="app.taskType == '下载'">
-                                                <p  style="margin-bottom: 20px">
-                                                    返回app store, 好评"<span class="synwords">{{app.score}}</span>星"
-                                                </p>
-                                                <p style="margin-bottom: 20px">
-                                                    &nbsp &nbsp &nbsp 标题关键词: <span class="synwords">{{app.titleKeyword}}</span></p>
-                                                <p style="margin-bottom: 20px">
-                                                    &nbsp &nbsp &nbsp评论关键词: <span class="synwords">{{app.commentKeyword}}</span></p>
-                                            </li>
-                                            <li style="margin-bottom: 30px" ng-hide="app.taskType == '下载'">
-                                                <p> 截图 <span class="synwords">{{app.screenshotCount}}</span> 张, 详情见备注.</p>
-                                            </li>
-                                            <li  style="margin-bottom: 30px" ng-show = "app.detailRem.length > 0">
-                                                <p>备注:</p>
-                                                <p style="border: 1px solid #cdf1ff; font-size: 18px;
+                                                </li>
+                                                <li  ng-hide="app.taskType == '评论'">
+                                                    <p> 截图2张,一张搜索图,一张打开激活图.</p>
+                                                </li>
+                                                <li  style="margin-bottom: 30px" ng-hide="app.taskType == '下载'">
+                                                    <p  style="margin-bottom: 20px">
+                                                        返回app store, 好评"<span class="synwords">{{app.score}}</span>星"
+                                                    </p>
+                                                    <p style="margin-bottom: 20px">
+                                                        &nbsp &nbsp &nbsp 标题关键词: <span class="synwords">{{app.titleKeyword}}</span></p>
+                                                    <p style="margin-bottom: 20px">
+                                                        &nbsp &nbsp &nbsp评论关键词: <span class="synwords">{{app.commentKeyword}}</span></p>
+                                                </li>
+                                                <li style="margin-bottom: 30px" ng-hide="app.taskType == '下载'">
+                                                    <p> 截图 <span class="synwords">{{app.screenshotCount}}</span> 张, 详情见备注.</p>
+                                                </li>
+                                                <li  style="margin-bottom: 30px" ng-show = "app.detailRem.length > 0">
+                                                    <p>备注:</p>
+                                                    <p style="border: 1px solid #cdf1ff; font-size: 18px;
                                     margin-top: 20px; margin-bottom: 70px;
                                     padding: 18px 20px 18px 20px;">
-                                                    <span class="synwords">{{app.detailRem}}</span>
-                                                </p>
-                                            </li>
-                                        </ol>
+                                                        <span class="synwords">{{app.detailRem}}</span>
+                                                    </p>
+                                                </li>
+                                            </ol>
 
-                                        <p style="font-size: 24px; color: #ffffff;">
-                                            手机评论, 不要无卡机, iPad, 一条以上用手机流量哦, 亲.
-                                            &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp;&nbsp &nbsp &nbsp
-                                            &nbsp &nbsp &nbsp&nbsp &nbsp &nbsp&nbsp &nbsp &nbsp
-                                            &nbsp &nbsp &nbsp&nbsp &nbsp &nbsp&nbsp
-                                            -友情提醒, 避免撕逼
-                                        </p>
+                                            <p style="font-size: 24px; color: #ffffff;">
+                                                手机评论, 不要无卡机, iPad, 一条以上用手机流量哦, 亲.
+                                                &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp;&nbsp &nbsp &nbsp
+                                                &nbsp &nbsp &nbsp&nbsp &nbsp &nbsp&nbsp &nbsp &nbsp
+                                                &nbsp &nbsp &nbsp&nbsp &nbsp &nbsp&nbsp
+                                                -友情提醒, 避免撕逼
+                                            </p>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
 
-                    <div class="modal fade" id="takeTask_download{{$index}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-                        <div class="modal-dialog modal-lg" role="document">
-                            <div class="modal-content">
-                                <div class="modal-body">
-                                    <div class="row">
-                                        <div class="col-sm-6">
-                                            <div style="background:url(/images/appDetail/screenshot-background.png); width: 100%; margin: 20px 12px 20px 20px;">
-                                                <div class="row">
-                                                    <div class="col-sm-3">
-                                                        <img  class="appIcon-small" ng-src="{{  app.artworkUrl100 }}" alt="App Icon">
+                        <div class="modal fade" id="takeTask_download{{$index}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                            <div class="modal-dialog modal-lg" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-body">
+                                        <div class="row">
+                                            <div class="col-sm-6">
+                                                <div style="background:url(/images/appDetail/screenshot-background.png); width: 100%; margin: 20px 12px 20px 20px;">
+                                                    <div class="row">
+                                                        <div class="col-sm-3">
+                                                            <img  class="appIcon-small" ng-src="{{  app.artworkUrl100 }}" alt="App Icon">
+                                                        </div>
+                                                        <div class="col-sm-9">
+                                                            <p style="font-size: 20px; color: #ffffff; width: 330px; margin-top: 20px; margin-bottom: 6px;">
+                                                                {{ app.trackName.substr(0,12)+"..."  }}
+                                                            </p>
+                                                            <p style="color: #ffffff; width: 330px; font-size: 14px; margin:0" ng-show="app.latestReleaseDate.length > 0">
+                                                                更新日期: {{ app.latestReleaseDate | date:"yyyy/MM/dd"  }}
+                                                            </p>
+                                                            <p style="color: #ffffff; font-size: 14px;margin:0">
+                                                                任务类型: <span class="synwords">{{app.taskType}}</span>
+                                                            </p>
+                                                        </div>
                                                     </div>
-                                                    <div class="col-sm-9">
-                                                        <p style="font-size: 20px; color: #ffffff; width: 330px; margin-top: 20px; margin-bottom: 6px;">
-                                                            {{ app.trackName.substr(0,12)+"..."  }}
-                                                        </p>
-                                                        <p style="color: #ffffff; width: 330px; font-size: 14px; margin:0" ng-show="app.latestReleaseDate.length > 0">
-                                                            更新日期: {{ app.latestReleaseDate | date:"yyyy/MM/dd"  }}
-                                                        </p>
-                                                        <p style="color: #ffffff; font-size: 14px;margin:0">
-                                                            任务类型: <span class="synwords">{{app.taskType}}</span>
-                                                        </p>
+
+                                                    <ol style="font-size: 14px; color: #ffffff; list-style-position: inside; padding:0; margin:0 15px 0 15px;">
+                                                        <li style="margin-bottom: 14px">
+                                                            <p><span class="synwords">IOS App Store</span> 搜索"<span class="synwords">{{app.searchKeyword}}</span>"
+                                                                第<span class="synwords"> {{app.ranking}}</span>
+                                                                名左右, 找到应用,如上图图标, 下载.</p>
+                                                        </li>
+                                                        <li style="margin-bottom: 14px">
+                                                            <p>打开app, 请务必过引导页.</p>
+                                                        </li>
+                                                        <li style="margin-bottom: 14px" ng-hide="app.taskType == '评论'">
+                                                            <p> 截图2张,一张搜索图,一张打开激活图.</p>
+                                                        </li>
+                                                        <li  style="margin-bottom: 14px" ng-hide="app.taskType == '下载'">
+                                                            <p  style="margin-bottom: 12px">
+                                                                返回app store, 好评"<span class="synwords">{{app.score}}</span>星"
+                                                            </p>
+                                                            <p style="margin-bottom: 12px">
+                                                                &nbsp &nbsp &nbsp 标题关键词: <span class="synwords">{{app.titleKeyword}}</span></p>
+                                                            <p style="margin-bottom: 12px">
+                                                                &nbsp &nbsp &nbsp 评论关键词: <span class="synwords">{{app.commentKeyword}}</span></p>
+                                                        </li>
+                                                        <li style="margin-bottom: 14px" ng-hide="app.taskType == '下载'">
+                                                            <p> 截图 <span class="synwords">{{app.screenshotCount}}</span> 张, 详情见备注.</p>
+                                                        </li>
+                                                        <li  style="margin-bottom: 14px" ng-show = "app.detailRem.length > 0">
+                                                            <p>备注:</p>
+                                                            <p style="border: 1px solid #cdf1ff; font-size: 14px; margin-top: 12px; margin-bottom: 18px; padding: 9px 10px 9px 10px;">
+                                                                <span class="synwords">{{app.detailRem}}</span>
+                                                            </p>
+                                                        </li>
+                                                    </ol>
+
+                                                    <p style="font-size: 14px; color: #ffffff; padding:0 15px 26px 15px">
+                                                        手机评论, 不要无卡机, iPad, 一条以上用手机流量哦, 亲.
+                                                        &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp;
+                                                        -友情提醒, 避免撕逼
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <div style="text-align: center; margin-top: 30px; margin-bottom:12px; font-size: 24px; color: #3498db;">
+                                                    领取任务
+                                                </div>
+                                                <hr style="border-color: #3498db; margin: 0 30px 0 12px">
+                                                <div style="font-size: 18px; color: #333333">
+                                                    <div style="margin: 16px 30px 22px 10px;">
+                                                        <span>剩余:</span>
+                                                        <span style="color:#3498db">{{app.remainCount}}</span>
+                                                        <span>条</span>
                                                     </div>
-                                                </div>
-
-                                                <ol style="font-size: 14px; color: #ffffff; list-style-position: inside; padding:0; margin:0 15px 0 15px;">
-                                                    <li style="margin-bottom: 14px">
-                                                        <p><span class="synwords">IOS App Store</span> 搜索"<span class="synwords">{{app.searchKeyword}}</span>"
-                                                            第<span class="synwords"> {{app.ranking}}</span>
-                                                            名左右, 找到应用,如上图图标, 下载.</p>
-                                                    </li>
-                                                    <li style="margin-bottom: 14px">
-                                                        <p>打开app, 请务必过引导页.</p>
-                                                    </li>
-                                                    <li style="margin-bottom: 14px" ng-hide="app.taskType == '评论'">
-                                                        <p> 截图2张,一张搜索图,一张打开激活图.</p>
-                                                    </li>
-                                                    <li  style="margin-bottom: 14px" ng-hide="app.taskType == '下载'">
-                                                        <p  style="margin-bottom: 12px">
-                                                            返回app store, 好评"<span class="synwords">{{app.score}}</span>星"
-                                                        </p>
-                                                        <p style="margin-bottom: 12px">
-                                                            &nbsp &nbsp &nbsp 标题关键词: <span class="synwords">{{app.titleKeyword}}</span></p>
-                                                        <p style="margin-bottom: 12px">
-                                                            &nbsp &nbsp &nbsp 评论关键词: <span class="synwords">{{app.commentKeyword}}</span></p>
-                                                    </li>
-                                                    <li style="margin-bottom: 14px" ng-hide="app.taskType == '下载'">
-                                                        <p> 截图 <span class="synwords">{{app.screenshotCount}}</span> 张, 详情见备注.</p>
-                                                    </li>
-                                                    <li  style="margin-bottom: 14px" ng-show = "app.detailRem.length > 0">
-                                                        <p>备注:</p>
-                                                        <p style="border: 1px solid #cdf1ff; font-size: 14px; margin-top: 12px; margin-bottom: 18px; padding: 9px 10px 9px 10px;">
-                                                            <span class="synwords">{{app.detailRem}}</span>
-                                                        </p>
-                                                    </li>
-                                                </ol>
-
-                                                <p style="font-size: 14px; color: #ffffff; padding:0 15px 26px 15px">
-                                                    手机评论, 不要无卡机, iPad, 一条以上用手机流量哦, 亲.
-                                                    &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp;
-                                                    -友情提醒, 避免撕逼
-                                                </p>
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-6">
-                                            <div style="text-align: center; margin-top: 30px; margin-bottom:12px; font-size: 24px; color: #3498db;">
-                                                领取任务
-                                            </div>
-                                            <hr style="border-color: #3498db; margin: 0 30px 0 12px">
-                                            <div style="font-size: 18px; color: #333333">
-                                                <div style="margin: 16px 30px 22px 10px;">
-                                                    <span>剩余:</span>
-                                                    <span style="color:#3498db">{{app.remainCount}}</span>
-                                                    <span>条</span>
-                                                </div>
-                                                <div style="margin: 0 30px 22px 10px;">
-                                                    <span>领取:</span>
+                                                    <div style="margin: 0 30px 22px 10px;">
+                                                        <span>领取:</span>
                                                     <span>
                                                         <input type="text" ng-model="app.receiveCount" placeholder="0" style="border-radius: 6px; width: 50px;"/>
                                                     </span>
-                                                    <span>条</span>
-                                                    <span style="margin-left: 56px;">获得</span>
-                                                    <span style="color:#3498db">{{(app.receiveCount == undefined) ? 0 : (app.receiveCount* app.rateUnitPrice)}}</span>
-                                                    <span>Y币</span>
+                                                        <span>条</span>
+                                                        <span style="margin-left: 56px;">获得</span>
+                                                        <span style="color:#3498db">{{(app.receiveCount == undefined) ? 0 : (app.receiveCount* app.rateUnitPrice)}}</span>
+                                                        <span>Y币</span>
+                                                    </div>
+                                                    <div style="margin: 0px 30px 14px 12px;">
+                                                        <div style="margin-bottom: 12px;">备注: </div>
+                                                        <textarea  class="form-control" rows="5"  placeholder="用于内部分配(张三1条, 王五1条...)" ng-model='app.detail' style="border-radius: 6px; height: 102px; width: 380px;"></textarea>
+                                                    </div>
                                                 </div>
-                                                <div style="margin: 0px 30px 14px 12px;">
-                                                    <div style="margin-bottom: 12px;">备注: </div>
-                                                    <textarea  class="form-control" rows="5"  placeholder="用于内部分配(张三1条, 王五1条...)" ng-model='app.detail' style="border-radius: 6px; height: 102px; width: 380px;"></textarea>
+                                                <div class="alert alert-warning" role="alert" style="margin:0 30px 14px 12px; width: 380px">
+                                                    当天下午6点前任务,需要当天完成(若未完成将受到一定Y币惩罚)
                                                 </div>
-                                            </div>
-                                            <div class="alert alert-warning" role="alert" style="margin:0 30px 14px 12px; width: 380px">
-                                                当天下午6点前任务,需要当天完成(若未完成将受到一定Y币惩罚)
-                                            </div>
 
-                                            <div style="margin-left: 12px; margin-bottom: 14px;">
-                                                <button type="button" class="btn btn-default confirmGet" style="margin-right: 10px;"
-                                                        ng-class="{true:'disabled'}[app.isGetingTask]" ng-click="getTask(app)">
-                                                    确认领取
-                                                </button>
-                                                <button type="button" class="btn btn-default btn-close" data-dismiss="modal" aria-label="Close">
-                                                    关闭
-                                                </button>
-                                            </div>
-                                            <div style="margin-bottom: 14px; margin-left: 12px">
-                                                <div class="alert alert-danger" role="alert"
-                                                     style="padding:6px 12px 6px 12px; width: 380px" ng-show= "app.errorMsg != undefined && app.errorMsg.length > 0">
-                                                    {{app.errorMsg}}
+                                                <div style="margin-left: 12px; margin-bottom: 14px;">
+                                                    <button type="button" class="btn btn-default confirmGet" style="margin-right: 10px;"
+                                                            ng-class="{true:'disabled'}[app.isGetingTask]" ng-click="getTask(app)">
+                                                        确认领取
+                                                    </button>
+                                                    <button type="button" class="btn btn-default btn-close" data-dismiss="modal" aria-label="Close">
+                                                        关闭
+                                                    </button>
                                                 </div>
-                                                <div class="alert alert-success" role="alert"
-                                                     style="padding:6px 12px 6px 12px; width: 380px" ng-show= "app.getTaskErrorId != undefined && app.getTaskErrorId == 0">
-                                                    任务领取成功(我的认领中查看)
+                                                <div style="margin-bottom: 14px; margin-left: 12px">
+                                                    <div class="alert alert-danger" role="alert"
+                                                         style="padding:6px 12px 6px 12px; width: 380px" ng-show= "app.errorMsg != undefined && app.errorMsg.length > 0">
+                                                        {{app.errorMsg}}
+                                                    </div>
+                                                    <div class="alert alert-success" role="alert"
+                                                         style="padding:6px 12px 6px 12px; width: 380px" ng-show= "app.getTaskErrorId != undefined && app.getTaskErrorId == 0">
+                                                        任务领取成功(我的认领中查看)
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -974,115 +969,116 @@
                                 </div>
                             </div>
                         </div>
+
+
+                    </div>
+                    <div ng-show="noApp">
+                        <h1 style="text-align: center; margin-top: 150px; margin-bottom: 150px;">今天还没有新的下载任务</h1>
+                    </div>
+                    <div style="margin-top: 30px; margin-bottom: 30px; text-align: center;">
+                        <button class="btn btn-default myPageBtn" ng-hide="!hasMoreDic['downTask']" ng-click="downloadTasksOnly()">下一页</button>
+                    </div>
+                    <div style="margin-top: 30px; margin-bottom: 30px; text-align: center;">
+                        <button class="btn btn-default myPageBtn" ng-show="hasMoreDic['downTask'] == 0" >没有更多数据</button>
+                    </div>
+                </div>
+
+                <!--已筛选的任务-->
+                <div role="tabpanel" class="tab-pane" id="inactive">
+                    <div class="spinner" ng-hide="!isLoadingMyApp">
+                        <div class="double-bounce1"></div>
+                        <div class="double-bounce2"></div>
+
                     </div>
 
+                    <div class="taskPanel" ng-repeat="app in inactiveTask">
+                        <table style="width: 1010px;">
+                            <tr>
+                                <td style="padding: 24px 30px 24px 30px; width: 100px;position: relative">
+                                    <img ng-src="{{ app.artworkUrl100 }}" class="appIcon"/>
+                                </td>
+                                <td style="width: 500px;">
+                                    <p class="appName">{{ app.trackName }}</p>
+                                    <div>
+                                        <span class="infoBubble">{{ app.taskType }}</span>
+                                        <span class="infoBubble">剩余: <span style="color:#53d435">{{ app.remainCount }}</span> 条</span>
+                                        <span class="infoBubble">单价: <span style="color:#53d435">{{app.rateUnitPrice}}</span> Y币</span>
+                                        <span class="infoBubble"><span style="color:#53d435">IOS</span></span>
+                                    </div>
+                                </td>
+                                <td  style="padding-right: 40px;">
+                                    <button class="btn-inactive">
+                                        此版本APP你已经操作过
+                                    </button>
+                                </td>
 
-                </div>
-                <div ng-show="noApp">
-                    <h1 style="text-align: center; margin-top: 150px; margin-bottom: 150px;">今天还没有新的下载任务</h1>
-                </div>
-                <div style="margin-top: 30px; margin-bottom: 30px; text-align: center;">
-                    <button class="btn btn-default myPageBtn" ng-hide="!hasMoreDic['downTask']" ng-click="downloadTasksOnly()">下一页</button>
-                </div>
-                <div style="margin-top: 30px; margin-bottom: 30px; text-align: center;">
-                    <button class="btn btn-default myPageBtn" ng-show="hasMoreDic['downTask'] == 0" >没有更多数据</button>
-                </div>
-            </div>
+                            </tr>
+                        </table>
+                        <hr style="margin:0; border-color: #dddddd;">
+                    </div>
+                    <div ng-show="noApp">
+                        <h1 style="text-align: center; margin-top: 150px; margin-bottom: 150px;">任务大厅任务您都可以领取</h1>
 
-            <!--已筛选的任务-->
-            <div role="tabpanel" class="tab-pane" id="inactive">
-                <div class="spinner" ng-hide="!isLoadingMyApp">
-                    <div class="double-bounce1"></div>
-                    <div class="double-bounce2"></div>
-
-                </div>
-
-                <div class="taskPanel" ng-repeat="app in inactiveTask">
-                    <table style="width: 1010px;">
-                        <tr>
-                            <td style="padding: 24px 30px 24px 30px; width: 100px;position: relative">
-                                <img ng-src="{{ app.artworkUrl100 }}" class="appIcon"/>
-                            </td>
-                            <td style="width: 500px;">
-                                <p class="appName">{{ app.trackName }}</p>
-                                <div>
-                                    <span class="infoBubble">{{ app.taskType }}</span>
-                                    <span class="infoBubble">剩余: <span style="color:#53d435">{{ app.remainCount }}</span> 条</span>
-                                    <span class="infoBubble">单价: <span style="color:#53d435">{{app.rateUnitPrice}}</span> Y币</span>
-                                    <span class="infoBubble"><span style="color:#53d435">IOS</span></span>
-                                </div>
-                            </td>
-                            <td  style="padding-right: 40px;">
-                                <button class="btn-inactive">
-                                    此版本APP你已经操作过
-                                </button>
-                            </td>
-
-                        </tr>
-                    </table>
-                    <hr style="margin:0; border-color: #dddddd;">
-                </div>
-                <div ng-show="noApp">
-                    <h1 style="text-align: center; margin-top: 150px; margin-bottom: 150px;">任务大厅任务您都可以领取</h1>
-
-                </div>
-                <div style="margin-top: 30px; margin-bottom: 30px; text-align: center;">
-                    <button class="btn btn-default myPageBtn" ng-hide="!hasMoreDic['inactiveTask']" ng-click="inactiveTasksOnly()">下一页</button>
-                </div>
-                <div style="margin-top: 30px; margin-bottom: 30px; text-align: center;">
-                    <button class="btn btn-default myPageBtn" ng-show="hasMoreDic['inactiveTask'] == 0" >没有更多数据</button>
+                    </div>
+                    <div style="margin-top: 30px; margin-bottom: 30px; text-align: center;">
+                        <button class="btn btn-default myPageBtn" ng-hide="!hasMoreDic['inactiveTask']" ng-click="inactiveTasksOnly()">下一页</button>
+                    </div>
+                    <div style="margin-top: 30px; margin-bottom: 30px; text-align: center;">
+                        <button class="btn btn-default myPageBtn" ng-show="hasMoreDic['inactiveTask'] == 0" >没有更多数据</button>
+                    </div>
                 </div>
             </div>
         </div>
+        <div class="modal fade" id="releaseTaskVideo" style="padding: 0px;margin: 0px;position: absolute;top:50px;left: 200px">
+            <div class="modal-dialog" style="display: table-cell;vertical-align: middle;">
+                <div class="modal-content"style="width:960px;height:550px;padding: 0px;margin: 0px">
+                    <div class="modal-header">
+                        <button type="button" class="close" ng-click="releaseTaskVideo()" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title"></h4>
+                    </div>
+                    <div class="modal-body">
+                        <video src="/videos/releaseTaskDemo.mp4" controls="controls" id="releaseTask" preload style="width:960px;height:500px;">
+                            您的浏览器不支持 video 标签。
+                        </video>
+                    </div>
+
+                </div>
+            </div>
+        </div><!-- releaseTaskVideo-->
+        <div class="modal fade" id="getTaskVideo"  style="padding: 0px;margin: 0px;position: absolute;top:50px;left: 200px">
+            <div class="modal-dialog" style="display: table-cell;vertical-align: middle;">
+                <div class="modal-content"style="width:960px;height:600px;">
+                    <div class="modal-header">
+                        <button type="button" class="close" ng-click="getTaskVideo()" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    </div>
+                    <div class="modal-body">
+                        <video src="/videos/getTaskDemo.mp4" controls="controls" id="getTask" preload style="width:960px;height:500px">
+                            您的浏览器不支持 video 标签。
+                        </video>
+                    </div>
+
+                </div>
+            </div>
+        </div><!-- getTaskVideo-->
+        <div class="modal fade" id="uploadTaskVideo" style="padding: 0px;margin: 0px;position: absolute;top:50px;left: 200px">
+            <div class="modal-dialog" style="display: table-cell;vertical-align: middle;">
+                <div class="modal-content"style="width:960px;height:600px;">
+                    <div class="modal-header">
+                        <button type="button" class="close" ng-click="uploadTaskVideo()" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title"></h4>
+                    </div>
+                    <div class="modal-body">
+                        <video src="/videos/uploadTaskDemo.mp4" controls="controls" id="uploadTask" preload style="width:960px;height:500px">
+                            您的浏览器不支持 video 标签。
+                        </video>
+                    </div>
+
+                </div>
+            </div>
+        </div><!-- uploadTaskVideo-->
     </div>
-    <div class="modal fade" id="releaseTaskVideo" style="padding: 0px;margin: 0px;position: absolute;top:50px;left: 200px">
-        <div class="modal-dialog" style="display: table-cell;vertical-align: middle;">
-            <div class="modal-content"style="width:960px;height:550px;padding: 0px;margin: 0px">
-                <div class="modal-header">
-                    <button type="button" class="close" ng-click="releaseTaskVideo()" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title"></h4>
-                </div>
-                <div class="modal-body">
-                    <video src="/videos/releaseTaskDemo.mp4" controls="controls" id="releaseTask" preload style="width:960px;height:500px;">
-                        您的浏览器不支持 video 标签。
-                    </video>
-                </div>
-
-            </div>
-        </div>
-    </div><!-- releaseTaskVideo-->
-    <div class="modal fade" id="getTaskVideo"  style="padding: 0px;margin: 0px;position: absolute;top:50px;left: 200px">
-        <div class="modal-dialog" style="display: table-cell;vertical-align: middle;">
-            <div class="modal-content"style="width:960px;height:600px;">
-                <div class="modal-header">
-                    <button type="button" class="close" ng-click="getTaskVideo()" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                </div>
-                <div class="modal-body">
-                    <video src="/videos/getTaskDemo.mp4" controls="controls" id="getTask" preload style="width:960px;height:500px">
-                        您的浏览器不支持 video 标签。
-                    </video>
-                </div>
-
-            </div>
-        </div>
-    </div><!-- getTaskVideo-->
-    <div class="modal fade" id="uploadTaskVideo" style="padding: 0px;margin: 0px;position: absolute;top:50px;left: 200px">
-        <div class="modal-dialog" style="display: table-cell;vertical-align: middle;">
-            <div class="modal-content"style="width:960px;height:600px;">
-                <div class="modal-header">
-                    <button type="button" class="close" ng-click="uploadTaskVideo()" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title"></h4>
-                </div>
-                <div class="modal-body">
-                    <video src="/videos/uploadTaskDemo.mp4" controls="controls" id="uploadTask" preload style="width:960px;height:500px">
-                        您的浏览器不支持 video 标签。
-                    </video>
-                </div>
-
-            </div>
-        </div>
-    </div><!-- uploadTaskVideo-->
 </div>
+
 
 <th-footer>
 

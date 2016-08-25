@@ -734,4 +734,21 @@ router.post('/turnOffOneTask', function(req, res){
     }
 });
 
+// banner
+router.get('/banner', function(req, res){
+    var query = new AV.Query('bannerObject');
+    query.equalTo('close', true);
+    query.equalTo('bannerType', 'taskCheck');
+    query.find().then(function(bannerObject){
+        var bannerList = Array();
+        for (var i = 0; i < bannerObject.length; i++){
+            var bannerUrl = bannerObject[i].get('bannerURL');
+            bannerList.push(bannerUrl)
+        }
+        res.json({'bannerUrl': bannerList, 'errorId': 0, 'errorMsg':''})
+    },function(error){
+        res.json({'errorMsg':error.message, 'errorId': error.code});
+    })
+});
+
 module.exports = router;
