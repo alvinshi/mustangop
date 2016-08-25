@@ -86,7 +86,11 @@ app.controller('itunesSearchControl', function($scope, $http) {
         $scope.isDisabled = false;
         getDemand();
     };
-
+    $scope.releaseTaskVideo=function(){
+        $("#releaseTaskVideo").modal("hide");
+        var myVideo=document.getElementById("releaseTask");
+        myVideo.pause();
+    };
     //搜索App
     var progressTimerHandle = undefined;
     $scope.progressNum = 0;

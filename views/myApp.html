@@ -43,8 +43,30 @@
     <!--导航-->
     <th-nav></th-nav>
 </div>
+
 <div class="container">
+    <div class="modal fade" id="releaseTaskVideo" style="padding: 0px;margin: 0px;position: absolute;top:50px;left: 200px">
+        <div class="modal-dialog" style="display: table-cell;vertical-align: middle;">
+            <div class="modal-content"style="width:960px;height:550px;padding: 0px;margin: 0px">
+                <div class="modal-header">
+                    <button type="button" class="close" ng-click="releaseTaskVideo()" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title"></h4>
+                </div>
+                <div class="modal-body">
+                    <video src="/videos/releaseTaskDemo.mp4" controls="controls" id="releaseTask" preload style="width:960px;height:500px;">
+                        您的浏览器不支持 video 标签。
+                    </video>
+                </div>
+
+            </div>
+        </div>
+    </div><!-- releaseTaskVideo-->
+
     <div  class=" main_content"  ng-controller="itunesSearchControl">
+        <!--触发视频-->
+        <button class="release2"  data-target="#releaseTaskVideo" data-toggle="modal">
+        </button>
+        <!--release-->
         <button class="add_app" ng-hide="numOfApps >= 5" ng-click="updateApp()"  data-toggle="modal" >
             <span class="glyphicon glyphicon-repeat" style="color: #3498db" ></span>&nbsp;更新APP信息
 

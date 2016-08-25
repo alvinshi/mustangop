@@ -7,6 +7,9 @@ var app = angular.module('yemaWebApp', []);
 var navIndex = 2;
 
 app.controller('myClaimControl', function($scope, $http, $location){
+
+
+
     $scope.noApp = false;
     $scope.isLoadingMyApp = true;
 
@@ -53,6 +56,11 @@ app.controller('myClaimControl', function($scope, $http, $location){
 
     };
 
+    $scope.uploadTaskVideo=function(){
+        $("#uploadTaskVideo").modal("hide");
+        var myVideo=document.getElementById("uploadTask");
+        myVideo.pause();
+    };
     //******备注保存逻辑**********
     //保存填写的备注到数据库
 
