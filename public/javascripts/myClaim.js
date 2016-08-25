@@ -34,6 +34,8 @@ app.controller('myClaimControl', function($scope, $http, $location){
     $http.post(todayUrl, claimParams).success(function(response){
         $scope.isLoadingMyApp = false;
         $scope.dailyTask = response.myClaimApps;
+        //被拒绝的Task Objects, 数据类型(Array)
+        $scope.rejectedTaskObjects = response.rejectedTaskObjects;
         for (var i = 0; i < response.myClaimApps.length; i++){
             response.myClaimApps[i].mode = true;
             console.log(response.myClaimApps[i]);
