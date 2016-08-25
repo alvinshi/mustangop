@@ -15,6 +15,9 @@ app.directive("thNav",function(){
 
             //用户+拒绝任务相关
             $http.get(indexUrl).success(function(response){
+                //未做的
+                $scope.toDoCount = response.toDoCount;
+                //被拒绝的
                 $scope.refusedCount = response.refusedCount;
             });
 
@@ -33,6 +36,7 @@ app.directive("thNav",function(){
         }
     };
 });
+
 app.directive("thFooter",function(){
     return {
         restrict: 'E',
@@ -89,10 +93,5 @@ app.controller('indexAppCtrl', function($scope, $http, $location){
         clearCookie('username');
         location.href='/';
     };
-
-
-
-
-
 });
 
