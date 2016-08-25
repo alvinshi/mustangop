@@ -363,7 +363,7 @@ $scope.invite2 = true;
                 $("#error").modal("show");
 
             }
-            if($scope.appNeedInfo.ranKing>50){
+            if($scope.appNeedInfo.ranKing > 50){
                 flag = false;
                 $scope.isDisabled = false;
                 $scope.modelStr = '关键字搜索排名要在50名以内哦';
@@ -397,8 +397,6 @@ $scope.invite2 = true;
 
         //通过前端检查,请求服务器
         if (flag){
-            console.log("passed");
-            console.log($scope.selectedApp);
             var needUrl = '/myapp/task';
             var needInfo = {'taskType':$scope.appNeedInfo.taskType, 'excCount':$scope.appNeedInfo.excCount,
                 'excUnitPrice':document.getElementById("price").value, 'screenshotCount':$scope.appNeedInfo.screenshotCount,
