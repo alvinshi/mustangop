@@ -252,7 +252,7 @@ button{
     top: 350px;
     background:url(/images/doTask/video2.png);
     border: 1px solid #3498db;
-    border-radius: 4px;
+    border-radius: 10px;
 }
 /*第一步:选择或添加任务应用*/
 .mytitle{
