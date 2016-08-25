@@ -192,7 +192,7 @@ router.get('/index/unreadMsg', function(req, res){
     query.notEqualTo('read', true);
     query.count().then(function(count){
 
-        res.json({'unreadMsgCount':count})
+        res.json({'unreadMsgCount':count});
     },function(error){
         res.json({'errorId': error.code, 'errorMsg': error.message});
     })
