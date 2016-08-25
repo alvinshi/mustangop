@@ -90,12 +90,12 @@
             <button class="release1"  data-target="#getTaskVideo" data-toggle="modal" ></button>
             <p style="font-size: 30px; color: #3498db; margin: 40px 20px 10px 0; float: left">任务列表</p>
 
-            <button  class="alert alert-info" ng-click="copyUrl()" role="alert" style="display: inline-block; margin-top: 35px;"             >
-                邀请好友体验野马,获赠100Y币,点击复制邀请链接 ——
+            <button  class="alert alert-info Copy" id="alert-btn" ng-click="copyUrl()" role="alert"
+                     data-placement="top" data-toggle="popover" data-content="复制成功!"
+                     style="display: inline-block; margin-top: 35px;" >
+                邀请好友体验野马,获赠100Y币,点击复制邀请链接 :
 
-                <input type="text" id="inviteUrlcopy" class="from-control" ng-model="inviteUrl" data-placement="top"
-                       data-toggle="popover"
-                       data-content="复制成功!">
+                <input type="text" id="inviteUrlcopy" class="from-control" ng-model="inviteUrl">
             </button>
 
             <a href="myapp" class="publishTask" ng-mouseover="changePlaneColor()" ng-mouseleave = "changePlaneColor()">

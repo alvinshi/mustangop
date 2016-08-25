@@ -23,7 +23,7 @@ app.controller('doTaskCtrl', function($scope, $http) {
     $scope.inviteUrl = "http://www.mustangop.com/user/register/" + getCookie("userIdCookie");
 
     $scope.copyUrl = function () {
-        $('#btn').popover('toggle');
+        $('#alert-btn').popover('toggle');
         var Url = document.getElementById("inviteUrlcopy");
         Url.select(); // 选择对象
         document.execCommand("Copy"); // 执行浏览器复制命令
