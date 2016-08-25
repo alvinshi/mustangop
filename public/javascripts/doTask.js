@@ -10,9 +10,18 @@ var navIndex = 0;
 
 app.controller('doTaskCtrl', function($scope, $http) {
 
+    // banner
     var bannerurl = 'doTask/banner';
     $http.get(bannerurl).success(function(response){
         $scope.bannerUrl = response.bannerUrl;
+    });
+
+    // 签到
+    var ischeckinsUrl = 'doTask/isCheckIns';
+    $http.get(ischeckinsUrl).success(function(response){
+        $scope.isCheckIns = response.isCheckIns;
+        $scope.todayYB = response.todayYB;
+        $scope.tomorrowYB = response.tomorrowYB;
     });
 
     //******************* 自动轮播 *************************

@@ -538,4 +538,37 @@ router.get('/banner', function(req, res){
     })
 });
 
+var giftYB = 1;
+
+// 签到
+router.get('/isCheckIns', function(req, res){
+    var userId = util.useridInReq(req);
+
+    var myDate = new Date();
+    var myDateStr = myDate.getFullYear() + '-' + (parseInt(myDate.getMonth())+1) + '-' + myDate.getDate();
+
+    var query = new AV.Query('checkInsObject');
+    query.get(userId).then(function(checkInsOb){
+        var todayGiftYb = 0;
+        if (checkInsOb == undefined || checkInsOb.length <=0){
+            res.json({'isCheckIns': 0, 'todayYB': giftYB, 'tomorrowYB': giftYB + 1})
+        }else {
+            var checkTime = checkInsOb.get('checkInsTime');
+            var todayYb = checkInsOb.get('checkInsCount');
+            if (todayYb <= 4){
+                todayGiftYb = todayYb;
+            }else {
+                todayGiftYb = 5;
+            }
+
+            if (checkTime == myDateStr){
+                res.json({'isCheckIns': 0, 'todayYB': todayGiftYb, 'tomorrowYB': todayGiftYb + 1})
+            }
+        }
+    },function(error){
+        res.json({'errorMsg':error.message, 'errorId': error.code});
+    })
+
+});
+
 module.exports = router;
