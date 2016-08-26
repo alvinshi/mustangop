@@ -13,6 +13,8 @@ var mackTaskInfo = AV.Object.extend('mackTaskInfo');
 var File = AV.Object.extend('_File');
 var nodemailer = require('nodemailer');
 
+var Base64 = require('../public/javascripts/vendor/base64').Base64;
+
 // create reusable transporter object using the default SMTP transport
 var transporter = nodemailer.createTransport("SMTP",{
     service: 'QQ',
@@ -75,7 +77,7 @@ router.get('/interior/:excTaskId', function(req, res){
         retObject.latestReleaseDate = hisappObject.get('latestReleaseDate');
         retObject.excUniqueCode = hisappObject.get('excUniqueCode');
         retObject.version = hisappObject.get('version');
-        retObject.userObjectId = results.get('userObject').id;
+        retObject.userObjectId = Base64.encode(results.get('userObject').id);
 
         retObject.totalExcCount = results.get('receiveCount');
         retObject.expiredCount = results.get('expiredCount');
