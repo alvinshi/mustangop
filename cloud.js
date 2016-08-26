@@ -65,6 +65,10 @@ AV.Cloud.define('taskCheckForDoTask', function(request, response){
             query_a.limit(1000);
             query_a.skip(i * 1000);
             query_a.find().then(function(results){ // 查找出所有没有完成的任务
+
+                var taskUsers = Array();
+                var locked = 0;
+
                 for (var e = 0; e < results.length; e++){
                     //闭包
                     (function(receTaskObject){
@@ -80,23 +84,32 @@ AV.Cloud.define('taskCheckForDoTask', function(request, response){
                         query.limit(1000);
                         query.find().then(function(doTaskObjects){
 
+                            locked++;
+
                             //闭包
                             var inReceTaskObject = receTaskObject;
+                            console.log('********** task for timer: ' + inReceTaskObject.id);
+
                             var task = inReceTaskObject.get('taskObject'); // 领取任务的object
-                            var user = inReceTaskObject.get('userObject'); // 领取任务的用户
+                            // 领取任务的用户
+                            var user = util.addLeanObject(inReceTaskObject.get('userObject'), taskUsers);
+
                             var app = inReceTaskObject.get('appObject'); // 领取的任务App
                             if(task == undefined || user == undefined || app == undefined){
                                 console.log('********** task or user or app is undefine in timer func');
-                                return;
+                                continue;
                             }
 
                             var trackName = app.get('trackName'); //任务App名称
                             var rate_unitPrice = task.get('rateUnitPrice'); // 任务的单价
-                            var releaseTaskUser = task.get('userObject');  // 发布任务的用户
+                            // 发布任务的用户
+                            var releaseTaskUser = util.addLeanObject(task.get('userObject'), taskUsers);
+
                             if(releaseTaskUser == undefined){
-                                return;
+                                continue;
                             }
 
+                            var needDoneTimer = true;
                             var changeDoTasks = [];
                             for (var r = 0; r < doTaskObjects.length; r++){
                                 var taskStatus = doTaskObjects[r].get('taskStatus');
@@ -120,7 +133,7 @@ AV.Cloud.define('taskCheckForDoTask', function(request, response){
                                     releaseTaskUser.increment('freezingMoney', -rate_unitPrice);
                                     console.log('****** task be accept by timer ****** release task user : ' + releaseTaskUser.id + '(minus freeze YB) +' + rate_unitPrice);
                                 }else if(taskStatus == 'refused'){
-                                    //isHaveRefused = true;
+                                    needDoneTimer = false;
                                 }
                                 else{
                                     //do nothing
@@ -128,9 +141,7 @@ AV.Cloud.define('taskCheckForDoTask', function(request, response){
                                 }
                             }
 
-                            var needDoneTimer = false;
                             if(changeDoTasks.length > 0){
-                                needDoneTimer = true;
                                 AV.Object.saveAll(changeDoTasks).then(function(){
                                     console.log('______ task status for systemAccepted Saved succeed');
                                 });
@@ -139,91 +150,60 @@ AV.Cloud.define('taskCheckForDoTask', function(request, response){
                             //还得减去已过期,不再重新结算
                             var undoTask = inReceTaskObject.get('receiveCount') - doTaskObjects.length - inReceTaskObject.get('expiredCount');
                             if (undoTask > 0){
-                                needDoneTimer = true;
                                 //protect
                                 //1.扣除用户金币入系统(汇率金币)  减少发布人冻结的钱 增加发布人总钱
                                 user.increment('totalMoney', -(rate_unitPrice * undoTask));
                                 console.log('****** task be expired by timer ****** do task user : ' + user.id + '(minus/punish total YB) +' + (rate_unitPrice * undoTask));
                                 releaseTaskUser.increment('freezingMoney', - (rate_unitPrice * undoTask));//bugbug
                                 releaseTaskUser.increment('totalMoney', rate_unitPrice * undoTask);
-                                console.log('****** task be expired by timer ****** release task user : ' + user.id + '(minus freeze YB,add total YB) +' + (rate_unitPrice * undoTask));
+                                console.log('****** task be expired by timer ****** release task user : ' + releaseTaskUser.id + '(minus freeze YB,add total YB) +' + (rate_unitPrice * undoTask));
 
                                 //2.过期任务增加
                                 inReceTaskObject.increment('expiredCount', undoTask);
 
                                 //发布罚钱信息
                                 var message = new messageLogger();
+                                //应该是系统
                                 message.set("senderObjectId", user);
                                 message.set('receiverObjectId', user);
                                 message.set('category', 'Y币');
                                 message.set('type', '处罚');
                                 message.set('firstPara', trackName);
-                                message.set('thirdPara', rate_unitPrice *  undoTask);
+                                message.set('thirdPara', rate_unitPrice * undoTask);
                                 message.set('fourthPara', '未在规定时间内完成任务');
-                                message.save();
+                                message.save().then(function (receObject) {
+                                    console.log('______ 处罚 message save succeed' + receObject.id);
+                                }, function (error) {
+                                    console.log('______ 处罚 message save error' + error.message);
+                                });
                             }
 
-                            if(needDoneTimer == false){
-                                inReceTaskObject.set('timerDone', true);
-                            }
+                            inReceTaskObject.set('timerDone', needDoneTimer);
+                            //inReceTaskObject.save().then(function (receObject) {
+                            //    console.log('______ save receObject succeed' + receObject.id);
+                            //}, function (error) {
+                            //    console.log('----- save receObject error' + error.message);
+                            //});
 
-                            task.save();
-                            inReceTaskObject.save();
-                            releaseTaskUser.save();
-                            user.save().then(function (saveUserObject) {
-                                console.log('______ do task YB info saved succeed');
-                                //如果欠费,发布欠费消息
-                                var moneyLeft = saveUserObject.get('totalMoney');
-                                if (moneyLeft < 0){
-                                    var msgNoMoney = new messageLogger();
-                                    msgNoMoney.set("senderObjectId", user);
-                                    msgNoMoney.set('receiverObjectId', user);
-                                    msgNoMoney.set('category', 'Y币');
-                                    msgNoMoney.set('type', '欠费');
-                                    msgNoMoney.save();
-                                }
-                            }, function (error) {
-                                console.log('----- totalMoney error');
-                            });
+                            if(locked == results.length){
+                                //保存所有用户的数据改动
+                                AV.Object.saveAll(taskUsers.concat(results)).then(function(){
+                                    console.log('!!!!! checkTask  modify journal succeed');
+                                    response.success('checkTask success');
+                                }, function (error) {
+                                    console.log('---------- save all user money error' + error.message);
+                                });
+
+                                //AV.Object.saveAll(results).then(function(){
+                                //    console.log('!!! 保存领取任务里面修改内容成功 !!!')
+                                //    response.success('checkTask success');
+                                //}, function (error) {
+                                //    console.log('---------- save all user money error' + error.message);
+                                //})
+                            }
                         });
                     })(results[e]);
-
-                    // 修改流水库 因为是异步 所以封装起来 处理
-                    // BUGBUG
-                    //(function (checkPendingTask, notDoTaskCount){
-                    //    var query_journal = new AV.Query(accountJournal);
-                    //    query_journal.equalTo('payYCoinUser', releaseTaskUser);
-                    //    query_journal.equalTo('taskObject', task);
-                    //    query_journal.equalTo('incomeYCoinUser', user);
-                    //    query_journal.equalTo('payYCoinStatus', 'prepare_pay');
-                    //    query_journal.equalTo('incomeYCoinStatus', 'prepare_income');
-                    //    query_journal.find().then(function(result){
-                    //        console.log(checkPendingTask);
-                    //        console.log(notDoTaskCount);
-                    //        for (var z = 0; z < checkPendingTask; z++){
-                    //            var payYB = result[z].get('payYCoin'); // 支付的YB
-                    //            var incomeYB = result[z].get('incomeYCoin'); // 得到的YB
-                    //            var systemYB = payYB - incomeYB;  // 系统得到的
-                    //
-                    //            result[z].set('payYCoinStatus', 'payed');
-                    //            result[z].set('incomeYCoinStatus', 'incomed');
-                    //            result[z].set('systemYCoin', systemYB);
-                    //
-                    //        }
-                    //        for (var f = checkPendingTask; f < notDoTaskCount + checkPendingTask; f++){
-                    //            result[f].set('incomeYCoinStatus', 'punish_income');
-                    //        }
-                    //
-                    //        AV.Object.saveAll(result).then(function(){
-                    //            console.log('!!!!! checkTask  modify journal succeed');
-                    //        })
-                    //    });
-                    //})(submitted, task_not_done);
                 }
-                AV.Object.saveAll(results).then(function(){
-                    console.log('!!! 保存领取任务里面修改内容成功 !!!')
-                    response.success('checkTask success');
-                })
             })
         }
         function error(){
@@ -308,12 +288,15 @@ AV.Cloud.define('refuseTaskTimerForRelease', function(request, response){
                             console.log('!!! 保存任务状态成功 !!!');
                             response.success('refuseTaskTimerForRelease success');
                         }, function(error){
+                            console.log('------ results error');
                             response.fail('refuseTaskTimerForRelease fail');
                         });
                     }, function(error){
+                        console.log('------ doReceTaskList error');
                         response.fail('refuseTaskTimerForRelease fail');
                     });
                 }, function(error){
+                    console.log('------ senTaskUserList error');
                     response.fail('refuseTaskTimerForRelease fail');
                 });
             })

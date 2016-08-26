@@ -258,10 +258,24 @@ exports.addLeanObject = function(leanObject, leanObjectList){
     for (var i = 0; i < leanObjectList.length; i++){
         var temLeanObject = leanObjectList[i];
         if(temLeanObject.id == leanObject.id){
-            return;
+            return temLeanObject;
         }
     }
     leanObjectList.push(leanObject);
+    return leanObject;
+};
+
+exports.addLeanObjectToDic = function(leanObject, leanObjectDic){
+    if(leanObject == undefined || leanObjectDic == undefined){
+        return;
+    }
+
+    if(leanObjectDic[leanObject.id] == undefined){
+        leanObjectDic[leanObject.id] = leanObject;
+        return leanObject;
+    }
+
+    return leanObjectDic[leanObject.id];
 };
 
 exports.updateIOSAppInfo = updateIOSAppInfo;
