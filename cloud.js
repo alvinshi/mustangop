@@ -97,7 +97,7 @@ AV.Cloud.define('taskCheckForDoTask', function(request, response){
                             var app = inReceTaskObject.get('appObject'); // 领取的任务App
                             if(task == undefined || user == undefined || app == undefined){
                                 console.log('********** task or user or app is undefine in timer func');
-                                continue;
+                                return;
                             }
 
                             var trackName = app.get('trackName'); //任务App名称
@@ -106,7 +106,7 @@ AV.Cloud.define('taskCheckForDoTask', function(request, response){
                             var releaseTaskUser = util.addLeanObject(task.get('userObject'), taskUsers);
 
                             if(releaseTaskUser == undefined){
-                                continue;
+                                return;
                             }
 
                             var needDoneTimer = true;

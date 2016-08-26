@@ -15,6 +15,7 @@ var releaseTaskObject = AV.Object.extend('releaseTaskObject'); // 发布任务�
 var receiveTaskObject = AV.Object.extend('receiveTaskObject'); // 领取任务库
 var accountJournal = AV.Object.extend('accountJournal'); // 记录账户变动明细表
 var messageLogger = AV.Object.extend('messageLogger');
+var checkInsObjectSql = AV.Object.extend('checkInsObject');
 
 
 function dateCompare(DateA, DateB) {
@@ -541,34 +542,91 @@ router.get('/banner', function(req, res){
 var giftYB = 1;
 
 // 签到
-router.get('/isCheckIns', function(req, res){
+router.get('/ischeckins', function(req, res){
     var userId = util.useridInReq(req);
+
+    var userObject = new User();
+    userObject.id = userId;
 
     var myDate = new Date();
     var myDateStr = myDate.getFullYear() + '-' + (parseInt(myDate.getMonth())+1) + '-' + myDate.getDate();
 
-    var query = new AV.Query('checkInsObject');
-    query.get(userId).then(function(checkInsOb){
-        var todayGiftYb = 0;
+    var query = new AV.Query(checkInsObjectSql);
+    query.equalTo('checkInsUserObject', userObject);
+    query.first().then(function(checkInsOb){
         if (checkInsOb == undefined || checkInsOb.length <=0){
             res.json({'isCheckIns': 0, 'todayYB': giftYB, 'tomorrowYB': giftYB + 1})
         }else {
-            var checkTime = checkInsOb.get('checkInsTime');
+            var todayGiftYb = 0;
+            var tomorrowGiftYb = 0;
+
             var todayYb = checkInsOb.get('checkInsCount');
             if (todayYb <= 4){
                 todayGiftYb = todayYb;
+                tomorrowGiftYb = todayYb + 1;
             }else {
                 todayGiftYb = 5;
+                tomorrowGiftYb = 5;
             }
 
+            var checkTime = checkInsOb.get('checkInsTime');
             if (checkTime == myDateStr){
-                res.json({'isCheckIns': 0, 'todayYB': todayGiftYb, 'tomorrowYB': todayGiftYb + 1})
+                res.json({'isCheckIns': 1, 'todayYB': todayGiftYb, 'tomorrowYB': tomorrowGiftYb})
+            }else {
+                res.json({'isCheckIns': 0, 'todayYB': todayGiftYb, 'tomorrowYB': tomorrowGiftYb})
             }
         }
     },function(error){
         res.json({'errorMsg':error.message, 'errorId': error.code});
     })
 
+});
+
+// 点击签到接口
+router.post('/checkIns', function(req, res){
+    var userId = util.useridInReq(req);
+
+    // 今日日期
+    var myDate = new Date();
+    var myDateStr = myDate.getFullYear() + '-' + (parseInt(myDate.getMonth())+1) + '-' + myDate.getDate();
+
+    // 昨天日期
+    var nowTimestamp = new Date().getTime();
+    var yesterdayTimestamp = nowTimestamp - 1000*60*60*24;
+    var yesterdayDate = new Date(yesterdayTimestamp);
+    var yesterdayDateStr = yesterdayDate.getFullYear() + '-' + (parseInt(yesterdayDate.getMonth())+1) + '-' + yesterdayDate.getDate();
+
+    var userObject = new User();
+    userObject.id = userId;
+
+    var query = new AV.Query(checkInsObjectSql);
+    query.equalTo('checkInsUserObject', userObject);
+    query.first().then(function(checkInsObj){
+        if (checkInsObj == undefined || checkInsObj.length < 0){
+            // 一次都没签到
+            checkInsObj.set('checkInsUserObject', userObject);
+            checkInsObj.set('checkInsCount', 1);
+            checkInsObj.set('checkInsTime', myDateStr);
+        }
+        else if(checkInsObj.get('checkInsTime') == yesterdayDateStr){
+            // 属于连续签到
+            checkInsObj.increment('checkInsCount', 1);
+            checkInsObj.set('checkInsTime', myDateStr);
+        }
+        else {
+            // 有一天没有签到就从新计数
+            checkInsObj.set('checkInsCount', 1);
+            checkInsObj.set('checkInsTime', myDateStr);
+        }
+        checkInsObj.save().then(function(){
+            res.json({'errorId': 0, 'errorMsg': '签到成功'})
+        },function(error){
+            res.json({'errorMsg':error.message, 'errorId': error.code});
+        })
+
+    },function(error){
+        res.json({'errorMsg':error.message, 'errorId': error.code});
+    })
 });
 
 module.exports = router;
