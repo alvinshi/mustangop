@@ -61,6 +61,7 @@ router.get('/interior/:excTaskId', function(req, res){
     var query = new AV.Query(receiveTaskObject);
     query.include('taskObject');
     query.include('appObject');
+    query.include('userObject');
     query.get(excTaskId).then(function(results){
         var retObject = Object();
         var hisappObject = results.get('appObject');
@@ -74,6 +75,7 @@ router.get('/interior/:excTaskId', function(req, res){
         retObject.latestReleaseDate = hisappObject.get('latestReleaseDate');
         retObject.excUniqueCode = hisappObject.get('excUniqueCode');
         retObject.version = hisappObject.get('version');
+        retObject.userObjectId = results.get('userObject').id;
 
         retObject.totalExcCount = results.get('receiveCount');
         retObject.expiredCount = results.get('expiredCount');
