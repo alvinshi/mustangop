@@ -338,3 +338,17 @@
     }
 
 }
+.butt{
+    margin-bottom: 30px;
+    background-color: #3498db;
+    color: white;
+    width: 95%;
+    font-size: 24px;
+    line-height: 30px;
+    border: 2px solid #3498db;
+    border-radius: 8px;
+}
+.submit{
+    margin-top: 30px;
+    text-align: center;
+}

@@ -164,4 +164,7 @@ app.controller('interorDetailControl',function($scope, $http, $location, FileUpl
             });
     };
     console.info('uploader', uploader);
+    $scope.commitConfirm = function(){
+            location.href='/myClaim/' + $scope.oneAppInfo.userObjectId;
+        }
 });
