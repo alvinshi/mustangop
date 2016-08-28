@@ -126,12 +126,12 @@ AV.Cloud.define('taskCheckForDoTask', function(request, response){
                                         //新手任务奖励消息(50YB)
                                     }else {
                                         //增加做任务人的钱
-                                        console.log('****** task be accept by timer ****** do task user ' + user.id + '(add total YB) -' + rate_unitPrice);
+                                        console.log('****** task be accept by timer ****** do task user ' + user.id + '(add total YB) +' + rate_unitPrice);
                                         user.increment('totalMoney', rate_unitPrice);
                                     }
                                     //扣除发布任务人的冻结钱
                                     releaseTaskUser.increment('freezingMoney', -rate_unitPrice);
-                                    console.log('****** task be accept by timer ****** release task user : ' + releaseTaskUser.id + '(minus freeze YB) +' + rate_unitPrice);
+                                    console.log('****** task be accept by timer ****** release task user : ' + releaseTaskUser.id + '(minus freeze YB) -' + rate_unitPrice);
                                 }else if(taskStatus == 'refused'){
                                     needDoneTimer = false;
                                 }
