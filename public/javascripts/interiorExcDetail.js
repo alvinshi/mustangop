@@ -164,6 +164,8 @@ app.controller('interorDetailControl',function($scope, $http, $location, FileUpl
             });
     };
     console.info('uploader', uploader);
+
+    // 确认提交按钮
     $scope.commitConfirm = function(){
             location.href='/myClaim/' + $scope.oneAppInfo.userObjectId;
         }

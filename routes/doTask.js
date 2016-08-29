@@ -548,14 +548,21 @@ router.get('/ischeckins', function(req, res){
     var userObject = new User();
     userObject.id = userId;
 
+    // 今日日期
     var myDate = new Date();
     var myDateStr = myDate.getFullYear() + '-' + (parseInt(myDate.getMonth())+1) + '-' + myDate.getDate();
+
+    // 昨天日期
+    var nowTimestamp = new Date().getTime();
+    var yesterdayTimestamp = nowTimestamp - 1000*60*60*24;
+    var yesterdayDate = new Date(yesterdayTimestamp);
+    var yesterdayDateStr = yesterdayDate.getFullYear() + '-' + (parseInt(yesterdayDate.getMonth())+1) + '-' + yesterdayDate.getDate();
 
     var query = new AV.Query(checkInsObjectSql);
     query.equalTo('checkInsUserObject', userObject);
     query.first().then(function(checkInsOb){
         if (checkInsOb == undefined || checkInsOb.length <=0){
-            res.json({'isCheckIns': 0, 'todayYB': giftYB, 'tomorrowYB': giftYB + 1})
+            res.json({'isCheckIns': 1, 'todayYB': giftYB, 'tomorrowYB': giftYB + 1})
         }else {
             var todayGiftYb = 0;
             var tomorrowGiftYb = 0;
@@ -571,9 +578,13 @@ router.get('/ischeckins', function(req, res){
 
             var checkTime = checkInsOb.get('checkInsTime');
             if (checkTime == myDateStr){
-                res.json({'isCheckIns': 1, 'todayYB': todayGiftYb, 'tomorrowYB': tomorrowGiftYb})
-            }else {
                 res.json({'isCheckIns': 0, 'todayYB': todayGiftYb, 'tomorrowYB': tomorrowGiftYb})
+            }
+            else if (checkTime == yesterdayDateStr){
+                res.json({'isCheckIns': 1, 'todayYB': todayGiftYb, 'tomorrowYB': tomorrowGiftYb})
+            }
+            else {
+                res.json({'isCheckIns': 1, 'todayYB': giftYB, 'tomorrowYB': giftYB + 1})
             }
         }
     },function(error){
@@ -585,6 +596,7 @@ router.get('/ischeckins', function(req, res){
 // 点击签到接口
 router.post('/checkIns', function(req, res){
     var userId = util.useridInReq(req);
+    var todayYB = req.body.todayYB;
 
     // 今日日期
     var myDate = new Date();
@@ -601,28 +613,64 @@ router.post('/checkIns', function(req, res){
 
     var query = new AV.Query(checkInsObjectSql);
     query.equalTo('checkInsUserObject', userObject);
+    query.include('checkInsUserObject');
     query.first().then(function(checkInsObj){
-        if (checkInsObj == undefined || checkInsObj.length < 0){
+        if (checkInsObj == undefined || checkInsObj.length <= 0){
             // 一次都没签到
-            checkInsObj.set('checkInsUserObject', userObject);
-            checkInsObj.set('checkInsCount', 1);
-            checkInsObj.set('checkInsTime', myDateStr);
+            var checkInsObject = new checkInsObjectSql();
+            checkInsObject.set('checkInsUserObject', userObject);
+            checkInsObject.set('checkInsCount', 1);
+            checkInsObject.set('checkInsTime', myDateStr);
+            checkInsObject.set('checkPerCapita', todayYB);
+            checkInsObject.save().then(function(userCheckIns){
+                var userObjectT = userCheckIns.get('checkInsUserObject');
+                userObjectT.increment('totalMoney', todayYB);
+                userObjectT.increment('feedingMoney', todayYB);
+                userObjectT.save().then(function(){
+                    res.json({'errorId': 0, 'errorMsg': '签到成功'})
+                },function(error){
+                    res.json({'errorMsg':error.message, 'errorId': error.code});
+                });
+            },function(error){
+                res.json({'errorMsg':error.message, 'errorId': error.code});
+            })
         }
         else if(checkInsObj.get('checkInsTime') == yesterdayDateStr){
             // 属于连续签到
             checkInsObj.increment('checkInsCount', 1);
+            checkInsObj.increment('checkPerCapita', todayYB);
             checkInsObj.set('checkInsTime', myDateStr);
+            checkInsObj.save().then(function(){
+                var userObjectT = checkInsObj.get('checkInsUserObject');
+                userObjectT.increment('totalMoney', todayYB);
+                userObjectT.increment('feedingMoney', todayYB);
+                userObjectT.save().then(function(){
+                    res.json({'errorId': 0, 'errorMsg': '签到成功'})
+                },function(error){
+                    res.json({'errorMsg':error.message, 'errorId': error.code});
+                });
+            },function(error){
+                res.json({'errorMsg':error.message, 'errorId': error.code});
+            })
         }
         else {
             // 有一天没有签到就从新计数
             checkInsObj.set('checkInsCount', 1);
+            checkInsObj.increment('checkPerCapita', todayYB);
             checkInsObj.set('checkInsTime', myDateStr);
+            checkInsObj.save().then(function(){
+                var userObjectT = checkInsObj.get('checkInsUserObject');
+                userObjectT.increment('totalMoney', todayYB);
+                userObjectT.increment('feedingMoney', todayYB);
+                userObjectT.save().then(function(){
+                    res.json({'errorId': 0, 'errorMsg': '签到成功'})
+                },function(error){
+                    res.json({'errorMsg':error.message, 'errorId': error.code});
+                });
+            },function(error){
+                res.json({'errorMsg':error.message, 'errorId': error.code});
+            })
         }
-        checkInsObj.save().then(function(){
-            res.json({'errorId': 0, 'errorMsg': '签到成功'})
-        },function(error){
-            res.json({'errorMsg':error.message, 'errorId': error.code});
-        })
 
     },function(error){
         res.json({'errorMsg':error.message, 'errorId': error.code});

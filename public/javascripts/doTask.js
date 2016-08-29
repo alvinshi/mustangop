@@ -29,9 +29,10 @@ app.controller('doTaskCtrl', function($scope, $http) {
         }
     });
 
-    $scope.butCheckIns = function(){
+    // 签到按钮
+    $scope.butCheckIns = function(todayYB, tomorrowYB){
         var checkInsURL = 'doTask/checkIns';
-        $http.post(checkInsURL).success(function(response){
+        $http.post(checkInsURL, {'todayYB':todayYB, 'tomorrowYB':tomorrowYB}).success(function(response){
             $scope.errorId = response.errorId;
             $scope.errorMsg = response.errorMsg;
             if (response.errorId == 0){
