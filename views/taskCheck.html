@@ -98,7 +98,7 @@
                         </button>
                     </div>
                     <hr>
-                    <div ng-repeat="app in taskAudit| orderBy:'-totalSubmited'">
+                    <div ng-repeat="app in taskAudit">
                         <div ng-class="{true :'icon1 selected', false :'icon1'}[$index == taskIndex]" ng-click="check(app, $index)">
                         <span style="position: relative">
                             <img ng-src="{{app.artworkUrl100}}" alt="">
