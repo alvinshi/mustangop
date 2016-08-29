@@ -17,11 +17,13 @@ app.controller('taskCheckCtrl', function($scope, $http, $location) {
     $scope.currentTaskId = undefined;
     $scope.noApp = false;
     $scope.myObj = Object();
+
     //**************得到左侧控制器条目*******************
     var taskUrl = '/taskCheck/taskAudit';
     $http.get(taskUrl).success(function(response){
         $scope.isLoadingMyApp = false;
         $scope.taskAudit = response.taskAudit;
+
         if ($scope.taskAudit.length > 0){
             //初始显示返回的第一个
             $scope.taskIndex = 0;
@@ -31,7 +33,12 @@ app.controller('taskCheckCtrl', function($scope, $http, $location) {
             //如果没有返回值, 需要在前端显示按钮
             $scope.noApp = true;
         }
+
+
     });
+
+
+
 
     // 一键关闭
     $scope.turnOffTask = function(){
@@ -77,7 +84,6 @@ app.controller('taskCheckCtrl', function($scope, $http, $location) {
             }
         })
     };
-
     //***************撤销任务逻辑************************
     $scope.confirmCancel = function(taskId){
         var url = '/taskCheck/cancelTask/' + taskId;
@@ -87,6 +93,7 @@ app.controller('taskCheckCtrl', function($scope, $http, $location) {
     };
 
     //***************任务审核动作逻辑**********************
+    //显示隐藏已通过任务
 
     //*****************确认接收***************************
     $scope.checkText = function () {
@@ -106,9 +113,27 @@ app.controller('taskCheckCtrl', function($scope, $http, $location) {
                 $http.post(url).success(function(response){
                     specTaskCheck($scope.currentTaskId);
                 })
+
         };
+    //显示关闭已通过
+    $scope.fadeit = false ;
+    $scope.showTask=function(entry) {
+
+            $scope.fadeit = true ;
 
 
+
+            }
+
+
+$scope.showTask1=function(entry) {
+
+    $scope.fadeit = false ;
+
+
+
+}
+    //默认弹出闭合
 
 
     //*****************拒绝接收****************************
@@ -138,4 +163,5 @@ app.controller('taskCheckCtrl', function($scope, $http, $location) {
     $scope.addApp=function(id) {
         $('#'+ id).popover("toggle");
     };
+
 });

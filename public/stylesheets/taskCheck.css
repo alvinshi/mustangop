@@ -90,6 +90,29 @@
 
 }
 
+.receive_btn .show1 {
+    position: absolute;
+    right: 40px;
+    width: 144px;
+    height: 40px;
+    top: 650px;
+    color:white;
+    border: 1px solid #53d435;
+    border-radius: 10px;
+    background-color: #53d435;
+}
+.receive_btn .show2 {
+    position: absolute;
+    right: 40px;
+    width: 144px;
+    height: 40px;
+    top: 650px;
+    color:white;
+    border: 1px solid #53d435;
+    border-radius: 10px;
+    background-color: #53d435;
+}
+
 .receive_btn .receive2{
     margin-top: 30px;
     margin-bottom: 30px;
