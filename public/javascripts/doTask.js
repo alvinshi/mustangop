@@ -4,7 +4,7 @@
 
 
 var app = angular.module('yemaWebApp',[]);
-var navIndex = 0;
+var navIndex = 1;
 
 
 

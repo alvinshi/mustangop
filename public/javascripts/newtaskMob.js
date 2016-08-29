@@ -2,7 +2,7 @@
  * Created by cailong on 16/7/21.
  */
 var app = angular.module('yemaWebApp', ['angularFileUpload']);
-var navIndex = 2;
+var navIndex = 3;
 
 app.controller('MobControl', function($scope, $http, $location, FileUploader) {
     var appurlList = $location.absUrl().split('/');

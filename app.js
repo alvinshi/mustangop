@@ -35,6 +35,7 @@ var contactUs = require('./routes/contactUs');
 var guide = require('./routes/guide');
 var webAnalysis = require('./routes/webAnalysis');
 var newPcTask = require('./routes/newPcTask');
+var homePage = require('./routes/homePageApi');
 
 var app = express();
 
@@ -172,6 +173,7 @@ app.use('/handBook', handBook);
 app.use('/guide', guide);
 app.use('/webAnalysis', webAnalysis);
 app.use('/newPcTask', newPcTask);
+app.use('/homePage', homePage);
 
 
 //静态html组建

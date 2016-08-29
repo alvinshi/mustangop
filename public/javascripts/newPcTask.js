@@ -2,7 +2,7 @@
  * Created by tanghui on 16/8/17.
  */
 var app = angular.module('yemaWebApp',[]);
-var navIndex = 2;
+var navIndex = 3;
 
 app.controller('newPcTaskCtrl', function($scope, $http, $location, FileUploader) {
     var appurlList = $location.absUrl().split('/');
