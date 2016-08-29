@@ -108,13 +108,14 @@ app.controller('taskCheckCtrl', function($scope, $http, $location) {
     $scope.accept = function(entry){
         var entryId = entry.id;
         //BUGBUG
-                entry.status = 'accepted';
-                var url = '/taskCheck/accept/' + entryId;
-                $http.post(url).success(function(response){
-                    specTaskCheck($scope.currentTaskId);
-                })
+        entry.status = 'accepted';
+        var url = '/taskCheck/accept/' + entryId;
+        $http.post(url).success(function(response){
+            specTaskCheck($scope.currentTaskId);
+        })
 
-        };
+    };
+
     //显示关闭已通过
     $scope.fadeit = false ;
     $scope.showTask=function(entry) {
