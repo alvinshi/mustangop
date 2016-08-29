@@ -349,5 +349,5 @@ app.controller('doTaskCtrl', function($scope, $http) {
                 }
             }
         }
-    }
+    };
 });

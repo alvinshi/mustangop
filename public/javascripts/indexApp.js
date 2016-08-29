@@ -33,6 +33,10 @@ app.directive("thNav",function(){
                 $scope.unreadMsgCount = response.unreadMsgCount;
 
             });
+
+            $scope.butdoTask = function(){
+                location.reload();
+            }
         }
     };
 });
