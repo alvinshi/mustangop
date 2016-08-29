@@ -220,17 +220,15 @@
                         padding: 36px 54px 60px 30px; margin: auto;">
                                                             <div class="row">
                                                                 <div class="col-sm-3">
-                                                                    <img  class="appicon" style="display: inline-block; margin: 0 26px 40px 20px;
+                                                                    <img class="appicon" style="display: inline-block; margin: 0 26px 40px 20px;
                                 width: 120px; height: 120px; border-radius: 20px"
                                                                           ng-src="{{  taskDisplayed.artworkUrl100 }}" alt="App Icon">
                                                                 </div>
                                                                 <div class="col-sm-9" style="padding-left: 50px;">
-                                                                    <p style="font-size: 24px; color: #ffffff;
-                                width: 330px; margin-top: 10px">
+                                                                    <p style="font-size: 24px; color: #ffffff; width: 330px; margin-top: 10px">
                                                                         {{ taskDisplayed.trackName.substr(0,12)+"..."  }}
                                                                     </p>
-                                                                    <p style="color: #ffffff;
-                                width: 330px;" ng-show="taskDisplayed.latestReleaseDate.length > 0">
+                                                                    <p style="color: #ffffff;width: 330px;" ng-show="taskDisplayed.latestReleaseDate.length > 0">
                                                                         更新日期: {{ taskDisplayed.latestReleaseDate | date: "yyyy/MM/dd"  }}
                                                                     </p>
                                                                     <p style="color: #ffffff; font-size: 20px;">
@@ -362,9 +360,9 @@
 
                                 <div id="collapse{{$index}}" ng-class="{true :'panel-collapse collapse in', false :'panel-collapse collapse '}[$index == 0]" >
                                     <div class="panel-body" style="padding-left:50px;padding-right:50px;">
-                                        <button class="btn show1"ng-hide="fadeit == false" style="background-color: #53d435;color:white;" ng-click="showTask1(entry)" >隐藏已通过</button>
-                                        <button class="btn show2" ng-hide="fadeit == true" style="background-color: #53d435;color:white;" ng-click="showTask(entry)" >显示全部</button>
-                                        <div class=" row receiveinfor" ng-hide="entry.status == 'accepted'&&fadeit == false"  ng-repeat="entry in (submission.entries)">
+                                        <button class="btn show1" ng-hide="fadeit == false" style="background-color: #53d435;color:white;" ng-click="showTask1()" >隐藏已通过</button>
+                                        <button class="btn show2" ng-hide="fadeit == true" style="background-color: #53d435;color:white;" ng-click="showTask()" >显示全部</button>
+                                        <div class=" row receiveinfor" ng-hide="(entry.status == 'accepted' || entry.status == 'systemAccepted' || entry.status == 'expired') && fadeit == false"  ng-repeat="entry in (submission.entries)">
 
                                             <div   class="col-lg-3 ">第 {{$index + 1}} 组</div>
 

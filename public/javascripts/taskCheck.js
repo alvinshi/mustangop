@@ -118,22 +118,15 @@ app.controller('taskCheckCtrl', function($scope, $http, $location) {
 
     //显示关闭已通过
     $scope.fadeit = false ;
-    $scope.showTask=function(entry) {
-
-            $scope.fadeit = true ;
-
-
-
-            }
+    $scope.showTask=function() {
+        $scope.fadeit = true ;
+    };
 
 
-$scope.showTask1=function(entry) {
+    $scope.showTask1=function() {
+        $scope.fadeit = false ;
+    };
 
-    $scope.fadeit = false ;
-
-
-
-}
     //默认弹出闭合
 
 
