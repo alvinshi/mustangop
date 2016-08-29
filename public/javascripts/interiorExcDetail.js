@@ -3,7 +3,7 @@
  */
 
 var app = angular.module('yemaWebApp', ['angularFileUpload']);
-var navIndex = 2;
+var navIndex = 3;
 
 app.controller('interorDetailControl',function($scope, $http, $location, FileUploader){
     var appurlList = $location.absUrl().split('/');

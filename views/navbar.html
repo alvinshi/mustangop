@@ -15,12 +15,12 @@
         </div>
         <div class="collapse navbar-collapse" id="example-navbar-collapse-1">
             <ul class="nav navbar-nav">
-
-                <li style="width: 140px"><a ng-style="{color:myColors[0]}" href="/doTask" ng-click="butdoTask()">换评大厅</a></li>
-                <li style="width: 140px"><a ng-style="{color:myColors[1]}" href="/myapp" ng-click="butdoTask()">发布换评</a></li>
+                <li style="width: 140px"><a ng-style="{color:myColors[0]}" href="/homePage" ng-click="butdoTask()">首页</a></li>
+                <li style="width: 140px"><a ng-style="{color:myColors[1]}" href="/doTask" ng-click="butdoTask()">换评大厅</a></li>
+                <li style="width: 140px"><a ng-style="{color:myColors[2]}" href="/myapp" ng-click="butdoTask()">发布换评</a></li>
 
                 <li style="width: 140px">
-                    <a ng-style="{color:myColors[2]}" href="/myClaim/{{userObjectId}}" style="position: relative" ng-click="butdoTask()">我的领取
+                    <a ng-style="{color:myColors[3]}" href="/myClaim/{{userObjectId}}" style="position: relative" ng-click="butdoTask()">我的领取
                         <span class="" ng-show="(toDoCount + refusedCount) > 0" style="position: absolute;
                               top: 7px;
                               left: 83px;
@@ -33,7 +33,7 @@
                     </a>
                 </li>
                 <li style="width: 140px">
-                    <a ng-style="{color:myColors[3]}" href="/taskCheck" style="position: relative" ng-click="butdoTask()">审核换评
+                    <a ng-style="{color:myColors[4]}" href="/taskCheck" style="position: relative" ng-click="butdoTask()">审核换评
                         <span class="badge" ng-show="pendingCount > 0" style="position: absolute;
                               top: 7px;
                               left: 83px;

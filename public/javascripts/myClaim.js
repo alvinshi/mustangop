@@ -4,7 +4,7 @@
 
 var app = angular.module('yemaWebApp', []);
 
-var navIndex = 2;
+var navIndex = 3;
 
 app.controller('myClaimControl', function($scope, $http, $location){
 
