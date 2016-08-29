@@ -360,8 +360,8 @@
 
                                 <div id="collapse{{$index}}" ng-class="{true :'panel-collapse collapse in', false :'panel-collapse collapse '}[$index == 0]" >
                                     <div class="panel-body" style="padding-left:50px;padding-right:50px;">
-                                        <button class="btn show1" ng-hide="fadeit == false" style="background-color: #53d435;color:white;" ng-click="showTask1()" >隐藏已通过</button>
-                                        <button class="btn show2" ng-hide="fadeit == true" style="background-color: #53d435;color:white;" ng-click="showTask()" >显示全部</button>
+                                        <button class="btn show1" ng-hide="fadeit == true" style="background-color: #53d435;color:white;" ng-click="showTask1()" >显示全部</button>
+                                        <button class="btn show2" ng-hide="fadeit == false" style="background-color: #53d435;color:white;" ng-click="showTask()" >隐藏已通过</button>
                                         <div class=" row receiveinfor" ng-hide="(entry.status == 'accepted' || entry.status == 'systemAccepted' || entry.status == 'expired') && fadeit == false"  ng-repeat="entry in (submission.entries)">
 
                                             <div   class="col-lg-3 ">第 {{$index + 1}} 组</div>
