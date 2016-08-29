@@ -193,6 +193,9 @@
                     <div ng-show="progressBarCtrl[$index] && errorId != 0">
                         {{errorMsg}}
                     </div>
+
+
+
                 </div>
             </div>
 
@@ -206,6 +209,7 @@
                         上传任务截图
                         <input class="upload" type="file"   ng-disabled="progressBarCtrl[$index]" nv-file-select="" uploader="uploader" multiple/>
                     </button>
+
                     <div style="height: 50px; padding: 10px 20px 0 20px">
                         <div class="progress" ng-show="progressBarCtrl[$index] && errorId == 0">
                             <div ng-class="{'progress-bar': true, 'progress-bar-striped':true, active:true}" ng-style="{width: progressNum+ '%'}">
@@ -215,8 +219,11 @@
                             {{errorMsg}}
                         </div>
                     </div>
+
                 </div>
+
             </div>
+
         </div>
     </div>
     <div style="margin-top: 30px;text-align: center;" >

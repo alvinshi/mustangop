@@ -26,7 +26,7 @@ app.controller('taskCheckCtrl', function($scope, $http, $location) {
 
         if ($scope.taskAudit.length > 0){
             //初始显示返回的第一个
-            $scope.taskAudit = response.taskAudit.sort(function(b, a){return a.totalSubmited >= b.totalSubmited});
+            $scope.taskAudit = response.taskAudit.sort(function compare(b,a ){return a.totalSubmited - b.totalSubmited});
             $scope.taskIndex = 0;
             $scope.taskDisplayed = $scope.taskAudit[0];
         }
