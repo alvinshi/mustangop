@@ -360,7 +360,7 @@
                                     </div>
                                 </div>
 
-                                <div id="collapse{{$index}}"  class="panel-collapse collapse in">
+                                <div id="collapse{{$index}}" ng-class="{true :'panel-collapse collapse in', false :'panel-collapse collapse '}[$index == 0]" >
                                     <div class="panel-body" style="padding-left:50px;padding-right:50px;">
                                         <div class=" row receiveinfor" ng-hide="entry.status == 'accepted'&&fadeit == false"  ng-repeat="entry in (submission.entries)">
                                             <div   class="col-lg-3 ">第 {{$index + 1}} 组</div>
@@ -376,9 +376,7 @@
                                                 <button class="btn reject "data-target="#rejectreason{{entry.id}}" data-toggle="modal" ng-show="(entry.status == 'uploaded' || entry.status == 'reUploaded') && taskDisplayed.cancelled == false">拒绝</button>
                                                 <button class="btn noReject disabled" ng-show="(entry.status == 'uploaded' || entry.status == 'reUploaded') && taskDisplayed.cancelled == true">任务撤销后不得拒绝提交</button>
 
-                                                <button class="btn show1"ng-hide="fadeit == false" ng-click="showTask1(entry)" >隐藏已通过</button>
 
-                                                <button class="btn show2" ng-hide="fadeit == true" ng-click="showTask(entry)" >显示全部</button>
 
                                                 <button class="btn receive" ng-click="accept(entry)" ng-show="entry.status == 'uploaded' || entry.status == 'reUploaded'">确认接受</button>
                                                 <button class="btn receive2" ng-show="entry.status == 'accepted' || entry.status == 'systemAccepted'">已接受</button>
