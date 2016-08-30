@@ -38,9 +38,24 @@ app.controller('homePageCtrl', function($scope, $http){
         })
     };
 
+    //用户+拒绝任务相关
+    var indexUrl = '/index';
+    $http.get(indexUrl).success(function(response){
+        //未做的
+        $scope.toDoCount = response.toDoCount;
+        //被拒绝的
+        $scope.refusedCount = response.refusedCount;
+    });
 
+    //需要审核的任务条数相关
+    var unCheckCountUrl = '/index/unCheckTaskCount';
+    $http.get(unCheckCountUrl).success(function(response){
+        $scope.pendingCount = response.pendingCount;
+    });
 
-
-
-
+    // 我的发布
+    var myReleaseTaskUrl = 'homePage/myReleaseTask';
+    $http.get(myReleaseTaskUrl).success(function(response){
+        $scope.myReleaseTask = response.myReleaseTask;
+    })
 });
