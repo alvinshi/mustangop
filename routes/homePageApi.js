@@ -10,13 +10,11 @@ var https = require('https');
 
 // 声明
 var User = AV.Object.extend('_User');
-var IOSAppInfo = AV.Object.extend('IOSAppInfo');
-var IOSAppBinder = AV.Object.extend('IOSAppBinder');
-var IOSAppExcLogger = AV.Object.extend('IOSAppExcLogger');
-var releaseTaskObject = AV.Object.extend('releaseTaskObject'); // 发布任务库
-var receiveTaskObject = AV.Object.extend('receiveTaskObject'); // 领取任务库
-var accountJournal = AV.Object.extend('accountJournal'); // 记录账户变动明细表
-var messageLogger = AV.Object.extend('messageLogger');
+var IOSAppInfoSql = AV.Object.extend('IOSAppInfo');
+var IOSAppBinderSql = AV.Object.extend('IOSAppBinder');
+var IOSAppExcLoggerSql = AV.Object.extend('IOSAppExcLogger');
+var releaseTaskObjectSql = AV.Object.extend('releaseTaskObject'); // 发布任务库
+var receiveTaskObjectSql = AV.Object.extend('receiveTaskObject'); // 领取任务库
 var checkInsObjectSql = AV.Object.extend('checkInsObject');
 
 router.get('/', function(req, res) {
@@ -179,4 +177,38 @@ router.post('/checkIns', function(req, res){
     })
 });
 
+
+// 我发布的任务
+router.get('/myReleaseTask', function(req, res){
+    var userId = util.useridInReq(req);
+
+    var userObject = new User();
+    userObject.id = userId;
+
+    var query = new AV.Query(releaseTaskObjectSql);
+    query.equalTo('userObject', userObject);
+    query.equalTo('close', false);
+    query.include('appObject');
+    query.descending('createdAt');
+    query.find().then(function(relObjects){
+        var retApps = Array();
+        for (var i = 0; i < relObjects.length; i++){
+            // 任务详情
+            var releaseObject = Object();
+            releaseObject.taskType = relObjects[i].get('taskType');
+            releaseObject.excCount = relObjects[i].get('excCount');
+            releaseObject.remainCount = relObjects[i].get('remainCount');
+            releaseObject.taskObjectId = relObjects[i].id;
+
+            // app详情
+            var userRelApp = relObjects[i].get('appObject');
+            releaseObject.artworkUrl100 = userRelApp.get('artworkUrl100');
+            releaseObject.trackName = userRelApp.get('trackName');
+            retApps.push(releaseObject);
+        }
+        res.json({'myReleaseTaskInfo':retApps})
+    },function(error){
+        res.json({'errorMsg':error.message, 'errorId': error.code});
+    })
+});
 module.exports = router;
