@@ -217,6 +217,13 @@
                     </div>
                 </div>
             </div>
+                <div class="assign">
+                    备注:<span style="margin-left: 15px" class="num  assignTask" ng-show="app.mode" ng-click="openNewPage(app.taskObjectId)">{{app.detailRem}}</span>
+                    <input class="input1 hidden-xs" type="text" style="width:400px" ng-hide="app.mode" ng-model="app.detailRem" ng-keyup="keySaveAssign($event,app.detailRem, app.taskObjectId,app)" >
+                    <img src="../images/home/pen.png" class="imgpen hidden-xs" ng-show="app.mode" ng-click="reAssign(app)">
+                    <button  class="btnSave hidden-xs"  ng-click="saveRemark(app.detailRem, app.taskObjectId,app)">保存</button>
+                </div>
+
         </div>
     </div>
     <div style="margin-top: 30px;text-align: center;" >
