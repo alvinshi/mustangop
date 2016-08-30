@@ -6,6 +6,12 @@ var app = angular.module('yemaWebApp',[]);
 var navIndex = 0;
 
 app.controller('homePageCtrl', function($scope, $http){
+
+    //******************* 自动轮播 *************************
+    $("#myCarousel").carousel({
+        interval:3000
+    });
+    
     // banner
     var bannerurl = 'homePage/banner';
     $http.get(bannerurl).success(function(response){
