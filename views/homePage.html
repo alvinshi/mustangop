@@ -19,7 +19,8 @@
     <!--网站内部js-->
     <script src="/javascripts/homePage.js"></script>
     <script src="/javascripts/indexApp.js"></script>
-
+    <!--网站内部css-->
+    <link rel="stylesheet" href="/stylesheets/homepage.css"/>
 </head>
 <body ng-app="yemaWebApp">
 
@@ -52,22 +53,27 @@
         </a>
     </div>
     <!--签到-->
-    <div class="panel-body" style="margin-left: 25px;margin-top: 0px;width:230px;height: 280px;border: 1px solid black;float: left;">
-        <button type="button" class="btn btn-primary" ng-click="butCheckIns(todayYB, tomorrowYB)" ng-show="isCheckIns != 0 || errorId != 0">
-            签到
-        </button>
-        <button type="button" class="btn btn-primary" ng-show="isCheckIns == 0 || errorId == 0">
+    <div class="panel-body" style="margin-left: 25px;margin-top: 0px;width:230px;height: 280px;border: 1px solid #DDDDDD;float: left;">
+        <div><img style="margin-left:-15px;margin-top:50px;" src="/images/homepage/back.png" /></div>
+        <div class ="circle" style="margin-top:-100px;margin-left:40px;"><span><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;已连续签到</span>
+               <span style="font-size:40px;color:blue;"><br>&nbsp;&nbsp;&nbsp;&nbsp;3</span><span>天</span></div>
+        <button style="margin-left:25px;margin-top:30px;width:150px;" type="button" class="btn btn-primary" ng-show="isCheckIns == 0 || errorId == 0">
             已签到
         </button>
+        <button style="margin-left:25px;margin-top:-50px;width:150px;" type="button" class="btn btn-primary" ng-click="butCheckIns(todayYB, tomorrowYB)" ng-show="isCheckIns != 0 || errorId != 0">
+            签到
+        </button>
+        <span>
     </div>
+
 
         <!--重要消息-->
 
-        <div id="myCarousel1" class="carousel slide" style="font-size:30px;margin-right: -15%;margin-left: 100px;margin-top:60px;">
+        <div id="myCarousel1" class="carousel slide" style="font-size:30px;margin-right: -15%;margin-left: 0px;margin-top:60px;">
             <!-- 轮播（Carousel）指标 -->
 
             <!-- 轮播（Carousel）项目 -->
-            <div class="carousel-inner">
+            <div style="margin-left: 140px;" class="carousel-inner">
                 <div class="item active">
                     您有三条任务还未完成
                     <div class="carousel-caption">标题 1</div>
@@ -81,39 +87,42 @@
                     <div class="carousel-caption">标题 3</div>
                 </div>
             </div>
+            <img style="height:60px;margin-top:-80px;" src="/images/homepage/main1.png">
             <!-- 轮播（Carousel）导航 -->
-            <a class="carousel-control right" style="margin-top:200px;font-size:30px;margin-right: 15%;margin-left: 100px;" href="#myCarousel1" style="font-size: 1em;border: 6px solid #3498db;height: 60px;"
-               data-slide="next">&rsaquo;</a>
+            <a class="carousel-control right" style="background:url(/images/homepage/main2.png); border: 1px solid #f5f5f5;width:74px;height: 60px;margin-top:280px;font-size:30px;margin-right: 15%;margin-left: 100px;"
+               href="#myCarousel1" style="font-size: 1em;border: 6px solid #3498db;height: 60px;"
+               data-slide="next"></a>
         </div>
 
     <!--新手任务-->
-    <h3 style="margin-right: 35%;margin-left: 100px;margin-top: 15px;"><br><br>新手任务</h3>
+    <h3 style="margin-right: 35%;margin-left: 0px;margin-top: 15px;"><br><br>新手任务</h3>
 
     <!--我发布的任务-->
-    <h3 style="margin-right: 35%;margin-left: 100px;margin-top: 15px;"><br><br>我发布的任务</h3>
-    <div class="panel-body" style="padding-left:50px;padding-right:50px;margin-right: 25%;margin-left: 100px;font-size:20px;border: 1px solid black;">
-        <div><img src="/images/doTask/mylist.jpg" /></div>
-            <div style=" margin-right: 35%;margin-left: 100px;margin-top: -35px; border:1px #CCC solid; height:28px; width:300px;  padding:0px;border-radius: 10px;">
-                <div style=" background:#3F9; height:28px; width:50%;border-radius: 10px;"></div>
-                <strong style="  margin-right: 35%;margin-left: 100px;margin-top: -35px;width:300px; top:7px; text-align:center; overflow:hidden;border-radius: 10px;">50%</strong>
+    <h3 style="margin-right: 35%;margin-left: 0px;margin-top: 15px;"><br><br>我发布的任务</h3>
+    <div class="panel-body" style="padding-left:50px;padding-right:50px;margin-right: 25%;margin-left: 0px;font-size:20px;border: 1px solid black;">
+        <div><img src="/images/doTask/mylist.jpg" />进度</div>
+            <div style=" margin-right: 35%;margin-left: 130px;margin-top: -45px; border:1px #CCC solid; height:16px; width:190px;  padding:0px;border-radius: 10px;">
+                <div style=" background:#3F9; height:16px; width:50%;border-radius: 10px;font-size:15px;">
+                    50%</div>
+
             </div>
-
+            <div style="margin-left: 400px;">
             <button class="btn task1" >事实排名</button>
-        <button class="btn task2" >ASO</button>
-        <button class="btn task3">统计排名</button>
-        <button class="btn task4">下载量</button>
-
+            <button class="btn task2" >ASO</button>
+            <button class="btn task3">统计排名</button>
+            <button class="btn task4">下载量</button>
+            </div>
         </div>
      <!--邀请好友奖励-->
-    <h3 style="margin-right: 35%;margin-left: 100px;margin-top: 15px;"><br><br>邀请好友奖励</h3>
+    <h3 style="margin-right: 35%;margin-left: 0px;margin-top: 15px;"><br><br>邀请好友奖励</h3>
     <div class="panel-body">
-         <div  style="margin-right: 65%;margin-left: 100px;font-size:20px;border: 1px solid black;margin-top:10px;border-radius: 10px;">
+         <div  style="margin-right: 75%;margin-left: -20px;font-size:20px;border: 1px solid black;margin-top:10px;border-radius: 10px;">
             <h3>邀请注册奖励</h3>
             <h4>邀请好友注册野马</h4>
             <h5>奖励20Y币/人</h5>
             <button>可领40Y币</button>
          </div>
-    <div  style="margin-right: 35%;margin-left: 400px;font-size:20px;border: 1px solid black;margin-top:-145px;border-radius: 10px;">
+    <div  style="margin-right: 45%;margin-left: 300px;font-size:20px;border: 1px solid black;margin-top:-145px;border-radius: 10px;">
         <h3>引导新人奖励</h3>
         <h4>引导好友完成新手任务/h4>
         <h5>奖励30Y币/人</h5>
