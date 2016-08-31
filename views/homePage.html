@@ -17,8 +17,11 @@
     <script src="//cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 
     <!--网站内部js-->
+
     <script src="/javascripts/homePage.js"></script>
     <script src="/javascripts/indexApp.js"></script>
+    <!--第三方css-->
+
     <!--网站内部css-->
     <link rel="stylesheet" href="/stylesheets/homepage.css"/>
 </head>
@@ -59,6 +62,31 @@
     </div>
 
     </div>
+    <!--邀请好友-->
+    <div class="invite" data-toggle="modal" data-target="#myModal2">
+        </div>
+    <div class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body" style="height:120px;width:460px;">
+                    点击"确定"按钮即复制网页链接,或Ctrl+C复制到剪切板
+                    <input type="text" size="70" style="margin-left: 30px;border-radius: 6px;margin-top: 30px;"  id="copy"  ng-model="url"/>
+                </div>
+
+                <div class="modal-footer" style="background-color: #f5f5f5;height:74px;border-radius: 10px;">
+
+                <button class="btn" id="btn" ng-click="copyUrl()" data-placement="top"
+                        data-toggle="popover"
+                        data-content="复制成功!">确认
+                </button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取消
+                    </button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal -->
+
+    </div>
+
     <!--签到-->
     <div class="sign" >
         <img class="img1"  src="/images/homepage/back.png" />
@@ -201,13 +229,13 @@
                 <span>/10
                 </span>
                 <div style="margin-top: -15px;margin-left: 42px;">
-                <button class="but">事实排名
+                <button class="but" ng-click="jump()">实时排名
                 </button>
-                <button class="but"style="margin-left: 10px;">ASO
+                <button class="but" ng-click="jump1()" style="margin-left: 10px;">ASO
                 </button>
-                <button class="but"style="margin-left: 10px;">统计排名
+                <button class="but" ng-click="jump2()" style="margin-left: 10px;">评论统计
                 </button>
-                <button class="but"style="margin-left: 10px;">下载量
+                <button class="but" ng-click="jump3()" style="margin-left: 10px;">下载量
                 </button>
             </div>
             </div>

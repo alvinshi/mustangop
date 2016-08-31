@@ -6,6 +6,31 @@
     float: left;
     width:850px ;
     height: 280px;}
+/*邀请好友*/
+
+.btn{
+    height:30px;
+    width:80px;
+    background-color: #5a94ec;
+    border-radius: 5px;
+    color:white;
+}
+.invite{
+    position: absolute;
+    right:-5px;
+    top:300px;
+    background:url(/images/homepage/invite.png);
+    border: 1px solid;
+    border-radius: 10px;
+    width: 44px;
+    height: 118px;
+}
+.btn-default{
+    margin-right: 100px;
+    background-color: white;
+    border: 1px solid #adadad;
+    color:#adadad;
+}
 /*签到*/
 .sign{
     margin-left: 25px;
