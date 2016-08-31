@@ -6,6 +6,15 @@ var app = angular.module('yemaWebApp',[]);
 var navIndex = 0;
 
 app.controller('homePageCtrl', function($scope, $http){
+    //邀请好友
+    $scope.inviteUrl = "http://www.mustangop.com/user/register/" + getCookie("userIdCookie");
+    $scope.copyUrl = function () {
+        $('#alert-btn').popover('toggle');
+        var Url = document.getElementById("invitecopy");
+        Url.select(); // 选择对象
+        document.execCommand("Copy"); // 执行浏览器复制命令
+    };
+
 
     //******************* 自动轮播 *************************
     $("#myCarousel").carousel({
@@ -42,6 +51,7 @@ app.controller('homePageCtrl', function($scope, $http){
         })
     };
 //我发布的任务
+
      $scope.jump=function(){
         window.open("http://aso100.com/app/rank/appid/979605189/country/cn");
      };
