@@ -78,64 +78,14 @@ router.get('/angular', function(req, res) {
                     continue;
                 }
                 dealiTunesAppFailed(retApps, appObject);
-                //var appid = appObject.get('appleId');
-                //
-                //var appInfoUrl = 'https://itunes.apple.com/lookup?id=' + appid +'&country=cn&entity=software';
-                //
-                //(function(tempAppObject){
-                //    https.get(appInfoUrl, function(httpRes) {
-                //
-                //        var totalData = '';
-                //
-                //        if (httpRes.statusCode != 200){
-                //            console.log("Add app error: " + httpRes.statusMessage);
-                //            //未检测到App的更新信息
-                //            dealiTunesAppFailed(retApps, tempAppObject);
-                //            promiseCount++;
-                //            if (promiseCount == results.length){
-                //                res.json({'myApps':retApps, 'errorId': -1, 'errorMsg':''});
-                //            }
-                //
-                //        }else {
-                //            httpRes.on('data', function(data) {
-                //                totalData += data;
-                //            });
-                //
-                //            httpRes.on('end', function(){
-                //                var dataStr = totalData.toString();
-                //                var dataObject = eval("(" + dataStr + ")");
-                //
-                //                //appid just 1 result
-                //                var appInfo = dataObject.results[0];
-                //
-                //                var appInfoObject = util.updateIOSAppInfo(appInfo, tempAppObject);
-                //                tempAppObject.save().then(function(post) {
-                //                    // 实例已经成功保存.
-                //                    retApps.push(appInfoObject);
-                //
-                //                    if (retApps.length == results.length){
-                //                        res.json({'myApps':retApps, 'errorId': 0, 'errorMsg': ''});
-                //                    }
-                //                }, function(error) {
-                //                    // 失败了.
-                //                    dealiTunesAppFailed(retApps, tempAppObject);
-                //                    promiseCount++;
-                //                    if (promiseCount == results.length){
-                //                        res.json({'myApps':retApps, 'errorId': error.code, 'errorMsg': error.message});
-                //                    }
-                //                });
-                //            })
-                //        }
-                //    }).on('error', function(error) {
-                //        dealiTunesAppFailed(retApps, tempAppObject);
-                //        promiseCount++;
-                //        if (promiseCount == results.length){
-                //            res.json({'myApps':retApps, 'errorId': error.code, 'errorMsg': error.message});
-                //        }
-                //    });
-                //})(appObject);
             }
-            res.json({'myApps':retApps, 'inviteSucceedCount': userObject.get('inviteSucceedCount'), 'errorId': 0});
+            var userPayMoney = userObject.get('rechargeRMB');
+            if (userPayMoney < 500){
+                res.json({'myApps':retApps, 'inviteSucceedCount': userObject.get('inviteSucceedCount'), 'errorId': 0});
+            }else {
+                res.json({'myApps':retApps, 'inviteSucceedCount': 10, 'errorId': 0, 'Limit': true});
+            }
+
         },
         error: function(err) {
             res.json({'errorMsg':err.message, 'errorId': err.code, 'myApps':[]});
@@ -368,6 +318,7 @@ router.post('/delete', function(req, res, next) {
     });
 });
 
+// 发布任务
 var myRate = 1;
 
 router.post('/task', function(req, res){
@@ -408,7 +359,7 @@ router.post('/task', function(req, res){
                         }
                     }
 
-                    if(unGetAllTaskCount >= 2){
+                    if(userObject.get('rechargeRMB') < 500 && unGetAllTaskCount >= 2){
                         res.json({'errorMsg':'你还有2个任务未被领完哦,等领完再发吧', 'errorId': -1});
                         return;
                     }

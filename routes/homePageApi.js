@@ -10,12 +10,11 @@ var https = require('https');
 
 // 声明
 var User = AV.Object.extend('_User');
-var IOSAppInfoSql = AV.Object.extend('IOSAppInfo');
-var IOSAppBinderSql = AV.Object.extend('IOSAppBinder');
-var IOSAppExcLoggerSql = AV.Object.extend('IOSAppExcLogger');
 var releaseTaskObjectSql = AV.Object.extend('releaseTaskObject'); // 发布任务库
 var receiveTaskObjectSql = AV.Object.extend('receiveTaskObject'); // 领取任务库
 var checkInsObjectSql = AV.Object.extend('checkInsObject');
+var inviteUserObjectSql = AV.Object.extend('inviteUserObject');  // 邀请好友奖励库
+var everydayTaskObjectSql = AV.Object.extend('everydayTaskObject'); // 每日任务库
 
 router.get('/', function(req, res) {
     res.render('homePage');
@@ -62,7 +61,7 @@ router.get('/ischeckins', function(req, res){
     query.equalTo('checkInsUserObject', userObject);
     query.first().then(function(checkInsOb){
         if (checkInsOb == undefined || checkInsOb.length <=0){
-            res.json({'isCheckIns': 1, 'todayYB': giftYB, 'tomorrowYB': giftYB + 1})
+            res.json({'isCheckIns': 1, 'todayYB': giftYB, 'tomorrowYB': giftYB + 1, 'continueCheck': 0})
         }else {
             var todayGiftYb = 0;
             var tomorrowGiftYb = 0;
@@ -78,13 +77,13 @@ router.get('/ischeckins', function(req, res){
 
             var checkTime = checkInsOb.get('checkInsTime');
             if (checkTime == myDateStr){
-                res.json({'isCheckIns': 0, 'todayYB': todayGiftYb, 'tomorrowYB': tomorrowGiftYb})
+                res.json({'isCheckIns': 0, 'todayYB': todayGiftYb, 'tomorrowYB': tomorrowGiftYb, 'continueCheck': todayYb})
             }
             else if (checkTime == yesterdayDateStr){
-                res.json({'isCheckIns': 1, 'todayYB': todayGiftYb, 'tomorrowYB': tomorrowGiftYb})
+                res.json({'isCheckIns': 1, 'todayYB': todayGiftYb, 'tomorrowYB': tomorrowGiftYb, 'continueCheck': todayYb})
             }
             else {
-                res.json({'isCheckIns': 1, 'todayYB': giftYB, 'tomorrowYB': giftYB + 1})
+                res.json({'isCheckIns': 1, 'todayYB': giftYB, 'tomorrowYB': giftYB + 1, 'continueCheck': todayYb})
             }
         }
     },function(error){
@@ -204,6 +203,7 @@ router.get('/myReleaseTask', function(req, res){
             var userRelApp = relObjects[i].get('appObject');
             releaseObject.artworkUrl100 = userRelApp.get('artworkUrl100');
             releaseObject.trackName = userRelApp.get('trackName');
+            releaseObject.appleId = userRelApp.get('appleId');
             retApps.push(releaseObject);
         }
         res.json({'myReleaseTaskInfo':retApps})
@@ -211,4 +211,141 @@ router.get('/myReleaseTask', function(req, res){
         res.json({'errorMsg':error.message, 'errorId': error.code});
     })
 });
+
+// 获取邀请好友奖励
+router.get('/noviceTask', function(req, res){
+    var userId = util.useridInReq(req);
+
+    var userObject = new User();
+    userObject.id = userId;
+
+    var query = new AV.Query(inviteUserObjectSql);
+    query.equalTo('inviteUserObject', userObject);
+    query.include('inviteUserObject');
+    query.first().then(function(userInfoObject){
+        var noviceObject = Object();
+        if (userInfoObject == undefined || userInfoObject.length == 0){
+            noviceObject.noviceReward = '未满足条件';
+            noviceObject.noviceTaskAcceptReward = '未满足条件';
+            noviceObject.canReceive = 0;
+            noviceObject.successCanReceive = 0;
+        }
+        else {
+            var inviteUserReward = userInfoObject.get('inviteUserReward'); // 邀请用户奖励
+            var guideUserRewardYB = userInfoObject.get('guideUserRewardYB'); // 引导新人奖励
+            var userObjectIn = userInfoObject.get('inviteUserObject');
+            var uploadHaveReceive = userInfoObject.get('noviceTaskType');
+
+            // 新手任务
+            var isnovice = userObjectIn.get('registerBonus');
+            if (isnovice == 'register_upload_task' && uploadHaveReceive != 'uploadHaveReceive'){
+                noviceObject.noviceReward = 20;  // 新手领取并上传了任务
+                noviceObject.noviceTaskAcceptReward = '未满足条件'; // 新手任务被审核通过
+            }
+            else if (isnovice == 'register_accept_task' && uploadHaveReceive != 'finishNoviceTask'){
+                noviceObject.noviceReward = '已完成新手任务';
+                noviceObject.noviceTaskAcceptReward = 30;
+            }
+            else if (isnovice == 'register_new'){
+                noviceObject.noviceReward = '未满足条件';
+                noviceObject.noviceTaskAcceptReward = '未满足条件';
+            }
+            else {
+                noviceObject.noviceReward = '已经领完';
+                noviceObject.noviceTaskAcceptReward = '已经领完';
+            }
+
+            // 邀请注册奖励
+            var inviteCount = userObjectIn.get('inviteCount');  // 邀请总人数
+            var inviteYb = inviteCount * 20;
+            if (inviteCount == undefined || inviteCount == 0){
+                noviceObject.canReceive = 0
+            }
+            else if (inviteYb == inviteUserReward){
+                noviceObject.canReceive = '已领完'
+            }
+            else {
+                noviceObject.canReceive = inviteYb - inviteUserReward
+            }
+
+            // 引导新手奖励
+            var inviteUserSuccessCount = userObjectIn.get('inviteSucceedCount');
+            var inviteUserYb = inviteUserSuccessCount * 30;
+            if (inviteUserSuccessCount == undefined || inviteUserSuccessCount == 0){
+                noviceObject.successCanReceive = 0
+            }
+            else if (inviteUserYb == guideUserRewardYB){
+                noviceObject.successCanReceive = '已领完'
+            }
+            else {
+                noviceObject.successCanReceive = inviteUserYb - guideUserRewardYB
+            }
+        }
+        res.json({'noviceTaskObject': noviceObject})
+
+    },function(error){
+        res.json({'errorMsg':error.message, 'errorId': error.code});
+    })
+});
+
+// 领取奖励post
+router.post('/userReceiveAward', function(req, res){
+    var userId = util.useridInReq(req);
+    var noviceReward = req.body.noviceReward;
+    var noviceTaskAcceptReward = req.body.noviceTaskAcceptReward;
+    var canReceive = req.body.canReceive;
+    var successCanReceive = req.body.successCanReceive;
+
+    var userObject = new User();
+    userObject.id = userId;
+
+    var query = new AV.Query(inviteUserObjectSql);
+    query.equalTo('inviteUserObject', userObject);
+    query.include('inviteUserObject');
+    query.first().then(function(receiveObject){
+        var userObjectInfo = receiveObject.get('inviteUserObject');
+        if (!isNaN(noviceReward)){
+            receiveObject.set('noviceTaskType', 'uploadHaveReceive');
+            receiveObject.increment('totalReceiveMoney', noviceReward);
+            receiveObject.save().then(function(){
+                res.json({'errorId': 0, 'errorMsg': '完成领取'})
+            },function(error){
+                res.json({'errorMsg':error.message, 'errorId': error.code});
+            });
+        }
+        else if (!isNaN(noviceTaskAcceptReward)){
+            receiveObject.set('noviceTaskType', 'finishNoviceTask');
+            receiveObject.increment('totalReceiveMoney', noviceTaskAcceptReward);
+            receiveObject.save().then(function(){
+                res.json({'errorId': 0, 'errorMsg': '完成领取'})
+            },function(error){
+                res.json({'errorMsg':error.message, 'errorId': error.code});
+            });
+        }
+        else if (!isNaN(canReceive)){
+            receiveObject.increment('inviteUserReward', canReceive);
+            receiveObject.increment('totalReceiveMoney', canReceive);
+            receiveObject.save().then(function(){
+                res.json({'errorId': 0, 'errorMsg': '完成领取'})
+            },function(error){
+                res.json({'errorMsg':error.message, 'errorId': error.code});
+            });
+        }
+        else if (!isNaN(successCanReceive)){
+            receiveObject.increment('guideUserRewardYB', successCanReceive);
+            receiveObject.increment('totalReceiveMoney', successCanReceive);
+            receiveObject.save().then(function(){
+                res.json({'errorId': 0, 'errorMsg': '完成领取'})
+            },function(error){
+                res.json({'errorMsg':error.message, 'errorId': error.code});
+            });
+        }
+        else {
+            res.json({'errorId': 0, 'errorMsg': '完成领取'})
+        }
+    },function(error){
+        res.json({'errorMsg':error.message, 'errorId': error.code});
+    });
+});
+
 module.exports = router;
