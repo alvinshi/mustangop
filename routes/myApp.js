@@ -80,10 +80,12 @@ router.get('/angular', function(req, res) {
                 dealiTunesAppFailed(retApps, appObject);
             }
             var userPayMoney = userObject.get('rechargeRMB');
+            var inviteCount = userObject.get('inviteSucceedCount');
+            var canAddApp = inviteCount + parseInt(userPayMoney / 100) + 1;
             if (userPayMoney < 500){
                 res.json({'myApps':retApps, 'inviteSucceedCount': userObject.get('inviteSucceedCount'), 'errorId': 0});
             }else {
-                res.json({'myApps':retApps, 'inviteSucceedCount': 10, 'errorId': 0, 'Limit': true});
+                res.json({'myApps':retApps, 'inviteSucceedCount': canAddApp, 'errorId': 0, 'Limit': true});
             }
 
         },
