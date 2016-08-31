@@ -345,11 +345,9 @@ router.post('/task', function(req, res){
                 queryMyTask.find().then(function(releaseTaskObjects) {
 
                     var unGetAllTaskCount = 0;
-                    var payUserMoney = 0;
                     // 最多有2条任务
                     for (var rTask = 0; rTask < releaseTaskObjects.length; rTask++){
                         var aRelaseTaskObejct = releaseTaskObjects[rTask];
-                        payUserMoney = releaseTaskObjects[rTask].get('rechargeRMB');
 
                         if(aRelaseTaskObejct.get('remainCount') > 0){
                             unGetAllTaskCount++;
