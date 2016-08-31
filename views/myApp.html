@@ -109,7 +109,7 @@
 
 <!--判断邀请人数-->
 
-        <div class="addApp" ng-hide="numOfApps >= 5">
+        <div class="addApp" ng-hide="numOfApps >= 10 || numOfApps >= inviteCount">
             <button class="btn_addApp" data-target="#addApp_modal" data-toggle="modal">
                 <span class="glyphicon glyphicon-plus" style="font-size: 3em;"></span>
             </button>
