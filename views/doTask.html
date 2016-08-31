@@ -126,7 +126,7 @@
 
                     </div>
                     <div class="taskPanel" ng-repeat="app in taskDisplayed">
-                        <table style="width: 1010px;" ng-mouseover="showDiv(app)" ng-mouseleave="hideDiv(app)">
+                        <table style="width: 1050px;" ng-mouseover="showDiv(app)" ng-mouseleave="hideDiv(app)">
                             <tr>
                                 <td style="padding: 24px 24px 24px 24px; width: 140px;position: relative">
                                     <img ng-src="{{ app.artworkUrl100 }}" class="appIcon" >
@@ -141,6 +141,7 @@
                                     </p>
 
                                     <div>
+                                        <span class="label label-danger danger" ng-show="app.formattedPrice != '免费'">{{app.formattedPrice}}</span>
                                         <span ng-class="{true: 'infoBubble2', false: 'infoBubble1'}[ app.taskType=='评论']">{{ app.taskType }}</span>
                                         <span class="infoBubble">剩余: <span style="color:#53d435">{{ app.remainCount }}</span> 条</span>
                                         <span class="infoBubble">单价: <span style="color:#53d435">{{app.rateUnitPrice}}</span> Y币</span>

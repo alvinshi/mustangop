@@ -368,6 +368,14 @@ router.post('/task', function(req, res){
 
                     var rateunitPrice = excUnitPrice * myRate;
 
+                    var appPriceStr = appObject.get('formattedPrice');
+                    var appPrice = parseFloat(appPriceStr.substring(1, appPriceStr.length));
+                    if(appPriceStr != '免费') {
+                        //广告主付费
+                        excUnitPrice += appPrice * 1.3 * 10;
+                        rateunitPrice += appPrice * 13
+                    }
+
                     var trackName = appObject.get('trackName');
                     var message = new messageLogger();
                     message.set("senderObjectId", userObject);
