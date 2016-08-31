@@ -75,10 +75,6 @@ app.controller('itunesSearchControl', function($scope, $http) {
         if($scope.inviteCount > $scope.myApps.length - 1){
             $("button.btn_addApp").attr('data-target', '#addApp_modal');
         }
-        else if ($scope.payUser >= 500){
-            $("button.btn_addApp").attr('data-target', '#addApp_modal');
-            $scope.inviteCount = 5;
-        }
         else {
             $("button.btn_addApp").attr('data-target', '#invite');
         }

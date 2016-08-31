@@ -79,8 +79,13 @@ router.get('/angular', function(req, res) {
                 }
                 dealiTunesAppFailed(retApps, appObject);
             }
-            res.json({'myApps':retApps, 'inviteSucceedCount': userObject.get('inviteCount'),
-                'payUser':userObject.get('rechargeRMB'), 'errorId': 0});
+            var userPayMoney = userObject.get('rechargeRMB');
+            if (userPayMoney < 500){
+                res.json({'myApps':retApps, 'inviteSucceedCount': userObject.get('inviteSucceedCount'), 'errorId': 0});
+            }else {
+                res.json({'myApps':retApps, 'inviteSucceedCount': 10, 'errorId': 0});
+            }
+
         },
         error: function(err) {
             res.json({'errorMsg':err.message, 'errorId': err.code, 'myApps':[]});
@@ -354,7 +359,7 @@ router.post('/task', function(req, res){
                         }
                     }
 
-                    if(unGetAllTaskCount >= 2){
+                    if(userObject.get('rechargeRMB') < 500 && unGetAllTaskCount >= 2){
                         res.json({'errorMsg':'你还有2个任务未被领完哦,等领完再发吧', 'errorId': -1});
                         return;
                     }
