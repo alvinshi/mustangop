@@ -86,7 +86,7 @@ app.controller('itunesSearchControl', function($scope, $http) {
         $scope.isLoadingMyApp = false;
         $scope.numOfApps = response.myApps.length;
         $scope.inviteCount = response.inviteSucceedCount;
-        $scope.payUser = response.payUser;
+        $scope.Limit = response.Limit;
         if ($scope.numOfApps > 0) {
             //App排序
             $scope.myApps = response.myApps.sort(function(a, b){return a.createdAt >= b.createdAt});
@@ -485,7 +485,7 @@ app.controller('itunesSearchControl', function($scope, $http) {
     }
 
     $scope.calcuQuantity = function(){
-        if($scope.appNeedInfo.excCount > 20){
+        if($scope.appNeedInfo.excCount > 20 && $scope.Limit != true){
             $scope.errorQuatity = true;
         }else {
             $scope.errorQuatity = false;

@@ -83,7 +83,7 @@ router.get('/angular', function(req, res) {
             if (userPayMoney < 500){
                 res.json({'myApps':retApps, 'inviteSucceedCount': userObject.get('inviteSucceedCount'), 'errorId': 0});
             }else {
-                res.json({'myApps':retApps, 'inviteSucceedCount': 10, 'errorId': 0});
+                res.json({'myApps':retApps, 'inviteSucceedCount': 10, 'errorId': 0, 'Limit': true});
             }
 
         },
