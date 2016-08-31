@@ -74,7 +74,12 @@ app.controller('itunesSearchControl', function($scope, $http) {
     function refreshAddBtn(){
         if($scope.inviteCount > $scope.myApps.length - 1){
             $("button.btn_addApp").attr('data-target', '#addApp_modal');
-        }else {
+        }
+        else if ($scope.payUser >= 500){
+            $("button.btn_addApp").attr('data-target', '#addApp_modal');
+            $scope.inviteCount = 5;
+        }
+        else {
             $("button.btn_addApp").attr('data-target', '#invite');
         }
     }
@@ -85,6 +90,7 @@ app.controller('itunesSearchControl', function($scope, $http) {
         $scope.isLoadingMyApp = false;
         $scope.numOfApps = response.myApps.length;
         $scope.inviteCount = response.inviteSucceedCount;
+        $scope.payUser = response.payUser;
         if ($scope.numOfApps > 0) {
             //App排序
             $scope.myApps = response.myApps.sort(function(a, b){return a.createdAt >= b.createdAt});

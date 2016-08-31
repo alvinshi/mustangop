@@ -11,7 +11,7 @@ app.controller('homePageCtrl', function($scope, $http){
     $("#myCarousel").carousel({
         interval:3000
     });
-    
+
     // banner
     var bannerurl = 'homePage/banner';
     $http.get(bannerurl).success(function(response){
@@ -21,13 +21,11 @@ app.controller('homePageCtrl', function($scope, $http){
     // 签到
     var ischeckinsUrl = 'homePage/ischeckins';
     $http.get(ischeckinsUrl).success(function(response){
-        $scope.isCheckIns = response.isCheckIns;
-        $scope.todayYB = response.todayYB;
-        $scope.tomorrowYB = response.tomorrowYB;
-        if (response.isCheckIns == 0 || response.isCheckIns == 1){
+        if (response.isCheckIns == 0){
             $scope.isCheckIns = response.isCheckIns;
             $scope.todayYB = response.todayYB;
             $scope.tomorrowYB = response.tomorrowYB;
+            $scope.continueCheck = response.continueCheck; // 连续签到
         }
     });
 
@@ -63,5 +61,25 @@ app.controller('homePageCtrl', function($scope, $http){
     var myReleaseTaskUrl = 'homePage/myReleaseTask';
     $http.get(myReleaseTaskUrl).success(function(response){
         $scope.myReleaseTask = response.myReleaseTask;
-    })
+    });
+
+    // 新手任务
+    var noviceTaskUrl = 'homePage/noviceTask';
+    $http.get(noviceTaskUrl).success(function(response){
+        $scope.noviceTaskObject = response.noviceTaskObject;
+    });
+
+    // 点击领取
+    $scope.buttona = function(curre){
+        var userReceiveAwardUrl = 'homePage/userReceiveAward';
+        var transferMoney = {'noviceReward': curre.noviceReward, 'noviceTaskAcceptReward': curre.noviceTaskAcceptReward,
+            'canReceive': curre.canReceive, 'successCanReceive': curre.successCanReceive};
+
+        $http.post(userReceiveAwardUrl, transferMoney).success(function(response){
+            if (response.errorId == 0){
+                $scope.errorId = response.errorId;
+                $scope.errorMsg = response.errorMsg;
+            }
+        })
+    }
 });
