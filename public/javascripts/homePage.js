@@ -57,13 +57,13 @@ app.controller('homePageCtrl', function($scope, $http){
      };
      $scope.jump1=function(){
          window.open("http://aso100.com/app/keyword/appid/979605189/country/cn");
-     }
+     };
     $scope.jump2=function(){
         window.open("http://aso100.com/app/comment/appid/979605189/country/cn");
-    }
+    };
     $scope.jump3=function(){
         window.open("http://aso100.com/app/download/appid/979605189/country/cn");
-    }
+    };
 
     //用户+拒绝任务相关
     var indexUrl = '/index';
@@ -83,7 +83,7 @@ app.controller('homePageCtrl', function($scope, $http){
     // 我的发布
     var myReleaseTaskUrl = 'homePage/myReleaseTask';
     $http.get(myReleaseTaskUrl).success(function(response){
-        $scope.myReleaseTask = response.myReleaseTask;
+        $scope.myReleaseTask = response.myReleaseTaskInfo;
     });
 
     // 新手任务
