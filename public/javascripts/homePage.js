@@ -41,7 +41,13 @@ app.controller('homePageCtrl', function($scope, $http){
             }
         })
     };
-
+//重要消息相关
+    $scope.records = [
+        "菜鸟教程1",
+        "菜鸟教程2",
+        "菜鸟教程3",
+        "菜鸟教程4",
+    ]
     //用户+拒绝任务相关
     var indexUrl = '/index';
     $http.get(indexUrl).success(function(response){

@@ -45,15 +45,15 @@
         </ol>
         <!-- 轮播（Carousel）项目 -->
         <div  class="carousel-inner" >
-            <div style="height: 280px;" ng-repeat="banner in bannerUrl"  ng-class="{'item':true, 'active':$index==0}" >
+            <div  ng-repeat="banner in bannerUrl"  ng-class="{'item':true, 'active':$index==0}" >
                 <img style="height: 280px;" class='foo' ng-src="{{banner}}">
             </div>
         </div>
         <a class="carousel-control left" href="#myCarousel"
-           data-slide="prev">&lsaquo;
+           data-slide="prev">
         </a>
         <a class="carousel-control right" href="#myCarousel"
-           data-slide="next">&rsaquo;
+           data-slide="next">
         </a>
 
     </div>
@@ -70,6 +70,7 @@
             <span>天
             </span>
         </div>
+
         <button  type="button" class="btn btn-primary" ng-show="isCheckIns == 0 || errorId == 0">
             已签到
         </button>
@@ -90,9 +91,9 @@
             <!-- 轮播（Carousel）指标 -->
             <img  class="img2" src="/images/homepage/main1.png">
             <!-- 轮播（Carousel）项目 -->
-            <div class="carousel2">
+            <div class="carousel2"></div>
             <div  class="carousel-inner">
-                <div class="item active" style="margin-left: 370px;">
+                <div class="item active" style="margin-left: 370px;margin-top: -20px;">
                     您有三条任务还未完成
                 </div>
                 <div class="item" style="margin-left: 370px;">
@@ -102,11 +103,11 @@
                     您有五条任务还未完成
                 </div>
             </div>
-            </div>
+
             <!-- 轮播（Carousel）导航 -->
             <div class="goon">
             <a class="carousel-control right"
-               style="background:url(/images/homepage/main2.png); border: 1px solid #cccccc;width:74px;height: 60px;margin-right:-215px;margin-top:313px;font-size:30px;float:right;"
+               style="background:url(/images/homepage/main2.png); border: 1px solid #cccccc;width:74px;height: 60px;margin-right:-215px;margin-top: 297px;px;font-size:30px;float:right;"
                href="#myCarousel1"
                data-slide="next">
             </a>
@@ -114,7 +115,7 @@
         </div>
     </div>
     <!--新手任务-->
-    <div style="margin-top: 335px;">
+    <div style="margin-top: 325px;">
       <span class="head1"><br><br>新手任务
       </span>
     <div>
