@@ -152,10 +152,10 @@
         <img src="/images/homepage/new1.png">
     </div>
     <div class="text3">领取任务,完成任务并上传
-        <button>
+        <button class="new" ng-show="noviceTaskObject.noviceTaskAcceptReward == false">
             <span> 可领取{{noviceTaskObject.noviceReward}}Y币</span>
         </button>
-        <button ng-show="noviceTaskObject.noviceReward == false">
+        <button class="new1" >
             <span>未满足条件</span>
         </button>
     </div>
@@ -165,11 +165,11 @@
     </div>
 
     <div class="text4">所做任务审核通过
-        <button>
+        <button class="new" ng-show="noviceTaskObject.noviceTaskAcceptReward == false">
             <span>可领取{{noviceTaskObject.noviceTaskAcceptReward}}Y币</span>
         </button>
 
-        <button ng-show="noviceTaskObject.noviceTaskAcceptReward == false">
+        <button  class="new1" >
             <span>未满足条件</span>
         </button>
     </div>
