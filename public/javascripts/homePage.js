@@ -20,8 +20,11 @@ app.controller('homePageCtrl', function($scope, $http){
     $("#myCarousel").carousel({
         interval:3000
     });
+    $("#myCarousel1").carousel({
+        interval:3000
+    });
 
-    // banner
+        // banner
     var bannerurl = 'homePage/banner';
     $http.get(bannerurl).success(function(response){
         $scope.bannerUrl = response.bannerUrl;

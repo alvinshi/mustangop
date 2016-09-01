@@ -115,28 +115,28 @@
 
 
         <!--重要消息-->
-    <div class="important">
+    <div class="important" >
         <div id="myCarousel1" class="carousel slide" >
             <!-- 轮播（Carousel）指标 -->
             <img  class="img2" src="/images/homepage/main1.png">
             <!-- 轮播（Carousel）项目 -->
             <div class="carousel2"></div>
-            <div  class="carousel-inner">
-                <div class="item active" style="margin-left: 370px;margin-top: -20px;">
-                    您有三条任务还未完成
+            <div  class="carousel-inner" >
+                <div class="item active" style="margin-left: 170px;margin-top: 37px;">
+                    ·您有{{toDoCount}}条任务还未完成
                 </div>
-                <div class="item" style="margin-left: 370px;">
-                    您有四条任务还未完成
+                <div class="item" style="margin-left: 170px;margin-top: 37px;">
+                    ·您有{{refusedCount}}条任务还未完成
                 </div>
-                <div class="item" style="margin-left: 370px;">
-                    您有五条任务还未完成
+                <div class="item" style="margin-left: 170px;margin-top: 37px;">
+                    ·您有{{pendingCount}}条任务还未完成
                 </div>
             </div>
 
             <!-- 轮播（Carousel）导航 -->
             <div class="goon">
             <a class="carousel-control right"
-               style="background:url(/images/homepage/main2.png); border: 1px solid #cccccc;width:74px;height: 60px;margin-right:-215px;margin-top: 297px;px;font-size:30px;float:right;"
+               style="background:url(/images/homepage/main2.png); border: 1px solid #cccccc;width:74px;height: 60px;margin-right:-215px;margin-top: 300px;px;font-size:30px;float:right;"
                href="#myCarousel1"
                data-slide="next">
             </a>
@@ -152,14 +152,24 @@
         <img src="/images/homepage/new1.png">
     </div>
         <div class="text3">领取任务,完成任务并上传
-            <button class="new">可领取{{noviceTaskObject.noviceReward}}Y币
+            <button ng-class="{false :'new', true :'new1 '}[!isNaN(noviceTaskObject)]">
+                <span ng-hide="!isNaN(noviceTaskObject)"> 可领取
+                </span>
+                {{noviceTaskObject.noviceReward}}
+                <span ng-hide="!isNaN(noviceTaskObject)">Y币
+                </span>
             </button>
         </div>
         <div class="img4">
             <img src="/images/homepage/new2.png">
         </div>
         <div class="text4">所做任务审核通过
-            <button class="new1">{{noviceTaskObject.noviceTaskAcceptReward}}
+            <button ng-class="{false:'new',true:'new1'}[!isNaN(noviceTaskObject)]" >
+                <span ng-hide="!isNaN(noviceTaskObject)"> 可领取
+                </span>
+                {{noviceTaskObject.noviceReward}}
+                <span ng-hide="!isNaN(noviceTaskObject)">Y币
+                </span>
             </button>
         </div>
     </div>
