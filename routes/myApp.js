@@ -372,8 +372,8 @@ router.post('/task', function(req, res){
                     var appPrice = parseFloat(appPriceStr.substring(1, appPriceStr.length));
                     if(appPriceStr != '免费') {
                         //广告主付费
-                        excUnitPrice += appPrice * 1.3 * 10;
-                        rateunitPrice += appPrice * 13
+                        excUnitPrice += appPrice * 1.5 * 10;
+                        rateunitPrice += appPrice * 15
                     }
 
                     var trackName = appObject.get('trackName');
