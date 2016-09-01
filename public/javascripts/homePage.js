@@ -52,17 +52,17 @@ app.controller('homePageCtrl', function($scope, $http){
     };
 //我发布的任务
 
-     $scope.jump=function(){
-        window.open("http://aso100.com/app/rank/appid/979605189/country/cn");
+     $scope.jump=function(curren){
+        window.open('http://aso100.com/app/rank/appid' + '/' + curren.appleId + '/country/cn');
      };
      $scope.jump1=function(){
-         window.open("http://aso100.com/app/keyword/appid/979605189/country/cn");
+         window.open("http://aso100.com/app/keyword/appid/appleId/country/cn");
      };
     $scope.jump2=function(){
-        window.open("http://aso100.com/app/comment/appid/979605189/country/cn");
+        window.open("http://aso100.com/app/comment/appid/appleId/country/cn");
     };
     $scope.jump3=function(){
-        window.open("http://aso100.com/app/download/appid/979605189/country/cn");
+        window.open("http://aso100.com/app/download/appid/appleId/country/cn");
     };
 
     //用户+拒绝任务相关

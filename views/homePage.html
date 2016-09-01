@@ -105,6 +105,7 @@
         <button  type="button" class="btn btn-primary1  " ng-click="butCheckIns(todayYB, tomorrowYB)" ng-show="isCheckIns != 0 || errorId != 0">
             签到+{{todayYB}}Y币
         </button>
+
         <div class="text">
         <span class="text1">明日签到得<span class="text2">{{tomorrowYB}}
         </span>Y币,连续签到<br>奖励更多
@@ -210,10 +211,10 @@
     <div  class="line">
     </div>
     <!--我发布的任务-->
-    <span class="head2"><br><br>我发布的任务</span>
+    <span class="head2"><br><br>我发布的任务</span><br><br>
     <div class="body4" ng-repeat="app in myReleaseTask">
         <div class="release1">
-            <img ng-src="{{app.artworkUrl100}}">
+            <img class="img10" ng-src="{{app.artworkUrl100}}">
         </div>
 
         <div class="release2">进度<br>
@@ -230,10 +231,10 @@
             <span class="got1">{{app.remainCount}}</span>
             <span>/{{app.excCount}}</span>
             <div style="margin-top: -15px;margin-left: 42px;">
-                <button class="but" ng-click="jump(app.appleId)">实时排名</button>
-                <button class="but" ng-click="jump1(app.appleId)" style="margin-left: 10px;">ASO</button>
-                <button class="but" ng-click="jump2(app.appleId)" style="margin-left: 10px;">评论统计</button>
-                <button class="but" ng-click="jump3(app.appleId)" style="margin-left: 10px;">下载量</button>
+                <button class="but" ng-click="jump(app)">实时排名</button>
+                <button class="but" ng-click="jump1(app)" style="margin-left: 10px;">ASO</button>
+                <button class="but" ng-click="jump2(app)" style="margin-left: 10px;">评论统计</button>
+                <button class="but" ng-click="jump3(app)" style="margin-left: 10px;">下载量</button>
             </div>
         </div>
     </div>
