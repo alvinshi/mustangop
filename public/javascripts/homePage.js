@@ -97,7 +97,7 @@ app.controller('homePageCtrl', function($scope, $http){
     });
 
     // 点击领取
-    $scope.buttona = function(curre){
+    $scope.clickToReceive = function(curre){
         var userReceiveAwardUrl = 'homePage/userReceiveAward';
         var transferMoney = {'noviceReward': curre.noviceReward, 'noviceTaskAcceptReward': curre.noviceTaskAcceptReward,
             'canReceive': curre.canReceive, 'successCanReceive': curre.successCanReceive};

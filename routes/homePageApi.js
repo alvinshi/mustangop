@@ -219,6 +219,9 @@ router.get('/noviceTask', function(req, res){
     var userObject = new User();
     userObject.id = userId;
 
+    var priorityQuery = new AV.Query(User);
+    priorityQuery.equalTo('registerBonus', 'register_upload_task');
+
     var query = new AV.Query(inviteUserObjectSql);
     query.equalTo('inviteUserObject', userObject);
     query.include('inviteUserObject');
