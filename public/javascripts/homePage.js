@@ -62,14 +62,14 @@ app.controller('homePageCtrl', function($scope, $http){
      $scope.jump=function(curren){
         window.open('http://aso100.com/app/rank/appid' + '/' + curren.appleId + '/country/cn');
      };
-     $scope.jump1=function(){
-         window.open("http://aso100.com/app/keyword/appid/appleId/country/cn");
+     $scope.jump1=function(curren){
+         window.open('http://aso100.com/app/keyword/appid/'+curren.appleId+'/country/cn');
      };
-    $scope.jump2=function(){
-        window.open("http://aso100.com/app/comment/appid/appleId/country/cn");
+    $scope.jump2=function(curren){
+        window.open('http://aso100.com/app/comment/appid/'+curren.appleId+'/country/cn');
     };
-    $scope.jump3=function(){
-        window.open("http://aso100.com/app/download/appid/appleId/country/cn");
+    $scope.jump3=function(curren){
+        window.open('http://aso100.com/app/download/appid/'+curren.appleId+'/country/cn');
     };
 
     //用户+拒绝任务相关
