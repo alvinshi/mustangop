@@ -57,7 +57,7 @@ app.controller('homePageCtrl', function($scope, $http){
             }
         })
     };
-//我发布的任务
+    //我发布的任务
 
      $scope.jump=function(curren){
         window.open('http://aso100.com/app/rank/appid' + '/' + curren.appleId + '/country/cn');
@@ -100,10 +100,10 @@ app.controller('homePageCtrl', function($scope, $http){
     });
 
     // 点击领取
-    $scope.clickToReceive = function(curre){
+    clickToReceive = function(button){
+        var actionId = button.getAttribute("data-id");
         var userReceiveAwardUrl = 'homePage/userReceiveAward';
-        var transferMoney = {'noviceReward': curre.noviceReward, 'noviceTaskAcceptReward': curre.noviceTaskAcceptReward,
-            'canReceive': curre.canReceive, 'successCanReceive': curre.successCanReceive};
+        var transferMoney = {'actionId': actionId};
 
         $http.post(userReceiveAwardUrl, transferMoney).success(function(response){
             if (response.errorId == 0){
@@ -111,5 +111,5 @@ app.controller('homePageCtrl', function($scope, $http){
                 $scope.errorMsg = response.errorMsg;
             }
         })
-    }
+    };
 });

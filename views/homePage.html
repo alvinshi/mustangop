@@ -151,28 +151,35 @@
     <div>
         <img src="/images/homepage/new1.png">
     </div>
-    <div class="text3">领取任务,完成任务并上传
-        <button>
-            <span> 可领取{{noviceTaskObject.noviceReward}}Y币</span>
-        </button>
-        <button ng-show="noviceTaskObject.noviceReward == false">
-            <span>未满足条件</span>
-        </button>
-    </div>
+        <div class="text3">领取任务,完成任务并上传
+            <button class="new" ng-show="noviceTaskObject.noviceReward > 0" data-id= "uploadHaveReceive" onclick="clickToReceive(this)" id="receiveAward">
+                <span> 可领取{{noviceTaskObject.noviceReward}}Y币</span>
+            </button>
+            <button class="new1" ng-show="noviceTaskObject.noviceReward == 0">
+                <span>未满足条件</span>
+            </button>
+            <button class="new1" ng-show="noviceTaskObject.noviceReward == -1 || errorId == 0">
+                <span>已经领取</span>
+            </button>
+        </div>
 
-    <div class="img4">
-        <img src="/images/homepage/new2.png">
-    </div>
+        <div class="img4">
+            <img src="/images/homepage/new2.png">
+        </div>
 
-    <div class="text4">所做任务审核通过
-        <button>
-            <span>可领取{{noviceTaskObject.noviceTaskAcceptReward}}Y币</span>
-        </button>
+        <div class="text4">所做任务审核通过
+            <button class="new" ng-show="noviceTaskObject.noviceTaskAcceptReward > 0" data-id= "finishNoviceTask" onclick="clickToReceive(this)">
+                <span>可领取{{noviceTaskObject.noviceTaskAcceptReward}}Y币</span>
+            </button>
 
-        <button ng-show="noviceTaskObject.noviceTaskAcceptReward == false">
-            <span>未满足条件</span>
-        </button>
-    </div>
+            <button class="new1" ng-show="noviceTaskObject.noviceTaskAcceptReward == 0">
+                <span>未满足条件</span>
+            </button>
+
+            <button class="new1" ng-show="noviceTaskObject.noviceTaskAcceptReward == -1 || errorId == 0">
+                <span>已经领取</span>
+            </button>
+        </div>
 
     <!--每日任务-->
     <span class="text5">每日任务
@@ -187,7 +194,7 @@
             </span>
             <span class="text02"><br>预计可领4Y币
             </span><br>
-            <button class="get1">
+            <button class="get1" data-id= "releaseTaskReward" onclick="clickToReceive(this)">
                 <span class="text03">已领完
                 </span>
             </button>
@@ -199,7 +206,7 @@
             </span>
             <span class="text02"><br>预计可领4Y币
             </span><br>
-            <button class="get2">
+            <button class="get2" data-id= "doTaskReward" onclick="clickToReceive(this)">
                 <span class="text03">可领取
                 </span>
             </button>
@@ -211,7 +218,7 @@
             </span>
             <span class="text02"><br>预计可领4Y币
             </span><br>
-            <button class="get3">
+            <button class="get3" data-id= "auditTaskReward" onclick="clickToReceive(this)">
                 <span class="text03" >未满足
                 </span>
             </button>
@@ -257,27 +264,27 @@
                 <span class="font2"><br>邀请好友注册野马,好友注册成功</span>
                 <span class="font3"><br>奖励20Y币/人</span>
                 <br>
-                <button class="butt" ng-click="clickToReceive(noviceTaskObject)">
+                <button class="butt" data-id= "inviteUserReward" onclick="clickToReceive(this)" ng-show="noviceTaskObject.canReceive != 0">
                     <span class="text07">可领{{noviceTaskObject.canReceive}}Y币</span>
                 </button>
-                <button class="butt" ng-show="noviceTaskObject.canReceive == false">
+                <button class="butt" ng-show="noviceTaskObject.canReceive == 0">
                     <span class="text07">已经领完</span>
                 </button>
             </div>
         </div>
 
         <div class="body6">
-           <div style="margin-top:5px;">
+           <div style="margin-top:5px;" id="help">
                <span class="font1">引导新人奖励</span>
                <span class="font2"><br>引导好友完成新手任务,获得奖励</span>
                <span class="font3"><br>奖励30Y币/人</span>
                <br>
 
-               <button class="butt" ng-click="clickToReceive(noviceTaskObject)">
+               <button class="butt" data-id= "guideUserRewardYB" onclick="clickToReceive(this)" ng-show="noviceTaskObject.successCanReceive != 0">
                    <span class="text07">可领{{noviceTaskObject.successCanReceive}}Y币</span>
                </button>
 
-               <button class="butt" ng-show="noviceTaskObject.successCanReceive == false">
+               <button class="butt" ng-show="noviceTaskObject.successCanReceive == 0">
                    <span class="text07">已经领完</span>
                </button>
            </div>

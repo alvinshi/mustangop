@@ -216,9 +216,6 @@ router.get('/myReleaseTask', function(req, res){
 router.get('/noviceTask', function(req, res){
     var userId = util.useridInReq(req);
 
-    //var userObject = new User();
-    //userObject.id = userId;
-
     var priorityQuery = new AV.Query(User);
     priorityQuery.get(userId).then(function(userObject){
         var noviceObject = Object();
@@ -226,8 +223,8 @@ router.get('/noviceTask', function(req, res){
         var inviteUserCount = userObject.get('inviteCount');
         var inviteUserSucceedCount = userObject.get('inviteSucceedCount');
         if (registerBonus == undefined){
-            noviceObject.noviceReward = false;  // 领取了任务并上传了
-            noviceObject.noviceTaskAcceptReward = false;  // 任务审核通过
+            noviceObject.noviceReward = 0;  // 领取了任务并上传了
+            noviceObject.noviceTaskAcceptReward = 0;  // 任务审核通过
             noviceObject.canReceive = inviteUserCount * 20;  // 邀请新手注册
             noviceObject.successCanReceive = inviteUserSucceedCount * 30; // 新手完成任务
         }
@@ -239,18 +236,18 @@ router.get('/noviceTask', function(req, res){
                 if (userInfoObject == undefined || userInfoObject.length == 0){
                     if (registerBonus == 'register_upload_task' || inviteUserCount &&  inviteUserSucceedCount != 0){
                         noviceObject.noviceReward = 20;
-                        noviceObject.noviceTaskAcceptReward = false;
+                        noviceObject.noviceTaskAcceptReward = 0;
                         noviceObject.canReceive = inviteUserCount * 20;
                         noviceObject.successCanReceive = inviteUserSucceedCount * 30;
                     }
                     else if (registerBonus == 'register_accept_task' || inviteUserCount &&  inviteUserSucceedCount != 0){
-                        noviceObject.noviceReward = false;
+                        noviceObject.noviceReward = -1;
                         noviceObject.noviceTaskAcceptReward = 30;
                         noviceObject.canReceive = inviteUserCount * 20;
                         noviceObject.successCanReceive = inviteUserSucceedCount * 30;
                     }else {
-                        noviceObject.noviceReward = false;
-                        noviceObject.noviceTaskAcceptReward = false;
+                        noviceObject.noviceReward = 0;
+                        noviceObject.noviceTaskAcceptReward = 0;
                         noviceObject.canReceive = inviteUserCount * 20;
                         noviceObject.successCanReceive = inviteUserSucceedCount * 30;
                     }
@@ -265,26 +262,26 @@ router.get('/noviceTask', function(req, res){
                     var isnovice = userObjectIn.get('registerBonus');
                     if (isnovice == 'register_upload_task' && uploadHaveReceive != 'uploadHaveReceive'){
                         noviceObject.noviceReward = 20;  // 新手领取并上传了任务
-                        noviceObject.noviceTaskAcceptReward = false; // 新手任务被审核通过
+                        noviceObject.noviceTaskAcceptReward = 0; // 新手任务被审核通过
                     }
                     else if (isnovice == 'register_accept_task' && uploadHaveReceive != 'finishNoviceTask'){
-                        noviceObject.noviceReward = false;
+                        noviceObject.noviceReward = -1;
                         noviceObject.noviceTaskAcceptReward = 30;
                     }
                     else if (isnovice == 'register_new'){
-                        noviceObject.noviceReward = false;
-                        noviceObject.noviceTaskAcceptReward = false;
+                        noviceObject.noviceReward = 0;
+                        noviceObject.noviceTaskAcceptReward = 0;
                     }
                     else {
-                        noviceObject.noviceReward = false;
-                        noviceObject.noviceTaskAcceptReward = false;
+                        noviceObject.noviceReward = -1;
+                        noviceObject.noviceTaskAcceptReward = -1;
                     }
 
                     // 邀请注册奖励
                     var inviteCount = userObjectIn.get('inviteCount');  // 邀请总人数
                     var inviteYb = inviteCount * 20;
                     if (inviteCount == undefined || inviteCount == 0 || inviteYb == inviteUserReward || inviteYb - inviteUserReward == 0){
-                        noviceObject.canReceive = false
+                        noviceObject.canReceive = 0
                     }
                     else {
                         noviceObject.canReceive = inviteYb - inviteUserReward
@@ -294,7 +291,7 @@ router.get('/noviceTask', function(req, res){
                     var inviteUserSuccessCount = userObjectIn.get('inviteSucceedCount');
                     var inviteUserYb = inviteUserSuccessCount * 30;
                     if (inviteUserSuccessCount == undefined || inviteUserSuccessCount == 0 || inviteUserYb == guideUserRewardYB || inviteUserYb - guideUserRewardYB == 0){
-                        noviceObject.successCanReceive = false
+                        noviceObject.successCanReceive = 0
                     }
                     else {
                         noviceObject.successCanReceive = inviteUserYb - guideUserRewardYB
@@ -316,22 +313,95 @@ router.get('/noviceTask', function(req, res){
 // 领取奖励post
 router.post('/userReceiveAward', function(req, res){
     var userId = util.useridInReq(req);
-    var noviceReward = req.body.noviceReward;
-    var noviceTaskAcceptReward = req.body.noviceTaskAcceptReward;
-    var canReceive = req.body.canReceive;
-    var successCanReceive = req.body.successCanReceive;
+    var actionId = req.body.actionId;
 
-    var userObject = new User();
-    userObject.id = userId;
+    var userQuery = new AV.Query(User);
+    userQuery.get(userId).then(function(userObject){
+        var inviteUserCount = userObject.get('inviteCount');
+        var inviteUserSucceedCount = userObject.get('inviteSucceedCount');
+        var query = new AV.Query(inviteUserObjectSql);
+        query.equalTo('inviteUserObject', userObject);
+        query.include('inviteUserObject');
+        query.first().then(function(receiveObject){
+            if (receiveObject == undefined || receiveObject.length == 0){
+                var inviteUserObject = new inviteUserObjectSql();
+                var increaseYB = 0;
+                if (actionId == 'uploadHaveReceive'){
+                    inviteUserObject.set('noviceTaskType', 'uploadHaveReceive');
+                    inviteUserObject.set('totalReceiveMoney', 20);
+                    inviteUserObject.set('inviteUserObject', userObject);
+                    increaseYB += 20
+                }
+                else if (actionId == 'finishNoviceTask'){
+                    inviteUserObject.set('noviceTaskType', 'finishNoviceTask');
+                    inviteUserObject.set('totalReceiveMoney', 30);
+                    inviteUserObject.set('inviteUserObject', userObject);
+                    increaseYB += 30
+                }
+                else if (actionId == 'inviteUserReward'){
+                    inviteUserObject.set('inviteUserReward', inviteUserCount * 20);
+                    inviteUserObject.set('totalReceiveMoney', inviteUserCount * 20);
+                    inviteUserObject.set('inviteUserObject', userObject);
+                    increaseYB += inviteUserCount * 20
+                }
+                else {
+                    inviteUserObject.set('guideUserRewardYB', inviteUserSucceedCount * 30);
+                    inviteUserObject.set('totalReceiveMoney', inviteUserSucceedCount * 30);
+                    inviteUserObject.set('inviteUserObject', userObject);
+                    increaseYB += inviteUserSucceedCount * 30
+                }
 
-    var query = new AV.Query(inviteUserObjectSql);
-    query.equalTo('inviteUserObject', userObject);
-    query.include('inviteUserObject');
-    query.first().then(function(receiveObject){
+                inviteUserObject.save().then(function(){
+                    userObject.increment('totalMoney', increaseYB);
+                    userObject.increment('feedingMoney', increaseYB);
+                    userObject.save().then(function(){
+                        res.json({'errorId': 0, 'errorMsg': '已经领完'})
+                    },function(error){
+                        res.json({'errorMsg':error.message, 'errorId': error.code});
+                    })
+                },function(error){
+                    res.json({'errorMsg':error.message, 'errorId': error.code});
+                })
 
-    },function(error){
-        res.json({'errorMsg':error.message, 'errorId': error.code});
-    });
+            }else {
+                var inviterReward = receiveObject.get('inviteUserReward');
+                var guideRewardYB = receiveObject.get('guideUserRewardYB');
+                var increaseUserYB = 0;
+                if (actionId == 'uploadHaveReceive'){
+                    receiveObject.set('noviceTaskType', 'uploadHaveReceive');
+                    increaseUserYB += 20
+                }
+                else if (actionId == 'finishNoviceTask'){
+                    receiveObject.set('noviceTaskType', 'finishNoviceTask');
+                    increaseUserYB += 30
+                }
+                else if (actionId == 'inviteUserReward'){
+                    receiveObject.increment('inviteUserReward', inviteUserCount * 20 - inviterReward);
+                    receiveObject.increment('totalReceiveMoney', inviteUserCount * 20 - inviterReward);
+                    increaseUserYB += inviteUserCount * 20 - inviterReward
+                }
+                else {
+                    receiveObject.increment('guideUserRewardYB', inviteUserSucceedCount * 30 - guideRewardYB);
+                    receiveObject.increment('totalReceiveMoney', inviteUserSucceedCount * 30 - guideRewardYB);
+                    increaseUserYB += inviteUserSucceedCount * 30 - guideRewardYB
+                }
+                receiveObject.save().then(function(){
+                    userObject.increment('totalMoney', increaseUserYB);
+                    userObject.increment('feedingMoney', increaseUserYB);
+                    userObject.save().then(function(){
+                        res.json({'errorId': 0, 'errorMsg': '已经领完'})
+                    },function(error){
+                        res.json({'errorMsg':error.message, 'errorId': error.code});
+                    })
+                },function(error){
+                    res.json({'errorMsg':error.message, 'errorId': error.code});
+                })
+            }
+
+        },function(error){
+            res.json({'errorMsg':error.message, 'errorId': error.code});
+        });
+    })
 });
 
 module.exports = router;
