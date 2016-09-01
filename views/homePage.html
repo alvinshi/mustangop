@@ -152,14 +152,14 @@
         <img src="/images/homepage/new1.png">
     </div>
         <div class="text3">领取任务,完成任务并上传
-            <button class="new">可领取20Y币
+            <button class="new">可领取{{noviceTaskObject.noviceReward}}Y币
             </button>
         </div>
         <div class="img4">
             <img src="/images/homepage/new2.png">
         </div>
         <div class="text4">所做任务审核通过
-            <button class="new1">未满足条件
+            <button class="new1">{{noviceTaskObject.noviceTaskAcceptReward}}
             </button>
         </div>
     </div>
@@ -250,7 +250,7 @@
             <span class="font3"><br>奖励20Y币/人
             </span><br>
             <button class="butt">
-                <span class="text07" >可领40Y币
+                <span class="text07" >可领{{noviceTaskObject.canReceive}}Y币
                 </span>
             </button>
          </div>
@@ -261,7 +261,7 @@
         <span class="font2"><br>引导好友完成新手任务,获得奖励</span>
         <span class="font3"><br>奖励30Y币/人</span><br>
         <button class="butt">
-            <span class="text07">可领40Y币
+            <span class="text07">可领{{noviceTaskObject.successCanReceive}}Y币
             </span>
         </button>
         </div>

@@ -30,6 +30,10 @@ app.controller('homePageCtrl', function($scope, $http){
     // 签到
     var ischeckinsUrl = 'homePage/ischeckins';
     $http.get(ischeckinsUrl).success(function(response){
+        $scope.isCheckIns = response.isCheckIns;
+        $scope.todayYB = response.todayYB;
+        $scope.tomorrowYB = response.tomorrowYB;
+        $scope.continueCheck = response.continueCheck; // 连续签到
         if (response.isCheckIns == 0){
             $scope.isCheckIns = response.isCheckIns;
             $scope.todayYB = response.todayYB;
