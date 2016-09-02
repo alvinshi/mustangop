@@ -248,21 +248,18 @@ router.get('/noviceTask', function(req, res){
                 if (registerBonus == 'register_upload_task'){
                     noviceObject.noviceReward = 20;
                     noviceObject.noviceTaskAcceptReward = 0;
-                    noviceObject.canReceive = inviteUserCount * 20;
-                    noviceObject.successCanReceive = inviteUserSucceedCount * 30;
                 }
                 else if (registerBonus == 'register_accept_task'){
                     noviceObject.noviceReward = -1;
                     noviceObject.noviceTaskAcceptReward = 30;
-                    noviceObject.canReceive = inviteUserCount * 20;
-                    noviceObject.successCanReceive = inviteUserSucceedCount * 30;
                 }
                 else {
                     noviceObject.noviceReward = 0;
                     noviceObject.noviceTaskAcceptReward = 0;
-                    noviceObject.canReceive = inviteUserCount * 20;
-                    noviceObject.successCanReceive = inviteUserSucceedCount * 30;
                 }
+                //邀请
+                noviceObject.canReceive = inviteUserCount * 20;
+                noviceObject.successCanReceive = inviteUserSucceedCount * 30;
                 res.json({'noviceTaskObject': noviceObject})
             }
             else {
@@ -308,7 +305,7 @@ router.get('/noviceTask', function(req, res){
                 if (inviteUserSuccessCount == undefined || inviteUserSuccessCount == 0){
                     noviceObject.successCanReceive = -1;
                 }else if(inviteUserYb == guideUserRewardYB){
-                    noviceObject.canReceive = 0;
+                    noviceObject.successCanReceive = 0;
                 }
                 else {
                     noviceObject.successCanReceive = inviteUserYb - guideUserRewardYB
