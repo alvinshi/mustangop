@@ -288,15 +288,20 @@ body{
     margin-top: 15px;
     font-size: 20px;
 }
+.my-release{
+    width: 835px;
+    border: 1px solid #cccccc;
+    border-radius: 10px;
+}
 .body4 {
     padding-right: 50px;
-    margin-top:0px;
+    margin-top:     0px;
     margin-left: 0px;
     font-size: 20px;
-    border-top: 1px solid #cccccc;
+    /*border-bottom: 1px solid #cccccc;*/
 
     width: 834px;
-    height: 108px;
+    height: 80px;
     padding-left: 50px;
 }
 .img10{
@@ -305,12 +310,11 @@ body{
     border-radius: 5px;
 }
 .release1 {
-
     margin-left: -20px;
-    margin-top: 25px;
+    margin-top: 20px;
 }
 .release2 {
-    margin-left: 80px;
+    margin-left: 50px;
     margin-top: -60px;
 }
 
@@ -383,6 +387,7 @@ body{
     background-color: white;
     border: 1px solid #cccccc;
     border-radius: 4px;
+    margin-top: 20px;
     height: 32px;
     width: 80px;
     font-weight:bold;
@@ -454,12 +459,4 @@ body{
     margin-top: 5px;
     font-size: 14px;
     color: #999999;
-}
-
-.my-release{
-    width: 835px;
-    border: 1px solid #cccccc;
-    /*border-radius: 10px;*/
-
-
 }
