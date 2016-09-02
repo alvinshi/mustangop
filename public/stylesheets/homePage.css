@@ -134,6 +134,9 @@ body{
 }
 
 /*新手任务*/
+.novice-task{
+    position: relative;
+}
 .head1 {
     font-size: 20px;
     color: #333333;
@@ -196,8 +199,8 @@ body{
 
 .today-task{
     position: absolute;
-    margin-top: 130px;
-    right: 50px;
+    padding-top: 110px;
+    right: 75px;
 }
 
 .body1 {
@@ -291,9 +294,8 @@ body{
     margin-left: 0px;
     font-size: 20px;
     border-top: 1px solid #cccccc;
-    border-top-left-radius: 10px;
-    border-top-right-radius: 10px;
-    width: 835px;
+
+    width: 834px;
     height: 108px;
     padding-left: 50px;
 }
@@ -457,6 +459,7 @@ body{
 .my-release{
     width: 835px;
     border: 1px solid #cccccc;
-    border-radius: 10px;
+    /*border-radius: 10px;*/
+
 
 }
