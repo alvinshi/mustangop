@@ -126,14 +126,14 @@
                     <a href="/myClaim/self" style="color:#3498db ;text-decoration:underline">领取任务</a>
                     完成
                 </div>
-                <div class="item" style="margin-left: 170px;margin-top: 37px;">
+                <div class="item" ng-show="refusedCount > 0" style="margin-left: 170px;margin-top: 37px;">
                     ·您有
                     <a style="color:red; font-size: 30px;">{{refusedCount}}</a>
                     条任务被拒绝,请去
                     <a href="/myClaim/self" style="color:#3498db ;text-decoration:underline">领取任务</a>
                     查看拒绝原因
                 </div>
-                <div class="item" style="margin-left: 170px;margin-top: 37px;">
+                <div class="item" ng-show="pendingCount > 0" style="margin-left: 170px;margin-top: 37px;">
                     ·您有
                     <a style="color:#3498db; font-size: 30px;">{{pendingCount}}</a>
                     条任务未审核,请去
