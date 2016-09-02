@@ -54,6 +54,8 @@ app.controller('homePageCtrl', function($scope, $http){
             if (response.errorId == 0){
                 $scope.errorId = response.errorId;
                 $scope.errorMsg = response.errorMsg;
+                $scope.isCheckIns = 1;
+                $scope.continueCheck = $scope.continueCheck + 1
             }
         })
     };
@@ -106,9 +108,21 @@ app.controller('homePageCtrl', function($scope, $http){
         var transferMoney = {'actionId': actionId};
 
         $http.post(userReceiveAwardUrl, transferMoney).success(function(response){
+            $scope.errorId = response.errorId;
+            $scope.errorMsg = response.errorMsg;
             if (response.errorId == 0){
                 $scope.errorId = response.errorId;
                 $scope.errorMsg = response.errorMsg;
+
+                if(actionId == 'finishNoviceTask'){
+                    $scope.noviceTaskObject.noviceTaskAcceptReward = -1;
+                }else  if(actionId == 'uploadHaveReceive'){
+                    $scope.noviceTaskObject.noviceReward = -1;
+                }else if (actionId == 'inviteUserReward'){
+                    $scope.noviceTaskObject.canReceive = 0;
+                }else if (actionId == 'guideUserRewardYB'){
+                    $scope.noviceTaskObject.successCanReceive = 0;
+                }
             }
         })
     };
