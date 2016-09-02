@@ -24,7 +24,7 @@ router.get('/', function(req, res) {
 router.get('/banner', function(req, res){
     var query = new AV.Query('bannerObject');
     query.equalTo('close', true);
-    query.equalTo('bannerType', 'doTask');
+    query.equalTo('bannerType', 'homePage');
     query.find().then(function(bannerObject){
         var bannerList = Array();
         for (var i = 0; i < bannerObject.length; i++){
