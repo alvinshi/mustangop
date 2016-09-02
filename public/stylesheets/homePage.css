@@ -104,6 +104,7 @@ body{
     font-size:20px;
     margin-left: -10px;
     margin-top:65px;
+    position: relative;
 }
 
 .img2{
@@ -178,13 +179,20 @@ body{
     margin-right: 50px;
     float: right;
 }
-.text6 {
-    margin-top: -80px;
-    margin-right: 30px;
-    float: right;
-    font-size: 16px;
-    color: #5a94ec
+/*.text6 {*/
+    /*margin-top: -80px;*/
+    /*margin-right: 30px;*/
+    /*float: right;*/
+    /*font-size: 16px;*/
+    /*color: #5a94ec*/
+/*}*/
+
+.today-task{
+    position: absolute;
+    margin-top: 130px;
+    right: 50px;
 }
+
 .body1 {
     text-align: center;
     margin-right: 30px;
@@ -275,7 +283,9 @@ body{
     margin-top:0px;
     margin-left: 0px;
     font-size: 20px;
-    /*border-top: 1px solid #cccccc;*/
+    border-top: 1px solid #cccccc;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
     width: 835px;
     height: 108px;
     padding-left: 50px;
