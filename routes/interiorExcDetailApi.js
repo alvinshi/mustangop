@@ -45,7 +45,7 @@ function submissionNotification(qq){
                 res.json({'errorId': 1});
             }
             else{
-                console.log('Message sent: ' + info.response);
+                //console.log('Message sent: ' + info.response);
             }
             return;
         });
@@ -308,7 +308,7 @@ router.post('/add/:excTaskId', function(req, res){
                             }
                             uploadDoTaskObject.save().then(function(){
                                 //发送邮件
-                                console.log("runned");
+                                //console.log("runned");
                                 submissionNotification(qq);
 
                                 res.cookie('uploadImgName', userUploadName);

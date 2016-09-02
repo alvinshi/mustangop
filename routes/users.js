@@ -182,7 +182,7 @@ router.post('/userSaveInfo',function(req, res){
     if (userNickname != undefined && userNickname != ''){
       res.cookie('username',userNickname);
       res.cookie('uploadName', userNickname);
-      console.log('service ----- save do task nickname succeed', userNickname);
+      //console.log('service ----- save do task nickname succeed', userNickname);
     }
 
     res.json({'errorId':0, 'errorMsg':''});

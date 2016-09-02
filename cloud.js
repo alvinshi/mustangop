@@ -96,7 +96,7 @@ AV.Cloud.define('taskCheckForDoTask', function(request, response){
 
                             var app = inReceTaskObject.get('appObject'); // 领取的任务App
                             if(task == undefined || user == undefined || app == undefined){
-                                console.log('********** task or user or app is undefine in timer func');
+                                console.error('********** task or user or app is undefine in timer func');
                                 return;
                             }
 
@@ -144,6 +144,8 @@ AV.Cloud.define('taskCheckForDoTask', function(request, response){
                             if(changeDoTasks.length > 0){
                                 AV.Object.saveAll(changeDoTasks).then(function(){
                                     console.log('______ task status for systemAccepted Saved succeed');
+                                },function(error){
+                                    console.error('______ task status for systemAccepted Saved error');
                                 });
                             }
 
@@ -172,9 +174,9 @@ AV.Cloud.define('taskCheckForDoTask', function(request, response){
                                 message.set('thirdPara', rate_unitPrice * undoTask);
                                 message.set('fourthPara', '未在规定时间内完成任务');
                                 message.save().then(function (receObject) {
-                                    console.log('______ 处罚 message save succeed' + receObject.id);
+                                    console.log('______ 处罚 message save succeed ' + receObject.id);
                                 }, function (error) {
-                                    console.log('______ 处罚 message save error' + error.message);
+                                    console.error('______ 处罚 message save error ' + error.message);
                                 });
                             }
 
@@ -191,7 +193,7 @@ AV.Cloud.define('taskCheckForDoTask', function(request, response){
                                     console.log('!!!!! checkTask  modify journal succeed');
                                     response.success('checkTask success');
                                 }, function (error) {
-                                    console.log('---------- save all user money error' + error.message);
+                                    console.error('---------- save all user money error ' + error.message);
                                 });
 
                                 //AV.Object.saveAll(results).then(function(){
@@ -207,7 +209,7 @@ AV.Cloud.define('taskCheckForDoTask', function(request, response){
             })
         }
         function error(){
-            console.log('----- checkTask error: count error');
+            console.error('----- checkTask error: count error');
             response.fail('checkTask fail');
         }
     })
@@ -288,21 +290,21 @@ AV.Cloud.define('refuseTaskTimerForRelease', function(request, response){
                             console.log('!!! 保存任务状态成功 !!!');
                             response.success('refuseTaskTimerForRelease success');
                         }, function(error){
-                            console.log('------ results error');
+                            console.error('------ results error');
                             response.fail('refuseTaskTimerForRelease fail');
                         });
                     }, function(error){
-                        console.log('------ doReceTaskList error');
+                        console.error('------ doReceTaskList error');
                         response.fail('refuseTaskTimerForRelease fail');
                     });
                 }, function(error){
-                    console.log('------ senTaskUserList error');
+                    console.error('------ senTaskUserList error');
                     response.fail('refuseTaskTimerForRelease fail');
                 });
             })
         }
         function error(){
-            console.log('----- refuseTaskTimerForRelease error: count error');
+            console.error('----- refuseTaskTimerForRelease error: count error');
             response.fail('refuseTaskTimerForRelease fail');
         }
     });

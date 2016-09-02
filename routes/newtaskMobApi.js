@@ -48,7 +48,7 @@ function submissionNotification(qq){
                 res.json({'errorId': 1});
             }
             else{
-                console.log('Message sent: ' + info.response);
+                //console.log('Message sent: ' + info.response);
             }
         });
     }

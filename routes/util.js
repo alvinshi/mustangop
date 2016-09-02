@@ -59,17 +59,17 @@ exports.postFile = function (req, res) {
 
             for (var i = 0; i < base64dataList.length; i++){
                 (function (index){
-                    console.log('------ upload img ------ ' + pubFileNameList[index]);
+                    //console.log('------ upload img ------ ' + pubFileNameList[index]);
                     try{
                         var f = new AV.File(pubFileNameList[index], {
                             // 仅上传第一个文件（多个文件循环创建）
                             base64: base64dataList[index]
                         });
-                        console.log('------ upload img ------ avfile succeed');
+                        //console.log('------ upload img ------ avfile succeed');
                         f.save().then(function(fileObj) {
                             fileUrlList.push(fileObj.url());
                             promiseIndex++;
-                            console.log('------ upload img ------ save succeed');
+                            //console.log('------ upload img ------ save succeed');
                             if (promiseIndex == totalData){
                                 res.json({'fileUrlList':fileUrlList, 'totalCount':base64dataList.length});
                             }
@@ -107,8 +107,8 @@ function findAppIniTunes(res, userId){
 
     https.get(appInfoUrl, function(httpRes) {
 
-        console.log('statusCode: ', httpRes.statusCode);
-        console.log('headers: ', httpRes.headers);
+        //console.log('statusCode: ', httpRes.statusCode);
+        //console.log('headers: ', httpRes.headers);
         var totalData = '';
 
         if (httpRes.statusCode != 200){

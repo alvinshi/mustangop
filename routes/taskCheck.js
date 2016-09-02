@@ -42,6 +42,13 @@ router.get('/taskAudit', function(req, res){
         var promiseForReceive = results.length;
         var counterForReceive = 0;
 
+        function tryReturn(errorId, errorMsg){
+            if (counterForReceive == promiseForReceive){
+                retApps.sort(function(a, b){return (a.createdAt > b.createdAt)?1:-1});
+                res.json({'taskAudit':retApps, 'errorId': errorId, 'errorMsg': errorMsg});
+            }
+        }
+
         for (var i = 0; i < results.length; i++){
             var taskInfoObject = Object();
 
@@ -93,13 +100,6 @@ router.get('/taskAudit', function(req, res){
                     tempAppInfoObject.totalUndo = 0;
                     tempAppInfoObject.totalRejected = 0;
                     tempAppInfoObject.totalTimeout = 0;
-
-                    function tryReturn(errorId, errorMsg){
-                        if (counterForReceive == promiseForReceive){
-                            retApps.sort(function(a, b){return (a.createdAt > b.createdAt)?1:-1});
-                            res.json({'taskAudit':retApps, 'errorId': errorId, 'errorMsg': errorMsg});
-                        }
-                    }
 
                     if(results.length == 0){
                         retApps.push(tempAppInfoObject);
@@ -206,7 +206,7 @@ router.get('/taskAudit', function(req, res){
                     }
                     //没有上传,返回空值
                     if (promise == 0){
-                        retJsonFunc(0, '');
+                        tryReturn(0, '');
                     }
                 }, function(error){
                     counterForReceive++;

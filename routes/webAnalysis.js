@@ -40,7 +40,7 @@ router.get('/', function(req, res) {
 });
 
 router.post('/webData', function(req, res){
-    console.log('webData Post');
+    //console.log('webData Post');
     var timePosted = req.body.currentTime;
     var currentTime = new Date();
     var fiveDaysAgo = new Date();
@@ -69,13 +69,13 @@ router.post('/webData', function(req, res){
 
     //数据返回测试
     function rtnJson(){
-        console.log('tried');
+        //console.log('tried');
         for (var x in flags){
             if (flags[x] == false){
                 return;
             }
         }
-        console.log('returned');
+        //console.log('returned');
         res.json({'errorId': 0, 'errorMsg':'',
             'totalUsers': totalUsers,
             'totalReleaseTaskToday': totalReleaseTaskToday,
