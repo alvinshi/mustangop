@@ -93,6 +93,9 @@ app.controller('homePageCtrl', function($scope, $http){
     var myReleaseTaskUrl = 'homePage/myReleaseTask';
     $http.get(myReleaseTaskUrl).success(function(response){
         $scope.myReleaseTask = response.myReleaseTaskInfo;
+        if ($scope.myReleaseTask.length <= 0){
+            $scope.noApp = true;
+        }
     });
 
     // 新手任务

@@ -1,3 +1,6 @@
+body{
+    font-family: "Microsoft YaHei";
+}
 /*顶部轮播*/
 .carousel3{
     position: absolute;
@@ -39,6 +42,7 @@
     height: 280px;
     border: 1px solid #DDDDDD;
     float: right;
+    position:relative;
 }
 .img1{
     z-index:1;
@@ -52,17 +56,33 @@
     z-index: 3;
 }
 
-.btn-primary{
-    /*background-color: #5a94ec;*/
-    border: 1px solid #5a94ec;
-    position:absolute;;
-    right:145px;
-    top:240px;
-    width:150px;
-    color:white;
+.checkin{
+    /*background-color: #d43f3a;*/
+    /*border: 1px solid #5a94ec;*/
+    position:relative;
+    /*margin-left:40px;*/
+    margin-top:60px;
+    width:230px;
+    /*color:white;*/
+    font-size: 12px;
+    /*color:#fb5834;*/
 }
+
+.checkin .btn-primary{
+    margin-left: 17.5%;
+    width: 65%;
+}
+
+.checkin .check-text{
+    font-size: 12px;
+    color: #999;
+    margin-top: 14px;
+    margin-left: 17.5%;
+    width: 65%;
+}
+
 .text{
-    position: absolute;
+    position: relative;
     right:150px;
     top:280px;
     text-align: center;
@@ -254,7 +274,7 @@
     margin-top:0px;
     margin-left: 0px;
     font-size: 20px;
-    border: 1px solid #cccccc;
+    border-top: 1px solid #cccccc;
     width: 835px;
     height: 108px;
     padding-left: 50px;
@@ -410,8 +430,14 @@
 }
 
 .data-partners{
-    margin-left: 700px;
-    margin-top: 20px;
+    margin-left: 680px;
+    margin-top: 5px;
     font-size: 14px;
     color: #999999;
+}
+
+.my-release{
+    width: 835px;
+    border: 1px solid #999;
+
 }

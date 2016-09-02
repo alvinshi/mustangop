@@ -97,16 +97,20 @@
             <span>天</span>
         </div>
 
-        <button type="button" class="btn btn-primary" ng-click="butCheckIns(todayYB, tomorrowYB)" ng-show="isCheckIns == 0">
-            签到+{{todayYB}}Y币
-        </button>
+        <div class="checkin">
+            <button type="button" class="btn btn-primary" ng-click="butCheckIns(todayYB, tomorrowYB)" ng-show="isCheckIns == 0">
+                签到+{{todayYB}}Y币
+            </button>
 
-        <button type="button" class="btn btn-primary" ng-show="isCheckIns == 1" disabled>
-            已签到
-        </button>
+            <button type="button" class="btn btn-primary" ng-show="isCheckIns == 1" disabled>
+                已签到
+            </button>
 
-        <div class="text">
-            <span class="text1">明日签到得<span class="text2">{{tomorrowYB}}</span>Y币,连续签到<br>奖励更多</span>
+            <div class="check-text">
+                <span class="">明日签到得<span class="">{{tomorrowYB}}</span>Y币,连续签到
+                    <p style="text-align: center">奖励更多</p>
+                </span>
+            </div>
         </div>
     </div>
 
@@ -238,46 +242,54 @@
 
    <!--竖线-->
     <!--<div  class="line"></div>-->
+
     <!--我发布的任务-->
-        <span class="head2"><br><br>我发布的任务</span><br><br>
-    <div class="body4" ng-repeat="app in myReleaseTask">
-        <div class="release1">
-            <img class="img10" ng-src="{{app.artworkUrl100}}">
+    <span class="head2"><br><br>我发布的任务</span><br><br>
+    <div class="my-release">
+        <div ng-show="noApp" style="padding-left: 200px">
+            <h1 style="font-size: 20px">亲, 你还没有任何任务哦, 赶紧去"<a href="/myapp">发布任务吧</a>"发布任务吧</h1>
         </div>
 
-        <div class="" ng-show="app.remainCount != 0">
-            <div class="release2">进度<br>
-                <span class="release3">任务类型:</span>
-                <span class="release4">{{app.taskType}}</span>
+        <div class="body4" ng-repeat="app in myReleaseTask">
+            <div class="release1">
+                <img class="img10" ng-src="{{app.artworkUrl100}}">
             </div>
-            <div class="progress">
-                <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" ng-style="app.progressStyle">
+
+            <div class="" ng-show="app.remainCount != 0">
+                <div class="release2">进度<br>
+                    <span class="release3">任务类型:</span>
+                    <span class="release4">{{app.taskType}}</span>
+                </div>
+                <div class="progress">
+                    <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" ng-style="app.progressStyle">
+                    </div>
+                </div>
+                <div class="got">
+                    <span class="got1">{{app.excCount - app.remainCount}}</span>
+                    <span>/{{app.excCount}}</span>
                 </div>
             </div>
-            <div class="got">
-                <span class="got1">{{app.excCount - app.remainCount}}</span>
-                <span>/{{app.excCount}}</span>
+
+            <div class="" ng-show="app.remainCount == 0">
+                <div class="releaseSucceed">已完成<span class="glyphicon glyphicon-ok"></span><br>
+                    <span class="releaseType">任务类型:</span>
+                    <span class="release4">{{app.taskType}}</span>
+                    <button type="button" class="btn releaseTask"
+                            onclick="javascrtpt:window.location.href='http://localhost:3000/myapp'">发布新任务
+                    </button>
+                </div>
+            </div>
+
+            <div class="ASOData">
+                <button class="but" ng-click="jump(app)">实时排名</button>
+                <button class="but" ng-click="jump1(app)" style="margin-left: 10px;">ASO排名</button>
+                <button class="but" ng-click="jump2(app)" style="margin-left: 10px;">评论统计</button>
+                <button class="but" ng-click="jump3(app)" style="margin-left: 10px;">下载量统计</button>
             </div>
         </div>
-
-        <div class="" ng-show="app.remainCount == 0">
-            <div class="releaseSucceed">已完成<span class="glyphicon glyphicon-ok"></span><br>
-                <span class="releaseType">任务类型:</span>
-                <span class="release4">{{app.taskType}}</span>
-                <button type="button" class="btn releaseTask"
-                        onclick="javascrtpt:window.location.href='http://localhost:3000/myapp'">发布新任务
-                </button>
-            </div>
-        </div>
-
-        <div class="ASOData">
-            <button class="but" ng-click="jump(app)">实时排名</button>
-            <button class="but" ng-click="jump1(app)" style="margin-left: 10px;">ASO排名</button>
-            <button class="but" ng-click="jump2(app)" style="margin-left: 10px;">评论统计</button>
-            <button class="but" ng-click="jump3(app)" style="margin-left: 10px;">下载量统计</button>
-        </div>
+        <div class="data-partners">数据合作伙伴ASO100</div>
     </div>
-    <div class="data-partners">数据合作伙伴ASO100</div>
+
      <!--邀请好友奖励-->
     <span class="head4"><br><br>邀请好友奖励</span>
     <div class="panel-body" style="margin-bottom: 70px;">
