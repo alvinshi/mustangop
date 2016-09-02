@@ -438,6 +438,7 @@ body{
 
 .my-release{
     width: 835px;
-    border: 1px solid #999;
+    border: 1px solid #cccccc;
+    border-radius: 10px;
 
 }
