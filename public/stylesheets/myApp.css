@@ -1,3 +1,377 @@
+/*添加APP*/
+.add{
+margin-left: -170px;
+    width:1400px;
+    height:200px;
+    border-bottom: 1px solid#CCCCCC;
+}
+.addApp1{
+    margin-top: -39px;
+    margin-left: -122px;
+    height: 85px;
+    width: 85px;
+    float: left;
+    border-radius: 6px;
+}
+.btn_addApp1{
+    margin-left: 180px;
+    border: 4px dashed #e0e0e0;
+    margin-top: 19px;
+    height: 81px;
+    width: 81px;
+    background-color: white;
+    border-radius: 6px;
+}
+.add2{
+    margin-left: 150px;
+}
+.list-group{
+    margin-top: -20px;
+    /*border: 1px solid #e0e0e0;*/
+    /*box-shadow: 1px 1px 1px #e0e0e0;*/
+    height: 85px;
+    width: 85px;
+    float:left;
+    border-radius: 6px;
+    margin-left: 42px;
+
+}
+.list-group img{
+    border: 2px solid #dbdbdb;
+    width: 85px;
+    height: 80px;
+    border-radius: 6px;
+    margin-left: 0px;
+    margin-top: 0px;
+}
+/*文字输入框*/
+
+/*窗口详情*/
+.window1{
+    height: 200px;
+    text-align: center;
+}
+.text1{
+
+    margin-left: -350px;
+    color:#999999;
+    font-size: 15px;
+}
+.text2{
+    margin-top: -28px;
+    margin-left:360px;
+    color:#999999;
+    font-size: 15px;
+}
+/*标签页*/
+.nav-tabs{
+    margin-top: -50px;
+    text-align: center;
+}
+.content1{
+    position: absolute;
+    left:0px;
+    width:1600px;
+    background-color: #f5f5f5;
+}
+/*框1*/
+.k1{
+    height: 80px;
+    width: 1120px;
+    margin-left: 110px;
+    margin-top: 10px;
+    background-color: white;
+}
+.p{
+    font-size: 20px;
+    margin-top: 15px;
+    margin-left: 65px;
+}
+.p1 {
+    font-size: 20px;
+    color: #fb8545;
+    margin-left: 130px;
+    border-radius: 5px;
+    border: 1px solid #fb8545;
+}
+.p2{
+    margin-top: 5px;
+    margin-left: 140px;
+    font-size: 20px;
+    color: black;
+}
+.b1{
+    margin-left: 80px;
+    width: 120px;
+    color:white;
+    border-radius: 5px;
+    background-color: #3498db;
+    border: 0px;
+}
+/*框2*/
+.k2{
+    margin-left: 160px;
+    margin-top: 20px;
+}
+.p3{
+
+}
+.p4{
+    font-size: 16px;
+    color: #333333;
+    margin-left: 500px;
+}
+.p5{
+
+    margin-left:100px;
+font-size: 14px;
+    color:#333333;
+}
+.b02{
+    width: 80px;
+    height: 34px;;
+    border-top-left-radius: 4px;
+    border-bottom-left-radius: 4px;
+    color:white;
+    background-color: #365164;
+    border: 1px solid #365164;
+}
+.b002{
+      width: 84px;
+      height: 34px;
+      color:white;
+      background-color: #e0e0e0;
+      border: 1px solid #e0e0e0;
+}
+.b2{
+    width: 80px;
+    height: 34px;
+    border-top-right-radius:4px;
+    border-bottom-right-radius:4px;
+    background-color: white;
+    color: #e0e0e0;
+    border: 1px solid #e0e0e0;
+    margin-left: -5px;
+}
+.b3{
+    margin-top: -80px;
+    margin-left: 260px;
+    color:white;
+    background-color: #365164;
+    border: 1px solid #365164;
+    width: 80px;
+    height: 34px;
+    border-radius: 4px;
+}
+/*框3*/
+.img01{
+float: right;
+    margin-top: 30px;
+height: 260px;
+    margin-right: 100px;
+}
+
+
+
+.b4{
+    height:26px;
+    background-color: #a9c5e2;
+    border-radius:10px;
+    color: white;
+    border: 0px;
+    width: 100px;
+}
+.t1{
+    font-size: 20px;
+    margin-left: 160px;
+}
+.k3{
+    border-radius: 10px;
+    background-color: white;
+    width: 1020px;
+    margin-left: 160px;
+    height: 320px;
+}
+/*框4*/
+.img02{
+    float: right;
+
+    margin-top: 20px;
+    margin-right: 100px;
+}
+.k4{
+    border-radius: 10px;
+    width: 1020px;
+    margin-left: 160px;
+    background-color: white;
+
+    height: 170px;
+}
+/*框5*/
+.img03{
+    float: right;
+    height:300px;
+    margin-top: 40px;
+    margin-right: 100px;
+}
+
+.input1{
+    width: 350px;
+    height: 34px;
+    border-radius: 4px;
+    border:1px solid #CCCCCC;
+
+}
+.input2{
+width: 130px;
+    height: 34px;
+    border-radius: 4px;
+    border:1px solid #CCCCCC;
+}
+.input3{
+    width: 350px;
+    height: 60px;
+    border-radius: 4px;
+    border:1px solid #CCCCCC;
+}
+.k5{
+    border-radius: 10px;
+    width: 1020px;
+    margin-left: 160px;
+    background-color: white;
+    height: 550px;
+
+}
+
+/*输入框默认字符*/
+input::-webkit-input-placeholder {
+    color: #999;
+    -webkit-transition: color.5s;
+}
+input:focus::-webkit-input-placeholder, input:hover::-webkit-input-placeholder {
+    color: #c2c2c2;
+    -webkit-transition: color.5s;
+}
+/*框6*/
+.k6{
+    border-radius: 10px;height:120px;
+    background-color: white;
+    width: 1020px;
+    margin-left: 160px;
+
+}
+/*radio*/
+.label1{
+    line-height:27px;
+    text-align: center;
+    color:white;
+    height: 34px;
+    background-color: #365164;
+    width: 80px;
+    border-bottom-left-radius: 4px;
+    border-top-left-radius: 4px;
+
+}
+.label01{
+    line-height:27px;
+    text-align: center;
+    color:#999999;
+    height: 34px;
+    background-color: white;
+    width: 80px;
+    border-bottom-left-radius: 4px;
+    border-top-left-radius: 4px;
+    border: 1px solid #999999;
+}
+.label2
+{
+    line-height:29px;
+    text-align: center;
+    color:white;
+    margin-left: -40px;
+    height: 34px;
+    background-color: #365164;
+    width: 120px;
+    border-bottom-right-radius: 4px;
+    border-top-right-radius: 4px;
+
+}
+.label02
+{
+    line-height:27px;
+    text-align: center;
+    color:#999999;
+    margin-left: -40px;
+    height: 34px;
+    background-color:white;
+    width: 120px;
+    border-bottom-right-radius: 4px;
+    border-top-right-radius: 4px;
+    border: 1px solid #999999;
+
+}
+.label3
+{
+
+    margin-top: -45px;
+    margin-right: 793px;
+    line-height:32px;
+    color:white;
+    float:right;
+    height: 34px;
+    background-color: #365164;
+    width: 80px;
+    border-radius: 4px;
+}
+.label4{
+    text-align: center;
+    line-height:32px;
+    color:white;
+    height: 34px;
+    background-color: #365164;
+    width: 120px;
+    margin-left: -34px;
+}
+.label04{
+    text-align: center;
+    line-height:32px;
+    color:#999999;
+    height: 34px;
+    background-color:white;
+    border: 1px solid #999999;
+    width: 120px;
+    border-radius: 4px;
+}
+
+.label5
+{
+
+    line-height:27px;
+    text-align: center;
+    color:white;
+    margin-left: -40px;
+    height: 34px;
+    background-color: #365164;
+    width: 120px;
+    border-bottom-right-radius: 4px;
+    border-top-right-radius: 4px;
+
+}
+.label05
+{
+    line-height:27px;
+    text-align: center;
+    color:#999999;
+    margin-left: -40px;
+    height: 34px;
+    background-color:white;
+    width: 120px;
+    border-bottom-right-radius: 4px;
+    border-top-right-radius: 4px;
+    border: 1px solid #999999;
+
+}
+
 body{
     margin: 0 ;
     padding: 0;
@@ -106,14 +480,7 @@ button{
     outline:none;
 }
 
-.list-group{
-    border: 1px solid #e0e0e0;
-    /*box-shadow: 1px 1px 1px #e0e0e0;*/
-    height: 250px;
-    width: 160px;
-    margin-left: 32px;
-    float: left;
-}
+
 .btn_addApp{
     border: 1px solid #e0e0e0;
     height: 250px;
@@ -128,14 +495,7 @@ button{
     margin-left: 32px;
     float: left;
 }
-.list-group img{
-    /*border: 1px solid #dbdbdb;*/
-    width: 118px;
-    height: 118px;
-    border-radius: 6px;
-    margin-left: 20px;
-    margin-top: 0px;
-}
+
 .btn-sm_release{
     background-color: white;
     border: none;
@@ -233,11 +593,6 @@ button{
     border-style: none none solid none ;
 }
 .add_app {
-    position: absolute;
-    right: 144px;
-    width: 160px;
-    height: 40px;
-    top: 100px;
     font-size: 18px;
     background-color: white;
     color: #3498db;
@@ -245,13 +600,13 @@ button{
     border-radius: 4px;
 }
 .release2{
-    position: absolute;
-    right: 0.1px;
+    position: fixed;
+    right:-5px;
+    top:60%;
     width: 44px;
     height: 140px;
-    top: 350px;
     background:url(/images/doTask/video2.png);
-    border: 1px solid #3498db;
+    border: 0px ;
     border-radius: 10px;
 }
 /*第一步:选择或添加任务应用*/

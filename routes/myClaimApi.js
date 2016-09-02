@@ -25,7 +25,13 @@ router.get('/:userObjectId', function(req, res) {
 });
 
 router.post('/claim/:userObjectId', function(req, res){
-    var userId = Base64.decode(req.params.userObjectId);
+    var userObjectId = req.params.userObjectId;
+    var userId;
+    if(userObjectId == 'self'){
+        userId = util.useridInReq(req);
+    }else {
+        userId = Base64.decode(req.params.userObjectId);
+    }
     var uploadName = req.body.uploadName;//TODO
 
     var user = new AV.User();
@@ -56,6 +62,10 @@ router.post('/claim/:userObjectId', function(req, res){
 
             if (appExcHisObject == undefined){
                 calNumber++;
+                if (calNumber == results.length){
+                    retApps .sort(function(b, a){return a.createdAt - b.createdAt});
+                    res.json({'myClaimApps':retApps, 'rejectedTaskObjects':rejectedTaskObjects, 'errorId': 0});
+                }
                 continue;
             }
             appHisObject.taskObjectId = results[i].id;

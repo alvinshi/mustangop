@@ -345,6 +345,7 @@ app.controller('itunesSearchControl', function($scope, $http) {
             $scope.errorCheck=false;
         }
     };
+    //radio切换
 
     //发布任务
     $scope.releaseTask = function(){

@@ -54,10 +54,12 @@ app.controller('homePageCtrl', function($scope, $http){
             if (response.errorId == 0){
                 $scope.errorId = response.errorId;
                 $scope.errorMsg = response.errorMsg;
+                $scope.isCheckIns = 1;
+                $scope.continueCheck = $scope.continueCheck + 1
             }
         })
     };
-//我发布的任务
+    //我发布的任务
 
      $scope.jump=function(curren){
         window.open('http://aso100.com/app/rank/appid' + '/' + curren.appleId + '/country/cn');
@@ -91,6 +93,9 @@ app.controller('homePageCtrl', function($scope, $http){
     var myReleaseTaskUrl = 'homePage/myReleaseTask';
     $http.get(myReleaseTaskUrl).success(function(response){
         $scope.myReleaseTask = response.myReleaseTaskInfo;
+        if ($scope.myReleaseTask.length <= 0){
+            $scope.noApp = true;
+        }
     });
 
     // 新手任务
@@ -100,16 +105,28 @@ app.controller('homePageCtrl', function($scope, $http){
     });
 
     // 点击领取
-    $scope.clickToReceive = function(curre){
+    clickToReceive = function(button){
+        var actionId = button.getAttribute("data-id");
         var userReceiveAwardUrl = 'homePage/userReceiveAward';
-        var transferMoney = {'noviceReward': curre.noviceReward, 'noviceTaskAcceptReward': curre.noviceTaskAcceptReward,
-            'canReceive': curre.canReceive, 'successCanReceive': curre.successCanReceive};
+        var transferMoney = {'actionId': actionId};
 
         $http.post(userReceiveAwardUrl, transferMoney).success(function(response){
+            $scope.errorId = response.errorId;
+            $scope.errorMsg = response.errorMsg;
             if (response.errorId == 0){
                 $scope.errorId = response.errorId;
                 $scope.errorMsg = response.errorMsg;
+
+                if(actionId == 'finishNoviceTask'){
+                    $scope.noviceTaskObject.noviceTaskAcceptReward = -1;
+                }else  if(actionId == 'uploadHaveReceive'){
+                    $scope.noviceTaskObject.noviceReward = -1;
+                }else if (actionId == 'inviteUserReward'){
+                    $scope.noviceTaskObject.canReceive = 0;
+                }else if (actionId == 'guideUserRewardYB'){
+                    $scope.noviceTaskObject.successCanReceive = 0;
+                }
             }
         })
-    }
+    };
 });
