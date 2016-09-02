@@ -50,7 +50,9 @@
         <!-- 轮播（Carousel）项目 -->
         <div  class="carousel-inner" >
             <div  ng-repeat="banner in bannerUrl"  ng-class="{'item':true, 'active':$index==0}" >
-                <img style="height: 280px;" class='foo' ng-src="{{banner}}">
+                <a ng-href="{{banner.clickBanner}}" target="_blank">
+                    <img style="height: 280px;" class='foo' ng-src="{{banner.bannerUrl}}">
+                </a>
             </div>
         </div>
         <a class="carousel-control left" href="#myCarousel"

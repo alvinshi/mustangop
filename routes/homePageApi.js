@@ -28,8 +28,10 @@ router.get('/banner', function(req, res){
     query.find().then(function(bannerObject){
         var bannerList = Array();
         for (var i = 0; i < bannerObject.length; i++){
-            var bannerUrl = bannerObject[i].get('bannerURL');
-            bannerList.push(bannerUrl)
+            var bannerObjects = Object();
+            bannerObjects.bannerUrl = bannerObject[i].get('bannerURL');
+            bannerObjects.clickBanner = bannerObject[i].get('clickBanner');
+            bannerList.push(bannerObjects)
         }
         res.json({'bannerUrl': bannerList, 'errorId': 0, 'errorMsg':''})
     },function(error){
