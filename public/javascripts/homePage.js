@@ -18,7 +18,7 @@ app.controller('homePageCtrl', function($scope, $http){
 
     //******************* 自动轮播 *************************
     $("#myCarousel").carousel({
-        interval:3000
+        interval:5000
     });
     $("#myCarousel1").carousel({
         interval:3000

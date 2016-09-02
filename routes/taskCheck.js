@@ -408,9 +408,9 @@ var updateReceiveTaskDatabase = function(doTaskObject, uploaderName, res){
 
         //第一次提交任务被接受赠送50YB(仅对新用户有效)
         if(userObject.get('registerBonus') == 'register_upload_task'){
-            userObject.increment('totalMoney', 50);
-            userObject.increment('feedingMoney', 50);
-            userObject.increment('freezingMoney', -50);
+            //userObject.increment('totalMoney', 50);
+            //userObject.increment('feedingMoney', 50);
+            //userObject.increment('freezingMoney', -50);
             userObject.set('registerBonus', 'register_accept_task');
             //新手任务奖励消息(50YB)
         }else {

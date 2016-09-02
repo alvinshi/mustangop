@@ -192,7 +192,7 @@ router.get('/myReleaseTask', function(req, res){
     query.include('appObject');
     query.descending('createdAt');
     query.descending('remainCount');
-    query.limit(8);
+    query.limit(5);
     query.find().then(function(relObjects){
         var retApps = Array();
         for (var i = 0; i < relObjects.length; i++){
