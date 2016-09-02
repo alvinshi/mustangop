@@ -117,43 +117,35 @@
 
         <!--重要消息-->
     <div class="important" style="margin-bottom: 325px;" >
-        <div id="myCarousel1" class="carousel slide" >
+        <div id="myCarousel1" class="carousel " >
             <!-- 轮播（Carousel）指标 -->
-            <img  class="img2" src="/images/homepage/main1.png">
+            <!--<img  class="img2" src="/images/homepage/main1.png">-->
             <!-- 轮播（Carousel）项目 -->
-            <div class="carousel2"></div>
-            <div  class="carousel-inner"  >
-                <div class="item active" style="margin-left: 170px;margin-top: 37px;">
-                    ·您有
-                    <a style="color:#3498db; font-size: 30px;">{{toDoCount}}</a>
+            <div class="carousel2">
+                <div class="noticeDiv">
+                    &nbsp&nbsp您有
+                    <a style="color:#3498db; font-size: 18px;">{{toDoCount}}</a>
                     条任务还未完成,请去
                     <a href="/myClaim/self" style="color:#3498db ;text-decoration:underline">领取任务</a>
                     完成
                 </div>
-                <div class="item" ng-show="refusedCount > 0" style="margin-left: 170px;margin-top: 37px;">
-                    ·您有
-                    <a style="color:red; font-size: 30px;">{{refusedCount}}</a>
+                <div class="noticeDiv" ng-show="refusedCount > 0">
+                    &nbsp&nbsp您有
+                    <a style="color:red; font-size: 18px;">{{refusedCount}}</a>
                     条任务被拒绝,请去
                     <a href="/myClaim/self" style="color:#3498db ;text-decoration:underline">领取任务</a>
                     查看拒绝原因
                 </div>
-                <div class="item" ng-show="pendingCount > 0" style="margin-left: 170px;margin-top: 37px;">
-                    ·您有
-                    <a style="color:#3498db; font-size: 30px;">{{pendingCount}}</a>
+                <div class="noticeDiv" ng-show="pendingCount > 0">
+                    &nbsp&nbsp您有
+                    <a style="color:#3498db; font-size: 18px;">{{pendingCount}}</a>
                     条任务未审核,请去
                     <a href="/taskCheck" style="color:#3498db ;text-decoration:underline">审核换评</a>
                     中审核
                 </div>
             </div>
 
-            <!-- 轮播（Carousel）导航 -->
-            <div class="goon">
-            <a class="carousel-control right"
-               style="background:url(/images/homepage/main2.png); border: 1px solid #cccccc;width:74px;height: 60px;margin-right:-215px;margin-top: 300px;px;font-size:30px;float:right;"
-               href="#myCarousel1"
-               data-slide="next">
-            </a>
-            </div>
+
         </div>
     </div>
     <!--新手任务-->
