@@ -79,6 +79,7 @@ body{
     margin-top: 14px;
     margin-left: 17.5%;
     width: 65%;
+    text-align: center;
 }
 
 .text{
@@ -274,7 +275,7 @@ body{
     margin-top:0px;
     margin-left: 0px;
     font-size: 20px;
-    border-top: 1px solid #cccccc;
+    /*border-top: 1px solid #cccccc;*/
     width: 835px;
     height: 108px;
     padding-left: 50px;
