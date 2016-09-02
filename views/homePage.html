@@ -253,7 +253,7 @@
             <h1 style="font-size: 20px">亲, 你还没有任何任务哦, 赶紧去"<a href="/myapp">发布任务吧</a>"发布任务吧</h1>
         </div>
 
-        <div class="body4" ng-repeat="app in myReleaseTask">
+        <div class="body4" ng-style="app.bottom" ng-repeat="app in myReleaseTask">
             <div class="release1">
                 <img class="img10" ng-src="{{app.artworkUrl100}}">
             </div>

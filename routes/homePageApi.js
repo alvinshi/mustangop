@@ -210,6 +210,11 @@ router.get('/myReleaseTask', function(req, res){
             releaseObject.artworkUrl100 = userRelApp.get('artworkUrl100');
             releaseObject.trackName = userRelApp.get('trackName');
             releaseObject.appleId = userRelApp.get('appleId');
+
+            if(i != relObjects.length - 1){
+                releaseObject.bottom = {"border-bottom":"1px solid #cccccc"}
+            }
+
             retApps.push(releaseObject);
         }
         res.json({'myReleaseTaskInfo':retApps})
