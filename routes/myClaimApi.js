@@ -62,6 +62,10 @@ router.post('/claim/:userObjectId', function(req, res){
 
             if (appExcHisObject == undefined){
                 calNumber++;
+                if (calNumber == results.length){
+                    retApps .sort(function(b, a){return a.createdAt - b.createdAt});
+                    res.json({'myClaimApps':retApps, 'rejectedTaskObjects':rejectedTaskObjects, 'errorId': 0});
+                }
                 continue;
             }
             appHisObject.taskObjectId = results[i].id;
