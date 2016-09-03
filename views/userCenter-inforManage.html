@@ -18,13 +18,13 @@
     <tbody>
         <tr ng-repeat='coinFlow in YCoinMessages'>
             <!--<td rowspan="2">1</td>-->
-            <td>coinFlow.messageDateStr</td>
-            <td>coinFlow.type</td>
-            <td>coinFlow.messageText</td>
+            <td>{{coinFlow.messageDateStr}}</td>
+            <td>{{coinFlow.type}}</td>
+            <td>{{coinFlow.messageText}}</td>
 
-            <td>coinFlow.totalMoney</td>
-            <td>coinFlow.freezingMoney</td>
-            <td>coinFlow.feedingMoney</td>
+            <td ng-show="coinFlow.totalMoney != undefined">{{coinFlow.totalMoney}}</td>
+            <td ng-show="coinFlow.freezingMoney != undefined">{{coinFlow.freezingMoney}}</td>
+            <td ng-show="coinFlow.feedingMoney != undefined">{{coinFlow.feedingMoney}}</td>
         </tr>
     </tbody>
 </table>

@@ -218,7 +218,7 @@ router.get('/userCenter/YCoinFlow/:page', function(req, res){
     query.descending('createdAt');
     query.include('receiverObject');
     query.skip(page * 20);
-
+    query.limit(20);
     var userObject = undefined;
 
     query.find().then(function(results){
