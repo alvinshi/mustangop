@@ -32,6 +32,11 @@ app.controller('homePageCtrl', function($scope, $http){
 
     // 签到
     var ischeckinsUrl = 'homePage/ischeckins';
+    $scope.isCheckIns = 0;
+    $scope.todayYB = 1;
+    $scope.continueCheck = 2;
+    $scope.latestDays = 0;
+
     $http.get(ischeckinsUrl).success(function(response){
         if(response.errorId == 0){
             $scope.isCheckIns = response.isCheckIns;

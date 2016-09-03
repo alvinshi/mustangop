@@ -216,12 +216,17 @@ router.get('/userCenter/YCoinFlow/:page', function(req, res){
     var query = new AV.Query(messageObject);
     query.equalTo('receiverObject', user);
     query.descending('createdAt');
+    query.include('receiverObject');
     query.skip(page * 20);
+
+    var userObject = undefined;
+
     query.find().then(function(results){
         var YCoinMessages = new Array();
         for (var i = 0; i < results.length; i++){
             var messageObject = results[i];
             var messageDicObject = Object();
+            userObject = messageObject.get('receiverObject');
             //TODO:
             messageDicObject.messageText = messageObject.get('messageText');
             messageDicObject.type = messageObject.get('type');
@@ -237,7 +242,15 @@ router.get('/userCenter/YCoinFlow/:page', function(req, res){
 
             YCoinMessages.push(messageDicObject);
         }
-        res.json({'YCoinMessages': YCoinMessages});
+
+        if(userObject != undefined){
+            res.json({'YCoinMessages': YCoinMessages, 'totalMoney':userObject.get('totalMoney'),
+                'freezingMoney':userObject.get('freezingMoney'), 'feedingMoney':userObject.get('feedingMoney')});
+        }else {
+            res.json({'YCoinMessages': YCoinMessages, 'totalMoney':0,
+                'freezingMoney':0, 'feedingMoney':0});
+        }
+
     },function(error){
         res.json({'errorId': error.code, 'errorMsg': error.message});
     })

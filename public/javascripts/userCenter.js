@@ -43,13 +43,18 @@ app.controller('inforManageCtrl', function($scope, $http){
     $scope.userName = true;
 
     //初始
-    $scope.pageNum = 0;
     $scope.YCoinMessages = [];
+    $scope.totalMoney = 0;
+    $scope.freezingMoney = 0;
+    $scope.feedingMoney = 0;
 
     function getMessage(){
         var getMessage = '/user/userCenter/YCoinFlow/' + parseInt($scope.YCoinMessages.length/20);
         $http.get(getMessage).success(function(response){
             $scope.YCoinMessages = $scope.YCoinMessages.concat(response.YCoinMessages);
+            $scope.totalMoney = response.totalMoney;
+            $scope.freezingMoney = response.freezingMoney;
+            $scope.feedingMoney = response.feedingMoney;
         });
     }
 
