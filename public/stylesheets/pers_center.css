@@ -453,3 +453,11 @@ body{
 .invite_info{
     margin-left: 30px;margin-right: 30px
 }
+
+.date{
+    width: 80px;
+}
+
+.type{
+    width: 60px;
+}

@@ -240,6 +240,22 @@ router.get('/userCenter/YCoinFlow/:page', function(req, res){
             messageDicObject.messageDateStr =
                 (messageDate.getMonth() + 1) + '-' + messageDate.getDate() + ' ' + messageDate.getHours() + ':' + messageDate.getMinutes();
 
+            //css
+            if(messageDicObject.type == '赚取'){
+                messageDicObject.rowClass = 'success';
+            }else if(messageDicObject.type == '解冻'){
+                messageDicObject.rowClass = 'info';
+            }else if(messageDicObject.type == '奖励'){
+                messageDicObject.rowClass = '';
+            }else if(messageDicObject.type == '扣罚'){
+                messageDicObject.rowClass = 'danger';
+            }else if(messageDicObject.type == '支付'){
+                messageDicObject.rowClass = 'danger';
+            }else if(messageDicObject.type == '冻结'){
+                messageDicObject.rowClass = 'warning';
+            }
+
+
             YCoinMessages.push(messageDicObject);
         }
 

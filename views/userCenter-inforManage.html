@@ -2,7 +2,7 @@
 <h4 class="mytitle" ng-show="totalMoney == 0" >Y币流水 旧的流水暂无记录</h4>
 <hr style="margin-top: 12px;margin-left: 20px;border: 2px solid #3498db;margin-right: 20px">
 
-<table class="table table-striped">
+<table class="table table-bordered">
     <thead>
     <tr>
         <th>日期</th>
@@ -16,15 +16,15 @@
     </thead>
 
     <tbody>
-        <tr ng-repeat='coinFlow in YCoinMessages'>
+        <tr ng-class="coinFlow.rowClass" ng-repeat='coinFlow in YCoinMessages'>
             <!--<td rowspan="2">1</td>-->
-            <td>{{coinFlow.messageDateStr}}</td>
-            <td>{{coinFlow.type}}</td>
-            <td>{{coinFlow.messageText}}</td>
+            <td class="date">{{coinFlow.messageDateStr}}</td>
+            <td class="type">{{coinFlow.type}}</td>
+            <td class="text">{{coinFlow.messageText}}</td>
 
-            <td ng-show="coinFlow.totalMoney != undefined">{{coinFlow.totalMoney}}</td>
-            <td ng-show="coinFlow.freezingMoney != undefined">{{coinFlow.freezingMoney}}</td>
-            <td ng-show="coinFlow.feedingMoney != undefined">{{coinFlow.feedingMoney}}</td>
+            <td class="total" ng-show="coinFlow.totalMoney != undefined">{{coinFlow.totalMoney}}</td>
+            <td class="freeze" ng-show="coinFlow.freezingMoney != undefined">{{coinFlow.freezingMoney}}</td>
+            <td class="feed" ng-show="coinFlow.feedingMoney != undefined">{{coinFlow.feedingMoney}}</td>
         </tr>
     </tbody>
 </table>
