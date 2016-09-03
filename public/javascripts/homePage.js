@@ -32,30 +32,30 @@ app.controller('homePageCtrl', function($scope, $http){
 
     // 签到
     var ischeckinsUrl = 'homePage/ischeckins';
+    $scope.isCheckIns = 0;
+    $scope.todayYB = 1;
+    $scope.continueCheck = 2;
+    $scope.latestDays = 0;
+
     $http.get(ischeckinsUrl).success(function(response){
-        $scope.isCheckIns = response.isCheckIns;
-        $scope.todayYB = response.todayYB;
-        $scope.tomorrowYB = response.tomorrowYB;
-        $scope.continueCheck = response.continueCheck; // 连续签到
-        if (response.isCheckIns == 0){
+        if(response.errorId == 0){
             $scope.isCheckIns = response.isCheckIns;
             $scope.todayYB = response.todayYB;
-            $scope.tomorrowYB = response.tomorrowYB;
-            $scope.continueCheck = response.continueCheck; // 连续签到
+            $scope.continueCheck = response.continueCheck;
+            $scope.latestDays = response.latestDays;
         }
     });
 
     // 签到按钮
-    $scope.butCheckIns = function(todayYB, tomorrowYB){
+    $scope.butCheckIns = function(){
         var checkInsURL = 'homePage/checkIns';
-        $http.post(checkInsURL, {'todayYB':todayYB, 'tomorrowYB':tomorrowYB}).success(function(response){
+        $http.post(checkInsURL, {}).success(function(response){
             $scope.errorId = response.errorId;
             $scope.errorMsg = response.errorMsg;
             if (response.errorId == 0){
                 $scope.errorId = response.errorId;
                 $scope.errorMsg = response.errorMsg;
                 $scope.isCheckIns = 1;
-                $scope.continueCheck = $scope.continueCheck + 1
             }
         })
     };

@@ -9,7 +9,6 @@ var Base64 = require('../public/javascripts/vendor/base64').Base64;
 var IOSAppExcLogger = AV.Object.extend('IOSAppExcLogger');
 var IOSAppBinder = AV.Object.extend('IOSAppBinder');
 var releaseTaskObject = AV.Object.extend('releaseTaskObject'); // 发布任务库
-var messageLogger = AV.Object.extend('messageLogger'); // 消息库
 var receiveTaskObject = AV.Object.extend('receiveTaskObject'); // 领取任务库
 
 /* GET home page. */
@@ -180,22 +179,5 @@ router.get('/index/unCheckTaskCount', function(req, res){
     }
 });
 
-// 未读消息显示
-router.get('/index/unreadMsg', function(req, res){
-    var userId = util.useridInReq(req);
-
-    var userObject = new AV.User();
-    userObject.id = userId;
-
-    var query = new AV.Query(messageLogger);
-    query.equalTo('receiverObjectId', userObject);
-    query.notEqualTo('read', true);
-    query.count().then(function(count){
-
-        res.json({'unreadMsgCount':count});
-    },function(error){
-        res.json({'errorId': error.code, 'errorMsg': error.message});
-    })
-});
 
 module.exports = router;
