@@ -17,7 +17,7 @@ var inviteUserObjectSql = AV.Object.extend('inviteUserObject');  // 邀请好友
 var everydayTaskObjectSql = AV.Object.extend('everydayTaskObject'); // 每日任务库
 
 router.get('/', function(req, res) {
-    res.render('homePage');
+    res.render('homePageSx');
 });
 
 // banner
