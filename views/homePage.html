@@ -95,12 +95,12 @@
         <img class="img1"  src="/images/homepage/back.png" />
         <div class ="circle" >
             <span><br>已连续签到</span>
-            <span style="font-size:40px;color:#5a94ec;"><br>&nbsp;{{continueCheck}}</span>
+            <span style="font-size:40px;color:#5a94ec;"><br>&nbsp;{{latestDays}}</span>
             <span>天</span>
         </div>
 
         <div class="checkin">
-            <button type="button" class="btn btn-primary" ng-click="butCheckIns(todayYB, tomorrowYB)" ng-show="isCheckIns == 0">
+            <button type="button" class="btn btn-primary" ng-click="butCheckIns()" ng-show="isCheckIns == 0">
                 签到+{{todayYB}}Y币
             </button>
 
@@ -109,7 +109,7 @@
             </button>
 
             <div class="check-text">
-                <span class="">明日签到得<span class="" style="color: red">{{tomorrowYB}}</span>Y币,连续签到
+                <span class="">明日签到得<span class="" style="color: red">{{continueCheck}}</span>Y币,连续签到
                     <p style="text-align: center">奖励更多</p>
                 </span>
             </div>

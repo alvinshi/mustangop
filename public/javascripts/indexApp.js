@@ -27,13 +27,6 @@ app.directive("thNav",function(){
                 $scope.pendingCount = response.pendingCount;
             });
 
-            // 未读消息 BUGBUG
-            var getMessage = '/index/unreadMsg';
-            $http.get(getMessage).success(function(response){
-                $scope.unreadMsgCount = response.unreadMsgCount;
-
-            });
-
             $scope.butdoTask = function(){
                 location.reload();
             }

@@ -13,8 +13,6 @@ var IOSAppBinder = AV.Object.extend('IOSAppBinder');
 var IOSAppExcLogger = AV.Object.extend('IOSAppExcLogger');
 var releaseTaskObject = AV.Object.extend('releaseTaskObject'); // 发布任务库
 var receiveTaskObject = AV.Object.extend('receiveTaskObject'); // 领取任务库
-var accountJournal = AV.Object.extend('accountJournal'); // 记录账户变动明细表
-var messageLogger = AV.Object.extend('messageLogger');
 
 
 function dateCompare(DateA, DateB) {
@@ -425,38 +423,6 @@ router.post('/postUsertask/:taskObjectId/:ratePrice/:appId', function(req, res){
                                     //更新任务剩余条数
                                     var trackName = releTaskObject.get('trackName');
                                     releTaskObject.save().then(function(){
-                                        //创建领取信息
-                                        var message = new messageLogger();
-                                        var senderName = userObject.get('username');
-                                        message.set('receiverObjectId', releTaskObject.get('userObject'));
-                                        message.set('senderObjectId', userObject);
-                                        message.set('category', '任务');
-                                        message.set('type','领取');
-                                        message.set('firstPara', senderName);
-                                        message.set('secondPara', trackName);
-                                        message.set('thirdPara', receive_Count);
-                                        message.save().then(function(){
-
-                                            // 查询流水的库, 按照领取的数量 记录
-                                            //var query_account = new AV.Query(accountJournal);
-                                            //query_account.equalTo('taskObject', taskObject);
-                                            //query_account.doesNotExist('incomeYCoinUser');
-                                            //query_account.doesNotExist('incomeYCoinDes');
-                                            //query_account.limit(receive_Count);
-                                            //query_account.find().then(function(accountObjects){
-                                            //    for (var a = 0; a < receive_Count; a++){
-                                            //        accountObjects[a].set('incomeYCoinUser', userObject);  //收入金额的用户
-                                            //        accountObjects[a].set('incomeYCoin', parseInt(req.params.ratePrice)); // 此次交易得到金额
-                                            //        accountObjects[a].set('incomeYCoinStatus', 'prepare_income'); // 领取任务的时候为准备收益;
-                                            //        accountObjects[a].set('incomeYCoinDes', '做任务');
-                                            //    }
-                                            //
-                                            //    AV.Object.saveAll(accountObjects).then(function(){
-                                            //        res.json({'succeeded': 0, 'errorMsg': '领取成功'});
-                                            //    });
-                                            //});
-                                        });
-
                                         res.json({'errorId': 0, 'errorMsg': '任务领取成功!'});
                                     }, function(error){
                                         res.json({'errorId': error.code, 'errorMsg': error.message});

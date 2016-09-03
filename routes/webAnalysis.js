@@ -12,8 +12,6 @@ var User = AV.Object.extend('_User');
 var releaseTaskObject = AV.Object.extend('releaseTaskObject');
 var receiveTaskObject = AV.Object.extend('receiveTaskObject');
 var mackTaskInfo = AV.Object.extend('mackTaskInfo');
-var messageLogger = AV.Object.extend('messageLogger');
-var accountJournal = AV.Object.extend('accountJournal');
 
 function sameDate(date1, date2){
     if (date1.getFullYear() == date2.getFullYear() &&

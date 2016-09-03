@@ -1,6 +1,9 @@
 'use strict';
 var router = require('express').Router();
+
 var alipay = require('../utils/alipay');
+var messager = require('../utils/messager');
+
 var AV = require('leanengine');
 var util = require('./util');
 
@@ -79,16 +82,19 @@ router.get('/return', function(req, res) {
             rechargeHistoryObject.set('chargeReward', chargeReward);
             rechargeHistoryObject.save();
 
-            rechargeUserObject.save().then(function() {
+            AV.Object.saveAll(rechargeUserObject, rechargeHistoryObject).then(function() {
                 // 充值成功,YB增加成功
                 res.json({'errorMsg':'', 'errorId':0, 'message':'充值成功,获得' + addYB + 'YB,请刷新个人中心查看最新YB金额'});
+
+                messager.topUpMsg(chargeMoney, addYB, chargeUserId);
+
             }, function(err) {
                 // 充值成功,YB增加失败,请联系客服人员
                 // 其他基本没用,不精准
                 rechargeUserObject.increment('rechargeFailedRMB', chargeMoney);
                 rechargeUserObject.save();
 
-                res.json({'errorMsg':'充值成功,增加Y币失败(服务器出错),请放心,我们已经记录,联系QQ768826903,为你恢复充值的Y币', 'errorId': err.code});
+                res.json({'errorMsg':'充值成功,增加Y币失败(error),联系QQ768826903,为你恢复充值的Y币', 'errorId': err.code});
             });
         }
 
