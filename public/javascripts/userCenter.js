@@ -50,21 +50,19 @@ app.controller('inforManageCtrl', function($scope, $http){
 
     function getMessage(){
         var getMessage = '/user/userCenter/YCoinFlow/' + parseInt($scope.YCoinMessages.length/20);
+        console.log(getMessage);
         $http.get(getMessage).success(function(response){
             $scope.YCoinMessages = $scope.YCoinMessages.concat(response.YCoinMessages);
             $scope.totalMoney = response.totalMoney;
             $scope.freezingMoney = response.freezingMoney;
             $scope.feedingMoney = response.feedingMoney;
+            console.log($scope.YCoinMessages);
         });
     }
 
     getMessage();
 
     $scope.nextPage = function(){
-        getMessage();
-    };
-
-    $scope.prevPage = function(){
         getMessage();
     };
 });
