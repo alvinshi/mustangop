@@ -7,6 +7,8 @@ var messager = require('../utils/messager');
 var AV = require('leanengine');
 var util = require('./util');
 
+var User = AV.Object.extend('_User');
+
 router.post('/:chargeMoney', function(req, res) {
     var chargeMoney = req.params.chargeMoney;
     var username = req.cookies.username;
@@ -80,14 +82,40 @@ router.get('/return', function(req, res) {
             rechargeHistoryObject.set('aliOrderId', aliOrderId);
             rechargeHistoryObject.set('chargeMoney', chargeMoney);
             rechargeHistoryObject.set('chargeReward', chargeReward);
-            rechargeHistoryObject.save();
 
-            AV.Object.saveAll(rechargeUserObject, rechargeHistoryObject).then(function() {
+            AV.Object.saveAll([rechargeUserObject, rechargeHistoryObject]).then(function() {
                 // 充值成功,YB增加成功
-                res.json({'errorMsg':'', 'errorId':0, 'message':'充值成功,获得' + addYB + 'YB,请刷新个人中心查看最新YB金额'});
-
                 messager.topUpMsg(chargeMoney, addYB, chargeUserId);
 
+                //暂时只有99才可以
+                if(chargeMoney == 99){
+                    var query = new AV.Query(User);
+                    query.get(chargeUserId).then(function(userObject){
+                        if(userObject.get('firstRecharge') == undefined){
+                            var firstBoundsYCoin = 999;
+                            //首充奖励
+                            userObject.increment('totalMoney', firstBoundsYCoin);
+                            //记录奖励金额
+                            userObject.increment('feedingMoney', firstBoundsYCoin);
+                            userObject.set('firstRecharge', chargeMoney);
+                            userObject.save().then(function(){
+                                messager.bonusMsg('首次充值任务完成', firstBoundsYCoin, chargeUserId);
+                            }, function(error){
+                                console.error('first recharge bounds error ' + error.message);
+                            });
+
+                            res.json({'errorMsg':'', 'errorId':0, 'message':'充值成功,获得' + addYB + 'YB,首次充值奖励' + firstBoundsYCoin + '币,请刷新个人中心查看最新YB金额'});
+                        }else {
+                            res.json({'errorMsg':'', 'errorId':0, 'message':'充值成功,获得' + addYB + 'YB,请刷新个人中心查看最新YB金额'});
+                        }
+                    },function(error){
+                        console.error('首充奖励失败:' + error.message);
+                        res.json({'errorMsg':'', 'errorId':0, 'message':'充值成功,获得' + addYB + 'YB,请刷新个人中心查看最新YB金额'});
+                    });
+                }
+
+                //默认充值
+                res.json({'errorMsg':'', 'errorId':0, 'message':'充值成功,获得' + addYB + 'YB,请刷新个人中心查看最新YB金额'});
             }, function(err) {
                 // 充值成功,YB增加失败,请联系客服人员
                 // 其他基本没用,不精准

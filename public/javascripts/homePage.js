@@ -15,6 +15,25 @@ app.controller('homePageCtrl', function($scope, $http){
         document.execCommand("Copy"); // 执行浏览器复制命令
     };
 
+    //尊贵客人
+    $scope.noviceTaskObject = Object();
+    $scope.noviceTaskObject.luxuryUserStep = 0;
+    //首次充值
+    $scope.noviceTaskObject.hasFirstRecharge = 0;
+
+    // 任务
+    var noviceTaskUrl = 'homePage/noviceTask';
+    $http.get(noviceTaskUrl).success(function(response){
+        $scope.noviceTaskObject = response.noviceTaskObject;
+    });
+
+    $scope.LuxuryUser = function(){
+        var luxuryURL = 'homePage/LuxuryUser';
+        $http.post(luxuryURL, {}).success(function(response){
+            $scope.luxuryMessage = response.errorMsg;
+            $scope.luxurySucceed = response.errorId;
+        })
+    };
 
     //******************* 自动轮播 *************************
     $("#myCarousel").carousel({
@@ -115,12 +134,6 @@ app.controller('homePageCtrl', function($scope, $http){
         if ($scope.myReleaseTask.length <= 0){
             $scope.noApp = true;
         }
-    });
-
-    // 新手任务
-    var noviceTaskUrl = 'homePage/noviceTask';
-    $http.get(noviceTaskUrl).success(function(response){
-        $scope.noviceTaskObject = response.noviceTaskObject;
     });
 
     // 点击领取

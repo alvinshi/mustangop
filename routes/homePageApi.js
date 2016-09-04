@@ -14,7 +14,7 @@ var User = AV.Object.extend('_User');
 var releaseTaskObjectSql = AV.Object.extend('releaseTaskObject'); // 发布任务库
 var checkInsObjectSql = AV.Object.extend('checkInsObject');
 var inviteUserObjectSql = AV.Object.extend('inviteUserObject');  // 邀请好友奖励库
-
+var mackTaskInfo = AV.Object.extend('mackTaskInfo');
 var everydayTaskObjectSql = AV.Object.extend('everydayTaskObject'); // 每日任务库
 
 var maxCheckIn = 20;
@@ -317,6 +317,27 @@ router.get('/noviceTask', function(req, res){
     var priorityQuery = new AV.Query(User);
     priorityQuery.get(userId).then(function(userObject){
         var noviceObject = Object();
+
+        //首次充值
+        noviceObject.hasFirstRecharge = 1;
+        if(userObject.get('firstRecharge') != undefined && userObject.get('firstRecharge') > 0){
+            noviceObject.hasFirstRecharge = 0;
+        }
+
+        //尊贵客人
+        noviceObject.luxuryUserStep = userObject.get('luxuryUserStep');
+        noviceObject.luxuryYCoin = 0;
+        var luxuryDay = noviceObject.luxuryUserStep;
+        if(luxuryDay == 1){
+            noviceObject.luxuryYCoin = 100;
+        }else if(luxuryDay < 6){
+            noviceObject.luxuryYCoin = luxuryDay * 10 + 30;
+        }else if(luxuryDay < 11){
+            noviceObject.luxuryYCoin = luxuryDay * 10;
+        }else if(luxuryDay < 16){
+            noviceObject.luxuryYCoin = (luxuryDay - 5) * 10;
+        }
+
         var registerBonus = userObject.get('registerBonus');
 
         var inviteUserCount = userObject.get('inviteCount'); // 邀请的人数
@@ -409,6 +430,71 @@ router.get('/noviceTask', function(req, res){
         res.json({'errorMsg':error.message, 'errorId': error.code});
     });
 
+});
+
+// 领取奖励post
+router.post('/LuxuryUser', function(req, res){
+    var userId = util.useridInReq(req);
+
+    var userQuery = new AV.Query(User);
+    userQuery.get(userId).then(function(userObject){
+        var luxuryDay = userObject.get('luxuryUserStep');
+        var awardYCoin = 0;
+        var needDoTaskNumber = 0;
+        if(luxuryDay == 1){
+            awardYCoin = 100;
+        }else if(luxuryDay < 6){
+            var taskNeed = [1, 3, 6 ,19];
+            awardYCoin = luxuryDay * 10 + 30;
+            needDoTaskNumber = taskNeed[luxuryDay - 2];
+        }else if(luxuryDay < 11){
+            var taskNeed = [15, 21, 28 ,36, 45];
+            awardYCoin = luxuryDay * 10;
+            needDoTaskNumber = taskNeed[luxuryDay - 6];
+        }else if(luxuryDay < 16){
+            var taskNeed = [51, 58, 64 ,73, 83];
+            awardYCoin = (luxuryDay - 5) * 10;
+            needDoTaskNumber = taskNeed[luxuryDay - 11];
+        }
+
+        if(needDoTaskNumber > 0){
+            var query = new AV.Query(mackTaskInfo);
+            query.equalTo('doTaskUser', userObject);
+            query.containedIn('taskStatus', ['accepted', 'systemAccepted']);
+            //总计
+            query.count().then(function(totalDoTaskCount) {
+                if(totalDoTaskCount >= needDoTaskNumber){
+                    userObject.increment('totalMoney', awardYCoin);
+                    userObject.increment('feedingMoney', awardYCoin);
+                    userObject.increment('luxuryUserStep', 1);
+                    userObject.save().then(function(){
+                        messager.bonusMsg('尊贵客人第' + luxuryDay + '奖励', awardYCoin, userObject.id);
+                        res.json({'errorMsg':'', 'errorId': 0});
+                    }, function(error){
+                        res.json({'errorMsg':error.message, 'errorId': error.code});
+                    });
+                }else {
+                    res.json({'errorMsg':'还需要完成' + (needDoTaskNumber - totalDoTaskCount) + '条任务方可领取奖励', 'errorId': -1});
+                }
+            }, function(error){
+                res.json({'errorMsg':error.message, 'errorId': error.code});
+            });
+        }else {
+            userObject.increment('totalMoney', awardYCoin);
+            userObject.increment('feedingMoney', awardYCoin);
+            userObject.increment('luxuryUserStep', 1);
+            userObject.save().then(function(){
+                messager.bonusMsg('尊贵客人第' + luxuryDay + '奖励', awardYCoin, userObject.id);
+                res.json({'errorMsg':'', 'errorId': 0});
+            }, function(error){
+                res.json({'errorMsg':error.message, 'errorId': error.code});
+            });
+        }
+
+
+    }, function(error){
+        res.json({'errorMsg':error.message, 'errorId': error.code});
+    })
 });
 
 // 领取奖励post

@@ -292,7 +292,45 @@
             <div style="display:inline-block; width: 230px; margin-left: 20px; vertical-align: top;">
                 <!--每日任务-->
                 <div>
+                    <form ng-show="noviceTaskObject.hasFirstRecharge != 0" name="alipayment" action="/pay/99" method="post" target="_blank">
+                        <div class="head1">首次充值</div>
+                        <div class="todayTaskBox">
+                            <div>
+                                <div class="text1" style="margin-top: 16px; margin-bottom: 6px">首次充值,双倍奖励</div>
+                                <div class="text2" style="margin-bottom: 10px">充值99元,获1999Y币</div>
+
+                                <button type="submit" class="btn btn-danger btn-sm">首次充值</button>
+                            </div>
+                        </div>
+                    </form>
+                    <form ng-show="noviceTaskObject.hasFirstRecharge == 0" name="alipayment" action="/pay/500" method="post" target="_blank">
+                        <div class="head1">充值</div>
+                        <div class="todayTaskBox">
+                            <div>
+                                <div class="text1" style="margin-top: 16px; margin-bottom: 6px">购买Y币</div>
+                                <div class="text2" style="margin-bottom: 10px">1元==10Y币,充值享受特权</div>
+
+                                <button type="submit" class="btn btn-danger btn-sm">充值500元</button>
+                            </div>
+                        </div>
+                    </form>
+
                     <div class="head1">每日任务</div>
+
+                    <div ng-show="noviceTaskObject.luxuryUserStep > 0 && noviceTaskObject.luxuryUserStep < 16" class="todayTaskBox">
+                        <div>
+                            <div class="text1" style="margin-top: 16px; margin-bottom: 6px">尊贵客人(持续3周免费领Y币)</div>
+                            <div class="text2"  style="margin-bottom: 10px">
+                                第{{noviceTaskObject.luxuryUserStep}}次尊贵,可领取{{noviceTaskObject.luxuryYCoin}}Y币
+                            </div>
+
+                            <button type="button" ng-show="luxurySucceed == undefined" class="btn btn-info btn-sm" ng-click="LuxuryUser()">领取 {{noviceTaskObject.luxuryYCoin}} Y币</button>
+                            <button type="button" ng-show="luxurySucceed == 0" class="btn btn-default btn-sm" disabled="disabled">已领完</button>
+                            <button type="button" ng-show="luxuryMessage.length > 0 && luxurySucceed != 0" class="btn btn-warning btn-sm" disabled="disabled">{{luxuryMessage}}</button>
+
+                        </div>
+                    </div>
+
                     <div class="todayTaskBox">
                         <div>
                             <div class="text1" style="margin-top: 16px; margin-bottom: 6px">上午10点前发布一次任务</div>
