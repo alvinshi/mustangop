@@ -219,10 +219,10 @@ AV.Cloud.define('refuseTaskTimerForRelease', function(request, response){
             var query_a = getRefuseDoTaskQuery();
             query_a.ascending('updatedAt');
             query_a.include('receiveTaskObject');
+            query_a.include('releaseTaskObject');
             query_a.include('receiveTaskObject.appObject');
             query_a.include('receiveTaskObject.userObject');
             query_a.include('receiveTaskObject.taskObject');
-            query_a.include('receiveTaskObject.taskObject.userObject');
             query_a.limit(1000);
             query_a.skip(i * 1000);
             query_a.find().then(function(results){ // 查找出所有满足条件的被拒绝的任务
@@ -238,7 +238,10 @@ AV.Cloud.define('refuseTaskTimerForRelease', function(request, response){
                         continue;
                     }
                     var excUnitPrice = taskObjectInDo.get('excUnitPrice'); // 任务的单价
-                    var sendTaskUserObject = taskObjectInDo.get('userObject');
+                    var sendTaskUserObject = doTaskObject.get('releaseTaskObject');
+                    if(sendTaskUserObject == undefined){
+                        sendTaskUserObject = taskObjectInDo.get('userObject');
+                    }
 
                     //拒绝任务1天内未重新做,设定为过期
                     doTaskObject.set('taskStatus', 'expired');
