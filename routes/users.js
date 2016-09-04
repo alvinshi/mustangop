@@ -85,7 +85,7 @@ function userRegister(req, res, next){
         username:userphone,
         feedingMoney:0,
         totalMoney:0,
-        freezingMoney:100,// 注册送100YB(做第一个任务成功,第一个任务被审核成功后解锁)
+        freezingMoney:0,
         registerBonus:'register_new',
         passwordEx:password,
         inviteUserId:inviteUserId

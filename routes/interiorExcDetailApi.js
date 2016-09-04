@@ -243,20 +243,6 @@ router.post('/add/:excTaskId', function(req, res){
                                     needSaveUserObjects.push(userObject);
                                 }
 
-                                var inviteUserId = userObject.get('inviteUserId');
-                                if(inviteUserId != undefined && inviteUserId.length > 0 && inviteUserId != 'invite_done'){
-                                    var inviteUserObject = new AV.User();
-                                    inviteUserObject.id = userObject.get('inviteUserId');
-                                    inviteUserObject.increment('inviteSucceedCount', 1);
-                                    inviteUserObject.save();
-
-                                    userObject.set('inviteUserId', 'invite_done');
-                                    if(needSaveUserObjects.length == 0){
-                                        needSaveUserObjects.push(userObject);
-                                    }
-                                    needSaveUserObjects.push(inviteUserObject);
-                                }
-
                                 if(needSaveUserObjects.length > 0){
                                     AV.Object.saveAll(needSaveUserObjects).then(function(){
                                         res.json({'errorId':0, 'errorMsg':'', 'uploadName':userUploadName, 'requirementImgs':requirementImgs});

@@ -316,15 +316,34 @@ router.post('/accept/:entryId', function(req, res) {
     var query = new AV.Query(mackTaskInfo);
     query.include('receiveTaskObject');
     query.include('receiveTaskObject.taskObject');
+    query.include('receiveTaskObject.userObject');
     query.get(entryId).then(function(doTaskObject) {
         var uploaderName = doTaskObject.get('uploadName');
+        var receUserObject = doTaskObject.get('receiveTaskObject').get('userObject');
         doTaskObject.set("taskStatus", 'accepted');
         doTaskObject.save().then(function () {
             updateReceiveTaskDatabase(doTaskObject, uploaderName, res);
 
+            //每日任务
             var myDate = new Date();
             if(myDate.getHours() < 17 || (myDate.getHours() == 17 && myDate.getMinutes() < 31)){
                 util.dayTaskIncrement(userId, 'checkTaskY', 1);
+            }
+
+            //邀请任务
+            var inviteUserId = receUserObject.get('inviteUserId');
+            if(inviteUserId != undefined && inviteUserId.length > 0 && inviteUserId != 'invite_done'){
+                var inviteUserObject = new AV.User();
+                inviteUserObject.id = receUserObject.get('inviteUserId');
+                inviteUserObject.increment('inviteSucceedCount', 1);
+
+                receUserObject.set('inviteUserId', 'invite_done');
+
+                AV.Object.saveAll([inviteUserObject, receUserObject]).then(function(){
+                    console.log('invite user do task succeed');
+                }, function(error){
+                    console.error('---- accept task: invite user do task succeed, bounds failed', + error.message);
+                });
             }
 
         }, function(error){

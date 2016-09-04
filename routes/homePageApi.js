@@ -17,7 +17,9 @@ var inviteUserObjectSql = AV.Object.extend('inviteUserObject');  // 邀请好友
 
 var everydayTaskObjectSql = AV.Object.extend('everydayTaskObject'); // 每日任务库
 
-var maxCheckIn = 10;
+var maxCheckIn = 20;
+var inviteRegisterYCoin = 20;
+var inviteTaskYCoin = 200;
 
 router.get('/', function(req, res) {
     res.render('homePageSx');
@@ -338,8 +340,8 @@ router.get('/noviceTask', function(req, res){
                 }
 
                 //邀请
-                noviceObject.canReceive = inviteUserCount * 20;
-                noviceObject.successCanReceive = inviteUserSucceedCount * 30;
+                noviceObject.canReceive = inviteUserCount * inviteRegisterYCoin;
+                noviceObject.successCanReceive = inviteUserSucceedCount * inviteTaskYCoin;
                 res.json({'noviceTaskObject': noviceObject})
             }else {
                 var inviteUserReward = userInfoObject.get('inviteUserReward'); // 邀请用户奖励
@@ -373,7 +375,7 @@ router.get('/noviceTask', function(req, res){
                 }
 
                 // 邀请注册奖励
-                var inviteYb = inviteUserCount * 20;
+                var inviteYb = inviteUserCount * inviteRegisterYCoin;
                 if (inviteUserCount == undefined || inviteUserCount == 0){
                     noviceObject.canReceive = -1;
                 }else if(inviteYb == inviteUserReward){
@@ -384,7 +386,7 @@ router.get('/noviceTask', function(req, res){
                 }
 
                 // 引导新手奖励
-                var inviteUserYb = inviteUserSucceedCount * 30;
+                var inviteUserYb = inviteUserSucceedCount * inviteTaskYCoin;
                 if (inviteUserSucceedCount == undefined || inviteUserSucceedCount == 0){
                     noviceObject.successCanReceive = -1;
                 }else if(inviteUserYb == guideUserRewardYB){
@@ -439,20 +441,22 @@ router.post('/userReceiveAward', function(req, res){
                     messager.bonusMsg('完成新手任务(第二步)', 30, userId);
                 }
                 else if (actionId == 'inviteUserReward'){
-                    inviteUserObject.set('inviteUserReward', inviteUserCount * 20);
-                    inviteUserObject.set('totalReceiveMoney', inviteUserCount * 20);
+                    //首次
+                    inviteUserObject.set('inviteUserReward', inviteUserCount * inviteRegisterYCoin);
+                    inviteUserObject.set('totalReceiveMoney', inviteUserCount * inviteRegisterYCoin);
                     inviteUserObject.set('inviteUserObject', userObject);
-                    increaseYB += inviteUserCount * 20;
+                    increaseYB += inviteUserCount * inviteRegisterYCoin;
 
-                    messager.bonusMsg('邀请' + inviteUserCount +'名用户注册', increaseYB, userId);
+                    messager.bonusMsg('首次-邀请' + inviteUserCount +'名用户注册', increaseYB, userId);
                 }
                 else {
-                    inviteUserObject.set('guideUserRewardYB', inviteUserSucceedCount * 30);
-                    inviteUserObject.set('totalReceiveMoney', inviteUserSucceedCount * 30);
+                    //首次
+                    inviteUserObject.set('guideUserRewardYB', inviteUserSucceedCount * inviteTaskYCoin);
+                    inviteUserObject.set('totalReceiveMoney', inviteUserSucceedCount * inviteTaskYCoin);
                     inviteUserObject.set('inviteUserObject', userObject);
-                    increaseYB += inviteUserSucceedCount * 30;
+                    increaseYB += inviteUserSucceedCount * inviteTaskYCoin;
 
-                    messager.bonusMsg('引导' + inviteUserSucceedCount +'名用户完成新手任务', increaseYB, userId);
+                    messager.bonusMsg('首次-引导' + inviteUserSucceedCount +'名用户完成新手任务', increaseYB, userId);
                 }
 
                 userObject.increment('totalMoney', increaseYB);
@@ -480,18 +484,18 @@ router.post('/userReceiveAward', function(req, res){
                     messager.bonusMsg('完成新手任务(第二步)', 30, userId);
                 }
                 else if (actionId == 'inviteUserReward'){
-                    receiveObject.increment('inviteUserReward', inviteUserCount * 20 - inviterReward);
-                    receiveObject.increment('totalReceiveMoney', inviteUserCount * 20 - inviterReward);
-                    increaseUserYB += inviteUserCount * 20 - inviterReward;
+                    receiveObject.increment('inviteUserReward', inviteUserCount * inviteRegisterYCoin - inviterReward);
+                    receiveObject.increment('totalReceiveMoney', inviteUserCount * inviteRegisterYCoin - inviterReward);
+                    increaseUserYB += inviteUserCount * inviteRegisterYCoin - inviterReward;
 
-                    messager.bonusMsg('邀请' + increaseUserYB/20 +'名用户注册', increaseUserYB, userId);
+                    messager.bonusMsg('您又邀请了' + increaseUserYB/inviteRegisterYCoin +'名用户注册', increaseUserYB, userId);
                 }
                 else {
-                    receiveObject.increment('guideUserRewardYB', inviteUserSucceedCount * 30 - guideRewardYB);
-                    receiveObject.increment('totalReceiveMoney', inviteUserSucceedCount * 30 - guideRewardYB);
-                    increaseUserYB += inviteUserSucceedCount * 30 - guideRewardYB;
+                    receiveObject.increment('guideUserRewardYB', inviteUserSucceedCount * inviteTaskYCoin - guideRewardYB);
+                    receiveObject.increment('totalReceiveMoney', inviteUserSucceedCount * inviteTaskYCoin - guideRewardYB);
+                    increaseUserYB += inviteUserSucceedCount * inviteTaskYCoin - guideRewardYB;
 
-                    messager.bonusMsg('引导' + increaseUserYB/30 +'名用户完成新手任务', increaseUserYB, userId);
+                    messager.bonusMsg('您又引导了' + increaseUserYB/inviteTaskYCoin +'名用户完成新手任务', increaseUserYB, userId);
                 }
 
                 userObject.increment('totalMoney', increaseUserYB);
