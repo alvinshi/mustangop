@@ -75,6 +75,7 @@ app.controller('homePageCtrl', function($scope, $http){
                 $scope.errorId = response.errorId;
                 $scope.errorMsg = response.errorMsg;
                 $scope.isCheckIns = 1;
+                $scope.latestDays += 1;
             }
         })
     };
