@@ -6,7 +6,6 @@ var router = require('express').Router();
 var AV = require('leanengine');
 var util = require('./util');
 var https = require('https');
-var homePageApi = require('./homePageApi');
 
 var releaseTaskObject = AV.Object.extend('releaseTaskObject');
 var receiveTaskObject = AV.Object.extend('receiveTaskObject'); // 领取任务的库
@@ -234,7 +233,7 @@ router.post('/add/:excTaskId', function(req, res){
                                 //每日任务
                                 var myDate = new Date();
                                 if(myDate.getHours() < 16 || (myDate.getHours() == 16 && myDate.getMinutes() < 31)){
-                                    homePageApi.dayTaskIncrement(userId, 'doTaskY', 1);
+                                    util.dayTaskIncrement(userId, 'doTaskY', 1);
                                 }
 
                                 var needSaveUserObjects = Array();

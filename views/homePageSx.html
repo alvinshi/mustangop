@@ -162,9 +162,7 @@
                 <!--我发布的任务-->
                 <div class="myRelease">
                     <div class="head1">我发布的任务
-                        <span class="ycoin">我的Y币变动明细
-                            <a href="/user#/inforManage"></a>
-                        </span>
+                        <a href="/user#/inforManage" class="ycoin">我的Y币变动明细</a>
                     </div>
                     <div ng-show="noApp" style="padding-left: 200px">
                         <h1 style="font-size: 20px">亲, 你还没有任何任务哦, 赶紧去"<a href="/myapp">发布任务吧</a>"发布任务吧</h1>
@@ -298,7 +296,7 @@
                     <div class="todayTaskBox">
                         <div>
                             <div class="text1" style="margin-top: 16px; margin-bottom: 6px">上午10点前发布一次任务</div>
-                            <div class="text2" style="margin-bottom: 10px">获得 {{releaseTaskY}} Y币</div>
+                            <div class="text2" style="margin-bottom: 10px">可获得 5Y币</div>
 
                             <button type="button" ng-show="releaseTaskY > 0" class="btn btn-danger btn-sm" ng-click="dayTaskBtn('releaseTaskY')">领取 {{releaseTaskY}} Y币</button>
                             <button type="button" ng-show="releaseTaskY == 0" class="btn btn-default btn-sm" disabled="disabled">已领完</button>
@@ -310,7 +308,8 @@
                     <div class="todayTaskBox">
                         <div>
                             <div class="text1" style="margin-top: 16px; margin-bottom: 6px">下午4点30前完成领取的任务</div>
-                            <div class="text2" style="margin-bottom: 10px">预计可领 {{doTaskY}} Y币</div>
+                            <div class="text2" ng-show="doTaskY > 0" style="margin-bottom: 10px">预计可领 {{doTaskY}} Y币</div>
+                            <div class="text2" ng-show="doTaskY == undefined || doTaskY == 0" style="margin-bottom: 10px">预计可领完成任务条数的Y币</div>
 
                             <button type="button" ng-show="doTaskY > 0" class="btn btn-danger btn-sm" ng-click="dayTaskBtn('doTaskY')">领取 {{doTaskY}} Y币</button>
                             <button type="button" ng-show="doTaskY == 0" class="btn btn-default btn-sm" disabled="disabled">已领完</button>
@@ -322,7 +321,8 @@
                     <div class="todayTaskBox">
                         <div>
                             <div class="text1" style="margin-top: 16px; margin-bottom: 6px">下午5点30前审核完所有任务</div>
-                            <div class="text2" style="margin-bottom: 10px">预计可领 {{checkTaskY}} Y币</div>
+                            <div class="text2" ng-show="checkTaskY > 0" style="margin-bottom: 10px">预计可领 {{checkTaskY}} Y币</div>
+                            <div class="text2" ng-show="checkTaskY == undefined || checkTaskY == 0" style="margin-bottom: 10px">预计可领审核任务条数的Y币</div>
 
                             <button type="button" ng-show="checkTaskY > 0" class="btn btn-danger btn-sm" ng-click="dayTaskBtn('checkTaskY')">领取 {{checkTaskY}} Y币</button>
                             <button type="button" ng-show="checkTaskY == 0" class="btn btn-default btn-sm" disabled="disabled">已领完</button>

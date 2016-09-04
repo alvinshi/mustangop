@@ -6,8 +6,10 @@
 var AV = require('leanengine');
 var https = require('https');
 
+var User = AV.Object.extend('_User');
 var Base64 = require('../public/javascripts/vendor/base64').Base64;
 var IOSAppSql = AV.Object.extend('IOSAppInfo');
+var everydayTaskObjectSql = AV.Object.extend('everydayTaskObject'); // 每日任务库
 
 exports.useridInReq = function(req){
     //获取cookie的值,进行解密
@@ -276,6 +278,51 @@ exports.addLeanObjectToDic = function(leanObject, leanObjectDic){
     }
 
     return leanObjectDic[leanObject.id];
+};
+
+//每日任务
+exports.dayTaskIncrement = function(userId, taskKey, incrementYCoin){
+    var userObject = new User();
+    userObject.id = userId;
+
+    // 今日日期
+    var myDate = new Date();
+    var myDateStr = myDate.getFullYear() + '-' + (parseInt(myDate.getMonth())+1) + '-' + myDate.getDate();
+
+    var query = new AV.Query(everydayTaskObjectSql);
+    query.equalTo('userObject', userObject);
+    query.equalTo('taskDateStr', myDateStr);
+    query.include('userObject');
+    query.descending('createdAt');
+    query.first().then(function(dayTaskObject){
+        if (dayTaskObject == undefined){
+            // 无今日任务
+            var everydayTaskObject = new everydayTaskObjectSql();
+            everydayTaskObject.set('taskDateStr', myDateStr);
+            everydayTaskObject.set('userObject', userObject);
+            everydayTaskObject.increment(taskKey, incrementYCoin);
+            everydayTaskObject.save().then(function(){
+                //succeed
+            }, function(error){
+                console.error('day task save error ' + userId + ' ,task ' + taskKey, 'add Y Coin ' + incrementYCoin);
+            });
+        }
+        else {
+            if(taskKey == 'releaseTaskY' && dayTaskObject.get('releaseTaskY') != undefined && dayTaskObject.get('releaseTaskY') == incrementYCoin){
+                //发布任务的奖励只能一次
+            }else {
+                dayTaskObject.increment(taskKey, incrementYCoin);
+                dayTaskObject.save().then(function(){
+                    //succeed
+                }, function(error){
+                    console.error('day task save error ' + userId + ' ,task ' + taskKey, 'add Y Coin ' + incrementYCoin);
+                });
+            }
+        }
+
+    },function(error){
+        res.json({'errorMsg':error.message, 'errorId': error.code});
+    });
 };
 
 exports.updateIOSAppInfo = updateIOSAppInfo;

@@ -26,8 +26,8 @@ AV.Cloud.define('hello', function(request, response) {
 function getTaskCheckQuery(){
     var nowTimestamp = new Date().getTime();
     //早10点审核 前天下午6点前接受的任务
-    var yesterdayTimestamp = nowTimestamp - 1000*60*60*16;
-    //var yesterdayTimestamp = nowTimestamp;    //test
+    //var yesterdayTimestamp = nowTimestamp - 1000*60*60*16;
+    var yesterdayTimestamp = nowTimestamp;    //test
     var yesterdayDate = new Date(yesterdayTimestamp);
 
     var query = new AV.Query(receiveTaskObject);
@@ -120,11 +120,11 @@ AV.Cloud.define('taskCheckForDoTask', function(request, response){
                                     //增加做任务人的钱
                                     console.log('****** task be accept by timer ****** do task user ' + user.id + '(add total YB) +' + rate_unitPrice);
                                     user.increment('totalMoney', rate_unitPrice);
-                                    messager.earnMsg('(' + releaseTaskUser.get('username') + ')超时未审核,系统自动接受了您提交的任务(' + trackName + ')结果', rate_unitPrice, user.id, 0);
+                                    messager.earnMsg('(' + releaseTaskUser.get('username') + ')超时未审核,系统自动接受了您提交的任务(' + trackName + ')结果', rate_unitPrice, user.id, user);
 
                                     //扣除发布任务人的冻结钱
                                     releaseTaskUser.increment('freezingMoney', -excUnitPrice);
-                                    messager.payMsg('您超时未审核,系统自动接受了（' + user.get('username') + '）提交的任务(' + trackName + ')结果', excUnitPrice, releaseTaskUser.id, 0);
+                                    messager.payMsg('您超时未审核,系统自动接受了（' + user.get('username') + '）提交的任务(' + trackName + ')结果', excUnitPrice, releaseTaskUser.id, releaseTaskUser);
                                     console.log('****** task be accept by timer ****** release task user : ' + releaseTaskUser.id + '(minus freeze YB) -' + rate_unitPrice);
                                 }else if(taskStatus == 'refused'){
                                     needDoneTimer = false;
@@ -149,13 +149,13 @@ AV.Cloud.define('taskCheckForDoTask', function(request, response){
                                 //protect
                                 //1.扣除用户金币入系统(汇率金币)  减少发布人冻结的钱 增加发布人总钱
                                 user.increment('totalMoney', -(rate_unitPrice * undoTask));
-                                messager.penaltyMsg(trackName, rate_unitPrice * undoTask, user.id);
+                                messager.penaltyMsg(trackName, rate_unitPrice * undoTask, user);
                                 console.log('****** task be expired by timer ****** do task user : ' + user.id + '(minus/punish total YB) +' + (rate_unitPrice * undoTask));
 
                                 //解锁发布任务的人的钱
                                 releaseTaskUser.increment('freezingMoney', - (excUnitPrice * undoTask));
                                 releaseTaskUser.increment('totalMoney', excUnitPrice * undoTask);
-                                messager.unfreezeMsg('您的任务（' + trackName + '）' + '有 ' + undoTask + ' 条(' + user.get('username') + ')领取未完成', rate_unitPrice * undoTask, releaseTaskUser.id, 0);
+                                messager.unfreezeMsg('您的任务（' + trackName + '）' + '有 ' + undoTask + ' 条(' + user.get('username') + ')领取未完成', rate_unitPrice * undoTask, releaseTaskUser.id, releaseTaskUser);
                                 console.log('****** task be expired by timer ****** release task user : ' + releaseTaskUser.id + '(minus freeze YB,add total YB) +' + (rate_unitPrice * undoTask));
 
                                 //2.过期任务增加
@@ -250,7 +250,7 @@ AV.Cloud.define('refuseTaskTimerForRelease', function(request, response){
 
                     sendTaskUserObject.increment('freezingMoney', -excUnitPrice);
                     sendTaskUserObject.increment('totalMoney', excUnitPrice);
-                    messager.unfreezeMsg('您的任务（' + trackName + '）对方(' + receUserObject.get('username') + ')被拒绝后未重新提交', excUnitPrice, sendTaskUserObject.id, 0);
+                    messager.unfreezeMsg('您的任务（' + trackName + '）对方(' + receUserObject.get('username') + ')被拒绝后未重新提交', excUnitPrice, sendTaskUserObject.id, sendTaskUserObject);
                     console.log('****** refused task be expired by timer ****** release task user : ' + sendTaskUserObject.id + '(minus freeze YB,add total YB) +' + excUnitPrice);
 
                     util.addLeanObject(doReceTaskObject, doReceTaskList);
@@ -294,16 +294,16 @@ var paramsJson = {
     movie: "夏洛特烦恼"
 };
 
-//AV.Cloud.run('taskCheckForDoTask', paramsJson, {
-//    success: function(data) {
-//        // 调用成功，得到成功的应答data
-//        console.log('---- test timer: succeed');
-//    },
-//    error: function(err) {
-//        // 处理调用失败
-//        console.log('---- test timer: error');
-//    }
-//});
+AV.Cloud.run('taskCheckForDoTask', paramsJson, {
+    success: function(data) {
+        // 调用成功，得到成功的应答data
+        console.log('---- test timer: succeed');
+    },
+    error: function(err) {
+        // 处理调用失败
+        console.log('---- test timer: error');
+    }
+});
 
 //AV.Cloud.run('refuseTaskTimerForRelease', paramsJson, {
 //    success: function(data) {

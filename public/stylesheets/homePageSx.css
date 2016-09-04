@@ -203,7 +203,8 @@
 .ycoin {
     margin-left: 10px;
     font-size: 14px;
-    color: #5a94ec
+    color: #5a94ec;
+    text-decoration:underline
 }
 
 /*重要消息*/

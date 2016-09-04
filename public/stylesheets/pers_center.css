@@ -454,10 +454,19 @@ body{
     margin-left: 30px;margin-right: 30px
 }
 
+/*Y币明细*/
 .date{
     width: 80px;
 }
-
 .type{
+    width: 60px;
+}
+.feed{
+    width: 60px;
+}
+.freeze{
+    width: 60px;
+}
+.total{
     width: 60px;
 }

@@ -135,19 +135,16 @@ exports.unfreezeMsg = function (text, Ycoin, userId, needMoneyInfo){
         //消息转换成html
         var msgElement = messageWrapper(msg);
 
-        var userObject = new User();
-        userObject.id = userId;
+        //var userObject = new User();
+        //userObject.id = userId;
         //保存信息
-        saveMsg(userObject, msg, msgElement, '解冻');
+        saveMsg(needMoneyInfo, msg, msgElement, '解冻');
     }
 
 };
 
 //扣罚
-exports.penaltyMsg = function (appName, Ycoin, userId){
-    var userObject = new User();
-    userObject.id = userId;
-
+exports.penaltyMsg = function (appName, Ycoin, userObject){
     var msg = '您领取的' + appName + '未完成, 扣罚' + parseInt(Ycoin) + 'Y币';
     //消息转换成html
     var msgElement = messageWrapper(msg);
@@ -181,10 +178,10 @@ exports.earnMsg = function (taskEarnInfo, Ycoin, userId, needMoneyInfo){
         //消息转换成html
         var msgElement = messageWrapper(msg);
 
-        var userObject = new User();
-        userObject.id = userId;
+        //var userObject = new User();
+        //userObject.id = userId;
         //保存信息
-        saveMsg(userObject, msg, msgElement, '赚取');
+        saveMsg(needMoneyInfo, msg, msgElement, '赚取');
     }
 
 };
@@ -214,10 +211,10 @@ exports.payMsg = function (taskPayInfo, Ycoin, userId, needMoneyInfo){
         //消息转换成html
         var msgElement = messageWrapper(msg);
 
-        var userObject = new User();
-        userObject.id = userId;
+        //var userObject = new User();
+        //userObject.id = userId;
         //保存信息
-        saveMsg(userObject, msg, msgElement, '支付');
+        saveMsg(needMoneyInfo, msg, msgElement, '支付');
     }
 };
 

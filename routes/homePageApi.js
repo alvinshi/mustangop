@@ -122,7 +122,7 @@ router.get('/dayTask', function(req, res){
         else {
             // 有了今日任务
             res.json({
-                'releaseTaskY':dayTaskObject.get('releaseY'),
+                'releaseTaskY':dayTaskObject.get('releaseTaskY'),
                 'doTaskY':dayTaskObject.get('doTaskY'),
                 'checkTaskY':dayTaskObject.get('checkTaskY'),
                 'errorId': 0, 'errorMsg': ''});
@@ -156,10 +156,25 @@ router.post('/dayTask', function(req, res){
         }
         else {
             // 有了今日任务
+            userObject.increment('totalMoney', dayTaskObject.get(actionId));
+            userObject.increment('feedingMoney', dayTaskObject.get(actionId));
+
+            var bonusYCoin = dayTaskObject.get(actionId);
             dayTaskObject.set(actionId, 0);
-            dayTaskObject.save().then(function(){
+
+            AV.Object.saveAll([userObject, dayTaskObject]).then(function(){
+
+                //Y币流水
+                if(actionId == 'releaseTaskY'){
+                    messager.bonusMsg('每日任务(' + myDateStr + '),10点前发布任务', bonusYCoin, userId);
+                }else if(actionId == 'doTaskY'){
+                    messager.bonusMsg('每日任务(' + myDateStr + '),4:30前完成任务', bonusYCoin, userId);
+                }else if(actionId == 'checkTaskY'){
+                    messager.bonusMsg('每日任务(' + myDateStr + '),5:30前审核任务', bonusYCoin, userId);
+                }
+
                 //succeed
-                res.json({'errorId': 0, 'releaseTaskY':dayTaskObject.get('releaseY'),
+                res.json({'errorId': 0, 'releaseTaskY':dayTaskObject.get('releaseTaskY'),
                     'doTaskY':dayTaskObject.get('doTaskY'),
                     'checkTaskY':dayTaskObject.get('checkTaskY')});
             }, function(error){
@@ -171,44 +186,6 @@ router.post('/dayTask', function(req, res){
         res.json({'errorMsg':error.message, 'errorId': error.code});
     });
 });
-
-exports.dayTaskIncrement = function(userId, taskKey, incrementYCoin){
-    var userObject = new User();
-    userObject.id = userId;
-
-    // 今日日期
-    var myDate = new Date();
-    var myDateStr = myDate.getFullYear() + '-' + (parseInt(myDate.getMonth())+1) + '-' + myDate.getDate();
-
-    var query = new AV.Query(everydayTaskObjectSql);
-    query.equalTo('userObject', userObject);
-    query.equalTo('taskDateStr', myDateStr);
-    query.include('userObject');
-    query.descending('createdAt');
-    query.first().then(function(dayTaskObject){
-        if (dayTaskObject == undefined){
-            // 无今日任务
-            var everydayTaskObject = new everydayTaskObjectSql();
-            everydayTaskObject.increment(taskKey, incrementYCoin);
-            everydayTaskObject.save().then(function(){
-                //succeed
-            }, function(error){
-               console.error('day task save error ' + userId + ' ,task ' + taskKey, 'add Y Coin ' + incrementYCoin);
-            });
-        }
-        else {
-            dayTaskObject.increment(taskKey, incrementYCoin);
-            dayTaskObject.save().then(function(){
-                //succeed
-            }, function(error){
-                console.error('day task save error ' + userId + ' ,task ' + taskKey, 'add Y Coin ' + incrementYCoin);
-            });
-        }
-
-    },function(error){
-        res.json({'errorMsg':error.message, 'errorId': error.code});
-    });
-}
 
 // 点击签到接口
 router.post('/checkIns', function(req, res){
