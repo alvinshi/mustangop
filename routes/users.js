@@ -253,6 +253,8 @@ router.get('/userCenter/YCoinFlow/:page', function(req, res){
                 messageDicObject.rowClass = 'danger';
             }else if(messageDicObject.type == '冻结'){
                 messageDicObject.rowClass = 'warning';
+            }else if(messageDicObject.type == '充值'){
+                messageDicObject.rowClass = 'active';
             }
 
 
