@@ -214,12 +214,12 @@ AV.Cloud.define('refuseTaskTimerForRelease', function(request, response){
 
         var remain = totalCount % 1000;
         var totalForCount = totalCount/1000 + remain > 0 ? 1 : 0;
+
         for (var i = 0; i < totalForCount; i++){
             //receiveTaskObject
             var query_a = getRefuseDoTaskQuery();
             query_a.ascending('updatedAt');
-            query_a.include('receiveTaskObject');
-            query_a.include('releaseTaskObject');
+            query_a.include('releaseTaskUser');
             query_a.include('receiveTaskObject.appObject');
             query_a.include('receiveTaskObject.userObject');
             query_a.include('receiveTaskObject.taskObject');
@@ -228,7 +228,8 @@ AV.Cloud.define('refuseTaskTimerForRelease', function(request, response){
             query_a.find().then(function(results){ // 查找出所有满足条件的被拒绝的任务
                 //闭包
                 var doReceTaskList = [];
-                var senTaskUserList = [];
+                var refuseReleaseTaskUsers = [];
+
                 for (var e = 0; e < results.length; e++){
                     var doTaskObject = results[e];
                     var doReceTaskObject = doTaskObject.get('receiveTaskObject');
@@ -238,10 +239,11 @@ AV.Cloud.define('refuseTaskTimerForRelease', function(request, response){
                         continue;
                     }
                     var excUnitPrice = taskObjectInDo.get('excUnitPrice'); // 任务的单价
-                    var sendTaskUserObject = doTaskObject.get('releaseTaskObject');
+                    var sendTaskUserObject = doTaskObject.get('releaseTaskUser');
                     if(sendTaskUserObject == undefined){
                         sendTaskUserObject = taskObjectInDo.get('userObject');
                     }
+                    var sendTaskUserObject = util.addLeanObject(sendTaskUserObject, refuseReleaseTaskUsers);
 
                     //拒绝任务1天内未重新做,设定为过期
                     doTaskObject.set('taskStatus', 'expired');
@@ -258,11 +260,10 @@ AV.Cloud.define('refuseTaskTimerForRelease', function(request, response){
                     console.log('****** refused task be expired by timer ****** release task user : ' + sendTaskUserObject.id + '(minus freeze YB,add total YB) +' + excUnitPrice);
 
                     util.addLeanObject(doReceTaskObject, doReceTaskList);
-                    util.addLeanObject(sendTaskUserObject, senTaskUserList);
                 }
 
                 //解锁YB
-                AV.Object.saveAll(senTaskUserList).then(function(){
+                AV.Object.saveAll(refuseReleaseTaskUsers).then(function(){
                     console.log('!!!  返还过期拒绝任务的YB给发布者 成功 !!!');
                     //统一增加超时条目
                     AV.Object.saveAll(doReceTaskList).then(function(){
