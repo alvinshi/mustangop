@@ -36,7 +36,6 @@ app.controller('homePageCtrl', function($scope, $http){
     $scope.todayYB = 1;
     $scope.continueCheck = 2;
     $scope.latestDays = 0;
-
     $http.get(ischeckinsUrl).success(function(response){
         if(response.errorId == 0){
             $scope.isCheckIns = response.isCheckIns;
@@ -45,6 +44,26 @@ app.controller('homePageCtrl', function($scope, $http){
             $scope.latestDays = response.latestDays;
         }
     });
+
+    $http.get('homePage/dayTask').success(function(response){
+        if(response.errorId == 0){
+            $scope.releaseTaskY = response.releaseTaskY;
+            $scope.doTaskY = response.doTaskY;
+            $scope.checkTaskY = response.checkTaskY;
+        }
+    });
+
+    // 每日任务按钮
+    $scope.dayTaskBtn = function(actionId){
+        var checkInsURL = 'homePage/dayTask';
+        $http.post(checkInsURL, {'actionId':actionId}).success(function(response){
+            if (response.errorId == 0){
+                $scope.releaseTaskY = response.releaseTaskY;
+                $scope.doTaskY = response.doTaskY;
+                $scope.checkTaskY = response.checkTaskY;
+            }
+        })
+    };
 
     // 签到按钮
     $scope.butCheckIns = function(){
@@ -60,17 +79,16 @@ app.controller('homePageCtrl', function($scope, $http){
         })
     };
     //我发布的任务
-
-     $scope.jump=function(curren){
+     $scope.jump = function(curren){
         window.open('http://aso100.com/app/rank/appid' + '/' + curren.appleId + '/country/cn');
      };
-     $scope.jump1=function(curren){
+     $scope.jump1 = function(curren){
          window.open('http://aso100.com/app/keyword/appid/'+curren.appleId+'/country/cn');
      };
-    $scope.jump2=function(curren){
+    $scope.jump2 = function(curren){
         window.open('http://aso100.com/app/comment/appid/'+curren.appleId+'/country/cn');
     };
-    $scope.jump3=function(curren){
+    $scope.jump3 = function(curren){
         window.open('http://aso100.com/app/download/appid/'+curren.appleId+'/country/cn');
     };
 

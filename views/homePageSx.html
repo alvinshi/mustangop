@@ -298,36 +298,35 @@
                     <div class="todayTaskBox">
                         <div>
                             <div class="text1" style="margin-top: 16px; margin-bottom: 6px">上午10点前发布一次任务</div>
-                            <div class="text2" style="margin-bottom: 10px">获得 3 Y币</div>
-                            <button class="get1" data-id= "releaseTaskReward" onclick="clickToReceive(this)">
-                            <span class="text03">已领完
-                            </span>
-                            </button>
-                            <button class="btn orangeBtnDisabled" style="width: 64px; padding:0" data-id= "releaseTaskReward" disabled>即将开放</button>
+                            <div class="text2" style="margin-bottom: 10px">获得 {{releaseTaskY}} Y币</div>
+
+                            <button type="button" ng-show="releaseTaskY > 0" class="btn btn-danger btn-sm" ng-click="dayTaskBtn('releaseTaskY')">领取 {{releaseTaskY}} Y币</button>
+                            <button type="button" ng-show="releaseTaskY == 0" class="btn btn-default btn-sm" disabled="disabled">已领完</button>
+                            <button type="button" ng-show="releaseTaskY == undefined" class="btn btn-info btn-sm" disabled="disabled">未满足条件</button>
+
                         </div>
                     </div>
 
                     <div class="todayTaskBox">
                         <div>
-                            <div class="text1" style="margin-top: 16px; margin-bottom: 6px">下午4点前完成领取的任务</div>
-                            <div class="text2" style="margin-bottom: 10px">预计可领 4 Y币</div>
-                            <button class="get1" data-id= "releaseTaskReward" onclick="clickToReceive(this)">
-                            <span class="text03">已领完
-                            </span>
-                            </button>
-                            <button class="btn orangeBtnDisabled" style="width: 64px; padding:0" data-id= "releaseTaskReward" disabled>即将开放</button>
+                            <div class="text1" style="margin-top: 16px; margin-bottom: 6px">下午4点30前完成领取的任务</div>
+                            <div class="text2" style="margin-bottom: 10px">预计可领 {{doTaskY}} Y币</div>
+
+                            <button type="button" ng-show="doTaskY > 0" class="btn btn-danger btn-sm" ng-click="dayTaskBtn('doTaskY')">领取 {{doTaskY}} Y币</button>
+                            <button type="button" ng-show="doTaskY == 0" class="btn btn-default btn-sm" disabled="disabled">已领完</button>
+                            <button type="button" ng-show="doTaskY == undefined" class="btn btn-info btn-sm" disabled="disabled">未满足条件</button>
+
                         </div>
                     </div>
 
                     <div class="todayTaskBox">
                         <div>
-                            <div class="text1" style="margin-top: 16px; margin-bottom: 6px">下午5点前审核完所有任务</div>
-                            <div class="text2" style="margin-bottom: 10px">预计可领 4 Y币</div>
-                            <button class="get1" data-id= "releaseTaskReward" onclick="clickToReceive(this)">
-                            <span class="text03">已领完
-                            </span>
-                            </button>
-                            <button class="btn orangeBtnDisabled" style="width: 64px; padding:0" data-id= "releaseTaskReward" disabled>即将开放</button>
+                            <div class="text1" style="margin-top: 16px; margin-bottom: 6px">下午5点30前审核完所有任务</div>
+                            <div class="text2" style="margin-bottom: 10px">预计可领 {{checkTaskY}} Y币</div>
+
+                            <button type="button" ng-show="checkTaskY > 0" class="btn btn-danger btn-sm" ng-click="dayTaskBtn('checkTaskY')">领取 {{checkTaskY}} Y币</button>
+                            <button type="button" ng-show="checkTaskY == 0" class="btn btn-default btn-sm" disabled="disabled">已领完</button>
+                            <button type="button" ng-show="checkTaskY == undefined" class="btn btn-info btn-sm" disabled="disabled">未满足条件</button>
                         </div>
                     </div>
                 </div>

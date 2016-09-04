@@ -6,6 +6,7 @@ var router = require('express').Router();
 var AV = require('leanengine');
 var util = require('./util');
 var https = require('https');
+var homePageApi = require('./homePageApi');
 
 var releaseTaskObject = AV.Object.extend('releaseTaskObject');
 var receiveTaskObject = AV.Object.extend('receiveTaskObject'); // 领取任务的库
@@ -174,6 +175,7 @@ router.get('/refresh/:excTaskId', function(req, res){
 // 新增 做内部做任务
 router.post('/add/:excTaskId', function(req, res){
     var excTaskId = req.params.excTaskId;
+    var userId = util.useridInReq(req);
     var requirementImgs = req.body.requirementImgs;
     var userUploadName = req.body.uploadName;
 
@@ -228,6 +230,12 @@ router.post('/add/:excTaskId', function(req, res){
                             receiveTaskObject.save().then(function(){
                                 //发送邮件
                                 //submissionNotification(qq);
+
+                                //每日任务
+                                var myDate = new Date();
+                                if(myDate.getHours() < 16 || (myDate.getHours() == 16 && myDate.getMinutes() < 31)){
+                                    homePageApi.dayTaskIncrement(userId, 'doTaskY', 1);
+                                }
 
                                 var needSaveUserObjects = Array();
                                 //新做的任务

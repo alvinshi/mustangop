@@ -7,6 +7,8 @@ var AV = require('leanengine');
 var util = require('./util');
 var https = require('https');
 
+var homePageApi = require('./homePageApi');
+
 var messager = require('../utils/messager');
 
 // `AV.Object.extend` 方法一定要放在全局变量，否则会造成堆栈溢出。
@@ -414,6 +416,11 @@ router.post('/task', function(req, res){
                                 console.error('------ user: ' + userObject.id + ' release task,minus YB error,and task send succeed');
                             })
                         });
+
+                        //每日任务
+                        if( myDate.getHours() < 10){
+                            homePageApi.dayTaskIncrement(userId, 'releaseTaskY', 4);
+                        }
 
                         // 循环发布的条数 记录单条的流水
                         res.json({'errorId': 0, 'errorMsg':''});

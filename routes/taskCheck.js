@@ -8,6 +8,7 @@ var util = require('./util');
 var https = require('https');
 
 var messager = require('../utils/messager');
+var homePageApi = require('./homePageApi');
 
 var IOSAppBinder = AV.Object.extend('IOSAppBinder');
 var releaseTaskObject = AV.Object.extend('releaseTaskObject');
@@ -310,6 +311,9 @@ var updateReceiveTaskDatabase = function(doTaskObject, uploaderName, res){
 
 router.post('/accept/:entryId', function(req, res) {
     var entryId = req.params.entryId;
+
+    var userId = utils.useridInReq(req);
+
     var query = new AV.Query(mackTaskInfo);
     query.include('receiveTaskObject');
     query.include('receiveTaskObject.taskObject');
@@ -318,6 +322,12 @@ router.post('/accept/:entryId', function(req, res) {
         doTaskObject.set("taskStatus", 'accepted');
         doTaskObject.save().then(function () {
             updateReceiveTaskDatabase(doTaskObject, uploaderName, res);
+
+            var myDate = new Date();
+            if(myDate.getHours() < 17 || (myDate.getHours() == 17 && myDate.getMinutes() < 31)){
+                homePageApi.dayTaskIncrement(userId, 'checkTaskY', 1);
+            }
+
         }, function(error){
             res.json({'errorMsg':error.message, 'errorId': error.code});
         });

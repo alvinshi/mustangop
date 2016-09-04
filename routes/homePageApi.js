@@ -17,6 +17,8 @@ var inviteUserObjectSql = AV.Object.extend('inviteUserObject');  // 邀请好友
 
 var everydayTaskObjectSql = AV.Object.extend('everydayTaskObject'); // 每日任务库
 
+var maxCheckIn = 10;
+
 router.get('/', function(req, res) {
     res.render('homePageSx');
 });
@@ -70,12 +72,12 @@ router.get('/ischeckins', function(req, res){
 
             var checkInYCoin = checkInsOb.get('checkInsCount');
             var latestDays = checkInsOb.get('latestDays');
-            if (checkInYCoin <= 4){
+            if (checkInYCoin < maxCheckIn){
                 todayGiftYb = checkInYCoin;
                 tomorrowGiftYb = checkInYCoin + 1;
             }else {
-                todayGiftYb = 5;
-                tomorrowGiftYb = 5;
+                todayGiftYb = maxCheckIn;
+                tomorrowGiftYb = maxCheckIn;
             }
 
             var checkTime = checkInsOb.get('checkInsTime');
@@ -85,7 +87,7 @@ router.get('/ischeckins', function(req, res){
             }
             else if (checkTime == yesterdayDateStr){
                 //连续签到
-                res.json({'errorId':0, 'isCheckIns': 0, 'todayYB': tomorrowGiftYb, 'latestDays':latestDays, 'continueCheck': (tomorrowGiftYb+1>5) ? 5 : tomorrowGiftYb+1})
+                res.json({'errorId':0, 'isCheckIns': 0, 'todayYB': tomorrowGiftYb, 'latestDays':latestDays, 'continueCheck': (tomorrowGiftYb+1>maxCheckIn) ? maxCheckIn : tomorrowGiftYb+1})
             }
             else {
                 res.json({'errorId':0, 'isCheckIns': 0, 'todayYB': 1, 'latestDays':latestDays,  'continueCheck': 2})
@@ -96,6 +98,117 @@ router.get('/ischeckins', function(req, res){
     })
 
 });
+
+// 每日任务
+router.get('/dayTask', function(req, res){
+    var userId = util.useridInReq(req);
+    var userObject = new User();
+    userObject.id = userId;
+
+    // 今日日期
+    var myDate = new Date();
+    var myDateStr = myDate.getFullYear() + '-' + (parseInt(myDate.getMonth())+1) + '-' + myDate.getDate();
+
+    var query = new AV.Query(everydayTaskObjectSql);
+    query.equalTo('userObject', userObject);
+    query.equalTo('taskDateStr', myDateStr);
+    query.include('userObject');
+    query.descending('createdAt');
+    query.first().then(function(dayTaskObject){
+        if (dayTaskObject == undefined){
+            // 无今日任务
+            res.json({'errorId': -1, 'errorMsg': 'none'});
+        }
+        else {
+            // 有了今日任务
+            res.json({
+                'releaseTaskY':dayTaskObject.get('releaseY'),
+                'doTaskY':dayTaskObject.get('doTaskY'),
+                'checkTaskY':dayTaskObject.get('checkTaskY'),
+                'errorId': 0, 'errorMsg': ''});
+        }
+
+    },function(error){
+        res.json({'errorMsg':error.message, 'errorId': error.code});
+    });
+});
+
+router.post('/dayTask', function(req, res){
+    var userId = util.useridInReq(req);
+    var userObject = new User();
+    userObject.id = userId;
+
+    var actionId = req.body.actionId;
+
+    // 今日日期
+    var myDate = new Date();
+    var myDateStr = myDate.getFullYear() + '-' + (parseInt(myDate.getMonth())+1) + '-' + myDate.getDate();
+
+    var query = new AV.Query(everydayTaskObjectSql);
+    query.equalTo('userObject', userObject);
+    query.equalTo('taskDateStr', myDateStr);
+    query.include('userObject');
+    query.descending('createdAt');
+    query.first().then(function(dayTaskObject){
+        if (dayTaskObject == undefined){
+            // 无今日任务
+            res.json({'errorId': -1, 'errorMsg': '未满足条件'});
+        }
+        else {
+            // 有了今日任务
+            dayTaskObject.set(actionId, 0);
+            dayTaskObject.save().then(function(){
+                //succeed
+                res.json({'errorId': 0, 'releaseTaskY':dayTaskObject.get('releaseY'),
+                    'doTaskY':dayTaskObject.get('doTaskY'),
+                    'checkTaskY':dayTaskObject.get('checkTaskY')});
+            }, function(error){
+                res.json({'errorMsg':error.message, 'errorId': error.code});
+            });
+        }
+
+    },function(error){
+        res.json({'errorMsg':error.message, 'errorId': error.code});
+    });
+});
+
+exports.dayTaskIncrement = function(userId, taskKey, incrementYCoin){
+    var userObject = new User();
+    userObject.id = userId;
+
+    // 今日日期
+    var myDate = new Date();
+    var myDateStr = myDate.getFullYear() + '-' + (parseInt(myDate.getMonth())+1) + '-' + myDate.getDate();
+
+    var query = new AV.Query(everydayTaskObjectSql);
+    query.equalTo('userObject', userObject);
+    query.equalTo('taskDateStr', myDateStr);
+    query.include('userObject');
+    query.descending('createdAt');
+    query.first().then(function(dayTaskObject){
+        if (dayTaskObject == undefined){
+            // 无今日任务
+            var everydayTaskObject = new everydayTaskObjectSql();
+            everydayTaskObject.increment(taskKey, incrementYCoin);
+            everydayTaskObject.save().then(function(){
+                //succeed
+            }, function(error){
+               console.error('day task save error ' + userId + ' ,task ' + taskKey, 'add Y Coin ' + incrementYCoin);
+            });
+        }
+        else {
+            dayTaskObject.increment(taskKey, incrementYCoin);
+            dayTaskObject.save().then(function(){
+                //succeed
+            }, function(error){
+                console.error('day task save error ' + userId + ' ,task ' + taskKey, 'add Y Coin ' + incrementYCoin);
+            });
+        }
+
+    },function(error){
+        res.json({'errorMsg':error.message, 'errorId': error.code});
+    });
+}
 
 // 点击签到接口
 router.post('/checkIns', function(req, res){
@@ -141,10 +254,10 @@ router.post('/checkIns', function(req, res){
         else if(checkInsObj.get('checkInsTime') == yesterdayDateStr){
             // 属于连续签到
             var lastCheckInYCoin = checkInsObj.get('checkInsCount');
-            if (lastCheckInYCoin <= 4){
+            if (lastCheckInYCoin < maxCheckIn){
                 lastCheckInYCoin = lastCheckInYCoin + 1;
             }else {
-                lastCheckInYCoin = 5;
+                lastCheckInYCoin = maxCheckIn;
             }
 
             checkInsObj.set('checkInsCount', lastCheckInYCoin);
@@ -167,7 +280,7 @@ router.post('/checkIns', function(req, res){
 
     },function(error){
         res.json({'errorMsg':error.message, 'errorId': error.code});
-    })
+    });
 });
 
 
