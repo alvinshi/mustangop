@@ -220,6 +220,7 @@ AV.Cloud.define('refuseTaskTimerForRelease', function(request, response){
             query_a.ascending('updatedAt');
             query_a.include('receiveTaskObject');
             query_a.include('receiveTaskObject.appObject');
+            query_a.include('receiveTaskObject.userObject');
             query_a.include('receiveTaskObject.taskObject');
             query_a.include('receiveTaskObject.taskObject.userObject');
             query_a.limit(1000);
