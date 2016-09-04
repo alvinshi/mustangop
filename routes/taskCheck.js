@@ -234,7 +234,6 @@ router.get('/cancelTask/:taskId', function(req, res){
 
         userObject.increment('freezingMoney', -(taskPrice * remainCount));
         userObject.increment('totalMoney', (taskPrice * remainCount));
-        messager.unfreezeMsg('您成功撤销了（' + appObject.get('trackName') + '）的剩余任务', taskPrice * remainCount, userObject.id, 1);
         taskObject.set('cancelled', true);
 
         if(remainCount == taskObject.get('excCount')){
@@ -245,6 +244,7 @@ router.get('/cancelTask/:taskId', function(req, res){
         taskObject.set('remainCount', 0);
 
         userObject.save().then(function(){
+            messager.unfreezeMsg('您成功撤销了（' + appObject.get('trackName') + '）的剩余任务', taskPrice * remainCount, userObject.id, 1);
             //返回冻结的Y币数量
             taskObject.save().then(function(){
                 res.json({'errorMsg':'succeed', 'errorId': 0});
@@ -287,11 +287,11 @@ var updateReceiveTaskDatabase = function(doTaskObject, uploaderName, res){
         // 接收任务后 把钱打给用户记录流水
         userObject.increment('totalMoney', rateUnitPrice);
         //Y币流水
-        messager.earnMsg('您提交的任务(' + trackName + ')被审核通过', rateUnitPrice, userObject.id, 1);
+        messager.earnMsg('您提交的任务(' + trackName + ')被审核通过', rateUnitPrice, userObject.id, userObject);
 
         // 发布任务的人冻结钱变少
         senderUserObject.increment('freezingMoney', -excUnitPrice);
-        messager.payMsg('您接受了(' + userObject.get('username') + ')提交的任务(' + trackName + ')结果', excUnitPrice, senderUserObject.id, 1);
+        messager.payMsg('您接受了(' + userObject.get('username') + ')提交的任务(' + trackName + ')结果', excUnitPrice, senderUserObject.id, senderUserObject);
 
         //保存2份流水
         userObject.save().then(function(){
