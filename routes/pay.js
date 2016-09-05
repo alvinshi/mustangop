@@ -91,7 +91,7 @@ router.get('/return', function(req, res) {
                 if(chargeMoney == 99){
                     var query = new AV.Query(User);
                     query.get(chargeUserId).then(function(userObject){
-                        if(userObject.get('firstRecharge') == undefined){
+                        if(userObject.get('firstRecharge') == undefined || userObject.get('firstRecharge') == 0){
                             var firstBoundsYCoin = 999;
                             //首充奖励
                             userObject.increment('totalMoney', firstBoundsYCoin);

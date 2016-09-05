@@ -44,7 +44,7 @@ router.post('/getSmsCode', function(req, res) {
 
     }, function (err, result) {
         if (err || !result) {
-            console.log('------ 验证码服务error', err.message);
+            console.error('------ 验证码服务error', err.message);
             res.json({'errorId':-100, 'errorMsg':'验证码服务出现问题'});
         } else {
             var query = new AV.Query(User);
