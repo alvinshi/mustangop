@@ -7,6 +7,8 @@ var AV = require('leanengine');
 var util = require('./util');
 var https = require('https');
 
+var messager = require('../utils/messager');
+
 // `AV.Object.extend` 方法一定要放在全局变量，否则会造成堆栈溢出。
 // 详见： https://leancloud.cn/docs/js_guide.html#对象
 var IOSAppSql = AV.Object.extend('IOSAppInfo');
@@ -15,8 +17,6 @@ var IOSAppInfoSQL = AV.Object.extend('IOSAppInfo');
 var IOSAppExcLogger = AV.Object.extend('IOSAppExcLogger');
 var taskDemandSQL = AV.Object.extend('taskDemandObject');
 var releaseTaskObject = AV.Object.extend('releaseTaskObject');
-var accountJournal = AV.Object.extend('accountJournal'); // 记录账户变动明细表
-var messageLogger = AV.Object.extend('messageLogger');
 var User = AV.Object.extend('_User');
 
 // 查询 我的App
@@ -377,14 +377,6 @@ router.post('/task', function(req, res){
                     }
 
                     var trackName = appObject.get('trackName');
-                    var message = new messageLogger();
-                    message.set("senderObjectId", userObject);
-                    message.set('receiverObjectId', userObject);
-                    message.set('category', 'Y币');
-                    message.set('type', '发布');
-                    message.set('thirdPara', rateunitPrice * excCount);
-                    message.set('firstPara', trackName);
-                    message.save();
 
                     var releasetaskObject = new releaseTaskObject();
                     releasetaskObject.set('userObject', userObject);  //和用户表关联
@@ -417,23 +409,18 @@ router.post('/task', function(req, res){
                             userInfo.increment('totalMoney', - freezing_money);
                             userInfo.increment('freezingMoney', freezing_money);
                             userInfo.save().then(function(){
+                                messager.freezeMsg(trackName, freezing_money, userObject.id);
+                            }, function(error){
+                                console.error('------ user: ' + userObject.id + ' release task,minus YB error,and task send succeed');
                             })
                         });
 
-                        var taskObjectId = AV.Object.createWithoutData('releaseTaskObject', releasetaskObject.id);
-                        // 循环发布的条数 记录单条的流水
-                        for (var e = 0; e < excCount; e++){
-                            var accountJour = new accountJournal();
-                            accountJour.set('payYCoinUser', userObject);  //支出金额的用户
-                            accountJour.set('payYCoin', excUnitPrice); // 此次交易支付金额
-                            accountJour.set('taskObject', taskObjectId); // 任务的id
-                            accountJour.set('payYCoinStatus', 'prepare_pay'); // 发布任务的时候为准备支付;
-                            accountJour.set('payYCoinDes', '发布任务');
-                            accountJour.set('releaseDate', myDateStr); // 添加发布日期,冗余字段
-                            accountJour.save().then(function(){
-                                //
-                            })
+                        //每日任务
+                        if( myDate.getHours() < 10){
+                            util.dayTaskIncrement(userId, 'releaseTaskY', 5);
                         }
+
+                        // 循环发布的条数 记录单条的流水
                         res.json({'errorId': 0, 'errorMsg':''});
                     },function(error){
                         res.json({'errorMsg':error.message, 'errorId': error.code});

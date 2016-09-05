@@ -88,6 +88,7 @@
                 </div><!-- /.modal-content -->
             </div><!-- /.modal -->
 
+<<<<<<< HEAD
         </div>
 
         <!--签到-->
@@ -98,18 +99,38 @@
                 <span style="font-size:40px;color:#5a94ec;"><br>&nbsp;{{continueCheck}}</span>
                 <span>天</span>
             </div>
+=======
+    <!--签到-->
+    <div class="sign" >
+        <img class="img1"  src="/images/homepage/back.png" />
+        <div class ="circle" >
+            <span><br>已连续签到</span>
+            <span style="font-size:40px;color:#5a94ec;"><br>&nbsp;{{latestDays}}</span>
+            <span>天</span>
+        </div>
+
+        <div class="checkin">
+            <button type="button" class="btn btn-primary" ng-click="butCheckIns()" ng-show="isCheckIns == 0">
+                签到+{{todayYB}}Y币
+            </button>
+>>>>>>> 20c213b18efd74af3e40a6d7a11be7d26b957997
 
             <div class="checkin">
                 <button type="button" class="btn btn-primary" ng-click="butCheckIns(todayYB, tomorrowYB)" ng-show="isCheckIns == 0">
                     签到+{{todayYB}}Y币
                 </button>
 
+<<<<<<< HEAD
                 <button type="button" class="btn btn-primary" ng-show="isCheckIns == 1" disabled>
                     已签到
                 </button>
 
                 <div class="check-text">
                 <span class="">明日签到得<span class="" style="color: red">{{tomorrowYB}}</span>Y币,连续签到
+=======
+            <div class="check-text">
+                <span class="">明日签到得<span class="" style="color: red">{{continueCheck}}</span>Y币,连续签到
+>>>>>>> 20c213b18efd74af3e40a6d7a11be7d26b957997
                     <p style="text-align: center">奖励更多</p>
                 </span>
                 </div>
@@ -246,11 +267,24 @@
         <!--竖线-->
         <!--<div  class="line"></div>-->
 
+<<<<<<< HEAD
         <!--我发布的任务-->
         <span class="head2"><br><br>我发布的任务</span><br><br>
         <div class="my-release">
             <div ng-show="noApp" style="padding-left: 200px">
                 <h1 style="font-size: 20px">亲, 你还没有任何任务哦, 赶紧去"<a href="/myapp">发布任务吧</a>"发布任务吧</h1>
+=======
+    <!--我发布的任务-->
+    <span class="head2"><br><br>我发布的任务</span><br><br>
+    <div class="my-release">
+        <div ng-show="noApp" style="padding-left: 200px">
+            <h1 style="font-size: 20px">亲, 你还没有任何任务哦, 赶紧去"<a href="/myapp">发布任务吧</a>"发布任务吧</h1>
+        </div>
+
+        <div class="body4" ng-style="app.bottom" ng-repeat="app in myReleaseTask">
+            <div class="release1">
+                <img class="img10" ng-src="{{app.artworkUrl100}}">
+>>>>>>> 20c213b18efd74af3e40a6d7a11be7d26b957997
             </div>
 
             <div class="body4" ng-repeat="app in myReleaseTask">

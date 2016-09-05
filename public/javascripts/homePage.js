@@ -15,10 +15,29 @@ app.controller('homePageCtrl', function($scope, $http){
         document.execCommand("Copy"); // 执行浏览器复制命令
     };
 
+    //尊贵客人
+    $scope.noviceTaskObject = Object();
+    $scope.noviceTaskObject.luxuryUserStep = 0;
+    //首次充值
+    $scope.noviceTaskObject.hasFirstRecharge = 0;
+
+    // 任务
+    var noviceTaskUrl = 'homePage/noviceTask';
+    $http.get(noviceTaskUrl).success(function(response){
+        $scope.noviceTaskObject = response.noviceTaskObject;
+    });
+
+    $scope.LuxuryUser = function(){
+        var luxuryURL = 'homePage/LuxuryUser';
+        $http.post(luxuryURL, {}).success(function(response){
+            $scope.luxuryMessage = response.errorMsg;
+            $scope.luxurySucceed = response.errorId;
+        })
+    };
 
     //******************* 自动轮播 *************************
     $("#myCarousel").carousel({
-        interval:3000
+        interval:5000
     });
     $("#myCarousel1").carousel({
         interval:3000
@@ -32,45 +51,64 @@ app.controller('homePageCtrl', function($scope, $http){
 
     // 签到
     var ischeckinsUrl = 'homePage/ischeckins';
+    $scope.isCheckIns = 0;
+    $scope.todayYB = 1;
+    $scope.continueCheck = 2;
+    $scope.latestDays = 0;
     $http.get(ischeckinsUrl).success(function(response){
-        $scope.isCheckIns = response.isCheckIns;
-        $scope.todayYB = response.todayYB;
-        $scope.tomorrowYB = response.tomorrowYB;
-        $scope.continueCheck = response.continueCheck; // 连续签到
-        if (response.isCheckIns == 0){
+        if(response.errorId == 0){
             $scope.isCheckIns = response.isCheckIns;
             $scope.todayYB = response.todayYB;
-            $scope.tomorrowYB = response.tomorrowYB;
-            $scope.continueCheck = response.continueCheck; // 连续签到
+            $scope.continueCheck = response.continueCheck;
+            $scope.latestDays = response.latestDays;
         }
     });
 
+    $http.get('homePage/dayTask').success(function(response){
+        if(response.errorId == 0){
+            $scope.releaseTaskY = response.releaseTaskY;
+            $scope.doTaskY = response.doTaskY;
+            $scope.checkTaskY = response.checkTaskY;
+        }
+    });
+
+    // 每日任务按钮
+    $scope.dayTaskBtn = function(actionId){
+        var checkInsURL = 'homePage/dayTask';
+        $http.post(checkInsURL, {'actionId':actionId}).success(function(response){
+            if (response.errorId == 0){
+                $scope.releaseTaskY = response.releaseTaskY;
+                $scope.doTaskY = response.doTaskY;
+                $scope.checkTaskY = response.checkTaskY;
+            }
+        })
+    };
+
     // 签到按钮
-    $scope.butCheckIns = function(todayYB, tomorrowYB){
+    $scope.butCheckIns = function(){
         var checkInsURL = 'homePage/checkIns';
-        $http.post(checkInsURL, {'todayYB':todayYB, 'tomorrowYB':tomorrowYB}).success(function(response){
+        $http.post(checkInsURL, {}).success(function(response){
             $scope.errorId = response.errorId;
             $scope.errorMsg = response.errorMsg;
             if (response.errorId == 0){
                 $scope.errorId = response.errorId;
                 $scope.errorMsg = response.errorMsg;
                 $scope.isCheckIns = 1;
-                $scope.continueCheck = $scope.continueCheck + 1
+                $scope.latestDays += 1;
             }
         })
     };
     //我发布的任务
-
-     $scope.jump=function(curren){
+     $scope.jump = function(curren){
         window.open('http://aso100.com/app/rank/appid' + '/' + curren.appleId + '/country/cn');
      };
-     $scope.jump1=function(curren){
+     $scope.jump1 = function(curren){
          window.open('http://aso100.com/app/keyword/appid/'+curren.appleId+'/country/cn');
      };
-    $scope.jump2=function(curren){
+    $scope.jump2 = function(curren){
         window.open('http://aso100.com/app/comment/appid/'+curren.appleId+'/country/cn');
     };
-    $scope.jump3=function(curren){
+    $scope.jump3 = function(curren){
         window.open('http://aso100.com/app/download/appid/'+curren.appleId+'/country/cn');
     };
 
@@ -96,12 +134,6 @@ app.controller('homePageCtrl', function($scope, $http){
         if ($scope.myReleaseTask.length <= 0){
             $scope.noApp = true;
         }
-    });
-
-    // 新手任务
-    var noviceTaskUrl = 'homePage/noviceTask';
-    $http.get(noviceTaskUrl).success(function(response){
-        $scope.noviceTaskObject = response.noviceTaskObject;
     });
 
     // 点击领取

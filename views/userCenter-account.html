@@ -51,16 +51,13 @@
     新手任务: 任务大厅——>领取任务 ——> 做任务——>上传换评图片
 </div>
 <div class="alert alert-success invite_info" role="alert" ng-show="register_status != undefined && register_status=='register_upload_task'">
-    新手任务完成进度50%,您已经获赠50Y币(账户余额中查看)
-    等待对方接受你的任务成功,将继续获赠另外50Y币
+    新手任务完成进度50%,您可以去首页领取您的奖励(20Y币)
+    等待对方接受你的任务成功,将可继续去首页领取30Y币
 </div>
 <div class="alert alert-success invite_info" role="alert" ng-show="register_status != undefined && register_status=='register_accept_task'">
-    您已经完成了新手任务,总计获赠100Y币(含任务本身Y币)
+    您已经完成了新手任务,可以领取50Y币(不包含任务本身Y币)
     有了Y币后,可以去任务大厅发布任务喽
 </div>
-
-
-
 
 
 <div  class=" col-lg-12  copy" >
@@ -70,18 +67,18 @@
                 data-toggle="popover"
                 data-content="复制成功!">复制邀请链接</button>
     </p>
-    <p style="font-size: 22px;margin-left: 130px" >您共成功邀请<span style="color: #3498db">{{inviteSucceedCount}}</span>人,总计获得<span style="color: #ff7f40">{{inviteSucceedCount*100}}</span>Y币的奖励</p>
-    <p  class="invite" >邀请流程:好友  <span style="color: #3498db">通过</span>您的  <span style="color: #3498db">链接注册野马,完成新手任务</span>后,您和您的好友都将获得  <span style="color: #3498db">100Y币</span> 奖励</p>
+    <p style="font-size: 22px;margin-left: 130px" >您共成功邀请<span style="color: #3498db">{{inviteSucceedCount}}</span>人,总计获得<span style="color: #ff7f40">{{inviteSucceedCount*50}}</span>Y币的奖励</p>
+    <p  class="invite" >邀请流程:好友  <span style="color: #3498db">通过</span>您的  <span style="color: #3498db">链接注册野马,完成新手任务</span>后,您和您的好友都将获得  <span style="color: #3498db">50Y币</span> 奖励</p>
 </div>
 
 
 <hr style="border: 0.5px solid #e0e0e0;margin-top: 30px;margin-left: 20px;margin-right: 20px;">
 <!--邀请区域-->
 <div class="alert alert-info invite_info" role="alert" ng-show="inviteCount != undefined && inviteCount > 0">
-    已邀请{{inviteCount}}个好友加入野马,他们完成新手任务后,您将获得{{inviteCount*100}}个Y币的奖励
+    已邀请{{inviteCount}}个好友加入野马,他们完成新手任务后,您将总计获得{{inviteCount*50}}个Y币的奖励
 </div>
 <div class="alert alert-info invite_info"  role="alert" ng-show="inviteSucceedCount != undefined && inviteSucceedCount > 0">
-    已有{{inviteSucceedCount}}好友完成新手任务,您累计获得{{inviteSucceedCount*100}}个Y币的奖励,非常感谢您的支持
+    已有{{inviteSucceedCount}}好友完成新手任务,您累计获得{{inviteSucceedCount*50}}个Y币的奖励,非常感谢您的支持
 </div>
 
 

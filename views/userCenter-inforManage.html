@@ -1,299 +1,37 @@
-<h4 class="mytitle" >消息管理</h4>
+<h4 class="mytitle" ng-show="totalMoney > 0" >Y币流水 当前共有{{totalMoney}} 冻结{{freezingMoney}} 奖励{{feedingMoney}} Y币</h4>
+<h4 class="mytitle" ng-show="totalMoney == 0" >Y币流水 旧的流水暂无记录</h4>
 <hr style="margin-top: 12px;margin-left: 20px;border: 2px solid #3498db;margin-right: 20px">
 
-<ul style="padding-top:10px;font-size: 18px"id="myTab" class="nav nav-tabs">
-    <li class="active">
-        <a href="#taskInfor" ng-click="msgClick('task')" data-toggle="tab">
-            任务消息
-            <div class="msgDot" ng-show="unreadTaskMsg"></div>
-        </a>
-    </li>
-    <li>
-        <a href="#systemInfor" ng-click="msgClick('system')"  data-toggle="tab">
-            系统消息
-            <div class="msgDot" ng-show="unreadSystemMsg"></div>
-        </a>
-    </li>
-    <li>
-        <a href="#moneyInfor" id="myTabDrop1"  ng-click="msgClick('money')" data-toggle="tab">
-            Y币消息
-            <div class="msgDot" ng-show="unreadMoneyMsg"></div>
-        </a>
-    </li>
-</ul>
+<table class="table table-bordered">
+    <thead>
+    <tr>
+        <th>日期</th>
+        <th>类型</th>
+        <th>消息</th>
 
-<div   id="myTabContent" class="tab-content">
-    <!--任务消息-->
-    <div class="tab-pane fade in active" id="taskInfor">
-        <div ng-repeat="msg in taskMsgDisplayed">
-            <div ng-if="msg.type == '领取'">
-                <div class="taskInfor" >
-                    <img src="/images/taskInfor/infor3.png" alt="" style="display: inline-block">
-                    <span class="infor_one">任务消息</span>
-                    <span  class="date">{{msg.day | date: 'MM/dd'}}</span>
-                    <span  class="date">{{msg.time | date: 'h:mma'}}</span>
-                    <span class="read_tag" ng-show="msg.read">已读</span>
-                    <span class="unread_tag" ng-hide="msg.read">未读</span>
-                </div>
-                <div class="promote">
-                    <div class="promote1">
-                        <span style="color:#f78649">{{msg.para1}} </span>领取了您今天发布的
-                        <span style="color:#f78649">{{msg.para2}} </span>
-                        <span style="color:#3498db">{{msg.para3}} </span>条,请在 <a href="/taskCheck"style="color:#3498db">任务审核</a>中查看
-                    </div>
-                </div>
-                <hr class="horizon1">
-            </div>
+        <th>奖励</th>
+        <th>冻结</th>
+        <th>总额</th>
+    </tr>
+    </thead>
 
-            <div ng-if="msg.type == '拒绝'">
-                <div class="taskInfor">
-                    <img src="/images/taskInfor/infor3.png" alt="" style="display: inline-block">
-                    <span class="infor_one">任务消息</span>
-                    <span  class="date">{{msg.day | date: 'MM/dd'}}</span>
-                    <span  class="date">{{msg.time | date: 'h:mma'}}</span>
-                    <span class="read_tag" ng-show="msg.read">已读</span>
-                    <span class="unread_tag" ng-hide="msg.read">未读</span>
-                </div>
+    <tbody>
+        <tr ng-class="coinFlow.rowClass" ng-repeat='coinFlow in YCoinMessages'>
+            <!--<td rowspan="2">1</td>-->
+            <td class="date">{{coinFlow.messageDateStr}}</td>
+            <td class="type">{{coinFlow.type}}</td>
+            <td class="text">{{coinFlow.messageText}}</td>
 
-                <div class="promote">
-                    <div class="promote1">
-                        <span style="color:#f78649">{{msg.para1}} </span>拒绝了
-                        <span style="color:#f78649">{{msg.para2}} </span>提交的结果,请在
-                        <a href="/myClaim/{{myId}}"style="color:#3498db">我的认领 </a>中查看
-                    </div>
-                </div>
-                <hr class="horizon1">
-            </div>
+            <td class="feed" ng-show="coinFlow.feedingMoney != undefined">{{coinFlow.feedingMoney}}</td>
+            <td class="freeze" ng-show="coinFlow.freezingMoney != undefined">{{coinFlow.freezingMoney}}</td>
+            <td class="total" ng-show="coinFlow.totalMoney != undefined">{{coinFlow.totalMoney}}</td>
+        </tr>
+    </tbody>
+</table>
 
-            <div ng-if="msg.type == '接受'">
-                <div class="taskInfor">
-                    <img src="/images/taskInfor/infor3.png" alt="" style="display: inline-block">
-                    <span class="infor_one">任务消息</span>
-                    <span  class="date">{{msg.day | date: 'MM/dd'}}</span>
-                    <span  class="date">{{msg.time | date: 'h:mma'}}</span>
-                    <span class="read_tag" ng-show="msg.read">已读</span>
-                    <span class="unread_tag" ng-hide="msg.read">未读</span>
-                </div>
-
-                <div class="promote">
-                    <div class="promote1">
-                        <span style="color:#f78649">{{msg.para1}} </span>接受了
-                        <span style="color:#f78649">{{msg.para2}} </span>提交的结果,获得
-                        <span style="color:#f78649">{{msg.para3}} </span>Y币
-                    </div>
-                </div>
-                <hr class="horizon1">
-            </div>
-        </div>
-
-        <div style="margin-top: 30px; margin-bottom: 30px; text-align: center;">
-            <button class="btn btn-default myPageBtn" ng-class="{true: 'disabled'}[pageNum == 0]" ng-click="prevPage('task')">上一页</button>
-            <button class="btn btn-default myPageBtn" ng-class="{true: 'disabled'}[pageNum + 2 == totalPageNum]" ng-click="nextPage('task')">下一页</button>
-        </div>
-    </div>
-
-    <!--系统消息-->
-    <div class="tab-pane fade" id="systemInfor">
-        <div ng-repeat="msg in taskMsgDisplayed">
-            <div ng-if="msg.type == '欠费'">
-                <div class="taskInfor">
-                    <img src="/images/taskInfor/infor3.png" alt="" style="display: inline-block">
-                    <span class="infor_one">任务消息</span>
-                    <span  class="date">{{msg.day | date: 'MM/dd'}}</span>
-                    <span  class="date">{{msg.time | date: 'h:mma'}}</span>
-                    <span class="read_tag" ng-show="msg.read">已读</span>
-                    <span class="unread_tag" ng-hide="msg.read">未读</span>
-                </div>
-
-                <div class="promote">
-                    <div class="promote1">
-                        您的账户余额小于0， 帐号已被冻结
-                    </div>
-                </div>
-                <hr class="horizon1">
-            </div>
-            <div ng-if="msg.type == '欢迎'">
-                <div class="taskInfor">
-                    <img src="/images/taskInfor/infor3.png" alt="" style="display: inline-block">
-                    <span class="infor_one">任务消息</span>
-                    <span  class="date">{{msg.day | date: 'MM/dd'}}</span>
-                    <span  class="date">{{msg.time | date: 'h:mma'}}</span>
-                    <span class="read_tag" ng-show="msg.read">已读</span>
-                    <span class="unread_tag" ng-hide="msg.read">未读</span>
-                </div>
-
-                <div class="promote">
-                    <div class="promote1">
-                        <span >欢迎来到野马运营,使用规则请参见</span> <a href="/guide" style="color:#3498db">新手引导</a>
-                    </div>
-                </div>
-                <hr class="horizon1">
-            </div>
-        </div>
-
-        <div style="margin-top: 30px; margin-bottom: 30px; text-align: center;">
-            <button class="btn btn-default myPageBtn" ng-class="{true: 'disabled'}[pageNum == 0]" ng-click="prevPage('system')">上一页</button>
-            <button class="btn btn-default myPageBtn" ng-class="{true: 'disabled'}[pageNum + 2 == totalPageNum]" ng-click="nextPage('system')">下一页</button>
-        </div>
-    </div>
-
-    <!--Y币消息-->
-    <div class="tab-pane fade" id="moneyInfor">
-        <div ng-repeat="msg in taskMsgDisplayed">
-            <div ng-if="msg.type == '发布'">
-                <div class="taskInfor" >
-                    <img src="/images/taskInfor/money1.png" alt="" style="display: inline-block">
-                    <span style="font-size: 16px;margin-left:8px;color: #000000">Y币消息</span>
-                    <span  class="date">{{msg.day | date: 'MM/dd'}}</span>
-                    <span  class="date">{{msg.time | date: 'h:mma'}}</span>
-                    <span class="read_tag" ng-show="msg.read">已读</span>
-                    <span class="unread_tag" ng-hide="msg.read">未读</span>
-                </div>
-                <div class="promote">
-                    <div class="promote1">
-                        你刚刚发布了
-                        <span style="color:#f78649">{{msg.para1}} </span>任务, 消耗
-                        <span style="color:#3498db">{{msg.para3}} </span>Y币
-                    </div>
-                </div>
-                <hr class="horizon1">
-            </div>
-
-            <div ng-if="msg.type == '处罚'">
-                <div class="taskInfor" >
-                    <img src="/images/taskInfor/money1.png" alt="" style="display: inline-block">
-                    <span style="font-size: 16px;margin-left:8px;color: #000000">Y币消息</span>
-                    <span  class="date">{{msg.day | date: 'MM/dd'}}</span>
-                    <span  class="date">{{msg.time | date: 'h:mma'}}</span>
-                    <span class="read_tag" ng-show="msg.read">已读</span>
-                    <span class="unread_tag" ng-hide="msg.read">未读</span>
-                </div>
-                <div class="promote">
-                    <div class="promote1">
-                        你未完成
-                        <span style="color:#3498db">{{msg.para4}}</span> 条
-                        <span style="color:#f78649">{{msg.para1}}</span> 的任务,扣罚
-                        <span style="color:#3498db">{{msg.para3}}</span> Y币
-                    </div>
-                </div>
-                <hr class="horizon1">
-            </div>
-
-            <div ng-if="msg.type == '充值'">
-                <div class="taskInfor" >
-                    <img src="/images/taskInfor/money1.png" alt="" style="display: inline-block">
-                    <span style="font-size: 16px;margin-left:8px;color: #000000">Y币消息</span>
-                    <span  class="date">{{msg.day | date: 'MM/dd'}}</span>
-                    <span  class="date">{{msg.time | date: 'h:mma'}}</span>
-                    <span class="read_tag" ng-show="msg.read">已读</span>
-                    <span class="unread_tag" ng-hide="msg.read">未读</span>
-                </div>
-                <div class="promote">
-                    <div class="promote1">
-                        您成功充值了
-                        <span style="color:#3498db">3000</span>Y币
-                    </div>
-                </div>
-                <hr class="horizon1">
-            </div>
-            <div ng-if="msg.type == '发布人结算'">
-                <div class="taskInfor" >
-                    <img src="/images/taskInfor/money1.png" alt="" style="display: inline-block">
-                    <span style="font-size: 16px;margin-left:8px;color: #000000">Y币消息</span>
-                    <span  class="date">{{msg.day | date: 'MM/dd'}}</span>
-                    <span  class="date">{{msg.time | date: 'h:mma'}}</span>
-                    <span class="read_tag" ng-show="msg.read">已读</span>
-                    <span class="unread_tag" ng-hide="msg.read">未读</span>
-                </div>
-                <div class="promote">
-                    <div class="promote1">
-                        你发布的
-                        <span style="color:#f78649">{{msg.para1}}</span>的任务,未完成
-                        <span style="color:#f78649">{{msg.para4}}</span> 条, 拒绝
-                        <span style="color:#f78649">{{msg.para5}}</span> 条, 返还
-                        <span style="color:#3498db">{{msg.para3}}</span> Y币
-                    </div>
-                </div>
-                <hr class="horizon1">
-            </div>
-        </div>
-        <div style="margin-top: 30px; margin-bottom: 30px; text-align: center;">
-            <button class="btn btn-default myPageBtn" ng-class="{true: 'disabled'}[pageNum == 0]" ng-click="prevPage('money')">上一页</button>
-            <button class="btn btn-default myPageBtn" ng-class="{true: 'disabled'}[pageNum + 2 == totalPageNum]" ng-click="nextPage('money')">下一页</button>
-        </div>
-    </div>
+<div style="margin-top: 30px; margin-bottom: 30px; text-align: center;">
+    <button class="btn btn-default myPageBtn" ng-show="YCoinMessages.length != 0 && YCoinMessages.length % 20 == 0" ng-click="nextPage()">下一页</button>
 </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+<div style="margin-top: 30px; margin-bottom: 30px; text-align: center;">
+    <button class="btn btn-default myPageBtn" ng-show="YCoinMessages.length == 0 || YCoinMessages.length % 20 != 0" >没有更多数据</button>
+</div>

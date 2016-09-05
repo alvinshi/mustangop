@@ -1,6 +1,6 @@
-body{
-    font-family: "Microsoft YaHei";
-}
+/*body{*/
+    /*font-family: "Microsoft YaHei";*/
+/*}*/
 /*顶部轮播*/
 .carousel3{
     position: absolute;
@@ -293,10 +293,14 @@ body{
     margin-top:0px;
     margin-left: 0px;
     font-size: 20px;
+<<<<<<< HEAD
     border-top: 1px solid #cccccc;
+=======
+    /*border-bottom: 1px solid #cccccc;*/
+>>>>>>> 20c213b18efd74af3e40a6d7a11be7d26b957997
 
     width: 834px;
-    height: 108px;
+    height: 80px;
     padding-left: 50px;
 }
 .img10{
@@ -305,12 +309,11 @@ body{
     border-radius: 5px;
 }
 .release1 {
-
     margin-left: -20px;
-    margin-top: 25px;
+    margin-top: 20px;
 }
 .release2 {
-    margin-left: 80px;
+    margin-left: 50px;
     margin-top: -60px;
 }
 
@@ -383,6 +386,7 @@ body{
     background-color: white;
     border: 1px solid #cccccc;
     border-radius: 4px;
+    margin-top: 20px;
     height: 32px;
     width: 80px;
     font-weight:bold;
