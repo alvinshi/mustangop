@@ -66,7 +66,7 @@ router.get('/ischeckins', function(req, res){
     query.equalTo('checkInsUserObject', userObject);
     query.descending('createdAt');
     query.first().then(function(checkInsOb){
-        if (checkInsOb == undefined || checkInsOb.length <=0){
+        if (checkInsOb == undefined || checkInsOb.length <= 0){
             res.json({'errorId':0, 'isCheckIns': 0, 'todayYB': 1, 'latestDays':0, 'continueCheck': 2})
         }else {
             var todayGiftYb = 0;

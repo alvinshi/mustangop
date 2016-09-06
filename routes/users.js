@@ -411,7 +411,8 @@ router.post('/getNewSmsCode', function(req, res, next) {
         res.json({'errorId':0, 'errorMsg':''});
     }, function(error) {
         // 记录失败信息
-        console.log('Error: ' + error.code + ' ' + error.message);
+        console.error('send new sms error: ' + error.code + ' ' + error.message);
+        res.json({'errorId':error.code, 'errorMsg':error.message});
     });
 
 });

@@ -59,6 +59,11 @@ exports.postFile = function (req, res) {
             var fileUrlList = Array();
             //var promiseIndex = 0;
 
+            if(totalData == 0){
+                res.json({'fileUrlList':fileUrlList, 'totalCount':base64dataList.length});
+                return;
+            }
+
             for (var i = 0; i < base64dataList.length; i++){
                 (function (index){
                     //console.log('------ upload img ------ ' + pubFileNameList[index]);
