@@ -19,7 +19,7 @@ var everydayTaskObjectSql = AV.Object.extend('everydayTaskObject'); // 每日任
 
 var maxCheckIn = 20;
 var inviteRegisterYCoin = 20;
-var inviteTaskYCoin = 200;
+var inviteTaskYCoin = 100;
 
 router.get('/', function(req, res) {
     res.render('homePageSx');
