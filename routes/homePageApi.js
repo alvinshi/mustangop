@@ -288,8 +288,15 @@ router.get('/myReleaseTask', function(req, res){
             releaseObject.taskType = relObjects[i].get('taskType');
             releaseObject.excCount = relObjects[i].get('excCount');
             releaseObject.remainCount = relObjects[i].get('remainCount');
+
+            //succeedProgressStyle
+
+
             var progressStr =  parseFloat(releaseObject.excCount - releaseObject.remainCount) / parseFloat(releaseObject.excCount) * 100 + '%';
-            releaseObject.progressStyle = {"width":progressStr};
+            releaseObject.receProgressStyle = {"width":progressStr};
+
+
+
             releaseObject.taskObjectId = relObjects[i].id;
 
             // app详情
