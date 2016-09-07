@@ -44,7 +44,7 @@ router.get('/taskAudit', function(req, res){
 
         function tryReturn(errorId, errorMsg){
             if (counterForReceive == promiseForReceive){
-                retApps.sort(function(a, b){return (a.createdAt > b.createdAt)?1:-1});
+                retApps.sort(function(a, b){return (a.createdAt < b.createdAt)?1:-1});
                 res.json({'taskAudit':retApps, 'errorId': errorId, 'errorMsg': errorMsg});
             }
         }
