@@ -326,9 +326,14 @@ router.post('/accept/:entryId', function(req, res) {
 
             //每日任务
             var myDate = new Date();
-            if(myDate.getHours() < 17 || (myDate.getHours() == 17 && myDate.getMinutes() < 31)){
-                util.dayTaskIncrement(userId, 'checkTaskY', 1);
+            var taskDate = doTaskObject.createdAt;
+            //需要当天的任务才可以
+            if(myDate.getDay() == taskDate.getDay()){
+                if(myDate.getHours() < 17 || (myDate.getHours() == 17 && myDate.getMinutes() < 31)){
+                    util.dayTaskIncrement(userId, 'checkTaskY', 1);
+                }
             }
+
 
             //邀请任务
             var inviteUserId = receUserObject.get('inviteUserId');

@@ -232,8 +232,12 @@ router.post('/add/:excTaskId', function(req, res){
 
                                 //每日任务
                                 var myDate = new Date();
-                                if(myDate.getHours() < 16 || (myDate.getHours() == 16 && myDate.getMinutes() < 31)){
-                                    util.dayTaskIncrement(userId, 'doTaskY', 1);
+                                var taskDate = receiveTaskObject.createdAt;
+                                //需要当天的任务才可以
+                                if(myDate.getDay() == taskDate.getDay()) {
+                                    if (myDate.getHours() < 16 || (myDate.getHours() == 16 && myDate.getMinutes() < 31)) {
+                                        util.dayTaskIncrement(userId, 'doTaskY', 1);
+                                    }
                                 }
 
                                 var needSaveUserObjects = Array();
