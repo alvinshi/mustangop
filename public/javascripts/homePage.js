@@ -7,8 +7,8 @@ var navIndex = 0;
 
 app.controller('homePageCtrl', function($scope, $http){
     //邀请好友
-    $scope.inviteUrl = "http://yematest.leanapp.cn/user/register/" + getCookie("userIdCookie");
-    //$scope.inviteUrl = "http://www.mustangop.com/user/register/" + getCookie("userIdCookie");
+    //$scope.inviteUrl = "http://yematest.leanapp.cn/user/register/" + getCookie("userIdCookie");
+    $scope.inviteUrl = "http://www.mustangop.com/user/register/" + getCookie("userIdCookie");
     $scope.copyUrl = function () {
         $('#alert-btn').popover('toggle');
         var Url = document.getElementById("invitecopy");
