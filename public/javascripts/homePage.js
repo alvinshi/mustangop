@@ -76,7 +76,7 @@ app.controller('homePageCtrl', function($scope, $http){
     // 每日任务按钮
     $scope.dayTaskLock = 0;
     $scope.dayTaskBtn = function(actionId){
-        if($scope.dayTaskLock = 1){
+        if($scope.dayTaskLock == 1){
             return
         }
         $scope.dayTaskLock = 1;
@@ -94,7 +94,7 @@ app.controller('homePageCtrl', function($scope, $http){
     // 签到按钮
     $scope.checkInLock = 0;
     $scope.butCheckIns = function(){
-        if($scope.checkInLock = 1){
+        if($scope.checkInLock == 1){
             return;
         }
         $scope.checkInLock = 1;
