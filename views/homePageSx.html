@@ -177,12 +177,12 @@
                             <div style="display: inline-block; margin-left: 22px; padding-top: 28px; vertical-align: top; width: 264px;">
                                 <div ng-show="app.remainCount != 0">
                                     <div style="height: 32px; line-height: 32px">
-                                        <div style="display: inline-block; font-size: 18px; vertical-align: middle; line-height:normal;">进度</div>
-                                        <div class="progress myProgress">
+                                        <div style="display: inline-block; font-size: 18px; vertical-align: middle; line-height:normal;">任务领取进度</div>
+                                        <div style="margin-left: 40px" class="progress myProgress">
 
                                             <!--<div class="progress-bar progress-bar-success progress-bar-striped active" role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" ng-style="app.succeedProgressStyle">-->
                                             <!--</div>-->
-                                            <div class="progress-bar progress-bar-info progress-bar-striped active" role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" ng-style="app.receProgressStyle">
+                                            <div  class="progress-bar progress-bar-info progress-bar-striped active" role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" ng-style="app.receProgressStyle">
                                             </div>
 
                                         </div>
@@ -193,7 +193,6 @@
                                         </div>
                                     </div>
                                     <div style="margin-top: 5px; font-size: 14px;">
-                                        <span style="color: #666666;">任务类型:</span>
                                         <span style="color: #5a94ec">{{app.taskType}}</span>
                                     </div>
                                 </div>
@@ -201,7 +200,7 @@
                                 <div ng-show="app.remainCount == 0">
                                     <div style="display: inline-block; line-height: 1; vertical-align: middle; width: 150px;">
                                         <div style="margin-top: 7px;margin-bottom: 12px;">
-                                            <div style="font-size: 18px;color: #90ea5f;">已完成<span class="glyphicon glyphicon-ok-circle my-glyphicon"></span></div>
+                                            <div style="font-size: 18px;color: #90ea5f;">已被领完<span class="glyphicon glyphicon-ok-circle my-glyphicon"></span></div>
                                         </div>
                                         <div style="font-size: 14px;">
                                             <span style="color: #666666;">任务类型:</span>
@@ -252,10 +251,10 @@
                         </button>
                     </div>
 
-                    <div class="panel" style="margin-left: 24px">
+                    <div class="panel" style="margin-left: 24px;margin-top: -200px">
                         <div style="font-size:20px; color: #5a94ec; margin-bottom: 10px">引导新人奖励</div>
                         <div style="font-size:14px; color: #333333; margin-bottom: 6px">引导好友顺利完成所有新手任务,获得奖励</div>
-                        <div style="font-size:12px; color: #999999; margin-bottom: 12px">奖励200Y币/人</div>
+                        <div style="font-size:12px; color: #999999; margin-bottom: 12px">奖励100Y币/人</div>
                         <button class="btn btn-warning orangeBtn" data-id= "guideUserRewardYB" onclick="clickToReceive(this)" ng-show="noviceTaskObject.successCanReceive > 0">
                             可领{{noviceTaskObject.successCanReceive}}Y币
                         </button>
