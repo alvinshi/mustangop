@@ -76,10 +76,10 @@ app.controller('homePageCtrl', function($scope, $http){
     // 每日任务按钮
     $scope.dayTaskLock = 0;
     $scope.dayTaskBtn = function(actionId){
-        $scope.dayTaskLock = 1;
         if($scope.dayTaskLock = 1){
             return
         }
+        $scope.dayTaskLock = 1;
         var checkInsURL = 'homePage/dayTask';
         $http.post(checkInsURL, {'actionId':actionId}).success(function(response){
             $scope.dayTaskLock = 0;
@@ -94,10 +94,10 @@ app.controller('homePageCtrl', function($scope, $http){
     // 签到按钮
     $scope.checkInLock = 0;
     $scope.butCheckIns = function(){
-        $scope.checkInLock = 1;
         if($scope.checkInLock = 1){
             return;
         }
+        $scope.checkInLock = 1;
         var checkInsURL = 'homePage/checkIns';
         $http.post(checkInsURL, {}).success(function(response){
             $scope.checkInLock = 0;
@@ -152,10 +152,10 @@ app.controller('homePageCtrl', function($scope, $http){
     // 点击领取
     $scope.receInLock = 0;
     clickToReceive = function(button){
-        $scope.receInLock = 1;
         if($scope.receInLock == 1){
             return;
         }
+        $scope.receInLock = 1;
         var actionId = button.getAttribute("data-id");
         var userReceiveAwardUrl = 'homePage/userReceiveAward';
         var transferMoney = {'actionId': actionId};
