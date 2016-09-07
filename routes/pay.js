@@ -92,7 +92,7 @@ router.get('/return', function(req, res) {
                     var query = new AV.Query(User);
                     query.get(chargeUserId).then(function(userObject){
                         if(userObject.get('firstRecharge') == undefined || userObject.get('firstRecharge') == 0){
-                            var firstBoundsYCoin = 999;
+                            var firstBoundsYCoin = 990;
                             //首充奖励
                             userObject.increment('totalMoney', firstBoundsYCoin);
                             //记录奖励金额
