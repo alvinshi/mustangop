@@ -362,7 +362,7 @@ router.get('/noviceTask', function(req, res){
                     noviceObject.noviceTaskAcceptReward = 0;
                 }
                 else if (registerBonus == 'register_accept_task'){
-                    noviceObject.noviceReward = -1;
+                    noviceObject.noviceReward = 20;
                     noviceObject.noviceTaskAcceptReward = 30;
                 }
                 else {
@@ -389,11 +389,18 @@ router.get('/noviceTask', function(req, res){
                     }
                 }
                 else if (registerBonus == 'register_accept_task'){
-                    noviceObject.noviceReward = -1;
-                    if(uploadHaveReceive == 'finishNoviceTask'){
-                        noviceObject.noviceTaskAcceptReward = -1;
-                    }else {
+                    if(uploadHaveReceive == 'uploadHaveReceive'){
+                        //完成任务,未领取第二次任务奖励
+                        noviceObject.noviceReward = -1;
                         noviceObject.noviceTaskAcceptReward = 30;
+                    }else {
+                        //完成任务,不在第一次任务奖励完的状态
+                        noviceObject.noviceReward = 20;
+                        if(uploadHaveReceive == 'finishNoviceTask'){
+                            noviceObject.noviceTaskAcceptReward = -1;
+                        }else {
+                            noviceObject.noviceTaskAcceptReward = 30;
+                        }
                     }
                 }
                 else if (registerBonus == 'register_new'){
