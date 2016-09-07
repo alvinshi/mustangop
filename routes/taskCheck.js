@@ -29,7 +29,7 @@ router.get('/taskAudit', function(req, res){
     query.equalTo('userObject', user);
     query.equalTo('close', false);
     query.include('appObject');
-    query.ascending('createdAt');
+    query.descending('createdAt');
     query.find().then(function(results){
         if (results == undefined || results.length == 0){
             res.json({'errorId': 0, 'errorMsg': '', 'taskAudit': []});
