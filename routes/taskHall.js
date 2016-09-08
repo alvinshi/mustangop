@@ -55,6 +55,10 @@ function taskObjectToDic(taskObject, isOpen){
 
 //获取任务大厅任务
 router.get('/:type/:userCId/:page', function(req, res, next) {
+    if(req.params.userCId == 'null'){
+        res.json({'errorId': -1, 'message': 'not register user'});
+        return;
+    }
     var userCId = Base64.decode(req.params.userCId);
     var page = req.params.page;
     var type = req.params.type; //1下载 2评论
@@ -67,8 +71,7 @@ router.get('/:type/:userCId/:page', function(req, res, next) {
     if (userCId == undefined){
         //generation header code
         res.json({'errorId': -1, 'message': 'not register user'});
-    }
-    else {
+    }else {
         var tempUserQuery = new AV.Query(tempUserSQL);
         tempUserQuery.get(userCId).then(function (userTempObject) {
 
