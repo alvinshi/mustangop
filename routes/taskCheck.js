@@ -29,7 +29,7 @@ router.get('/taskAudit', function(req, res){
     query.equalTo('userObject', user);
     query.equalTo('close', false);
     query.include('appObject');
-    query.ascending('createdAt');
+    query.descending('createdAt');
     query.find().then(function(results){
         if (results == undefined || results.length == 0){
             res.json({'errorId': 0, 'errorMsg': '', 'taskAudit': []});
@@ -44,7 +44,7 @@ router.get('/taskAudit', function(req, res){
 
         function tryReturn(errorId, errorMsg){
             if (counterForReceive == promiseForReceive){
-                retApps.sort(function(a, b){return (a.createdAt > b.createdAt)?1:-1});
+                retApps.sort(function(a, b){return (a.createdAt < b.createdAt)?1:-1});
                 res.json({'taskAudit':retApps, 'errorId': errorId, 'errorMsg': errorMsg});
             }
         }
@@ -326,9 +326,14 @@ router.post('/accept/:entryId', function(req, res) {
 
             //每日任务
             var myDate = new Date();
-            if(myDate.getHours() < 17 || (myDate.getHours() == 17 && myDate.getMinutes() < 31)){
-                util.dayTaskIncrement(userId, 'checkTaskY', 1);
+            var taskDate = doTaskObject.createdAt;
+            //需要当天的任务才可以
+            if(myDate.getDay() == taskDate.getDay()){
+                if(myDate.getHours() < 17 || (myDate.getHours() == 17 && myDate.getMinutes() < 31)){
+                    util.dayTaskIncrement(userId, 'checkTaskY', 1);
+                }
             }
+
 
             //邀请任务
             var inviteUserId = receUserObject.get('inviteUserId');

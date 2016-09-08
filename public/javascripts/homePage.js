@@ -7,15 +7,13 @@ var navIndex = 0;
 
 app.controller('homePageCtrl', function($scope, $http){
     //邀请好友
-    $scope.inviteUrl = "http://yematest.leanapp.cn/user/register/" + getCookie("userIdCookie");
-    //$scope.inviteUrl = "http://www.mustangop.com/user/register/" + getCookie("userIdCookie");
-    $scope.copyUrl = function (id) {
+    //$scope.inviteUrl = "http://yematest.leanapp.cn/user/register/" + getCookie("userIdCookie");
+    $scope.inviteUrl = "http://www.mustangop.com/user/register/" + getCookie("userIdCookie");
+    $scope.copyUrl = function () {
         $('#alert-btn').popover('toggle');
         var Url = document.getElementById("invitecopy");
         Url.select(); // 选择对象
         document.execCommand("Copy"); // 执行浏览器复制命令
-            $('#'+ id).popover("toggle");
-
     };
 
     //尊贵客人
@@ -76,9 +74,15 @@ app.controller('homePageCtrl', function($scope, $http){
     });
 
     // 每日任务按钮
+    $scope.dayTaskLock = 0;
     $scope.dayTaskBtn = function(actionId){
+        if($scope.dayTaskLock == 1){
+            return
+        }
+        $scope.dayTaskLock = 1;
         var checkInsURL = 'homePage/dayTask';
         $http.post(checkInsURL, {'actionId':actionId}).success(function(response){
+            $scope.dayTaskLock = 0;
             if (response.errorId == 0){
                 $scope.releaseTaskY = response.releaseTaskY;
                 $scope.doTaskY = response.doTaskY;
@@ -86,14 +90,17 @@ app.controller('homePageCtrl', function($scope, $http){
             }
         })
     };
-//邀请弹窗
-    $scope.addApp=function(id) {
-        $('#'+ id).popover("toggle");
-    };
+
     // 签到按钮
+    $scope.checkInLock = 0;
     $scope.butCheckIns = function(){
+        if($scope.checkInLock == 1){
+            return;
+        }
+        $scope.checkInLock = 1;
         var checkInsURL = 'homePage/checkIns';
         $http.post(checkInsURL, {}).success(function(response){
+            $scope.checkInLock = 0;
             $scope.errorId = response.errorId;
             $scope.errorMsg = response.errorMsg;
             if (response.errorId == 0){
@@ -143,12 +150,18 @@ app.controller('homePageCtrl', function($scope, $http){
     });
 
     // 点击领取
+    $scope.receInLock = 0;
     clickToReceive = function(button){
+        if($scope.receInLock == 1){
+            return;
+        }
+        $scope.receInLock = 1;
         var actionId = button.getAttribute("data-id");
         var userReceiveAwardUrl = 'homePage/userReceiveAward';
         var transferMoney = {'actionId': actionId};
 
         $http.post(userReceiveAwardUrl, transferMoney).success(function(response){
+            $scope.receInLock = 0;
             $scope.errorId = response.errorId;
             $scope.errorMsg = response.errorMsg;
             if (response.errorId == 0){

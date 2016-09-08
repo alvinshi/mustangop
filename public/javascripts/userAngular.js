@@ -34,7 +34,7 @@ app.controller('userAccountCtrl', function($scope, $http, $location) {
 
             if (response.errorId == 0){
                 //return to my App
-                location.href='/guide';
+                location.href='/homePage';
             }else {
                 $scope.errorMsg = response.errorMsg;
             }
@@ -53,7 +53,7 @@ app.controller('userAccountCtrl', function($scope, $http, $location) {
 
             if (response.errorId == 0){
                 //return to my App
-                location.href='/';
+                location.href='/homePage';
             }
         });
     };

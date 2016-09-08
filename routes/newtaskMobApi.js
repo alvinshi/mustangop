@@ -125,7 +125,6 @@ router.post('/claim/:excTaskId', function(req, res){
 // 新增 做内部做任务
 router.post('/add/:excTaskId', function(req, res){
     var excTaskId = req.params.excTaskId;
-    var userId = util.useridInReq(req);
     var requirementImgs = req.body.requirementImgs;
 
     var userUploadName = undefined;
@@ -205,8 +204,12 @@ router.post('/add/:excTaskId', function(req, res){
 
                                 //每日任务
                                 var myDate = new Date();
-                                if(myDate.getHours() < 16 || (myDate.getHours() == 16 && myDate.getMinutes() < 31)){
-                                    util.dayTaskIncrement(userId, 'doTaskY', 1);
+                                var taskDate = receiveTaskObject.createdAt;
+                                //需要当天的任务才可以
+                                if(myDate.getDay() == taskDate.getDay()) {
+                                    if (myDate.getHours() < 16 || (myDate.getHours() == 16 && myDate.getMinutes() < 31)) {
+                                        util.dayTaskIncrement(userObject.id, 'doTaskY', 1);
+                                    }
                                 }
 
                                 var needSaveUserObjects = Array();

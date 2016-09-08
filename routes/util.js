@@ -59,6 +59,11 @@ exports.postFile = function (req, res) {
             var fileUrlList = Array();
             //var promiseIndex = 0;
 
+            if(totalData == 0){
+                res.json({'fileUrlList':fileUrlList, 'totalCount':base64dataList.length});
+                return;
+            }
+
             for (var i = 0; i < base64dataList.length; i++){
                 (function (index){
                     //console.log('------ upload img ------ ' + pubFileNameList[index]);
@@ -76,7 +81,7 @@ exports.postFile = function (req, res) {
                                 res.json({'fileUrlList':fileUrlList, 'totalCount':base64dataList.length});
                             }
                         }, function(error){
-                            console.log('------ ' + pubFileNameList[index] + ' upload img failed ------ ' + error.message);
+                            console.error('------ ' + pubFileNameList[index] + ' upload img failed ------ ' + error.message);
                             promiseIndex++;
                             if(promiseIndex == totalData){
                                 res.json({'errorId':error.code, 'errorMsg':error.message});
@@ -85,7 +90,7 @@ exports.postFile = function (req, res) {
                     }catch (e){
                         promiseIndex++;
                         if(promiseIndex == totalData){
-                            console.log('------ AVFile error:' + pubFileNameList[index] + ' upload img failed ------ ' + e.message);
+                            console.error('------ AVFile error:' + pubFileNameList[index] + ' upload img failed ------ ' + e.message);
                             res.json({'errorId':error.code, 'errorMsg':error.message});
                         }
                     }
@@ -321,7 +326,7 @@ exports.dayTaskIncrement = function(userId, taskKey, incrementYCoin){
         }
 
     },function(error){
-        res.json({'errorMsg':error.message, 'errorId': error.code});
+        console.error('day task save error ' + userId + ' ,task ' + taskKey, 'add Y Coin ' + incrementYCoin);
     });
 };
 

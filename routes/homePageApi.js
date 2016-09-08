@@ -19,7 +19,7 @@ var everydayTaskObjectSql = AV.Object.extend('everydayTaskObject'); // 每日任
 
 var maxCheckIn = 20;
 var inviteRegisterYCoin = 20;
-var inviteTaskYCoin = 200;
+var inviteTaskYCoin = 100;
 
 router.get('/', function(req, res) {
     res.render('homePageSx');
@@ -66,7 +66,7 @@ router.get('/ischeckins', function(req, res){
     query.equalTo('checkInsUserObject', userObject);
     query.descending('createdAt');
     query.first().then(function(checkInsOb){
-        if (checkInsOb == undefined || checkInsOb.length <=0){
+        if (checkInsOb == undefined || checkInsOb.length <= 0){
             res.json({'errorId':0, 'isCheckIns': 0, 'todayYB': 1, 'latestDays':0, 'continueCheck': 2})
         }else {
             var todayGiftYb = 0;
@@ -95,7 +95,7 @@ router.get('/ischeckins', function(req, res){
                 res.json({'errorId':0, 'isCheckIns': 0, 'todayYB': tomorrowGiftYb, 'latestDays':latestDays, 'continueCheck': (tomorrowGiftYb+1>maxCheckIn) ? maxCheckIn : tomorrowGiftYb+1})
             }
             else {
-                res.json({'errorId':0, 'isCheckIns': 0, 'todayYB': 1, 'latestDays':latestDays,  'continueCheck': 2})
+                res.json({'errorId':0, 'isCheckIns': 0, 'todayYB': 1, 'latestDays':0,  'continueCheck': 2})
             }
         }
     },function(error){
@@ -288,8 +288,15 @@ router.get('/myReleaseTask', function(req, res){
             releaseObject.taskType = relObjects[i].get('taskType');
             releaseObject.excCount = relObjects[i].get('excCount');
             releaseObject.remainCount = relObjects[i].get('remainCount');
+
+            //succeedProgressStyle
+
+
             var progressStr =  parseFloat(releaseObject.excCount - releaseObject.remainCount) / parseFloat(releaseObject.excCount) * 100 + '%';
-            releaseObject.progressStyle = {"width":progressStr};
+            releaseObject.receProgressStyle = {"width":progressStr};
+
+
+
             releaseObject.taskObjectId = relObjects[i].id;
 
             // app详情
@@ -355,7 +362,7 @@ router.get('/noviceTask', function(req, res){
                     noviceObject.noviceTaskAcceptReward = 0;
                 }
                 else if (registerBonus == 'register_accept_task'){
-                    noviceObject.noviceReward = -1;
+                    noviceObject.noviceReward = 20;
                     noviceObject.noviceTaskAcceptReward = 30;
                 }
                 else {
@@ -382,11 +389,19 @@ router.get('/noviceTask', function(req, res){
                     }
                 }
                 else if (registerBonus == 'register_accept_task'){
-                    noviceObject.noviceReward = -1;
-                    if(uploadHaveReceive == 'finishNoviceTask'){
-                        noviceObject.noviceTaskAcceptReward = -1;
-                    }else {
+                    if(uploadHaveReceive == undefined){
+                        //一个都没领取,先领第一步的奖励
+                        noviceObject.noviceReward = 20;
+                        noviceObject.noviceTaskAcceptReward = 0;
+                    }
+                    else if(uploadHaveReceive == 'uploadHaveReceive'){
+                        //领取了第一次任务奖励
+                        noviceObject.noviceReward = -1;
                         noviceObject.noviceTaskAcceptReward = 30;
+                    }else if(uploadHaveReceive == 'finishNoviceTask'){
+                        //全部都领了
+                        noviceObject.noviceReward = -1;
+                        noviceObject.noviceTaskAcceptReward = -1;
                     }
                 }
                 else if (registerBonus == 'register_new'){

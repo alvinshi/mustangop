@@ -92,7 +92,7 @@ router.get('/return', function(req, res) {
                     var query = new AV.Query(User);
                     query.get(chargeUserId).then(function(userObject){
                         if(userObject.get('firstRecharge') == undefined || userObject.get('firstRecharge') == 0){
-                            var firstBoundsYCoin = 999;
+                            var firstBoundsYCoin = 990;
                             //首充奖励
                             userObject.increment('totalMoney', firstBoundsYCoin);
                             //记录奖励金额
@@ -112,10 +112,10 @@ router.get('/return', function(req, res) {
                         console.error('首充奖励失败:' + error.message);
                         res.json({'errorMsg':'', 'errorId':0, 'message':'充值成功,获得' + addYB + 'YB,请刷新个人中心查看最新YB金额'});
                     });
+                }else {
+                    //默认充值
+                    res.json({'errorMsg':'', 'errorId':0, 'message':'充值成功,获得' + addYB + 'YB,请刷新个人中心查看最新YB金额'});
                 }
-
-                //默认充值
-                res.json({'errorMsg':'', 'errorId':0, 'message':'充值成功,获得' + addYB + 'YB,请刷新个人中心查看最新YB金额'});
             }, function(err) {
                 // 充值成功,YB增加失败,请联系客服人员
                 // 其他基本没用,不精准

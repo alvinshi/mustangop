@@ -144,7 +144,8 @@
                                         <span class="label label-danger danger" ng-show="app.formattedPrice != '免费'">{{app.formattedPrice}}</span>
                                         <span ng-class="{true: 'infoBubble2', false: 'infoBubble1'}[ app.taskType=='评论']">{{ app.taskType }}</span>
                                         <span class="infoBubble">剩余: <span style="color:#53d435">{{ app.remainCount }}</span> 条</span>
-                                        <span class="infoBubble">单价: <span style="color:#53d435">{{app.rateUnitPrice}}</span> Y币</span>
+                                        <span class="infoBubble" ng-show="app.rateUnitPrice < 40">单价: <span style="color:#53d435">{{app.rateUnitPrice}}</span> Y币</span>
+                                        <span class="infoBubble" ng-show="app.rateUnitPrice >= 40">单价: <span style="color:red">{{app.rateUnitPrice}}</span> Y币</span>
                                         <span class="infoBubble"><span style="color:#53d435">IOS</span></span>
                                         <span class="infoBubble"><span style="color:red">更新日期:{{ app.latestReleaseDate | date:"yyyy/MM/dd"  }}</span></span>
 
@@ -439,7 +440,8 @@
                                     <div>
                                         <span class="infoBubble">{{ app.taskType }}</span>
                                         <span class="infoBubble">剩余: <span style="color:#53d435">{{ app.remainCount }}</span> 条</span>
-                                        <span class="infoBubble">单价: <span style="color:#53d435">{{app.rateUnitPrice}}</span> Y币</span>
+                                        <span class="infoBubble" ng-show="app.rateUnitPrice < 40">单价: <span style="color:#53d435">{{app.rateUnitPrice}}</span> Y币</span>
+                                        <span class="infoBubble" ng-show="app.rateUnitPrice >= 40">单价: <span style="color:red">{{app.rateUnitPrice}}</span> Y币</span>
                                         <span class="infoBubble"><span style="color:#53d435">IOS</span></span>
                                         <span class="infoBubble"><span style="color:red">更新日期:{{ app.latestReleaseDate | date:"yyyy/MM/dd"  }}</span></span>
                                     </div>
@@ -734,7 +736,8 @@
                                     <div>
                                         <span class="infoBubble">{{ app.taskType }}</span>
                                         <span class="infoBubble">剩余: <span style="color:#53d435">{{ app.remainCount }}</span> 条</span>
-                                        <span class="infoBubble">单价: <span style="color:#53d435">{{app.rateUnitPrice}}</span> Y币</span>
+                                        <span class="infoBubble" ng-show="app.rateUnitPrice < 40">单价: <span style="color:#53d435">{{app.rateUnitPrice}}</span> Y币</span>
+                                        <span class="infoBubble" ng-show="app.rateUnitPrice >= 40">单价: <span style="color:red">{{app.rateUnitPrice}}</span> Y币</span>
                                         <span class="infoBubble"><span style="color:#53d435">IOS</span></span>
                                         <span class="infoBubble"><span style="color:red">更新日期:{{ app.latestReleaseDate | date:"yyyy/MM/dd"  }}</span></span>
                                     </div>

@@ -34,7 +34,7 @@ function getTaskCheckQuery(){
     // 已经被定时器操作过的任务
     query.notEqualTo('close', true);
     query.notEqualTo('timerDone', true);
-    query.lessThanOrEqualTo('createdAt', yesterdayDate);
+    query.lessThanOrEqualTo('updatedAt', yesterdayDate);
     query.ascending('createdAt');
     return query;
 }
