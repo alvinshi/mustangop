@@ -55,7 +55,7 @@ app.controller('itunesSearchControl', function($scope, $http) {
                 $scope.appNeedInfo.excUnitPrice = 30;
             }
 
-            else {$scope.appNeedInfo.excUnitPrice = 25;}
+            else {$scope.appNeedInfo.excUnitPrice = 23;}
 
             if ($scope.appNeedInfo.screenshotCount == undefined){
                 $scope.appNeedInfo.screenshotCount= 3;
@@ -135,13 +135,13 @@ app.controller('itunesSearchControl', function($scope, $http) {
     {
         var myVal= document.getElementById("mytext1").value;
         $scope.mycal=myVal;
-        if (60 >=myVal&&myVal>=20) {
+        if (50 >=myVal&&myVal>=20) {
             $("#jue").show();
-            $scope.key=1;
+            $scope.key=(myVal/10-2).toFixed(1);
         }
-        else if(myVal>60&&myVal<=100){
+        else if(myVal>50&&myVal<=100){
             $("#jue").show();
-            $scope.key=5
+            $scope.key=(3+(myVal-50)*0.5).toFixed(1);
         }
         else{
             $("#jue").hide();
@@ -205,9 +205,11 @@ app.controller('itunesSearchControl', function($scope, $http) {
     })
     //*******************判断是下载还是评论****************
     $scope.down=false;
+    $scope.taskprice=30;
     $scope.download=function(){
         if(document.getElementById("radtwoInput").checked){
             $scope.down = !$scope.down;
+            $scope.taskprice=23;
         }
         else{
             $scope.down=false;
@@ -216,6 +218,7 @@ app.controller('itunesSearchControl', function($scope, $http) {
     $scope.download1=function(){
         if(document.getElementById("radoneInput").checked){
             $scope.down = false;
+            $scope.taskprice=30;
         }
     }
 
@@ -703,7 +706,7 @@ app.controller('itunesSearchControl', function($scope, $http) {
             $scope.appNeedInfo.excUnitPrice = 30;
         }
         else{
-            $scope.appNeedInfo.excUnitPrice = 25;
+            $scope.appNeedInfo.excUnitPrice = 23;
         }
         $scope.saved = false;
     };

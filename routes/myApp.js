@@ -149,6 +149,7 @@ router.post('/UpdateApp', function(req, res){
                     }, function(error) {
                         // 失败了.
                         dealiTunesAppFailed(retApps, appIbject);
+                        console.error('失败' + dealiTunesAppFailed(retApps, appIbject));
                         res.json({'errorId': -1, 'errorMsg': 'APP更新失败'});
                     });
                 })

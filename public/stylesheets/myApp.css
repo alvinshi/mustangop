@@ -89,7 +89,7 @@
 .content1{
     position: absolute;
     left:0px;
-    width:1400px;
+    width:1370px;
     background-color: #f5f5f5;
 }
 div#hello {
@@ -113,6 +113,8 @@ div#hello {
     color:#999999;
     line-height: 30px;
     text-align: center;
+    border-bottom-right-radius: 3px;
+    border-top-right-radius: 3px;
 }
 
 .radone input[type=radio]:checked + label {
