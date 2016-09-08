@@ -347,12 +347,12 @@ app.controller('itunesSearchControl', function($scope, $http) {
     };
 
     // 更新APP信息
-    $scope.updateApp = function(){
+    $scope.updateApp = function(appid, appObjectId){
         $("#updateApp").modal('show');
         $scope.isLoadingApp=true;
         $scope.errorMsg="";
         var updateAppURL = '/myapp/UpdateApp';
-        $http.post(updateAppURL).success(function(response){
+        $http.post(updateAppURL, {'appleId':appid, 'appObjectId':appObjectId}).success(function(response){
             $scope.errorId = response.errorId;
             $scope.errorMsg = response.errorMsg;
             if (response.errorId == 0){
@@ -360,15 +360,15 @@ app.controller('itunesSearchControl', function($scope, $http) {
                 $scope.isLoadingApp = false;
 
                 $scope.numOfApps = response.myApps.length;
-                if ($scope.numOfApps > 0) {
-                    //App排序
-                    $scope.myApps = response.myApps.sort(function(a, b){return a.createdAt >= b.createdAt});
-                    //默认选择第一个App
-                    $scope.selectedApp = $scope.myApps[0];
-                    $scope.isDisabled = false;
-
-                    refreshAddBtn();
-                }
+                //if ($scope.numOfApps > 0) {
+                //    //App排序
+                //    $scope.myApps = response.myApps.sort(function(a, b){return a.createdAt >= b.createdAt});
+                //    //默认选择第一个App
+                //    $scope.selectedApp = $scope.myApps[0];
+                //    $scope.isDisabled = false;
+                //
+                //    refreshAddBtn();
+                //}
             }
         })
     };
