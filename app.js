@@ -37,6 +37,10 @@ var webAnalysis = require('./routes/webAnalysis');
 var newPcTask = require('./routes/newPcTask');
 var homePage = require('./routes/homePageApi');
 
+//小马试客
+var taskUsers = require('./routes/taskUsers');
+var taskHall = require('./routes/taskHall');
+
 var app = express();
 
 // 设置 view 引擎
@@ -44,6 +48,7 @@ app.set('views', path.join(__dirname, 'views'));
 app.engine('.html', ejs.__express);
 app.set('view engine', 'html');
 app.use(express.static('public'));
+app.use(express.static('lib'));
 
 //接口强制超时
 app.use(timeout('30s'));
@@ -106,9 +111,13 @@ app.use(function (req, res, next) {
   loginWhiteList.push("/newtaskMobile");
   loginWhiteList.push("/interiorExcDetail");
   loginWhiteList.push("/doTask");
-  loginWhiteList.push("/doTask");
   loginWhiteList.push("/webAnalysis");
 
+    //小马App
+    loginWhiteList.push("/app");
+    loginWhiteList.push("/templates");
+    loginWhiteList.push("/taskUser");
+    loginWhiteList.push("/taskHall");
 
   var needLogin = !routeHasPrefix(req.originalUrl, loginWhiteList);
 
@@ -156,6 +165,11 @@ app.get('/guide', function(req, res) {
   res.render('guide');
 });
 
+//小马试客
+app.get('/app', function(req, res) {
+    res.render('app');
+});
+
 // 可以将一类的路由单独保存在一个文件中
 app.use('/api', api);
 app.use('/user', users);
@@ -175,6 +189,10 @@ app.use('/webAnalysis', webAnalysis);
 app.use('/newPcTask', newPcTask);
 app.use('/homePage', homePage);
 
+//小马试客
+app.use('/taskUser', taskUsers);
+app.use('/taskHall', taskHall);
+app.use('/templates', loadHtml);
 
 //静态html组建
 app.use('/html', loadHtml);

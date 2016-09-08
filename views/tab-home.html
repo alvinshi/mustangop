@@ -1,0 +1,71 @@
+<ion-view view-title="首页">
+    <ion-content>
+
+        <!--设备需求-->
+        <!--非IOS设备以及Android设备的判断-->
+        <ion-card ng-show="isIOSDevice != 1">
+            <ion-card-header>
+                目前小马试客只支持IOS设备
+            </ion-card-header>
+
+            <ion-card-content>
+                <span ng-show="isAndroidDevice == 1"> 我们会尽快支持Android的应用试用</span>
+                <span ng-show="isAndroidDevice != 1"> 不好意思,请在IOS设备上打开</span>
+            </ion-card-content>
+        </ion-card>
+
+        <!--IOS浏览器鉴别-->
+        <ion-card ng-show="isIOSDevice == 1 && isiPhoneSafari != 1">
+            <ion-card-header>
+                需要在Safari中打开链接
+            </ion-card-header>
+
+            <ion-card-content>
+                <span ng-show="isQQBrowser == 1"> 当前使用的是QQ内置浏览器</span>
+                <span ng-show="isWeixinBrowser == 1"> 当前使用的是微信内置浏览器</span>
+                <button class="button button-positive" onclick="window.location.href = 'safari://www.baidu.com'">
+                    点击右上家,选择用Safari中打开
+                </button>
+            </ion-card-content>
+        </ion-card>
+
+        <div ng-show="isIOSDevice == 1 && isiPhoneSafari == 1">
+            <!--账户信息-->
+            <ion-spinner ng-show="userCode == undefined" icon="ripple" class="spinner-assertive"></ion-spinner>
+            <div ng-show="userCode != undefined">
+                <p>ID:{{userCode}}</p>
+
+                <p>今日收益</p>
+                <p>{{todayMoney}}</p>
+                <p>账户余额:{{currentMoney}}</p>
+                <p>总收益:{{totalMoney}}</p>
+            </div>
+            <p ng-show="errorId != 0 && message.length > 0">服务器错误:{{message}}</p>
+
+        </div>
+
+        <!--野马宣传文案-->
+        <p>小马试客</p>
+        <p>用手机按要求下载App</p>
+        <p>用手机轻松赚零花钱</p>
+
+        <!--野马师徒体系-->
+        <div ng-show="isIOSDevice == 1 && isiPhoneSafari == 1">
+            <p>
+                收徒体系，让你的钱赚的更多
+            <p>
+                <a class="button icon-right ion-chevron-right button-calm" ng-click="copyInviteUrl()">
+                    复制邀请链接
+                </a>
+            </p>
+            注.您可以获得您徒弟任务的10%的奖励
+            </p>
+
+            <label class="item item-input">
+                <span class="input-label">输入邀请码,得0.2元</span>
+                <input type="text">
+            </label>
+        </div>
+
+    </ion-content>
+</ion-view>
