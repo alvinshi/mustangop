@@ -326,7 +326,7 @@ exports.dayTaskIncrement = function(userId, taskKey, incrementYCoin){
         }
 
     },function(error){
-        res.json({'errorMsg':error.message, 'errorId': error.code});
+        console.error('day task save error ' + userId + ' ,task ' + taskKey, 'add Y Coin ' + incrementYCoin);
     });
 };
 
