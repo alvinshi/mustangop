@@ -205,13 +205,17 @@
         <br>
         <div class="window1">
         <span style="font-size: 25px; color:black">{{ selectedApp.trackName.substr(0,30) }}</span>
-            <p class="text1">版本号 {{ selectedApp.version.substr() }}</p>
-            <p class="text2" ng-show="selectedApp.latestReleaseDate.length > 0">更新日期 {{  selectedApp.latestReleaseDate| date: 'yy/MM/dd'}}</p>
-            <p class="text1">版本号: {{ selectedApp.formattedPrice }}</p>
+            <div style="margin-left: 22em;margin-top: 0.8em; margin-bottom: 0.5em;">
+                <p class="text1">版本号 {{ selectedApp.version.substr() }}
+            <span  class="text1" ng-show="selectedApp.latestReleaseDate.length > 0">更新日期 {{  selectedApp.latestReleaseDate| date: 'yy/MM/dd'}}
+            <span class="text1">类别: {{ selectedApp.formattedPrice }}
+        </span></span></p></div>
 
+
+            <div  style="margin-top: 2em;">
             <button class="add_app" ng-click="updateApp()"  data-toggle="modal" >
                 <span class="glyphicon glyphicon-repeat" style="color: #3498db" ></span>&nbsp;更新APP信息
-            </button>
+            </button></div>
         </div>
         <!--更新APP弹出窗口-->
         <!--Modal-->
@@ -236,7 +240,7 @@
             </div><!-- /.modal-dialog -->
         </div>
       <!--标签页-->
-        <div class="btn-toolbar" role="toolbar" style="margin-top: -70px;margin-left: 35px;">
+        <div class="btn-toolbar" role="toolbar" style="margin-top: -3em;margin-left: 35px;">
             <div class="btn-group" >
                 <button type="button" class="b30"  id="model01">模板一</button>
                 <button type="button" class="b30" id="model02">模板二</button>
