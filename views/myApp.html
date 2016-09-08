@@ -35,17 +35,17 @@
     <script src="/javascripts/itunesApi.js"></script>
     <script src="/javascripts/indexApp.js"></script>
 </head>
-<body ng-app="yemaWebApp">
+<body ng-app="yemaWebApp" >
 <!--[if lt IE 8]>
 <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">更新您的浏览器</a> 从而获得更好的体验.</p>
 <![endif]-->
-<div class="container" ng-controller="indexAppCtrl" >
+<div class="container" ng-controller="indexAppCtrl" style="width: 100%;" >
     <!--导航-->
     <th-nav></th-nav>
 </div>
 
 <div class="container">
-    <div  class=" main_content"  ng-controller="itunesSearchControl">
+    <div  class=" main_content"  ng-controller="itunesSearchControl" style="margin-left: -30px;">
         <!--添加APP-->
         <div class="add">
             <!--绑定APP-->
@@ -54,26 +54,49 @@
                  ng-click="selectedAppFunc(app)"
                  ng-repeat="app in myApps"
                  ng-class="{true: 'border'}[selectedApp == app]"
-                 style="border-radius: 6px;position: relative">
+                 style="border-radius: 6px;position: relative;">
 
-
+                <div class="add0">
                 <a href="">
-
-                    <img ng-src="{{ app.artworkUrl512 }}" class="img-responsive"  alt="App Icon" >
+                    <img ng-src="{{ app.artworkUrl512 }}" class="img-responsive"  alt="App Icon" style="padding: 5px">
+                    <img src="/images/doTask/close.png" class="close2" style="height:20px;width:20px;position: absolute;top:-13px;right:-15px;" ng-click="releaseBtnClick(app)" data-toggle="modal" data-target="#mymodal">
                     <img  src="/images/doTask/update.png" ng-show="app.isUpdated" class="img-responsive"  alt="New flag"
                           style="position: absolute;top: -1px;left:-22px;width: 60px;height: 60px">
-                </a>
-
+                </a></div>
             </div>
-                </div>
-            <div class="addApp1" >
-                <button class="btn_addApp1" data-target="#addApp_modal" data-toggle="modal">
+
+            <div style="margin-bottom: 15px;" >
+                <button class="btn_addApp" data-target="#addApp_modal" data-toggle="modal">
             <span class="glyphicon glyphicon-plus" style="font-size: 2em;">
             </span>
                 </button>
             </div>
+            </div>
         </div>
+<!--解绑APP-->
+        <div class="modal fade" id="mymodal">
+            <div class="modal-dialog">
+                <div class="modal-content" style="width: 360px;">
+                    <div class="modal-header" style="height: 74px;background-color:#6eb7e8;border-radius:4px;text-align: center">
+                        <button type="button" class="close" data-dismiss="modal">
+                            <span aria-hidden="true">×
+                            </span>
+                            <span class="sr-only">Close
+                            </span>
+                        </button>
+                        <h4 class="modal-title" style="font-size: 26px;color: #FFFFFF">确认解绑此应用吗?
+                        </h4>
+                    </div>
 
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="releaseMyApp()" >确认
+                        </button>
+                        <button type="button" class="btn btn-primary" data-dismiss="modal">取消
+                        </button>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div><!--解绑弹窗提示-->
         <!--判断邀请人数-->
         <div class="modal fade" id="invite" >
             <div class="modal-dialog">
@@ -112,15 +135,21 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title" id="myModalLabel" style="height: 24px"></h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;
+                            </span>
+                        </button>
+                        <h4 class="modal-title" id="myModalLabel" style="height: 24px">
+
+                        </h4>
                     </div>
                     <div class="modal-body" >
                         <div class="col-lg-6 col-sm-12 input-group">
                             <input type="text" class="form-control search_event" ng-model="searchKey" ng-keyup="keySearchApp($event)" placeholder="请搜索添加你需要发布任务的APP">
                     <span class="input-group-btn">
                          <button class="btn search_color" ng-click="searchApp()">
-                             <span class="glyphicon glyphicon-search"></span>
+                             <span class="glyphicon glyphicon-search">
+                             </span>
                          </button>
                    </span>
                         </div>
@@ -130,7 +159,6 @@
                                 <div ng-class="{'progress-bar': true, 'progress-bar-striped':true, active:true}" ng-style="{width: progressNum + '%'}">
                                 </div>
                             </div>
-
                             <div class="alert alert-warning" role="alert" ng-hide="!isError">
                                 {{ errorMsg }}
                             </div>
@@ -166,7 +194,6 @@
 
                     </div>
                     <div class="modal-footer">
-
                         <button type="button" class="btn btn-primary" data-dismiss="modal">关闭</button>
                     </div>
                 </div><!-- /.modal-content -->
@@ -193,8 +220,13 @@
             <div class="modal-dialog">
                 <div class="modal-content" style="width: 400px;">
                     <div class="modal-header" style="height:200px;border-radius:4px;text-align: center">
-                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
-                        <h4 class="modal-title"  style="font-size: 26px;text-align: center;margin-top: 50px">{{errorMsg}}</h4>
+                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×
+                        </span>
+                            <span class="sr-only">Close
+                            </span>
+                        </button>
+                        <h4 class="modal-title"  style="font-size: 26px;text-align: center;margin-top: 50px">{{errorMsg}}
+                        </h4>
                         <div class="spinner" ng-hide="!isLoadingApp" style="margin-top: 50px">
                             <div class="double-bounce1"></div>
                             <div class="double-bounce2"></div>
@@ -205,22 +237,33 @@
             </div><!-- /.modal-dialog -->
         </div>
       <!--标签页-->
-        <ul id="myTab" class="nav nav-tabs">
-            <li class="active" style="width:350px;"><a href="#home1" data-toggle="tab">
-                模版一</a>
-            </li>
-            <li><a href="#home2"style="width:350px;" data-toggle="tab">模板二</a></li>
-            <li><a href="#home3" style="width:350px;"data-toggle="tab">模板三</a></li>
+        <div class="btn-toolbar" role="toolbar" style="margin-top: -70px;margin-left: 35px;">
+            <div class="btn-group" >
+                <button type="button" class=" b30"  id="model01">模板一</button>
+                <button type="button" class="b30"id="model02">模板二</button>
+                <button type="button" class="b30"id="model03">模板三</button>
+            </div>
+            <!--<div style="height:0px;width:2000px;border:0.1px solid #;margin-left: -300px;margin-top: 31px;"></div>-->
+        </div>
 
-        </ul>
-        <div id="myTabContent" class="tab-content">
             <div class="content1">
-            <div class="tab-pane fade in active" id="home1">
+
+                <!--模板切换-->
+                <div  class="switchmodel">
                 <form action="Handler1.ashx" method="post" >
                     <!--框1-->
-                    <div class="k1">
+                    <div class="k1" >
 
-                    <p class="p">任务数量: <input type="text" name="CustomerName" style="margin-top: 20px; width: 100px;height:40px;border-radius: 5px;border:1px solid #CCCCCC; " />
+                        <p class="p">任务数量: <input type="text" name="CustomerName" style="margin-top: 20px; width: 100px;height:40px;border-radius: 5px;border:1px solid #CCCCCC; " />
+                            &nbsp;条
+                        <span class="p1">任务单价:{{appNeedInfo.excUnitPrice}}Y币</span>
+                        <span class="p2">账户余额:{{usermoney}}Y币</span>
+                            <button class="b1">发布任务</button>
+                        </p>
+                    </div>
+                    <div id="hello" >
+
+                    <p class="p" style="margin-left: 170px;margin-top: 9px;">任务数量: <input type="text" name="CustomerName" style="margin-top: 20px; width: 100px;height:40px;border-radius: 5px;border:1px solid #CCCCCC; " />
                         &nbsp;条
                         <span class="p1">任务单价:{{appNeedInfo.excUnitPrice}}Y币
                         </span>
@@ -238,26 +281,28 @@
                     </p>
                         <!--任务类型按键-->
                         <p>
-                        <div class="radio-inline" style="margin-left: -20px;">
-                            <label  ng-class="{'label1':optionsRadios1.checked, 'label01':!optionsRadios1.checked}">
-                                评论
-                                <input ng-hide="true" type="radio" name="optionsRadios" id="optionsRadios1" value="option1" >
+
+                            <!---->
+
+                        <div class="radone radio-inline" style="margin-left: -20px;">
+                            <input ng-hide="true" type="radio" value="1" id="radoneInput" name="radio1" ng-click="download1()" checked/>
+                            <label for="radoneInput" style="border-bottom-left-radius: 4px;border-top-left-radius: 4px;">评论
                             </label>
                         </div>
-                        <div class="radio-inline">
-                            <label ng-class="{'label2':!optionsRadios2.checked,  'label02':optionsRadios2.checked}">
-                                下载
-                                <input ng-hide="true" type="radio" name="optionsRadios" id="optionsRadios2" value="option2">
+                        <div class="radone radio-inline" style="margin-left:-25px; ">
+                        <input  ng-hide="true"   type="radio" value="2" id="radtwoInput" name="radio1" ng-click="download()"/>
+                        <label for="radtwoInput" style="border-bottom-right-radius: 4px;border-top-right-radius: 4px; ">下载
+                        </label>
+                        </div>
+                        <div class="radone" radio-inline style="float:right;margin-right: 592px;margin-top: 5px; ">
+                            <input ng-hide="true" type="radio" name="radio2" id="radthreeInput" value="3"  checked/>
+                            <label  for="radthreeInput" style="border-radius: 4px">IOS
                             </label>
                         </div>
-                        </p>
-                        <div class="radio">
-                            <label class="label3">&nbsp;&nbsp;IOS
-                                <input ng-hide="true" type="radio" name="optionsRadios10" id="optionsRadios3" value="option3">
-                            </label>
                         </div>
-                        </div>
+                    </p>
                     <!--框3-->
+
                     <p class="t1">截图一</p>
 
                     <div class="k3">
@@ -277,17 +322,18 @@
                               ng-click="addApp('glyphicon')" style="font-size:0.8em">
 
                         </span>
-                        <p><input type="text" name="weiName" style="width: 60px;height: 34px;border-radius: 3px;border:1px solid #CCCCCC;" />
+                        <p ><input type="text" name="weiName" style="text-align:center;width: 60px;height: 34px;border-radius: 3px;border:1px solid #CCCCCC;"  id="mytext1"  ng-model="mycal"  ng-change="chkchange(key)" required="required"/>
                             <span style="margin-left: 15px; font-size: 15px; color: black;">位
                             </span>
-                            <button disabled class="b4" style="margin-left:310px;">+1.5Y币</button></p>
+                            <span></span>
+                            <button disabled class="b4" style="margin-left:310px;" id="jue">+{{key}}Y币</button></p>
                             <br>
                             <div class="checkbox" >
                                 <label >
-                                    <input type="checkbox" value="">
+                                    <input type="checkbox"  value="" id="box1" ng-click="goon()">
                                     必须获取标志
                                 </label>
-                                <button disabled class="b4" style="margin-left:300px;">+0.1Y币
+                                <button disabled  ng-show="ju1" class="b4" style="margin-left:300px;">+0.1Y币
                                 </button>
                             </div>
 
@@ -299,53 +345,47 @@
                     <p class="t1">截图二</p>
                     <div class="k4">
                         <img  class="img02"  src="/images/doTask/head2.png"/>
-                        <div style="margin-left: 40px;"><br>
+                        <div style="margin-left: 40px;" ><br>
                         <p>*必须跳过引导页<br><br><br>注册方式</p>
-                            <div class="radio-inline" style="margin-left: -20px;">
-                                <label ng-class="{'label1':optionsRadios6.checked, 'label01':!optionsRadios6.checked}">
-                                    不需注册
-                                    <input ng-hide="true" type="radio" name="optionsRadios" id="optionsRadios6" value="option6" >
-                                </label>
+                            <div class="radone radio-inline" style="margin-left: -20px;">
+                                <input ng-hide="true" type="radio" value="1" id="rad4Input" name="radio3"   checked/>
+                                <label for="rad4Input" style="border-bottom-left-radius: 4px;border-top-left-radius: 4px;">不需注册</label>
+                                </div>
+                            <div class="radone radio-inline" style="margin-left: -25px;">
+                                <input ng-hide="true" type="radio" value="2" id="rad5Input" name="radio3"   >
+                                <label for="rad5Input" >第三方注册</label>
                             </div>
-                            <div class="radio-inline">
-                                <label  ng-class="{'label4':!optionsRadios7.checked,  'label04':optionsRadios7.checked}">
-                                    第三方注册
-                                    <input ng-hide="true" type="radio" name="optionsRadios" id="optionsRadios7" value="option7">
-                                </label>
+                            <div class="radone radio-inline" style="margin-left: -25px;">
+                                <input ng-hide="true" type="radio" value="3" id="rad6Input" name="radio3" >
+                                <label for="rad6Input" style="border-bottom-right-radius: 4px;border-top-right-radius: 4px;">手机注册</label>
                             </div>
-                            <div class="radio-inline" style="margin-left: -20px;">
-                                <label  ng-class="{'label5':optionsRadios8.checked,  'label05':!optionsRadios8.checked}">
-                                    手机注册
-                                    <input ng-hide="true" type="radio" name="optionsRadios" id="optionsRadios8" value="option8">
-                                </label>
-                            </div>
-                            <button disabled class="b4" style="margin-left:123px;">+0.1Y币
+                            <button disabled class="b4" id="i1" style="margin-left:163px;" >+0.2Y币
+                            </button>
+                            <button disabled class="b4"  id="i2"  style="margin-left:163px;">+10Y币
                             </button>
                             </div>
                     </div>
+                    <div ng-show="down"><br><br></div>
                     <!--框5-->
+                    <div class="download" ng-hide="down" style="margin-bottom: 40px;">
                     <br>
                     <p class="t1">截图三</p>
                     <div class="k5">
                         <img  class="img03"  src="/images/doTask/head3.png"/>
                         <div style="margin-left: 40px;"><br>
                         <p>*评论需有流量标志,评论页无键盘<br><br>评分</p>
-                            <div  style="margin-left: -20px;" class="radio-inline">
-                                <label ng-class="{'label1':optionsRadios.checked,  'label01':!optionsRadios.checked}">
-                                    5星
-                                    <input ng-hide="true" type="radio" name="optionsRadios" id="optionsRadios4" value="option4" checked>
-                                </label>
+                            <div class="radone radio-inline" style="margin-left: -20px;">
+                                <input ng-hide="true" type="radio" value="1" id="radsevenInput" name="radio4" checked/>
+                                <label for="radsevenInput" style="border-bottom-left-radius: 4px;border-top-left-radius: 4px;">5星</label>
                             </div>
-                            <div class="radio-inline">
-                                <label ng-class="{'label2':!optionsRadios2.checked,  'label02':optionsRadios2.checked}">
-                                    4星
-                                    <input ng-hide="true" type="radio" name="optionsRadios" id="optionsRadios5" value="option5">
-                                </label>
+                            <div class="radone radio-inline" style="margin-left:-25px; ">
+                                <input  ng-hide="true"   type="radio" value="2" id="radeightInput" name="radio4" />
+                                <label for="radeightInput" style="border-bottom-right-radius: 4px;border-top-right-radius: 4px; ">4星</label>
                             </div>
 
                         <p><br>标题关键词</p>
                         <p><input type="text" name="headName" ng-model="appNeedInfo.titleKeyword"
-                                  ng-change="checkText1(appNeedInfo.titleKeyword,20)"
+                                  ng-change="checkText0(appNeedInfo.titleKeyword,20)"
                                   class="input1" placeholder="请输入小于20字符"/>
                             <span ng-bind="appNeedInfo.titleKeyword.length+0" style="margin-left:15px;color:#00b7ff;font-size: 14px;">
                             </span>/20
@@ -357,13 +397,9 @@
                             </button>
                         </p><br>
                         <p>评论关键词<br><br>
-                             <textarea name="headName" class="input3" rows="1"
-                                       ng-model="appNeedInfo.commentKeyword"
-                                       ng-change="checkText2(appNeedInfo.commentKeyword,40)"
-                                       placeholder="请输入小于40字符"
-                                       style="font-size:14px"/>
+                            <textarea name="headName" class="input3" rows="1"ng-model="appNeedInfo.commentKeyword"
+                                      ng-change="checkText2(appNeedInfo.commentKeyword,40)"placeholder="请输入小于40字符"style="font-size:14px"/>
                             </textarea>
-
                             <span ng-bind="appNeedInfo.commentKeyword.length+0" style="margin-left:15px;color:#00b7ff;font-size: 14px;">
                             </span>/40
                             <br><br>
@@ -375,10 +411,10 @@
                         </p><br>
                             <div class="checkbox" >
                                 <label >
-                                    <input type="checkbox" value="">
+                                    <input type="checkbox" value=""  id="box2" ng-click="goon1()">
                                     评论需满50字
                                 </label>
-                                <button disabled class="b4" style="margin-left:305px;">+0.1Y币
+                                <button disabled ng-show="ju2" class="b4" style="margin-left:305px;">+3Y币
                                 </button>
                             </div>
                         </div>
@@ -389,31 +425,31 @@
                     <div class="k6">
                         <div style="margin-left: 60px;"><br>
                             <label class="checkbox">
-                                <input type="checkbox" id="inlineCheckbox1" value="option1"> 官方人工审核
+                                <input type="checkbox" id="inlineCheckbox1" value="option1" ng-click="goon2()"> 官方人工审核
+                                <button disabled ng-show="ju3" class="b4" style=" margin-left:305px;">+3Y币
+                                </button>
                             </label>
 
                             <label class="checkbox">
-                                <input type="checkbox" id="inlineCheckbox2" value="option2"> 限时今日完成任务
+                                <input type="checkbox" id="inlineCheckbox2" value="option2" ng-click="goon3()"> 限时今日完成任务
+                                <button disabled ng-show="ju4" class="b4" style="margin-left:277px;">+3Y币
+                                </button>
                             </label>
+
+
                         <p style="margin-left: 30px;font-size: 12px;color:#CCCCCC;margin-top: -10px;">每日下午6点前提交,
                             系统默认次日10点审核
                         </p>
                         <!--<p><input type="submit" value="提交" /></p>-->
                     </div>
                   </div>
+                        </div>
 
                 </form>
+                </div>
             </div>
-            <div class="tab-pane fade" id="home2">
-                <p>iOS 是一个由苹果公司开发和发布的手机操作系统。最初是于 2007 年首次发布 iPhone、iPod Touch 和 Apple
-                    TV。iOS 派生自 OS X，它们共享 Darwin 基础。OS X 操作系统是用在苹果电脑上，iOS 是苹果的移动版本。</p>
-            </div>
-            <div class="tab-pane fade" id="home3">
-                <p>iOS 是一个由苹果公司开发和发布的手机操作系统。最初是于 2007 年首次发布 iPhone、iPod Touch 和 Apple
-                    TV。iOS 派生自 OS X，它们共享 Darwin 基础。OS X 操作系统是用在苹果电脑上，iOS 是苹果的移动版本。</p>
-            </div>
-</div>
-        </div>
+    </div>
+
 
 
         <!--视频窗口-->
@@ -724,7 +760,7 @@
                         <!--&nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp;&nbsp &nbsp &nbsp-->
                         <!--&nbsp &nbsp &nbsp&nbsp &nbsp &nbsp&nbsp &nbsp &nbsp-->
                         <!--&nbsp &nbsp &nbsp&nbsp &nbsp &nbsp&nbsp-->
-                          <!-- -友情提醒, 避免撕逼-->
+                           <!-- -友情提醒, 避免撕逼-->
                     <!--</p>-->
                 <!--</div>-->
                 <!--<div class="button_state">-->
@@ -768,21 +804,7 @@
         <!--</div>&lt;!&ndash;信息没填提示&ndash;&gt;-->
 
 
-        <!--<div class="modal fade" id="mymodal">-->
-            <!--<div class="modal-dialog">-->
-                <!--<div class="modal-content" style="width: 360px;">-->
-                    <!--<div class="modal-header" style="height: 74px;background-color:#6eb7e8;border-radius:4px;text-align: center">-->
-                        <!--<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>-->
-                        <!--<h4 class="modal-title" style="font-size: 26px;color: #FFFFFF">确认解绑此应用吗?</h4>-->
-                    <!--</div>-->
-
-                    <!--<div class="modal-footer">-->
-                        <!--<button type="button" class="btn btn-default" data-dismiss="modal" ng-click="releaseMyApp()" >确认</button>-->
-                        <!--<button type="button" class="btn btn-primary" data-dismiss="modal">取消</button>-->
-                    <!--</div>-->
-                <!--</div>&lt;!&ndash; /.modal-content &ndash;&gt;-->
-            <!--</div>&lt;!&ndash; /.modal-dialog &ndash;&gt;-->
-        <!--</div>&lt;!&ndash;解绑弹窗提示&ndash;&gt;-->
+        <!---->
 
 
         <!--<div class="modal fade" id="releaseTask">-->
@@ -808,15 +830,13 @@
                 <!--</div>&lt;!&ndash; /.modal-content &ndash;&gt;-->
             <!--</div>&lt;!&ndash; /.modal-dialog &ndash;&gt;-->
         <!--</div>&lt;!&ndash;发布任务提示&ndash;&gt;-->
+
     </div>
 
 </div>
-<!--<th-footer>-->
 
-<!--</th-footer>-->
 
-<script src="/javascripts/cookieHelper.min.js"></script>
 
 </body>
-
+<script src="/javascripts/cookieHelper.min.js"></script>
 </html>

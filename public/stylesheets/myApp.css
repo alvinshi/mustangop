@@ -1,51 +1,64 @@
 /*添加APP*/
 .add{
-margin-left: -170px;
+    margin-top: -30px;
+    margin-left: -80px;
     width:1400px;
-    height:110px;
+    min-height: 100px;
+    height:auto !important;
+    height:100px;
     border-bottom: 1px solid#CCCCCC;
 }
-.addApp1{
-    margin-top: -39px;
-    margin-left: -122px;
-    height: 85px;
-    width: 85px;
-    float: left;
-    border-radius: 6px;
-}
-.btn_addApp1{
-    margin-left: 180px;
-    border: 4px dashed #e0e0e0;
-    margin-top: 19px;
-    height: 81px;
-    width: 81px;
+.btn_addApp{
+    margin-left: 48px;
+    border: 3px dashed #e0e0e0;
+    margin-top:3px;
+    height: 70px;
+    width: 70px;
     background-color: white;
     border-radius: 6px;
+    margin-bottom: 30px;
 }
 .add2{
-    margin-left: 150px;
+    border:0px solid black;
+    margin-left: 130px;
+    width: 1100px;
 }
+/*关闭键*/
+.add0 img.close2{
+    display:none
+}
+.add0:hover img.close2{
+    display:block;
+}
+
 .list-group{
-    margin-top: -20px;
+    margin-top: 0px;
     /*border: 1px solid #e0e0e0;*/
     /*box-shadow: 1px 1px 1px #e0e0e0;*/
-    height: 85px;
-    width: 85px;
+    height: 86px;
+    width: 86px;
     float:left;
     border-radius: 6px;
     margin-left: 42px;
 
 }
 .list-group img{
-    border: 2px solid #dbdbdb;
-    width: 85px;
+    border: 0px solid #dbdbdb;
+    width: 80px;
     height: 80px;
     border-radius: 6px;
-    margin-left: 0px;
-    margin-top: 0px;
 }
-/*文字输入框*/
-
+/*标签页点击后样式*****************/
+.b30 {
+    width: 350px;
+    border: 0px;
+    height:50px;
+    font-size: 20px;
+    background:white;
+}
+.b30:active{
+    color:#5a94ec;width:350px;border: 0px;font-size: 20px;border-bottom: 2px solid#5a94ec;
+}
 /*窗口详情*/
 .window1{
     height: 200px;
@@ -59,11 +72,16 @@ margin-left: -170px;
 }
 .text2{
     margin-top: -28px;
-    margin-left:360px;
+    margin-left:310px;
     color:#999999;
     font-size: 15px;
 }
+/*标签变色*/
+
+
+
 /*标签页*/
+
 .nav-tabs{
     margin-top: -50px;
     text-align: center;
@@ -71,11 +89,69 @@ margin-left: -170px;
 .content1{
     position: absolute;
     left:0px;
-    width:1600px;
+    width:1400px;
     background-color: #f5f5f5;
+}
+div#hello {
+    background-color: white;
+    position: fixed;
+    top: 30px;
+    height: 80px;
+    width: 1400px;
+    z-index: 99;
+    display: none;
+}
+/*radio样式*/
+.radone label {
+    display: block;
+    width: 80px;
+    height: 34px;
+    border: 1px solid #999999;
+    cursor: pointer;
+    z-index: 1;
+    background: white;
+    color:#999999;
+    line-height: 30px;
+    text-align: center;
+}
+
+.radone input[type=radio]:checked + label {
+    line-height: 30px;
+    text-align: center;
+    background: #365164;
+    color:white;
+}
+.radtwo input[type=radio]:checked + label {
+    background: #365164;
+    color:white
+}
+.radthree input[type=radio]:checked + label {
+    background: #365164;
+    color:white
+}
+.rad4 input[type=radio]:checked + label {
+    background: #365164;
+    color:white
+}
+.rad5 input[type=radio]:checked + label {
+    background: #365164;
+    color:white
+}
+.rad6 input[type=radio]:checked + label {
+    background: #365164;
+    color:white
+}
+.radseven input[type=radio]:checked + label {
+    background: #365164;
+    color:white
+}
+.radeight input[type=radio]:checked + label {
+    background: #365164;
+    color:white
 }
 /*框1*/
 .k1{
+
     height: 80px;
     width: 1120px;
     margin-left: 110px;
@@ -93,6 +169,7 @@ margin-left: -170px;
     margin-left: 130px;
     border-radius: 5px;
     border: 1px solid #fb8545;
+    padding: 5px;
 }
 .p2{
     margin-top: 5px;
@@ -176,7 +253,7 @@ height: 260px;
 .b4{
     height:26px;
     background-color: #a9c5e2;
-    border-radius:10px;
+    border-radius:13px;
     color: white;
     border: 0px;
     width: 100px;
@@ -239,7 +316,7 @@ width: 130px;
     width: 1020px;
     margin-left: 160px;
     background-color: white;
-    height: 550px;
+    height: 560px;
 
 }
 
@@ -310,6 +387,7 @@ input:focus::-webkit-input-placeholder, input:hover::-webkit-input-placeholder {
     border: 1px solid #999999;
 
 }
+
 .label3
 {
 
@@ -481,12 +559,7 @@ button{
 }
 
 
-.btn_addApp{
-    border: 1px solid #e0e0e0;
-    height: 250px;
-    width: 160px;
-    background-color: white;
-}
+
 .addApp{
     border: 1px dashed #e0e0e0;
     box-shadow: 1px 1px 1px #e0e0e0;

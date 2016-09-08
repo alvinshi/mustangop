@@ -99,6 +99,22 @@ app.controller('itunesSearchControl', function($scope, $http) {
             getDemand();
         }
     });
+    //**************************浮动顶端******************************
+    onscroll = function ()
+    {
+        var st = document.documentElement.scrollTop || document.body.scrollTop;
+        if (!hello.offsetWidth && st >= 520)
+        {
+            hello.style.display = 'block';
+        }
+        else if (!!hello.offsetWidth && st < 520)
+        {
+            hello.style.display = 'none';
+        }
+    }
+    //*************************获取三个模板的数组值******************
+
+    //*************************按键颜色切换*************************
 
     //选择App
     $scope.selectedAppFunc = function(app){
@@ -113,6 +129,153 @@ app.controller('itunesSearchControl', function($scope, $http) {
         var myVideo=document.getElementById("release");
         myVideo.pause();
     };
+    //*********************判断加多少Y币******************
+    $("#jue").hide();
+    $scope.chkchange = function(key)
+    {
+        var myVal= document.getElementById("mytext1").value;
+        $scope.mycal=myVal;
+        if (60 >=myVal&&myVal>=20) {
+            $("#jue").show();
+            $scope.key=1;
+        }
+        else if(myVal>60&&myVal<=100){
+            $("#jue").show();
+            $scope.key=5
+        }
+        else{
+            $("#jue").hide();
+        }
+    }
+    //$scope.keyword=0;
+    //$("#jue").hide();
+    //onkeyup=function(){
+    //    var myVal= document.getElementById("mytext1").value;
+    //    if(60 >=myVal&&myVal>=20){
+    //        $("#jue").show();
+    //        $scope.keyword=1;
+    //    }
+    //    else if(myVal>60&&myVal<=100){
+    //        $("#jue").show();
+    //        $scope.keyword=5;
+    //    }
+    //    else{
+    //        $("#jue").hide();
+    //    }
+    //}
+    //*******************按键默认被选定
+    setTimeout(function() {
+        // IE
+        if(document.all) {
+            document.getElementById("model01").click();
+        }
+        // 其它浏览器
+        else {
+            var e = document.createEvent("MouseEvents");
+            e.initEvent("click", true, true);
+            document.getElementById("model01").dispatchEvent(e);
+        }
+    }, 1);
+
+
+    //*******************标题按钮颜色
+    $("#model01").on('click',function(){
+        $("#model01").removeAttr('style');
+        $(this).attr('style','color:#5a94ec;width:350px;border: 0px;font-size: 20px;border-bottom: 2px solid#5a94ec;');
+        $("#model02").removeAttr('style');
+        $("#model02").attr('style','width:350px;border: 0px;font-size: 20px');
+        $("#model03").removeAttr('style');
+        $("#model03").attr('style','width:350px;border: 0px;font-size: 20px');
+    })
+    $("#model02").on('click',function(){
+        $("#model02").removeAttr('style');
+        $(this).attr('style','color:#5a94ec;width:350px;border: 0px;font-size: 20px;border-bottom:2px solid #5a94ec');
+        $("#model01").removeAttr('style');
+        $("#model01").attr('style','width:350px;border: 0px;font-size: 20px');
+        $("#model03").removeAttr('style');
+        $("#model03").attr('style','width:350px;border: 0px;font-size: 20px');
+    })
+    $("#model03").on('click',function(){
+        $("#model03").removeAttr('style');
+        $(this).attr('style','color:#5a94ec;width:350px;border: 0px;font-size: 20px;border-bottom:2px solid #5a94ec');
+        $("#model02").removeAttr('style');
+        $("#model02").attr('style','width:350px;border: 0px;font-size: 20px');
+        $("#model01").removeAttr('style');
+        $("#model01").attr('style','width:350px;border: 0px;font-size: 20px');
+    })
+    //*******************判断是下载还是评论****************
+    $scope.down=false;
+    $scope.download=function(){
+        if(document.getElementById("radtwoInput").checked){
+            $scope.down = !$scope.down;
+        }
+        else{
+            $scope.down=false;
+        }
+    }
+    $scope.download1=function(){
+        if(document.getElementById("radoneInput").checked){
+            $scope.down = false;
+        }
+    }
+
+
+
+
+    //按钮1
+    $scope.ju1=false;
+    $scope.goon=function(){
+        if(document.getElementById("box1").checked){
+           $scope.ju1 = !$scope.ju1;
+       }
+        else{
+            $scope.ju1=false;
+        }
+    }
+    $scope.ju2=false;
+    $scope.goon1=function(){
+        if(document.getElementById("box2").checked){
+            $scope.ju2 = !$scope.ju2;
+        }
+        else{
+            $scope.ju2=false;
+        }
+    }
+    $("#i1").hide();
+    $("#i2").hide();
+    $('input:radio[name="radio3"]').change( function(){
+        var $val1 = $("input[name='radio3']:checked").val();
+        if ($val1 == 1) {
+            $("#i1").hide();
+            $("#i2").hide();
+        }
+        else if($val1 == 2) {
+            $("#i1").show();
+            $("#i2").hide();
+        }
+        else {
+            $("#i1").hide();
+            $("#i2").show();
+        }
+    });
+    $scope.ju3=false;
+    $scope.goon2=function(){
+        if(document.getElementById("inlineCheckbox1").checked){
+            $scope.ju3 = !$scope.ju3;
+        }
+        else{
+            $scope.ju3=false;
+        }
+    }
+    $scope.ju4=false;
+    $scope.goon3=function(){
+        if(document.getElementById("inlineCheckbox2").checked){
+            $scope.ju4 = !$scope.ju4;
+        }
+        else{
+            $scope.ju4=false;
+        }
+    }
 
     //搜索App
     var progressTimerHandle = undefined;
@@ -346,6 +509,20 @@ app.controller('itunesSearchControl', function($scope, $http) {
         }
     };
     //radio切换
+    $scope.change=false;
+    $scope.radio=function(curre){
+    if(document.getElementById('optionsRadios1').checked==true){
+        $scope.change=true;
+    }
+    else{
+        $scope.change=false;
+    }
+    }
+
+
+
+
+
 
     //发布任务
     $scope.releaseTask = function(){

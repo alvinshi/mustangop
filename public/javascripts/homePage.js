@@ -9,11 +9,13 @@ app.controller('homePageCtrl', function($scope, $http){
     //邀请好友
     $scope.inviteUrl = "http://yematest.leanapp.cn/user/register/" + getCookie("userIdCookie");
     //$scope.inviteUrl = "http://www.mustangop.com/user/register/" + getCookie("userIdCookie");
-    $scope.copyUrl = function () {
+    $scope.copyUrl = function (id) {
         $('#alert-btn').popover('toggle');
         var Url = document.getElementById("invitecopy");
         Url.select(); // 选择对象
         document.execCommand("Copy"); // 执行浏览器复制命令
+            $('#'+ id).popover("toggle");
+
     };
 
     //尊贵客人
@@ -84,7 +86,10 @@ app.controller('homePageCtrl', function($scope, $http){
             }
         })
     };
-
+//邀请弹窗
+    $scope.addApp=function(id) {
+        $('#'+ id).popover("toggle");
+    };
     // 签到按钮
     $scope.butCheckIns = function(){
         var checkInsURL = 'homePage/checkIns';
