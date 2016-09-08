@@ -91,13 +91,24 @@ angular.module('starter.controllers', [])
             if($scope.downloadTasks.length > 0 && isMore == -1){
                 return;
             }
-            tasksUrl = '/taskHall/' + taskType + '/' + gUserCId + '/' + $scope.downloadTasks.length/pageCount;
+            if(isMore == 0){
+                //refresh
+                tasksUrl = '/taskHall/' + taskType + '/' + gUserCId + '/' + 0;
+            }else {
+                tasksUrl = '/taskHall/' + taskType + '/' + gUserCId + '/' + $scope.downloadTasks.length/pageCount;
+            }
+
             $scope.downloadLoading = true;
         }else if(taskType == 2){
             if($scope.commentTasks.length > 0 && isMore == -1){
                 return;
             }
-            tasksUrl = '/taskHall/' + taskType + '/' + gUserCId + '/' + $scope.commentTasks.length/pageCount;
+            if(isMore == 0) {
+                //refresh
+                tasksUrl = '/taskHall/' + taskType + '/' + gUserCId + '/' + 0;
+            }else {
+                tasksUrl = '/taskHall/' + taskType + '/' + gUserCId + '/' + $scope.commentTasks.length / pageCount;
+            }
             $scope.commentLoading = true;
         }
 
@@ -117,7 +128,7 @@ angular.module('starter.controllers', [])
                 //succeed
                 if(taskType == 1){
                     if(response.tasks.length > 0){
-                        if(response.tasks.length == 5){
+                        if(response.tasks.length == pageCount){
                             $scope.downloadHasMore = true;
                         }
                         if(isMore == 0){
@@ -130,7 +141,7 @@ angular.module('starter.controllers', [])
                     }
                 }else if(taskType == 2){
                     if(response.tasks.length > 0){
-                        if(response.tasks.length == 5) {
+                        if(response.tasks.length == pageCount) {
                             $scope.commentHasMore = true;
                         }
                         if(isMore == 0){
@@ -148,11 +159,16 @@ angular.module('starter.controllers', [])
             }
         }).finally(function() {
             // Stop the ion-refresher from spinning
-            $scope.$broadcast('scroll.refreshComplete');
+            if(isMore == 1){
+                $scope.$broadcast('scroll.infiniteScrollComplete');
+            }
+            if(isMore == 0){
+                $scope.$broadcast('scroll.refreshComplete');
+            }
         });
     };
 
-    $scope.switchTaskType(1, 0);
+    $scope.switchTaskType(1, -1);
 
     $scope.refreshTaskHall = function(){
         $scope.switchTaskType($scope.taskType, 0);
@@ -161,6 +177,10 @@ angular.module('starter.controllers', [])
     $scope.loadMore = function(){
         $scope.switchTaskType($scope.taskType, 1);
     };
+
+    $scope.$on('$stateChangeSuccess', function() {
+        $scope.loadMore();
+    });
 })
 
 .controller('TaskDetailController', function($scope, $http, $stateParams, Locales) {
