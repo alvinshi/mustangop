@@ -205,14 +205,14 @@
         <br>
         <div class="window1">
         <span style="font-size: 25px; color:black">{{ selectedApp.trackName.substr(0,30) }}</span>
-            <div style="margin-left: 22em;margin-top: 0.8em; margin-bottom: 0.5em;">
-                <p class="text1">版本号 {{ selectedApp.version.substr() }}
+            <div style="margin-left: 28em;margin-top: 0.8em; margin-bottom: 0.5em;">
+                <p class="text1">类别: {{ selectedApp.formattedPrice }}
             <span  class="text1" ng-show="selectedApp.latestReleaseDate.length > 0">更新日期 {{  selectedApp.latestReleaseDate| date: 'yy/MM/dd'}}
-            <span class="text1">类别: {{ selectedApp.formattedPrice }}
+            <span class="text1">版本号 {{ selectedApp.version.substr() }}
         </span></span></p></div>
 
 
-            <div  style="margin-top: 2em;">
+            <div  style="margin-top: 2em;margin-left: 2em;">
             <button class="add_app" ng-click="updateApp()"  data-toggle="modal" >
                 <span class="glyphicon glyphicon-repeat" style="color: #3498db" ></span>&nbsp;更新APP信息
             </button></div>
@@ -259,7 +259,7 @@
 
                         <p class="p">任务数量: <input type="text" name="CustomerName" style="margin-top: 20px; width: 100px;height:40px;border-radius: 5px;border:1px solid #CCCCCC; " />
                             &nbsp;条
-                        <span class="p1">任务单价:{{appNeedInfo.excUnitPrice}}Y币</span>
+                        <span class="p1">任务单价:{{taskprice}}Y币</span>
                         <span class="p2">账户余额:{{usermoney}}Y币</span>
                             <button class="b1">发布任务</button>
                         </p>
@@ -336,7 +336,7 @@
                                     <input type="checkbox"  value="" id="box1" ng-click="goon()">
                                     必须获取标志
                                 </label>
-                                <button disabled  ng-show="ju1" class="b4" style="margin-left:300px;">+0.1Y币
+                                <button disabled  ng-show="ju1" class="b4" style="margin-left:300px;">+2Y币
                                 </button>
                             </div>
 
@@ -358,14 +358,14 @@
                                 <input ng-hide="true" type="radio" value="2" id="rad5Input" name="radio3"   >
                                 <label for="rad5Input" >第三方注册</label>
                             </div>
-                            <div class="radone radio-inline" style="margin-left: -25px;">
-                                <input ng-hide="true" type="radio" value="3" id="rad6Input" name="radio3" >
-                                <label for="rad6Input" style="border-bottom-right-radius: 4px;border-top-right-radius: 4px;">手机注册</label>
-                            </div>
-                            <button disabled class="b4" id="i1" style="margin-left:163px;" >+0.2Y币
+                            <!--<div class="radone radio-inline" style="margin-left: -25px;">-->
+                                <!--<input ng-hide="true" type="radio" value="3" id="rad6Input" name="radio3" >-->
+                                <!--<label for="rad6Input" style="border-bottom-right-radius: 4px;border-top-right-radius: 4px;">手机注册</label>-->
+                            <!--</div>-->
+                            <button disabled class="b4" id="i1" style="margin-left:163px;" >+2Y币
                             </button>
-                            <button disabled class="b4"  id="i2"  style="margin-left:163px;">+10Y币
-                            </button>
+                            <!--<button disabled class="b4"  id="i2"  style="margin-left:163px;">+10Y币-->
+                            <!--</button>-->
                             </div>
                     </div>
                     <div ng-show="down"><br><br></div>
@@ -433,16 +433,16 @@
                                 </button>
                             </label>
 
-                            <label class="checkbox">
-                                <input type="checkbox" id="inlineCheckbox2" value="option2" ng-click="goon3()"> 限时今日完成任务
-                                <button disabled ng-show="ju4" class="b4" style="margin-left:277px;">+3Y币
-                                </button>
-                            </label>
+                            <!--<label class="checkbox">-->
+                                <!--<input type="checkbox" id="inlineCheckbox2" value="option2" ng-click="goon3()"> 限时今日完成任务-->
+                                <!--<button disabled ng-show="ju4" class="b4" style="margin-left:277px;">+3Y币-->
+                                <!--</button>-->
+                            <!--</label>-->
 
 
-                        <p style="margin-left: 30px;font-size: 12px;color:#CCCCCC;margin-top: -10px;">每日下午6点前提交,
-                            系统默认次日10点审核
-                        </p>
+                        <!--<p style="margin-left: 30px;font-size: 12px;color:#CCCCCC;margin-top: -10px;">每日下午6点前提交,-->
+                            <!--系统默认次日10点审核-->
+                        <!--</p>-->
                         <!--<p><input type="submit" value="提交" /></p>-->
                     </div>
                   </div>
