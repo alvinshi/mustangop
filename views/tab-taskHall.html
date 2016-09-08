@@ -10,8 +10,8 @@
 
     <ion-content>
         <!--loading-->
-        <ion-spinner ng-show="downloadLoading == true && taskType == 1" icon="ripple" class="spinner-assertive"></ion-spinner>
-        <ion-spinner ng-show="commentLoading == true && taskType == 2" icon="ripple" class="spinner-assertive"></ion-spinner>
+        <ion-spinner ng-show="downloadTasks.length == 0 && downloadLoading == true && taskType == 1" icon="ripple" class="spinner-assertive"></ion-spinner>
+        <ion-spinner ng-show="commentTasks.length == 0 && commentLoading == true && taskType == 2" icon="ripple" class="spinner-assertive"></ion-spinner>
 
         <!--下拉刷新-->
         <ion-refresher
