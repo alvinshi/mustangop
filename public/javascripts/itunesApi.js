@@ -100,7 +100,7 @@ app.controller('itunesSearchControl', function($scope, $http) {
         }
     });
     //**************************浮动顶端******************************
-    onscroll = function ()
+    $(window).on('scroll',function()
     {
         var st = document.documentElement.scrollTop || document.body.scrollTop;
         if (!hello.offsetWidth && st >= 520)
@@ -111,7 +111,7 @@ app.controller('itunesSearchControl', function($scope, $http) {
         {
             hello.style.display = 'none';
         }
-    }
+    })
     //*************************获取三个模板的数组值******************
 
     //*************************按键颜色切换*************************
