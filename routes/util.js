@@ -81,7 +81,7 @@ exports.postFile = function (req, res) {
                                 res.json({'fileUrlList':fileUrlList, 'totalCount':base64dataList.length});
                             }
                         }, function(error){
-                            console.log('------ ' + pubFileNameList[index] + ' upload img failed ------ ' + error.message);
+                            console.error('------ ' + pubFileNameList[index] + ' upload img failed ------ ' + error.message);
                             promiseIndex++;
                             if(promiseIndex == totalData){
                                 res.json({'errorId':error.code, 'errorMsg':error.message});
@@ -90,7 +90,7 @@ exports.postFile = function (req, res) {
                     }catch (e){
                         promiseIndex++;
                         if(promiseIndex == totalData){
-                            console.log('------ AVFile error:' + pubFileNameList[index] + ' upload img failed ------ ' + e.message);
+                            console.error('------ AVFile error:' + pubFileNameList[index] + ' upload img failed ------ ' + e.message);
                             res.json({'errorId':error.code, 'errorMsg':error.message});
                         }
                     }
