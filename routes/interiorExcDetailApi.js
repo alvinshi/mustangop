@@ -174,7 +174,6 @@ router.get('/refresh/:excTaskId', function(req, res){
 // 新增 做内部做任务
 router.post('/add/:excTaskId', function(req, res){
     var excTaskId = req.params.excTaskId;
-    var userId = util.useridInReq(req);
     var requirementImgs = req.body.requirementImgs;
     var userUploadName = req.body.uploadName;
 
@@ -236,7 +235,7 @@ router.post('/add/:excTaskId', function(req, res){
                                 //需要当天的任务才可以
                                 if(myDate.getDay() == taskDate.getDay()) {
                                     if (myDate.getHours() < 16 || (myDate.getHours() == 16 && myDate.getMinutes() < 31)) {
-                                        util.dayTaskIncrement(userId, 'doTaskY', 1);
+                                        util.dayTaskIncrement(userObject.id, 'doTaskY', 1);
                                     }
                                 }
 
