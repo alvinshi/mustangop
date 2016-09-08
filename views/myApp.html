@@ -204,12 +204,11 @@
      <!--窗口详情-->
         <br>
         <div class="window1">
-        <span style="font-size: 25px; color:black">{{ selectedApp.trackName.substr(0,30) }}
-        </span>
-            <p class="text1">版本号 {{ selectedApp.version.substr() }}
-            <p  class="text2" ng-show="selectedApp.latestReleaseDate.length > 0">更新日期 {{  selectedApp.latestReleaseDate| date: 'yy/MM/dd'}}
-            </p>
-            </p>
+        <span style="font-size: 25px; color:black">{{ selectedApp.trackName.substr(0,30) }}</span>
+            <p class="text1">版本号 {{ selectedApp.version.substr() }}</p>
+            <p class="text2" ng-show="selectedApp.latestReleaseDate.length > 0">更新日期 {{  selectedApp.latestReleaseDate| date: 'yy/MM/dd'}}</p>
+            <p class="text1">版本号: {{ selectedApp.formattedPrice }}</p>
+
             <button class="add_app" ng-click="updateApp()"  data-toggle="modal" >
                 <span class="glyphicon glyphicon-repeat" style="color: #3498db" ></span>&nbsp;更新APP信息
             </button>
@@ -239,9 +238,9 @@
       <!--标签页-->
         <div class="btn-toolbar" role="toolbar" style="margin-top: -70px;margin-left: 35px;">
             <div class="btn-group" >
-                <button type="button" class=" b30"  id="model01">模板一</button>
-                <button type="button" class="b30"id="model02">模板二</button>
-                <button type="button" class="b30"id="model03">模板三</button>
+                <button type="button" class="b30"  id="model01">模板一</button>
+                <button type="button" class="b30" id="model02">模板二</button>
+                <button type="button" class="b30" id="model03">模板三</button>
             </div>
             <!--<div style="height:0px;width:2000px;border:0.1px solid #;margin-left: -300px;margin-top: 31px;"></div>-->
         </div>
