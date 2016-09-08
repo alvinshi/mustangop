@@ -25,11 +25,7 @@ var transporter = nodemailer.createTransport("SMTP",{
 });
 
 function submissionNotification(qq){
-    console.log(qq);
-    if (qq == undefined){
-        return;
-    }
-    else {
+    if (qq != undefined || qq.length > 0){
         // setup e-mail data with unicode symbols
         var mailOptions = {
             from: '"野马ASO" <719480449@qq.com>', // sender address
@@ -42,12 +38,11 @@ function submissionNotification(qq){
         // send mail with defined transport object
         transporter.sendMail(mailOptions, function(error, info){
             if(error){
-                res.json({'errorId': 1});
+                console.error('Mail Message send error: ' + error.message);
             }
             else{
                 //console.log('Message sent: ' + info.response);
             }
-            return;
         });
     }
 }

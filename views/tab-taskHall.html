@@ -1,5 +1,46 @@
-<ion-view view-title="任务大厅">
+<ion-view>
+    <ion-nav-buttons>
+        <button style="margin-left: auto; text-align: center;" class="button" ng-click="switchTaskType(1, -1)">
+            下载
+        </button>
+        <button class="button" ng-click="switchTaskType(2, -1)">
+            评论
+        </button>
+    </ion-nav-buttons>
+
     <ion-content>
-        <ion-spinner ng-show="loading == true" icon="ripple" class="spinner-assertive"></ion-spinner>
+        <!--loading-->
+        <ion-spinner ng-show="downloadLoading == true && taskType == 1" icon="ripple" class="spinner-assertive"></ion-spinner>
+        <ion-spinner ng-show="commentLoading == true && taskType == 2" icon="ripple" class="spinner-assertive"></ion-spinner>
+
+        <!--下拉刷新-->
+        <ion-refresher
+                pulling-text="下拉刷新..."
+                on-refresh="refreshTaskHall()">
+        </ion-refresher>
+
+        <div class="list" ng-show="taskType == 1">
+
+            <div class="card" ng-repeat="task in downloadTasks">
+                <div class="item item-text-wrap">
+                    {{task.appName}}
+                </div>
+            </div>
+
+        </div>
+
+        <div class="list" ng-show="taskType == 2">
+
+            <div class="card" ng-repeat="task in commentTasks">
+                <div class="item item-text-wrap">
+                    {{task.appName}}
+                </div>
+            </div>
+
+        </div>
+
+        <ion-infinite-scroll ng-if="downloadHasMore == true && taskType == 1" on-infinite="loadMore()" distance="5%" ></ion-infinite-scroll>
+        <ion-infinite-scroll ng-if="commentHasMore == true && taskType == 2" on-infinite="loadMore()" distance="5%" ></ion-infinite-scroll>
+
     </ion-content>
 </ion-view>
