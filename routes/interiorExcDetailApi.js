@@ -216,6 +216,7 @@ router.post('/add/:excTaskId', function(req, res){
                         newTaskObject.set('taskStatus', 'uploaded');
                         newTaskObject.set('receiveTaskObject', receiveTaskObject);
                         newTaskObject.set('doTaskUser', userObject);
+                        newTaskObject.set('releaseTaskObject', receiveTaskObject.get('taskObject'));
                         newTaskObject.set('releaseTaskUser', releaseTaskUserObject);
                         newTaskObject.save().then(function(){
                             var relation = receiveTaskObject.relation('mackTask');

@@ -24,6 +24,7 @@ function taskObjectToDic(taskObject, isOpen){
             return undefined;
         }
 
+        taskDic.taskId = taskObject.id;
         taskDic.appIcon = appObject.get('artworkUrl100');
         taskDic.appName = appObject.get('trackName');
         var priceStr = appObject.get('formattedPrice');
