@@ -96,6 +96,15 @@
     color:#999999;
 
 }
+.character {
+    width: 50%;
+    border: 0px solid black;
+    margin-left: 4em;
+    height: 3em;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
 .cardicon{
     position: absolute;
     height:4em;
@@ -106,12 +115,19 @@
     top:0.5em;
 
 }
+.cardtexthead {
+    float: left;
+    margin-left: 0.2em;
+    margin-top: -0.2em;
+}
 .cardtext {
     float: left;
     margin-left: 3%;
 }
 .cardtextright{
-    float: right;
+    position: absolute;
+    right: 3%;
+    top:8%;
 }
 .typeblue{
     font-size:0.9em ;
