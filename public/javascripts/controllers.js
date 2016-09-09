@@ -112,7 +112,7 @@ angular.module('starter.controllers', [])
 })
 
 .controller('TaskHallController', function($scope, $http, Locales, $ionicFilterBar) {
-
+    getUserCode();
     var pageCount = 20;
 
     //默认下载
@@ -220,7 +220,7 @@ angular.module('starter.controllers', [])
 })
 
 .controller('TaskDetailController', function($scope, $http, $stateParams, Locales) {
-
+    getUserCode();
     var tasksUrl = '/taskHall/' + gUserCId + '/' + 0;
     $scope.loading = true;
     $http.get(tasksUrl).success(function (response) {
@@ -245,10 +245,11 @@ angular.module('starter.controllers', [])
 })
 
 .controller('MyTaskController', function($scope) {
-
+    getUserCode();
 })
 
 .controller('AccountController', function($scope) {
+    getUserCode();
         $scope.settings = {
             enviarNotificaciones: true
         };
