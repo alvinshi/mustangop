@@ -51,11 +51,14 @@
             <div class="card" ng-repeat="task in downloadTasks">
                 <a href="app#/tab/myTask" class="item" target="_blank" >
                     <img src="/images/app/head1.jpg" class="cardicon">
-                    <span class="cardtext typetitle" style="margin-left:4em;">{{task.appName}}</span>
-                    <span class="cardtextright cardword" style="margin-top: -2em;">+3.80<span style="font-size: 0.6em;">元</span></span><br><br>
-                    <span class="cardtextright typeblue" style="margin-top: -2em;">1元付费应用</span>
-                    <span class="cardtext typegray" style="margin-top: -0.3em;">剩余20条</span>
-                    <span class="cardtext typelightgray" style="margin-top: -0.3em;">进行中两份</span><br><br>
+                    <div class="character">
+                    <span class="cardtexthead typetitle" style="">{{task.appName}}</span>
+
+                        </div>
+                    <span class="cardtextright cardword">+3.80<span style="font-size: 0.6em;">元</span></span>
+                    <!--<span class="cardtext typeblue" style="margin-top: 0.2em;">1元付费应用</span>-->
+                    <span class="cardtext typegray" style="margin-top:-1em;margin-left: 4.7em;">剩余20条</span>
+                    <span class="cardtext typelightgray" style="margin-top: -1em;">进行中两份</span><br><br>
                     <div class="note">
                         <span class="cardtext annotation" >1.必须首次下载(需要获取标志)</span><br>
                         <span class="cardtext annotation">2.需第三方体验注册</span>
