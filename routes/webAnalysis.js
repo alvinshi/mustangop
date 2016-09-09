@@ -38,6 +38,9 @@ router.get('/', function(req, res) {
 });
 
 router.post('/webData', function(req, res){
+
+    //BUGBUG 不准确数据
+
     //console.log('webData Post');
     var timePosted = req.body.currentTime;
     var currentTime = new Date();
@@ -91,7 +94,7 @@ router.post('/webData', function(req, res){
         totalUsers = count;
         flags['userFlag'] = true;
         rtnJson();
-    })
+    });
 
     var releaseTaskQuery = new AV.Query(releaseTaskObject);
     releaseTaskQuery.greaterThanOrEqualTo('createdAt', fiveDaysAgo);
@@ -109,7 +112,7 @@ router.post('/webData', function(req, res){
         }
         flags['releaseTaskFlag'] = true;
         rtnJson();
-    })
+    });
 
     var receiveTaskQuery = new AV.Query(receiveTaskObject);
     receiveTaskQuery.greaterThanOrEqualTo('createdAt', fiveDaysAgo);

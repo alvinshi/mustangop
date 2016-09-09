@@ -8,7 +8,6 @@ var mentorRelationSQL = AV.Object.extend('mentorRelation');
 
 //获取用户(若不存在,则自动创建半账号),返回账号相关数据
 router.get('/:userCId', function(req, res) {
-    console.log('first generate user, params userCId: ' + req.params.userCId);
     var userCId = req.params.userCId;
     //query current day register number
     var tempUserQuery = new AV.Query(tempUserSQL);
@@ -53,7 +52,7 @@ router.get('/:userCId', function(req, res) {
                 console.log('first generate user succeed, code = ' + userCode);
                 res.json({'errorId': 0, 'message': 'auto create account succeed',
                     'userCId': Base64.encode(tempUserObject.id), 'userCode': userCode,
-                    'apprenticeMoney': 0, 'discipleMoney': 0,
+                    'apprenticeMoney': 0, 'withdrawMoney': 0,
                     'totalMoney': 0, 'currentMoney': 0, 'todayMoney':0
                 });
             }, function(error){
@@ -71,18 +70,22 @@ router.get('/:userCId', function(req, res) {
 
             var todayMoney = 0;
             var myDate = new Date();
-            var month = parseInt(myDate.getMonth()) + 1;
-            var day = parseInt(myDate.getDate());
-            var yearStr = myDate.getFullYear();
-            var totalMoneyDate = data.get('totalMoneyDate');
-            if(totalMoneyDate != yearStr + month + day){
+            var month = (myDate.getMonth() + 1).toString();
+            var day = myDate.getDate().toString();
+            var yearStr = myDate.getFullYear().toString();
+            var todayStr = yearStr + '-' + month + '-' + day;
+            var todayMoneyDate = data.get('todayMoneyDate');
+            if(todayMoneyDate != todayStr){
                 //非当天赚到的钱
                 todayMoney = 0;
+                data.set('todayMoneyDate', todayStr);
+                data.set('todayMoney', 0);
+                data.save();
             }
 
             res.json({'errorId': 0, 'message': 'auto create account succeed',
                 'userCId':  Base64.encode(data.id), 'userCode': data.get('userCodeId'),
-                'apprenticeMoney': data.get('apprenticeMoney'), 'discipleMoney': data.get('discipleMoney'),
+                'apprenticeMoney': data.get('apprenticeMoney'), 'withdrawMoney': data.get('withdrawMoney'),
                 'totalMoney': data.get('totalMoney'), 'currentMoney': data.get('currentMoney'), 'todayMoney': data.get('todayMoney')
             });
 
