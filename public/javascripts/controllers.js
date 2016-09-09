@@ -72,7 +72,6 @@ angular.module('starter.controllers', [])
     $scope.copyInviteUrl = function () {
         //TODO:
     };
-
 })
 
 .controller('TaskHallController', function($scope, $http, Locales, $ionicFilterBar) {
@@ -130,6 +129,8 @@ angular.module('starter.controllers', [])
                     if(response.tasks.length > 0){
                         if(response.tasks.length == pageCount){
                             $scope.downloadHasMore = true;
+                        }else {
+                            $scope.downloadHasMore = false;
                         }
                         if(isMore == 0){
                             //refresh
@@ -143,6 +144,8 @@ angular.module('starter.controllers', [])
                     if(response.tasks.length > 0){
                         if(response.tasks.length == pageCount) {
                             $scope.commentHasMore = true;
+                        }else {
+                            $scope.commentHasMore = false;
                         }
                         if(isMore == 0){
                             //refresh
@@ -177,10 +180,6 @@ angular.module('starter.controllers', [])
     $scope.loadMore = function(){
         $scope.switchTaskType($scope.taskType, 1);
     };
-
-    $scope.$on('$stateChangeSuccess', function() {
-        $scope.loadMore();
-    });
 })
 
 .controller('TaskDetailController', function($scope, $http, $stateParams, Locales) {
@@ -208,7 +207,9 @@ angular.module('starter.controllers', [])
     }
 })
 
-.controller('MyTaskController', function($scope) {})
+.controller('MyTaskController', function($scope) {
+
+})
 
 .controller('AccountController', function($scope) {
         $scope.settings = {
