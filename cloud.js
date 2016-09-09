@@ -34,7 +34,7 @@ function getTaskCheckQuery(){
     // 已经被定时器操作过的任务
     query.notEqualTo('close', true);
     query.notEqualTo('timerDone', true);
-    query.lessThanOrEqualTo('updatedAt', yesterdayDate);
+    query.lessThanOrEqualTo('createdAt', yesterdayDate);
     query.ascending('createdAt');
     return query;
 }
@@ -112,6 +112,15 @@ AV.Cloud.define('taskCheckForDoTask', function(request, response){
                             for (var r = 0; r < doTaskObjects.length; r++){
                                 var taskStatus = doTaskObjects[r].get('taskStatus');
                                 if (taskStatus == 'uploaded' || taskStatus == 'reUploaded'){
+
+                                    //不能在1小时之内提交的任务(审核人员来不及审核)
+                                    var taskUpdateDate = doTaskObjects[r].updatedAt;
+                                    var nowDate = new Date();
+                                    if(taskUpdateDate.getHours() >= nowDate.getHours() - 1){
+                                        needDoneTimer = false;
+                                        continue;
+                                    }
+
                                     doTaskObjects[r].set('taskStatus', 'systemAccepted');
                                     changeDoTasks.push(doTaskObjects[r]);
                                     if(changeDoTasks.length == 1 && user.get('registerBonus') == 'register_upload_task'){
@@ -167,7 +176,6 @@ AV.Cloud.define('taskCheckForDoTask', function(request, response){
                                 //保存所有用户的数据改动
                                 AV.Object.saveAll(taskUsers.concat(results)).then(function(){
                                     console.log('!!!!! checkTask  modify journal succeed');
-                                    response.success('checkTask success');
                                 }, function (error) {
                                     console.error('---------- save all user money error ' + error.message);
                                 });
@@ -177,10 +185,11 @@ AV.Cloud.define('taskCheckForDoTask', function(request, response){
                 }
             })
         }
-        function error(){
-            console.error('----- checkTask error: count error');
-            response.fail('checkTask fail');
-        }
+
+        response.success('checkTask success');
+    }, function(error){
+        console.error('----- checkTask error: count error');
+        response.fail('checkTask fail');
     })
 });
 

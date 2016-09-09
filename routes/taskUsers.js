@@ -8,8 +8,8 @@ var mentorRelationSQL = AV.Object.extend('mentorRelation');
 
 //获取用户(若不存在,则自动创建半账号),返回账号相关数据
 router.get('/:userCId', function(req, res) {
-    console.log('first generate user, params : ' + req.params);
-    var userCId = Base64.decode(req.params.userCId);
+    console.log('first generate user, params userCId: ' + req.params.userCId);
+    var userCId = req.params.userCId;
     //query current day register number
     var tempUserQuery = new AV.Query(tempUserSQL);
 
@@ -66,6 +66,7 @@ router.get('/:userCId', function(req, res) {
         });
     }
     else {
+        userCId = Base64.decode(req.params.userCId);
         tempUserQuery.get(userCId).then(function (data) {
 
             var todayMoney = 0;

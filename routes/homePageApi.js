@@ -228,7 +228,7 @@ router.post('/checkIns', function(req, res){
             AV.Object.saveAll([checkInsObject, userObject]).then(function(){
 
                 messager.bonusMsg(myDateStr + '日签到', 1, userId);
-                res.json({'errorId': 0, 'errorMsg': ''})
+                res.json({'errorId': 0, 'errorMsg': ''});
             },function(error){
                 res.json({'errorMsg':error.message, 'errorId': error.code});
             })

@@ -18,9 +18,13 @@ var funnelHour = 15;
 
 function taskObjectToDic(taskObject, isOpen){
     if(taskObject != undefined || taskObject.get('appObject') != undefined){
-        var appObject = taskObject.get('appObject');
         var taskDic = Object();
+        var appObject = taskObject.get('appObject');
+        if(appObject == undefined){
+            return undefined;
+        }
 
+        taskDic.taskId = taskObject.id;
         taskDic.appIcon = appObject.get('artworkUrl100');
         taskDic.appName = appObject.get('trackName');
         var priceStr = appObject.get('formattedPrice');
@@ -28,11 +32,15 @@ function taskObjectToDic(taskObject, isOpen){
             taskObject.appPrice = priceStr;
         }
 
-        if(isOpen > 1){
+        if(isOpen == true){
             taskDic.remainCount = taskObject.get('remainCount');
         }else {
             //maybe negative
             taskDic.remainCount = taskObject.get('remainCount') - funnelExcCount;
+        }
+        taskDic.doTaskPrice = appObject.get('doTaskPrice');
+        if(taskDic.doTaskPrice == undefined){
+            taskDic.doTaskPrice = appObject.get('rateUnitPrice')/10 * 0.4;
         }
 
         //正在做的任务
@@ -47,14 +55,24 @@ function taskObjectToDic(taskObject, isOpen){
 }
 
 //获取任务大厅任务
-router.get('/:userCId/:page', function(req, res, next) {
+router.get('/:type/:userCId/:page', function(req, res, next) {
+    if(req.params.userCId == 'null'){
+        res.json({'errorId': -1, 'message': 'not register user'});
+        return;
+    }
     var userCId = Base64.decode(req.params.userCId);
     var page = req.params.page;
+    var type = req.params.type; //1下载 2评论
+    var taskType;
+    if(type == 1){
+        taskType = '下载'
+    }else if(type == 2){
+        taskType = '评论'
+    }
     if (userCId == undefined){
         //generation header code
         res.json({'errorId': -1, 'message': 'not register user'});
-    }
-    else {
+    }else {
         var tempUserQuery = new AV.Query(tempUserSQL);
         tempUserQuery.get(userCId).then(function (userTempObject) {
 
@@ -74,16 +92,20 @@ router.get('/:userCId/:page', function(req, res, next) {
             if(myDate.getHours() <= funnelHour) {
                 releaseTaskQuery.greaterThanOrEqualTo('excCount', 10);
             }
+            if(taskType != undefined){
+                releaseTaskQuery.equalTo('taskType', taskType);
+            }
 
+            var pageCount = 20;
             releaseTaskQuery.include('appObject');
-            releaseTaskQuery.skip(page * 20);
-            releaseTaskQuery.limit(20);
+            releaseTaskQuery.skip(page * pageCount);
+            releaseTaskQuery.limit(pageCount);
             releaseTaskQuery.descending('remainCount');
             releaseTaskQuery.find().then(function(datas){
 
                 var retArray = Array();
                 for(var i = 0; i < datas.length; i++){
-                    var taskInfo = taskObjectToDic(datas[i], myDate.getHours() <= funnelHour);
+                    var taskInfo = taskObjectToDic(datas[i], myDate.getHours() >= funnelHour);
                     if(taskInfo != undefined){
                         retArray.push(taskInfo);
                     }

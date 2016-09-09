@@ -194,6 +194,7 @@ router.post('/add/:excTaskId', function(req, res){
                         //做任务的人
                         newTaskObject.set('doTaskUser', userObject);
                         //发布任务的人
+                        newTaskObject.set('releaseTaskObject', receiveTaskObject.get('taskObject'));
                         newTaskObject.set('releaseTaskUser', releaseTaskUserObject);
                         newTaskObject.save().then(function(){
                             var relation = receiveTaskObject.relation('mackTask');
