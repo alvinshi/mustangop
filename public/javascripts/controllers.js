@@ -11,6 +11,26 @@ function getUserCode()
 }
 
 angular.module('starter.controllers', [])
+    //弹出窗口
+    .controller('PopupCtrl',function($scope, $ionicPopup) {
+        $scope.showPopup = function () {
+            $scope.data = {}
+            // 自定义弹窗
+            var myPopup = $ionicPopup.show({
+                template: '<input type="text">',
+
+                buttons: [
+                    {text: '取消'},
+                    {
+                        text: '<b>确定</b>',
+                        type: 'button-positive',
+
+                    },
+                ]
+
+            })
+        }
+    })
 
 .controller('homeController', function($scope, $http) {
     getUserCode();
@@ -67,7 +87,24 @@ angular.module('starter.controllers', [])
             }
         });
     }
+    //弹出窗口
+    $scope.showPopup = function () {
+        $scope.data = {}
+        // 自定义弹窗
+        var myPopup = $ionicPopup.show({
+            template: '<input type="text">',
 
+            buttons: [
+                {text: '取消'},
+                {
+                    text: '<b>确定</b>',
+                    type: 'button-positive',
+
+                },
+            ]
+
+        })
+    }
     //invite
     $scope.copyInviteUrl = function () {
         //TODO:

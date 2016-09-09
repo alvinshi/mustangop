@@ -1,3 +1,11 @@
+<link rel="stylesheet" href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css">
+<script src="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<!--网站内部CSS-->
+<link rel="stylesheet" href="/stylesheets/app.css"/>
+<!-- 引入 AngularJS Mini 文件 -->
+<!--网站内部JS-->
+<script src="/javascripts/app.js"></script>
+<script src="/javascripts/vendor/AngularJS/angular.min.js"></script>
 <ion-view>
     <ion-nav-buttons>
         <button style="margin-left: auto; text-align: center;" class="button" ng-click="switchTaskType(1, -1)">
@@ -8,7 +16,7 @@
         </button>
     </ion-nav-buttons>
 
-    <ion-content>
+    <ion-content style="background-color: #F5F5F5;">
         <!--loading-->
         <ion-spinner ng-show="downloadTasks.length == 0 && downloadLoading == true && taskType == 1" icon="ripple" class="spinner-assertive"></ion-spinner>
         <ion-spinner ng-show="commentTasks.length == 0 && commentLoading == true && taskType == 2" icon="ripple" class="spinner-assertive"></ion-spinner>
@@ -19,8 +27,51 @@
                 on-refresh="refreshTaskHall()">
         </ion-refresher>
 
-        <div class="list" ng-show="taskType == 1">
+        <!--下载页面相关-->
+        <!--头部-->
+        <div ng-show="taskType == 1">
+        <div class="header">
+            <div class="text">
+                <br>
+            <h4>根据关键词,在APP&nbsp;store搜索到指定APP,下载APP,试玩3分钟</h4>
+            </div>
+        </div>
+            <!--灰色背景-->
+            <div class="grayback">
+        <!--虚线框-->
+        <div class="dashed">
+            <h4>注:无卡机无法参与获得奖励</h4>
+        </div>
 
+        <!--ionic card-->
+        <div class="list" >
+                <!--<div class="item item-text-wrap">-->
+                    <!--{{task.appName}}-->
+                <!--</div>-->
+            <div class="card" ng-repeat="task in downloadTasks">
+                <a href="app#/tab/myTask" class="item" target="_blank" >
+                    <img src="/images/app/head1.jpg" class="cardicon">
+                    <div >
+                    <span class="cardtext typetitle" >{{task.appName}}</span>
+
+                    <span class="cardtextright cardword">+3.80<span style="font-size: 0.6em;">元</span></span><br><br>
+                    <span class="cardtextright typeblue" style="margin-top: 0.2em;">1元付费应用</span>
+                    <span class="cardtext typegray" style="margin-top: -0.3em;">剩余20条</span>
+                    <span class="cardtext typelightgray" style="margin-top: -0.3em;">进行中两份</span><br><br>
+                    <div class="note">
+                        <span class="cardtext annotation" >1.必须首次下载(需要获取标志)</span><br>
+                        <span class="cardtext annotation">2.需第三方体验注册</span>
+                        </div>
+                </a>
+              </div>
+        </div>
+
+
+
+                </div>
+        </div>
+        <!--评论页面相关-->
+        <div class="list" ng-show="taskType == 2">
             <div class="card" ng-repeat="task in downloadTasks">
                 <div class="item item-text-wrap">
                     {{task.appName}}
