@@ -22,6 +22,8 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
   });
 })
 
+
+
 .config(function($stateProvider, $urlRouterProvider, $ionicFilterBarConfigProvider, $ionicConfigProvider) {
 
         $ionicFilterBarConfigProvider.theme('light');
@@ -61,10 +63,10 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
         }
       }
     })
-    .state('tab.taskDetail', {
+    .state('tab.task-detail', {
       url: '/task/:taskId',
       views: {
-        'tab-taskDetail': {
+        'tab-taskHall': {
           templateUrl: 'templates/task-detail.html',
           controller: 'TaskDetailController'
         }

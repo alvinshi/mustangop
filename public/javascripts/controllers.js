@@ -11,6 +11,26 @@ function getUserCode()
 }
 
 angular.module('starter.controllers', [])
+    //弹出窗口
+    .controller('PopupCtrl',function($scope, $ionicPopup) {
+        $scope.showPopup = function () {
+            $scope.data = {}
+            // 自定义弹窗
+            var myPopup = $ionicPopup.show({
+                template: '<input type="text">',
+
+                buttons: [
+                    {text: '取消'},
+                    {
+                        text: '<b>确定</b>',
+                        type: 'button-positive',
+
+                    },
+                ]
+
+            })
+        }
+    })
 
 .controller('homeController', function($scope, $http) {
     getUserCode();
@@ -67,7 +87,24 @@ angular.module('starter.controllers', [])
             }
         });
     }
+    //弹出窗口
+    $scope.showPopup = function () {
+        $scope.data = {}
+        // 自定义弹窗
+        var myPopup = $ionicPopup.show({
+            template: '<input type="text">',
 
+            buttons: [
+                {text: '取消'},
+                {
+                    text: '<b>确定</b>',
+                    type: 'button-positive',
+
+                },
+            ]
+
+        })
+    }
     //invite
     $scope.copyInviteUrl = function () {
         //TODO:
@@ -75,7 +112,7 @@ angular.module('starter.controllers', [])
 })
 
 .controller('TaskHallController', function($scope, $http, Locales, $ionicFilterBar) {
-
+    getUserCode();
     var pageCount = 20;
 
     //默认下载
@@ -183,7 +220,7 @@ angular.module('starter.controllers', [])
 })
 
 .controller('TaskDetailController', function($scope, $http, $stateParams, Locales) {
-
+    getUserCode();
     var tasksUrl = '/taskHall/' + gUserCId + '/' + 0;
     $scope.loading = true;
     $http.get(tasksUrl).success(function (response) {
@@ -208,10 +245,11 @@ angular.module('starter.controllers', [])
 })
 
 .controller('MyTaskController', function($scope) {
-
+    getUserCode();
 })
 
 .controller('AccountController', function($scope) {
+    getUserCode();
         $scope.settings = {
             enviarNotificaciones: true
         };

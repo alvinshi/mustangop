@@ -31,6 +31,7 @@ router.get('/index', function(req, res){
     var query = new AV.Query(receiveTaskObject);
     query.equalTo('userObject', userObject);
     query.equalTo('close', false);
+    query.notEqualTo('timerDone', true);
     query.descending('createdAt');
     query.find().then(function(userReceiveObjects){
         if(userReceiveObjects == undefined || userReceiveObjects.length == 0){

@@ -16,6 +16,8 @@ var funnelExcCount = 10;
 //2.下午3Pm后,2端任务同时进行
 var funnelHour = 15;
 
+var YCoinToRMBRate = 0.45;
+
 function taskObjectToDic(taskObject, isOpen){
     if(taskObject != undefined || taskObject.get('appObject') != undefined){
         var taskDic = Object();
@@ -40,7 +42,7 @@ function taskObjectToDic(taskObject, isOpen){
         }
         taskDic.doTaskPrice = appObject.get('doTaskPrice');
         if(taskDic.doTaskPrice == undefined){
-            taskDic.doTaskPrice = appObject.get('rateUnitPrice')/10 * 0.4;
+            taskDic.doTaskPrice = appObject.get('rateUnitPrice')/10 * YCoinToRMBRate;
         }
 
         //正在做的任务
