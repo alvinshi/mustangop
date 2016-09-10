@@ -7,7 +7,8 @@ var AV = require('leanengine');
 var Base64 = require('../public/javascripts/vendor/base64').Base64;
 
 var tempUserSQL = AV.Object.extend('tempUser');
-var doTaskInfoSQL = AV.Object.extend('doTaskInfo');
+var mackTaskSQL = AV.Object.extend('mackTaskInfo');
+var receiveTaskSQL = AV.Object.extend('receiveTaskObject');
 var releaseTaskSQL = AV.Object.extend('releaseTaskObject');
 
 //任务到小马的过滤策略
@@ -16,7 +17,11 @@ var funnelExcCount = 10;
 //2.下午3Pm后,2端任务同时进行
 var funnelHour = 15;
 
+//默认Y币转人名币汇率
 var YCoinToRMBRate = 0.45;
+
+//小马领取任务超时时间
+var tempTaskMaxTime = 1000 * 60 * 60;
 
 function taskObjectToDic(taskObject, isOpen){
     if(taskObject != undefined || taskObject.get('appObject') != undefined){
@@ -40,7 +45,7 @@ function taskObjectToDic(taskObject, isOpen){
             //maybe negative
             taskDic.remainCount = taskObject.get('remainCount') - funnelExcCount;
         }
-        taskDic.doTaskPrice = appObject.get('doTaskPrice');
+        taskDic.doTaskPrice = appObject.get('tempUserPrice');
         if(taskDic.doTaskPrice == undefined){
             taskDic.doTaskPrice = appObject.get('rateUnitPrice')/10 * YCoinToRMBRate;
         }
@@ -92,7 +97,7 @@ router.get('/:type/:userCId/:page', function(req, res, next) {
             var myDate = new Date();
             //需要当天的任务才可以
             if(myDate.getHours() <= funnelHour) {
-                releaseTaskQuery.greaterThanOrEqualTo('excCount', 10);
+                releaseTaskQuery.greaterThanOrEqualTo('excCount', funnelExcCount);
             }
             if(taskType != undefined){
                 releaseTaskQuery.equalTo('taskType', taskType);
@@ -132,53 +137,103 @@ router.get('/:type/:userCId/:page', function(req, res, next) {
 //获取任务大厅任务
 router.post('/lockTask', function(req, res, next) {
     var userCId = Base64.decode(req.body.userCId);
-    var taskId = req.body.taskId;
+    var taskObjectId = req.body.taskId;
 
-    var releaseTaskQuery = new AV.Query(releaseTaskSQL);
-    releaseTaskQuery.get(taskId).then(function(taskObject){
+    var myDate = new Date();
+    var myDateStr = myDate.getFullYear() + '-' + (parseInt(myDate.getMonth())+1) + '-' + myDate.getDate();
 
-        var doTaskQuery = new AV.Query(doTaskInfoSQL);
-        var userTempObject = new tempUserSQL();
-        userTempObject.id = userCId;
-        doTaskQuery.equalTo('userTempObject', userTempObject);
-        doTaskQuery.equalTo('taskObject', taskObject);
-        doTaskQuery.find().then(function(datas){
-            if(datas.length > 0){
-                //任务曾今做过/锁定未过期
-                return res.json({'errorId': -1, 'message': 'task is done or locked'});
-            }
+    //任务ID
+    var releaseQuery = new AV.Query(releaseTaskObject);
+    releaseQuery.get(taskObjectId).then(function (releTaskObject) {
 
-            var doTaskLockObject = new doTaskInfoSQL();
-            doTaskLockObject.set('userTempObject', userTempObject);
-            doTaskLockObject.set('taskObject', taskObject);
-            doTaskLockObject.set('status', 'locked');
+        if(releTaskObject.get('close') == true){
+            res.json({'errorId': -2, 'message': '任务已关闭,不能领取哦'});
+        }else if(releTaskObject.get('cancelled') == true){
+            res.json({'errorId': -2, 'message': '任务刚被发布者撤销,看看别的任务吧'});
+        }else {
+            var tempUserPrice = releTaskObject.get('tempUserPrice');
+            var appObject = releTaskObject.get('appObject');
+            var excUniqueCode = releTaskObject.get('excUniqueCode');
 
-            taskObject.increment('doingCount', 1);
-            taskObject.increment('remainCount', -1);
+            //后端效验
+            var flag = true;
+            var errorMsg = '';
 
-            AV.Object.SaveAll([taskObject, doTaskLockObject]).then(function(avobjs){
-                //30min timer 超时
-                setTimeout(unlockTaskIfNeeded, 1000*60*30, taskId);
-                var doTaskId;
-                for (var i = 0; i < avobjs.length; i++){
-                    if(avobjs[i].id != taskObject.id){
-                        doTaskId = avobjs[i].id;
+            //1.不得重复领取同一任务
+            var query = new AV.Query(receiveTaskSQL);
+            query.equalTo('userObject', userObject);
+            query.equalTo('taskObject', releTaskObject);
+            query.equalTo('appObject', appObject);
+            query.include('taskObject');
+            query.find().then(function(results){
+                if (results.length > 0){
+                    errorMsg = "任务已经被领取过";
+                    flag = false;
+                    res.json({'errorId': -2, 'message': errorMsg});
+                }else {
+                    //剩余条数
+                    var remainCount = releTaskObject.get('remainCount');
+                    var myDate = new Date();
+                    //需要当天的任务才可以
+                    if(myDate.getHours() <= funnelHour) {
+                        if(remainCount <= funnelExcCount){
+                            console.log('temp user task get failed because of task done(less than 10)');
+                            errorMsg = "抱歉, 任务被别的用户抢走了";
+                            res.json({'errorId': -1, 'errorMsg': errorMsg});
+                            return;
+                        }
+                    }else {
+                        if (remainCount < 1){
+                            console.log('temp user task get failed because of task done(less than 1)');
+                            errorMsg = "抱歉, 任务被别的用户抢走了";
+                            res.json({'errorId': -1, 'errorMsg': errorMsg});
+                            return;
+                        }
                     }
+                    //可以领取任务
+                    //后端效验通过
+                    var tempUser = new tempUserSQL();
+                    tempUser.id = userCId;
+                    var ReceiveTaskObject = new receiveTaskSQL();
+                    ReceiveTaskObject.set('tempUserObject', tempUser);
+                    ReceiveTaskObject.set('taskObject', releTaskObject);
+                    ReceiveTaskObject.set('appObject', appObject);
+                    ReceiveTaskObject.set('receiveCount', 1);
+                    ReceiveTaskObject.set('tempUserPrice', tempUserPrice);
+
+                    ReceiveTaskObject.set('excUniqueCode', excUniqueCode);//换评信息
+                    ReceiveTaskObject.set('receiveDate', myDateStr);
+
+
+                    //小马试客,不计入定时器
+                    ReceiveTaskObject.set('timerDone', true);
+
+                    releTaskObject.increment('remainCount', -1);
+                    releTaskObject.increment('doingCount', 1);
+
+                    var needSavedTasks = [releTaskObject, ReceiveTaskObject];
+
+                    AV.Object.saveAll(needSavedTasks).then(function(avobjs){
+                        setTimeout(unlockTaskIfNeeded, tempTaskMaxTime, taskId);
+                        var doTaskId;
+                        for (var i = 0; i < avobjs.length; i++){
+                            if(avobjs[i].id != taskObject.id){
+                                doTaskId = avobjs[i].id;
+                            }
+                        }
+
+                        res.json({'errorId': 0, 'message': 'lock task succeed', 'lockId': doTaskId});
+                    }, function(error){
+                        res.json({'errorId': error.code, 'errorMsg': error.message});
+                    });
                 }
-
-                res.json({'errorId': 0, 'message': 'lock task succeed', 'lockId': doTaskId});
-            }, function(error){
-                res.json({'errorId': error.code, 'message': error.message});
             });
+        }
 
-        }, function(error){
-            res.json({'errorId': error.code, 'message': error.message});
-        });
-
-    }, function(error){
-        res.json({'errorId': error.code, 'message': error.message});
+    }, function (error) {
+        // 失败了
+        res.json({'errorId': error.code, 'errorMsg': error.message});
     });
-
 });
 
 //超时后核实锁定任务
@@ -187,36 +242,47 @@ function unlockTaskIfNeeded(lockTaskId){
 }
 
 function unlockTaskWithRes(lockTaskId, res){
-    var doTaskQuery = new AV.Query(doTaskInfoSQL);
-    doTaskQuery.include('taskObject');
-    doTaskQuery.get(lockTaskId).then(function(doTaskObject){
-        var images = doTaskObject.get('taskImages');
-        //必须有任务截图和状态机的改变
-        if(images == undefined || images.length == 0 || doTaskObject.get('status') == 'locked'){
-            //任务超时,未做,清除锁定任务
+    var receTaskQuery = new AV.Query(receiveTaskSQL);
+    receTaskQuery.include('taskObject');
+    receTaskQuery.include('tempMackTask');
+    receTaskQuery.get(lockTaskId).then(function(receTaskObject){
+        var doTaskObject = receTaskObject.get('tempMackTask');
+        if(doTaskObject == undefined){
+            //任务超时未做
             var taskObject = doTaskObject.get('taskObject');
             taskObject.increment('doingCount', -1);
             taskObject.increment('remainCount', 1);
 
-            //锁定任务超时,做记录
-            doTaskObject.set('status', 'expired');
+            //close rece task object and expired = 1
+            receTaskObject.set('close', true);
+            receTaskObject.set('expiredCount', 1);
 
-            AV.Object.SaveAll([taskObject, doTaskObject]).then(function(){
-                console.info('user ' + doTaskObject.get('userTempObject').id + ' unlock task ' + lockTaskId + ' succeed');
-
-                if(res != undefined){
-                    res.json({'errorId': 0, 'message': 'unlock succeed'});
-                }
-            }, function(error){
-                console.error('---------- user ' + doTaskObject.get('userTempObject').id + ' unlock task ' + lockTaskId + ' failed');
-
-                //unlock again
-                //5min timer 超时(姑且继续执行)
-                setTimeout(unlockTaskIfNeeded, 1000*60*5, lockTaskId);
-                if(res != undefined) {
+            if(res == undefined){
+                //任务超时(未取消)(不可在做该任务)
+                AV.Object.SaveAll([taskObject, doTaskObject]).then(function(){
+                    console.info('user ' + doTaskObject.get('userTempObject').id + ' unlock task ' + lockTaskId + ' succeed');
+                }, function(error){
+                    console.error('---------- timer !!!!!!!!!! user ' + receTaskObject.get('userTempObject').id + ' unlock task ' + lockTaskId + ' failed');
+                });
+            }else {
+                //主动取消了任务(还可以做)
+                //回退任务条数
+                taskObject.save().then(function(){
+                    receTaskObject.destroy().then(function (success) {
+                        // 删除任务记录成功(下次还可以做)
+                        res.json({'errorId': 0, 'message': 'unlock succeed'});
+                    }, function (error) {
+                        // 删除失败
+                        console.error('---------- manual unlock !!!!!!!!!! receive task destory error ' + receTaskObject.get('userTempObject').id + ' unlock task ' + lockTaskId + ' failed');
+                        res.json({'errorId': error.code, 'message': error.message});
+                    });
+                }, function (error) {
+                    console.error('---------- manual unlock !!!!!!!!!! task save error ' + receTaskObject.get('userTempObject').id + ' unlock task ' + lockTaskId + ' failed');
                     res.json({'errorId': error.code, 'message': error.message});
-                }
-            });
+                });
+            }
+        }else {
+            //TODO: 思考被拒绝?
         }
     }, function (error) {
         if(res != undefined) {
@@ -226,9 +292,9 @@ function unlockTaskWithRes(lockTaskId, res){
 }
 
 //放弃锁定任务
-router.post('/unlockTask', function(req, res, next) {
-    var unLockTaskId = req.body.unLockTaskId;
-    unlockTaskWithRes(unLockTaskId, res);
+router.post('/unlockTask', function(req, res) {
+    var taskId = req.body.taskId;
+    unlockTaskWithRes(taskId, res);
 });
 
 //任务详情 + 用户的任务状态
@@ -236,7 +302,198 @@ router.get('/:userCId/:taskId', function(req, res, next) {
     var userCId = Base64.decode(req.params.userCId);
     var taskId = req.params.taskId;
 
+    //TODO 任务详情
+});
 
+//小马用户上传任务
+router.post('/tempUserDoTask', function(req, res){
+    var userCId = Base64.decode(req.params.userCId);
+    var taskId = req.body.taskId;
+    var requirementImgs = req.body.requirementImgs;
+
+    if(requirementImgs == undefined || requirementImgs.length == 0){
+        res.json({'message':'未上传图片', 'errorId': -3});
+        return;
+    }
+
+    var tempUserQuery = new AV.Query(tempUserSQL);
+    tempUserQuery.get(userCId).then(function (tempUserObject) {
+
+        var userUploadName = tempUserObject.get('userCodeId');
+
+        var receiveTaskQuery = new AV.Query(receiveTaskSQL);
+        receiveTaskQuery.include('taskObject');
+        receiveTaskQuery.include('userObject');
+        receiveTaskQuery.include('taskObject.userObject');
+        receiveTaskQuery.get(taskId).then(function(receiveTaskObject){
+            var tempMackObject = receiveTaskObject.get('tempMackTask');
+            var taskObject = receiveTaskObject.get('taskObject');
+
+            //这边必须不包含过期条目,因为expiredCount已经包含了
+            if(receiveTaskObject.get('expiredCount') == 1){
+                //任务已经做满,不能重新再上传
+                res.json({'message':'任务已经超时,不在可以参加任务', 'errorId': -200});
+            }else {
+                if(tempMackObject == undefined){
+                    //new task
+                    tempMackObject = new mackTaskSQL();
+                    tempMackObject.set('uploadName', userUploadName);
+                    tempMackObject.set('requirementImgs', requirementImgs);
+                    tempMackObject.set('taskStatus', 'uploaded');
+                    tempMackObject.set('receiveTaskObject', receiveTaskObject);
+
+                    //小马试客 做任务的人
+                    tempMackObject.set('tempUserObject', tempUserObject);
+                    //发布任务的人
+                    tempMackObject.set('releaseTaskObject', taskObject);
+                    tempMackObject.set('releaseTaskUser', taskObject.get('userObject'));
+                }else {
+                    //该用户已经做过任务,想重新传图
+                    var taskStatus = tempMackObject.get('taskStatus');
+                    if (taskStatus == 'accepted' || taskStatus == 'systemAccepted'){
+                        //任务已经完成,无需再做
+                        res.json({'message':'任务已经完成喽', 'errorId': -100});
+                    }else if (taskStatus == 'refused') {
+                        //TODO 小马试客不允许做被拒绝的任务
+                        res.json({'message':'任务失败(被拒绝),有疑问联系客服', 'errorId': -101});
+                    }else if (taskStatus == 'expired') {
+                        res.json({'message':'任务已经超时过期', 'errorId': -101});
+                    }else {
+                        //自己重新提交,或者被拒绝后重新做任务
+                        //销毁以往图片
+                        var images = tempMackObject.get('requirementImgs');
+                        var query_file = new AV.Query(File);
+                        query_file.containedIn('url', images);
+                        query_file.find().then(function(imgResults){
+                            for (var e = 0; e < imgResults.length; e++){
+                                imgResults[e].destroy().then(function(){
+                                    //remove success
+                                })
+                            }
+                        });
+
+                        tempMackObject.set('requirementImgs', requirementImgs);
+                        //区分 自己提交和 拒绝后提交
+                        if (taskStatus == 'refused'){
+                            tempMackObject.set('taskStatus', 'reUploaded');
+                        }else {
+                            tempMackObject.set('taskStatus', 'uploaded');
+                        }
+                    }
+
+                    tempMackObject.save().then(function(){
+                        res.json({'errorId':0, 'message':'', 'requirementImgs':requirementImgs});
+                    }, function (error) {
+                        //更新任务失败
+                        console.error('upload task img failed(save task):' + taskStatus + 'error:' + error.message);
+                        res.json({'errorMsg':error.message, 'uploadName':userUploadName, 'errorId': error.code});
+                    });
+                }
+            }
+        }, function(error){
+            console.error('upload task img failed(receive task object error):' + error.message);
+            res.json({'errorId': error.code, 'message': error.message});
+        });
+
+    }, function (error) {
+        console.error('upload task img failed(temp user object error):' + error.message);
+        res.json({'errorId': error.code, 'message': error.message});
+    });
+});
+
+//我的任务
+router.get('/myTask/:userCId', function(req, res) {
+    var userCId = Base64.decode(req.params.userCId);
+    var tempUser = new tempUserSQL();
+    tempUser.id = userCId;
+
+    var maxShowInvalidTask = 3;
+
+    //小马试客,我的任务
+    var query = new AV.Query(receiveTaskObject);
+    query.equalTo('tempUserObject', tempUser);
+    query.equalTo('timerDone', true);
+    query.notEqualTo('close', true);
+    query.lessThanOrEqualTo('showTimer', maxShowInvalidTask);
+
+    query.include('taskObject');
+    query.include('appObject');
+    query.include('tempMackTask');
+    query.descending('createdAt');
+
+
+    query.find().then(function(results){
+        //已完成/过期任务 3次展示后自动消失
+
+        var retList = [];
+        var undoTask = 0;
+        var willGetRmb = 0;
+        var needSaveReceList = [];
+
+        for (var i = 0; i < results.length; i++){
+            var receTaskObject = results[i];
+            var taskObject = receTaskObject.get('taskObject');
+            var appObject = receTaskObject.get('appObject');
+            var tempMackObject = receTaskObject.get('tempMackTask');
+
+            var myTaskDic = Object();
+            if(appObject == undefined){
+                continue;
+            }
+
+            myTaskDic.taskId = taskObject.id;
+            myTaskDic.createdAt = receTaskObject.createdAt;
+            myTaskDic.appIcon = appObject.get('artworkUrl100');
+            myTaskDic.appName = appObject.get('trackName');
+
+            myTaskDic.doTaskPrice = appObject.get('tempUserPrice');
+            if(myTaskDic.doTaskPrice == undefined){
+                myTaskDic.doTaskPrice = appObject.get('rateUnitPrice')/10 * YCoinToRMBRate;
+            }
+
+            //status
+            if(tempMackObject == undefined){
+                //未做(时间)
+                undoTask++;
+                willGetRmb += myTaskDic.doTaskPrice;
+            }else {
+                //做了
+                var taskStatus = tempMackObject.get('taskStatus');
+                if (taskStatus == 'uploaded' || taskStatus == 'reUploaded'){
+                    //审核中(时间)
+                    myTaskDic.statusDes = '审核中';
+                }else if (taskStatus == 'accepted' || taskStatus == 'systemAccepted'){
+                    //完成
+                    myTaskDic.statusDes = '已完成';
+                    receTaskObject.increment('showTimer', 1);
+                    needSaveReceList.push(receTaskObject);
+                }else if(taskStatus == 'refused'){
+                    //拒绝
+                    myTaskDic.statusDes = '被拒绝';
+                    myTaskDic.refuseReason = tempMackObject.get('detail');
+                }else if(taskStatus == 'expired'){
+                    //过期
+                    myTaskDic.statusDes = '已过期';
+                    receTaskObject.increment('showTimer', 1);
+                    needSaveReceList.push(receTaskObject);
+                }
+            }
+        }
+
+        //save
+        if(needSaveReceList.length > 0){
+            AV.Object.saveAll(needSaveReceList).then(function(avobjs){
+                //
+            }, function(error){
+                //
+            });
+        }
+
+        res.json({'errorId': 0, 'message': '', 'retList': retList, 'undoTask': undoTask, 'willGetRmb': willGetRmb});
+    }, function(error){
+        console.error('get temp user tasks error:' + error.message);
+        res.json({'errorId': error.code, 'message': error.message});
+    });
 });
 
 module.exports = router;
