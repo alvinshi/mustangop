@@ -1,5 +1,13 @@
 <ion-view view-title="任务详情">
     <ion-content>
 
+        <button class="button button-outline button-calm button-small" >复制关键字</button>
+
+        <button ng-show="lockTaskId == undefined" class="button button-block button-assertive" ng-click="lockTask()">领取任务</button>
+
+        <button ng-show="lockTaskId != undefined" class="button button-block button-assertive" ng-click="unlockTask()">放弃任务</button>
+
+        <button class="button button-block button-assertive" ng-click="postTask()">上传3张任务截图 59:23</button>
+
     </ion-content>
 </ion-view>

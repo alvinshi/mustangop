@@ -182,7 +182,7 @@ function getTaskObjectList(taskType, query, totalCount, pageIndex, userObject, r
     }
 
     query.include('appObject');
-    query.ascending('createdAt');
+    query.descending('createdAt');
     query.descending('remainCount');
     query.skip(pageIndex);
     query.limit(20);
@@ -348,7 +348,6 @@ router.post('/postUsertask/:taskObjectId/:ratePrice/:appId', function(req, res){
     var userId = util.useridInReq(req);
     var receive_Count = parseInt(req.body.receiveCount);
     var excUniqueCode = req.body.excUniqueCode;
-    var receive_Price = (req.params.ratePrice) * receive_Count;
     var detail_Rem = req.body.detailRem;
     if (detail_Rem == undefined){
         detail_Rem = '';
@@ -363,6 +362,8 @@ router.post('/postUsertask/:taskObjectId/:ratePrice/:appId', function(req, res){
     //任务ID
     var releaseQuery = new AV.Query(releaseTaskObject);
     releaseQuery.get(taskObjectId).then(function (releTaskObject) {
+
+        var receive_Price = (releTaskObject.get('excUnitPrice')) * receive_Count;
 
         if(releTaskObject.get('close') == true){
             res.json({'succeeded': -2, 'errorMsg': '任务已关闭,不能领取哦'});
@@ -419,14 +420,7 @@ router.post('/postUsertask/:taskObjectId/:ratePrice/:appId', function(req, res){
                                 var needSavedTasks = [releTaskObject, ReceiveTaskObject];
 
                                 AV.Object.saveAll(needSavedTasks).then(function(){
-                                //ReceiveTaskObject.save().then(function(){
-                                    //更新任务剩余条数
-                                    var trackName = releTaskObject.get('trackName');
-                                    releTaskObject.save().then(function(){
-                                        res.json({'errorId': 0, 'errorMsg': '任务领取成功!'});
-                                    }, function(error){
-                                        res.json({'errorId': error.code, 'errorMsg': error.message});
-                                    });
+                                    res.json({'errorId': 0, 'errorMsg': '任务领取成功!'});
                                 }, function(error){
                                     res.json({'errorId': error.code, 'errorMsg': error.message});
                                 });

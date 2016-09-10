@@ -219,29 +219,75 @@ angular.module('starter.controllers', [])
     };
 })
 
-.controller('TaskDetailController', function($scope, $http, $stateParams, Locales) {
+.controller('TaskDetailController', function($scope, $http, $location) {
     getUserCode();
-    var tasksUrl = '/taskHall/' + gUserCId + '/' + 0;
+
+    var appurlList = $location.absUrl().split('/');
+    var taskId = appurlList[appurlList.length - 1];
+
+    $scope.lockTaskId = undefined;
+
+    var tasksUrl = '/taskHall/' + gUserCId + '/' + taskId;
     $scope.loading = true;
     $http.get(tasksUrl).success(function (response) {
         $scope.loading = false;
         if(response.errorId == 0){
             //succeed
-
-
+            $scope.taskDetail = response.taskDetail;
+            $scope.lockTaskId = response.taskDetail.lockTaskId;
         }else {
             $scope.errorId = response.errorId;
             $scope.message = response.message;
         }
     });
 
+    var locklock = 0;
     $scope.lockTask = function(){
+        if(locklock == 1){
+            return;
+        }
+        locklock = 1;
+
+        var lockTaskUrl = '/taskHall/lockTask';
+        var lockParam = {'userCId' : gUserCId, 'taskId' : taskId};
+        $http.post(lockTaskUrl, lockParam).success(function(response){
+            locklock = 0;
+            if(response.errorId == 0){
+                $scope.lockTaskId = response.lockId;
+            }
+        });
+    };
+
+    var unlocklock = 0;
+    $scope.unlockTask = function(){
+        if(unlocklock == 1 || $scope.lockTaskId == undefined){
+            return;
+        }
+        unlocklock = 1;
+
+        var lockTaskUrl = '/taskHall/unlockTask';
+        var lockParam = {'userCId' : gUserCId, 'lockTaskId' : $scope.lockTaskId};
+        $http.post(lockTaskUrl, lockParam).success(function(response){
+            unlocklock = 0;
+            if(response.errorId == 0){
+                $scope.lockTaskId = undefined;
+            }
+        });
+    };
+
+    var posklock = 0;
+    $scope.postTask = function(){
+        if(posklock == 1){
+            return;
+        }
+        posklock = 1;
+
         var lockTaskUrl = '/lockTask';
         var lockParam = {'userCId' : gUserCId, 'taskId' : $scope.taskDetail.id};
         $http.post(lockTaskUrl, lockParam).success(function(response){
-
+            posklock = 0;
         })
-    }
+    };
 })
 
 .controller('MyTaskController', function($scope) {
