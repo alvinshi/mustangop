@@ -182,7 +182,7 @@ function getTaskObjectList(taskType, query, totalCount, pageIndex, userObject, r
     }
 
     query.include('appObject');
-    query.ascending('createdAt');
+    query.descending('createdAt');
     query.descending('remainCount');
     query.skip(pageIndex);
     query.limit(20);
