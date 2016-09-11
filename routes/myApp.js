@@ -109,8 +109,6 @@ router.post('/UpdateApp', function(req, res){
     var appObject = new IOSAppInfoSQL();
     appObject.id = appObjectId;
 
-    //TODO: 邀请x个用户,放可以多绑定x个App(未邀请的用户仅可以绑定1个App)
-
     var query = new AV.Query(IOSAppBinder);
     query.equalTo('userObject', userObject);
     query.equalTo('appObject', appObject);
