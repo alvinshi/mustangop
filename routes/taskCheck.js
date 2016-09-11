@@ -14,7 +14,7 @@ var releaseTaskObject = AV.Object.extend('releaseTaskObject');
 var receiveTaskObject = AV.Object.extend('receiveTaskObject');
 var mackTaskInfo = AV.Object.extend('mackTaskInfo');
 
-var YCoinToRMBRate = 0.45;
+var YCoinToRMBRate = 0.045;
 
 router.get('/', function(req, res) {
     res.render('taskCheck');
@@ -219,7 +219,8 @@ router.get('/taskAudit', function(req, res){
                             })(results[i], submission);
                         }else if(tempUser != undefined){
                             //小马系统领取的任务
-                            var tempMackTask = receiveTaskObject.get('tempMackTask');
+                            //DEBUYDEBUG
+                            var tempMackTask = results[i].get('tempMackTask');
                             if(tempMackTask != undefined){
                                 userReceTaskDetail(submission, tempAppInfoObject, results[i], [tempMackTask]);
                             }else {
@@ -227,6 +228,7 @@ router.get('/taskAudit', function(req, res){
                             }
 
                             counter++;
+                            tempAppInfoObject.submissions.push(submission);
                             if (counter == promise){
                                 retApps.push(tempAppInfoObject);
                                 counterForReceive++;
@@ -302,6 +304,7 @@ router.post('/accept/:entryId', function(req, res) {
     //2个用户
     query.include('doTaskUser');
     query.include('releaseTaskUser');
+    query.include('releaseTaskObject');
 
     query.include('receiveTaskObject');
     query.include('receiveTaskObject.taskObject');
@@ -341,8 +344,10 @@ router.post('/accept/:entryId', function(req, res) {
             if(receUserObject != undefined || tempUserObject != undefined){
                 var needSaveUserObject;
 
+                var userName;
                 if(receUserObject != undefined){
                     needSaveUserObject = receUserObject;
+                    userName = receUserObject.get('username');
 
                     //user new task status
                     if(receUserObject.get('registerBonus') == 'register_upload_task'){
@@ -370,6 +375,7 @@ router.post('/accept/:entryId', function(req, res) {
                     }
                 }else if(tempUserObject != undefined){
                     needSaveUserObject = tempUserObject;
+                    userName = tempUserObject.get('userCodeId');
 
                     var isToday = true;
                     var myDate = new Date();
@@ -406,7 +412,7 @@ router.post('/accept/:entryId', function(req, res) {
 
                 // 发布任务的人冻结钱变少
                 senderUserObject.increment('freezingMoney', -excUnitPrice);
-                messager.payMsg('您接受了(' + receUserObject.get('username') + ')提交的任务(' + trackName + ')结果', excUnitPrice, senderUserObject.id, senderUserObject);
+                messager.payMsg('您接受了(' + userName + ')提交的任务(' + trackName + ')结果', excUnitPrice, senderUserObject.id, senderUserObject);
 
                 //保存2份流水
                 needSaveUserObject.save().then(function(){

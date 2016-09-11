@@ -19,7 +19,7 @@ var funnelExcCount = 0;
 var funnelHour = 15;
 
 //默认Y币转人名币汇率
-var YCoinToRMBRate = 0.45;
+var YCoinToRMBRate = 0.045;
 
 //小马领取任务超时时间
 var tempTaskMaxTime = 1000 * 60 * 60;
@@ -424,7 +424,10 @@ router.post('/tempUserDoTask', function(req, res){
                     tempMackObject.set('uploadName', userUploadName);
                     tempMackObject.set('requirementImgs', requirementImgs);
                     tempMackObject.set('taskStatus', 'uploaded');
+
+                    //bugbug 循环以来, Leancloud的bug
                     tempMackObject.set('receiveTaskObject', receiveTaskObject);
+                    tempMackObject.set("receiveTaskObject", AV.Object.createWithoutData("receiveTaskObject", receiveTaskObject.id));
 
                     //小马试客 做任务的人
                     tempMackObject.set('tempUserObject', tempUserObject);
