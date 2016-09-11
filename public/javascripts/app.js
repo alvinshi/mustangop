@@ -1,6 +1,8 @@
 /* Autor: Luis Bahamonde */
 
-angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', 'jett.ionic.filter.bar', 'ion-gallery', 'jett.ionic.scroll.sista', 'ngIOS9UIWebViewPatch', 'ion-affix'])
+angular.module('starter',
+    ['ionic', 'starter.controllers', 'starter.services', 'jett.ionic.filter.bar', 'ion-gallery',
+     'jett.ionic.scroll.sista', 'ngIOS9UIWebViewPatch', 'ion-affix'])
 
 .run(function($ionicPlatform) {
 

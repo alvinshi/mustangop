@@ -13,7 +13,7 @@ var releaseTaskSQL = AV.Object.extend('releaseTaskObject');
 
 //任务到小马的过滤策略
 //1.发布任务大于10,剩下的任务全部到小马中
-var funnelExcCount = 10;
+var funnelExcCount = 0;
 //2.下午3Pm后,2端任务同时进行
 var funnelHour = 15;
 
@@ -93,7 +93,7 @@ router.get('/:type/:userCId/:page', function(req, res, next) {
             doTaskQuery.limit(1000);
 
             var releaseTaskQuery = new AV.Query(releaseTaskSQL);
-            releaseTaskQuery.doesNotMatchKeyInQuery('excUniqueCode', 'excUniqueCode', doTaskQuery);
+            //releaseTaskQuery.doesNotMatchKeyInQuery('excUniqueCode', 'excUniqueCode', doTaskQuery);
             var myDate = new Date();
             //需要当天的任务才可以
             if(myDate.getHours() <= funnelHour) {
@@ -222,15 +222,17 @@ router.post('/lockTask', function(req, res) {
 
                     AV.Object.saveAll(needSavedTasks).then(function(avobjs){
                         var doTaskId;
+                        var taskCreatedAt;
                         for (var i = 0; i < avobjs.length; i++){
                             if(avobjs[i].get('tempUserObject') != undefined){
                                 doTaskId = avobjs[i].id;
+                                taskCreatedAt = avobjs[i].createdAt;
                                 break;
                             }
                         }
 
                         setTimeout(unlockTaskIfNeeded, tempTaskMaxTime, doTaskId);
-                        res.json({'errorId': 0, 'message': 'lock task succeed', 'lockId': doTaskId});
+                        res.json({'errorId': 0, 'message': 'lock task succeed', 'lockTaskId': doTaskId, 'doTaskCreatedAt': taskCreatedAt});
                     }, function(error){
                         res.json({'errorId': error.code, 'errorMsg': error.message});
                     });
@@ -333,6 +335,11 @@ router.get('/:userCId/:taskId', function(req, res, next) {
         }
 
         taskDetailDic.taskType = releaseTaskObject.get('taskType');
+        if(taskDetailDic.taskType == '下载'){
+            taskDetailDic.taskPicCount = 2;
+        }else if(taskDetailDic.taskType == '评论'){
+            taskDetailDic.taskPicCount = 3;
+        }
         taskDetailDic.doTaskPrice = releaseTaskObject.get('tempUserPrice');
         if(taskDetailDic.doTaskPrice == 0){
             taskDetailDic.doTaskPrice = releaseTaskObject.get('rateUnitPrice')/10 * YCoinToRMBRate;

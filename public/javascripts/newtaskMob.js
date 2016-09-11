@@ -41,61 +41,6 @@ app.controller('MobControl', function($scope, $http, $location, FileUploader) {
         }
     });
 
-    function blobToDataURI(addedFileItems, dealIndex){
-        var reader = new FileReader();
-        reader.addEventListener("load", function (event) {
-            // Here you can use `e.target.result` or `this.result`
-            // and `f.name`.
-            var aImg = event.target.result;
-            compression(aImg, addedFileItems, dealIndex);
-        }, false);
-        reader.readAsDataURL(addedFileItems[dealIndex]._file);
-    }
-
-    function compression(dataURI, addedFileItems, dealIndex) {
-        var source_img = new Image();
-        source_img.src = dataURI;
-        source_img.onload = function ()
-        {
-            //创建画布
-            var cvs = document.createElement('canvas');
-            cvs.width = source_img.naturalWidth;
-            cvs.height = source_img.naturalHeight;
-            //把原始照片转移到画布上
-            cvs.getContext('2d').drawImage(source_img, 0, 0);
-
-            //图片压缩质量0到1之间可调
-            var quality = 0.3;
-            //默认图片输出格式png，可调成jpg
-            var new_img = cvs.toDataURL("image/jpg", quality);
-
-            var compressImg = dataURItoBlob(new_img);
-
-            //deal img to service
-            addedFileItems[dealIndex]._file = compressImg;
-
-            dealIndex++;
-            //if compress all, upload all
-            if (dealIndex == addedFileItems.length){
-                $scope.progressNum = 50;
-                uploader.uploadAll();
-            }else {
-                blobToDataURI(addedFileItems, dealIndex);
-            }
-        }
-    }
-
-    function dataURItoBlob(dataURI) {
-        //for ios and safari
-        var byteString = atob(dataURI.split(',')[1]);
-        var ab = new ArrayBuffer(byteString.length);
-        var ia = new Uint8Array(ab);
-        for (var i = 0; i < byteString.length; i++) {
-            ia[i] = byteString.charCodeAt(i);
-        }
-        return new Blob([ab], { type: 'image/jpeg' });
-    }
-
     //upload file
     var uploader = $scope.uploader = new FileUploader({
         url: '/upload/img',
@@ -185,8 +130,6 @@ app.controller('MobControl', function($scope, $http, $location, FileUploader) {
                 fileUrls = Array();
             });
     };
-
-    console.info('uploader', uploader);
 
     $scope.saveUploadName = function() {
         if ($scope.uploadName != undefined && $scope.uploadName.length > 0) {

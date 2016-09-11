@@ -3,11 +3,27 @@
 
         <button class="button button-outline button-calm button-small" >复制关键字</button>
 
-        <button ng-show="lockTaskId == undefined" class="button button-block button-assertive" ng-click="lockTask()">领取任务</button>
-
         <button ng-show="lockTaskId != undefined" class="button button-block button-assertive" ng-click="unlockTask()">放弃任务</button>
 
-        <button class="button button-block button-assertive" ng-click="postTask()">上传3张任务截图 59:23</button>
+
+        <!--图片操作相关-->
+        <button ng-show="lockTaskId == undefined" class="button button-block button-assertive" ng-click="lockTask()">领取任务</button>
+
+        <!--上传图片按钮-->
+        <input ng-show="lockTaskId != undefined" class="upload" type="file" nv-file-select="" uploader="uploader" multiple/>
+
+        <button ng-show="lockTaskId != undefined" class="button button-block button-assertive">
+            <!--accept="image/*"-->
+            <input class="upload" type="file" nv-file-select="" uploader="uploader" multiple/>
+            {{uploadButtonTitle}}
+        </button>
+
+        <div class="alert alert-danger" role="alert" ng-show="errorId">{{errorMsg}}</div>
+
+        <div class="progress" style="margin:auto; margin-top: 20px" ng-hide="!progressNum">
+            <div ng-class="{'progress-bar': true, 'progress-bar-striped':true, active:true}" ng-style="{width: progressNum+ '%'}">
+            </div>
+        </div>
 
     </ion-content>
 </ion-view>

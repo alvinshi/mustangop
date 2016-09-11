@@ -10,28 +10,7 @@ function getUserCode()
     }
 }
 
-angular.module('starter.controllers', [])
-    //弹出窗口
-    .controller('PopupCtrl',function($scope, $ionicPopup) {
-        $scope.showPopup = function () {
-            $scope.data = {}
-            // 自定义弹窗
-            var myPopup = $ionicPopup.show({
-                template: '<input type="text">',
-
-                buttons: [
-                    {text: '取消'},
-                    {
-                        text: '<b>确定</b>',
-                        type: 'button-positive',
-
-                    },
-                ]
-
-            })
-        }
-    })
-
+angular.module('starter.controllers', ['angularFileUpload'])
 .controller('homeController', function($scope, $http) {
     getUserCode();
 
@@ -89,7 +68,7 @@ angular.module('starter.controllers', [])
     }
     //弹出窗口
     $scope.showPopup = function () {
-        $scope.data = {}
+        $scope.data = {};
         // 自定义弹窗
         var myPopup = $ionicPopup.show({
             template: '<input type="text">',
@@ -98,13 +77,13 @@ angular.module('starter.controllers', [])
                 {text: '取消'},
                 {
                     text: '<b>确定</b>',
-                    type: 'button-positive',
+                    type: 'button-positive'
 
-                },
+                }
             ]
 
         })
-    }
+    };
     //invite
     $scope.copyInviteUrl = function () {
         //TODO:
@@ -219,7 +198,7 @@ angular.module('starter.controllers', [])
     };
 })
 
-.controller('TaskDetailController', function($scope, $http, $location) {
+.controller('TaskDetailController', function($scope, $http, $location, FileUploader) {
     getUserCode();
 
     var appurlList = $location.absUrl().split('/');
@@ -235,6 +214,12 @@ angular.module('starter.controllers', [])
             //succeed
             $scope.taskDetail = response.taskDetail;
             $scope.lockTaskId = response.taskDetail.lockTaskId;
+
+            if($scope.lockTaskId != undefined){
+                //任务已经领取
+                $scope.doTaskCreatedAt = response.doTaskCreatedAt;
+                $scope.uploadButtonTitle = '1上传' + response.taskDetail.taskPicCount + '张任务截图  ' + '43:20';
+            }
         }else {
             $scope.errorId = response.errorId;
             $scope.message = response.message;
@@ -253,10 +238,16 @@ angular.module('starter.controllers', [])
         $http.post(lockTaskUrl, lockParam).success(function(response){
             locklock = 0;
             if(response.errorId == 0){
-                $scope.lockTaskId = response.lockId;
+                $scope.lockTaskId = response.lockTaskId;
+                $scope.doTaskCreatedAt = response.doTaskCreatedAt;
+                $scope.uploadButtonTitle = '1上传' + response.taskPicCount + '张任务截图  ' + '43:20';
             }
         });
     };
+
+    function waitingDoTaskTimer(){
+
+    }
 
     var unlocklock = 0;
     $scope.unlockTask = function(){
@@ -275,19 +266,121 @@ angular.module('starter.controllers', [])
         });
     };
 
-    var posklock = 0;
-    $scope.postTask = function(){
-        if(posklock == 1){
-            return;
-        }
-        posklock = 1;
+    //var posklock = 0;
+    //$scope.postTask = function(){
+    //    if(posklock == 1){
+    //        return;
+    //    }
+    //    posklock = 1;
+    //
+    //    var uploadTaskUrl = '/taskHall/tempUserDoTask';
+    //    var lockParam = {'userCId' : gUserCId, 'taskId' : $scope.taskDetail.id};
+    //    $http.post(uploadTaskUrl, lockParam).success(function(response){
+    //        posklock = 0;
+    //    });
+    //};
 
-        var lockTaskUrl = '/lockTask';
-        var lockParam = {'userCId' : gUserCId, 'taskId' : $scope.taskDetail.id};
-        $http.post(lockTaskUrl, lockParam).success(function(response){
-            posklock = 0;
-        })
+    $scope.preUploadFile = function () {
+        $scope.imgError = 1;
+        uploader.clearQueue();
     };
+
+    //上传图片的代码
+    if (window.localStorage) {
+        $scope.userCode = localStorage.getItem("userCode");
+    } else {
+        $scope.userCode = getCookie('userCode');
+    }
+
+    //upload file
+    var uploader = $scope.uploader = new FileUploader({
+        url: '/upload/img',
+        queueLimit: 3
+        //removeAfterUpload:true
+    });
+
+    uploader.filters.push({
+        name: 'imageFilter',
+        fn: function (item /*{File|FileLikeObject}*/, options) {
+            var type = '|' + item.type.slice(item.type.lastIndexOf('/') + 1) + '|';
+            return '|jpg|png|jpeg|'.indexOf(type) !== -1;
+        }
+    });
+
+    //$scope.deletFile = function () {
+    //    $scope.imgError = 1;
+    //    uploader.clearQueue();
+    //};
+
+    var fileUrls = new Array();
+
+    uploader.onAfterAddingFile = function (fileItem) {
+        //
+    };
+
+    uploader.onAfterAddingAll = function (addedFileItems) {
+        $scope.errorId = 0;
+        $scope.progressNum = 5;
+
+        uploader.uploadAll();
+        console.info('onAfterAddingAll', addedFileItems);
+    };
+
+    uploader.onProgressAll = function (progress) {
+        $scope.progressNum = progress*0.8 > 10 ? progress*0.8 : 10;
+        console.info('onProgressAll', progress);
+    };
+    uploader.onSuccessItem = function (fileItem, response, status, headers) {
+        console.info('onSuccessItem', fileItem, response, status, headers);
+    };
+    uploader.onErrorItem = function (fileItem, response, status, headers) {
+        $scope.errorId = 1;
+        $scope.errorMsg = '上传图片失败';
+        console.info('onErrorItem', fileItem, response, status, headers);
+    };
+    uploader.onCancelItem = function (fileItem, response, status, headers) {
+        console.info('onCancelItem', fileItem, response, status, headers);
+    };
+
+    uploader.onCompleteItem = function (fileItem, response, status, headers) {
+        if(response.fileUrlList != undefined && response.fileUrlList.length > 0){
+            fileUrls.push(response.fileUrlList[0]);
+            console.info('onCompleteItem', fileItem, response, status, headers);
+        }else {
+            $scope.errorId = -100;
+            $scope.errorMsg = '一张或多张图片上传失败,刷新网页重新上传';
+        }
+
+    };
+    uploader.onCompleteAll = function () {
+        console.info('onCompleteAll');
+        var Url = '/taskHall/tempUserDoTask';
+        $scope.progressNum = 90;
+
+        $http.post(Url, {
+                'taskId':taskId,
+                'uploadName':$scope.$scope.userCode,
+                'requirementImgs': fileUrls
+            })
+            .success(function (response) {
+                $scope.errorId = response.errorId;
+                $scope.errorMsg = response.errorMsg;
+                console.log($scope.errorId);
+                console.log($scope.errorMsg);
+                if($scope.errorId == 0){
+                    $scope.images = response.requirementImgs;
+                }
+
+                $scope.progressNum = 0;
+
+                uploader.clearQueue();
+                fileUrls = Array();
+            });
+    };
+
+    $scope.endTask = function(){
+        //location.href='/myClaim/' + $scope.oneAppInfo.userObjectId;
+    }
 })
 
 .controller('MyTaskController', function($scope) {

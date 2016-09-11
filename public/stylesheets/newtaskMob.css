@@ -416,6 +416,8 @@
 .a-upload  input {
     position: absolute;
     font-size: 24px;
+    height: 80px;
+    width: 80px;
     right: 0;
     opacity: 0;
     filter: alpha(opacity=0);

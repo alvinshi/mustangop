@@ -12,10 +12,8 @@ router.get('/:userCId', function(req, res) {
     //query current day register number
     var tempUserQuery = new AV.Query(tempUserSQL);
 
-    if (userCId == undefined || userCId == 'null' || userCId == 'undefined'){
-        //generation header code
-
-        console.log('first generate user');
+    function generateNewUser(){
+        console.log('---- generate new user');
 
         var myDate = new Date();
         var month = parseInt(myDate.getMonth()) + 1;
@@ -64,6 +62,11 @@ router.get('/:userCId', function(req, res) {
             res.json({'errorId': error.code, 'message': error.message});
         });
     }
+
+    if (userCId == undefined || userCId == 'null' || userCId == 'undefined'){
+        //generation header code
+        generateNewUser();
+    }
     else {
         userCId = Base64.decode(req.params.userCId);
         tempUserQuery.get(userCId).then(function (data) {
@@ -90,7 +93,8 @@ router.get('/:userCId', function(req, res) {
             });
 
         }, function (error) {
-            res.json({'errorId': error.code, 'message': error.message});
+            generateNewUser();
+            //res.json({'errorId': error.code, 'message': error.message});
         });
     }
 
