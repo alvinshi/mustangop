@@ -60,7 +60,6 @@ app.controller('itunesSearchControl', function($scope, $http) {
                 //核实该条任务Y Coin 够不够
                 moneyCheck();
             });
-
         });
     }
 
@@ -163,6 +162,7 @@ app.controller('itunesSearchControl', function($scope, $http) {
     };
 
     // 标题关键词
+    $scope.commentYB = 0;
     $(document).ready(function(){
         $(".input2").change(function(){
             var reviewTitle = $('.input2').val(); // 判断是否为空
@@ -181,7 +181,7 @@ app.controller('itunesSearchControl', function($scope, $http) {
     $(document).ready(function(){
         $(".field").change(function(){
             var reviewContent = $('.field').val(); // 判断是否为空
-            if (reviewContent != ""){
+            if (reviewContent.length != 0){
                 $scope.displayDemandTemplate.excUnitPrice += 1;
                 $scope.commentMustContent = true;
             }else {
@@ -561,22 +561,20 @@ app.controller('itunesSearchControl', function($scope, $http) {
         $scope.saved = false;
     };
 
+    var heightOfNav = 51;
+    var height = $(window).innerHeight() - heightOfNav;
+    console.log(height);
     $.fn.smartFloat = function() {
         var position = function(element) {
-            var top = element.position().top, pos = element.css("position");
             $(window).scroll(function() {
-                var scrolls = $(this).scrollTop();
-                if (scrolls > top) {
-                    if (window.XMLHttpRequest) {
-                        element.css({
-                            position: "fixed",
-                            top: 0
-                        });
-                    } else {
-                        element.css({
-                            top: scrolls
-                        });
-                    }
+                var scrolls = $(window).scrollTop();
+                if (scrolls > 330 || scrolls == undefined) {
+                    element.css({
+                        position: "fixed",
+                        top: 0
+
+
+                    });
                 }else {
                     element.css({
                         position: "relative",
