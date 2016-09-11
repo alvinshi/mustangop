@@ -326,10 +326,10 @@ router.post('/task', function(req, res){
     var excUnitPrice = 0;
     var taskType = req.body.taskType;
     if (taskType == '评论'){
-        excUnitPrice = 30
+        excUnitPrice = 30;
     }
     else {
-        excUnitPrice = 23
+        excUnitPrice = 23;
     }
 
     var excCount = parseInt(req.body.excCount); // 发布总数量
@@ -338,13 +338,13 @@ router.post('/task', function(req, res){
 
     var asoRank = parseInt(req.body.asoRank);  // 搜索排名
     if (asoRank <= 20){
-        excUnitPrice += 0
+        excUnitPrice += 0;
     }
     else if (asoRank >= 21 && asoRank <= 50){
-        excUnitPrice += (Math.round(asoRank/10 - 2))
+        excUnitPrice += (Math.round(asoRank/10 - 2));
     }
     else {
-        excUnitPrice += (Math.round(3+(asoRank-50)*0.5))
+        excUnitPrice += (Math.round(3+(asoRank-50)*0.5));
     }
 
     console.log('--------' + excUnitPrice);
@@ -357,20 +357,20 @@ router.post('/task', function(req, res){
 
     var registerStatus = req.body.registerStatus;  //注册方式
     if (registerStatus == 'third'){
-        excUnitPrice += 2
+        excUnitPrice += 2;
     }
 
     var Score = req.body.radio4;  // 评分
     var reviewTitleKey = req.body.reviewTitleKey; // 标题关键词
     var reviewMustTitleKey = req.body.reviewMustTitleKey; // 标题必选
     if (reviewMustTitleKey != undefined && reviewMustTitleKey != ""){
-        excUnitPrice += 1
+        excUnitPrice += 1;
     }
 
     var reviewContentKey = req.body.reviewContentKey; // 评论关键词
     var reviewMustContentKey = req.body.reviewMustContentKey; // 评论必选
     if (reviewMustContentKey != undefined && reviewMustContentKey != ""){
-        excUnitPrice += 1
+        excUnitPrice += 1;
     }
 
     var needMoreReviewContent = req.body.needMoreReviewContent; // 评论需满50字
@@ -420,7 +420,7 @@ router.post('/task', function(req, res){
                     if(appPriceStr != '免费') {
                         //广告主付费
                         excUnitPrice += appPrice * 1.5 * 10;
-                        rateunitPrice += appPrice * 15
+                        rateunitPrice += appPrice * 15;
                     }
 
                     var releasetaskObject = new releaseTaskObject();
@@ -490,7 +490,7 @@ router.post('/task', function(req, res){
             res.json({'errorId': 1, 'errorMsg':'账户余额不足'})
         }
     },function(error){
-        res.json({'errorMsg':error.message, 'errorId': error.messageCode});
+        res.json({'errorMsg':error.message, 'errorId': error.code});
     });
 
 });
