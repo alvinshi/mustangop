@@ -56,6 +56,15 @@ angular.module('starter',
       }
     }
   })
+    .state('tab.home-invite', {
+        url: '/home/:inviteCode',
+        views: {
+            'tab-home': {
+                templateUrl: 'templates/tab-home.html',
+                controller: 'homeController'
+            }
+        }
+    })
   .state('tab.taskHall', {
       url: '/taskHall',
       views: {

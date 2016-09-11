@@ -6,9 +6,12 @@ var Base64 = require('../public/javascripts/vendor/base64').Base64;
 var tempUserSQL = AV.Object.extend('tempUser');
 var mentorRelationSQL = AV.Object.extend('mentorRelation');
 
+var bindMasterFeedingMoney = 3;
+
 //获取用户(若不存在,则自动创建半账号),返回账号相关数据
-router.get('/:userCId', function(req, res) {
+router.get('/:userCId/:inviteCode', function(req, res) {
     var userCId = req.params.userCId;
+    var inviteCode = req.params.inviteCode;
     //query current day register number
     var tempUserQuery = new AV.Query(tempUserSQL);
 
@@ -48,6 +51,12 @@ router.get('/:userCId', function(req, res) {
             newUser.set('userCodeId', userCode);
             newUser.save().then(function(tempUserObject){
                 console.log('first generate user succeed, code = ' + userCode);
+
+                //师徒关系
+                if(inviteCode != undefined && inviteCode.length > 5 && inviteCode != 'home'){
+                    bindMaster(userCode, inviteCode, undefined);
+                }
+
                 res.json({'errorId': 0, 'message': 'auto create account succeed',
                     'userCId': Base64.encode(tempUserObject.id), 'userCode': userCode,
                     'apprenticeMoney': 0, 'withdrawMoney': 0,
@@ -86,8 +95,15 @@ router.get('/:userCId', function(req, res) {
                 data.save();
             }
 
+            var userCode = data.get('userCodeId');
+
+            //师徒关系
+            if(inviteCode != undefined && inviteCode.length > 5 || inviteCode != 'home'){
+                bindMaster(userCode, inviteCode, undefined);
+            }
+
             res.json({'errorId': 0, 'message': 'auto create account succeed',
-                'userCId':  Base64.encode(data.id), 'userCode': data.get('userCodeId'),
+                'userCId':  Base64.encode(data.id), 'userCode': userCode,
                 'apprenticeMoney': data.get('apprenticeMoney'), 'withdrawMoney': data.get('withdrawMoney'),
                 'totalMoney': data.get('totalMoney'), 'currentMoney': data.get('currentMoney'), 'todayMoney': data.get('todayMoney')
             });
@@ -101,30 +117,27 @@ router.get('/:userCId', function(req, res) {
     //get unique userCode
 });
 
-//绑定手机号(不可解绑)
+//绑定手机号(找回账号)
 
 //绑定支付宝
 
 //申请提现
+//TODO RMB Logger
 
 /*-*********************************************
  *******************师徒关系**********************
  **********************************************-*/
 //绑定邀请码
-router.post('/bindMaster', function(req, res, next) {
-    var userCode = req.body.userCode;
-    var masterUserCode = req.body.masterCode;
-    if(masterUserCode.length < 5){
-        return res.json({'errorId': -2, 'message': 'invite code not right'});
-    }
-
+function bindMaster(userCode, masterUserCode, res){
     //query current day register number
     var tempUserQuery = new AV.Query(tempUserSQL);
     tempUserQuery.containedIn('userCodeId', [userCode, masterUserCode]);
     tempUserQuery.find().then(function (userDatas) {
 
         if(userDatas.length != 2){
-            return res.json({'errorId': -1, 'message': 'invite code not exist'});
+            if(res != undefined){
+                res.json({'errorId': -1, 'message': 'invite code not exist'});
+            }
         }else {
             var masterUserObject, userObject;
             for(var i = 0; i < 2; i++){
@@ -134,8 +147,49 @@ router.post('/bindMaster', function(req, res, next) {
                     userObject = userDatas[i];
                 }
             }
+
+            //1.userObject 无师傅
+            if(userObject.get('inviteCode') != undefined && userObject.get('inviteCode').length > 0){
+                console.error(userCode + ' have master:' + userObject.get('inviteCode'));
+                if(res != undefined){
+                    res.json({'errorId': -1, 'message': '你已经有师傅啦'});
+                }
+                return;
+            }
+            //2.masterUserObject 的师傅不是 userObject
+            if(masterUserObject.get('inviteCode') == userCode){
+                console.error(masterUserCode + ' have master:' + userCode);
+                if(res != undefined){
+                    res.json({'errorId': -1, 'message': '他已经是您的徒弟了'});
+                }
+                return;
+            }
+
             userObject.set('inviteCode', masterUserCode);
-            //TODO: userObject increment money
+
+            var isToday = true;
+            var myDate = new Date();
+            var month = (myDate.getMonth() + 1).toString();
+            var day = myDate.getDate().toString();
+            var yearStr = myDate.getFullYear().toString();
+            var todayStr = yearStr + '-' + month + '-' + day;
+            var todayMoneyDate = userObject.get('todayMoneyDate');
+            if(todayMoneyDate != todayStr){
+                //非当天赚到的钱
+                isToday = false;
+            }
+
+            //增加用户的钱(总额,可用,今日)
+            userObject.increment('totalMoney', bindMasterFeedingMoney);
+            userObject.increment('currentMoney', bindMasterFeedingMoney);
+            if(isToday == true){
+                userObject.increment('todayMoney', bindMasterFeedingMoney);
+            }else {
+                //更新日期到最新
+                userObject.set('todayMoneyDate', todayStr);
+                userObject.set('todayMoney', bindMasterFeedingMoney);
+            }
+            //TODO RMB Logger
 
             //建立徒弟层级的关系网
             //建立徒孙层级的关系网(一级即可,暂时不需要,通过数据处理获得相关数据)
@@ -146,15 +200,32 @@ router.post('/bindMaster', function(req, res, next) {
             userRelation.set('user', userObject);
 
             AV.Object.saveAll([userObject, userRelation]).then(function(){
-                res.json({'errorId': 0, 'message': 'bind master succeed'});
+                if(res != undefined){
+                    res.json({'errorId': 0, 'message': 'bind master succeed'});
+                }
             }, function(error){
-                res.json({'errorId': error.code, 'message': error.message});
+                if(res != undefined){
+                    res.json({'errorId': error.code, 'message': error.message});
+                }
             });
         }
 
     }, function (error) {
-        res.json({'errorId': error.code, 'message': error.message});
+        if(res != undefined){
+            res.json({'errorId': error.code, 'message': error.message});
+        }
     });
+}
+
+
+router.post('/bindMaster', function(req, res) {
+    var userCode = req.body.userCode;
+    var masterUserCode = req.body.masterCode;
+    if(masterUserCode.length < 5){
+        return res.json({'errorId': -2, 'message': 'invite code not right'});
+    }
+
+    bindMaster(userCode, masterUserCode, res);
 });
 
 

@@ -11,7 +11,11 @@ function getUserCode()
 }
 
 angular.module('starter.controllers', ['angularFileUpload'])
-.controller('homeController', function($scope, $http) {
+.controller('homeController', function($scope, $http, $location) {
+    //是否是被邀请的
+    var homeUrlList = $location.absUrl().split('/');
+    var inviteCode = homeUrlList[homeUrlList.length - 1];
+
     getUserCode();
 
     //设备判定
@@ -40,7 +44,7 @@ angular.module('starter.controllers', ['angularFileUpload'])
     //alert(navigator.userAgent);
     if($scope.isIOSDevice == 1 && $scope.isiPhoneSafari == 1){
 
-        var userInfoUrl = '/taskUser/' + gUserCId;
+        var userInfoUrl = '/taskUser/' + gUserCId + '/' + inviteCode;
         $http.get(userInfoUrl).success(function (response) {
             if(response.errorId == 0){
                 //succeed
@@ -386,11 +390,27 @@ angular.module('starter.controllers', ['angularFileUpload'])
     }
 })
 
-.controller('MyTaskController', function($scope) {
+.controller('MyTaskController', function($scope, $http) {
     getUserCode();
+
+    var tasksUrl = '/taskHall/myTask';
+    $scope.loading = true;
+    $http.post(tasksUrl, {'userCId': gUserCId}).success(function (response) {
+        $scope.loading = false;
+        if(response.errorId == 0){
+            //succeed
+            $scope.retList = response.retList;
+            $scope.undoTask = response.undoTask;
+            $scope.willGetRmb = response.willGetRmb;
+        }else {
+            $scope.errorId = response.errorId;
+            $scope.message = response.message;
+        }
+    });
+
 })
 
-.controller('AccountController', function($scope) {
+.controller('AccountController', function($scope, $http) {
     getUserCode();
         $scope.settings = {
             enviarNotificaciones: true

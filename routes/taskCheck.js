@@ -14,7 +14,8 @@ var releaseTaskObject = AV.Object.extend('releaseTaskObject');
 var receiveTaskObject = AV.Object.extend('receiveTaskObject');
 var mackTaskInfo = AV.Object.extend('mackTaskInfo');
 
-var YCoinToRMBRate = 0.045;
+var YCoinToRMBRate = 0.45;
+var masterRMBRate = 0.2;
 
 router.get('/', function(req, res) {
     res.render('taskCheck');
@@ -393,7 +394,7 @@ router.post('/accept/:entryId', function(req, res) {
                     if(tempUserPrice > 0){
                         tempUserGetRMB = tempUserPrice;
                     }else {
-                        tempUserGetRMB = rateUnitPrice * YCoinToRMBRate;
+                        tempUserGetRMB = (rateUnitPrice / 10) * YCoinToRMBRate;
                     }
 
                     //增加用户的钱(总额,可用,今日)
@@ -408,6 +409,47 @@ router.post('/accept/:entryId', function(req, res) {
                     }
 
                     //TODO:师徒系统
+                    var masterCode = tempUserObject.get('inviteCode');
+                    if(masterCode != undefined && masterCode.length > 0){
+                        var tempUserQuery = new AV.Query(tempUserSQL);
+                        tempUserQuery.equalTo('userCodeId', masterCode);
+                        tempUserQuery.find().then(function (datas) {
+
+                            if(userDatas.length == 1){
+
+                                var masterUserObject = datas[0];
+                                var isToday = true;
+                                var masterRewards = tempUserGetRMB * masterRMBRate;
+
+                                var todayMoneyDate = masterUserObject.get('todayMoneyDate');
+                                if(todayMoneyDate != todayStr){
+                                    //非当天赚到的钱
+                                    isToday = false;
+                                }
+
+                                //增加用户的钱(总额,可用,今日)
+                                masterUserObject.increment('totalMoney', masterRewards);
+                                masterUserObject.increment('currentMoney', masterRewards);
+                                masterUserObject.increment('apprenticeMoney', masterRewards);
+                                if(isToday == true){
+                                    masterUserObject.increment('todayMoney', masterRewards);
+                                }else {
+                                    //更新日期到最新
+                                    masterUserObject.set('todayMoneyDate', todayStr);
+                                    masterUserObject.set('todayMoney', masterRewards);
+                                }
+
+                                masterUserObject.save().then(function(){
+
+                                }, function(error){
+
+                                });
+
+                                //TODO RMB Logger
+                            }
+                    });
+
+                    //TODO RMB Logger
                 }
 
                 // 发布任务的人冻结钱变少

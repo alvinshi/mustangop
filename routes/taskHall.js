@@ -19,11 +19,14 @@ var funnelExcCount = 0;
 var funnelHour = 15;
 
 //默认Y币转人名币汇率
-var YCoinToRMBRate = 0.045;
+var YCoinToRMBRate = 0.45;
 
 //小马领取任务超时时间
 var tempTaskMaxTime = 1000 * 60 * 60;
 //var tempTaskMaxTime = 1000 * 6;
+
+//已完成任务最多展示次数
+var maxShowInvalidTask = 3;
 
 function getTaskTypeNeedPic(taskType){
     if(taskType == '下载'){
@@ -506,25 +509,22 @@ router.post('/tempUserDoTask', function(req, res){
 });
 
 //我的任务
-router.get('/myTask/:userCId', function(req, res) {
-    var userCId = Base64.decode(req.params.userCId);
+router.post('/myTask', function(req, res) {
+    var userCId = Base64.decode(req.body.userCId);
     var tempUser = new tempUserSQL();
     tempUser.id = userCId;
 
-    var maxShowInvalidTask = 3;
-
     //小马试客,我的任务
-    var query = new AV.Query(receiveTaskObject);
+    var query = new AV.Query(receiveTaskSQL);
     query.equalTo('tempUserObject', tempUser);
-    query.equalTo('timerDone', true);
-    query.notEqualTo('close', true);
+    //query.equalTo('timerDone', true);
+    query.notEqualTo('close', true);//过期
     query.lessThanOrEqualTo('showTimer', maxShowInvalidTask);
 
     query.include('taskObject');
     query.include('appObject');
     query.include('tempMackTask');
     query.descending('createdAt');
-
 
     query.find().then(function(results){
         //已完成/过期任务 3次展示后自动消失
@@ -558,8 +558,16 @@ router.get('/myTask/:userCId', function(req, res) {
             //status
             if(tempMackObject == undefined){
                 //未做(时间)
-                undoTask++;
-                willGetRmb += myTaskDic.doTaskPrice;
+                if(receTaskObject.get('expiredCount') == 0){
+                    undoTask++;
+                    willGetRmb += myTaskDic.doTaskPrice;
+                }else {
+                    //超时未做过期
+                    myTaskDic.statusDes = '任务超时';
+                    receTaskObject.increment('showTimer', 1);
+                    needSaveReceList.push(receTaskObject);
+                }
+
             }else {
                 //做了
                 var taskStatus = tempMackObject.get('taskStatus');
@@ -576,12 +584,14 @@ router.get('/myTask/:userCId', function(req, res) {
                     myTaskDic.statusDes = '被拒绝';
                     myTaskDic.refuseReason = tempMackObject.get('detail');
                 }else if(taskStatus == 'expired'){
-                    //过期
-                    myTaskDic.statusDes = '已过期';
+                    //拒绝未更新过期
+                    myTaskDic.statusDes = '重新提交任务已过期';
                     receTaskObject.increment('showTimer', 1);
                     needSaveReceList.push(receTaskObject);
                 }
             }
+
+            retList.push(myTaskDic);
         }
 
         //save
