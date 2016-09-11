@@ -5,6 +5,7 @@ var express = require('express');
 var router = express.Router();
 var AV = require('leanengine');
 var Base64 = require('../public/javascripts/vendor/base64').Base64;
+var File = AV.Object.extend('_File');
 
 var tempUserSQL = AV.Object.extend('tempUser');
 var mackTaskSQL = AV.Object.extend('mackTaskInfo');
@@ -23,6 +24,15 @@ var YCoinToRMBRate = 0.45;
 //小马领取任务超时时间
 var tempTaskMaxTime = 1000 * 60 * 60;
 //var tempTaskMaxTime = 1000 * 6;
+
+function getTaskTypeNeedPic(taskType){
+    if(taskType == '下载'){
+        return 2;
+    }else if(taskType == '评论'){
+        return 3;
+    }
+    return 1;
+}
 
 function taskObjectToDic(taskObject, isOpen){
     if(taskObject != undefined || taskObject.get('appObject') != undefined){
@@ -186,14 +196,14 @@ router.post('/lockTask', function(req, res) {
                         if(remainCount <= funnelExcCount){
                             console.log('temp user task get failed because of task done(less than 10)');
                             errorMsg = "抱歉, 任务被别的用户抢走了";
-                            res.json({'errorId': -1, 'errorMsg': errorMsg});
+                            res.json({'errorId': -1, 'message': errorMsg});
                             return;
                         }
                     }else {
                         if (remainCount < 1){
                             console.log('temp user task get failed because of task done(less than 1)');
                             errorMsg = "抱歉, 任务被别的用户抢走了";
-                            res.json({'errorId': -1, 'errorMsg': errorMsg});
+                            res.json({'errorId': -1, 'message': errorMsg});
                             return;
                         }
                     }
@@ -221,20 +231,20 @@ router.post('/lockTask', function(req, res) {
                     var needSavedTasks = [releTaskObject, ReceiveTaskObject];
 
                     AV.Object.saveAll(needSavedTasks).then(function(avobjs){
-                        var doTaskId;
-                        var taskCreatedAt;
+                        var receTaskObject;
                         for (var i = 0; i < avobjs.length; i++){
                             if(avobjs[i].get('tempUserObject') != undefined){
-                                doTaskId = avobjs[i].id;
-                                taskCreatedAt = avobjs[i].createdAt;
+                                receTaskObject = avobjs[i];
                                 break;
                             }
                         }
 
-                        setTimeout(unlockTaskIfNeeded, tempTaskMaxTime, doTaskId);
-                        res.json({'errorId': 0, 'message': 'lock task succeed', 'lockTaskId': doTaskId, 'doTaskCreatedAt': taskCreatedAt});
+                        setTimeout(unlockTaskIfNeeded, tempTaskMaxTime, receTaskObject.id);
+
+                        res.json({'errorId': 0, 'message': 'lock task succeed', 'lockTaskId': receTaskObject.id,
+                            'taskPicCount': getTaskTypeNeedPic(releTaskObject.get('taskType')), 'doTaskCreatedAt': receTaskObject.createdAt});
                     }, function(error){
-                        res.json({'errorId': error.code, 'errorMsg': error.message});
+                        res.json({'errorId': error.code, 'message': error.message});
                     });
                 }
             });
@@ -242,7 +252,7 @@ router.post('/lockTask', function(req, res) {
 
     }, function (error) {
         // 失败了
-        res.json({'errorId': error.code, 'errorMsg': error.message});
+        res.json({'errorId': error.code, 'message': error.message});
     });
 });
 
@@ -335,11 +345,7 @@ router.get('/:userCId/:taskId', function(req, res, next) {
         }
 
         taskDetailDic.taskType = releaseTaskObject.get('taskType');
-        if(taskDetailDic.taskType == '下载'){
-            taskDetailDic.taskPicCount = 2;
-        }else if(taskDetailDic.taskType == '评论'){
-            taskDetailDic.taskPicCount = 3;
-        }
+        taskDetailDic.taskPicCount = getTaskTypeNeedPic(taskDetailDic.taskType);
         taskDetailDic.doTaskPrice = releaseTaskObject.get('tempUserPrice');
         if(taskDetailDic.doTaskPrice == 0){
             taskDetailDic.doTaskPrice = releaseTaskObject.get('rateUnitPrice')/10 * YCoinToRMBRate;
@@ -384,7 +390,7 @@ router.get('/:userCId/:taskId', function(req, res, next) {
 
 //小马用户上传任务
 router.post('/tempUserDoTask', function(req, res){
-    var userCId = Base64.decode(req.params.userCId);
+    var userCId = Base64.decode(req.body.userCId);
     var taskId = req.body.taskId;
     var requirementImgs = req.body.requirementImgs;
 
@@ -411,7 +417,8 @@ router.post('/tempUserDoTask', function(req, res){
                 //任务已经做满,不能重新再上传
                 res.json({'message':'任务已经超时,不在可以参加任务', 'errorId': -200});
             }else {
-                if(tempMackObject == undefined){
+                if(tempMackObject == undefined)
+                {
                     //new task
                     tempMackObject = new mackTaskSQL();
                     tempMackObject.set('uploadName', userUploadName);
@@ -424,7 +431,24 @@ router.post('/tempUserDoTask', function(req, res){
                     //发布任务的人
                     tempMackObject.set('releaseTaskObject', taskObject);
                     tempMackObject.set('releaseTaskUser', taskObject.get('userObject'));
-                }else {
+
+                    tempMackObject.save().then(function(tempMackObject){
+                        receiveTaskObject.set('tempMackTask', tempMackObject);
+                        receiveTaskObject.save().then(function(){
+                            res.json({'errorId':0, 'message':'', 'requirementImgs':requirementImgs});
+                        }, function (error) {
+                            //更新任务失败
+                            console.error('upload task img failed(save task):' + taskStatus + 'error:' + error.message);
+                            res.json({'message':error.message, 'errorId': error.code});
+                        });
+                    }, function (error) {
+                        //更新任务失败
+                        console.error('upload task img failed(save task):' + taskStatus + 'error:' + error.message);
+                        res.json({'message':error.message, 'errorId': error.code});
+                    });
+                }
+                else
+                {
                     //该用户已经做过任务,想重新传图
                     var taskStatus = tempMackObject.get('taskStatus');
                     if (taskStatus == 'accepted' || taskStatus == 'systemAccepted'){
@@ -463,7 +487,7 @@ router.post('/tempUserDoTask', function(req, res){
                     }, function (error) {
                         //更新任务失败
                         console.error('upload task img failed(save task):' + taskStatus + 'error:' + error.message);
-                        res.json({'errorMsg':error.message, 'uploadName':userUploadName, 'errorId': error.code});
+                        res.json({'message':error.message, 'uploadName':userUploadName, 'errorId': error.code});
                     });
                 }
             }

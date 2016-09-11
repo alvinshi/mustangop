@@ -10,13 +10,11 @@
         <button ng-show="lockTaskId == undefined" class="button button-block button-assertive" ng-click="lockTask()">领取任务</button>
 
         <!--上传图片按钮-->
-        <input ng-show="lockTaskId != undefined" class="upload" type="file" nv-file-select="" uploader="uploader" multiple/>
-
-        <button ng-show="lockTaskId != undefined" class="button button-block button-assertive">
+        <div ng-show="lockTaskId != undefined" class="upload-pic-button">
             <!--accept="image/*"-->
             <input class="upload" type="file" nv-file-select="" uploader="uploader" multiple/>
             {{uploadButtonTitle}}
-        </button>
+        </div>
 
         <div class="alert alert-danger" role="alert" ng-show="errorId">{{errorMsg}}</div>
 

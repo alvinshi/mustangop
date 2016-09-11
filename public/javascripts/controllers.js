@@ -218,7 +218,8 @@ angular.module('starter.controllers', ['angularFileUpload'])
             if($scope.lockTaskId != undefined){
                 //任务已经领取
                 $scope.doTaskCreatedAt = response.doTaskCreatedAt;
-                $scope.uploadButtonTitle = '1上传' + response.taskDetail.taskPicCount + '张任务截图  ' + '43:20';
+                $scope.taskPicCount = response.taskDetail.taskPicCount;
+                $scope.uploadButtonTitle = '上传' + $scope.taskPicCount + '张任务截图  ' + '43:20';
             }
         }else {
             $scope.errorId = response.errorId;
@@ -240,7 +241,8 @@ angular.module('starter.controllers', ['angularFileUpload'])
             if(response.errorId == 0){
                 $scope.lockTaskId = response.lockTaskId;
                 $scope.doTaskCreatedAt = response.doTaskCreatedAt;
-                $scope.uploadButtonTitle = '1上传' + response.taskPicCount + '张任务截图  ' + '43:20';
+                $scope.taskPicCount = response.taskPicCount;
+                $scope.uploadButtonTitle = '上传' + $scope.taskPicCount + '张任务截图  ' + '43:20';
             }
         });
     };
@@ -358,8 +360,9 @@ angular.module('starter.controllers', ['angularFileUpload'])
         $scope.progressNum = 90;
 
         $http.post(Url, {
-                'taskId':taskId,
-                'uploadName':$scope.$scope.userCode,
+                'userCId':gUserCId,
+                'taskId':$scope.lockTaskId,
+                'uploadName':$scope.userCode,
                 'requirementImgs': fileUrls
             })
             .success(function (response) {
