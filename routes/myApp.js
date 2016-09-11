@@ -316,75 +316,44 @@ var myRate = 1;
 
 router.post('/task', function(req, res){
     var userId = util.useridInReq(req);
-    var myDate = new Date();
-    var myDateStr = myDate.getFullYear() + '-' + (parseInt(myDate.getMonth())+1) + '-' + myDate.getDate();
-
     var appObjectId = req.body.appObjectId;
 
-    var extraPay = 0; // 额外支出
-
+    var excCount = parseInt(req.body.excCount); // 发布总数量
     var excUnitPrice = 0;
     var taskType = req.body.taskType;
     if (taskType == '评论'){
         excUnitPrice = 30;
-    }
-    else {
+    }else {
         excUnitPrice = 23;
     }
 
-    var excCount = parseInt(req.body.excCount); // 发布总数量
+    var extraRetObject = Object();
+    extraRetObject.excUnitPrice = excUnitPrice;
 
+    //截图1
     var searchKeyword = req.body.searchName; // 搜索关键词
-
     var asoRank = parseInt(req.body.asoRank);  // 搜索排名
-    if (asoRank <= 20){
-        excUnitPrice += 0;
-    }
-    else if (asoRank >= 21 && asoRank <= 50){
-        excUnitPrice += (Math.round(asoRank/10 - 2));
-    }
-    else {
-        excUnitPrice += (Math.round(3+(asoRank-50)*0.5));
-    }
+    screenShotOneElement(extraRetObject, asoRank, searchKeyword, req.body.needGet);
 
-    console.log('--------' + excUnitPrice);
-
-    var needGet = req.body.needGet;  // 需要有获取字样
-    if (needGet == 'true'){
-        excUnitPrice += 5;
-        needGet = true;
-    }
-
+    //截图2
+    //TODO: Refine 示例App内截图
     var registerStatus = req.body.registerStatus;  //注册方式
-    if (registerStatus == 'third'){
-        excUnitPrice += 2;
-    }
+    screenShotTwoElement(extraRetObject, registerStatus);
 
+    //截图3
     var Score = req.body.radio4;  // 评分
     var reviewTitleKey = req.body.reviewTitleKey; // 标题关键词
     var reviewMustTitleKey = req.body.reviewMustTitleKey; // 标题必选
-    if (reviewMustTitleKey != undefined && reviewMustTitleKey != ""){
-        excUnitPrice += 1;
-    }
-
     var reviewContentKey = req.body.reviewContentKey; // 评论关键词
     var reviewMustContentKey = req.body.reviewMustContentKey; // 评论必选
-    if (reviewMustContentKey != undefined && reviewMustContentKey != ""){
-        excUnitPrice += 1;
-    }
+    screenShotThirdElement(extraRetObject, reviewTitleKey, reviewMustTitleKey, reviewContentKey, reviewMustContentKey, req.body.needMoreReviewContent);
 
-    var needMoreReviewContent = req.body.needMoreReviewContent; // 评论需满50字
-    if (needMoreReviewContent == 'true'){
-        excUnitPrice += 3;
-        needMoreReviewContent = true;
-    }
+    //额外要求
     var needOfficialAudit = req.body.needOfficialAudit; // 需要官方审核
     if (needOfficialAudit == 'true'){
-        excUnitPrice += 3;
+        extraRetObject.excUnitPrice += 3;
         needOfficialAudit = true;
     }
-
-    console.log('----+++' + excUnitPrice);
 
     var userQuery = new AV.Query(User);
     userQuery.get(userId).then(function(userObject){
@@ -413,15 +382,15 @@ router.post('/task', function(req, res){
                         return;
                     }
 
-                    var rateunitPrice = excUnitPrice * myRate;
-
                     var appPriceStr = appObject.get('formattedPrice');
                     var appPrice = parseFloat(appPriceStr.substring(1, appPriceStr.length));
                     if(appPriceStr != '免费') {
                         //广告主付费
-                        excUnitPrice += appPrice * 1.5 * 10;
-                        rateunitPrice += appPrice * 15;
+                        extraRetObject.excUnitPrice += appPrice * 15;
+                        //小马用户得到
+                        extraRetObject.tempUserPrice += appPrice * 1.3;
                     }
+                    console.log('----- task send price:' + extraRetObject.toString());
 
                     var releasetaskObject = new releaseTaskObject();
                     releasetaskObject.set('userObject', userObject);  //和用户表关联
@@ -433,24 +402,34 @@ router.post('/task', function(req, res){
 
                     releasetaskObject.set('taskType', taskType);  // 任务类型
                     releasetaskObject.set('excCount', excCount);  // 任务条数
-                    releasetaskObject.set('excUnitPrice', excUnitPrice);  //任务单价
+                    releasetaskObject.set('excUnitPrice', extraRetObject.excUnitPrice);  //任务单价
+                    releasetaskObject.set('myRate', myRate); // 汇率
+                    releasetaskObject.set('rateUnitPrice', extraRetObject.excUnitPrice * myRate); // 汇率后价格,实际显示价格
+                    releasetaskObject.set('tempUserPrice', extraRetObject.tempUserPrice); // 小马用户任务价格
 
                     releasetaskObject.set('searchKeyword', searchKeyword);  // 搜索关键词
                     releasetaskObject.set('ranKing', asoRank);  // 排名
-                    releasetaskObject.set('needGet', needGet); // 获取
+                    releasetaskObject.set('needGet', extraRetObject.needGet); // 获取
                     releasetaskObject.set('registerStatus', registerStatus); // 注册方式
                     releasetaskObject.set('Score', parseInt(Score));  // 评分
                     releasetaskObject.set('titleKeyword', reviewTitleKey); // 标题关键字
                     releasetaskObject.set('reviewMustTitleKey', reviewMustTitleKey); // 标题必选
                     releasetaskObject.set('commentKeyword', reviewContentKey); // 评论关键字
                     releasetaskObject.set('reviewMustContentKey', reviewMustContentKey); // 评论必选
-                    releasetaskObject.set('needMoreReviewContent', needMoreReviewContent); // 评论必须满足50个字
+                    releasetaskObject.set('needMoreReviewContent', extraRetObject.needMoreReviewContent); // 评论必须满足50个字
                     releasetaskObject.set('needOfficialAudit', needOfficialAudit);  // 需要官方审核
 
+                    //截图需求 脑残设计 AngularJS不支持
+                    //releasetaskObject.set('screenShot1Array', extraRetObject.screenShot1Array);
+                    //releasetaskObject.set('screenShot2Array', extraRetObject.screenShot2Array);
+                    //releasetaskObject.set('screenShot3Array', extraRetObject.screenShot3Array);
+
+                    //额外字段
                     releasetaskObject.set('remainCount', excCount); // 剩余条数
-                    releasetaskObject.set('myRate', myRate); // 汇率
-                    releasetaskObject.set('rateUnitPrice', rateunitPrice); // 汇率后价格,实际显示价格
                     releasetaskObject.set('completed', 0);  // 完成
+
+                    var myDate = new Date();
+                    var myDateStr = myDate.getFullYear() + '-' + (parseInt(myDate.getMonth())+1) + '-' + myDate.getDate();
                     releasetaskObject.set('releaseDate', myDateStr); // 添加发布日期,冗余字段
                     releasetaskObject.save().then(function() {
                         // 实例已经成功保存.
@@ -459,8 +438,8 @@ router.post('/task', function(req, res){
                         userObject.increment('freezingMoney', freezing_money);
                         userObject.save().then(function(){
                             saveDemands(res, userObject, appObject, taskType, String(excCount), excUnitPrice, searchKeyword,
-                                String(asoRank), needGet, registerStatus, parseInt(Score), reviewTitleKey, reviewMustTitleKey,
-                                reviewContentKey, reviewMustContentKey, needMoreReviewContent, needOfficialAudit);
+                                String(asoRank), extraRetObject.needGet, registerStatus, parseInt(Score), reviewTitleKey, reviewMustTitleKey,
+                                reviewContentKey, reviewMustContentKey, extraRetObject.needMoreReviewContent, needOfficialAudit);
                             messager.freezeMsg(appObject.get('trackName'), freezing_money, userObject.id);
                         }, function(error){
                             console.error('------ user: ' + userObject.id + ' release task,minus YB error,and task send succeed');
@@ -471,7 +450,6 @@ router.post('/task', function(req, res){
                             util.dayTaskIncrement(userId, 'releaseTaskY', 5);
                         }
 
-                        // 循环发布的条数 记录单条的流水
                         res.json({'errorId': 0, 'errorMsg':''});
                     },function(error){
                         res.json({'errorMsg':error.message, 'errorId': error.code});
@@ -492,7 +470,6 @@ router.post('/task', function(req, res){
     },function(error){
         res.json({'errorMsg':error.message, 'errorId': error.code});
     });
-
 });
 
 // 保存任务需求编辑内容
@@ -644,5 +621,134 @@ router.get('/verify', function(req, res){
         res.json({'errorMsg':error.message, 'errorId': error.code});
     })
 });
+
+//任务需求->HTML 无效
+function requirementStrToHtml(str, levelStr)
+{
+    //gray
+    //small
+    //price = ()
+    //info
+    //screenShot
+
+    if(levelStr == 'gray'){
+        return '<span class="task-detail-info-gray">' + str + '</span>';
+    }else if(levelStr == 'small'){
+        return '<span class="task-detail-info-small">' + str + '</span>';
+    }else if(levelStr == 'price'){
+        return '<span class="task-detail-info-price">(' + str.toFixed(2) + '元)</span>';
+    }else if(levelStr == 'info'){
+        return '<span class="task-detail-info-info">(' + str + ')</span>';
+    }else if(levelStr == 'screenShot'){
+        var imgUrl = '<img class="task-detail-info-screenShot-img" src="images/app/screenShotS.png" >';
+        return imgUrl + '<span class="task-detail-info-screenShot">截图</span>';
+    }else {
+        return str;
+    }
+}
+
+//任务需求,换评,小马的金额计算
+function screenShotOneElement(retObject, asoRank, searchKeyword, needGet)
+{
+    //初始价格(好评3元,下载2.3元)
+    retObject.tempUserPrice = retObject.excUnitPrice/10;
+    retObject.screenShot1Array = [];
+
+    var screenOne1 = '1.Appstore 搜索关键字 ' + requirementStrToHtml(searchKeyword, 'info') +
+        ' ,大概在第 ' + requirementStrToHtml(asoRank, 'info') + ' 位.';
+    //rank
+    if (asoRank <= 20){
+        retObject.excUnitPrice += 0;
+    }
+    else if (asoRank >= 21 && asoRank <= 50){
+        retObject.excUnitPrice += (asoRank / 10 - 2);
+    }
+    else {
+        retObject.excUnitPrice += (3 + (asoRank - 50) * 0.5);
+        //小马用户排名得到前
+        var extraRmbPrice = (asoRank - 50) * 0.02;
+        retObject.tempUserPrice += extraRmbPrice;
+        screenOne1 += requirementStrToHtml(extraRmbPrice, 'price');
+    }
+    retObject.screenShot1Array.push(screenOne1);
+
+    //need get
+    var screenOne2 = '2.找到指定App后, ' + requirementStrToHtml('', 'screenShot') + ' , 然后下载 ';
+    if (needGet == 'true'){
+        retObject.excUnitPrice += 5;
+        //小马需首次下载
+        retObject.tempUserPrice += 0.2;
+        retObject.needGet = true;
+
+        screenOne2 += '♥ 必须有 ' + requirementStrToHtml('获取', 'info') + ' 按钮 ♥' + requirementStrToHtml(0.2, 'price');
+    }else {
+        retObject.needGet = false;
+    }
+    retObject.screenShot1Array.push(screenOne2);
+}
+
+function screenShotTwoElement(retObject, registerStatus)
+{
+    retObject.screenShot2Array = [];
+
+    var screenOne1 = '下载完毕后, 打开App, 试玩3分钟.';
+    if (registerStatus == 'third'){
+        retObject.excUnitPrice += 2;
+        //小马第三方登陆
+        retObject.tempUserPrice += 0.1;
+        screenOne1 += '♥ 必须要' + requirementStrToHtml('第三方登陆', 'info') + requirementStrToHtml(0.1, 'price') + ' ♥';
+    }
+    screenOne1 += requirementStrToHtml('', 'screenShot');
+    retObject.screenShot2Array.push(screenOne1);
+}
+
+function screenShotThirdElement(retObject, reviewTitleKey, reviewMustTitleKey, reviewContentKey, reviewMustContentKey, needMoreReviewContent)
+{
+    retObject.screenShot3Array = [];
+
+    var screenOne1 = '打开Appstore ,按下面要求 撰写评论 ';
+    retObject.screenShot3Array.push(screenOne1);
+
+    //评论标题
+    var screenOneGray = requirementStrToHtml('a.评论标题关键字 (包含任意1个) ', 'gray');
+    retObject.screenShot3Array.push(screenOneGray);
+    var screenOneSmall = requirementStrToHtml(reviewTitleKey, 'small');
+    retObject.screenShot3Array.push(screenOneSmall);
+    if (reviewMustTitleKey != undefined && reviewMustTitleKey != ""){
+        retObject.excUnitPrice += 1;
+        //小马必须标题
+        retObject.tempUserPrice += 0.05;
+
+        var screenOneMust = requirementStrToHtml('必须包含:  ', 'gray') + requirementStrToHtml(reviewMustTitleKey, 'info') + requirementStrToHtml(0.05, 'price');
+        retObject.screenShot3Array.push(screenOneMust);
+    }
+
+    //评论内容
+    screenOneGray = requirementStrToHtml('a.评论内容关键字 (包含任意1个) ', 'gray');
+    retObject.screenShot3Array.push(screenOneGray);
+    screenOneSmall = requirementStrToHtml(reviewContentKey, 'small');
+    retObject.screenShot3Array.push(screenOneSmall);
+    if (reviewMustContentKey != undefined && reviewMustContentKey != ""){
+        retObject.excUnitPrice += 1;
+        //小马必须评论内容
+        retObject.tempUserPrice += 0.05;
+
+        var screenOneMust = requirementStrToHtml('必须包含:  ', 'gray') + requirementStrToHtml(reviewMustContentKey, 'info') + requirementStrToHtml(0.05, 'price');
+        retObject.screenShot3Array.push(screenOneMust);
+    }
+
+    var screenOneL = '评论内容通顺';
+    if (needMoreReviewContent == 'true'){
+        retObject.excUnitPrice += 3;
+        retObject.needMoreReviewContent = true;
+        //小马长评论
+        retObject.tempUserPrice += 0.1;
+
+        screenOneL += ' ♥ 字数必须要' + requirementStrToHtml('超过50字', 'info') + requirementStrToHtml(0.1, 'price') + ' ♥';
+    }
+
+    screenOneL += requirementStrToHtml('', 'screenShot');
+    retObject.screenShot3Array.push(screenOneL);
+}
 
 module.exports = router;
