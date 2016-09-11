@@ -163,30 +163,34 @@ app.controller('itunesSearchControl', function($scope, $http) {
     };
 
     // 标题关键词
-    $scope.reviewMustTitle = function(){
-        var reviewTitle = document.getElementById("reviewMustTitle").value;
-        if (reviewTitle == undefined){
-            $scope.displayDemandTemplate.excUnitPrice -= 1;
-            $scope.reviewTitleTem = false;
-        }else {
-            $scope.displayDemandTemplate.excUnitPrice += 1;
-            $scope.reviewTitleTem = true;
-        }
-        moneyCheck();
-    };
+    $(document).ready(function(){
+        $(".input2").change(function(){
+            var reviewTitle = $('.input2').val(); // 判断是否为空
+            if (reviewTitle != ""){
+                $scope.displayDemandTemplate.excUnitPrice += 1;
+                $scope.reviewTitleTem = true;
+            }else {
+                $scope.displayDemandTemplate.excUnitPrice -= 1;
+                $scope.reviewTitleTem = false;
+            }
+            moneyCheck();
+        });
+    });
 
     // 评论关键词
-    $scope.reviewMustContent = function(){
-        var reviewContent = document.getElementById("reviewMustContent").value;
-        if (reviewContent == undefined){
-            $scope.displayDemandTemplate.excUnitPrice -= 1;
-            $scope.commentMustContent = false;
-        }else {
-            $scope.displayDemandTemplate.excUnitPrice += 1;
-            $scope.commentMustContent = true;
-        }
-        moneyCheck();
-    };
+    $(document).ready(function(){
+        $(".field").change(function(){
+            var reviewContent = $('.field').val(); // 判断是否为空
+            if (reviewContent != ""){
+                $scope.displayDemandTemplate.excUnitPrice += 1;
+                $scope.commentMustContent = true;
+            }else {
+                $scope.displayDemandTemplate.excUnitPrice -= 1;
+                $scope.commentMustContent = false;
+            }
+            moneyCheck();
+        });
+    });
 
     //*******************按键默认被选定
 

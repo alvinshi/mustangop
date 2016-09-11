@@ -601,6 +601,7 @@ router.get('/getNeed/:appObjectId', function(req, res){
                     appDemandInfo.reviewMustTitleKey = taskDemandObject.get('reviewMustTitleKey'); // 标题必选
                     appDemandInfo.commentKeyword = taskDemandObject.get('commentKeyword');
                     appDemandInfo.reviewMustContentKey = taskDemandObject.get('reviewMustContentKey'); // 评论必选
+                    appDemandInfo.needMoreReviewContent = taskDemandObject.get('needMoreReviewContent'); // 评论需满50字
                     appDemandInfo.needOfficialAudit = taskDemandObject.get('needOfficialAudit'); // 是否需要官方审核
                     appDemandInfo.detailRem = taskDemandObject.get('detailRem');
 

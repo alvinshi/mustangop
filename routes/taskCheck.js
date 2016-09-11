@@ -14,6 +14,8 @@ var releaseTaskObject = AV.Object.extend('releaseTaskObject');
 var receiveTaskObject = AV.Object.extend('receiveTaskObject');
 var mackTaskInfo = AV.Object.extend('mackTaskInfo');
 
+var tempUserSQL = AV.Object.extend('tempUser');
+
 var YCoinToRMBRate = 0.45;
 var masterRMBRate = 0.2;
 
@@ -415,7 +417,7 @@ router.post('/accept/:entryId', function(req, res) {
                         tempUserQuery.equalTo('userCodeId', masterCode);
                         tempUserQuery.find().then(function (datas) {
 
-                            if (userDatas.length == 1) {
+                            if (datas.length == 1) {
 
                                 var masterUserObject = datas[0];
                                 var isToday = true;

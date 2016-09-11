@@ -302,11 +302,19 @@ height: 260px;
 
 }
 .input2{
-width: 130px;
+    width: 130px;
     height: 34px;
     border-radius: 4px;
     border:1px solid #CCCCCC;
 }
+
+.field{
+    width: 130px;
+    height: 34px;
+    border-radius: 4px;
+    border:1px solid #CCCCCC;
+}
+
 .input3{
     width: 350px;
     height: 60px;

@@ -263,7 +263,7 @@
         <div class="content1">
             <!--模板切换-->
             <div class="switchmodel">
-                <form action="/myapp/task" method="post" target="_blank">
+                <form action="/myapp/task" method="post">
                     <input type="text" ng-show="0" name="appObjectId" value="{{selectedApp.appObjectId}}">
 
                     <!--框1, 不进行模板数据保存-->
@@ -410,8 +410,8 @@
 
                                     <p>
                                         <input type="text" name="reviewTitleKey" ng-model="displayDemandTemplate.titleKeyword" maxlength="20"
-                                               ng-change="checkText0(displayDemandTemplate.titleKeyword,20)"
                                                class="input1" placeholder="请输入小于20字符"/>
+
                                     <span ng-bind="displayDemandTemplate.titleKeyword.length+0"
                                           style="margin-left:15px;color:#00b7ff;
                                           font-size: 14px;">
@@ -420,25 +420,25 @@
                                         <span  style="color:#adadad;font-size: 16px;">必选</span>&nbsp;
 
                                         <input type="text" ng-model="displayDemandTemplate.reviewMustTitleKey" name="reviewMustTitleKey" class="input2" id="reviewMustTitle"
-                                               maxlength="5" placeholder="请输入小于6字符" ng-change="reviewMustTitle()" />
+                                               maxlength="5" placeholder="请输入小于6字符">
                                         <button disabled class="b4" style="margin-left:234px;" ng-show="reviewTitleTem == true">+1Y币</button>
                                     </p><br>
 
                                     <p>评论关键词<br><br>
-                                    <textarea name="reviewContentKey" class="input3" rows="1" maxlength="40"
+                                        <textarea name="reviewContentKey" class="input3" rows="1" maxlength="40"
                                               ng-model="displayDemandTemplate.commentKeyword"
-                                              ng-change="checkText2(displayDemandTemplate.commentKeyword,40)"
+
                                               placeholder="请输入小于40字符" style="font-size:14px">
                                         </textarea>
-                                    <span ng-bind="displayDemandTemplate.commentKeyword.length+0"
-                                          style="margin-left:15px;color:#00b7ff;font-size: 14px;">
+                                        <span ng-bind="displayDemandTemplate.commentKeyword.length+0"
+                                              style="margin-left:15px;color:#00b7ff;font-size: 14px;">
 
-                                    </span>/40<br><br>
+                                        </span>/40<br><br>
 
                                         <span  style="color:#adadad;font-size: 16px;">必选</span>
                                         <input type="text" ng-model="displayDemandTemplate.reviewMustContentKey" id="reviewMustContent"
-                                               maxlength="5" placeholder="请输入小于6字符" ng-change="reviewMustContent()"
-                                               name="reviewMustContentKey" class="input2" style="margin-left: 14px;" />
+                                               maxlength="5" placeholder="请输入小于6字符"
+                                               name="reviewMustContentKey" class="field" style="margin-left:14px;">
 
                                         <button disabled class="b4" style="margin-left:229px;" ng-show="commentMustContent == true">+1Y币</button>
                                     </p><br>
@@ -447,9 +447,8 @@
                                         <label >
                                             <input type="checkbox" ng-model="displayDemandTemplate.needMoreReviewContent" name="needMoreReviewContent" value=true  id="box2" ng-click="commenOver50()">
                                             评论需满50字
+                                            <button disabled ng-show="commentYCoin == true" class="b4" style="margin-left:305px;">+3Y币</button>
                                         </label>
-                                        <button disabled ng-show="commentYCoin == true" class="b4" style="margin-left:305px;">+3Y币
-                                        </button>
                                     </div>
                                 </div>
                             </div>
