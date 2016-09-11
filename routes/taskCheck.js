@@ -374,7 +374,7 @@ router.post('/accept/:entryId', function(req, res) {
                             console.error('---- accept task: invite user do task succeed, bounds failed', + error.message);
                         });
                     }
-                }else if(tempUserObject != undefined){
+                }else if(tempUserObject != undefined) {
                     needSaveUserObject = tempUserObject;
                     userName = tempUserObject.get('userCodeId');
 
@@ -385,24 +385,24 @@ router.post('/accept/:entryId', function(req, res) {
                     var yearStr = myDate.getFullYear().toString();
                     var todayStr = yearStr + '-' + month + '-' + day;
                     var todayMoneyDate = tempUserObject.get('todayMoneyDate');
-                    if(todayMoneyDate != todayStr){
+                    if (todayMoneyDate != todayStr) {
                         //非当天赚到的钱
                         isToday = false;
                     }
 
                     var tempUserGetRMB = 0;
-                    if(tempUserPrice > 0){
+                    if (tempUserPrice > 0) {
                         tempUserGetRMB = tempUserPrice;
-                    }else {
+                    } else {
                         tempUserGetRMB = (rateUnitPrice / 10) * YCoinToRMBRate;
                     }
 
                     //增加用户的钱(总额,可用,今日)
                     tempUserObject.increment('totalMoney', tempUserGetRMB);
                     tempUserObject.increment('currentMoney', tempUserGetRMB);
-                    if(isToday == true){
+                    if (isToday == true) {
                         tempUserObject.increment('todayMoney', tempUserGetRMB);
-                    }else {
+                    } else {
                         //更新日期到最新
                         tempUserObject.set('todayMoneyDate', todayStr);
                         tempUserObject.set('todayMoney', tempUserGetRMB);
@@ -410,19 +410,19 @@ router.post('/accept/:entryId', function(req, res) {
 
                     //TODO:师徒系统
                     var masterCode = tempUserObject.get('inviteCode');
-                    if(masterCode != undefined && masterCode.length > 0){
+                    if (masterCode != undefined && masterCode.length > 0) {
                         var tempUserQuery = new AV.Query(tempUserSQL);
                         tempUserQuery.equalTo('userCodeId', masterCode);
                         tempUserQuery.find().then(function (datas) {
 
-                            if(userDatas.length == 1){
+                            if (userDatas.length == 1) {
 
                                 var masterUserObject = datas[0];
                                 var isToday = true;
                                 var masterRewards = tempUserGetRMB * masterRMBRate;
 
                                 var todayMoneyDate = masterUserObject.get('todayMoneyDate');
-                                if(todayMoneyDate != todayStr){
+                                if (todayMoneyDate != todayStr) {
                                     //非当天赚到的钱
                                     isToday = false;
                                 }
@@ -431,25 +431,26 @@ router.post('/accept/:entryId', function(req, res) {
                                 masterUserObject.increment('totalMoney', masterRewards);
                                 masterUserObject.increment('currentMoney', masterRewards);
                                 masterUserObject.increment('apprenticeMoney', masterRewards);
-                                if(isToday == true){
+                                if (isToday == true) {
                                     masterUserObject.increment('todayMoney', masterRewards);
-                                }else {
+                                } else {
                                     //更新日期到最新
                                     masterUserObject.set('todayMoneyDate', todayStr);
                                     masterUserObject.set('todayMoney', masterRewards);
                                 }
 
-                                masterUserObject.save().then(function(){
+                                masterUserObject.save().then(function () {
 
-                                }, function(error){
+                                }, function (error) {
 
                                 });
 
                                 //TODO RMB Logger
                             }
-                    });
+                        });
 
-                    //TODO RMB Logger
+                        //TODO RMB Logger
+                    }
                 }
 
                 // 发布任务的人冻结钱变少
