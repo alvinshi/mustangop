@@ -363,13 +363,13 @@ router.post('/task', function(req, res){
     var Score = req.body.radio4;  // 评分
     var reviewTitleKey = req.body.reviewTitleKey; // 标题关键词
     var reviewMustTitleKey = req.body.reviewMustTitleKey; // 标题必选
-    if (reviewMustTitleKey != undefined || reviewMustTitleKey != ""){
+    if (reviewMustTitleKey != undefined && reviewMustTitleKey != ""){
         excUnitPrice += 1
     }
 
     var reviewContentKey = req.body.reviewContentKey; // 评论关键词
     var reviewMustContentKey = req.body.reviewMustContentKey; // 评论必选
-    if (reviewMustContentKey != undefined || reviewMustContentKey != ""){
+    if (reviewMustContentKey != undefined && reviewMustContentKey != ""){
         excUnitPrice += 1
     }
 

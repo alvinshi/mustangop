@@ -165,7 +165,10 @@ app.controller('itunesSearchControl', function($scope, $http) {
     // 标题关键词
     $scope.reviewMustTitle = function(){
         var reviewTitle = document.getElementById("reviewMustTitle").value;
-        if (reviewTitle != undefined){
+        if (reviewTitle == undefined){
+            $scope.displayDemandTemplate.excUnitPrice -= 1;
+            $scope.reviewTitleTem = false;
+        }else {
             $scope.displayDemandTemplate.excUnitPrice += 1;
             $scope.reviewTitleTem = true;
         }
@@ -174,8 +177,11 @@ app.controller('itunesSearchControl', function($scope, $http) {
 
     // 评论关键词
     $scope.reviewMustContent = function(){
-        var reviewMustContent = document.getElementById("reviewMustContent").value;
-        if (reviewMustContent != undefined){
+        var reviewContent = document.getElementById("reviewMustContent").value;
+        if (reviewContent == undefined){
+            $scope.displayDemandTemplate.excUnitPrice -= 1;
+            $scope.commentMustContent = false;
+        }else {
             $scope.displayDemandTemplate.excUnitPrice += 1;
             $scope.commentMustContent = true;
         }
