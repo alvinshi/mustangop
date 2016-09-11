@@ -45,7 +45,7 @@
 </div>
 
 <div class="container">
-    <div  class=" main_content"  ng-controller="itunesSearchControl" style="margin-left: -30px;">
+    <div class=" main_content"  ng-controller="itunesSearchControl" style="margin-left: -30px;">
         <!--添加APP-->
         <div class="add">
             <!--绑定APP-->
@@ -260,18 +260,21 @@
             <!--<div style="height:0px;width:2000px;border:0.1px solid #;margin-left: -300px;margin-top: 31px;"></div>-->
         </div>
 
-        <div class="content1" >
+        <div class="content1">
             <!--模板切换-->
             <div class="switchmodel">
                 <form action="/myapp/task" method="post" target="_blank">
                     <input type="text" ng-show="0" name="appObjectId" value="{{selectedApp.appObjectId}}">
 
                     <!--框1, 不进行模板数据保存-->
-                    <div class="k1" >
+                    <div class="k1" id="float">
                         <p class="p">
                             任务数量:
-                            <input type="text" ng-model="displayDemandTemplate.excCount" name="excCount" ng-change="taskNumberChange()" required="required" style="margin-top: 20px; width: 100px;height:40px;border-radius: 5px;border:1px solid #CCCCCC; " />
-                            &nbsp;条
+                            <input type="text" ng-model="displayDemandTemplate.excCount" name="excCount"
+                                   ng-change="taskNumberChange()" required="required"
+                                   style="margin-top: 20px; width: 100px; height:40px; border-radius: 5px;
+                                   border:1px solid #CCCCCC; " />&nbsp;条
+
                             <span class="p1">任务单价:{{displayDemandTemplate.excUnitPrice + rankExtraYCoin}}Y币</span>
                             <span class="p2">账户余额:{{usermoney}}Y币</span>
                             <button class="b1">发布任务</button>
@@ -285,13 +288,21 @@
                         </p>
 
                         <div class="radone radio-inline" style="margin-left: -20px;">
-                            <input ng-hide="true" type="radio" ng-model="displayDemandTemplate.taskType" value="评论" id="radoneInput" name="taskType" ng-click="download1()" checked/>
-                            <label for="radoneInput" style="border-bottom-left-radius: 4px;border-top-left-radius: 4px;">评论</label>
+                            <input ng-hide="true" type="radio" ng-model="displayDemandTemplate.taskType" value="评论"
+                                   id="radoneInput" name="taskType" ng-click="download1()" checked/>
+
+                            <label for="radoneInput" style="border-bottom-left-radius: 4px;
+                                    border-top-left-radius: 4px;">评论
+                            </label>
                         </div>
 
                         <div class="radone radio-inline" style="margin-left:-25px; ">
-                            <input  ng-hide="true" type="radio" value="下载" ng-model="displayDemandTemplate.taskType" id="radtwoInput" name="taskType" ng-click="download()"/>
-                            <label for="radtwoInput" style="border-bottom-right-radius: 4px;border-top-right-radius: 4px; ">下载</label>
+                            <input  ng-hide="true" type="radio" value="下载" ng-model="displayDemandTemplate.taskType"
+                                    id="radtwoInput" name="taskType" ng-click="download()"/>
+
+                            <label for="radtwoInput" style="border-bottom-right-radius: 4px;
+                                    border-top-right-radius: 4px; ">下载
+                            </label>
                         </div>
 
                         <div class="radone" radio-inline style="float:right;margin-right: 562px;margin-top: 5px; ">
@@ -324,10 +335,16 @@
                                       style="font-size:0.8em">
                                 </span>
                             <p>
-                                <input type="text" ng-model="displayDemandTemplate.ranKing" name="asoRank"  style="text-align:center;width: 60px;height: 34px;border-radius: 3px;border:1px solid #CCCCCC;"  id="mytext1" ng-change="rankChange()" required="required"/>
+                                <input type="text" ng-model="displayDemandTemplate.ranKing" name="asoRank"
+                                       style="text-align:center; width: 60px; height: 34px; border-radius: 3px;
+                                       border:1px solid #CCCCCC;"  id="mytext1" ng-change="rankChange()"
+                                       required="required"/>
+
                                 <span style="margin-left: 15px; font-size: 15px; color: black;">位</span>
-                                <span></span>
-                                <button disabled class="b4" style="margin-left:310px;" ng-show="rankExtraYCoin > 0">+{{rankExtraYCoin.toFixed(1)}}Y币</button>
+
+                                <button disabled class="b4" style="margin-left:310px;"
+                                        ng-show="rankExtraYCoin > 0">+{{rankExtraYCoin.toFixed(1)}}Y币
+                                </button>
                             </p>
                             <br>
                             <div class="checkbox" >
@@ -355,7 +372,8 @@
                                 <label for="rad4Input" style="border-bottom-left-radius: 4px;border-top-left-radius: 4px;">不需注册</label>
                             </div>
                             <div class="radone radio-inline" style="margin-left: -25px;">
-                                <input ng-hide="true" type="radio" ng-model="displayDemandTemplate.registerStatus" value="third" id="rad5Input" ng-click="logonMode('third')" name="registerStatus"  >
+                                <input ng-hide="true" type="radio" ng-model="displayDemandTemplate.registerStatus"
+                                       value="third" id="rad5Input" ng-click="logonMode('third')" name="registerStatus">
                                 <label for="rad5Input" >第三方注册</label>
                             </div>
                             <!--<div class="radone radio-inline" style="margin-left: -25px;">-->
@@ -468,13 +486,14 @@
         </div>
 
         <!--视频窗口-->
-        <div class="modal fade" id="releaseTaskVideo" style="padding: 0px;margin: 0px;position: absolute;top:50px;left: 200px">
+        <div class="modal fade" id="releaseTaskVideo" style="padding: 0px; margin: 0px; position: absolute;top:50px;left: 200px">
             <div class="modal-dialog" style="display: table-cell;vertical-align: middle;">
                 <div class="modal-content"style="width:960px;height:550px;padding: 0px;margin: 0px">
                     <div class="modal-header">
                         <button type="button" class="close" ng-click="releaseTaskVideo()" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                         <h4 class="modal-title"></h4>
                     </div>
+
                     <div class="modal-body">
                         <video src="/videos/releaseTaskDemo.mp4" controls="controls" id="release" preload style="width:960px;height:500px;">
                             您的浏览器不支持 video 标签。
@@ -485,13 +504,10 @@
             </div>
         </div><!-- releaseTaskVideo-->
         <!--触发视频-->
-        <button class="release2"  data-target="#releaseTaskVideo" data-toggle="modal">
-        </button>
+        <button class="release2"  data-target="#releaseTaskVideo" data-toggle="modal"></button>
     </div>
 
 </div>
-
-
 
 </body>
 <script src="/javascripts/cookieHelper.min.js"></script>
