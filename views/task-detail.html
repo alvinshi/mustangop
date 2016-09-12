@@ -1,32 +1,73 @@
+<!--网站内部CSS-->
+<link rel="stylesheet" href="/stylesheets/app.css"/>
+
 <ion-view view-title="任务详情">
     <ion-content>
+        <body>
+        <div class="content has-header">
 
-        <button class="button button-outline button-calm button-small" >复制关键字</button>
+            <div class="col-demo"><img src="images/app/boot.png" class="detailicon">  </div>
+            <div class="texthead">
+                <span>趣恋爱遇见有缘人<br></span>
+                <span style="font-size: 0.6em;color:#67bdff">评论</span>
+                <span style="font-size: 0.6em;margin-left: 2em;color:#cccccc;">大小30M</span>
+               </div>
 
-        <button ng-show="lockTaskId != undefined && (taskDetail.doTaskStatus != 'accepted' && taskDetail.doTaskStatus != 'systemAccepted')
-        " class="button button-block button-assertive" ng-click="unlockTask()">放弃任务</button>
-
-        <!--图片操作相关-->
-        <button ng-show="lockTaskId == undefined && (taskDetail.doTaskStatus != 'accepted' && taskDetail.doTaskStatus != 'systemAccepted')
-        " class="button button-block button-assertive" ng-click="lockTask()">领取任务</button>
-
-        <!--上传图片按钮-->
-        <div ng-show="lockTaskId != undefined && (taskDetail.doTaskStatus != 'accepted' && taskDetail.doTaskStatus != 'systemAccepted')"
-             class="upload-pic-button">
-            <!--accept="image/*"-->
-            <input class="upload" type="file" nv-file-select="" uploader="uploader" multiple/>
-            {{uploadButtonTitle}}
+                <div class="rightside">
+                <span style="color:red;">+3.80<span style="font-size: 0.4em;">元</span></span><br>
+                <span style="color:#999999;font-size: 0.5em;margin-left:1.8em;">免费应用</span>
+                </div>
         </div>
 
-        <button ng-show="taskDetail.doTaskStatus != 'accepted' || taskDetail.doTaskStatus != 'systemAccepted'
-        " class="button button-block button-assertive">任务已经完成</button>
-
-        <div class="alert alert-danger" role="alert" ng-show="errorId">{{errorMsg}}</div>
-
-        <div class="progress" style="margin:auto; margin-top: 20px" ng-hide="!progressNum">
-            <div ng-class="{'progress-bar': true, 'progress-bar-striped':true, active:true}" ng-style="{width: progressNum+ '%'}">
+            <hr style="position:absolute;  background-color: #cccccc;width: 92%;top: 7em;left: 4%;" size="0.001";>
+            <div class="textstep">
+            <h4>任务步骤</h4>
             </div>
-        </div>
 
+        <!--卡片一-->
+        <div class="card">
+            <div class="item item-text-wrap">
+            <img src="/images/app/tab.png" class="headimg">
+                <h2>截图一</h2>
+            </div></div>
+        <!--卡片二-->
+            <!--卡片三-->
+
+
+
+
+
+        <!--<br>-->
+        <!--<br>-->
+        <!--<br>-->
+        <!--<br>-->:
+        <!--<button class="button button-outline button-calm button-small" >复制关键字</button>-->
+
+        <!--<button ng-show="lockTaskId != undefined && (taskDetail.doTaskStatus != 'accepted' && taskDetail.doTaskStatus != 'systemAccepted')-->
+        <!--" class="button button-block button-assertive" ng-click="unlockTask()">放弃任务</button>-->
+
+        <!--&lt;!&ndash;图片操作相关&ndash;&gt;-->
+        <!--<button ng-show="lockTaskId == undefined && (taskDetail.doTaskStatus != 'accepted' && taskDetail.doTaskStatus != 'systemAccepted')-->
+        <!--" class="button button-block button-assertive" ng-click="lockTask()">领取任务</button>-->
+
+        <!--&lt;!&ndash;上传图片按钮&ndash;&gt;-->
+        <!--<div ng-show="lockTaskId != undefined && (taskDetail.doTaskStatus != 'accepted' && taskDetail.doTaskStatus != 'systemAccepted')"-->
+             <!--class="upload-pic-button">-->
+            <!--&lt;!&ndash;accept="image/*"&ndash;&gt;-->
+            <!--<input class="upload" type="file" nv-file-select="" uploader="uploader" multiple/>-->
+            <!--{{uploadButtonTitle}}-->
+        <!--</div>-->
+
+        <!--<button ng-show="taskDetail.doTaskStatus != 'accepted' || taskDetail.doTaskStatus != 'systemAccepted'-->
+        <!--" class="button button-block button-assertive">任务已经完成</button>-->
+
+        <!--<div class="alert alert-danger" role="alert" ng-show="errorId">{{errorMsg}}</div>-->
+
+        <!--<div class="progress" style="margin:auto; margin-top: 20px" ng-hide="!progressNum">-->
+            <!--<div ng-class="{'progress-bar': true, 'progress-bar-striped':true, active:true}" ng-style="{width: progressNum+ '%'}">-->
+            <!--</div>-->
+        <!--</div>-->
+
+</body>
     </ion-content>
 </ion-view>

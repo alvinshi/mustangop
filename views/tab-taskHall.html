@@ -8,21 +8,12 @@
 <script src="/javascripts/vendor/AngularJS/angular.min.js"></script>
 <ion-view >
     <ion-nav-buttons>
-        <div class="tabs tabs-dark"x>
-            <a class="tab-item" href="#" ng-click="switchTaskType(1, -1)">
-                下载
-            </a>
-            <a class="tab-item" href="#" ng-click="switchTaskType(2, -1)">
-                评论
-            </a>
-
-        </div>
-        <!--<button  style="border:0.1em solid white;background-color:white;position:absolute;float:left;left:26%; text-align: center;color: black;width:25%;" class="button" ng-click="switchTaskType(1, -1)">-->
-            <!--下载-->
-        <!--</button>-->
-        <!--<button class="button" style="border:0.1em solid white;position:absolute;float:right;right:26%; background-color:black;text-align: center;color: white;width:25%;" ng-click="switchTaskType(2, -1)">-->
-            <!--评论-->
-        <!--</button>-->
+        <button class="button btn1" id = "1" type = "button" style="background-color: white;color:black;font-size: 1em;"   ng-click="switchTaskType(1, -1)">
+            下载
+        </button>
+        <button class="button btn2 " id = "2" type = "button" style="background-color: white;color:black;font-size: 1em;" ng-click="switchTaskType(2, -1)">
+            评论
+        </button>
     </ion-nav-buttons>
 
     <ion-content style="background-color: #F5F5F5;">
@@ -59,11 +50,11 @@
                 <!--</div>-->
             <ion-item  href="#/tab/task/{{task.taskId}}" class="ion-item card" type="item-text-wrap" ng-repeat="task in downloadTasks">
 
-                <img src="/images/app/head1.jpg" class="cardicon">
+                <img ng-src="{{task.appIcon}}" class="cardicon">
                 <div class="character">
                     <span class="typetitle" style="margin-left:0em;float: left;">{{task.appName}}</span>
                 </div>
-                <span class = "cardplay typegray" >剩余20条</span>
+                <span class = "cardplay typegray" >剩余{{task.remainCount}}条</span>
                 <span class="cardplay typelightgray" style="margin-left: 1em;">进行中两份</span><br><br>
                 <span class="cardtextright cardword" >+3.80<span style="font-size: 0.6em;">元</span></span><br><br>
                 <!--<span class="cardtextright typeblue" style="margin-top: -2em;">1元付费应用</span>-->
@@ -102,11 +93,11 @@
                     <!--</div>-->
                     <ion-item  href="#/tab/task/{{task.taskId}}" class="ion-item card" type="item-text-wrap" ng-repeat="task in commentTasks">
 
-                        <img src="/images/app/head1.jpg" class="cardicon">
+                        <img ng-src="{{task.appIcon}}" class="cardicon">
                         <div class="character">
                             <span class="typetitle" style="margin-left:0em;float: left;">{{task.appName}}</span>
                         </div>
-                        <span class = "cardplay typegray" >剩余20条</span>
+                        <span class = "cardplay typegray" >剩余{{task.remainCount}}条</span>
                         <span class="cardplay typelightgray" style="margin-left: 1em;">进行中两份</span><br><br>
                         <span class="cardtextright cardword" >+3.80<span style="font-size: 0.6em;">元</span></span><br><br>
                         <!--<span class="cardtextright typeblue" style="margin-top: -2em;">1元付费应用</span>-->
