@@ -34,7 +34,6 @@ var handBook = require('./routes/handBook');
 var contactUs = require('./routes/contactUs');
 var guide = require('./routes/guide');
 var webAnalysis = require('./routes/webAnalysis');
-var newPcTask = require('./routes/newPcTask');
 var homePage = require('./routes/homePageApi');
 
 //小马试客
@@ -186,7 +185,6 @@ app.use('/userProtocol', userProtocol);
 app.use('/handBook', handBook);
 app.use('/guide', guide);
 app.use('/webAnalysis', webAnalysis);
-app.use('/newPcTask', newPcTask);
 app.use('/homePage', homePage);
 
 //小马试客

@@ -9,6 +9,10 @@ var navIndex = 2;
 
 
 app.controller('itunesSearchControl', function($scope, $http) {
+
+    var downTaskYCoin = 23;
+    var commentTaskYCoin = 30;
+
     var url = 'myapp/verify';
     $scope.insufficientFund = false;
 
@@ -25,16 +29,26 @@ app.controller('itunesSearchControl', function($scope, $http) {
         $scope.usermoney = response.usermoney;
     });
 
-    //************* Helper Function ********************
+    //计算价格帮助变量
+    var oldTaskType;
+    var oldTaskRegisterType;
+
+        //************* Helper Function ********************
     //请求每个任务的任务需求, function封装
     function getDemand(){
         if ($scope.selectedApp == undefined){
-            $scope.appNeedInfo == undefined;
+            $scope.demandTemplateArray == undefined;
             return;
         }
+
         var getneedUrl = '/myapp/getNeed/' + $scope.selectedApp.appObjectId;
         $http.get(getneedUrl).success(function (response) {
-            $scope.appNeedInfo = response.appNeedInfo;
+
+            $scope.demandTemplateArray = response.demandTemplateArray;
+            $scope.displayDemandTemplate = $scope.demandTemplateArray[0];
+
+            oldTaskType = $scope.displayDemandTemplate.taskType;
+            oldTaskRegisterType = $scope.displayDemandTemplate.registerStatus;
 
             //获取用户账户余额
             var url = 'myapp/verify';
@@ -42,24 +56,10 @@ app.controller('itunesSearchControl', function($scope, $http) {
 
             $http.get(url).success(function(response) {
                 $scope.usermoney = response.usermoney;
-                if ($scope.appNeedInfo.excCount != undefined){
-                    moneyCheck($scope.appNeedInfo.excCount, $scope.usermoney)
-                }
+
+                //核实该条任务Y Coin 够不够
+                moneyCheck();
             });
-
-            //默认初始条目
-            if ($scope.appNeedInfo.taskType == undefined){
-                $scope.appNeedInfo.taskType = '评论';
-            }
-            if ($scope.appNeedInfo.taskType == '评论'){
-                $scope.appNeedInfo.excUnitPrice = 30;
-            }
-
-            else {$scope.appNeedInfo.excUnitPrice = 23;}
-
-            if ($scope.appNeedInfo.screenshotCount == undefined){
-                $scope.appNeedInfo.screenshotCount= 3;
-            }
 
         });
     }
@@ -99,20 +99,13 @@ app.controller('itunesSearchControl', function($scope, $http) {
             getDemand();
         }
     });
-    //**************************浮动顶端******************************
-    $(window).on('scroll',function()
-    {
-        var st = document.documentElement.scrollTop || document.body.scrollTop;
-        if (!hello.offsetWidth && st >= 520)
-        {
-            hello.style.display = 'block';
-        }
-        else if (!!hello.offsetWidth && st < 520)
-        {
-            hello.style.display = 'none';
-        }
-    })
+
     //*************************获取三个模板的数组值******************
+    $scope.demandTemplate = function(index){
+        if($scope.demandTemplateArray != undefined && $scope.demandTemplateArray.length > 0){
+            $scope.displayDemandTemplate = $scope.demandTemplateArray[index];
+        }
+    };
 
     //*************************按键颜色切换*************************
 
@@ -123,47 +116,84 @@ app.controller('itunesSearchControl', function($scope, $http) {
         $scope.selectedApp = app;
         $scope.isDisabled = false;
         getDemand();
+
+        setTimeout(function() {
+            // IE
+            if(document.all) {
+                document.getElementById("model01").click();
+            }
+            // 其它浏览器
+            else {
+                var e = document.createEvent("MouseEvents");
+                e.initEvent("click", true, true);
+                document.getElementById("model01").dispatchEvent(e);
+            }
+        }, 1);
+
     };
+
     $scope.releaseTaskVideo=function(){
         $("#releaseTaskVideo").modal("hide");
         var myVideo=document.getElementById("release");
         myVideo.pause();
     };
-    //*********************判断加多少Y币******************
-    $("#jue").hide();
-    $scope.chkchange = function(key)
+
+    //Y币变动
+    $scope.taskNumberChange = function(){
+        //核实该条任务Y Coin 够不够
+        moneyCheck();
+    };
+
+    //排名变动
+    $scope.rankExtraYCoin = 0;
+    $scope.rankChange = function()
     {
-        var myVal= document.getElementById("mytext1").value;
-        $scope.mycal=myVal;
-        if (50 >=myVal&&myVal>=20) {
-            $("#jue").show();
-            $scope.key=(myVal/10-2).toFixed(1);
+        var myVal = parseInt(document.getElementById("mytext1").value);
+        if (50 >= myVal && myVal >= 20) {
+            $scope.rankExtraYCoin = (myVal/10-2);
+            moneyCheck();
         }
-        else if(myVal>50&&myVal<=100){
-            $("#jue").show();
-            $scope.key=(3+(myVal-50)*0.5).toFixed(1);
+        else if(myVal > 50 && myVal <= 100){
+            $scope.rankExtraYCoin = (3 + (myVal - 50) * 0.5);
+            moneyCheck();
         }
         else{
-            $("#jue").hide();
+            $scope.rankExtraYCoin = 0;
         }
-    }
-    //$scope.keyword=0;
-    //$("#jue").hide();
-    //onkeyup=function(){
-    //    var myVal= document.getElementById("mytext1").value;
-    //    if(60 >=myVal&&myVal>=20){
-    //        $("#jue").show();
-    //        $scope.keyword=1;
-    //    }
-    //    else if(myVal>60&&myVal<=100){
-    //        $("#jue").show();
-    //        $scope.keyword=5;
-    //    }
-    //    else{
-    //        $("#jue").hide();
-    //    }
-    //}
+    };
+
+    // 标题关键词
+    $(document).ready(function(){
+        $(".input2").change(function(){
+            var reviewTitle = $('.input2').val(); // 判断是否为空
+            if (reviewTitle != ""){
+                $scope.displayDemandTemplate.excUnitPrice += 1;
+                $scope.reviewTitleTem = true;
+            }else {
+                $scope.displayDemandTemplate.excUnitPrice -= 1;
+                $scope.reviewTitleTem = false;
+            }
+            moneyCheck();
+        });
+    });
+
+    // 评论关键词
+    $(document).ready(function(){
+        $(".field").change(function(){
+            var reviewContent = $('.field').val(); // 判断是否为空
+            if (reviewContent != ""){
+                $scope.displayDemandTemplate.excUnitPrice += 1;
+                $scope.commentMustContent = true;
+            }else {
+                $scope.displayDemandTemplate.excUnitPrice -= 1;
+                $scope.commentMustContent = false;
+            }
+            moneyCheck();
+        });
+    });
+
     //*******************按键默认被选定
+
     setTimeout(function() {
         // IE
         if(document.all) {
@@ -186,7 +216,7 @@ app.controller('itunesSearchControl', function($scope, $http) {
         $("#model02").attr('style','width:350px;border: 0px;font-size: 20px');
         $("#model03").removeAttr('style');
         $("#model03").attr('style','width:350px;border: 0px;font-size: 20px');
-    })
+    });
     $("#model02").on('click',function(){
         $("#model02").removeAttr('style');
         $(this).attr('style','color:#5a94ec;width:350px;border: 0px;font-size: 20px;border-bottom:2px solid #5a94ec');
@@ -194,7 +224,7 @@ app.controller('itunesSearchControl', function($scope, $http) {
         $("#model01").attr('style','width:350px;border: 0px;font-size: 20px');
         $("#model03").removeAttr('style');
         $("#model03").attr('style','width:350px;border: 0px;font-size: 20px');
-    })
+    });
     $("#model03").on('click',function(){
         $("#model03").removeAttr('style');
         $(this).attr('style','color:#5a94ec;width:350px;border: 0px;font-size: 20px;border-bottom:2px solid #5a94ec');
@@ -202,83 +232,102 @@ app.controller('itunesSearchControl', function($scope, $http) {
         $("#model02").attr('style','width:350px;border: 0px;font-size: 20px');
         $("#model01").removeAttr('style');
         $("#model01").attr('style','width:350px;border: 0px;font-size: 20px');
-    })
+    });
+
     //*******************判断是下载还是评论****************
-    $scope.down=false;
-    $scope.taskprice=30;
-    $scope.download=function(){
+    $scope.down = false;
+    $scope.taskprice = 30;
+    $scope.download = function(){
+
+        if(oldTaskType != $scope.displayDemandTemplate.taskType){
+            $scope.displayDemandTemplate.excUnitPrice -= (commentTaskYCoin - downTaskYCoin);
+            moneyCheck();
+        }
+        oldTaskType = $scope.displayDemandTemplate.taskType;
+
         if(document.getElementById("radtwoInput").checked){
             $scope.down = !$scope.down;
-            $scope.taskprice=23;
         }
         else{
-            $scope.down=false;
-        }
-    }
-    $scope.download1=function(){
-        if(document.getElementById("radoneInput").checked){
             $scope.down = false;
-            $scope.taskprice=30;
         }
-    }
+    };
+    $scope.download1=function(){
 
+        if(oldTaskType != $scope.displayDemandTemplate.taskType){
+            $scope.displayDemandTemplate.excUnitPrice += (commentTaskYCoin - downTaskYCoin);
+            moneyCheck();
+        }
+        oldTaskType = $scope.displayDemandTemplate.taskType;
 
+        if(document.getElementById("radoneInput").checked){
+            $scope.taskprice = 30;
+        }
+    };
 
+    // 判断注册方式
+    $scope.logonMode = function(curren){
+        if (curren == 'third'){
+            $scope.displayDemandTemplate.excUnitPrice += 2;
+            $scope.showYCoin = true;
+        }else {
+            $scope.displayDemandTemplate.excUnitPrice -= 2;
+            $scope.showYCoin = false;
+        }
+        moneyCheck();
 
-    //按钮1
-    $scope.ju1=false;
-    $scope.goon=function(){
+    };
+
+    //必须获取标志
+    $scope.needGetFunc = function(){
         if(document.getElementById("box1").checked){
-           $scope.ju1 = !$scope.ju1;
+            $scope.displayDemandTemplate.excUnitPrice += 5;
+            $scope.needGetYCoin = true;
        }
         else{
-            $scope.ju1=false;
+            $scope.displayDemandTemplate.excUnitPrice -= 5;
+            $scope.needGetYCoin = false;
         }
-    }
-    $scope.ju2=false;
-    $scope.goon1=function(){
+        moneyCheck();
+    };
+
+    // 评论需满50字
+    $scope.commenOver50 = function(){
         if(document.getElementById("box2").checked){
-            $scope.ju2 = !$scope.ju2;
+            $scope.displayDemandTemplate.excUnitPrice += 3;
+            $scope.commentYCoin = true;
         }
         else{
-            $scope.ju2=false;
+            $scope.displayDemandTemplate.excUnitPrice -= 3;
+            $scope.commentYCoin = false;
         }
-    }
-    $("#i1").hide();
-    $("#i2").hide();
-    $('input:radio[name="radio3"]').change( function(){
-        var $val1 = $("input[name='radio3']:checked").val();
-        if ($val1 == 1) {
-            $("#i1").hide();
-            $("#i2").hide();
-        }
-        else if($val1 == 2) {
-            $("#i1").show();
-            $("#i2").hide();
-        }
-        else {
-            $("#i1").hide();
-            $("#i2").show();
-        }
-    });
-    $scope.ju3=false;
-    $scope.goon2=function(){
+
+        moneyCheck();
+    };
+
+    // 官方人工审核
+    $scope.needOfficalCheck = function(){
         if(document.getElementById("inlineCheckbox1").checked){
-            $scope.ju3 = !$scope.ju3;
+            $scope.displayDemandTemplate.excUnitPrice += 3;
+            $scope.needOfficaCheckYCoin = true
         }
         else{
-            $scope.ju3=false;
+            $scope.displayDemandTemplate.excUnitPrice -= 3;
+            $scope.needOfficaCheckYCoin = false
         }
-    }
-    $scope.ju4=false;
-    $scope.goon3=function(){
+
+        moneyCheck();
+    };
+
+    // 限时今日完成任务
+    $scope.currentDayTask=function(){
         if(document.getElementById("inlineCheckbox2").checked){
-            $scope.ju4 = !$scope.ju4;
+            $scope.currentDayTaskYCoin = true;
         }
         else{
-            $scope.ju4=false;
+            $scope.currentDayTaskYCoin=false;
         }
-    }
+    };
 
     //搜索App
     var progressTimerHandle = undefined;
@@ -350,27 +399,23 @@ app.controller('itunesSearchControl', function($scope, $http) {
     };
 
     // 更新APP信息
-    $scope.updateApp = function(){
+    $scope.updateApp = function(appObjectId){
         $("#updateApp").modal('show');
         $scope.isLoadingApp=true;
         $scope.errorMsg="";
         var updateAppURL = '/myapp/UpdateApp';
-        $http.post(updateAppURL).success(function(response){
+        $http.post(updateAppURL, {'appObjectId':appObjectId}).success(function(response){
             $scope.errorId = response.errorId;
             $scope.errorMsg = response.errorMsg;
             if (response.errorId == 0){
                 $scope.errorMsg = response.errorMsg;
                 $scope.isLoadingApp = false;
 
-                $scope.numOfApps = response.myApps.length;
-                if ($scope.numOfApps > 0) {
-                    //App排序
-                    $scope.myApps = response.myApps.sort(function(a, b){return a.createdAt >= b.createdAt});
-                    //默认选择第一个App
-                    $scope.selectedApp = $scope.myApps[0];
-                    $scope.isDisabled = false;
+                $scope.numOfApps = response.myApps;
 
-                    refreshAddBtn();
+                if ($scope.numOfApps > 0) {
+                    $scope.myApps = response.myApps;
+
                 }
             }
         })
@@ -468,157 +513,17 @@ app.controller('itunesSearchControl', function($scope, $http) {
         });
     };
 
-    //保存
-    $scope.saved = false;
-    var saveNetLock = false;
-    $scope.saveNeed = function(){
-        if ($scope.selectedApp == undefined || $scope.selectedApp.appleId == undefined){
-            $scope.modelStr = '未选择换评的App,检查一下吧';
-            $("#error").modal("show");
-            return;
-        }
-
-        if ($scope.selectedApp.trackName == undefined || $scope.selectedApp.length == 0){
-            $scope.modelStr = '选择换评的App信息错误,需要联系客服哦';
-            $("#error").modal("show");
-            return;
-        }
-
-        if(saveNetLock == true){
-            console.log('保存中...');
-            return;
-        }
-
-        var needUrl = '/myapp/taskneed/' + $scope.selectedApp.appObjectId;
-        var needInfo = {'taskType':$scope.appNeedInfo.taskType, 'excCount':$scope.appNeedInfo.excCount, 'excUnitPrice':$scope.appNeedInfo.excUnitPrice, 'screenshotCount':$scope.appNeedInfo.screenshotCount,
-            'searchKeyword':$scope.appNeedInfo.searchKeyword, 'ranKing':$scope.appNeedInfo.ranKing, 'Score':$scope.appNeedInfo.Score,
-            'titleKeyword':$scope.appNeedInfo.titleKeyword, 'commentKeyword':$scope.appNeedInfo.commentKeyword, 'detailRem':$scope.appNeedInfo.detailRem};
-
-        saveNetLock = true;
-        $http.post(needUrl, needInfo).success(function(response){
-            $scope.errorId = response.errorId;
-            $scope.errorMsg = response.errorMsg;
-            $scope.saved = false;
-            saveNetLock = false;
-        })
-    };
-
-    //检查排名不能超过50
-    $scope.checkRank= function () {
-        if( $scope.appNeedInfo.ranKing > 50){
-           $scope.errorCheck=true;
-        }else {
-            $scope.errorCheck=false;
-        }
-    };
     //radio切换
     $scope.change=false;
     $scope.radio=function(curre){
-    if(document.getElementById('optionsRadios1').checked==true){
-        $scope.change=true;
-    }
-    else{
-        $scope.change=false;
-    }
-    }
-
-
-
-
-
-
-    //发布任务
-    $scope.releaseTask = function(){
-        $scope.isDisabled = true;
-        $scope.saveNeed();
-        //初始参数
-        var flag = true;
-        $scope.error = Object();
-        $scope.error.excCount = false;
-        $scope.error.searchKeyword = false;
-
-        //前端检查
-        if ($scope.appNeedInfo == undefined){
-            flag = false;
-            $("#error").modal("show");
-        }else {
-            if ($scope.appNeedInfo.excCount == undefined || $scope.appNeedInfo.excCount == '') {
-                flag = false;
-                $scope.isDisabled = false;
-                $scope.error.excCount = true;
-                $scope.modelStr = '您有未填写完整的信息';
-                $("#error").modal("show");
-            }
-            if($scope.appNeedInfo.searchKeyword == '' || $scope.appNeedInfo.searchKeyword == undefined) {
-                flag = false;
-                $scope.isDisabled = false;
-                $scope.error.searchKeyword = true;
-                $scope.modelStr = '您有未填写完整的信息';
-                $("#error").modal("show");
-            }
-            if($scope.appNeedInfo.excCount > 50){
-                flag = false;
-                $scope.isDisabled = false;
-                $scope.modelStr = '任务条数暂时最多50条哦';
-                $("#error").modal("show");
-
-            }
-            if($scope.appNeedInfo.ranKing > 50){
-                flag = false;
-                $scope.isDisabled = false;
-                $scope.modelStr = '关键字搜索排名要在50名以内哦';
-                $("#error").modal("show");
-
-            }
-            if ($scope.appNeedInfo.excCount != undefined){
-                var taskMoney = $scope.appNeedInfo.excCount * $scope.appNeedInfo.excUnitPrice;
-                console.log($scope.usermoney);
-                if (taskMoney > $scope.usermoney){
-                    $scope.modelStr = '你的Y币余额不足';
-                    $("#error").modal("show");
-                    flag = false;
-                    $scope.isDisabled = false;
-                }
-            }
+        if(document.getElementById('optionsRadios1').checked==true){
+            $scope.change=true;
         }
-
-        if ($scope.selectedApp == undefined || $scope.selectedApp.appObjectId == undefined || $scope.selectedApp.appObjectId.length < 0){
-            flag = false;
-            $scope.isDisabled = false;
-            $scope.modelStr = '未选择换评的App,检查一下吧';
-            $("#error").modal("show");
-        }
-
-        if ($scope.selectedApp.trackName == undefined || $scope.selectedApp.artworkUrl512 == undefined){
-            $scope.modelStr = '选择换评的App信息错误,需要联系客服哦';
-            $("#error").modal("show");
-            return;
-        }
-
-        //通过前端检查,请求服务器
-        if (flag){
-            var needUrl = '/myapp/task';
-            var needInfo = {'taskType':$scope.appNeedInfo.taskType, 'excCount':$scope.appNeedInfo.excCount,
-                'excUnitPrice':document.getElementById("price").value, 'screenshotCount':$scope.appNeedInfo.screenshotCount,
-                'searchKeyword':$scope.appNeedInfo.searchKeyword, 'ranKing':$scope.appNeedInfo.ranKing,
-                'Score':$scope.appNeedInfo.Score, 'titleKeyword':$scope.appNeedInfo.titleKeyword,
-                'commentKeyword':$scope.appNeedInfo.commentKeyword, 'detailRem':$scope.appNeedInfo.detailRem,
-                'appObjectId':$scope.selectedApp.appObjectId};
-
-            $http.post(needUrl, needInfo).success(function(response){
-                $scope.errorId = response.errorId;
-                $scope.errorMsg = response.errorMsg;
-
-                if(response.errorId != 0){
-                    $scope.modelStr = response.errorMsg;
-                    $("#error").modal("show");
-                }else {
-                    $("#releaseTask").modal("show");
-                    //$scope.isDisabled = true;
-                }
-            })
+        else{
+            $scope.change=false;
         }
     };
+
 
     // 确认发布之后刷新界面
     $scope.Confirm = function(){
@@ -631,67 +536,22 @@ app.controller('itunesSearchControl', function($scope, $http) {
         "font-size":"14px"
     };
 
-    //限制表单字数
-    $scope.checkText1 = function () {
-        if ($scope.appNeedInfo.titleKeyword.length > 20) {
-            $scope.appNeedInfo.titleKeyword = $scope.appNeedInfo.titleKeyword.substr(0, 20);
-            saveStatusChange();
-        }
-    };
-    $scope.checkText2 = function () {
-        if ($scope.appNeedInfo.commentKeyword.length > 40) {
-            $scope.appNeedInfo.commentKeyword = $scope.appNeedInfo.commentKeyword.substr(0, 40);
-            saveStatusChange();
-        }
-    };
-    $scope.checkText3 = function () {
-        if ($scope.appNeedInfo.detailRem.length > 140) {
-            $scope.appNeedInfo.detailRem = $scope.appNeedInfo.detailRem.substr(0, 140);
-            saveStatusChange();
-        }
-    };
-
     // 验证钱够不够发布任务
-    function moneyCheck(amount, accountMoney){
-        if (amount != undefined){
-            var taskMoney = amount * $scope.appNeedInfo.excUnitPrice;
-            if(taskMoney > accountMoney){
+    function moneyCheck(){
+        var excCount = $scope.displayDemandTemplate.excCount;
+        if(excCount != undefined && excCount > 0){
+            var excUnitPrice = $scope.displayDemandTemplate.excUnitPrice + $scope.rankExtraYCoin;
+            var taskMoney = excCount * excUnitPrice;
+            if(taskMoney > $scope.usermoney){
                 $scope.insufficientFund = true;
-
+                console.log('money ' + $scope.usermoney + 'not enough, need ' + excUnitPrice + ', total' + taskMoney);
             }
             else{
                 $scope.insufficientFund = false;
+                console.log('money ' + $scope.usermoney + 'not enough, need ' + excUnitPrice + ', total' + taskMoney);
             }
         }
     }
-
-    $scope.calcuQuantity = function(){
-        if($scope.appNeedInfo.excCount > 20 && $scope.Limit != true){
-            $scope.errorQuatity = true;
-        }else {
-            $scope.errorQuatity = false;
-        }
-        var url = 'myapp/verify';
-        $http.get(url).success(function(response) {
-            $scope.usermoney = response.usermoney;
-            moneyCheck($scope.appNeedInfo.excCount, $scope.usermoney)
-
-        });
-        $scope.saved = false;
-    };
-
-    //生成预览截图
-    $scope.getScreenShot = function() {
-        html2canvas(document.getElementById("screenShot"), {
-            onrendered: function (canvas) {
-                var a = document.createElement('a');
-                a.href = canvas.toDataURL("image/png", 1).replace("image/png", "image/octet-stream");
-                a.download = 'exchange-requirements.png';
-                a.click();
-            },
-            proxy: $scope.selectedApp.artworkUrl100
-        });
-    };
 
     $scope.addApp=function(id) {
         $('#'+ id).popover("toggle");
@@ -701,13 +561,33 @@ app.controller('itunesSearchControl', function($scope, $http) {
         $scope.saved = false;
     };
 
-    $scope.taskTypeChanged = function(){
-        if ($scope.appNeedInfo.taskType == "评论"){
-            $scope.appNeedInfo.excUnitPrice = 30;
-        }
-        else{
-            $scope.appNeedInfo.excUnitPrice = 23;
-        }
-        $scope.saved = false;
+    $.fn.smartFloat = function() {
+        var position = function(element) {
+            var top = element.position().top, pos = element.css("position");
+            $(window).scroll(function() {
+                var scrolls = $(this).scrollTop();
+                if (scrolls > top) {
+                    if (window.XMLHttpRequest) {
+                        element.css({
+                            position: "fixed",
+                            top: 0
+                        });
+                    } else {
+                        element.css({
+                            top: scrolls
+                        });
+                    }
+                }else {
+                    element.css({
+                        position: "relative",
+                        top: 0
+                    });
+                }
+            });
+        };
+        return $(this).each(function() {
+            position($(this));
+        });
     };
+    $("#float").smartFloat();
 });

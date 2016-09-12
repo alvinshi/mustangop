@@ -141,25 +141,17 @@
     </div>
     <!--<div style="margin-top: 30px"></div>-->
 
-    <div class="text-center ">
-        <button class="btn btn-default cust1" >
-            <a href="itms-apps://itunes.apple.com">跳转APP store</a>
-        </button>
-    </div>
-
-
     <div class="text-center" ng-hide="!normalBtnShow">
         <button class="btn btn-default cust2" data-toggle="modal" data-target="#mymodal">
             {{uploadImgDes}}
         </button>
     </div>
 
-    <div class="text-center " ng-hide="normalBtnShow">
-        <a href="javascript:"  class="a-upload form_change ">
-            <input type="file" style="width: 80%" multiple nv-file-select="" ng-click="deletFile()" uploader="uploader" accept="image/*"/>
-            {{uploadImgDes}}
-        </a>
-    </div>
+    <button class="a-upload text-center" ng-hide="normalBtnShow">
+        <!--accept="image/*"-->
+        <input class="upload" type="file" style="width: 80%" nv-file-select="" uploader="uploader" multiple/>
+        {{uploadImgDes}}
+    </button>
 
     <div class="alert alert-danger" role="alert" ng-show="errorId">{{errorMsg}}</div>
 
@@ -184,7 +176,6 @@
     <div class="row" style="margin: 30px 30px 30px 30px;" ng-hide='oneAppInfo.detail == undefined'>
         <span style='float: left; font-size: 20px;' ng-hide='oneAppInfo.detail == undefined'}}>拒绝理由: {{oneAppInfo.detail}}</span>
     </div>
-
 
 
     <div class="submit"  ng-hide="errorId == 2">

@@ -20,9 +20,8 @@ var releaseTaskObject = AV.Object.extend('releaseTaskObject');
 var User = AV.Object.extend('_User');
 
 // 查询 我的App
-router.get('/', function(req, res, next) {
-    //var userid = util.useridInReq(req);
-    return res.render('myApp');
+router.get('/', function(req, res) {
+    res.render('myApp');
 });
 
 
@@ -41,6 +40,7 @@ function dealiTunesAppFailed(retApps, appObject){
     appInfoObject.version = appObject.get('version');
     appInfoObject.appObjectId = appObject.id;
     appInfoObject.createdAt = appObject.createdAt;
+    //appInfoObject.userAddAppId = objectId;
     retApps.push(appInfoObject);
 }
 
@@ -73,6 +73,7 @@ router.get('/angular', function(req, res) {
             for (var i = 0; i < results.length; i++){
 
                 var appObject = results[i].get('appObject');
+                var objectId = results[i].id;
                 if (appObject == undefined){
                     promiseCount++;
                     continue;
@@ -90,6 +91,7 @@ router.get('/angular', function(req, res) {
 
         },
         error: function(err) {
+            console.error('not app');
             res.json({'errorMsg':err.message, 'errorId': err.code, 'myApps':[]});
         }
     });
@@ -99,81 +101,70 @@ router.get('/angular', function(req, res) {
 router.post('/UpdateApp', function(req, res){
     var userId = util.useridInReq(req);
 
-    var user = new AV.User();
-    user.id = userId;
-    var promiseCount = 0;
+    var userObject = new AV.User();
+    userObject.id = userId;
 
-    //TODO: 邀请x个用户,放可以多绑定x个App(未邀请的用户仅可以绑定1个App)
+    var appObjectId = req.body.appObjectId;
+
+    var appObject = new IOSAppInfoSQL();
+    appObject.id = appObjectId;
 
     var query = new AV.Query(IOSAppBinder);
-    query.equalTo('userObject', user);
+    query.equalTo('userObject', userObject);
+    query.equalTo('appObject', appObject);
     query.include('appObject');
-    query.addDescending('updatedAt');
-    query.find().then(function(results){
-        if (results.length == 0){
+
+    query.first().then(function(userAppBinder){
+        if (userAppBinder == 0){
             res.json({'errorId': 0, 'errorMsg':'请先添加APP'});
         }
 
         var retApps = Array();
+        var appObject = userAppBinder.get('appObject');
+        var appid = appObject.get('appleId');
 
-        for (var i = 0; i < results.length; i++){
-            var appObject = results[i].get('appObject');
-            if (appObject == undefined){
-                promiseCount++;
-                continue;
-            }
-            var appid = appObject.get('appleId');
+        var appInfoUrl = 'https://itunes.apple.com/lookup?id=' + appid + '&country=cn&entity=software';
+        https.get(appInfoUrl, function(httpRes) {
 
-            var appInfoUrl = 'https://itunes.apple.com/lookup?id=' + appid +'&country=cn&entity=software';
+            var totalData = '';
 
-            (function(tempAppObject){
-                https.get(appInfoUrl, function(httpRes) {
-
-                    var totalData = '';
-
-                    if (httpRes.statusCode != 200){
-                        //未检测到App的更新信息
-                        dealiTunesAppFailed(retApps, tempAppObject);
-                        res.json({'errorId': 0, 'errorMsg':'未检测到APP更新'});
-                    }else {
-                        httpRes.on('data', function(data) {
-                            totalData += data;
-                        });
-
-                        httpRes.on('end', function(){
-                            var dataStr = totalData.toString();
-                            var dataObject = eval("(" + dataStr + ")");
-
-                            //appid just 1 result
-                            var appInfo = dataObject.results[0];
-
-                            var appInfoObject = util.updateIOSAppInfo(appInfo, tempAppObject);
-                            tempAppObject.save().then(function() {
-                                // 实例已经成功保存.
-                                retApps.push(appInfoObject);
-                                if (retApps.length == results.length){
-                                    res.json({'myApps':retApps, 'errorId': 0, 'errorMsg': 'APP更新成功'});
-                                }
-
-                            }, function(error) {
-                                // 失败了.
-                                dealiTunesAppFailed(retApps, tempAppObject);
-                                promiseCount++;
-                                if (promiseCount == results.length){
-                                    res.json({'errorId': -1, 'errorMsg': 'APP更新失败'});
-                                }
-                            });
-                        })
-                    }
-                }).on('error', function(error) {
-                    dealiTunesAppFailed(retApps, tempAppObject);
-                    promiseCount++;
-                    if (promiseCount == results.length){
-                        res.json({'errorId': error.code, 'errorMsg': error.message});
-                    }
+            if (httpRes.statusCode != 200){
+                //未检测到App的更新信息
+                dealiTunesAppFailed(retApps, appObject);
+                res.json({'errorId': 0, 'errorMsg':'未检测到APP更新'});
+            }else {
+                httpRes.on('data', function(data) {
+                    totalData += data;
                 });
-            })(appObject);
-        }
+
+                httpRes.on('end', function(){
+                    var dataStr = totalData.toString();
+                    var dataObject = eval("(" + dataStr + ")");
+
+                    //appid just 1 result
+                    var appInfo = dataObject.results[0];
+
+                    var appInfoObject = util.updateIOSAppInfo(appInfo, appObject);
+                    appObject.save().then(function() {
+                        // 实例已经成功保存.
+                        //retApps.push(appInfoObject);
+                        res.json({'myApps':appInfoObject, 'errorId': 0, 'errorMsg': 'APP更新成功'});
+
+
+                    }, function(error) {
+                        // 失败了.
+                        dealiTunesAppFailed(retApps, appObject);
+                        res.json({'errorId': -1, 'errorMsg': 'APP更新失败'});
+
+                    });
+                })
+            }
+        }).on('error', function(error) {
+            dealiTunesAppFailed(retApps, appObject);
+            res.json({'errorId': error.code, 'errorMsg': error.message});
+
+        });
+
     },function(error){
         res.json({'errorId': error.code, 'errorMsg': error.message});
     })
@@ -325,34 +316,59 @@ var myRate = 1;
 
 router.post('/task', function(req, res){
     var userId = util.useridInReq(req);
-    var myDate = new Date();
-    var myDateStr = myDate.getFullYear() + '-' + (parseInt(myDate.getMonth())+1) + '-' + myDate.getDate();
-    var appObjectid = req.body.appObjectId;
+    var appObjectId = req.body.appObjectId;
+
+    var excCount = parseInt(req.body.excCount); // 发布总数量
+    var excUnitPrice = 0;
     var taskType = req.body.taskType;
-    var excCount = parseInt(req.body.excCount);
-    var excUnitPrice = parseInt(req.body.excUnitPrice);
-    var screenshotCount = req.body.screenshotCount;
-    var searchKeyword = req.body.searchKeyword;
-    var ranKing = parseInt(req.body.ranKing);
-    var Score = req.body.Score;
-    var titleKeyword = req.body.titleKeyword;
-    var commentKeyword = req.body.commentKeyword;
-    var detailRem = req.body.detailRem;
+    if (taskType == '评论'){
+        excUnitPrice = 30;
+    }else {
+        excUnitPrice = 23;
+    }
+
+    var extraRetObject = Object();
+    extraRetObject.excUnitPrice = excUnitPrice;
+
+    //截图1
+    var searchKeyword = req.body.searchName; // 搜索关键词
+    var asoRank = parseInt(req.body.asoRank);  // 搜索排名
+    screenShotOneElement(extraRetObject, asoRank, req.body.needGet);
+
+    //截图2
+    //TODO: Refine 示例App内截图
+    var registerStatus = req.body.registerStatus;  //注册方式
+    screenShotTwoElement(extraRetObject, registerStatus);
+
+    //截图3
+    var Score = req.body.radio4;  // 评分
+    var reviewTitleKey = req.body.reviewTitleKey; // 标题关键词
+    var reviewMustTitleKey = req.body.reviewMustTitleKey; // 标题必选
+    var reviewContentKey = req.body.reviewContentKey; // 评论关键词
+    var reviewMustContentKey = req.body.reviewMustContentKey; // 评论必选
+    screenShotThirdElement(extraRetObject, reviewMustTitleKey, reviewMustContentKey, req.body.needMoreReviewContent);
+
+    //额外要求
+    var needOfficialAudit = req.body.needOfficialAudit; // 需要官方审核
+    if (needOfficialAudit == 'true'){
+        extraRetObject.excUnitPrice += 3;
+        needOfficialAudit = true;
+    }
 
     var userQuery = new AV.Query(User);
     userQuery.get(userId).then(function(userObject){
         var userMoney = userObject.get('totalMoney');
         if (userMoney >= excCount * excUnitPrice){
-            var appObjectQuery = new AV.Query('IOSAppInfo');
-            appObjectQuery.get(appObjectid).then(function(appObject){
+            var appObjectQuery = new AV.Query(IOSAppInfoSQL);
+            appObjectQuery.get(appObjectId).then(function(appObject){
                 var queryMyTask = new AV.Query(releaseTaskObject);
                 queryMyTask.notEqualTo('cancelled', true);
                 queryMyTask.notEqualTo('close', true);
                 queryMyTask.equalTo('userObject', userObject);
                 queryMyTask.find().then(function(releaseTaskObjects) {
-
                     var unGetAllTaskCount = 0;
                     // 最多有2条任务
+
                     for (var rTask = 0; rTask < releaseTaskObjects.length; rTask++){
                         var aRelaseTaskObejct = releaseTaskObjects[rTask];
 
@@ -366,17 +382,15 @@ router.post('/task', function(req, res){
                         return;
                     }
 
-                    var rateunitPrice = excUnitPrice * myRate;
-
                     var appPriceStr = appObject.get('formattedPrice');
                     var appPrice = parseFloat(appPriceStr.substring(1, appPriceStr.length));
                     if(appPriceStr != '免费') {
                         //广告主付费
-                        excUnitPrice += appPrice * 1.5 * 10;
-                        rateunitPrice += appPrice * 15
+                        extraRetObject.excUnitPrice += appPrice * 15;
+                        //小马用户得到
+                        extraRetObject.tempUserPrice += appPrice * 1.3;
                     }
-
-                    var trackName = appObject.get('trackName');
+                    console.log('----- task send price:' + extraRetObject.toString());
 
                     var releasetaskObject = new releaseTaskObject();
                     releasetaskObject.set('userObject', userObject);  //和用户表关联
@@ -388,31 +402,50 @@ router.post('/task', function(req, res){
 
                     releasetaskObject.set('taskType', taskType);  // 任务类型
                     releasetaskObject.set('excCount', excCount);  // 任务条数
-                    releasetaskObject.set('excUnitPrice', excUnitPrice);  //任务单价
-                    releasetaskObject.set('screenshotCount', screenshotCount);  // 截图数
-                    releasetaskObject.set('searchKeyword', searchKeyword);  // 搜索关键词
-                    releasetaskObject.set('ranKing', ranKing);  // 排名
-                    releasetaskObject.set('Score', Score);  // 评分
-                    releasetaskObject.set('titleKeyword', titleKeyword); // 标题关键字
-                    releasetaskObject.set('commentKeyword', commentKeyword); // 评论关键字
-                    releasetaskObject.set('detailRem', detailRem);  // 备注详情
-                    releasetaskObject.set('remainCount', excCount); // 剩余条数
+                    releasetaskObject.set('excUnitPrice', extraRetObject.excUnitPrice);  //任务单价
                     releasetaskObject.set('myRate', myRate); // 汇率
-                    releasetaskObject.set('rateUnitPrice', rateunitPrice); // 汇率后价格,实际显示价格
+                    releasetaskObject.set('rateUnitPrice', extraRetObject.excUnitPrice * myRate); // 汇率后价格,实际显示价格
+                    releasetaskObject.set('tempUserPrice', extraRetObject.tempUserPrice); // 小马用户任务价格
+
+                    releasetaskObject.set('searchKeyword', searchKeyword);  // 搜索关键词
+                    releasetaskObject.set('ranKing', asoRank);  // 排名
+                    releasetaskObject.set('rankExtraRmb', extraRetObject.rankExtraRmb);  // 排名
+                    releasetaskObject.set('needGet', extraRetObject.needGet); // 获取
+
+                    releasetaskObject.set('registerStatus', registerStatus); // 注册方式
+
+                    releasetaskObject.set('Score', parseInt(Score));  // 评分
+                    releasetaskObject.set('titleKeyword', reviewTitleKey); // 标题关键字
+                    releasetaskObject.set('reviewMustTitleKey', reviewMustTitleKey); // 标题必选
+                    releasetaskObject.set('commentKeyword', reviewContentKey); // 评论关键字
+                    releasetaskObject.set('reviewMustContentKey', reviewMustContentKey); // 评论必选
+                    releasetaskObject.set('needMoreReviewContent', extraRetObject.needMoreReviewContent); // 评论必须满足50个字
+                    releasetaskObject.set('needOfficialAudit', needOfficialAudit);  // 需要官方审核
+
+                    //截图需求 脑残设计 AngularJS不支持
+                    //releasetaskObject.set('screenShot1Array', extraRetObject.screenShot1Array);
+                    //releasetaskObject.set('screenShot2Array', extraRetObject.screenShot2Array);
+                    //releasetaskObject.set('screenShot3Array', extraRetObject.screenShot3Array);
+
+                    //额外字段
+                    releasetaskObject.set('remainCount', excCount); // 剩余条数
                     releasetaskObject.set('completed', 0);  // 完成
+
+                    var myDate = new Date();
+                    var myDateStr = myDate.getFullYear() + '-' + (parseInt(myDate.getMonth())+1) + '-' + myDate.getDate();
                     releasetaskObject.set('releaseDate', myDateStr); // 添加发布日期,冗余字段
                     releasetaskObject.save().then(function() {
                         // 实例已经成功保存.
-                        var freezing_money = excCount * excUnitPrice;  // 发布总条数 + 发布的单价 = 冻结的钱
-                        var query = new AV.Query('_User');
-                        query.get(userId).then(function(userInfo){
-                            userInfo.increment('totalMoney', - freezing_money);
-                            userInfo.increment('freezingMoney', freezing_money);
-                            userInfo.save().then(function(){
-                                messager.freezeMsg(trackName, freezing_money, userObject.id);
-                            }, function(error){
-                                console.error('------ user: ' + userObject.id + ' release task,minus YB error,and task send succeed');
-                            })
+                        var freezing_money = excCount * excUnitPrice;  // 发布总条数 * 发布的单价 = 冻结的钱
+                        userObject.increment('totalMoney', - freezing_money);
+                        userObject.increment('freezingMoney', freezing_money);
+                        userObject.save().then(function(){
+                            saveDemands(res, userObject, appObject, taskType, String(excCount), excUnitPrice, searchKeyword,
+                                String(asoRank), extraRetObject.needGet, registerStatus, parseInt(Score), reviewTitleKey, reviewMustTitleKey,
+                                reviewContentKey, reviewMustContentKey, extraRetObject.needMoreReviewContent, needOfficialAudit);
+                            messager.freezeMsg(appObject.get('trackName'), freezing_money, userObject.id);
+                        }, function(error){
+                            console.error('------ user: ' + userObject.id + ' release task,minus YB error,and task send succeed');
                         });
 
                         //每日任务
@@ -420,7 +453,6 @@ router.post('/task', function(req, res){
                             util.dayTaskIncrement(userId, 'releaseTaskY', 5);
                         }
 
-                        // 循环发布的条数 记录单条的流水
                         res.json({'errorId': 0, 'errorMsg':''});
                     },function(error){
                         res.json({'errorMsg':error.message, 'errorId': error.code});
@@ -439,11 +471,67 @@ router.post('/task', function(req, res){
             res.json({'errorId': 1, 'errorMsg':'账户余额不足'})
         }
     },function(error){
-        res.json({'errorMsg':error.message, 'errorId': error.messageCode});
+        res.json({'errorMsg':error.message, 'errorId': error.code});
     });
-
-    //TODO 用户自己App可以置顶
 });
+
+// 保存任务需求编辑内容
+function saveDemands(res, userObject, appObject, task_type, excCount, excUnitPrice, searchKeyword, asoRank, needGet,
+                     registerStatus, Score, reviewTitleKey, reviewMustTitleKey, reviewContentKey, reviewMustContentKey,
+                     needMoreReviewContent, needOfficialAudit){
+
+    var query = new AV.Query(IOSAppBinder);
+    query.equalTo('userObject', userObject);
+    query.equalTo('appObject', appObject);
+    query.include('appObject');
+    query.include('userObject');
+
+    query.find().then(function(results){
+        var dealIOSAppBilderObject = undefined; //must exist
+        var taskDemandObject = undefined;
+        var appObject = undefined;
+
+        if(results.length > 0){
+            dealIOSAppBilderObject = results[0];
+            appObject = results[0].get('appObject');
+
+        }
+
+        if (taskDemandObject == undefined){
+            //第一次保存需求
+            taskDemandObject = new taskDemandSQL();
+            dealIOSAppBilderObject.set('taskDemand', taskDemandObject);
+        }
+
+        taskDemandObject.set('userObject', userObject);  //和用户表关联
+        taskDemandObject.set('appObject', appObject);  //和app表关联
+
+        //use excUniqueCode now,latestReleaseDate just for display
+        taskDemandObject.set('latestReleaseDate', appObject.get('latestReleaseDate'));
+        taskDemandObject.set('excUniqueCode', appObject.get('excUniqueCode'));
+
+        taskDemandObject.set('taskType', task_type);  // 任务类型
+        taskDemandObject.set('excCount', excCount);  // 任务条数
+        taskDemandObject.set('excUnitPrice', excUnitPrice);  //任务单价
+
+        taskDemandObject.set('searchKeyword', searchKeyword);  // 搜索关键词
+        taskDemandObject.set('ranKing', asoRank);  // 排名
+        taskDemandObject.set('needGet', needGet); // 获取
+        taskDemandObject.set('registerStatus', registerStatus); // 注册方式
+        taskDemandObject.set('Score', Score);  // 评分
+        taskDemandObject.set('titleKeyword', reviewTitleKey); // 标题关键字
+        taskDemandObject.set('reviewMustTitleKey', reviewMustTitleKey); // 标题必选
+        taskDemandObject.set('commentKeyword', reviewContentKey); // 评论关键字
+        taskDemandObject.set('reviewMustContentKey', reviewMustContentKey); // 评论必选
+        taskDemandObject.set('needMoreReviewContent', needMoreReviewContent); // 评论必须满足50个字
+        taskDemandObject.set('needOfficialAudit', needOfficialAudit);  // 需要官方审核
+
+        //2个都会保存
+        dealIOSAppBilderObject.save();
+    }, function(error){
+        res.json({'errorMsg':error.message, 'errorId': error.code});
+    });
+}
 
 //获取需求编辑信息
 router.get('/getNeed/:appObjectId', function(req, res){
@@ -456,107 +544,65 @@ router.get('/getNeed/:appObjectId', function(req, res){
     var appObject = new IOSAppInfoSQL();
     appObject.id = appObjectId;
 
-    var query = new AV.Query(IOSAppBinder);
+    var query = new AV.Query(releaseTaskObject);
     query.equalTo('userObject', userObject);
     query.equalTo('appObject', appObject);
     query.include('appObject');
     query.include('userObject');
-    query.include('taskDemand');
+    query.descending('createdAt');
     query.find().then(function(results){
-        var taskDemandObject = undefined;
-        var appObject = undefined;
+        var demandTemplateArray = Array();
 
-        if(results.length > 0){
-            appObject = results[0].get('appObject');
-            taskDemandObject = results[0].get('taskDemand');
-        }else {
-            res.json({'errorMsg': '该账号未绑定该App 请先绑定', 'errorId': -100});
-            return;
+        for (var i = 0; i < 3; i++){
+            var appDemandInfo = Object();
+
+            if(results.length > i){
+                var taskDemandObject = results[i];
+                if (taskDemandObject != undefined){
+                    //已经保存过需求
+                    appDemandInfo.taskType = taskDemandObject.get('taskType');
+                    appDemandInfo.excCount = taskDemandObject.get('excCount');
+
+                    appDemandInfo.searchKeyword = taskDemandObject.get('searchKeyword');
+                    appDemandInfo.ranKing = taskDemandObject.get('ranKing'); // 排名YCoin
+
+                    //兼容老的保存需求
+                    if(taskDemandObject.get('screenshotCount') != undefined && taskDemandObject.get('screenshotCount') > 0){
+                        appDemandInfo.screenshotCount = taskDemandObject.get('screenshotCount');
+                    }
+
+                    appDemandInfo.excUnitPrice = taskDemandObject.get('excUnitPrice'); //任务单价YCoin
+
+                    appDemandInfo.needGet = taskDemandObject.get('needGet'); // 获取YCoin
+                    appDemandInfo.registerStatus = taskDemandObject.get('registerStatus'); // 注册方式
+                    appDemandInfo.Score = taskDemandObject.get('Score'); // 评分
+
+                    appDemandInfo.titleKeyword = taskDemandObject.get('titleKeyword');
+                    appDemandInfo.reviewMustTitleKey = taskDemandObject.get('reviewMustTitleKey'); // 标题必选
+                    appDemandInfo.commentKeyword = taskDemandObject.get('commentKeyword');
+                    appDemandInfo.reviewMustContentKey = taskDemandObject.get('reviewMustContentKey'); // 评论必选
+                    appDemandInfo.needMoreReviewContent = taskDemandObject.get('needMoreReviewContent'); // 评论需满50字
+                    appDemandInfo.needOfficialAudit = taskDemandObject.get('needOfficialAudit'); // 是否需要官方审核
+                    appDemandInfo.detailRem = taskDemandObject.get('detailRem');
+
+                    appDemandInfo.demandTemplateId = taskDemandObject.id;
+                }else {
+                    appDemandInfo.taskType = '评论';
+                    appDemandInfo.registerStatus = 'noNeed';
+                    appDemandInfo.Score = 5;
+                    appDemandInfo.excUnitPrice = 30;
+                }
+            }
+            else {
+                appDemandInfo.taskType = '评论';
+                appDemandInfo.registerStatus = 'noNeed';
+                appDemandInfo.Score = 5;
+                appDemandInfo.excUnitPrice = 30;
+            }
+            demandTemplateArray.push(appDemandInfo);
         }
 
-        var appDemandInfo = Object();
-        if (taskDemandObject != undefined){
-            //已经保存过需求
-            appDemandInfo.taskType = taskDemandObject.get('taskType');
-            appDemandInfo.excCount = taskDemandObject.get('excCount');
-            appDemandInfo.screenshotCount = taskDemandObject.get('screenshotCount');
-            appDemandInfo.searchKeyword = taskDemandObject.get('searchKeyword');
-            appDemandInfo.ranKing = taskDemandObject.get('ranKing');
-
-            appDemandInfo.Score = taskDemandObject.get('Score');
-            appDemandInfo.titleKeyword = taskDemandObject.get('titleKeyword');
-            appDemandInfo.commentKeyword = taskDemandObject.get('commentKeyword');
-            appDemandInfo.detailRem = taskDemandObject.get('detailRem');
-        }
-
-        res.json({'appNeedInfo':appDemandInfo})
-    }, function(error){
-        res.json({'errorMsg':error.message, 'errorId': error.code});
-    });
-});
-
-// 保存任务需求编辑内容
-router.post('/taskneed/:appObjectId', function(req, res){
-    var userId = util.useridInReq(req);
-    var appObjectId = req.params.appObjectId;
-    var task_type = req.body.taskType;
-    var exc_count = req.body.excCount;
-    var screenshot_count = parseInt(req.body.screenshotCount);
-    var search_Keywords = req.body.searchKeyword;
-    var ranking = req.body.ranKing;
-    var score = req.body.Score;
-    var title_keywords = req.body.titleKeyword;
-    var comment_keywords = req.body.commentKeyword;
-    var detail_rem = req.body.detailRem;
-
-    var userObject = new AV.User();
-    userObject.id = userId;
-
-    var appObject = new IOSAppInfoSQL();
-    appObject.id = appObjectId;
-
-    var query = new AV.Query(IOSAppBinder);
-    query.equalTo('userObject', userObject);
-    query.equalTo('appObject', appObject);
-    query.include('appObject');
-    query.include('userObject');
-    query.include('taskDemand');
-    query.find().then(function(results){
-        var dealIOSAppBilderObject = undefined; //must exist
-        var taskDemandObject = undefined;
-        var appObject = undefined;
-
-        if(results.length > 0){
-            dealIOSAppBilderObject = results[0];
-            appObject = results[0].get('appObject');
-            taskDemandObject = results[0].get('taskDemand');
-        }else {
-            res.json({'errorMsg': '该账号未绑定该App 请先绑定', 'errorId': -100});
-            return;
-        }
-
-        if (taskDemandObject == undefined){
-            //第一次保存需求
-            taskDemandObject = new taskDemandSQL();
-            dealIOSAppBilderObject.set('taskDemand', taskDemandObject);
-        }
-
-        taskDemandObject.set('taskType', task_type);
-        taskDemandObject.set('excCount', exc_count);
-        taskDemandObject.set('screenshotCount', screenshot_count);
-        taskDemandObject.set('searchKeyword', search_Keywords);
-        taskDemandObject.set('ranKing', ranking);
-        taskDemandObject.set('Score', score);
-        taskDemandObject.set('titleKeyword', title_keywords);
-        taskDemandObject.set('commentKeyword', comment_keywords);
-        taskDemandObject.set('detailRem', detail_rem);
-
-        //2个都会保存
-        dealIOSAppBilderObject.save().then(function(){
-            res.json({'errorId':0, 'errorMsg':''});
-        }, function(error){
-            res.json({'errorMsg':error.message, 'errorId': error.code});
-        });
+        res.json({'demandTemplateArray':demandTemplateArray});
     }, function(error){
         res.json({'errorMsg':error.message, 'errorId': error.code});
     });
@@ -578,5 +624,71 @@ router.get('/verify', function(req, res){
         res.json({'errorMsg':error.message, 'errorId': error.code});
     })
 });
+
+//任务需求,换评,小马的金额计算
+function screenShotOneElement(retObject, asoRank, needGet)
+{
+    //初始价格(好评3元,下载2.3元)
+    retObject.tempUserPrice = retObject.excUnitPrice / 10;
+
+    //rank
+    if (asoRank <= 20){
+        retObject.excUnitPrice += 0;
+    }
+    else if (asoRank >= 21 && asoRank <= 50){
+        retObject.excUnitPrice += (asoRank / 10 - 2);
+    }
+    else {
+        retObject.excUnitPrice += (3 + (asoRank - 50) * 0.5);
+        //小马用户排名得到前
+        retObject.rankExtraRmb = (asoRank - 50) * 0.02;
+        retObject.tempUserPrice += retObject.rankExtraRmb;
+    }
+
+    //need get
+    if (needGet == 'true'){
+        retObject.excUnitPrice += 5;
+        //小马需首次下载
+        retObject.tempUserPrice += 0.2;
+        retObject.needGet = true;
+    }else {
+        retObject.needGet = false;
+    }
+}
+
+function screenShotTwoElement(retObject, registerStatus)
+{
+    retObject.screenShot2Array = [];
+
+    if (registerStatus == 'third'){
+        retObject.excUnitPrice += 2;
+        //小马第三方登陆
+        retObject.tempUserPrice += 0.1;
+    }
+}
+
+function screenShotThirdElement(retObject, reviewMustTitleKey, reviewMustContentKey, needMoreReviewContent)
+{
+    //评论标题
+    if (reviewMustTitleKey != undefined && reviewMustTitleKey != ""){
+        retObject.excUnitPrice += 1;
+        //小马必须标题
+        retObject.tempUserPrice += 0.05;
+    }
+
+    if (reviewMustContentKey != undefined && reviewMustContentKey != ""){
+        retObject.excUnitPrice += 1;
+        //小马必须评论内容
+        retObject.tempUserPrice += 0.05;
+    }
+
+
+    if (needMoreReviewContent == 'true'){
+        retObject.excUnitPrice += 3;
+        retObject.needMoreReviewContent = true;
+        //小马长评论
+        retObject.tempUserPrice += 0.1;
+    }
+}
 
 module.exports = router;
