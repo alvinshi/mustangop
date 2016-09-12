@@ -1,3 +1,62 @@
+/*footer底部图标*****************************/
+.buttondown {
+    background-color: white;
+    position: absolute;
+    left: 10em;
+    text-align: center;
+    color: black;
+
+}
+.buttoncom {
+
+    position: absolute;
+    left: 3em;
+    background-color: black;
+    text-align: center;
+
+    color: white
+}
+.bar  .title{background-color: black;
+             width:110%;
+             margin-left: -1em;}
+.bar-home-on{
+    background:url(/images/app/home1.png) no-repeat center top;
+    background-size:1em 1em;
+}
+.bar-home-off{
+    background:url(/images/app/home.png) no-repeat center top;
+    background-size:1em 1em;
+}
+.bar-taskhall-on{
+    background:url(/images/app/taskhall1.png) no-repeat center top;
+    background-size:1em 1em;
+
+}
+.bar-taskhall-off{
+    background:url(/images/app/taskhall.png) no-repeat center top;
+    background-size:1em 1em;
+}
+.bar-mytask-on{
+    background:url(/images/app/mytask1.png) no-repeat center top;
+    background-size:1em 1em;
+}
+.bar-mytask-off{
+    background:url(/images/app/mytask.png) no-repeat center top;
+    background-size:1em 1em;
+}
+.bar-get-on{
+    background:url(/images/app/get1.png) no-repeat center top;
+    background-size:1em 1em;
+
+}
+.bar-get-off{
+    background:url(/images/app/get.png) no-repeat center top;
+    background-size:1em 1em;
+}
+
+/*footer底部图标*****************************/
+/*顶部按键*****************************/
+
 .h1,h2,h3,h4,h5{
     color:white
 
@@ -10,33 +69,39 @@
 /*APP块一*/
 .head{
     margin-top: -1em;
-    height: 8em;
-    background-color: lightblue;
+    height: 10em;
+    background:linear-gradient(to right, #4c79f8 , #3498db);
 }
 
-.head h1{
-    margin-left: 5%;
+.headh1{
+    position: absolute;
+    top:0.8em;
+    left: 4%;
+    font-size: 4em;
     color:white;
 }
-.head h5{
+.head h4{
     margin-left: 5%;
 }
 /*APP快二*/
 .blocktwo{
-    margin-top: -1.5em;
-    background-color:lightblue;
+    margin-top: -0.5em;
+
     color: white;
-    height: 8em;
+    height: 6.5em;
+    background:linear-gradient(to right, #4c79f8 , #3498db);
+
 }
 .blocktwo h4{
     float:left;
-    margin-top: 1.4em;
+    margin-top: 1.1em;
     margin-left: 5%;
 }
 .blocktwo h5{
     float:left;
-    margin-top: 1.6em;
-    margin-left: 10%;
+    font-size: 1em;
+    margin-top: 0.6em;
+    margin-left: 5%;
 }
 /*APP块三*/
 .blockthree {
@@ -44,11 +109,11 @@
 }
 .blockthree h2{
     margin-top: 0.5em;
-    color: #00b7ff;
+    color: #67a4ff;
 
 }
 .blockthree h3 {
-    color: #00b7ff;
+    color: #67a4ff;
     margin-top: 1em;
 
 }
@@ -59,14 +124,17 @@
 }
 .blockthree h5 {
     margin-left: -2%;
-    color: #00b7ff;
+    color: #67a4ff;
     margin-top: 1em;
 }
-.button-stable {
-    filter: alpha(opacity=50);
-    -moz-opacity: 0.5;
-    opacity: 0.5;
+.invite{
+    /*filter: alpha(opacity=50);*/
+    /*-moz-opacity: 0.5;*/
+    /*opacity: 0.5;*/
     border-radius: 0.3em;
+    height:1em ;
+    background-color: #f0f0f0;
+    border: 0px;
 
 }
 
@@ -99,11 +167,12 @@
 .character {
     width: 50%;
     border: 0px solid black;
-    margin-left: 4em;
-    height: 3em;
+    margin-left: 4.5em;
+    height: 2em;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+    margin-top: -0.3em;
 }
 .cardicon{
     position: absolute;
@@ -122,13 +191,19 @@
 }
 .cardtext {
     float: left;
-    margin-left: 3%;
+    margin-left: 5.2em;
 }
 .cardtextright{
     position: absolute;
     right: 3%;
     top:8%;
 }
+.cardplay{
+    margin-left: 5em;
+    margin-top: 0.5em;
+    float:left;
+}
+
 .typeblue{
     font-size:0.9em ;
     color:#67bdff;

@@ -6,14 +6,23 @@
 <!--网站内部JS-->
 <script src="/javascripts/app.js"></script>
 <script src="/javascripts/vendor/AngularJS/angular.min.js"></script>
-<ion-view>
+<ion-view >
     <ion-nav-buttons>
-        <button style="margin-left: auto; text-align: center;" class="button" ng-click="switchTaskType(1, -1)">
-            下载
-        </button>
-        <button class="button" ng-click="switchTaskType(2, -1)">
-            评论
-        </button>
+        <div class="tabs tabs-dark"x>
+            <a class="tab-item" href="#" ng-click="switchTaskType(1, -1)">
+                下载
+            </a>
+            <a class="tab-item" href="#" ng-click="switchTaskType(2, -1)">
+                评论
+            </a>
+
+        </div>
+        <!--<button  style="border:0.1em solid white;background-color:white;position:absolute;float:left;left:26%; text-align: center;color: black;width:25%;" class="button" ng-click="switchTaskType(1, -1)">-->
+            <!--下载-->
+        <!--</button>-->
+        <!--<button class="button" style="border:0.1em solid white;position:absolute;float:right;right:26%; background-color:black;text-align: center;color: white;width:25%;" ng-click="switchTaskType(2, -1)">-->
+            <!--评论-->
+        <!--</button>-->
     </ion-nav-buttons>
 
     <ion-content style="background-color: #F5F5F5;">
@@ -48,14 +57,17 @@
                 <!--<div class="item item-text-wrap">-->
                     <!--{{task.appName}}-->
                 <!--</div>-->
-            <ion-item href="#/tab/task/{{task.taskId}}" class="ion-item card" type="item-text-wrap" ng-repeat="task in downloadTasks">
+            <ion-item  href="#/tab/task/{{task.taskId}}" class="ion-item card" type="item-text-wrap" ng-repeat="task in downloadTasks">
+
                 <img src="/images/app/head1.jpg" class="cardicon">
-                <span class="cardtext typetitle" style="margin-left:4em;">{{task.appName}}</span>
-                <span class="cardtextright cardword" style="margin-top: -2em;">+3.80<span style="font-size: 0.6em;">元</span></span><br><br>
-                <span class="cardtextright typeblue" style="margin-top: -2em;">1元付费应用</span>
-                <span class="cardtext typegray" style="margin-top: -0.3em;">剩余20条</span>
-                <span class="cardtext typelightgray" style="margin-top: -0.3em;">进行中两份</span><br><br>
-                <div class="note">
+                <div class="character">
+                    <span class="typetitle" style="margin-left:0em;float: left;">{{task.appName}}</span>
+                </div>
+                <span class = "cardplay typegray" >剩余20条</span>
+                <span class="cardplay typelightgray" style="margin-left: 1em;">进行中两份</span><br><br>
+                <span class="cardtextright cardword" >+3.80<span style="font-size: 0.6em;">元</span></span><br><br>
+                <!--<span class="cardtextright typeblue" style="margin-top: -2em;">1元付费应用</span>-->
+                <div class="note" style="margin-top: -2em;">
                     <span class="cardtext annotation" >1.必须首次下载(需要获取标志)</span><br>
                     <span class="cardtext annotation">2.需第三方体验注册</span>
                 </div>
@@ -67,15 +79,71 @@
                 </div>
         </div>
 
-        <div class="list" ng-show="taskType == 2">
+        <!--评论页面相关-->
 
-            <div class="card" ng-repeat="task in commentTasks">
-                <div class="item item-text-wrap">
-                    {{task.appName}}
+        <div ng-show="taskType == 2">
+            <div class="header">
+                <div class="text">
+                    <br>
+                    <h4>根据关键词,在APP&nbsp;store搜索到指定APP,下载APP,试玩3分钟</h4>
                 </div>
             </div>
+            <!--灰色背景-->
+            <div class="grayback">
+                <!--虚线框-->
+                <div class="dashed">
+                    <h4>注:无卡机无法参与获得奖励</h4>
+                </div>
 
+                <!--ionic card-->
+                <div class="ion-list" ng-show="taskType == 2">
+                    <!--<div class="item item-text-wrap">-->
+                    <!--{{task.appName}}-->
+                    <!--</div>-->
+                    <ion-item  href="#/tab/task/{{task.taskId}}" class="ion-item card" type="item-text-wrap" ng-repeat="task in commentTasks">
+
+                        <img src="/images/app/head1.jpg" class="cardicon">
+                        <div class="character">
+                            <span class="typetitle" style="margin-left:0em;float: left;">{{task.appName}}</span>
+                        </div>
+                        <span class = "cardplay typegray" >剩余20条</span>
+                        <span class="cardplay typelightgray" style="margin-left: 1em;">进行中两份</span><br><br>
+                        <span class="cardtextright cardword" >+3.80<span style="font-size: 0.6em;">元</span></span><br><br>
+                        <!--<span class="cardtextright typeblue" style="margin-top: -2em;">1元付费应用</span>-->
+                        <div class="note" style="margin-top: -2em;">
+                            <span class="cardtext annotation" >1.必须首次下载(需要获取标志)</span><br>
+                            <span class="cardtext annotation">2.需第三方体验注册</span>
+                        </div>
+                    </ion-item>
+                </div>
+
+
+
+            </div>
         </div>
+
+
+
+
+        <!--评论--------------------------->
+        <!--<div class="ion-list" ng-show="taskType == 2">-->
+            <!--<div class="card" ng-repeat="task in downloadTasks">-->
+                <!--<div class="item item-text-wrap">-->
+                    <!--{{task.appName}}-->
+                <!--</div>-->
+            <!--</div>-->
+
+        <!--</div>-->
+
+        <!--<div class="list" ng-show="taskType == 2">-->
+
+            <!--<div class="card" ng-repeat="task in commentTasks">-->
+                <!--<div class="item item-text-wrap">-->
+                    <!--{{task.appName}}-->
+                <!--</div>-->
+            <!--</div>-->
+
+        <!--</div>-->
 
         <ion-infinite-scroll ng-if="downloadHasMore == true && taskType == 1" on-infinite="loadMore()" distance="1%" ></ion-infinite-scroll>
         <ion-infinite-scroll ng-if="commentHasMore == true && taskType == 2" on-infinite="loadMore()" distance="1%" ></ion-infinite-scroll>
