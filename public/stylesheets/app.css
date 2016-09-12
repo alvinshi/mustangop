@@ -309,7 +309,7 @@
     width:40%;
 }
 .rightside{
-    margin-top: -0.5em;
+    margin-top: -0.6em;
 margin-right: 0.5em;
     float:right;
     font-size: 2.5em;
@@ -324,13 +324,13 @@ margin-right: 0.5em;
 .textstep h4{
     color:black;
 }
-.card{
+.cardpage{
     border-radius: 0.8em;
     position:absolute;
     margin-top:11em;
     margin-left: 4%;
     width:92%;
-    height:10em;
+    height:auto;
 
 }
 .headimg {
@@ -341,7 +341,33 @@ margin-right: 0.5em;
 }
 .item h2{
     position: absolute;
-    left: 0;
-    top: 0;
+    left: 0.6em;
+    top: 0.4em;
     color:white;
+}
+.entry {
+    color: #b2b2b2;
+    font-size: 1em;
+    position: absolute;
+    right: 4%;
+    top:0.2em;
+}
+.detailtext{
+    margin-top: 2em;
+    margin-bottom: 1.5em;
+}
+.example{
+    position: absolute;
+    right:1em;
+    bottom: 0.3em;
+}
+/*底部按键*/
+.btn3{
+    position: absolute;
+    top: 52em;
+    background-color: #67bdff;
+    color:white;
+    left:15%;
+    width:70%;
+    border-radius: 0.5em;
 }
