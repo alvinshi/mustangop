@@ -195,7 +195,7 @@ router.post('/closeTask/:userObjectId', function(req, res){
     var query = new AV.Query(receiveTaskObject);
 
     query.equalTo('userObject', userObject);
-    query.equalTo('close', false); // 忽略关闭的任务
+    query.notEqualTo('close', true); // 忽略关闭的任务
     query.find().then(function(userReceiveObjects){
         var queryIndex = 0;
         //var successNub = 0;

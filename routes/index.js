@@ -102,7 +102,7 @@ router.get('/index/unCheckTaskCount', function(req, res){
     //(根据用户查询,发布的哪些任务——未关闭,根据发布了哪些任务查询,有哪些人接受了我的任务,然后relation计算accepted和systemAccepted的个数)
     var queryMyRelease = new AV.Query(releaseTaskObject);
     queryMyRelease.equalTo('userObject', userObject);
-    queryMyRelease.equalTo('close', false);
+    queryMyRelease.notEqualTo('close', true);
     function dealReceTaskUplaod(receTaskObjectList){
         var acceptedPromiseIndex = 0;
         if(receTaskObjectList == undefined || receTaskObjectList.length == 0){
@@ -144,7 +144,7 @@ router.get('/index/unCheckTaskCount', function(req, res){
                 (function(userReleaseTask){
                     var queryWhoReveiveTask = new AV.Query(receiveTaskObject);
                     queryWhoReveiveTask.equalTo('taskObject', userReleaseTask);
-                    queryWhoReveiveTask.equalTo('close', false);    //忽略关闭的接受任务
+                    queryWhoReveiveTask.notEqualTo('close', true);    //忽略关闭的接受任务
                     queryWhoReveiveTask.find().then(function(receiveMyTaskObjects){
                         if(receiveMyTaskObjects == undefined || receiveMyTaskObjects.length == 0){
                             releaseCPromiseIndex++;

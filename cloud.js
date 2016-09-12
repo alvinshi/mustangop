@@ -116,7 +116,9 @@ AV.Cloud.define('taskCheckForDoTask', function(request, response){
                                     //不能在1小时之内提交的任务(审核人员来不及审核)
                                     var taskUpdateDate = doTaskObjects[r].updatedAt;
                                     var nowDate = new Date();
-                                    if(taskUpdateDate.getHours() >= nowDate.getHours() - 1){
+                                    if(taskUpdateDate.getDay() ==  nowDate.getDay() &&
+                                        taskUpdateDate.getMonth() ==  nowDate.getMonth() &&
+                                        taskUpdateDate.getHours() >= nowDate.getHours() - 1){
                                         needDoneTimer = false;
                                         continue;
                                     }
