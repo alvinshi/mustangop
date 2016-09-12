@@ -1,3 +1,4 @@
+
 .main{
     margin-top: 100px;
 }
@@ -110,9 +111,11 @@
     margin: 0px;
 
 }
+
 .screenshot{
     border: 1px solid #e0e0e0;
 }
+
 .image-center img{
     margin: 10px auto;
 }
@@ -150,21 +153,29 @@
     margin-bottom: 30px;
 }
 #screenShot{
-    background:url(/images/appDetail/screenshot-background.png);
+    /*background:url(/images/appDetail/screenshot-background.png);*/
     width: 640px;
     padding: 36px 54px 60px 30px;
     margin: auto;
+    border: 1px solid #999999;
+    background-color: #00a5ff;
+    /*box-shadow:2px 2px 3px #aaaaaa;*/
 }
 .appicon{
-    display: inline-block; margin: 0 26px 40px 20px;
-    width: 120px; height: 120px; border-radius: 20px
+    display: inline-block;
+    margin: 0 26px 40px 20px;
+    width: 120px;
+    height: 120px;
+    border-radius: 20px
 }
 .trackName{
-    padding-left: 50px;
+    padding-left: 19px;
 }
 .trackName_one{
-    font-size: 24px; color: #ffffff;
-    width: 330px; margin-top: 10px
+    font-size: 24px;
+    color: #333333;
+    width: 330px;
+    margin-top: 10px
 }
 .app_date{
     color: #ffffff;
@@ -179,7 +190,9 @@
 
 .serach_app{
     font-size: 20px; color: #ffffff;
-    list-style-position: inside; padding:0; margin:0;
+    list-style-position: inside;
+    padding:0;
+    margin:0;
 }
 .serach_app li{
     margin-bottom: 30px;
@@ -220,7 +233,6 @@
         border-radius: 6px;
 
     }
-
     /* 移动端需求截图*/
     .download{
         font-size:10px;
@@ -232,11 +244,12 @@
 
     .needImg{
         margin-bottom:10px;
-        width:380px;
+        width:415px;
     }
     #screenShot {
-        background: url(/images/appDetail/screenshot-background.png);
-        background-size: cover;
+        /*background: url(/images/appDetail/screenshot-background.png);*/
+        /*background-size: cover;*/
+        background-color: #00b3ee;
         width:94%;
         height: 100%;
         padding:10px;
@@ -245,25 +258,38 @@
     }
     .appicon{
         display: inline-block;
-        margin: 0 10px 20px 10px;
-        width:90px; height:90px; border-radius:10px
+        margin: 31px 0 19px 31px;
+        width:68px;
+        height:68px;
+        border-radius:10px
     }
+
     .trackName{
-        /*padding-left:10px;*/
+        top: 39px;
     }
+
+    /*app名字*/
     .trackName_one{
-        font-size:10px; color: #ffffff;
-        margin-top: 10px
+        font-size:20px;
+        color: #333333;
+        font-family: PingFang-SC-Medium;
+        margin-left: 29px;
+        margin-top: 10px;
+        width: 126px;
+        height: 19px;
     }
+
     .app_date{
-        color: #ffffff;
+        color: #f43446;
+        font-size: 28px;
+        margin-left: 23px;
 
     }
-    .taskType{
-        color: #ffffff; font-size: 10px;
-    }
+
     .synwords{
-        color: #fff727;
+        color: #3498db;
+        font-size: 14px;
+        margin-left: 29px;
     }
 
     .serach_app{
@@ -285,17 +311,6 @@
         font-size:10px; color: #ffffff;
     }
 
-
-
-
-    .logo{
-        display: inline-block;
-        height:90px;
-        width: 90px;
-        border: 1px solid #e0e0e0;
-        border-radius: 8px;
-        /*vertical-align: top;*/
-    }
     .modal-dialog{
         width: 90%;
         height: 200px;

@@ -55,7 +55,7 @@ function submissionNotification(qq){
 }
 
 router.get('/:userId', function(req, res) {
-    res.render('newtaskMob');
+    res.render('pcAndMobTask');
 });
 
 // 内部交换
@@ -95,6 +95,7 @@ router.post('/claim/:excTaskId', function(req, res){
         retObject.commentKeyword = taskInfo.get('commentKeyword'); // 评论关键词
         retObject.detailRem = taskInfo.get('detailRem'); // 备注详情
         retObject.screenshotCount = taskInfo.get('screenshotCount'); // 截图数
+        retObject.rateUnitPrice = taskInfo.get('rateUnitPrice'); // 汇率后的任务单价
 
         var relation = resultObject.relation('mackTask');
         var task_query = relation.query();

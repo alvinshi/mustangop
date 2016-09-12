@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <title>野马运营</title>
+    <link rel="apple-touch-icon" href="apple-touch-icon.png">
+    <script src="/javascripts/vendor/AngularJS/angular.min.js"></script>
+
+    <!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+    <script src="//cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
+    <!-- Bootstrap core CSS -->
+    <link href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+    <script src="//cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+
+    <!--第三方 CSS JS-->
+    <link rel="stylesheet" href="../stylesheets/vendor/font-awesome.min.css">
+    <!--<link rel="stylesheet" href="../stylesheets/myApp.css">-->
+    <link rel="stylesheet" href="../stylesheets/loading.css">
+    <link rel="stylesheet" href="/stylesheets/vendor/hover/hover-min.css">
+
+    <script src="/javascripts/vendor/AngularJS/angular-file-upload.min.js"></script>
+
+    <link rel="stylesheet" href="../stylesheets/pcAndmobTask.css">
+
+    <!--网站内部js-->
+    <script src="/javascripts/cookieHelper.min.js"></script>
+
+    <script src="/javascripts/newtaskMob.js"></script>
+    <script src="/javascripts/indexApp.min.js"></script>
+</head>
+
+<body ng-app="yemaWebApp">
+<!--[if lt IE 8]>
+<p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">更新您的浏览器</a> 从而获得更好的体验.</p>
+<![endif]-->
+
+<!--导航-->
+<div class="container" ng-controller="indexAppCtrl" >
+    <th-nav></th-nav>
+</div>
+
+<div class="container main"  ng-controller="MobControl" >
+
+    <!--提示-->
+    <div class="alert alert-danger hidden-xs">
+        提示:尽量从手机端直接上传,一台设备(包括电脑)一次只能提交一份任务截图.
+    </div>
+
+    <!--头部任务信息-->
+    <div class="media">
+        <div class="media-left">
+            <img class="app-icon" ng-src="{{ oneAppInfo.artworkUrl100 }}">
+        </div>
+
+        <div class="media-body">
+            <div class="task-name">{{ oneAppInfo.trackName.substr(0,6)+'...' }}</div>
+            <div>
+                <span class="app-id">App ID: {{ oneAppInfo.appleId }}</span>
+                <span class="company hidden-xs">{{ oneAppInfo.sellerName }}</span>
+            </div>
+
+            <div class="app-info">
+                <span class="button_type">
+                    <span class="download">{{ oneAppInfo.excKinds }}</span>
+                </span>
+
+                <span class="button_num">
+                    <span>共</span>
+                    <span class="num">{{ oneAppInfo.totalExcCount }}</span>&nbsp;条
+                </span>
+
+                <span class="button_surplus">
+                    <span>未做</span>
+                    <span class="num">{{oneAppInfo.surplusCount}}</span>&nbsp;条
+                </span>>
+            </div>
+        </div>
+        <hr/>
+    </div>
+
+    <!--任务需求内容-->
+    <h3 class="mytitle">需求截图</h3>
+
+    <div class="list card need-capture" style="border: 1px solid #999999">
+        <!--头部数据-->
+        <div class="item item-avatar">
+            <img ng-src="{{  oneAppInfo.artworkUrl100 }}">
+
+            <span class="trackName_one">
+                {{ oneAppInfo.trackName.substr(0,12)+"..."  }}
+            </span>
+
+            <span class="app_date">{{ oneAppInfo.rateUnitPrice}}
+                <span style="font-size: 16px">Y币</span>
+            </span>
+
+            <span class="synwords">{{oneAppInfo.taskType}}</span>
+        </div>
+
+        <hr>
+
+        <!--做任务的需求部分-->
+        <div class="item item-body">
+            <div class="">
+                <span>"获取"标志</span>
+                <span>第三方注册</span>
+                <span>标题必须包含</span>
+                <span>评论必须包含</span>
+                <span>评论数超过50字</span>
+            </div>
+
+            <!--截图一部分-->
+            <div class="captureOne">
+                <img src="/images/taskInfor/screenshotImg.png">
+                <span>任务手机必须有SIM卡</span>
+
+                <p class="">1.App Store搜索关键字{{'社交'}}, 大概在第{{'8'}}位
+                    <span>+0.05</span></p>
+
+                <p class="">2.找到指定App后, <i class="icon ion-ios-camera"></i>截图, 然后下载
+                    <span class="">(本任务需获取按钮(+0.05))</span>
+                </p>
+            </div>
+
+            <!--截图二部分-->
+            <div class="captureTwo">
+                <img src="/images/taskInfor/screenshotImg.png">
+                <span>任务截图需跳过引导页</span>
+                <p class="">3.下载完毕,打开App,试用3分钟.
+                    <span class="">(本任务需第三方登陆(+0.05)</span>
+                </p>
+
+                <p class=""><i class="icon ion-ios-camera"></i>截图</p>
+            </div>
+
+            <!--截图三部分-->
+            <div class="captureThree">
+                <img src="/images/taskInfor/screenshotImg.png">
+                <span>评论页截图不能有键盘</span>
+
+                <p class="">4.打开App Store, 按下面要求评论</p>
+
+                <!--标题部分-->
+                <p>a.评论标题关键字(包含任意1个)</p>
+                <p>遇见, 漂流瓶, 交友</p>
+                <p>必须包含:{{'遇见'}}&nbsp;(+2YB)</p>
+
+                <!--评论部分-->
+                <p>b.评论内容关键字(包含任意2个)</p>
+                <p>陌生人遇见, 漂流瓶, 交友</p>
+                <p>必须包含:{{'遇见'}}&nbsp;(+2YB)</p>
+
+                <p>评论字数超过50字(+0.15YB)</p>
+                <p class=""><i class="icon ion-ios-camera"></i>截图</p>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+</body>
+</html>
