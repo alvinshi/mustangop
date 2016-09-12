@@ -4,7 +4,7 @@
 <script src="/javascripts/app.js"></script>
 <!--网站内部CSS-->
 <link rel="stylesheet" href="/stylesheets/app.css"/>
-<ion-view view-title="首页">
+<ion-view    view-title="首页">
     <ion-content>
 
         <!--设备需求-->
@@ -43,23 +43,29 @@
             <div class="head">
                 <div class="text">
                     <br>
-            <h5>今日收益(元)</h5>
-            <h1>竟然没有{{todayMoney}}</h1>
-
-            </div>
-
+                    <h4>今日收益(元)<span style="font-size: 0.95em;float: right;margin-right: 5%;">ID:{{userCode}}</span></h4>
+                </div>
+                <span class="headh1">竟然没有{{todayMoney}}</span>
             </div>
 
             <div class="blocktwo">
-                <hr style="border:0.01em #fff solid;width: 90%;margin-left: 10%;">
+
+                <hr style="border:0.01em #93adfa solid;width: 100%;margin-top: 0.1em;">
                 <div ng-show="userCode != undefined">
-                <img src="/images/app/head1.jpg" class="img-circle" style="width: 4em;float:left;margin-top: 0.5em;margin-left: 5%;">
-            <h4>id:{{userCode}}</h4>
-                <h5>账户余额:{{currentMoney}}<br>总收益:{{totalMoney}}</h5>
+                <img src="/images/app/boot.png" class="img-circle" style="width: 4em;float:left;margin-top: -0.5em;margin-left: 5%;">
+                <h5>账户余额:{{currentMoney}}<br>总共收益:{{totalMoney}}
+                </h5>
+                    <div style="font-size: 1em;float: right;margin-top: 1.3em;margin-right: 5%;">
+                    <span class="glyphicon glyphicon-credit-card" style="font-size: 1em;"></span>
+                        <span style="font-size: 1.2em;">提现中心</span>
+                        <span class="glyphicon glyphicon-chevron-right" style="font-size: 1.2em;">
+                    </span>
+                    </div>
                     </div>
                 <p ng-show="errorId != 0 && message.length > 0">服务器错误:{{message}}</p>
             </div>
             <div class="blockthree">
+                <br>
             <h2>师徒系统,赚更多钱</h2>
                 <h3>邀请码&nbsp;
                     <span style="font-size: 0.7em;">{{userCode}}&nbsp;</span>
@@ -68,9 +74,9 @@
                     </span>
                 </h3>
                  <h5>注:您可以获得徒弟任务的10%的奖励</h5>
-                <hr style="border: 0.01em #00b7ff solid;width: 80%;"/>
-                <button class="button button-stable button-small" data-toggle="modal" data-target="#myModal" ng-click="showPopup()">
-                    <span style="color: black;">输入他人邀请码</span>
+                <hr style="border: 0.01em #67a4ff solid;width: 80%;"/>
+                <button class="button invite" data-toggle="modal" data-target="#myModal" ng-click="showPopup()">
+                    <span style="color: #999999;font-size: 1.2em;">输入他人邀请码</span>
                 </button>
             </div>
 
