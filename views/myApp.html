@@ -260,14 +260,14 @@
             <!--<div style="height:0px;width:2000px;border:0.1px solid #;margin-left: -300px;margin-top: 31px;"></div>-->
         </div>
 
-        <div class="content1">
+        <div class="content1" style="position: absolute">
             <!--模板切换-->
             <div class="switchmodel">
                 <form action="/myapp/task" method="post" target="_blank">
                     <input type="text" ng-show="0" name="appObjectId" value="{{selectedApp.appObjectId}}">
 
                     <!--框1, 不进行模板数据保存-->
-                    <div class="k1" id="float">
+                    <div class="k1" id="float" style="position: relative; z-index: 2">
                         <p class="p">
                             任务数量:
                             <input type="text" ng-model="displayDemandTemplate.excCount" name="excCount"

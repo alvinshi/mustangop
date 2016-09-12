@@ -569,12 +569,16 @@ app.controller('itunesSearchControl', function($scope, $http) {
             $(window).scroll(function() {
                 var scrolls = $(window).scrollTop();
                 if (scrolls > 330 || scrolls == undefined) {
-                    element.css({
-                        position: "fixed",
-                        top: 0
-
-
-                    });
+                    if (window.XMLHttpRequest) {
+                        element.css({
+                            position: "fixed",
+                            top: 0
+                        });
+                    } else {
+                        element.css({
+                            top: scrolls
+                        });
+                    }
                 }else {
                     element.css({
                         position: "relative",
