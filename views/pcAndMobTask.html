@@ -173,19 +173,28 @@
                     <p class="task-claim">4.打开App Store, 按下面要求评论</p>
 
                     <!--标题部分-->
-                    <p>a.标题关键字(包含任意1个)</p>
-                    <p class="">{{oneAppInfo.titleKeyword}}</p>
-                    <p ng-show="oneAppInfo.reviewMustTitleKey != ''">必须包含:{{oneAppInfo.reviewMustTitleKey}}&nbsp;(+2YB)</p>
+                    <div style="margin-left: 44px;">
+                        <p class="comment-top">a.标题关键字(包含任意1个)</p>
+                        <p class="">{{oneAppInfo.titleKeyword}}</p>
+                        <p ng-show="oneAppInfo.reviewMustTitleKey != ''" class="comment-top">必须包含:
+                            <span class="color-ramp">{{oneAppInfo.reviewMustTitleKey}}&nbsp;(+2YB)</span>
+                        </p>
 
-                    <!--评论部分-->
-                    <p>b.评论内容关键字(包含任意2个)</p>
-                    <p class="">{{oneAppInfo.commentKeyword}}</p>
-                    <p ng-show="oneAppInfo.reviewMustContentKey != ''">必须包含:{{oneAppInfo.reviewMustContentKey}}&nbsp;(+2YB)</p>
+                        <!--评论部分-->
+                        <p class="comment-top">b.评论内容关键字(包含任意2个)</p>
+                        <p class="">{{oneAppInfo.commentKeyword}}</p>
+                        <p ng-show="oneAppInfo.reviewMustContentKey != ''" class="comment-top">必须包含:
+                            <span class="color-ramp">{{oneAppInfo.reviewMustContentKey}}&nbsp;(+2YB)</span>
+                        </p>
 
-                    <p class="">评论字数超过50字(+0.15YB)</p>
+                    </div>
+                    <p class="" ng-show="oneAppInfo.needMoreReviewContent == true">
+                        评论字数<span class="color-ramp">超过50字</span>
+                        <span style="font-size: 12px; color: #67bdff">(+0.15YB)</span>。
 
-                    <span class="glyphicon glyphicon-camera color-camera"></span>
-                    <span class="color-camera" style="font-size: 16px">截图</span>
+                        <span class="glyphicon glyphicon-camera color-camera"></span>
+                        <span class="color-camera" style="font-size: 16px">截图</span>
+                    </p>
                 </div>
             </div>
 
