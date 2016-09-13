@@ -21,7 +21,7 @@ var funnelExcCount = 0;
 var funnelHour = 15;
 
 //默认Y币转人名币汇率
-var YCoinToRMBRate = 0.45;
+var YCoinToRMBRate = 0.045;
 
 //小马领取任务超时时间
 var tempTaskMaxTime = 1000 * 60 * 60;
@@ -59,11 +59,13 @@ function taskObjectToDic(taskObject, isOpen){
         }
         taskDic.doTaskPrice = taskObject.get('tempUserPrice');
         if(taskDic.doTaskPrice == 0){
-            taskDic.doTaskPrice = taskObject.get('rateUnitPrice')/10 * YCoinToRMBRate;
+            taskDic.doTaskPrice = taskObject.get('rateUnitPrice') * YCoinToRMBRate;
         }
 
         //正在做的任务
         taskDic.doingCount = appObject.get('doingCount');
+
+        taskDic.detailRem = appObject.get('detailRem');
 
         var extraDemandArray = Array();
         var priceStr = appObject.get('formattedPrice');
@@ -370,7 +372,7 @@ router.get('/:userCId/:taskId', function(req, res, next) {
         taskDetailDic.taskPicCount = getTaskTypeNeedPic(taskDetailDic.taskType);
         taskDetailDic.doTaskPrice = releaseTaskObject.get('tempUserPrice');
         if(taskDetailDic.doTaskPrice == 0){
-            taskDetailDic.doTaskPrice = releaseTaskObject.get('rateUnitPrice')/10 * YCoinToRMBRate;
+            taskDetailDic.doTaskPrice = releaseTaskObject.get('rateUnitPrice') * YCoinToRMBRate;
         }
 
         //任务需求信息
@@ -600,7 +602,7 @@ router.post('/myTask', function(req, res) {
 
             myTaskDic.doTaskPrice = appObject.get('tempUserPrice');
             if(myTaskDic.doTaskPrice == undefined){
-                myTaskDic.doTaskPrice = appObject.get('rateUnitPrice')/10 * YCoinToRMBRate;
+                myTaskDic.doTaskPrice = appObject.get('rateUnitPrice') * YCoinToRMBRate;
             }
 
             //status
