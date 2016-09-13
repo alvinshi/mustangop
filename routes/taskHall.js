@@ -12,6 +12,8 @@ var mackTaskSQL = AV.Object.extend('mackTaskInfo');
 var receiveTaskSQL = AV.Object.extend('receiveTaskObject');
 var releaseTaskSQL = AV.Object.extend('releaseTaskObject');
 
+var tryPriceUtil = require('../utils/tryPriceUtil');
+
 //任务到小马的过滤策略
 //1.发布任务大于10,剩下的任务全部到小马中
 var funnelExcCount = 0;
@@ -48,10 +50,6 @@ function taskObjectToDic(taskObject, isOpen){
         taskDic.taskId = taskObject.id;
         taskDic.appIcon = appObject.get('artworkUrl100');
         taskDic.appName = appObject.get('trackName');
-        var priceStr = appObject.get('formattedPrice');
-        if(priceStr != '免费'){
-            taskObject.appPrice = priceStr;
-        }
 
         if(isOpen == true){
             taskDic.remainCount = taskObject.get('remainCount');
@@ -67,7 +65,28 @@ function taskObjectToDic(taskObject, isOpen){
         //正在做的任务
         taskDic.doingCount = appObject.get('doingCount');
 
-        taskDic.taskExtraDemands = appObject.get('taskExtraDemands');//Array
+        var extraDemandArray = Array();
+        var priceStr = appObject.get('formattedPrice');
+        if(priceStr != '免费'){
+            taskObject.appPrice = priceStr;
+            var appPrice = parseFloat(priceStr.substring(1, priceStr.length));
+            extraDemandArray.push('付费游戏 +' + tryPriceUtil.payAppRmb(appPrice));
+        }
+        if(taskObject.get('needGet') == true){
+            extraDemandArray.push('需首次下载(获取按钮) +' + tryPriceUtil.needGetRmb(true));
+        }
+        if(taskObject.get('needMoreReviewContent') == true){
+            extraDemandArray.push('需超长评论 +' + tryPriceUtil.needLongComment(true));
+        }
+        var asoRank = taskObject.get('ranKing');
+        if(asoRank > 50){
+            extraDemandArray.push('排名在' + taskObject.get('ranKing') + '位 +' + tryPriceUtil.getRankRmb(asoRank));
+        }
+        var registerStatus = taskObject.get('registerStatus');
+        if(registerStatus == 'third'){
+            extraDemandArray.push('需要第三方登陆体验App +' + tryPriceUtil.needThirdLogin(registerStatus));
+        }
+        taskDic.extraDemandArray = extraDemandArray;
 
         return taskDic;
     }
@@ -123,8 +142,8 @@ router.get('/:type/:userCId/:page', function(req, res, next) {
             releaseTaskQuery.include('appObject');
             releaseTaskQuery.skip(page * pageCount);
             releaseTaskQuery.limit(pageCount);
-            releaseTaskQuery.descending('remainCount');
             releaseTaskQuery.descending('createdAt');
+            releaseTaskQuery.descending('remainCount');
             releaseTaskQuery.find().then(function(datas){
 
                 var retArray = Array();

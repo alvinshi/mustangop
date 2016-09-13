@@ -64,23 +64,21 @@
                     </div>
                 <p ng-show="errorId != 0 && message.length > 0">服务器错误:{{message}}</p>
             </div>
+
+
             <div class="blockthree">
                 <br>
             <h2>师徒系统,赚更多钱</h2>
-                <h3>邀请码&nbsp;
-                    <span style="font-size: 0.7em;">{{userCode}}&nbsp;</span>
-                    <span >
-                        <button class="button button-outline button-calm button-small" >复制</button>
-                    </span>
-                </h3>
-                 <h5>注:您可以获得徒弟任务的10%的奖励</h5>
+
+                <button class="button button-outline button-calm button-small" >复制邀请链接</button>
+                <h5 ng-show="apprenticeMoney > 0" >徒弟累计帮你赚取了{{apprenticeMoney.toFixed(2)}}</h5>
+                 <h5>您可以获得徒弟任务的10%的奖励</h5>
+                 <h5>野马再额外奖励徒弟任务10%的奖励</h5>
                 <hr style="border: 0.01em #67a4ff solid;width: 80%;"/>
                 <button class="button invite" data-toggle="modal" data-target="#myModal" ng-click="showPopup()">
                     <span style="color: #999999;font-size: 1.2em;">输入他人邀请码</span>
                 </button>
             </div>
-
-
 
 
         </div>
