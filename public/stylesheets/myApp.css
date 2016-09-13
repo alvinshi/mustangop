@@ -326,7 +326,7 @@ height: 260px;
     width: 1020px;
     margin-left: 160px;
     background-color: white;
-    height: 560px;
+    height: auto;
 
 }
 
@@ -341,7 +341,8 @@ input:focus::-webkit-input-placeholder, input:hover::-webkit-input-placeholder {
 }
 /*框6*/
 .k6{
-    border-radius: 10px;height:120px;
+    border-radius: 10px;
+    height:auto;
     background-color: white;
     width: 1020px;
     margin-left: 160px;
@@ -765,4 +766,12 @@ button{
 
 .border{
     border: 3px solid #3498db;
+}
+
+.task-remark{
+    width: 300px;
+    height: 34px;
+    border-radius: 4px;
+    border:1px solid #CCCCCC;
+    margin-left: 20px;
 }

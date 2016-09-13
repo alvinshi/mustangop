@@ -121,7 +121,7 @@
                         <button  class="alert alert-info Copy" id="alert-btn" ng-click="copyUrl()" role="alert"
                                  data-placement="top" data-toggle="popover" data-content="复制成功!"
                                  style="display: inline-block; margin-top: 35px;" >
-                            邀请好友体验野马,还可以获赠100Y币,点击复制邀请链接 :
+                            邀请好友体验野马,还可以获赠120Y币,点击复制邀请链接 :
 
                             <input type="text" id="inviteUrlcopy" class="from-control" ng-model="inviteUrl">
                         </button>
@@ -458,12 +458,25 @@
                         <br>
                         <p class="t1">其他</p>
                         <div class="k6">
-                            <div style="margin-left: 60px;"><br>
-                                <label class="checkbox">
-                                    <input type="checkbox" ng-model="displayDemandTemplate.needOfficialAudit" name="needOfficialAudit" id="inlineCheckbox1" value=true ng-click="needOfficalCheck()"> 官方人工审核
-                                    <button disabled ng-show="needOfficaCheckYCoin == true" class="b4" style=" margin-left:305px;">+3Y币
-                                    </button>
-                                </label>
+                            <div style="margin-left: 35px;font-size: 18px"><br>
+                                <h4 style="margin-right: auto">备注:</h4>
+                                <textarea name="taskRemark" class="input3" rows="1" maxlength="40"
+                                          ng-model="displayDemandTemplate.taskRemark"
+                                          placeholder="请输入小于40字符" style="font-size:14px">
+                                </textarea>
+                                <span ng-bind="displayDemandTemplate.taskRemark.length+0"
+                                      style="margin-left:15px;color:#00b7ff;font-size: 14px;">
+
+                                </span>/40<br><br>
+                                <!--备注:<input type="text" class="task-remark" name="taskRemark" ng-model="displayDemandTemplate.taskRemark">-->
+
+
+
+                                <!--<label class="checkbox">-->
+                                    <!--<input type="checkbox" ng-model="displayDemandTemplate.needOfficialAudit" name="needOfficialAudit" id="inlineCheckbox1" value=true ng-click="needOfficalCheck()"> 官方人工审核-->
+                                    <!--<button disabled ng-show="needOfficaCheckYCoin == true" class="b4" style=" margin-left:305px;">+3Y币-->
+                                    <!--</button>-->
+                                <!--</label>-->
 
                                 <!--<label class="checkbox">-->
                                 <!--<input type="checkbox" id="inlineCheckbox2" value="option2" ng-click="currentDayTask()"> 限时今日完成任务-->
