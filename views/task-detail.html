@@ -1,9 +1,7 @@
 <!--网站内部CSS-->
-<link rel="stylesheet" href="/stylesheets/app.css"/>
-
-<ion-view view-title="任务详情">
+<ion-view view-title="任务详情" hide-tabs="true">
     <ion-content>
-        <body>
+
         <div class="content has-header">
 
             <div class="col-demo"><img src="images/app/boot.png" class="detailicon">  </div>
@@ -18,6 +16,9 @@
                 <span style="color:#999999;font-size: 0.5em;margin-left:1.8em;">免费应用</span>
                 </div>
         </div>
+
+        <!--操作错误提示-->
+        <div class="alert alert-danger" role="alert" ng-show="errorId">{{errorMsg}}</div>
 
             <hr style="position:absolute;  background-color: #cccccc;width: 92%;top: 7em;left: 4%;" size="0.001";>
             <div class="textstep">
@@ -101,41 +102,42 @@
                 </div>
 
             </div></div>
+
              <button class="button btn3">点击复制 搜索关键词</button>
 
-
-
-        <!--<br>-->
-        <!--<br>-->
-        <!--<br>-->
-        <!--<br>-->:
-        <!--<button class="button button-outline button-calm button-small" >复制关键字</button>-->
-
-        <!--<button ng-show="lockTaskId != undefined && (taskDetail.doTaskStatus != 'accepted' && taskDetail.doTaskStatus != 'systemAccepted')-->
-        <!--" class="button button-block button-assertive" ng-click="unlockTask()">放弃任务</button>-->
-
-        <!--&lt;!&ndash;图片操作相关&ndash;&gt;-->
-        <!--<button ng-show="lockTaskId == undefined && (taskDetail.doTaskStatus != 'accepted' && taskDetail.doTaskStatus != 'systemAccepted')-->
-        <!--" class="button button-block button-assertive" ng-click="lockTask()">领取任务</button>-->
-
-        <!--&lt;!&ndash;上传图片按钮&ndash;&gt;-->
-        <!--<div ng-show="lockTaskId != undefined && (taskDetail.doTaskStatus != 'accepted' && taskDetail.doTaskStatus != 'systemAccepted')"-->
-             <!--class="upload-pic-button">-->
-            <!--&lt;!&ndash;accept="image/*"&ndash;&gt;-->
-            <!--<input class="upload" type="file" nv-file-select="" uploader="uploader" multiple/>-->
-            <!--{{uploadButtonTitle}}-->
-        <!--</div>-->
-
-        <!--<button ng-show="taskDetail.doTaskStatus != 'accepted' || taskDetail.doTaskStatus != 'systemAccepted'-->
-        <!--" class="button button-block button-assertive">任务已经完成</button>-->
-
-        <!--<div class="alert alert-danger" role="alert" ng-show="errorId">{{errorMsg}}</div>-->
-
-        <!--<div class="progress" style="margin:auto; margin-top: 20px" ng-hide="!progressNum">-->
-            <!--<div ng-class="{'progress-bar': true, 'progress-bar-striped':true, active:true}" ng-style="{width: progressNum+ '%'}">-->
-            <!--</div>-->
-        <!--</div>-->
-
-</body>
+        <!--任务操作状态按钮-->
+        <button ng-show="lockTaskId != undefined && taskDetail.doTaskStatus == undefined"
+                ng-click="unlockTask()" class="button btn3">放弃任务</button>
     </ion-content>
+
+    <div ng-show="dataStatus == 1" class="bar bar-footer bar-balanced">
+        <!--<div class="title">Footer</div>-->
+        <!--4个状态选1-->
+
+        <!--领取任务-->
+        <button class="button button-block button-assertive" ng-click="lockTask()"
+                ng-show="lockTaskId == undefined && (taskDetail.doTaskStatus != 'accepted' && taskDetail.doTaskStatus != 'systemAccepted')">
+            领取任务
+        </button>
+
+        <!--领取成功后 上传图片按钮-->
+        <div ng-show="lockTaskId != undefined && progressNum <= 0 && (taskDetail.doTaskStatus != 'accepted' && taskDetail.doTaskStatus != 'systemAccepted')"
+             class="upload-pic-button">
+            <!--accept="image/*"-->
+            <input class="upload" type="file" nv-file-select="" uploader="uploader" multiple/>
+            {{uploadButtonTitle}}
+        </div>
+
+        <!--点击上传任务后的进度条-->
+        <div class="progress" ng-hide="!progressNum">
+            <div ng-class="{'progress-bar': true, 'progress-bar-striped':true, active:true}" ng-style="{width: progressNum + '%'}">
+            </div>
+        </div>
+
+        <!--任务已经完成-->
+        <button ng-show="taskDetail.doTaskStatus == 'accepted' || taskDetail.doTaskStatus == 'systemAccepted'"
+                class="button button-block button-assertive">
+            任务已经完成
+        </button>
+    </div>
 </ion-view>

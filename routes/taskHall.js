@@ -373,6 +373,31 @@ router.get('/:userCId/:taskId', function(req, res, next) {
             taskDetailDic.doTaskPrice = releaseTaskObject.get('rateUnitPrice')/10 * YCoinToRMBRate;
         }
 
+        //任务需求信息
+        //截图1
+        taskDetailDic.screenShotOne = Object();
+        taskDetailDic.screenShotOne.searchKeyword = releaseTaskObject.get('searchKeyword');
+        taskDetailDic.screenShotOne.ranKing = releaseTaskObject.get('ranKing');
+        taskDetailDic.screenShotOne.ranKingPrice = tryPriceUtil.getRankRmb(releaseTaskObject.get('ranKing'));
+        taskDetailDic.screenShotOne.needGet = releaseTaskObject.get('needGet');
+        taskDetailDic.screenShotOne.needGetPrice = tryPriceUtil.needGetRmb(releaseTaskObject.get('needGet') == 'true');
+
+        //截图2
+        taskDetailDic.screenShotTwo = Object();
+        taskDetailDic.screenShotTwo.registerStatus = releaseTaskObject.get('registerStatus');
+        taskDetailDic.screenShotTwo.ranKingPrice = tryPriceUtil.needThirdLogin(releaseTaskObject.get('registerStatus'));
+
+        //截图3
+        taskDetailDic.screenShotThird = Object();
+        taskDetailDic.screenShotThird.titleKeyword = releaseTaskObject.get('titleKeyword');
+        taskDetailDic.screenShotThird.reviewMustTitleKey = releaseTaskObject.get('reviewMustTitleKey');
+        taskDetailDic.screenShotThird.reviewMustTitleKeyPrice = tryPriceUtil.pointCommentTitle(true);
+
+        taskDetailDic.screenShotThird.commentKeyword = releaseTaskObject.get('commentKeyword');
+        taskDetailDic.screenShotThird.reviewMustContentKey = releaseTaskObject.get('reviewMustContentKey');
+        taskDetailDic.screenShotThird.reviewMustContentKeyPrice = tryPriceUtil.pointCommentContent(true);
+        taskDetailDic.screenShotThird.needMoreReviewContent = releaseTaskObject.get('needMoreReviewContent');
+        taskDetailDic.screenShotThird.needMoreReviewContentPrice = tryPriceUtil.needLongComment(releaseTaskObject.get('needMoreReviewContent'));
 
         //用户有没有接受过任务
         var tempUser = new tempUserSQL();
@@ -586,7 +611,6 @@ router.post('/myTask', function(req, res) {
                     receTaskObject.increment('showTimer', 1);
                     needSaveReceList.push(receTaskObject);
                 }
-
             }else {
                 //做了
                 var taskStatus = tempMackObject.get('taskStatus');

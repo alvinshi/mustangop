@@ -630,7 +630,8 @@ router.get('/verify', function(req, res){
 function screenShotOneElement(retObject, asoRank, needGet)
 {
     //初始价格(好评3元,下载2.3元)
-    retObject.tempUserPrice = retObject.excUnitPrice / 10;
+    //小马价格(好评1.5元,下载1.15元)
+    retObject.tempUserPrice = retObject.excUnitPrice / 10 * 0.5;
 
     //rank
     if (asoRank <= 20){

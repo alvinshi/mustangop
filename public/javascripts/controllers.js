@@ -234,6 +234,7 @@ angular.module('starter.controllers', ['angularFileUpload'])
     var taskId = appurlList[appurlList.length - 1];
 
     $scope.lockTaskId = undefined;
+    $scope.dataStatus = 0;
 
     var tasksUrl = '/taskHall/' + gUserCId + '/' + taskId;
     $scope.loading = true;
@@ -243,11 +244,13 @@ angular.module('starter.controllers', ['angularFileUpload'])
             //succeed
             $scope.taskDetail = response.taskDetail;
             $scope.lockTaskId = response.taskDetail.lockTaskId;
+            $scope.dataStatus = 1;
 
             if($scope.lockTaskId != undefined){
                 //任务已经领取
                 $scope.doTaskCreatedAt = response.doTaskCreatedAt;
                 $scope.taskPicCount = response.taskDetail.taskPicCount;
+                //TODO chenhao 增加倒计时
                 $scope.uploadButtonTitle = '上传' + $scope.taskPicCount + '张任务截图  ' + '43:20';
             }
         }else {
