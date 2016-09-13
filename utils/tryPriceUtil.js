@@ -30,7 +30,7 @@ exports.needThirdLogin = function(registerStatus){
 };
 
 exports.needLongComment = function(needLongComment){
-    return needLongComment == true ? 0.1 : 0;
+    return needLongComment == true ? 0.05 : 0;
 };
 
 exports.pointCommentTitle = function(needPoint){
