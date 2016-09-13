@@ -45,7 +45,7 @@
                     <br>
                     <h4>今日收益(元)<span style="font-size: 0.95em;float: right;margin-right: 5%;">ID:{{userCode}}</span></h4>
                 </div>
-                <span class="headh1">竟然没有{{todayMoney}}</span>
+                <span class="headh1">{{todayMoney.toFixed(2)}}</span>
             </div>
 
             <div class="blocktwo">
@@ -53,7 +53,7 @@
                 <hr style="border:0.01em #93adfa solid;width: 100%;margin-top: 0.1em;">
                 <div ng-show="userCode != undefined">
                 <img src="/images/app/boot.png" class="img-circle" style="width: 4em;float:left;margin-top: -0.5em;margin-left: 5%;">
-                <h5>账户余额:{{currentMoney}}<br>总共收益:{{totalMoney}}
+                <h5>账户余额:{{currentMoney.toFixed(2)}}<br>总共收益:{{totalMoney.toFixed(2)}}
                 </h5>
                     <div style="font-size: 1em;float: right;margin-top: 1.3em;margin-right: 5%;">
                     <span class="glyphicon glyphicon-credit-card" style="font-size: 1em;"></span>
