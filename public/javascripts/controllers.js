@@ -64,6 +64,11 @@ angular.module('starter.controllers', ['angularFileUpload'])
                 $scope.currentMoney = response.currentMoney;
                 $scope.userCode = response.userCode;
 
+                //TODO chenhao
+                //根据masterCode 的有无,来判断是否可点击
+                //若有,不可点击,显示 已拜师masterCode
+                $scope.masterCode = response.masterCode;
+
             }else {
                 $scope.errorId = response.errorId;
                 $scope.message = response.message;
@@ -88,10 +93,30 @@ angular.module('starter.controllers', ['angularFileUpload'])
 
         })
     };
+
     //invite
     $scope.copyInviteUrl = function () {
         //TODO:
     };
+
+    //拜师(绑定邀请码接口)
+    var bindLock = 0;
+    $scope.bindMaster = function(){
+        if(bindLock == 1){
+            return;
+        }
+        var bindUrl = '/taskUser/bindMaster';
+        //TODO chenhao
+        var bindParams = {'userCode' : $scope.userCode, 'masterCode' : ''};
+        bindLock = 1;
+
+        $http.post(bindUrl, bindParams).success(function(response){
+            bindLock = 0;
+            if(response.errorId == 0){
+                $scope.masterCode = '';
+            }
+        });
+    }
 })
 
 .controller('TaskHallController', function($scope, $http, Locales, $ionicFilterBar) {
