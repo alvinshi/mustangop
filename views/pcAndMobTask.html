@@ -112,17 +112,11 @@
 
         <!--做任务的需求部分-->
         <div class="item item-body">
-            <div class="list-group thumbnail_wrap task-demand">
-                <span class="text-left task-md" ng-show="oneAppInfo.needGet == true">"获取"标志</span>
-                <span class="text-left task-md" ng-show="oneAppInfo.registerStatus == 'third'">第三方注册</span>
-                <span class="text-left task-md" ng-show="oneAppInfo.reviewMustTitleKey != ''">标题必须包含:{{oneAppInfo.reviewMustTitleKey}}</span>
-                <span class="text-left task-md" ng-show="oneAppInfo.reviewMustContentKey != ''">评论必须包含:{{oneAppInfo.reviewMustContentKey}}</span>
-                <span class="text-left task-md" ng-show="oneAppInfo.reviewMustContentKey == true">评论数超过50字</span>
-            </div>
 
             <!--截图一部分-->
-            <div class="captureOne">
+            <div class="capture">
                 <img src="/images/taskInfor/screenshotImg.png">
+                <span>截图一</span>>
                 <span>任务手机必须有SIM卡</span>
 
                 <p class="">1.App Store搜索关键字:{{oneAppInfo.titleKeyword}}, 大概在第{{oneAppInfo.ranKing}}位
@@ -134,7 +128,7 @@
             </div>
 
             <!--截图二部分-->
-            <div class="captureTwo">
+            <div class="capture">
                 <img src="/images/taskInfor/screenshotImg.png">
                 <span>任务截图需跳过引导页</span>
                 <p class="">3.下载完毕,打开App,试用3分钟.
@@ -145,7 +139,7 @@
             </div>
 
             <!--截图三部分-->
-            <div class="captureThree">
+            <div class="capture">
                 <img src="/images/taskInfor/screenshotImg.png">
                 <span>评论页截图不能有键盘</span>
 

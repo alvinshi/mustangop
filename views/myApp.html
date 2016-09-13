@@ -459,7 +459,16 @@
                         <p class="t1">其他</p>
                         <div class="k6">
                             <div style="margin-left: 35px;font-size: 18px"><br>
-                                备注:<input type="text" class="task-remark" name="taskRemark" ng-model="displayDemandTemplate.taskRemark">
+                                <h4 style="margin-right: auto">备注:</h4>
+                                <textarea name="taskRemark" class="input3" rows="1" maxlength="40"
+                                          ng-model="displayDemandTemplate.taskRemark"
+                                          placeholder="请输入小于40字符" style="font-size:14px">
+                                </textarea>
+                                <span ng-bind="displayDemandTemplate.taskRemark.length+0"
+                                      style="margin-left:15px;color:#00b7ff;font-size: 14px;">
+
+                                </span>/40<br><br>
+                                <!--备注:<input type="text" class="task-remark" name="taskRemark" ng-model="displayDemandTemplate.taskRemark">-->
 
 
 

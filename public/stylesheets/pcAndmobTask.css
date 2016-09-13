@@ -134,11 +134,13 @@ body{
     border: 1px solid #999999;
 }
 
-.task-md {
+.capture {
     border: 1px solid #999999;
-    font-size: 16px;
     border-radius: 6px;
+    margin: 19px;
 }
+
+
 
 
 
