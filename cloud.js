@@ -366,6 +366,8 @@ AV.Cloud.define('refuseTaskTimerForRelease', function(request, response){
             var query_a = getRefuseDoTaskQuery();
             query_a.ascending('updatedAt');
             query_a.include('releaseTaskUser');
+            query_a.include('doTaskObject');
+            query_a.include('tempUserObject');
             query_a.include('receiveTaskObject.appObject');
             query_a.include('receiveTaskObject.userObject');
             query_a.include('receiveTaskObject.taskObject');
@@ -379,7 +381,8 @@ AV.Cloud.define('refuseTaskTimerForRelease', function(request, response){
                 for (var e = 0; e < results.length; e++){
                     var doTaskObject = results[e];
                     var doReceTaskObject = doTaskObject.get('receiveTaskObject');
-                    var receUserObject = doReceTaskObject.get('userObject');
+                    var receUserObject = doTaskObject.get('doTaskObject');
+                    var tempUserObject = doTaskObject.get('tempUserObject');
                     var taskObjectInDo = doReceTaskObject.get('taskObject');
                     if(taskObjectInDo == undefined){
                         continue;
@@ -403,7 +406,14 @@ AV.Cloud.define('refuseTaskTimerForRelease', function(request, response){
                     sendTaskUserObject.increment('freezingMoney', -excUnitPrice);
                     sendTaskUserObject.increment('totalMoney', excUnitPrice);
 
-                    messager.unfreezeMsg('您的任务（' + trackName + '）对方(' + receUserObject.get('username') + ')被拒绝后未重新提交', excUnitPrice, sendTaskUserObject.id, sendTaskUserObject);
+                    var doTaskNickname = '火星人';
+                    if(receUserObject != undefined){
+                        doTaskNickname = receUserObject.get('username');
+                    }else if(tempUserObject != undefined){
+                        doTaskNickname = tempUserObject.get('userCodeId');
+                    }
+
+                    messager.unfreezeMsg('您的任务（' + trackName + '）对方(' + doTaskNickname + ')被拒绝后未重新提交', excUnitPrice, sendTaskUserObject.id, sendTaskUserObject);
                     console.log('****** refused task be expired by timer ****** release task user : ' + sendTaskUserObject.id + '(minus freeze YB,add total YB) +' + excUnitPrice);
 
                     util.addLeanObject(doReceTaskObject, doReceTaskList);

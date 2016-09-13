@@ -405,8 +405,9 @@ router.get('/:userCId/:taskId', function(req, res, next) {
         taskDetailDic.screenShotThird.commentKeyword = releaseTaskObject.get('commentKeyword');
         taskDetailDic.screenShotThird.reviewMustContentKey = releaseTaskObject.get('reviewMustContentKey');
         taskDetailDic.screenShotThird.reviewMustContentKeyPrice = tryPriceUtil.pointCommentContent(true);
+
         taskDetailDic.screenShotThird.needMoreReviewContent = releaseTaskObject.get('needMoreReviewContent');
-        taskDetailDic.screenShotThird.needMoreReviewContentPrice = tryPriceUtil.needLongComment(releaseTaskObject.get('needMoreReviewContent'));
+        taskDetailDic.screenShotThird.needMoreReviewContentPrice = tryPriceUtil.needLongComment(releaseTaskObject.get('needMoreReviewContent') == 'true');
 
         //用户有没有接受过任务
         var tempUser = new tempUserSQL();
