@@ -8,13 +8,12 @@
 <script src="/javascripts/vendor/AngularJS/angular.min.js"></script>
 <ion-view >
     <ion-nav-buttons>
-        <button class="button btn1" id = "1" type = "button" style="background-color: white;color:black;font-size: 1em;"   ng-click="switchTaskType(1, -1)">
-            下载
-        </button>
-        <button class="button btn2 " id = "2" type = "button" style="background-color: white;color:black;font-size: 1em;" ng-click="switchTaskType(2, -1)">
-            评论
-        </button>
+        <button class="button button-light btn1 " ng-show="taskType == 1" style="border: 1px solid white;" ng-click="switchTaskType(1, -1)">下载</button>
+        <button class="button button-dark btn2" ng-show="taskType == 1" style="border: 1px solid white;"  ng-click="switchTaskType(2, -1)">评论</button>
+        <button class="button button-dark btn1 " ng-show="taskType == 2" style="border: 1px solid white;" ng-click="switchTaskType(1, -1)">下载</button>
+        <button class="button button-light btn2" ng-show="taskType == 2" style="border: 1px solid white;"  ng-click="switchTaskType(2, -1)">评论</button>
     </ion-nav-buttons>
+
 
     <ion-content style="background-color: #F5F5F5;">
         <!--loading-->

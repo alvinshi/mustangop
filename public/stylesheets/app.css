@@ -15,11 +15,7 @@
     text-align: center;
     color: white
 }
-.bar  .title {
-    background-color: black;
-    width: 110%;
-    margin-left: -1em;
-}
+
 .bar-home-on{
     background:url(/images/app/home1.png) no-repeat center top;
     background-size:1em 1em;
@@ -57,26 +53,28 @@
 
 /*footer底部图标*****************************/
 /*顶部按键*****************************/
-.btn1 {
-    border: 0.1em solid white;
-    background-color: white;
+
+.btn1{
     position: absolute;
-    float: left;
-    left: 26%;
-    text-align: center;
-    color: black;
-    width: 25%;
+    left:25.3%;
+    border-radius: 0.3em;
+    background-color: white;
+    width:25%;
+    height:0.5em;
+    border:0.05em solid white;
+    color:black;
 
 }
-.btn2 {
-    border: 0.1em solid white;
+.btn2{
     position: absolute;
-    float: right;
-    right: 26%;
+    right:25.3%;
+    top: 0.4em;
+    border-radius: 0.3em;
     background-color: black;
-    text-align: center;
-    color: white;
-    width: 25%;
+    width:25%;
+    height:0.5em;
+    border:0.05em solid white;
+    color:white;
 }
 
 .h1,h2,h3,h4,h5{
