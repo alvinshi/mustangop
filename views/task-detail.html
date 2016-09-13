@@ -4,16 +4,16 @@
 
         <div class="content has-header">
 
-            <div class="col-demo"><img src="images/app/boot.png" class="detailicon">  </div>
+            <div class="col-demo"><img ng-src="{{taskDetail.appIcon}}" class="detailicon">  </div>
             <div class="texthead">
-                <span>趣恋爱遇见有缘人<br></span>
-                <span style="font-size: 0.6em;color:#67bdff">评论</span>
+                <span>{{taskDetail.appName}}<br></span>
+                <span style="font-size: 0.6em;color:#67bdff">{{taskDetail.taskType}}</span>
                 <span style="font-size: 0.6em;margin-left: 2em;color:#cccccc;">大小30M</span>
                </div>
 
                 <div class="rightside">
                 <span style="color:red;">+3.80<span style="font-size: 0.4em;">元</span></span><br>
-                <span style="color:#999999;font-size: 0.5em;margin-left:1.8em;">免费应用</span>
+                <span style="color:#999999;font-size: 0.5em;margin-left:1.8em;">{{taskDetail.appPrice}}</span>
                 </div>
         </div>
 
