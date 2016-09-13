@@ -63,9 +63,8 @@ function taskObjectToDic(taskObject, isOpen){
         }
 
         //正在做的任务
-        taskDic.doingCount = appObject.get('doingCount');
-
-        taskDic.detailRem = appObject.get('detailRem');
+        taskDic.doingCount = taskObject.get('doingCount');
+        taskDic.detailRem = taskObject.get('detailRem');
 
         var extraDemandArray = Array();
         var priceStr = appObject.get('formattedPrice');
@@ -245,9 +244,8 @@ router.post('/lockTask', function(req, res) {
                     ReceiveTaskObject.set('excUniqueCode', excUniqueCode);//换评信息
                     ReceiveTaskObject.set('receiveDate', myDateStr);
 
-
-                    //小马试客,不计入定时器
-                    ReceiveTaskObject.set('timerDone', true);
+                    //小马试客,对于进入拒绝任务流程的一样需要进计时器
+                    //ReceiveTaskObject.set('timerDone', true);
 
                     releTaskObject.increment('remainCount', -1);
                     releTaskObject.increment('doingCount', 1);
@@ -299,33 +297,42 @@ function unlockTaskWithRes(lockTaskId, res){
             taskObject.increment('remainCount', 1);
 
             //close rece task object and expired = 1
-            receTaskObject.set('close', true);
-            receTaskObject.set('expiredCount', 1);
+            //receTaskObject.set('close', true);
+            //receTaskObject.set('timerDone', true);// 超时任务不跑定时器
+            //receTaskObject.set('expiredCount', 1);
 
-            if(res == undefined){
-                //任务超时(未取消)(不可在做该任务)
-                AV.Object.saveAll([taskObject, receTaskObject]).then(function(){
-                    console.info('user ' + receTaskObject.get('tempUserObject').id + ' unlock task ' + lockTaskId + ' succeed');
-                }, function(error){
-                    console.error('---------- timer !!!!!!!!!! user ' + receTaskObject.get('tempUserObject').id + ' unlock task ' + lockTaskId + ' failed');
-                });
-            }else {
-                //主动取消了任务(还可以做)
-                //回退任务条数
-                taskObject.save().then(function(){
-                    receTaskObject.destroy().then(function (success) {
-                        // 删除任务记录成功(下次还可以做)
+            //主动取消了任务(还可以做)
+            //回退任务条数
+            taskObject.save().then(function(){
+                receTaskObject.destroy().then(function (success) {
+                    // 删除任务记录成功(下次还可以做)
+                    if(res == undefined) {
                         res.json({'errorId': 0, 'message': 'unlock succeed'});
-                    }, function (error) {
-                        // 删除失败
-                        console.error('---------- manual unlock !!!!!!!!!! receive task destory error ' + receTaskObject.get('tempUserObject').id + ' unlock task ' + lockTaskId + ' failed');
-                        res.json({'errorId': error.code, 'message': error.message});
-                    });
+                    }
                 }, function (error) {
-                    console.error('---------- manual unlock !!!!!!!!!! task save error ' + receTaskObject.get('tempUserObject').id + ' unlock task ' + lockTaskId + ' failed');
-                    res.json({'errorId': error.code, 'message': error.message});
+                    // 删除失败
+                    console.error('---------- manual unlock !!!!!!!!!! receive task destory error ' + receTaskObject.get('tempUserObject').id + ' unlock task ' + lockTaskId + ' failed');
+                    if(res == undefined) {
+                        res.json({'errorId': error.code, 'message': error.message});
+                    }
                 });
-            }
+            }, function (error) {
+                console.error('---------- manual unlock !!!!!!!!!! task save error ' + receTaskObject.get('tempUserObject').id + ' unlock task ' + lockTaskId + ' failed');
+                if(res == undefined) {
+                    res.json({'errorId': error.code, 'message': error.message});
+                }
+            });
+
+            //if(res == undefined){
+            //    //任务超时(未取消)(不可在做该任务)
+            //    AV.Object.saveAll([taskObject, receTaskObject]).then(function(){
+            //        console.info('user ' + receTaskObject.get('tempUserObject').id + ' unlock task ' + lockTaskId + ' succeed');
+            //    }, function(error){
+            //        console.error('---------- timer !!!!!!!!!! user ' + receTaskObject.get('tempUserObject').id + ' unlock task ' + lockTaskId + ' failed');
+            //    });
+            //}else {
+            //
+            //}
         }else {
             //TODO: 思考被拒绝?
         }
@@ -567,7 +574,6 @@ router.post('/myTask', function(req, res) {
     //小马试客,我的任务
     var query = new AV.Query(receiveTaskSQL);
     query.equalTo('tempUserObject', tempUser);
-    //query.equalTo('timerDone', true);
     query.notEqualTo('close', true);//过期
     query.lessThanOrEqualTo('showTimer', maxShowInvalidTask);
 
