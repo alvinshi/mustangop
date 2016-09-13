@@ -164,11 +164,18 @@
 .header{
     margin-top: -1.6em;
    background-color:#67bdff;
-    height:6.5em;
+    height:5.5em;
 }
 .header h4{
     margin-left: 4%;
+    margin-top: 0.6em;
+}
+.header-mytask{
+    margin-left: 4%;
     margin-top: 1em;
+    font-size: 1.2em;
+    color: white;
+    font-weight: 900;
 }
 .dashed{
     margin-top: 0.8em;

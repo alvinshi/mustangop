@@ -1,5 +1,55 @@
 <ion-view view-title="任务">
-    <ion-content>
+    <ion-content style="background-color: #F5F5F5;">
+        <!--loading-->
+        <ion-spinner ng-show="downloadTasks.length == 0 && downloadLoading == true && taskType == 1" icon="ripple" class="spinner-assertive"></ion-spinner>
+        <ion-spinner ng-show="commentTasks.length == 0 && commentLoading == true && taskType == 2" icon="ripple" class="spinner-assertive"></ion-spinner>
 
+        <!--下拉刷新-->
+        <ion-refresher
+                pulling-text="下拉刷新..."
+                on-refresh="refreshTaskHall()">
+        </ion-refresher>
+        <div class="header">
+            <div class="text" style="margin-top: 0.8em;">
+                <br>
+                <span class="header-mytask">1.做完任务后,会进入审核,最多1天内,会完成审核.<br></span>
+                    <span class="header-mytask">2.任务如果被拒绝,可以再次尝试完成任务</span>
+            </div>
+        </div>
+        <!--灰色背景-->
+        <div class="grayback">
+            <!--虚线框-->
+            <div class="dashed">
+                <div style="margin-top: 0.5em;">
+                <span style="font-size: 1.1em;">有<span style="color: red;">3</span>条任务未完成</span>
+                <span  style="font-size: 1.3em;margin-left:2.5em;color:#999999;margin-top: 0.3em;">完成后预计获得<span style="color: red;">9.00元</span></span>
+            </div>
+            </div>
+            <!--ionic card-->
+            <div class="ion-list" >
+                <!--<div class="item item-text-wrap">-->
+                <!--{{task.appName}}-->
+                <!--</div>-->
+                <ion-item  href="#/tab/task/{{task.taskId}}" class="ion-item card" type="item-text-wrap" style="border-radius: 0.5em;height: 5.7em;" >
+
+                    <img src="/images/app/boot.png" class="cardicon">
+                    <div class="character">
+                        <span class="typetitle" style="margin-left:0em;float: left;margin-top: 0.2em;">趣恋爱</span>
+                    </div>
+
+                    <span class = "cardplay typegray" style="color: red;border: 1px solid red;">被拒绝</span>
+                     <span style="color: red;;font-size: 1em;position: absolute;top:3.1em;margin-left: 0.2em;">没有获取按钮,字数未达标</span>
+
+                    <span class="cardtextright cardword" style="margin-top: 0.2em;">+3.80<span style="font-size: 0.6em;">元</span></span><br><br>
+
+                </ion-item>
+            </div>
+
+
+
+        </div>
+        </div>
+
+       
     </ion-content>
 </ion-view>
