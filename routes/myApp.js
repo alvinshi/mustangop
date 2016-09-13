@@ -7,6 +7,7 @@ var AV = require('leanengine');
 var util = require('./util');
 var https = require('https');
 
+var tryPriceUtil = require('../utils/tryPriceUtil');
 var messager = require('../utils/messager');
 
 // `AV.Object.extend` 方法一定要放在全局变量，否则会造成堆栈溢出。
@@ -386,9 +387,9 @@ router.post('/task', function(req, res){
                     var appPrice = parseFloat(appPriceStr.substring(1, appPriceStr.length));
                     if(appPriceStr != '免费') {
                         //广告主付费
-                        extraRetObject.excUnitPrice += appPrice * 15;
+                        extraRetObject.excUnitPrice += tryPriceUtil.payAppYCoin(appPrice);
                         //小马用户得到
-                        extraRetObject.tempUserPrice += appPrice * 1.3;
+                        extraRetObject.tempUserPrice += tryPriceUtil.payAppRmb(appPrice);
                     }
                     console.log('----- task send price:' + extraRetObject.toString());
 
@@ -421,11 +422,6 @@ router.post('/task', function(req, res){
                     releasetaskObject.set('reviewMustContentKey', reviewMustContentKey); // 评论必选
                     releasetaskObject.set('needMoreReviewContent', extraRetObject.needMoreReviewContent); // 评论必须满足50个字
                     releasetaskObject.set('needOfficialAudit', needOfficialAudit);  // 需要官方审核
-
-                    //截图需求 脑残设计 AngularJS不支持
-                    //releasetaskObject.set('screenShot1Array', extraRetObject.screenShot1Array);
-                    //releasetaskObject.set('screenShot2Array', extraRetObject.screenShot2Array);
-                    //releasetaskObject.set('screenShot3Array', extraRetObject.screenShot3Array);
 
                     //额外字段
                     releasetaskObject.set('remainCount', excCount); // 剩余条数
@@ -641,7 +637,7 @@ function screenShotOneElement(retObject, asoRank, needGet)
     else {
         retObject.excUnitPrice += (3 + (asoRank - 50) * 0.5);
         //小马用户排名得到前
-        retObject.rankExtraRmb = (asoRank - 50) * 0.02;
+        retObject.rankExtraRmb = tryPriceUtil.getRankRmb(asoRank);
         retObject.tempUserPrice += retObject.rankExtraRmb;
     }
 
@@ -649,7 +645,7 @@ function screenShotOneElement(retObject, asoRank, needGet)
     if (needGet == 'true'){
         retObject.excUnitPrice += 5;
         //小马需首次下载
-        retObject.tempUserPrice += 0.2;
+        retObject.tempUserPrice += tryPriceUtil.needGetRmb(true);
         retObject.needGet = true;
     }else {
         retObject.needGet = false;
@@ -663,7 +659,7 @@ function screenShotTwoElement(retObject, registerStatus)
     if (registerStatus == 'third'){
         retObject.excUnitPrice += 2;
         //小马第三方登陆
-        retObject.tempUserPrice += 0.1;
+        retObject.tempUserPrice += tryPriceUtil.needThirdLogin(registerStatus);
     }
 }
 
@@ -673,13 +669,13 @@ function screenShotThirdElement(retObject, reviewMustTitleKey, reviewMustContent
     if (reviewMustTitleKey != undefined && reviewMustTitleKey != ""){
         retObject.excUnitPrice += 1;
         //小马必须标题
-        retObject.tempUserPrice += 0.05;
+        retObject.tempUserPrice += tryPriceUtil.pointCommentTitle(true);
     }
 
     if (reviewMustContentKey != undefined && reviewMustContentKey != ""){
         retObject.excUnitPrice += 1;
         //小马必须评论内容
-        retObject.tempUserPrice += 0.05;
+        retObject.tempUserPrice += tryPriceUtil.pointCommentContent(true);
     }
 
 
@@ -687,7 +683,7 @@ function screenShotThirdElement(retObject, reviewMustTitleKey, reviewMustContent
         retObject.excUnitPrice += 3;
         retObject.needMoreReviewContent = true;
         //小马长评论
-        retObject.tempUserPrice += 0.1;
+        retObject.tempUserPrice += tryPriceUtil.needLongComment(true);
     }
 }
 

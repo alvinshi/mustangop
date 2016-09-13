@@ -396,6 +396,22 @@ router.post('/postUsertask/:taskObjectId/:ratePrice/:appId', function(req, res){
                             errorMsg = "账户余额为负, 请充值后再领取新任务";
                             res.json({'errorId': -100, 'errorMsg': errorMsg});
                         }else {
+                            //新手保护,防止刚注册就狂领任务
+                            var registerBonus = userObject.get('registerBonus');
+                            if(registerBonus == 'register_new'){
+                                if(receive_Count > 2){
+                                    errorMsg = "先领取1条任务做做看吧,第一次不要太贪心哦";
+                                    res.json({'errorId': -1, 'errorMsg': errorMsg});
+                                    return;
+                                }
+                            }else if(registerBonus == 'register_upload_task'){
+                                if(receive_Count > 5){
+                                    errorMsg = "等您的任务被审核通过,才可以一次性领取多于5条任务";
+                                    res.json({'errorId': -1, 'errorMsg': errorMsg});
+                                    return;
+                                }
+                            }
+
                             //3.剩余条数监测
                             var remainCount = releTaskObject.get('remainCount');
                             if (remainCount < receive_Count){
