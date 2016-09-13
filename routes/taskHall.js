@@ -21,7 +21,7 @@ var funnelExcCount = 0;
 var funnelHour = 15;
 
 //默认Y币转人名币汇率
-var YCoinToRMBRate = 0.45;
+var YCoinToRMBRate = 0.045;
 
 //小马领取任务超时时间
 var tempTaskMaxTime = 1000 * 60 * 60;
@@ -59,11 +59,13 @@ function taskObjectToDic(taskObject, isOpen){
         }
         taskDic.doTaskPrice = taskObject.get('tempUserPrice');
         if(taskDic.doTaskPrice == 0){
-            taskDic.doTaskPrice = taskObject.get('rateUnitPrice')/10 * YCoinToRMBRate;
+            taskDic.doTaskPrice = taskObject.get('rateUnitPrice') * YCoinToRMBRate;
         }
 
         //正在做的任务
         taskDic.doingCount = appObject.get('doingCount');
+
+        taskDic.detailRem = appObject.get('detailRem');
 
         var extraDemandArray = Array();
         var priceStr = appObject.get('formattedPrice');
@@ -370,9 +372,34 @@ router.get('/:userCId/:taskId', function(req, res, next) {
         taskDetailDic.taskPicCount = getTaskTypeNeedPic(taskDetailDic.taskType);
         taskDetailDic.doTaskPrice = releaseTaskObject.get('tempUserPrice');
         if(taskDetailDic.doTaskPrice == 0){
-            taskDetailDic.doTaskPrice = releaseTaskObject.get('rateUnitPrice')/10 * YCoinToRMBRate;
+            taskDetailDic.doTaskPrice = releaseTaskObject.get('rateUnitPrice') * YCoinToRMBRate;
         }
 
+        //任务需求信息
+        //截图1
+        taskDetailDic.screenShotOne = Object();
+        taskDetailDic.screenShotOne.searchKeyword = releaseTaskObject.get('searchKeyword');
+        taskDetailDic.screenShotOne.ranKing = releaseTaskObject.get('ranKing');
+        taskDetailDic.screenShotOne.ranKingPrice = tryPriceUtil.getRankRmb(releaseTaskObject.get('ranKing'));
+        taskDetailDic.screenShotOne.needGet = releaseTaskObject.get('needGet');
+        taskDetailDic.screenShotOne.needGetPrice = tryPriceUtil.needGetRmb(releaseTaskObject.get('needGet') == 'true');
+
+        //截图2
+        taskDetailDic.screenShotTwo = Object();
+        taskDetailDic.screenShotTwo.registerStatus = releaseTaskObject.get('registerStatus');
+        taskDetailDic.screenShotTwo.ranKingPrice = tryPriceUtil.needThirdLogin(releaseTaskObject.get('registerStatus'));
+
+        //截图3
+        taskDetailDic.screenShotThird = Object();
+        taskDetailDic.screenShotThird.titleKeyword = releaseTaskObject.get('titleKeyword');
+        taskDetailDic.screenShotThird.reviewMustTitleKey = releaseTaskObject.get('reviewMustTitleKey');
+        taskDetailDic.screenShotThird.reviewMustTitleKeyPrice = tryPriceUtil.pointCommentTitle(true);
+
+        taskDetailDic.screenShotThird.commentKeyword = releaseTaskObject.get('commentKeyword');
+        taskDetailDic.screenShotThird.reviewMustContentKey = releaseTaskObject.get('reviewMustContentKey');
+        taskDetailDic.screenShotThird.reviewMustContentKeyPrice = tryPriceUtil.pointCommentContent(true);
+        taskDetailDic.screenShotThird.needMoreReviewContent = releaseTaskObject.get('needMoreReviewContent');
+        taskDetailDic.screenShotThird.needMoreReviewContentPrice = tryPriceUtil.needLongComment(releaseTaskObject.get('needMoreReviewContent'));
 
         //用户有没有接受过任务
         var tempUser = new tempUserSQL();
@@ -393,6 +420,10 @@ router.get('/:userCId/:taskId', function(req, res, next) {
                 if(tempMackTask != undefined){
                     taskDetailDic.doTaskImgs = tempMackTask.get('requirementImgs');
                     taskDetailDic.doTaskStatus = tempMackTask.get('taskStatus');
+
+                    if(taskDetailDic.doTaskStatus == 'refused'){
+                        taskDetailDic.refusedReason = tempMackTask.get('detail');
+                    }
                 }else if(receObjects[0].get('expiredCount') == 1){
                     //超时未完成
                     taskDetailDic.doTaskStatus = 'expired';
@@ -571,7 +602,7 @@ router.post('/myTask', function(req, res) {
 
             myTaskDic.doTaskPrice = appObject.get('tempUserPrice');
             if(myTaskDic.doTaskPrice == undefined){
-                myTaskDic.doTaskPrice = appObject.get('rateUnitPrice')/10 * YCoinToRMBRate;
+                myTaskDic.doTaskPrice = appObject.get('rateUnitPrice') * YCoinToRMBRate;
             }
 
             //status
@@ -586,7 +617,6 @@ router.post('/myTask', function(req, res) {
                     receTaskObject.increment('showTimer', 1);
                     needSaveReceList.push(receTaskObject);
                 }
-
             }else {
                 //做了
                 var taskStatus = tempMackObject.get('taskStatus');

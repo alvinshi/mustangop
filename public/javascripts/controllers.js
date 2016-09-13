@@ -64,6 +64,11 @@ angular.module('starter.controllers', ['angularFileUpload'])
                 $scope.currentMoney = response.currentMoney;
                 $scope.userCode = response.userCode;
 
+                //TODO chenhao
+                //根据masterCode 的有无,来判断是否可点击
+                //若有,不可点击,显示 已拜师masterCode
+                $scope.masterCode = response.masterCode;
+
             }else {
                 $scope.errorId = response.errorId;
                 $scope.message = response.message;
@@ -88,10 +93,30 @@ angular.module('starter.controllers', ['angularFileUpload'])
 
         })
     };
+
     //invite
     $scope.copyInviteUrl = function () {
         //TODO:
     };
+
+    //拜师(绑定邀请码接口)
+    var bindLock = 0;
+    $scope.bindMaster = function(){
+        if(bindLock == 1){
+            return;
+        }
+        var bindUrl = '/taskUser/bindMaster';
+        //TODO chenhao
+        var bindParams = {'userCode' : $scope.userCode, 'masterCode' : ''};
+        bindLock = 1;
+
+        $http.post(bindUrl, bindParams).success(function(response){
+            bindLock = 0;
+            if(response.errorId == 0){
+                $scope.masterCode = '';
+            }
+        });
+    }
 })
 
 .controller('TaskHallController', function($scope, $http, Locales, $ionicFilterBar) {
@@ -209,6 +234,8 @@ angular.module('starter.controllers', ['angularFileUpload'])
     var taskId = appurlList[appurlList.length - 1];
 
     $scope.lockTaskId = undefined;
+    $scope.dataStatus = 0;
+    $scope.progressNum = 0;
 
     var tasksUrl = '/taskHall/' + gUserCId + '/' + taskId;
     $scope.loading = true;
@@ -218,12 +245,26 @@ angular.module('starter.controllers', ['angularFileUpload'])
             //succeed
             $scope.taskDetail = response.taskDetail;
             $scope.lockTaskId = response.taskDetail.lockTaskId;
+            $scope.dataStatus = 1;
 
             if($scope.lockTaskId != undefined){
                 //任务已经领取
                 $scope.doTaskCreatedAt = response.doTaskCreatedAt;
                 $scope.taskPicCount = response.taskDetail.taskPicCount;
-                $scope.uploadButtonTitle = '上传' + $scope.taskPicCount + '张任务截图  ' + '43:20';
+
+                //上传图片按钮状态
+                //TODO chenhao 增加倒计时
+                var countDownStr = ' 43:20';
+                if(response.taskDetail.doTaskStatus == 'uploaded' || response.taskDetail.doTaskStatus == 'reUploaded' || response.taskDetail.doTaskStatus == 'refused'){
+                    $scope.uploadButtonTitle = '重新上传' + $scope.taskPicCount + '张任务截图  ' + countDownStr;
+                }else {
+                    $scope.uploadButtonTitle = '上传' + $scope.taskPicCount + '张任务截图  ' + countDownStr;
+                }
+
+                if(response.taskDetail.doTaskStatus == 'refused'){
+                    $scope.errorId = -1;
+                    $scope.errorMsg = response.taskDetail.refusedReason;
+                }
             }
         }else {
             $scope.errorId = response.errorId;
@@ -376,6 +417,7 @@ angular.module('starter.controllers', ['angularFileUpload'])
                 console.log($scope.errorMsg);
                 if($scope.errorId == 0){
                     $scope.images = response.requirementImgs;
+                    $scope.uploadButtonTitle = '任务提交成功';
                 }
 
                 $scope.progressNum = 0;

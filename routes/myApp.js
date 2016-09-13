@@ -630,7 +630,10 @@ router.get('/verify', function(req, res){
 function screenShotOneElement(retObject, asoRank, needGet)
 {
     //初始价格(好评3元,下载2.3元)
-    retObject.tempUserPrice = retObject.excUnitPrice / 10;
+    //小马价格(好评1.5元,下载1.15元)
+    //默认Y币转人名币汇率
+    var YCoinToRMBRate = 0.045;
+    retObject.tempUserPrice = retObject.excUnitPrice * YCoinToRMBRate;
 
     //rank
     if (asoRank <= 20){

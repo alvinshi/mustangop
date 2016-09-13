@@ -362,6 +362,7 @@ margin-right: 0.5em;
 /*底部按键*/
 .btn3{
     position: absolute;
+    margin-bottom: 60px;
     top: 52em;
     background-color: #67bdff;
     color:white;
