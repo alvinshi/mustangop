@@ -118,11 +118,56 @@ router.get('/:userCId/:inviteCode', function(req, res) {
     //get unique userCode
 });
 
-//绑定手机号(找回账号)
-
 //绑定支付宝
+router.post('/bindMaster', function(req, res) {
+    var userCId = req.body.userCId;
+    var aliAccount = req.body.aliAccount;
+    var tempUserQuery = new AV.Query(tempUserSQL);
+    tempUserQuery.get(userCId).then(function (tempUserObject) {
+        tempUserObject.set('aliAccount', aliAccount);
+        tempUserObject.save().then(function(){
+            res.json({'errorId': 0, 'message': 'succeed bind your ali account'});
+        }, function(error){
+            console.error('bind zhifubao error:' + error.message);
+            res.json({'errorId': error.code, 'message': error.message});
+        })
+    }, function(error){
+        console.error('bind zhifubao error:' + error.message);
+        res.json({'errorId': error.code, 'message': error.message});
+    });
+});
 
 //申请提现
+router.post('/withDraw', function(req, res) {
+    var userCId = req.body.userCId;
+    var aliAccount = req.body.aliAccount;
+    var tempUserQuery = new AV.Query(tempUserSQL);
+    tempUserQuery.get(userCId).then(function (tempUserObject) {
+        var currentMoney = tempUserObject.get('currentMoney');
+        var withdrawMoney = tempUserObject.get('withdrawMoney');
+        if(withdrawMoney > 0){
+            res.json({'errorId': -2, 'message': '上一次提现正在进行中,会在1个工作日内到账,到帐后方可继续提现'});
+        }else if(currentMoney < 10){
+            res.json({'errorId': -1, 'message': '亲,满10元才可以提现哦'});
+        }else {
+            var withdrawMoney = parseInt(currentMoney / 10) * 10;
+
+            tempUserObject.increment('currentMoney', -withdrawMoney);
+            tempUserObject.increment('withdrawMoney', withdrawMoney);
+
+            tempUserObject.save().then(function(){
+                res.json({'errorId': 0, 'message': '申请提现' + withdrawMoney + '元,将会在1个工作日内到账'});
+            }, function(error){
+                console.error('withdraw failed:' + error.message);
+                res.json({'errorId': error.code, 'message': error.message});
+            })
+        }
+    }, function(error){
+        console.error('bind zhifubao error:' + error.message);
+        res.json({'errorId': error.code, 'message': error.message});
+    });
+});
+
 //TODO RMB Logger
 
 /*-*********************************************
