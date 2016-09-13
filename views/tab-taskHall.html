@@ -39,19 +39,20 @@
                 <!--<div class="item item-text-wrap">-->
                     <!--{{task.appName}}-->
                 <!--</div>-->
-            <ion-item  href="#/tab/task/{{task.taskId}}" class="ion-item card" type="item-text-wrap" ng-repeat="task in downloadTasks">
+            <ion-item  href="#/tab/task/{{task.taskId}}" style="height:auto;border-radius: 0.5em;" class="ion-item card"  type="item-text-wrap" ng-repeat="task in downloadTasks">
 
                 <img ng-src="{{task.appIcon}}" class="cardicon">
                 <div class="character">
                     <span class="typetitle" style="margin-left:0em;float: left;">{{task.appName}}</span>
                 </div>
                 <span class = "cardplay typegray" >剩余{{task.remainCount}}条</span>
-                <span class="cardplay typelightgray" style="margin-left: 1em;">进行中两份</span><br><br>
-                <span class="cardtextright cardword" >+{{task.doTaskPrice.toFixed(2)}}<span style="font-size: 0.6em;">元</span></span><br><br>
+                <span ng-show="task.doingCount > 0" class="cardplay typelightgray" style="margin-left: 1em;">进行中{{task.doingCount}}份</span><br><br>
+                <span ng-class="{true:'cardwordGray',false:'cardword'}[task.remainCount == 0]"    >+{{task.doTaskPrice.toFixed(2)}}<span style="font-size: 0.6em;">元</span></span><br><br>
                 <!--<span class="cardtextright typeblue" style="margin-top: -2em;">1元付费应用</span>-->
-                <div class="note" style="margin-top: -2em;">
-                    <span class="cardtext annotation" >1.必须首次下载(需要获取标志)</span><br>
-                    <span class="cardtext annotation">2.需第三方体验注册</span>
+                <div class="note" style="margin-top: -2em;line-height: 2em;">
+                    <div class="cardtext annotation" ng-repeat="extraDes in task.extraDemandArray" >
+                        {{$index + '.' +  extraDes}}
+                    </div>
                 </div>
               </ion-item>
         </div>
@@ -82,7 +83,7 @@
                     <!--<div class="item item-text-wrap">-->
                     <!--{{task.appName}}-->
                     <!--</div>-->
-                    <ion-item  href="#/tab/task/{{task.taskId}}" class="ion-item card" type="item-text-wrap" ng-repeat="task in commentTasks">
+                    <ion-item  href="#/tab/task/{{task.taskId}}" style="border-radius: 0.5em;" class="ion-item card" type="item-text-wrap" ng-repeat="task in commentTasks">
 
                         <img ng-src="{{task.appIcon}}" class="cardicon">
                         <div class="character">
@@ -92,7 +93,7 @@
                         <span ng-show="task.doingCount > 0" class="cardplay typelightgray" style="margin-left: 1em;">进行中{{task.doingCount}}份</span><br><br>
                         <span class="cardtextright cardword" >+{{task.doTaskPrice.toFixed(2)}}<span style="font-size: 0.6em;">元</span></span><br><br>
                         <span ng-show="task.appPrice != undefined" class="cardtextright typeblue" style="margin-top: -2em;">task.appPrice</span>
-                        <div class="note" style="margin-top: -2em;">
+                        <div class="note" style="margin-top: -2em;line-height: 2em;">
                             <div class="cardtext annotation" ng-repeat="extraDes in task.extraDemandArray" >
                                 {{$index + '.' +  extraDes}}
                             </div>

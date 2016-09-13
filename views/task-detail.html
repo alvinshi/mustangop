@@ -2,13 +2,13 @@
 <ion-view view-title="任务详情" hide-tabs="true">
     <ion-content>
 
-        <div class="content has-header">
+        <div class="content " style="margin-top: 3em;">
 
             <div class="col-demo"><img ng-src="{{taskDetail.appIcon}}" class="detailicon">  </div>
             <div class="texthead">
                 <span>{{taskDetail.appName}}<br></span>
                 <span style="font-size: 0.6em;color:#67bdff">{{taskDetail.taskType}}</span>
-                <span style="font-size: 0.6em;margin-left: 2em;color:#cccccc;">大小30M</span>
+                <!--<span style="font-size: 0.6em;margin-left: 2em;color:#cccccc;">大小30M</span>-->
                </div>
 
                 <div class="rightside">
@@ -20,7 +20,7 @@
         <!--操作错误提示-->
         <div class="alert alert-danger" role="alert" ng-show="errorId">{{errorMsg}}</div>
 
-            <hr style="position:absolute;  background-color: #cccccc;width: 92%;top: 7em;left: 4%;" size="0.001";>
+            <hr style="position:absolute;  background-color: #cccccc;width: 92%;margin-left: 4%;" size="0.001";>
             <div class="textstep">
             <h4>任务步骤</h4>
             </div>

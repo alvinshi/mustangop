@@ -262,7 +262,19 @@
      font-size: 1.7em;
      color: red;
      margin-top: 0.1em;
+     position: absolute;
+     right: 3%;
+     top:8%;
  }
+.cardwordGray{
+    margin-left: 10%;
+    font-size: 1.7em;
+    color:#999999;
+    margin-top: 0.1em;
+    position: absolute;
+    right: 3%;
+    top:8%;
+}
  .annotation{
      margin-top: -0.8em;
      margin-left: 1%;
@@ -307,6 +319,7 @@
     width:4em;
     height:auto;
     top:-1.8em;
+
 }
 .texthead{
     font-size: 1.8em;
