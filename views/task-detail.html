@@ -1,32 +1,141 @@
+<!--网站内部CSS-->
+<link rel="stylesheet" href="/stylesheets/app.css"/>
+
 <ion-view view-title="任务详情">
     <ion-content>
+        <body>
+        <div class="content has-header">
 
-        <button class="button button-outline button-calm button-small" >复制关键字</button>
+            <div class="col-demo"><img src="images/app/boot.png" class="detailicon">  </div>
+            <div class="texthead">
+                <span>趣恋爱遇见有缘人<br></span>
+                <span style="font-size: 0.6em;color:#67bdff">评论</span>
+                <span style="font-size: 0.6em;margin-left: 2em;color:#cccccc;">大小30M</span>
+               </div>
 
-        <button ng-show="lockTaskId != undefined && (taskDetail.doTaskStatus != 'accepted' && taskDetail.doTaskStatus != 'systemAccepted')
-        " class="button button-block button-assertive" ng-click="unlockTask()">放弃任务</button>
-
-        <!--图片操作相关-->
-        <button ng-show="lockTaskId == undefined && (taskDetail.doTaskStatus != 'accepted' && taskDetail.doTaskStatus != 'systemAccepted')
-        " class="button button-block button-assertive" ng-click="lockTask()">领取任务</button>
-
-        <!--上传图片按钮-->
-        <div ng-show="lockTaskId != undefined && (taskDetail.doTaskStatus != 'accepted' && taskDetail.doTaskStatus != 'systemAccepted')"
-             class="upload-pic-button">
-            <!--accept="image/*"-->
-            <input class="upload" type="file" nv-file-select="" uploader="uploader" multiple/>
-            {{uploadButtonTitle}}
+                <div class="rightside">
+                <span style="color:red;">+3.80<span style="font-size: 0.4em;">元</span></span><br>
+                <span style="color:#999999;font-size: 0.5em;margin-left:1.8em;">免费应用</span>
+                </div>
         </div>
 
-        <button ng-show="taskDetail.doTaskStatus != 'accepted' || taskDetail.doTaskStatus != 'systemAccepted'
-        " class="button button-block button-assertive">任务已经完成</button>
-
-        <div class="alert alert-danger" role="alert" ng-show="errorId">{{errorMsg}}</div>
-
-        <div class="progress" style="margin:auto; margin-top: 20px" ng-hide="!progressNum">
-            <div ng-class="{'progress-bar': true, 'progress-bar-striped':true, active:true}" ng-style="{width: progressNum+ '%'}">
+            <hr style="position:absolute;  background-color: #cccccc;width: 92%;top: 7em;left: 4%;" size="0.001";>
+            <div class="textstep">
+            <h4>任务步骤</h4>
             </div>
-        </div>
 
+        <!--卡片一-->
+        <div class="cardpage">
+            <div class="item item-text-wrap">
+            <img src="/images/app/tab.png" class="headimg">
+                <h2>截图一</h2>
+                <span class="entry">任务手机必须有SIM卡</span>
+                <div class="detailtext">
+                <p style="font-size: 1.1em;">1.APP&nbsp;搜索关键字
+                    <span style="color:#67bdff">社交</span>
+                        ,大概在第<span style="color:#67bdff">8</span>位.
+                    <span style="font-size: 0.6em;color:#67bdff;">(+0.05元)</span>
+                    </p>
+                <p style="font-size: 1.1em;margin-top: 0em;">2.找到指定APP后,
+                    <img src="/images/app/screenShotS.png" style="height: 0.8em;">
+                <span  style="color:#fc7f6a">截图</span>
+                ,然后下载(本任务需获取按钮)
+                    <span style="font-size: 0.6em;color:#67bdff;">(+0.05元)</span>
+                </p>
+                </div>
+                <div class="example">
+                <img src="/images/app/example.png" style="height: 0.8em;" >
+                    <span style="font-size: 1em;color: #b2b2b2">示例一</span>
+                    </div>
+
+            </div></div>
+        <!--卡片二-->
+        <div class="cardpage" style="margin-top: 24.5em;">
+            <div class="item item-text-wrap">
+                <img src="/images/app/tab.png" class="headimg">
+                <h2>截图二</h2>
+                <span class="entry">应用截图需跳过引导页</span>
+                <div class="detailtext">
+                    <p style="font-size: 1.1em;">3.下载完毕,打开APP,试用3分钟.
+                        (本任务需<span style="color:#67bdff">第三方登陆</span>
+                        <span style="font-size: 0.6em;color:#67bdff;">(+0.05元)</span>)
+                        <img src="/images/app/screenShotS.png" style="height: 0.8em;" >
+                        <span  style="color:#fc7f6a">截图</span>
+                    </p>
+                </div>
+                <div class="example">
+                    <img src="/images/app/example.png" style="height: 0.8em;" >
+                    <span style="font-size: 1em;color: #b2b2b2">示例二</span>
+                </div>
+
+            </div></div>
+            <!--卡片三-->
+        <div class="cardpage" style="margin-top: 35em;">
+            <div class="item item-text-wrap">
+                <img src="/images/app/tab.png" class="headimg">
+                <h2>截图三</h2>
+                <span class="entry">按键页截图不能有键盘</span>
+                <div class="detailtext">
+                    <p style="font-size: 1.1em;">5.打开APP&nbsp;store,按下面要求评论<br></p>
+                        <p style="font-size: 1.1em;margin-left: 7%;line-height: 1.8em;">
+                        <span style="color: #999999;">a.评论标题关键字(包含任意1个)</span><br>
+                            <span>遇见&nbsp;漂流瓶&nbsp;同城</span><br>
+                        <span style="color:#999999;">必须包含</span>
+                            <span style="color:#67bdff">遇见</span>
+                            <span style="font-size: 0.6em;color:#67bdff;">(+0.36元)</span><br>
+                             <span style="color: #999999;">b.评论内容关键字(包含任意2个)</span><br>
+                            <span>陌生人交友&nbsp;社交&nbsp;同城分享</span><br>
+                        <span style="color:#999999;">必须包含</span>
+                            <span style="color:#67bdff">社交</span>
+                            <span style="font-size: 0.6em;color:#67bdff;">(+0.36元)</span>
+                            </p>
+                   <p style="font-size: 1.1em;"> 评论字数
+                    <span style="color:#67bdff">超过50字</span>
+                    <span style="font-size: 0.6em;color:#67bdff;">(+0.15元)</span>
+                    <img src="/images/app/screenShotS.png" style="height: 0.8em;">
+                    <span  style="color:#fc7f6a">截图</span></p>
+                </div>
+                <div class="example">
+                    <img src="/images/app/example.png" style="height: 0.8em;" >
+                    <span style="font-size: 1em;color: #b2b2b2">示例三</span>
+                </div>
+
+            </div></div>
+             <button class="button btn3">点击复制 搜索关键词</button>
+
+
+
+        <!--<br>-->
+        <!--<br>-->
+        <!--<br>-->
+        <!--<br>-->:
+        <!--<button class="button button-outline button-calm button-small" >复制关键字</button>-->
+
+        <!--<button ng-show="lockTaskId != undefined && (taskDetail.doTaskStatus != 'accepted' && taskDetail.doTaskStatus != 'systemAccepted')-->
+        <!--" class="button button-block button-assertive" ng-click="unlockTask()">放弃任务</button>-->
+
+        <!--&lt;!&ndash;图片操作相关&ndash;&gt;-->
+        <!--<button ng-show="lockTaskId == undefined && (taskDetail.doTaskStatus != 'accepted' && taskDetail.doTaskStatus != 'systemAccepted')-->
+        <!--" class="button button-block button-assertive" ng-click="lockTask()">领取任务</button>-->
+
+        <!--&lt;!&ndash;上传图片按钮&ndash;&gt;-->
+        <!--<div ng-show="lockTaskId != undefined && (taskDetail.doTaskStatus != 'accepted' && taskDetail.doTaskStatus != 'systemAccepted')"-->
+             <!--class="upload-pic-button">-->
+            <!--&lt;!&ndash;accept="image/*"&ndash;&gt;-->
+            <!--<input class="upload" type="file" nv-file-select="" uploader="uploader" multiple/>-->
+            <!--{{uploadButtonTitle}}-->
+        <!--</div>-->
+
+        <!--<button ng-show="taskDetail.doTaskStatus != 'accepted' || taskDetail.doTaskStatus != 'systemAccepted'-->
+        <!--" class="button button-block button-assertive">任务已经完成</button>-->
+
+        <!--<div class="alert alert-danger" role="alert" ng-show="errorId">{{errorMsg}}</div>-->
+
+        <!--<div class="progress" style="margin:auto; margin-top: 20px" ng-hide="!progressNum">-->
+            <!--<div ng-class="{'progress-bar': true, 'progress-bar-striped':true, active:true}" ng-style="{width: progressNum+ '%'}">-->
+            <!--</div>-->
+        <!--</div>-->
+
+</body>
     </ion-content>
 </ion-view>

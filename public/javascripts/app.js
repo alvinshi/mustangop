@@ -106,3 +106,22 @@ angular.module('starter',
   $urlRouterProvider.otherwise('/tab/home');
 
 });
+//切换按键样式
+window.onload = function(){
+    var arr = document.getElementsByTagName('button');
+    for(var i = 0;i<arr.length;i++){
+        arr[i].onclick = function(){
+            //this是当前激活的按钮，在这里可以写对应的操作
+            if(this.className == 'btn1'){
+                this.className = 'btn2';
+                var name = this.id;
+                var btn = document.getElementsByClassName('btn2');
+                for(var j=0;j<btn.length;j++){
+                    if(btn[j].id!=name){
+                        btn[j].className = 'btn1';
+                    }
+                }
+            }
+        }
+    }
+}

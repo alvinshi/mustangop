@@ -65,7 +65,7 @@
 
             <div class="app-info">
                 <span class="button_type">
-                    <span class="download">{{ oneAppInfo.excKinds }}</span>
+                    <span class="download">{{ oneAppInfo.taskType }}</span>
                 </span>
 
                 <span class="button_num">
@@ -87,30 +87,37 @@
 
     <div class="list card need-capture" style="border: 1px solid #999999">
         <!--头部数据-->
-        <div class="item item-avatar">
-            <img ng-src="{{  oneAppInfo.artworkUrl100 }}">
+        <div class="item item-avatar row">
 
-            <span class="trackName_one">
-                {{ oneAppInfo.trackName.substr(0,12)+"..."  }}
-            </span>
+            <div class="col-sm-3 col-xs-3">
+                <img class="app-img" ng-src="{{  oneAppInfo.artworkUrl100 }}">
+            </div>
 
-            <span class="app_date">{{ oneAppInfo.rateUnitPrice}}
-                <span style="font-size: 16px">Y币</span>
-            </span>
+            <div class="appTrackName">
+                <span class="trackName_one">{{ oneAppInfo.trackName.substr(0,8)+"..."  }}</span>
 
-            <span class="synwords">{{oneAppInfo.taskType}}</span>
+                <span class="app_date">{{ oneAppInfo.rateUnitPrice}}
+                    <span style="font-size: 16px">Y币</span>
+                </span>
+
+                <p class="synwords">
+                    <span class="task-type">{{oneAppInfo.taskType}}</span>
+                    <span class="app-price">{{oneAppInfo.formattedPrice}}应用</span>
+                </p>
+            </div>
+
         </div>
 
         <hr>
 
         <!--做任务的需求部分-->
         <div class="item item-body">
-            <div class="">
-                <span>"获取"标志</span>
-                <span>第三方注册</span>
-                <span>标题必须包含</span>
-                <span>评论必须包含</span>
-                <span>评论数超过50字</span>
+            <div class="list-group thumbnail_wrap task-demand">
+                <span class="text-left task-md" ng-show="oneAppInfo.needGet == true">"获取"标志</span>
+                <span class="text-left task-md" ng-show="oneAppInfo.registerStatus == 'third'">第三方注册</span>
+                <span class="text-left task-md" ng-show="oneAppInfo.reviewMustTitleKey != ''">标题必须包含:{{oneAppInfo.reviewMustTitleKey}}</span>
+                <span class="text-left task-md" ng-show="oneAppInfo.reviewMustContentKey != ''">评论必须包含:{{oneAppInfo.reviewMustContentKey}}</span>
+                <span class="text-left task-md" ng-show="oneAppInfo.reviewMustContentKey == true">评论数超过50字</span>
             </div>
 
             <!--截图一部分-->
@@ -118,11 +125,11 @@
                 <img src="/images/taskInfor/screenshotImg.png">
                 <span>任务手机必须有SIM卡</span>
 
-                <p class="">1.App Store搜索关键字{{'社交'}}, 大概在第{{'8'}}位
+                <p class="">1.App Store搜索关键字:{{oneAppInfo.titleKeyword}}, 大概在第{{oneAppInfo.ranKing}}位
                     <span>+0.05</span></p>
 
                 <p class="">2.找到指定App后, <i class="icon ion-ios-camera"></i>截图, 然后下载
-                    <span class="">(本任务需获取按钮(+0.05))</span>
+                    <span class="" ng-show="oneAppInfo.needGet == true">(本任务需获取按钮(+0.05))</span>
                 </p>
             </div>
 
@@ -131,7 +138,7 @@
                 <img src="/images/taskInfor/screenshotImg.png">
                 <span>任务截图需跳过引导页</span>
                 <p class="">3.下载完毕,打开App,试用3分钟.
-                    <span class="">(本任务需第三方登陆(+0.05)</span>
+                    <span class="" ng-show="oneAppInfo.registerStatus == 'third'">(本任务需第三方登陆(+0.05)</span>
                 </p>
 
                 <p class=""><i class="icon ion-ios-camera"></i>截图</p>
@@ -145,16 +152,16 @@
                 <p class="">4.打开App Store, 按下面要求评论</p>
 
                 <!--标题部分-->
-                <p>a.评论标题关键字(包含任意1个)</p>
-                <p>遇见, 漂流瓶, 交友</p>
-                <p>必须包含:{{'遇见'}}&nbsp;(+2YB)</p>
+                <p>a.标题关键字(包含任意1个)</p>
+                <p class="">{{oneAppInfo.titleKeyword}}</p>
+                <p ng-show="oneAppInfo.reviewMustTitleKey != ''">必须包含:{{oneAppInfo.reviewMustTitleKey}}&nbsp;(+2YB)</p>
 
                 <!--评论部分-->
                 <p>b.评论内容关键字(包含任意2个)</p>
-                <p>陌生人遇见, 漂流瓶, 交友</p>
-                <p>必须包含:{{'遇见'}}&nbsp;(+2YB)</p>
+                <p class="">{{oneAppInfo.commentKeyword}}</p>
+                <p ng-show="oneAppInfo.reviewMustContentKey != ''">必须包含:{{oneAppInfo.reviewMustContentKey}}&nbsp;(+2YB)</p>
 
-                <p>评论字数超过50字(+0.15YB)</p>
+                <p class="">评论字数超过50字(+0.15YB)</p>
                 <p class=""><i class="icon ion-ios-camera"></i>截图</p>
             </div>
         </div>

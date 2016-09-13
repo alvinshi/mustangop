@@ -82,22 +82,63 @@ body{
     text-align: center;
 }
 
+/*需求截图APP信息样式*/
 .need-capture{
-    width: 640px;
-    padding: 36px 54px 60px 30px;
+    width: 451px;
     margin: auto;
     border: 1px solid #999999;
     background-color: white;
 }
 
-.trackName_one{
-    font-size: 24px;
-    color: #333333;
-    width: 330px;
-    /*margin-top: 10px*/
+.app-img {
+    margin: 31px 19px 19px 31px;
 }
 
+.appTrackName{
+    margin-top: 39px;
+}
 
+.trackName_one{
+    font-size: 20px;
+    color: #333333;
+    margin: 0 0 14px 35px;
+
+}
+
+.app_date{
+    color: #f43446;
+    font-size: 28px;
+    margin: 0 29px 14px 60px;
+}
+
+.synwords{
+    /*margin: 14px 0 31px 19px;*/
+}
+
+.task-type{
+    font-size: 16px;
+    color: #3498db;
+    margin-left:35px;
+
+}
+
+.app-price {
+    font-size: 14px;
+    color: #999999;
+    margin-left: 202px;
+}
+
+/*需求截图样式*/
+
+.task-demand{
+    border: 1px solid #999999;
+}
+
+.task-md {
+    border: 1px solid #999999;
+    font-size: 16px;
+    border-radius: 6px;
+}
 
 
 
@@ -152,14 +193,98 @@ body{
         color: #f55e5a;
     }
 
+    /*需求截图部分样式*/
+    .need-capture{
+        width: 451px;
+        margin: auto;
+        border: 1px solid #999999;
+        background-color: white;
+    }
+
+    .app-img {
+        margin: 31px 19px 19px 31px;
+    }
+
+    .appTrackName{
+        margin-top: 39px;
+    }
+
     .trackName_one{
-        font-size: 24px;
+        font-size: 20px;
         color: #333333;
-        width: 330px;
+        margin: 0 0 14px 35px;
+
+    }
+
+    .app_date{
+        color: #f43446;
+        font-size: 28px;
+        margin: 0 29px 14px 60px;
+    }
+
+    .synwords{
+        /*margin: 14px 0 31px 19px;*/
+    }
+
+    .task-type{
+        font-size: 16px;
+        color: #3498db;
+        margin-left:35px;
+
+    }
+
+    .app-price {
+        font-size: 14px;
+        color: #999999;
+        margin-left: 202px;
     }
 }
 
 
 @media screen and (min-width: 800px) and (max-width: 1800px){
+    /*需求截图部分样式*/
+    .need-capture{
+        width: 451px;
+        margin: auto;
+        border: 1px solid #999999;
+        background-color: white;
+    }
 
+    .app-img {
+        margin: 31px 19px 19px 31px;
+    }
+
+    .appTrackName{
+        margin-top: 39px;
+    }
+
+    .trackName_one{
+        font-size: 20px;
+        color: #333333;
+        margin: 0 0 14px 35px;
+
+    }
+
+    .app_date{
+        color: #f43446;
+        font-size: 28px;
+        margin: 0 29px 14px 60px;
+    }
+
+    .synwords{
+        /*margin: 14px 0 31px 19px;*/
+    }
+
+    .task-type{
+        font-size: 16px;
+        color: #3498db;
+        margin-left:35px;
+
+    }
+
+    .app-price {
+        font-size: 14px;
+        color: #999999;
+        margin-left: 202px;
+    }
 }
