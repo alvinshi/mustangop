@@ -115,48 +115,89 @@
 
             <!--截图一部分-->
             <div class="capture">
-                <img src="/images/taskInfor/screenshotImg.png">
-                <span>截图一</span>>
-                <span>任务手机必须有SIM卡</span>
+                <span class="capture-info">任务手机必须有SIM卡</span>
+                <div class="capture-top">
+                    <img class="img-size" src="/images/taskInfor/screenshotImg.png">
+                    <span class="capture-tl">截图一</span>
+                </div>
 
-                <p class="">1.App Store搜索关键字:{{oneAppInfo.titleKeyword}}, 大概在第{{oneAppInfo.ranKing}}位
-                    <span>+0.05</span></p>
+                <div class="addTaskInfo">
+                    <p class="task-claim">1.App Store搜索关键字:
+                        <span class="color-ramp">{{oneAppInfo.searchKeyword}}</span>, 大概在第
+                        <span class="color-ramp">{{oneAppInfo.ranKing}}</span>位
+                        <span style="font-size: 12px; color: #67bdff">(+0.05)</span>
+                    </p>
 
-                <p class="">2.找到指定App后, <i class="icon ion-ios-camera"></i>截图, 然后下载
-                    <span class="" ng-show="oneAppInfo.needGet == true">(本任务需获取按钮(+0.05))</span>
-                </p>
+                    <p class="task-claim">2.找到指定App后,
+                        <span class="glyphicon glyphicon-camera color-camera"></span>
+                        <span class="color-camera" style="font-size: 16px">截图</span>, 然后下载
+                        <span class="" ng-show="oneAppInfo.needGet == true">
+                            (本任务需<span class="color-ramp">获取</span>按钮)
+                            <span class="color-ramp">(+0.05)</span>
+                        </span>
+                    </p>
+                </div>
             </div>
 
             <!--截图二部分-->
             <div class="capture">
-                <img src="/images/taskInfor/screenshotImg.png">
-                <span>任务截图需跳过引导页</span>
-                <p class="">3.下载完毕,打开App,试用3分钟.
-                    <span class="" ng-show="oneAppInfo.registerStatus == 'third'">(本任务需第三方登陆(+0.05)</span>
-                </p>
+                <span class="capture-info">任务截图需跳过引导页</span>
 
-                <p class=""><i class="icon ion-ios-camera"></i>截图</p>
+                <div class="capture-top">
+                    <img class="img-size" src="/images/taskInfor/screenshotImg.png">
+                    <span class="capture-tl">截图二</span>
+                </div>
+
+                <div class="addTaskInfo">
+                    <p class="task-claim">3.下载完毕,打开App,试用3分钟.
+                        <span class="" ng-show="oneAppInfo.registerStatus == 'third'">
+                            (本任务需<span class="color-ramp">第三方登陆</span>
+                            <span style="font-size: 12px; color: #67bdff">(+0.05)</span>
+
+                            <span class="glyphicon glyphicon-camera color-camera"></span>
+                            <span class="color-camera" style="font-size: 16px">截图</span>
+                        </span>
+                    </p>
+                </div>
             </div>
 
             <!--截图三部分-->
             <div class="capture">
-                <img src="/images/taskInfor/screenshotImg.png">
-                <span>评论页截图不能有键盘</span>
+                <span class="capture-info">评论页截图不能有键盘</span>
+                <div class="capture-top">
+                    <img class="img-size" src="/images/taskInfor/screenshotImg.png">
+                    <span class="capture-tl">截图三</span>
+                </div>
 
-                <p class="">4.打开App Store, 按下面要求评论</p>
+                <div class="addTaskInfo">
+                    <p class="task-claim">4.打开App Store, 按下面要求评论</p>
 
-                <!--标题部分-->
-                <p>a.标题关键字(包含任意1个)</p>
-                <p class="">{{oneAppInfo.titleKeyword}}</p>
-                <p ng-show="oneAppInfo.reviewMustTitleKey != ''">必须包含:{{oneAppInfo.reviewMustTitleKey}}&nbsp;(+2YB)</p>
+                    <!--标题部分-->
+                    <p>a.标题关键字(包含任意1个)</p>
+                    <p class="">{{oneAppInfo.titleKeyword}}</p>
+                    <p ng-show="oneAppInfo.reviewMustTitleKey != ''">必须包含:{{oneAppInfo.reviewMustTitleKey}}&nbsp;(+2YB)</p>
 
-                <!--评论部分-->
-                <p>b.评论内容关键字(包含任意2个)</p>
-                <p class="">{{oneAppInfo.commentKeyword}}</p>
-                <p ng-show="oneAppInfo.reviewMustContentKey != ''">必须包含:{{oneAppInfo.reviewMustContentKey}}&nbsp;(+2YB)</p>
+                    <!--评论部分-->
+                    <p>b.评论内容关键字(包含任意2个)</p>
+                    <p class="">{{oneAppInfo.commentKeyword}}</p>
+                    <p ng-show="oneAppInfo.reviewMustContentKey != ''">必须包含:{{oneAppInfo.reviewMustContentKey}}&nbsp;(+2YB)</p>
 
-                <p class="">评论字数超过50字(+0.15YB)</p>
-                <p class=""><i class="icon ion-ios-camera"></i>截图</p>
+                    <p class="">评论字数超过50字(+0.15YB)</p>
+
+                    <span class="glyphicon glyphicon-camera color-camera"></span>
+                    <span class="color-camera" style="font-size: 16px">截图</span>
+                </div>
+            </div>
+
+            <div class="capture">
+                <div class="capture-top">
+                    <img class="img-size" src="/images/taskInfor/screenshotImg.png">
+                    <span class="capture-tl">备&nbsp;&nbsp;&nbsp;注</span>
+                </div>
+
+                <div class="">
+                    <P class="">{{oneAppInfo.taskRemark}}</P>
+                </div>
             </div>
         </div>
 
