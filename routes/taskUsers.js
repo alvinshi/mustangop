@@ -50,14 +50,15 @@ router.get('/:userCId/:inviteCode', function(req, res) {
             var newUser = new tempUserSQL();
             newUser.set('userCodeId', userCode);
             newUser.save().then(function(tempUserObject){
-                console.log('first generate user succeed, code = ' + userCode);
+                console.log('first generate user succeed, masterCode = ' + masterCode);
+                var masterCode = data.get('inviteCode');
 
                 //师徒关系
                 if(inviteCode != undefined && inviteCode.length > 5 && inviteCode != 'home'){
                     bindMaster(userCode, inviteCode, undefined);
                 }
 
-                res.json({'errorId': 0, 'message': 'auto create account succeed',
+                res.json({'errorId': 0, 'message': 'auto create account succeed', 'masterCode': masterCode,
                     'userCId': Base64.encode(tempUserObject.id), 'userCode': userCode,
                     'apprenticeMoney': 0, 'withdrawMoney': 0,
                     'totalMoney': 0, 'currentMoney': 0, 'todayMoney':0
@@ -96,14 +97,14 @@ router.get('/:userCId/:inviteCode', function(req, res) {
             }
 
             var userCode = data.get('userCodeId');
-
+            var masterCode = data.get('inviteCode');
             //师徒关系
             if(inviteCode != undefined && inviteCode.length > 5 || inviteCode != 'home'){
                 bindMaster(userCode, inviteCode, undefined);
             }
 
-            res.json({'errorId': 0, 'message': 'auto create account succeed',
-                'userCId':  Base64.encode(data.id), 'userCode': userCode,
+            res.json({'errorId': 0, 'message': 'exist account',
+                'userCId':  Base64.encode(data.id), 'userCode': userCode, 'masterCode': masterCode,
                 'apprenticeMoney': data.get('apprenticeMoney'), 'withdrawMoney': data.get('withdrawMoney'),
                 'totalMoney': data.get('totalMoney'), 'currentMoney': data.get('currentMoney'), 'todayMoney': data.get('todayMoney')
             });
