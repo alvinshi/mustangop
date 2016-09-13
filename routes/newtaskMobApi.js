@@ -55,7 +55,7 @@ function submissionNotification(qq){
 }
 
 router.get('/:userId', function(req, res) {
-    res.render('newtaskMob');
+    res.render('pcAndMobTask');
 });
 
 // 内部交换
@@ -71,16 +71,17 @@ router.post('/claim/:excTaskId', function(req, res){
         var retObject = Object();
         var hisappObject = resultObject.get('appObject');
         var taskInfo = resultObject.get('taskObject');
+
+        // 获取App信息
         retObject.artworkUrl100 = hisappObject.get('artworkUrl100');
         retObject.trackName = hisappObject.get('trackName');
         retObject.sellerName = hisappObject.get('sellerName');
         retObject.appleKind = hisappObject.get('appleKind');
         retObject.appleId = hisappObject.get('appleId');
-        retObject.formattedPrice = hisappObject.get('formattedPrice');
+        retObject.formattedPrice = hisappObject.get('formattedPrice'); // 应用是否免费
         retObject.latestReleaseDate = hisappObject.get('latestReleaseDate');
         retObject.excUniqueCode = hisappObject.get('excUniqueCode');
         retObject.version = hisappObject.get('version');
-        retObject.excKinds = taskInfo.get('taskType');
 
         retObject.totalExcCount = resultObject.get('receiveCount');
         retObject.taskObjectId = taskInfo.id;
@@ -93,8 +94,14 @@ router.post('/claim/:excTaskId', function(req, res){
         retObject.Score = taskInfo.get('Score');  // 评分
         retObject.titleKeyword = taskInfo.get('titleKeyword'); // 标题关键词
         retObject.commentKeyword = taskInfo.get('commentKeyword'); // 评论关键词
-        retObject.detailRem = taskInfo.get('detailRem'); // 备注详情
-        retObject.screenshotCount = taskInfo.get('screenshotCount'); // 截图数
+        retObject.needGet = taskInfo.get('needGet'); // 是否需要获取
+        retObject.registerStatus = taskInfo.get('registerStatus'); // 第三方登陆
+
+        retObject.reviewMustTitleKey = taskInfo.get('reviewMustTitleKey'); // 是否需要标题必选
+
+        retObject.reviewMustContentKey = taskInfo.get('reviewMustContentKey'); // 是否需要评论必选
+
+        retObject.rateUnitPrice = taskInfo.get('rateUnitPrice'); // 汇率后的任务单价
 
         var relation = resultObject.relation('mackTask');
         var task_query = relation.query();

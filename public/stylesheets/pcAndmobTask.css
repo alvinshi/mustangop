@@ -1,0 +1,290 @@
+body{
+    margin: 0;
+    padding: 0;
+}
+
+/*页面头部部分样式*/
+.main{
+    margin-top: 100px;
+}
+
+.app-icon {
+    /*display: inline-block;*/
+    height:112px;
+    width: 112px;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    vertical-align: top;
+}
+
+.media-body{
+    padding-left: 20px;
+}
+
+.task-name {
+    font-size: 24px;
+    margin-top: 6px;
+    color:#000000;
+}
+
+.app-id {
+    font-size: 16px;
+    margin-bottom: 8px;
+    color: #7a7a7a;
+}
+
+.company {
+    font-size:16px;
+    margin-bottom: 8px;
+    color: #7a7a7a;
+    margin-left:40px;
+}
+
+.app-info {
+    font-size:14px;
+    color: white;
+    margin-top: 8px;
+
+}
+
+.button_type{
+    background-color: #79c3f7;
+    border: 1px solid #79c3f7 ;
+    border-radius:4px;
+    height:30px;
+    color: white;
+    font-size: 18px;
+    width: 70px;
+    text-align: center;
+}
+
+.button_num{
+    background-color:white;
+    border: 1px solid #acddfe ;
+    border-radius:4px;
+    height:30px;
+    color: #acddfe;
+    font-size: 16px;
+    width: 110px;
+    margin-left: 20px;
+    text-align: center;
+}
+
+.button_surplus{
+    background-color:white;
+    border: 1px solid #acddfe ;
+    border-radius:4px;
+    height:30px;
+    color: #acddfe;
+    font-size: 16px;
+    width:110px;
+    margin-left:10px;
+    text-align: center;
+}
+
+/*需求截图APP信息样式*/
+.need-capture{
+    width: 451px;
+    margin: auto;
+    border: 1px solid #999999;
+    background-color: white;
+}
+
+.app-img {
+    margin: 31px 19px 19px 31px;
+}
+
+.appTrackName{
+    margin-top: 39px;
+}
+
+.trackName_one{
+    font-size: 20px;
+    color: #333333;
+    margin: 0 0 14px 35px;
+
+}
+
+.app_date{
+    color: #f43446;
+    font-size: 28px;
+    margin: 0 29px 14px 60px;
+}
+
+.synwords{
+    /*margin: 14px 0 31px 19px;*/
+}
+
+.task-type{
+    font-size: 16px;
+    color: #3498db;
+    margin-left:35px;
+
+}
+
+.app-price {
+    font-size: 14px;
+    color: #999999;
+    margin-left: 202px;
+}
+
+/*需求截图样式*/
+
+.task-demand{
+    border: 1px solid #999999;
+}
+
+.task-md {
+    border: 1px solid #999999;
+    font-size: 16px;
+    border-radius: 6px;
+}
+
+
+
+/*手机端设置*/
+@media (max-width: 768px){
+
+    .media-body{
+        padding-left:2px;
+    }
+
+    .button_type{
+        background-color: #79c3f7;
+        border: 1px solid #79c3f7 ;
+        border-radius:2px;
+        height:20px;
+        color: white;
+        font-size: 16px;
+        width:40px;
+        padding: 0px;
+
+    }
+
+    .button_num{
+        background-color:white;
+        border: 1px solid #acddfe ;
+        border-radius:2px;
+        height:20px;
+        color: #acddfe;
+        font-size: 16px;
+        width:55px;
+        margin-left:4px;
+        text-align: center;
+        padding: 0px;
+    }
+
+    .button_surplus{
+        background-color:white;
+        border: 1px solid #acddfe ;
+        border-radius:2px;
+        height:20px;
+        color: #acddfe;
+        font-size: 16px;
+        width:60px;
+        margin-left:4px;
+        text-align: center;
+        padding: 0px;
+    }
+
+    .num{
+        text-decoration: none;
+        font-size: 10px;
+        color: #f55e5a;
+    }
+
+    /*需求截图部分样式*/
+    .need-capture{
+        width: 451px;
+        margin: auto;
+        border: 1px solid #999999;
+        background-color: white;
+    }
+
+    .app-img {
+        margin: 31px 19px 19px 31px;
+    }
+
+    .appTrackName{
+        margin-top: 39px;
+    }
+
+    .trackName_one{
+        font-size: 20px;
+        color: #333333;
+        margin: 0 0 14px 35px;
+
+    }
+
+    .app_date{
+        color: #f43446;
+        font-size: 28px;
+        margin: 0 29px 14px 60px;
+    }
+
+    .synwords{
+        /*margin: 14px 0 31px 19px;*/
+    }
+
+    .task-type{
+        font-size: 16px;
+        color: #3498db;
+        margin-left:35px;
+
+    }
+
+    .app-price {
+        font-size: 14px;
+        color: #999999;
+        margin-left: 202px;
+    }
+}
+
+
+@media screen and (min-width: 800px) and (max-width: 1800px){
+    /*需求截图部分样式*/
+    .need-capture{
+        width: 451px;
+        margin: auto;
+        border: 1px solid #999999;
+        background-color: white;
+    }
+
+    .app-img {
+        margin: 31px 19px 19px 31px;
+    }
+
+    .appTrackName{
+        margin-top: 39px;
+    }
+
+    .trackName_one{
+        font-size: 20px;
+        color: #333333;
+        margin: 0 0 14px 35px;
+
+    }
+
+    .app_date{
+        color: #f43446;
+        font-size: 28px;
+        margin: 0 29px 14px 60px;
+    }
+
+    .synwords{
+        /*margin: 14px 0 31px 19px;*/
+    }
+
+    .task-type{
+        font-size: 16px;
+        color: #3498db;
+        margin-left:35px;
+
+    }
+
+    .app-price {
+        font-size: 14px;
+        color: #999999;
+        margin-left: 202px;
+    }
+}

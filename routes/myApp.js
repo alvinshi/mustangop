@@ -356,6 +356,9 @@ router.post('/task', function(req, res){
         needOfficialAudit = true;
     }
 
+    var taskRemark = req.body.taskRemark; // 任务备注
+
+
     var userQuery = new AV.Query(User);
     userQuery.get(userId).then(function(userObject){
         var userMoney = userObject.get('totalMoney');
@@ -422,6 +425,7 @@ router.post('/task', function(req, res){
                     releasetaskObject.set('reviewMustContentKey', reviewMustContentKey); // 评论必选
                     releasetaskObject.set('needMoreReviewContent', extraRetObject.needMoreReviewContent); // 评论必须满足50个字
                     releasetaskObject.set('needOfficialAudit', needOfficialAudit);  // 需要官方审核
+                    releasetaskObject.set('taskRemark', taskRemark);  // 任务备注
 
                     //额外字段
                     releasetaskObject.set('remainCount', excCount); // 剩余条数
@@ -579,6 +583,7 @@ router.get('/getNeed/:appObjectId', function(req, res){
                     appDemandInfo.reviewMustContentKey = taskDemandObject.get('reviewMustContentKey'); // 评论必选
                     appDemandInfo.needMoreReviewContent = taskDemandObject.get('needMoreReviewContent'); // 评论需满50字
                     appDemandInfo.needOfficialAudit = taskDemandObject.get('needOfficialAudit'); // 是否需要官方审核
+                    appDemandInfo.taskRemark = taskDemandObject.get('taskRemark');
                     appDemandInfo.detailRem = taskDemandObject.get('detailRem');
 
                     appDemandInfo.demandTemplateId = taskDemandObject.id;

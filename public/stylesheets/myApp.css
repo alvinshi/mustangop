@@ -766,3 +766,11 @@ button{
 .border{
     border: 3px solid #3498db;
 }
+
+.task-remark{
+    width: 300px;
+    height: 34px;
+    border-radius: 4px;
+    border:1px solid #CCCCCC;
+    margin-left: 20px;
+}
