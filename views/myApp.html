@@ -427,6 +427,7 @@
 
                                         <input type="text" ng-model="displayDemandTemplate.reviewMustTitleKey" name="reviewMustTitleKey" class="input2" id="reviewMustTitle"
                                                maxlength="5" placeholder="请输入小于6字符">
+
                                         <button disabled class="b4" style="margin-left:234px;"
                                                 ng-show="reviewTitleTem == true || displayDemandTemplate.reviewMustTitleKey != undefined">+1Y币
                                         </button>
@@ -443,17 +444,18 @@
 
                                         </span>/40<br><br>
 
-                                        <span  style="color:#adadad;font-size: 16px;">必选</span>
+                                        <span style="color:#adadad;font-size: 16px;">必选</span>
                                         <input type="text" ng-model="displayDemandTemplate.reviewMustContentKey" id="reviewMustContent"
                                                maxlength="5" placeholder="请输入小于6字符"
                                                name="reviewMustContentKey" class="field" style="margin-left:14px;">
 
                                         <button disabled class="b4" style="margin-left:229px;"
-                                                ng-show="commentMustContent == true || displayDemandTemplate.reviewMustContentKey != undefined">+1Y币</button>
+                                                ng-show="commentMustContent == true || displayDemandTemplate.reviewMustContentKey != undefined">+1Y币
+                                        </button>
                                     </p><br>
 
-                                    <div class="checkbox" >
-                                        <label >
+                                    <div class="checkbox" style="padding-bottom: 20px">
+                                        <label>
                                             <input type="checkbox" ng-model="displayDemandTemplate.needMoreReviewContent" name="needMoreReviewContent" value=true  id="box2" ng-click="commenOver50()">
                                             评论需满50字
                                             <button disabled ng-show="commentYCoin == true || displayDemandTemplate.needMoreReviewContent == true"
@@ -482,7 +484,7 @@
                                 </span>
                                 </h4>
 
-                                <textarea name="detailRem" class="input3" cols='10' rows="10" maxlength="140"
+                                <textarea name="detailRem" class="input3" rows="10" maxlength="40"
                                           ng-model="displayDemandTemplate.detailRem"
                                           placeholder="请在备注中填写您的对评论要求的解释，但请不要增加非野马标准的要求。例如：手机注册、发布一条信息流、截取特殊界面的打开图等等均不支持"
                                           style="font-size:14px;">
@@ -490,7 +492,7 @@
                                 <span ng-bind="displayDemandTemplate.detailRem.length+0"
                                       style="margin-left:15px;color:#00b7ff;font-size: 14px;">
 
-                                </span>/140<br><br>
+                                </span>/40<br><br>
                                 <!--备注:<input type="text" class="task-remark" name="taskRemark" ng-model="displayDemandTemplate.taskRemark">-->
 
 
