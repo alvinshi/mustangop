@@ -13,6 +13,11 @@ var mackTaskInfoObject = AV.Object.extend('mackTaskInfo'); // 做单条任务的
 
 var messager = require('./utils/messager');
 
+//小马
+var tempUserSQL = AV.Object.extend('tempUser');
+var YCoinToRMBRate = 0.45;
+var masterRMBRate = 0.2;    //师徒获取Y币比率
+
 /**
  * 一个简单的云代码方法
  */
@@ -39,6 +44,193 @@ function getTaskCheckQuery(){
     return query;
 }
 
+function dealReceiveTask(inReceTaskObject, doTaskObjects, taskUsers, locked, results)
+{
+    var app = inReceTaskObject.get('appObject'); // 领取的任务App
+    var task = inReceTaskObject.get('taskObject'); // 领取任务的object
+    var releaseTaskUser = util.addLeanObject(task.get('userObject'), taskUsers);
+    if(task == undefined || app == undefined || releaseTaskUser == undefined){
+        console.error('********** task or releaseUser or app is undefine in timer func');
+        return;
+    }
+    console.log('********** task for timer: ' + inReceTaskObject.id);
+
+    var trackName = app.get('trackName'); //任务App名称
+    var tempUserPrice = task.get('tempUserPrice');
+    var excUnitPrice = task.get('excUnitPrice'); // 发布任务的单价
+    var rateUnitPrice = task.get('rateUnitPrice');
+
+    // 领取任务的用户
+    var user = util.addLeanObject(inReceTaskObject.get('userObject'), taskUsers);
+    var tempUser = inReceTaskObject.get('tempUserObject');
+
+    var needDoneTimer = true;
+    var changeDoTasks = [];
+    for (var r = 0; r < doTaskObjects.length; r++){
+        var taskStatus = doTaskObjects[r].get('taskStatus');
+        var usernameForMessage;
+        if (taskStatus == 'uploaded' || taskStatus == 'reUploaded'){
+
+            //不能在1小时之内提交的任务(审核人员来不及审核)
+            var taskUpdateDate = doTaskObjects[r].updatedAt;
+            var nowDate = new Date();
+            if(taskUpdateDate.getDay() ==  nowDate.getDay() &&
+                taskUpdateDate.getMonth() ==  nowDate.getMonth() &&
+                taskUpdateDate.getHours() >= nowDate.getHours() - 1){
+                needDoneTimer = false;
+                continue;
+            }
+
+            doTaskObjects[r].set('taskStatus', 'systemAccepted');
+            changeDoTasks.push(doTaskObjects[r]);
+
+            if (user != undefined){
+                //野马用户
+                usernameForMessage = user.get('username');
+
+                //新手任务
+                if(changeDoTasks.length == 1 && user.get('registerBonus') == 'register_upload_task'){
+                    user.set('registerBonus', 'register_accept_task');
+                }
+
+                //增加做任务人的钱
+                console.log('****** task be accept by timer ****** do task user ' + user.id + '(add total YB) +' + rateUnitPrice);
+                user.increment('totalMoney', rateUnitPrice);
+                messager.earnMsg('(' + releaseTaskUser.get('username') + ')超时未审核,系统自动接受了您提交的任务(' + trackName + ')结果', rateUnitPrice, user.id, user);
+            }else {
+                //小马用户
+                //增加钱
+                usernameForMessage = tempUser.get('userCodeId');
+
+                var isToday = true;
+                var myDate = new Date();
+                var month = (myDate.getMonth() + 1).toString();
+                var day = myDate.getDate().toString();
+                var yearStr = myDate.getFullYear().toString();
+                var todayStr = yearStr + '-' + month + '-' + day;
+                var todayMoneyDate = tempUser.get('todayMoneyDate');
+                if (todayMoneyDate != todayStr) {
+                    //非当天赚到的钱
+                    isToday = false;
+                }
+
+                var tempUserGetRMB = 0;
+                if (tempUserPrice > 0) {
+                    tempUserGetRMB = tempUserPrice;
+                } else {
+                    tempUserGetRMB = (rateUnitPrice / 10) * YCoinToRMBRate;
+                }
+
+                //增加用户的钱(总额,可用,今日)
+                tempUser.increment('totalMoney', tempUserGetRMB);
+                tempUser.increment('currentMoney', tempUserGetRMB);
+                if (isToday == true) {
+                    tempUser.increment('todayMoney', tempUserGetRMB);
+                } else {
+                    //更新日期到最新
+                    tempUser.set('todayMoneyDate', todayStr);
+                    tempUser.set('todayMoney', tempUserGetRMB);
+                }
+
+                //增加师傅的钱
+                var masterCode = tempUser.get('inviteCode');
+                if (masterCode != undefined && masterCode.length > 0) {
+                    var tempUserQuery = new AV.Query(tempUserSQL);
+                    tempUserQuery.equalTo('userCodeId', masterCode);
+                    tempUserQuery.find().then(function (datas) {
+
+                        if (datas.length == 1) {
+                            var masterUserObject = datas[0];
+                            var isToday = true;
+                            var masterRewards = tempUserGetRMB * masterRMBRate;
+
+                            var todayMoneyDate = masterUserObject.get('todayMoneyDate');
+                            if (todayMoneyDate != todayStr) {
+                                //非当天赚到的钱
+                                isToday = false;
+                            }
+
+                            //增加用户的钱(总额,可用,今日)
+                            masterUserObject.increment('totalMoney', masterRewards);
+                            masterUserObject.increment('currentMoney', masterRewards);
+                            masterUserObject.increment('apprenticeMoney', masterRewards);
+                            if (isToday == true) {
+                                masterUserObject.increment('todayMoney', masterRewards);
+                            } else {
+                                //更新日期到最新
+                                masterUserObject.set('todayMoneyDate', todayStr);
+                                masterUserObject.set('todayMoney', masterRewards);
+                            }
+
+                            masterUserObject.save().then(function () {
+
+                            }, function (error) {
+
+                            });
+
+                            //TODO RMB Logger
+                        }
+                    });
+
+                    //TODO RMB Logger
+                }
+            }
+
+            //扣除发布任务人的冻结钱
+            releaseTaskUser.increment('freezingMoney', -excUnitPrice);
+            messager.payMsg('您超时未审核,系统自动接受了（' + usernameForMessage + '）提交的任务(' + trackName + ')结果', excUnitPrice, releaseTaskUser.id, releaseTaskUser);
+            console.log('****** task be accept by timer ****** release task user : ' + releaseTaskUser.id + '(minus freeze YB) -' + rateUnitPrice);
+        }else if(taskStatus == 'refused'){
+            needDoneTimer = false;
+        }
+        else{
+            //do nothing
+            //query.notContainedIn('taskStatus', ['systemAccepted', 'accepted', 'refused']);
+        }
+    }
+
+    if(changeDoTasks.length > 0){
+        AV.Object.saveAll(changeDoTasks).then(function(){
+            console.log(inReceTaskObject.id + ' ______ task status for systemAccepted Saved succeed');
+        },function(error){
+            console.error(inReceTaskObject.id + ' ______ task status for systemAccepted Saved error');
+        });
+    }
+
+    //还得减去已过期,不再重新结算
+    var undoTask = inReceTaskObject.get('receiveCount') - doTaskObjects.length - inReceTaskObject.get('expiredCount');
+    if (undoTask > 0){
+        //protect
+        //1.扣除用户金币入系统(汇率金币)  减少发布人冻结的钱 增加发布人总钱
+        if(user != undefined){
+            user.increment('totalMoney', -(rateUnitPrice * undoTask));
+            messager.penaltyMsg(trackName, rateUnitPrice * undoTask, user);
+            console.log('****** task be expired by timer ****** do task user : ' + user.id + '(minus/punish total YB) +' + (rateUnitPrice * undoTask));
+        }else {
+            //小马用户不受惩罚措施
+        }
+
+        //解锁发布任务的人的钱
+        releaseTaskUser.increment('freezingMoney', - (excUnitPrice * undoTask));
+        releaseTaskUser.increment('totalMoney', excUnitPrice * undoTask);
+        messager.unfreezeMsg('您的任务（' + trackName + '）' + '有 ' + undoTask + ' 条(' + user.get('username') + ')领取未完成', rateUnitPrice * undoTask, releaseTaskUser.id, releaseTaskUser);
+        console.log('****** task be expired by timer ****** release task user : ' + releaseTaskUser.id + '(minus freeze YB,add total YB) +' + (rateUnitPrice * undoTask));
+
+        //2.过期任务增加
+        inReceTaskObject.increment('expiredCount', undoTask);
+    }
+
+    inReceTaskObject.set('timerDone', needDoneTimer);
+    if(locked == results.length){
+        //保存所有用户的数据改动
+        AV.Object.saveAll(taskUsers.concat(results)).then(function(){
+            console.log('!!!!! checkTask  modify journal succeed');
+        }, function (error) {
+            console.error('---------- save all user money error ' + error.message);
+        });
+    }
+}
+
 //工作日10点定时器
 // 这个定时器只处理领取任务的相关信息 每天10点处理前一天晚上6点前的数据
 AV.Cloud.define('taskCheckForDoTask', function(request, response){
@@ -58,6 +250,8 @@ AV.Cloud.define('taskCheckForDoTask', function(request, response){
             //receiveTaskObject
             var query_a = getTaskCheckQuery();
             query_a.include('userObject');
+            query_a.include('tempUserObject');
+            query_a.include('tempMackTask');
             query_a.include('taskObject');
             query_a.include('appObject');
             query_a.include('taskObject.userObject');
@@ -65,125 +259,41 @@ AV.Cloud.define('taskCheckForDoTask', function(request, response){
             query_a.skip(i * 1000);
             query_a.find().then(function(results){ // 查找出所有没有完成的任务
 
-                var taskUsers = Array();
                 var locked = 0;
+                var taskUsers = Array();
 
                 for (var e = 0; e < results.length; e++){
-                    //闭包
-                    (function(receTaskObject){
-                        // 修改任务为已经接收 最多可以做1000个任务
-                        var relation = receTaskObject.relation('mackTask');
-                        var query = relation.query();
-                        query.notEqualTo('taskStatus', 'expired');
-                        query.include('receiveTaskObject');
-                        query.include('receiveTaskObject.taskObject');
-                        query.include('receiveTaskObject.taskObject.userObject');
-                        query.include('receiveTaskObject.userObject');
-                        //query.include('receiveTaskObject.appObject');
-                        query.limit(1000);
-                        query.find().then(function(doTaskObjects){
-                            locked++;
 
-                            //闭包
-                            var inReceTaskObject = receTaskObject;
-                            console.log('********** task for timer: ' + inReceTaskObject.id);
-
-                            var task = inReceTaskObject.get('taskObject'); // 领取任务的object
-                            // 领取任务的用户
-                            var user = util.addLeanObject(inReceTaskObject.get('userObject'), taskUsers);
-
-                            var app = inReceTaskObject.get('appObject'); // 领取的任务App
-                            if(task == undefined || user == undefined || app == undefined){
-                                console.error('********** task or user or app is undefine in timer func');
-                                return;
-                            }
-                            var trackName = app.get('trackName'); //任务App名称
-                            var rate_unitPrice = task.get('rateUnitPrice'); // 做任务的单价
-                            var excUnitPrice = task.get('excUnitPrice'); // 发布任务的单价
-                            // 发布任务的用户
-                            var releaseTaskUser = util.addLeanObject(task.get('userObject'), taskUsers);
-
-                            if(releaseTaskUser == undefined){
-                                return;
-                            }
-
-                            var needDoneTimer = true;
-                            var changeDoTasks = [];
-                            for (var r = 0; r < doTaskObjects.length; r++){
-                                var taskStatus = doTaskObjects[r].get('taskStatus');
-                                if (taskStatus == 'uploaded' || taskStatus == 'reUploaded'){
-
-                                    //不能在1小时之内提交的任务(审核人员来不及审核)
-                                    var taskUpdateDate = doTaskObjects[r].updatedAt;
-                                    var nowDate = new Date();
-                                    if(taskUpdateDate.getDay() ==  nowDate.getDay() &&
-                                        taskUpdateDate.getMonth() ==  nowDate.getMonth() &&
-                                        taskUpdateDate.getHours() >= nowDate.getHours() - 1){
-                                        needDoneTimer = false;
-                                        continue;
-                                    }
-
-                                    doTaskObjects[r].set('taskStatus', 'systemAccepted');
-                                    changeDoTasks.push(doTaskObjects[r]);
-                                    if(changeDoTasks.length == 1 && user.get('registerBonus') == 'register_upload_task'){
-                                        user.set('registerBonus', 'register_accept_task');
-                                    }
-                                    //增加做任务人的钱
-                                    console.log('****** task be accept by timer ****** do task user ' + user.id + '(add total YB) +' + rate_unitPrice);
-                                    user.increment('totalMoney', rate_unitPrice);
-                                    messager.earnMsg('(' + releaseTaskUser.get('username') + ')超时未审核,系统自动接受了您提交的任务(' + trackName + ')结果', rate_unitPrice, user.id, user);
-
-                                    //扣除发布任务人的冻结钱
-                                    releaseTaskUser.increment('freezingMoney', -excUnitPrice);
-                                    messager.payMsg('您超时未审核,系统自动接受了（' + user.get('username') + '）提交的任务(' + trackName + ')结果', excUnitPrice, releaseTaskUser.id, releaseTaskUser);
-                                    console.log('****** task be accept by timer ****** release task user : ' + releaseTaskUser.id + '(minus freeze YB) -' + rate_unitPrice);
-                                }else if(taskStatus == 'refused'){
-                                    needDoneTimer = false;
-                                }
-                                else{
-                                    //do nothing
-                                    //query.notContainedIn('taskStatus', ['systemAccepted', 'accepted', 'refused']);
-                                }
-                            }
-
-                            if(changeDoTasks.length > 0){
-                                AV.Object.saveAll(changeDoTasks).then(function(){
-                                    console.log('______ task status for systemAccepted Saved succeed');
-                                },function(error){
-                                    console.error('______ task status for systemAccepted Saved error');
-                                });
-                            }
-
-                            //还得减去已过期,不再重新结算
-                            var undoTask = inReceTaskObject.get('receiveCount') - doTaskObjects.length - inReceTaskObject.get('expiredCount');
-                            if (undoTask > 0){
-                                //protect
-                                //1.扣除用户金币入系统(汇率金币)  减少发布人冻结的钱 增加发布人总钱
-                                user.increment('totalMoney', -(rate_unitPrice * undoTask));
-                                messager.penaltyMsg(trackName, rate_unitPrice * undoTask, user);
-                                console.log('****** task be expired by timer ****** do task user : ' + user.id + '(minus/punish total YB) +' + (rate_unitPrice * undoTask));
-
-                                //解锁发布任务的人的钱
-                                releaseTaskUser.increment('freezingMoney', - (excUnitPrice * undoTask));
-                                releaseTaskUser.increment('totalMoney', excUnitPrice * undoTask);
-                                messager.unfreezeMsg('您的任务（' + trackName + '）' + '有 ' + undoTask + ' 条(' + user.get('username') + ')领取未完成', rate_unitPrice * undoTask, releaseTaskUser.id, releaseTaskUser);
-                                console.log('****** task be expired by timer ****** release task user : ' + releaseTaskUser.id + '(minus freeze YB,add total YB) +' + (rate_unitPrice * undoTask));
-
-                                //2.过期任务增加
-                                inReceTaskObject.increment('expiredCount', undoTask);
-                            }
-
-                            inReceTaskObject.set('timerDone', needDoneTimer);
-                            if(locked == results.length){
-                                //保存所有用户的数据改动
-                                AV.Object.saveAll(taskUsers.concat(results)).then(function(){
-                                    console.log('!!!!! checkTask  modify journal succeed');
-                                }, function (error) {
-                                    console.error('---------- save all user money error ' + error.message);
-                                });
-                            }
-                        });
-                    })(results[e]);
+                    //小马用户
+                    var tempUser = results[e].get('tempUserObject');
+                    if(tempUser != undefined){
+                        //小马用户
+                        locked++;
+                        var tempMackTask = results[e].get('tempMackTask');
+                        if(tempMackTask == undefined){
+                            dealReceiveTask(results[e], [], taskUsers, locked);
+                        }else {
+                            dealReceiveTask(results[e], [tempMackTask], taskUsers, locked, results);
+                        }
+                    }else{
+                        //换评用户
+                        (function(receTaskObject){
+                            // 修改任务为已经接收 最多可以做1000个任务
+                            var relation = receTaskObject.relation('mackTask');
+                            var query = relation.query();
+                            query.notEqualTo('taskStatus', 'expired');
+                            query.include('receiveTaskObject');
+                            query.include('receiveTaskObject.taskObject');
+                            query.include('receiveTaskObject.taskObject.userObject');
+                            query.include('receiveTaskObject.userObject');
+                            query.limit(1000);
+                            query.find().then(function(doTaskObjects){
+                                locked++;
+                                //闭包
+                                dealReceiveTask(receTaskObject, doTaskObjects, taskUsers, locked, results);
+                            });
+                        })(results[e]);
+                    }
                 }
             })
         }

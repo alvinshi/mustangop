@@ -356,7 +356,7 @@ router.post('/task', function(req, res){
         needOfficialAudit = true;
     }
 
-    var taskRemark = req.body.taskRemark; // 任务备注
+    var detailRem = req.body.detailRem; // 任务备注
 
 
     var userQuery = new AV.Query(User);
@@ -425,7 +425,7 @@ router.post('/task', function(req, res){
                     releasetaskObject.set('reviewMustContentKey', reviewMustContentKey); // 评论必选
                     releasetaskObject.set('needMoreReviewContent', extraRetObject.needMoreReviewContent); // 评论必须满足50个字
                     releasetaskObject.set('needOfficialAudit', needOfficialAudit);  // 需要官方审核
-                    releasetaskObject.set('taskRemark', taskRemark);  // 任务备注
+                    releasetaskObject.set('detailRem', detailRem);  // 任务备注
 
                     //额外字段
                     releasetaskObject.set('remainCount', excCount); // 剩余条数
@@ -630,7 +630,10 @@ router.get('/verify', function(req, res){
 function screenShotOneElement(retObject, asoRank, needGet)
 {
     //初始价格(好评3元,下载2.3元)
-    retObject.tempUserPrice = retObject.excUnitPrice / 10;
+    //小马价格(好评1.5元,下载1.15元)
+    //默认Y币转人名币汇率
+    var YCoinToRMBRate = 0.045;
+    retObject.tempUserPrice = retObject.excUnitPrice * YCoinToRMBRate;
 
     //rank
     if (asoRank <= 20){
