@@ -6,7 +6,7 @@
 
 //付费游戏
 exports.payAppRmb = function(price){
-    return price * 1.3;
+    return price * 1.2;
 };
 
 exports.payAppYCoin = function(price){

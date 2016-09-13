@@ -664,7 +664,7 @@ function screenShotTwoElement(retObject, registerStatus)
     if (registerStatus == 'third'){
         retObject.excUnitPrice += 2;
         //小马第三方登陆
-        retObject.tempUserPrice += tryPriceUtil.needThirdLogin(registerStatus);
+        retObject.tempUserPrice += tryPriceUtil.priceStr(registerStatus);
     }
 }
 

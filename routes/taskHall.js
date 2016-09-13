@@ -50,10 +50,6 @@ function taskObjectToDic(taskObject, isOpen){
         taskDic.taskId = taskObject.id;
         taskDic.appIcon = appObject.get('artworkUrl100');
         taskDic.appName = appObject.get('trackName');
-        var priceStr = appObject.get('formattedPrice');
-        if(priceStr != '免费'){
-            taskObject.appPrice = priceStr;
-        }
 
         if(isOpen == true){
             taskDic.remainCount = taskObject.get('remainCount');
@@ -70,6 +66,12 @@ function taskObjectToDic(taskObject, isOpen){
         taskDic.doingCount = appObject.get('doingCount');
 
         var extraDemandArray = Array();
+        var priceStr = appObject.get('formattedPrice');
+        if(priceStr != '免费'){
+            taskObject.appPrice = priceStr;
+            var appPrice = parseFloat(priceStr.substring(1, priceStr.length));
+            extraDemandArray.push('付费游戏 +' + tryPriceUtil.payAppRmb(appPrice));
+        }
         if(taskObject.get('needGet') == true){
             extraDemandArray.push('需首次下载(获取按钮) +' + tryPriceUtil.needGetRmb(true));
         }
@@ -85,7 +87,7 @@ function taskObjectToDic(taskObject, isOpen){
             extraDemandArray.push('需要第三方登陆体验App +' + tryPriceUtil.needThirdLogin(registerStatus));
         }
         taskDic.extraDemandArray = extraDemandArray;
-        
+
         return taskDic;
     }
 
