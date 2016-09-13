@@ -17,6 +17,22 @@ angular.module('starter.controllers', ['angularFileUpload'])
     var inviteCode = homeUrlList[homeUrlList.length - 1];
 
     getUserCode();
+    //复制链接
+    $scope.copyUrl = function(userCode) {
+         var Url = $location.absUrl() +'/' + userCode;
+         Url.select(); // 选择对象
+        document.execCommand("Copy"); // 执行浏览器复制命令
+    };
+    //输入邀请码
+    $scope.invitation=false;
+    $scope.invita=function(){
+        $scope.invitation=true;
+    };
+
+
+
+
+
 
     //设备判定
     $scope.isIOSDevice = 0;

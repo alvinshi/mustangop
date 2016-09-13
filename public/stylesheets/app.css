@@ -138,7 +138,7 @@
 
 }
 .button-calm{
-    width:20%;
+    width:25%;
     border-radius: 2em;
 
 }
@@ -151,11 +151,19 @@
     /*filter: alpha(opacity=50);*/
     /*-moz-opacity: 0.5;*/
     /*opacity: 0.5;*/
+
     border-radius: 0.3em;
     height:1em ;
     background-color: #f0f0f0;
     border: 0px;
 
+}
+.inviteinput{
+    margin-left: auto;
+    margin-right: auto;
+    height:1.5em;
+    background-color: #f0f0f0;
+    text-align: center;
 }
 
 
@@ -164,11 +172,18 @@
 .header{
     margin-top: -1.6em;
    background-color:#67bdff;
-    height:6.5em;
+    height:5.5em;
 }
 .header h4{
     margin-left: 4%;
+    margin-top: 0.6em;
+}
+.header-mytask{
+    margin-left: 4%;
     margin-top: 1em;
+    font-size: 1.2em;
+    color: white;
+    font-weight: 900;
 }
 .dashed{
     margin-top: 0.8em;
@@ -288,10 +303,10 @@
 /*详细任务页面*/
 .detailicon{
     position: absolute;
-    left:1em;
-    width:4.5em;
+    left:1.5em;
+    width:4em;
     height:auto;
-    top:-2em;
+    top:-1.8em;
 }
 .texthead{
     font-size: 1.8em;
