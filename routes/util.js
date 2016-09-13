@@ -262,6 +262,9 @@ exports.leanObjectListIdList = function(leanObjectList){
 };
 
 exports.addLeanObject = function(leanObject, leanObjectList){
+    if(leanObject == undefined){
+        return undefined;
+    }
     for (var i = 0; i < leanObjectList.length; i++){
         var temLeanObject = leanObjectList[i];
         if(temLeanObject.id == leanObject.id){

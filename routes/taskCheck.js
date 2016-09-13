@@ -17,7 +17,7 @@ var mackTaskInfo = AV.Object.extend('mackTaskInfo');
 var tempUserSQL = AV.Object.extend('tempUser');
 
 var YCoinToRMBRate = 0.45;
-var masterRMBRate = 0.2;
+var masterRMBRate = 0.2; //师徒获取Y币比率
 
 router.get('/', function(req, res) {
     res.render('taskCheck');
