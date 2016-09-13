@@ -418,6 +418,10 @@ router.get('/:userCId/:taskId', function(req, res, next) {
                 if(tempMackTask != undefined){
                     taskDetailDic.doTaskImgs = tempMackTask.get('requirementImgs');
                     taskDetailDic.doTaskStatus = tempMackTask.get('taskStatus');
+
+                    if(taskDetailDic.doTaskStatus == 'refused'){
+                        taskDetailDic.refusedReason = tempMackTask.get('detail');
+                    }
                 }else if(receObjects[0].get('expiredCount') == 1){
                     //超时未完成
                     taskDetailDic.doTaskStatus = 'expired';
