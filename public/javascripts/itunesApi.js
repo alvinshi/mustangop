@@ -554,7 +554,11 @@ app.controller('itunesSearchControl', function($scope, $http) {
     }
 
     $scope.addApp=function(id) {
-        $('#'+ id).popover("toggle");
+        if (id == 'glyphicon'){
+            $('#'+ id).popover("toggle");
+        }else {
+            $('#'+ id).popover("toggle");
+        }
     };
 
     $scope.saveStatusChange = function(){
