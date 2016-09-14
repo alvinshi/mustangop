@@ -185,7 +185,10 @@ app.use('/userProtocol', userProtocol);
 app.use('/handBook', handBook);
 app.use('/guide', guide);
 app.use('/webAnalysis', webAnalysis);
+
+//extra route
 app.use('/homePage', homePage);
+app.use('/home', homePage);
 
 //小马试客
 app.use('/taskUser', taskUsers);
