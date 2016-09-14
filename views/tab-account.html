@@ -1,6 +1,11 @@
+<!-- Bootstrap core CSS -->
+<link href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
+
+<!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+<script src="//cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 <ion-view view-title="提现">
     <ion-content>
-        <body >
+        <body  >
         <div class="accountcontent" >
 
             <!--头部ID区域-->
@@ -15,15 +20,37 @@
             <div class="pay">
                 <div class="paytext">
 
-                    <h4>支付宝账号<span style="color:#999999;float:right"> 点击绑定</span>   </h4>
+                    <span class="accountpay">支付宝账号<span style="color:#999999;float:right;margin-right: 5%;"> 点击绑定</span>   </span>
                     </div>
            </div>
 
             <!--个人资产区域-->
             <div class="personal">
+             <div class="deposit">
+                 <span style="font-size: 2.5em;color:red;margin-left: 5%;">20.00</span><br>
+                 <h5>可提现资产<span style="float:right;margin-top: -2em;color: red;margin-right:8%;">马上提现
+                     </span></h5>
+                 <span class="glyphicon glyphicon-chevron-right" style="font-size: 1.2em;color: #cccccc;float:right;margin-top: -3.2em;margin-right: 2%"></span>
+                 <hr size="0.1"  style="color: #999999;width:95%;margin-left: 5%;margin-top: -0.3em;" >
+             </div>
 
+                <div class="depositsecond" style="margin-top: -1em;">
+                    <span style="font-size: 2em;color:black;margin-left: 5%;">3.38</span><br>
+                    <h5>提现后账户余额<span style="float:right;margin-top: -1em;color: #999999;margin-right: 5%;">账户余额满10元可以再次提现</span></h5>
+
+                </div>
             </div>
 
+
+            <!--申请提现区域-->
+
+            <div class="apply">
+                <span style="color:#67bdff;font-size: 1.5em;margin-left: 5%;line-height: 3em;">20.00元申请提现中</span>
+            </div>
+            <!--底部标注-->
+            <div class="accountfoot">
+                <span style="color:#999999;font-size: 1em;margin-left: 5%;line-height: 4em; ">*提现金额会在一个工作日内到账</span>
+            </div>
 
 
 

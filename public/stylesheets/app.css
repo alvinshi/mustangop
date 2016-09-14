@@ -266,6 +266,15 @@
      right: 3%;
      top:8%;
  }
+.cardwordchange{
+    margin-left: 10%;
+    font-size: 1.7em;
+    color: #999999;
+    margin-top: 0.1em;
+    position: absolute;
+    right: 3%;
+    top:8%;
+}
 .cardwordGray{
     margin-left: 10%;
     font-size: 1.7em;
@@ -422,23 +431,58 @@ margin-right: 0.5em;
 }
 .accounthead{
     background-color: white;
-    height:6em;
+    height:6.6em;
 
 }
 .accountimg{
     float:left;
+    margin-left: 5%;
+}
+.accountID{
+    margin-top: 1.2em;
 }
 .accountID h4{
-    color:black;
+    color:#999999;
     float:left;
-
+    margin-left: 5%;
+    margin-top: 1.3em;
 }
 .pay{
     background-color: white;
     margin-top: 1em;
     height:4em;
 }
-.paytext h4{
-    line-height: 3em;
+.accountpay{
+    line-height: 3.5em;
     color:black;
+    font-size: 1.2em;
+    margin-left: 5%;
+}
+/*个人资产区域*/
+.personal{
+    margin-top: 1em;
+    background-color: white;
+
+    height:11.5em;
+}
+.deposit h5{
+    margin-left: 5%;
+     color:#999999;
+ }
+
+.depositsecond h5{
+    margin-left: 5%;
+    color:#999999;
+    margin-top: 0em;
+
+}
+/*申请提现区域*/
+.apply{
+    background-color: white;
+    margin-top: 1em;
+    height:4em;
+}
+/*底部标注*/
+.accountfoot{
+    height: 5em;
 }

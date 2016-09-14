@@ -251,7 +251,6 @@ angular.module('starter.controllers', ['angularFileUpload'])
 
     $scope.lockTaskId = undefined;
     $scope.dataStatus = 0;
-    $scope.progressNum = 0;
 
     var tasksUrl = '/taskHall/' + gUserCId + '/' + taskId;
     $scope.loading = true;
@@ -267,10 +266,17 @@ angular.module('starter.controllers', ['angularFileUpload'])
                 //任务已经领取
                 $scope.doTaskCreatedAt = response.doTaskCreatedAt;
                 $scope.taskPicCount = response.taskDetail.taskPicCount;
+                $scope.progressNum = 0;
+                //*******************************倒计时
+                var time = $scope.doTaskCreatedAt;
+                //var dateStr = time.getTime();
+                var yesterdayDate = new Date(time);
+                var dateStrT = yesterdayDate.getHours() + ':' +  yesterdayDate.getMinutes() + ':' + yesterdayDate.getSeconds()
 
-                //上传图片按钮状态
+                console.log('+++++' + dateStrT);
+
                 //TODO chenhao 增加倒计时
-                var countDownStr = ' 43:20';
+                var countDownStr = '44:22';
                 if(response.taskDetail.doTaskStatus == 'uploaded' || response.taskDetail.doTaskStatus == 'reUploaded' || response.taskDetail.doTaskStatus == 'refused'){
                     $scope.uploadButtonTitle = '重新上传' + $scope.taskPicCount + '张任务截图  ' + countDownStr;
                 }else {

@@ -24,7 +24,7 @@
         <div class="header">
             <div class="text" >
                 <br>
-            <h4>根据关键词,在APP&nbsp;store搜索到指定APP,下载APP,试玩3分钟</h4>
+            <h4 style="color: white;">根据关键词,在APP&nbsp;store搜索到指定APP,下载APP,试玩3分钟</h4>
             </div>
         </div>
             <!--灰色背景-->
@@ -91,7 +91,7 @@
                         </div>
                         <span class = "cardplay typegray" >剩余{{task.remainCount}}条</span>
                         <span ng-show="task.doingCount > 0" class="cardplay typelightgray" style="margin-left: 1em;">进行中{{task.doingCount}}份</span><br><br>
-                        <span class="cardtextright cardword" >+{{task.doTaskPrice.toFixed(2)}}<span style="font-size: 0.6em;">元</span></span><br><br>
+                        <span ng-class="{true:'cardwordGray',false:'cardword'}[task.remainCount == 0]" >+{{task.doTaskPrice.toFixed(2)}}<span style="font-size: 0.6em;">元</span></span><br><br>
                         <span ng-show="task.appPrice != undefined" class="cardtextright typeblue" style="margin-top: -2em;">task.appPrice</span>
                         <div class="note" style="margin-top: -2em;line-height: 2em;">
                             <div class="cardtext annotation" ng-repeat="extraDes in task.extraDemandArray" >

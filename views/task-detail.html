@@ -12,7 +12,7 @@
                </div>
 
                 <div class="rightside">
-                <span style="color:red;">+3.80<span style="font-size: 0.4em;">元</span></span><br>
+                <span style="color:red;">+{{taskDetail.doTaskPrice.toFixed(2)}}<span style="font-size: 0.4em;">元</span></span><br>
                 <span style="color:#999999;font-size: 0.5em;margin-left:1.8em;">{{taskDetail.appPrice}}</span>
                 </div>
         </div>
@@ -34,8 +34,8 @@
                 <div class="detailtext">
                 <p style="font-size: 1.1em;">1.APP&nbsp;搜索关键字
                     <span style="color:#67bdff">{{taskDetail.screenShotOne.searchKeyword}}</span>
-                        ,大概在第<span style="color:#67bdff">{{taskDetail.screenShotOne.ranKingPrice}}</span>位.
-                    <span style="font-size: 0.6em;color:#67bdff;">(+{{taskDetail.screenShotOne.ranKing}}元)</span>
+                        ,大概在第<span style="color:#67bdff">{{taskDetail.screenShotOne.ranKing}}</span>位.
+                    <span style="font-size: 0.6em;color:#67bdff;">(+{{taskDetail.screenShotOne.ranKingPrice}}元)</span>
                     </p>
                 <p style="font-size: 1.1em;margin-top: 0em;">2.找到指定APP后,
                     <img src="/images/app/screenShotS.png" style="height: 0.8em;">
@@ -59,7 +59,7 @@
                 <div class="detailtext">
                     <p style="font-size: 1.1em;">3.下载完毕,打开APP,试用3分钟.
                         (本任务需<span style="color:#67bdff">第三方登陆</span>
-                        <span style="font-size: 0.6em;color:#67bdff;">(+{{taskDetail.screenShot.ranKingPrice}}元)</span>)
+                        <span style="font-size: 0.6em;color:#67bdff;">(+{{taskDetail.screenShotTwo.ranKingPrice}}元)</span>)
                         <img src="/images/app/screenShotS.png" style="height: 0.8em;" >
                         <span  style="color:#fc7f6a">截图</span>
                     </p>
@@ -83,16 +83,16 @@
                             <span>遇见&nbsp;漂流瓶&nbsp;同城</span><br>
                         <span style="color:#999999;">必须包含</span>
                             <span style="color:#67bdff">遇见</span>
-                            <span style="font-size: 0.6em;color:#67bdff;">(+0.36元)</span><br>
+                            <span style="font-size: 0.6em;color:#67bdff;">(+{{taskDetail.screenShotThird.reviewMustTitleKeyPrice}}元)</span><br>
                              <span style="color: #999999;">b.评论内容关键字(包含任意2个)</span><br>
                             <span>陌生人交友&nbsp;社交&nbsp;同城分享</span><br>
                         <span style="color:#999999;">必须包含</span>
                             <span style="color:#67bdff">社交</span>
-                            <span style="font-size: 0.6em;color:#67bdff;">(+0.36元)</span>
+                            <span style="font-size: 0.6em;color:#67bdff;">(+{{taskDetail.screenShotThird.reviewMustContentKeyPrice}}元)</span>
                             </p>
                    <p style="font-size: 1.1em;"> 评论字数
                     <span style="color:#67bdff">超过50字</span>
-                    <span style="font-size: 0.6em;color:#67bdff;">(+0.15元)</span>
+                    <span style="font-size: 0.6em;color:#67bdff;">(+{{taskDetail.screenShotThird.needMoreReviewContentPrice}}元)</span>
                     <img src="/images/app/screenShotS.png" style="height: 0.8em;">
                     <span  style="color:#fc7f6a">截图</span></p>
                 </div>
@@ -140,7 +140,7 @@
             任务已经完成
         </button>
         <!--任务被拒绝-->
-        <button ng-show="taskDetail.doTaskStatus == 'refused'"
+        <button ng-show="taskDetail.doTaskStatus == 'refused'" ng-click="getNowFormatDate()"
                 class="button button-assertive" style="height: 3em;">
             <span style="font-size:24px;">被拒绝</span>
         </button>

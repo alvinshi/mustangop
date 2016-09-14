@@ -485,31 +485,31 @@ var paramsJson = {
     movie: "夏洛特烦恼"
 };
 
-if(debugUploadTask == 1 || manualUploadTask == 1){
-    AV.Cloud.run('taskCheckForDoTask', paramsJson, {
-        success: function(data) {
-            // 调用成功，得到成功的应答data
-            console.log('---- test timer: succeed');
-        },
-        error: function(err) {
-            // 处理调用失败
-            console.log('---- test timer: error');
-        }
-    });
-}
-
-if(debugRefusedTask == 1 || manualRefusedTask == 1){
-    AV.Cloud.run('refuseTaskTimerForRelease', paramsJson, {
-        success: function(data) {
-            // 调用成功，得到成功的应答data
-            console.log('---- test timer: succeed');
-        },
-        error: function(err) {
-            // 处理调用失败
-            console.log('---- test timer: error');
-        }
-    });
-}
+//if(debugUploadTask == 1 || manualUploadTask == 1){
+//    AV.Cloud.run('taskCheckForDoTask', paramsJson, {
+//        success: function(data) {
+//            // 调用成功，得到成功的应答data
+//            console.log('---- test timer: succeed');
+//        },
+//        error: function(err) {
+//            // 处理调用失败
+//            console.log('---- test timer: error');
+//        }
+//    });
+//}
+//
+//if(debugRefusedTask == 1 || manualRefusedTask == 1){
+//    AV.Cloud.run('refuseTaskTimerForRelease', paramsJson, {
+//        success: function(data) {
+//            // 调用成功，得到成功的应答data
+//            console.log('---- test timer: succeed');
+//        },
+//        error: function(err) {
+//            // 处理调用失败
+//            console.log('---- test timer: error');
+//        }
+//    });
+//}
 
 
 ////Promise test code

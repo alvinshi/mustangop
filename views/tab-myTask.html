@@ -42,7 +42,8 @@
                     <span ng-show="task.statusDes == '未完成'" class = "cardplay typegray" style="color: #f4995d;border: 1px solid #f4995d;">未完成</span>
                     <span ng-show="task.statusDes == '审核中'" class = "cardplay typegray" style="color: #67bdff;border: 1px solid #67bdff;">审核中</span>
                     <span ng-show="task.statusDes == '已完成'" class = "cardplay typegray" style="color: #cccccc;border: 1px solid #cccccc;">已完成</span>
-                    <span class="cardtextright cardword" ng-hide="task.statusDes == '被拒绝'" style="margin-top: 0.2em;">+3.80<span style="font-size: 0.6em;">元</span></span><br><br>
+                    <span class="cardtextright cardword" ng-hide="task.statusDes == '被拒绝'||task.statusDes == '已完成'" style="margin-top: 0.2em;">+3.80<span style="font-size: 0.6em;">元</span></span><br><br>
+                    <span class="cardtextright cardwordchange" ng-show="task.statusDes == '已完成'" style="margin-top: 0.2em;">+3.80<span style="font-size: 0.6em;">元</span></span><br><br>
 
                 </ion-item>
             </div>
