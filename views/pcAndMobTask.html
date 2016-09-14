@@ -48,7 +48,7 @@
 <div class="" ng-controller="MobControl">
     <!--提示-->
     <div class="main">
-        <div class="alert alert-danger hidden-xs">
+        <div class="alert alert-danger hidden-xs" style="margin-right: 40px">
             提示:尽量从手机端直接上传,一台设备(包括电脑)一次只能提交一份任务截图.
         </div>
 
@@ -86,126 +86,124 @@
 
     <hr>
 
-    <h3 style="color: #00a5ff">需求截图</h3>
+    <h3 style="color: #00a5ff;  margin-left: 20px">需求截图</h3>
     <!--头部数据-->
-    <div class="taskAppInfo">
-        <div class="item item-text-wrap">
-            <div class="">
-                <img class="app-img" ng-src="{{  oneAppInfo.artworkUrl100 }}">
-                <span class="trackName_one">{{ oneAppInfo.trackName.substr(0,8)+"..."  }}</span>
-                <span class="app_date">{{ oneAppInfo.rateUnitPrice}}
-                    <span style="font-size: 16px">Y币</span>
-                </span>
+
+    <div class="task-demand-info">
+        <div class="ion-item">
+            <img ng-src="{{ oneAppInfo.artworkUrl100 }}" class="cardicon">
+            <div class="character">
+                <span class="typetitle">{{oneAppInfo.trackName}}</span>
             </div>
-            <span class="task-type">{{oneAppInfo.taskType}}</span>
-            <span class="app-price">{{oneAppInfo.formattedPrice}}应用</span>
+            <span class="cardtextright cardword" >+{{oneAppInfo.rateUnitPrice}}<span style="font-size: 0.6em;">YB</span></span>
+            <span class = "cardplay " >{{oneAppInfo.taskType}}</span>
+            <span class="typelightgray">{{oneAppInfo.formattedPrice}}应用</span>
         </div>
-    </div>
 
 
-    <div class="color-mob">
-        <!--做任务的需求部分-->
-        <hr>
-        <div class="item item-body" style="margin-top:50px">
-            <!--截图一部分-->
-            <div class="capture">
-                <span class="capture-info">任务手机必须有SIM卡</span>
-                <div class="capture-top">
-                    <img class="img-size" src="/images/taskInfor/screenshotImg.png">
-                    <span class="capture-tl">截图一</span>
-                </div>
+        <div class="color-mob">
+            <!--做任务的需求部分-->
+            <hr>
+            <div class="item item-body" style="margin-top:50px">
+                <!--截图一部分-->
+                <div class="capture">
+                    <span class="capture-info">任务手机必须有SIM卡</span>
+                    <div class="capture-top">
+                        <img class="img-size" src="/images/taskInfor/screenshotImg.png">
+                        <span class="capture-tl">截图一</span>
+                    </div>
 
-                <div class="addTaskInfo">
-                    <p class="task-claim">1.App Store搜索关键字:
-                        <span class="color-ramp">{{oneAppInfo.searchKeyword}}</span>, 大概在第
-                        <span class="color-ramp">{{oneAppInfo.ranKing}}</span>位
-                        <span style="font-size: 12px; color: #67bdff">(+0.05)</span>
-                    </p>
+                    <div class="addTaskInfo">
+                        <p class="task-claim">1.App Store搜索关键字:
+                            <span class="color-ramp">{{oneAppInfo.searchKeyword}}</span>, 大概在第
+                            <span class="color-ramp">{{oneAppInfo.ranKing}}</span>位
+                            <span style="font-size: 12px; color: #67bdff">(+{{oneAppInfo.asoRank}}YB)</span>
+                        </p>
 
-                    <p class="task-claim">2.找到指定App后,
-                        <span class="glyphicon glyphicon-camera color-camera"></span>
-                        <span class="color-camera" style="font-size: 16px">截图</span>, 然后下载
+                        <p class="task-claim">2.找到指定App后,
+                            <span class="glyphicon glyphicon-camera color-camera"></span>
+                            <span class="color-camera" style="font-size: 16px">截图</span>, 然后下载
                 <span class="" ng-show="oneAppInfo.needGet == true">
                     (本任务需<span class="color-ramp">获取</span>按钮)
-                    <span class="color-ramp">(+0.05)</span>
+                    <span class="color-ramp">(+5YB)</span>
                 </span>
-                    </p>
-                </div>
-            </div>
-
-            <!--截图二部分-->
-            <div class="capture">
-                <span class="capture-info">任务截图需跳过引导页</span>
-
-                <div class="capture-top">
-                    <img class="img-size" src="/images/taskInfor/screenshotImg.png">
-                    <span class="capture-tl">截图二</span>
+                        </p>
+                    </div>
                 </div>
 
-                <div class="addTaskInfo">
-                    <p class="task-claim">3.下载完毕,打开App,试用3分钟.
+                <!--截图二部分-->
+                <div class="capture">
+                    <span class="capture-info">任务截图需跳过引导页</span>
+
+                    <div class="capture-top">
+                        <img class="img-size" src="/images/taskInfor/screenshotImg.png">
+                        <span class="capture-tl">截图二</span>
+                    </div>
+
+                    <div class="addTaskInfo">
+                        <p class="task-claim">3.下载完毕,打开App,试用3分钟.
                         <span class="" ng-show="oneAppInfo.registerStatus == 'third'">
                             (本任务需<span class="color-ramp">第三方登陆</span>
-                            <span style="font-size: 12px; color: #67bdff">(+0.05)</span>)
+                            <span style="font-size: 12px; color: #67bdff">(+2YB)</span>)
                         </span>
-                        <span class="glyphicon glyphicon-camera color-camera"></span>
-                        <span class="color-camera" style="font-size: 16px">截图</span>
-                    </p>
-                </div>
-            </div>
-
-            <!--截图三部分-->
-            <div class="capture">
-                <span class="capture-info">评论页截图不能有键盘</span>
-                <div class="capture-top">
-                    <img class="img-size" src="/images/taskInfor/screenshotImg.png">
-                    <span class="capture-tl">截图三</span>
-                </div>
-
-                <div class="addTaskInfo">
-                    <p class="task-claim">4.打开App Store, 按下面要求评论</p>
-
-                    <!--标题部分-->
-                    <div style="margin-left: 44px;">
-                        <p class="comment-top">a.标题关键字(包含任意1个)</p>
-                        <p class="">{{oneAppInfo.titleKeyword}}</p>
-                        <p ng-show="oneAppInfo.reviewMustTitleKey != ''" class="comment-top">必须包含:
-                            <span class="color-ramp">{{oneAppInfo.reviewMustTitleKey}}&nbsp;(+2YB)</span>
+                            <span class="glyphicon glyphicon-camera color-camera"></span>
+                            <span class="color-camera" style="font-size: 16px">截图</span>
                         </p>
-
-                        <!--评论部分-->
-                        <p class="comment-top">b.评论内容关键字(包含任意2个)</p>
-                        <p class="">{{oneAppInfo.commentKeyword}}</p>
-                        <p ng-show="oneAppInfo.reviewMustContentKey != ''" class="comment-top">必须包含:
-                            <span class="color-ramp">{{oneAppInfo.reviewMustContentKey}}&nbsp;(+2YB)</span>
-                        </p>
-
                     </div>
-                    <p class="">
+                </div>
+
+                <!--截图三部分-->
+                <div class="capture">
+                    <span class="capture-info">评论页截图不能有键盘</span>
+                    <div class="capture-top">
+                        <img class="img-size" src="/images/taskInfor/screenshotImg.png">
+                        <span class="capture-tl">截图三</span>
+                    </div>
+
+                    <div class="addTaskInfo">
+                        <p class="task-claim">4.打开App Store, 按下面要求评论</p>
+
+                        <!--标题部分-->
+                        <div style="margin-left: 44px;">
+                            <p class="comment-top">a.标题关键字(包含任意1个)</p>
+                            <p class="">{{oneAppInfo.titleKeyword}}</p>
+                            <p ng-show="oneAppInfo.reviewMustTitleKey != ''" class="comment-top">必须包含:
+                                <span class="color-ramp">{{oneAppInfo.reviewMustTitleKey}}&nbsp;(+2YB)</span>
+                            </p>
+
+                            <!--评论部分-->
+                            <p class="comment-top">b.评论内容关键字(包含任意2个)</p>
+                            <p class="">{{oneAppInfo.commentKeyword}}</p>
+                            <p ng-show="oneAppInfo.reviewMustContentKey != ''" class="comment-top">必须包含:
+                                <span class="color-ramp">{{oneAppInfo.reviewMustContentKey}}&nbsp;(+2YB)</span>
+                            </p>
+
+                        </div>
+                        <p class="">
                         <span ng-show="oneAppInfo.needMoreReviewContent == true">
                             <span class="task-claim">评论字数</span><span class="color-ramp">超过50字</span>
-                            <span style="font-size: 12px; color: #67bdff">(+0.15YB)</span>。
+                            <span style="font-size: 12px; color: #67bdff">(+3YB)</span>。
                         </span>
 
-                        <span class="glyphicon glyphicon-camera color-camera"></span>
-                        <span class="color-camera" style="font-size: 16px">截图</span>
-                    </p>
-                </div>
-            </div>
-
-            <div class="capture">
-                <div class="capture-top">
-                    <img class="img-size" src="/images/taskInfor/screenshotImg.png">
-                    <span class="capture-tl">备&nbsp;&nbsp;&nbsp;注</span>
+                            <span class="glyphicon glyphicon-camera color-camera"></span>
+                            <span class="color-camera" style="font-size: 16px">截图</span>
+                        </p>
+                    </div>
                 </div>
 
-                <div class="addTaskInfo">
-                    <P class="task-claim">5.{{oneAppInfo.taskRemark}}</P>
+                <div class="capture" ng-show="oneAppInfo.taskRemark != undefined && oneAppInfo.taskRemark != ''">
+                    <div class="capture-top">
+                        <img class="img-size" src="/images/taskInfor/screenshotImg.png">
+                        <span class="capture-tl">备&nbsp;&nbsp;&nbsp;注</span>
+                    </div>
+
+                    <div class="addTaskInfo">
+                        <P class="task-claim">5.{{oneAppInfo.taskRemark}}</P>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-
 
     <!-- 用户做任务详情-->
     <div class="text-center" ng-hide="!normalBtnShow">

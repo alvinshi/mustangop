@@ -102,6 +102,13 @@ router.post('/claim/:excTaskId', function(req, res){
         retObject.reviewMustContentKey = taskInfo.get('reviewMustContentKey'); // 是否需要评论必选
         retObject.taskRemark = taskInfo.get('detailRem'); // 备注详情
 
+        if (taskInfo.get('ranKing') >= 21 && taskInfo.get('ranKing') <= 50){
+            retObject.asoRank = (taskInfo.get('ranKing') / 10 - 2).toFixed(1);
+        }
+        else {
+            retObject.asoRank = (3 + (taskInfo.get('ranKing') - 50) * 0.5).toFixed(1);
+        }
+
         retObject.rateUnitPrice = taskInfo.get('rateUnitPrice'); // 汇率后的任务单价
 
         var relation = resultObject.relation('mackTask');
