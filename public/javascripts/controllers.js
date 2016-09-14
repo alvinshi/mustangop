@@ -434,6 +434,7 @@ angular.module('starter.controllers', ['angularFileUpload'])
                 if($scope.errorId == 0){
                     $scope.images = response.requirementImgs;
                     $scope.uploadButtonTitle = '任务提交成功';
+                    $("#up").attr("disabled", true);
                 }else {
                     $scope.errorId = response.errorId;
                     $scope.errorMsg = response.message;

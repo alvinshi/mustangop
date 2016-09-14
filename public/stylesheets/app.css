@@ -285,21 +285,21 @@
 
  /*任务详情*/
 .upload-pic-button {
-    padding: 5px 10px;
-    width: 94%;
+    height:1.8em;
+    width: 100%;
+    position: absolute;
+    left:0;
+    bottom: 0;
+    text-align: center;
     font-size: 24px;
-    line-height: 30px;
-    position: relative;
-    top: 10px;
     cursor: pointer;
     color:white ;
     background:#3498db ;
     border: 2px solid #3498db;
-    border-radius: 8px;
     overflow: hidden;
     display: inline-block;
     *display: inline;
-    bottom: 10px;
+
     /**zoom: 1*/
 }
 .upload-pic-button  input {
@@ -340,11 +340,31 @@ margin-right: 0.5em;
     float:right;
     font-size: 2.5em;
 }
+/*****************任务详情底部按键**************************/
+.button-assertive {
+    position: absolute;
+    width: 100%;
+    left: 0%;
+    bottom: -0.4em;
+    height: 3em;
+}
+.progress{
+    width:100%;
+}
+/*任务被拒绝*/
+.refused{
+    background-color: red;
+    width:100%;
+    height:4em;
+    position: absolute;
+    bottom:0;
+}
+
+
 /*任务步骤*/
 .textstep{
-    position: absolute;
-    top: 8em;
-    left:4%;
+   margin-top: 1em;
+    margin-left:4%;
 
 }
 .textstep h4{
@@ -352,8 +372,7 @@ margin-right: 0.5em;
 }
 .cardpage{
     border-radius: 0.8em;
-    position:absolute;
-    margin-top:11em;
+    margin-top:1em;
     margin-left: 4%;
     width:92%;
     height:auto;
@@ -389,12 +408,37 @@ margin-right: 0.5em;
 }
 /*底部按键*/
 .btn3{
-    position: absolute;
-    margin-bottom: 60px;
-    top: 52em;
+    margin-bottom: 2em;
+    margin-top: 1em;
     background-color: #67bdff;
     color:white;
-    left:15%;
+    margin-left:15%;
     width:70%;
     border-radius: 0.5em;
+}
+/*提现页面****************************************/
+.accountcontent{
+    background-color:#F5F5F5;
+}
+.accounthead{
+    background-color: white;
+    height:6em;
+
+}
+.accountimg{
+    float:left;
+}
+.accountID h4{
+    color:black;
+    float:left;
+
+}
+.pay{
+    background-color: white;
+    margin-top: 1em;
+    height:4em;
+}
+.paytext h4{
+    line-height: 3em;
+    color:black;
 }

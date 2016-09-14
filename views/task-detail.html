@@ -18,9 +18,9 @@
         </div>
 
         <!--操作错误提示-->
-        <div class="alert alert-danger" role="alert" ng-show="errorId">{{errorMsg}}</div>
-
-            <hr style="position:absolute;  background-color: #cccccc;width: 92%;margin-left: 4%;" size="0.001";>
+        <div class="alert alert-danger" role="alert" ng-show="errorId" style="left:4%;position: absolute;top:3em;height: 2.5em;line-height: 1em;">{{errorMsg}}</div>
+<br>
+            <hr style="margin-top: 1.8em; background-color: #cccccc;width: 92%;margin-left: 4%;" size="0.001";>
             <div class="textstep">
             <h4>任务步骤</h4>
             </div>
@@ -33,15 +33,15 @@
                 <span class="entry">任务手机必须有SIM卡</span>
                 <div class="detailtext">
                 <p style="font-size: 1.1em;">1.APP&nbsp;搜索关键字
-                    <span style="color:#67bdff">社交</span>
-                        ,大概在第<span style="color:#67bdff">8</span>位.
-                    <span style="font-size: 0.6em;color:#67bdff;">(+0.05元)</span>
+                    <span style="color:#67bdff">{{taskDetail.screenShotOne.searchKeyword}}</span>
+                        ,大概在第<span style="color:#67bdff">{{taskDetail.screenShotOne.ranKingPrice}}</span>位.
+                    <span style="font-size: 0.6em;color:#67bdff;">(+{{taskDetail.screenShotOne.ranKing}}元)</span>
                     </p>
                 <p style="font-size: 1.1em;margin-top: 0em;">2.找到指定APP后,
                     <img src="/images/app/screenShotS.png" style="height: 0.8em;">
                 <span  style="color:#fc7f6a">截图</span>
                 ,然后下载(本任务需获取按钮)
-                    <span style="font-size: 0.6em;color:#67bdff;">(+0.05元)</span>
+                    <span style="font-size: 0.6em;color:#67bdff;">(+{{taskDetail.screenShotOne.needGetPrice}}元)</span>
                 </p>
                 </div>
                 <div class="example">
@@ -51,7 +51,7 @@
 
             </div></div>
         <!--卡片二-->
-        <div class="card cardpage" style="margin-top: 25em;">
+        <div class="card cardpage" style="margin-top: 1em;">
             <div class="item item-text-wrap">
                 <img src="/images/app/tab.png" class="headimg">
                 <h2>截图二</h2>
@@ -59,7 +59,7 @@
                 <div class="detailtext">
                     <p style="font-size: 1.1em;">3.下载完毕,打开APP,试用3分钟.
                         (本任务需<span style="color:#67bdff">第三方登陆</span>
-                        <span style="font-size: 0.6em;color:#67bdff;">(+0.05元)</span>)
+                        <span style="font-size: 0.6em;color:#67bdff;">(+{{taskDetail.screenShot.ranKingPrice}}元)</span>)
                         <img src="/images/app/screenShotS.png" style="height: 0.8em;" >
                         <span  style="color:#fc7f6a">截图</span>
                     </p>
@@ -71,7 +71,7 @@
 
             </div></div>
             <!--卡片三-->
-        <div class="card cardpage" style="margin-top: 35.5em;">
+        <div class="card cardpage" style="margin-top: 1em;">
             <div class="item item-text-wrap">
                 <img src="/images/app/tab.png" class="headimg">
                 <h2>截图三</h2>
@@ -110,27 +110,27 @@
                 ng-click="unlockTask()" class="button btn3">放弃任务</button>
     </ion-content>
 
-    <div ng-show="dataStatus == 1" class="bar bar-footer button-assertive">
+    <div ng-show="dataStatus == 1" class="bar bar-footer button-assertive" >
         <!--<div class="title">Footer</div>-->
         <!--4个状态选1-->
 
         <!--领取任务-->
         <button class="button button-block button-assertive" ng-click="lockTask()"
                 ng-show="lockTaskId == undefined && (taskDetail.doTaskStatus != 'accepted' && taskDetail.doTaskStatus != 'systemAccepted')">
-            领取任务
+            <span style="font-size: 24px">领取任务</span>
         </button>
 
         <!--领取成功后 上传图片按钮-->
-        <div ng-show="lockTaskId != undefined && progressNum <= 0 && (taskDetail.doTaskStatus != 'accepted' && taskDetail.doTaskStatus != 'systemAccepted')"
-             class="upload-pic-button">
+        <button ng-show="lockTaskId != undefined && progressNum <= 0 && (taskDetail.doTaskStatus != 'accepted' && taskDetail.doTaskStatus != 'systemAccepted'&& taskDetail.doTaskStatus != 'refused')"
+             class="upload-pic-button" >
             <!--accept="image/*"-->
-            <input class="upload" type="file" nv-file-select="" uploader="uploader" multiple/>
+            <input class="upload" type="file" id="up"  nv-file-select="" uploader="uploader" multiple/>
             {{uploadButtonTitle}}
-        </div>
+        </button>
 
         <!--点击上传任务后的进度条-->
-        <div class="progress" ng-hide="!progressNum">
-            <div ng-class="{'progress-bar': true, 'progress-bar-striped':true, active:true}" ng-style="{width: progressNum + '%'}">
+        <div class="progress" ng-hide="!progressNum" >
+            <div ng-class="{'progress-bar': true, 'progress-bar-striped':true,'progress-bar-success':true,active:true}" role="progressbar" ng-style="{width: progressNum + '%'}">
             </div>
         </div>
 
@@ -139,5 +139,12 @@
                 class="button button-block button-assertive">
             任务已经完成
         </button>
+        <!--任务被拒绝-->
+        <button ng-show="taskDetail.doTaskStatus == 'refused'"
+                class="button button-assertive" style="height: 3em;">
+            <span style="font-size:24px;">被拒绝</span>
+        </button>
+        <!--任务已经超时-->
+
     </div>
 </ion-view>
