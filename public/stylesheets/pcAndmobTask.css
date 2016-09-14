@@ -5,7 +5,8 @@ body{
 
 /*页面头部部分样式*/
 .main{
-    margin-top: 80px;
+    margin-top: 90px;
+    margin-left: 30px;
 }
 
 
@@ -85,55 +86,92 @@ body{
 
 /*需求截图APP信息样式*/
 
-.taskAppInfo{
-    margin: 20px 0 10px 14px;
-    border-radius: 10px;
+.task-demand-info{
     border: 1px solid #999999;
+    margin: 20px 16px;
+    border-radius: 8px;
 }
 
+.ion-item{
+    margin-top: 30px;
+}
+
+/*需求头部*/
+/*.cardicon{*/
+    /*position: absolute;*/
+    /*height:68px;*/
+    /*width:68px;*/
+    /*border: 0.1em solid #CCCCCC;*/
+    /*border-radius: 1em;*/
+    /*left:2em;*/
+
+/*}*/
+
+/*.cardtextright{*/
+    /*!*position: absolute;*!*/
+    /*!*right: 3%;*!*/
+    /*float: right;*/
+/*}*/
+
+/*.cardword{*/
+    /*margin-right: 15px;*/
+    /*font-size: 1.7em;*/
+    /*color: red;*/
+    /*margin-top: -30px;*/
+/*}*/
+
+/*.character {*/
+    /*width: 50%;*/
+    /*border: 0 solid black;*/
+    /*margin-left: 4.5em;*/
+    /*height: 2em;*/
+    /*overflow: hidden;*/
+    /*text-overflow: ellipsis;*/
+    /*white-space: nowrap;*/
+    /*margin-top: -0.3em;*/
+/*}*/
+
+/*.typetitle{*/
+    /*font-size: 20px;*/
+    /*color:black;*/
+    /*margin-left:39px;*/
+    /*margin-top: 20px;*/
+/*}*/
+
+/*.cardplay{*/
+    /*margin-left: 105px;*/
+    /*margin-top: 15px;*/
+    /*float:left;*/
+    /*font-size:16px;*/
+    /*color:#999999;*/
+/*}*/
+
+/*.typelightgray{*/
+    /*font-size: 16px;*/
+    /*margin-top: 15px;*/
+    /*color:#cccccc;*/
+    /*float: right;*/
+    /*margin-right: -60px;*/
+/*}*/
+
+
+
 .color-mob{
-    margin: 50px 16px 50px 16px;
+    margin: 50px 24px;
 }
 
 .appTrackName{
     margin-top: 39px;
 }
 
-.trackName_one{
-    font-size: 20px;
-    color: #333333;
-    margin-left: 19px;
-
-}
-
-.app_date{
-    color: #f43446;
-    font-size: 28px;
-    margin-top: 16px;
-    margin-right: 14px;
-    float: right;
-}
-
-.task-type{
-    font-size: 16px;
-    color: #3498db;
-    margin-left:35px;
-
-
-}
-
-.app-price {
-    font-size: 14px;
-    color: #999999;
-    margin-left: 202px;
-}
 
 /*需求截图样式*/
 
 .capture {
-    border: 1px solid #999999;
+    /*border: 1px solid #999999;*/
     margin-top: 20px;
     border-radius: 6px;
+    box-shadow:3px 3px 5px #9a9a9a;
 }
 
 .capture-info {
@@ -164,7 +202,7 @@ body{
 .addTaskInfo {
     line-height: 24px;
     margin-left: 15px;
-    margin-bottom: 14px;
+    padding-bottom: 14px;
     margin-top: 10px;
 }
 

@@ -91,9 +91,9 @@ function dealReceiveTask(inReceTaskObject, doTaskObjects, taskUsers, changeDoTas
 
     var needDoneTimer = true;
     var subChangeDoTasks = [];
+    var usernameForMessage;
     for (var r = 0; r < doTaskObjects.length; r++){
         var taskStatus = doTaskObjects[r].get('taskStatus');
-        var usernameForMessage;
         if (taskStatus == 'uploaded' || taskStatus == 'reUploaded'){
 
             //不能在1小时之内提交的任务(审核人员来不及审核)
@@ -245,7 +245,7 @@ function dealReceiveTask(inReceTaskObject, doTaskObjects, taskUsers, changeDoTas
         //解锁发布任务的人的钱
         releaseTaskUser.increment('freezingMoney', - (excUnitPrice * undoTask));
         releaseTaskUser.increment('totalMoney', excUnitPrice * undoTask);
-        messager.unfreezeMsg('您的任务（' + trackName + '）' + '有 ' + undoTask + ' 条(' + user.get('username') + ')领取未完成', rateUnitPrice * undoTask, releaseTaskUser.id, releaseTaskUser);
+        messager.unfreezeMsg('您的任务（' + trackName + '）' + '有 ' + undoTask + ' 条(' + usernameForMessage + ')领取未完成', rateUnitPrice * undoTask, releaseTaskUser.id, releaseTaskUser);
         console.log('****** task be expired by timer ****** release task user : ' + releaseTaskUser.id + '(minus freeze YB,add total YB) +' + (rateUnitPrice * undoTask));
 
         //2.过期任务增加
@@ -306,7 +306,7 @@ AV.Cloud.define('taskCheckForDoTask', function(request, response){
                         locked++;
                         var tempMackTask = results[e].get('tempMackTask');
                         if(tempMackTask == undefined){
-                            dealReceiveTask(results[e], [], taskUsers, changeDoTasks, locked);
+                            dealReceiveTask(results[e], [], taskUsers, changeDoTasks, locked, results);
                         }else {
                             dealReceiveTask(results[e], [tempMackTask], taskUsers, changeDoTasks, locked, results);
                         }

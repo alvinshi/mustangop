@@ -63,6 +63,7 @@ router.get('/interior/:excTaskId', function(req, res){
         var retObject = Object();
         var hisappObject = results.get('appObject');
         var taskObject = results.get('taskObject');
+        // app详情信息
         retObject.artworkUrl100 = hisappObject.get('artworkUrl100');
         retObject.trackName = hisappObject.get('trackName');
         retObject.sellerName = hisappObject.get('sellerName');
@@ -83,18 +84,33 @@ router.get('/interior/:excTaskId', function(req, res){
         retObject.taskType = taskObject.get('taskType');  //任务类型
         retObject.searchKeyword = taskObject.get('searchKeyword');  //搜索关键词
         retObject.ranKing = taskObject.get('ranKing'); // 排名
+
         retObject.Score = taskObject.get('Score');  // 评分
         retObject.titleKeyword = taskObject.get('titleKeyword'); // 标题关键词
         retObject.commentKeyword = taskObject.get('commentKeyword'); // 评论关键词
-        retObject.detailRem = taskObject.get('detailRem'); // 备注详情
-        retObject.screenshotCount = taskObject.get('screenshotCount'); // 截图数
+        retObject.needGet = taskObject.get('needGet'); // 是否需要获取
+        retObject.registerStatus = taskObject.get('registerStatus'); // 第三方登陆
+        retObject.needMoreReviewContent = taskObject.get('needMoreReviewContent'); // 评论是否超过50个字
+
+        retObject.reviewMustTitleKey = taskObject.get('reviewMustTitleKey'); // 是否需要标题必选
+        retObject.reviewMustContentKey = taskObject.get('reviewMustContentKey'); // 是否需要评论必选
+        retObject.taskRemark = taskObject.get('detailRem'); // 备注详情
+
+        if (taskObject.get('ranKing') >= 21 && taskObject.get('ranKing') <= 50){
+            retObject.asoRank = (taskObject.get('ranKing') / 10 - 2).toFixed(1);
+        }
+        else {
+            retObject.asoRank = (3 + (taskObject.get('ranKing') - 50) * 0.5).toFixed(1);
+        }
+
+        retObject.rateUnitPrice = taskObject.get('rateUnitPrice'); // 汇率后的任务单价
 
         // 请求已经上交的数据
         var relation = results.relation('mackTask');
         var task_query = relation.query();
         task_query.ascending('createdAt');
         task_query.find().then(function(result){
-            var mackTaskList = new Array();
+            var mackTaskList = Array();
             for (var i = 0; i < result.length; i++){
                 var mackTaskObject = Object();
                 mackTaskObject.uploadName = result[i].get('uploadName');

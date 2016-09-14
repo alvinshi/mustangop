@@ -25,7 +25,10 @@
     <link rel="stylesheet" href="../stylesheets/vendor/font-awesome.min.css">
     <link rel="stylesheet" href="../stylesheets/loading.min.css">
     <link rel="stylesheet" href="/stylesheets/vendor/hover/hover-min.css">
+
     <link rel="stylesheet" href="../stylesheets/interiorExcDetail.css">
+    <link rel="stylesheet" href="../stylesheets/pcAndmobTask.css">
+
     <script src="/javascripts/vendor/AngularJS/angular-file-upload.min.js"></script>
 
     <!--网站内部js-->
@@ -54,6 +57,7 @@
 
         <hr class="hr-header"/>
     </div>
+
     <div class="media">
         <div class="media-left">
             <a href="#"><img  style="position: relative" class="logo" ng-src="{{ oneAppInfo.artworkUrl100 }}" alt="" class="img-thumbnail"/></a>
@@ -75,74 +79,108 @@
     </div>
     <hr/>
 
-    <div>
-        <h3 class="mytitle">需求截图</h3>
+    <h4>需求截图</h4>
+    <div class="task-demand-info">
+        <div class="color-mob">
+            <!--做任务的需求部分-->
+            <div class="item item-body" style="margin-top:50px">
+                <!--截图一部分-->
+                <div class="capture">
+                    <span class="capture-info">任务手机必须有SIM卡</span>
+                    <div class="capture-top">
+                        <img class="img-size" src="/images/taskInfor/screenshotImg.png">
+                        <span class="capture-tl">截图一</span>
+                    </div>
 
-        <div id='screenShot' style="background:url(/images/appDetail/screenshot-background.png); width: 640px;
-                        padding: 36px 54px 60px 30px; margin: auto;">
-            <div class="row">
-                <div class="col-sm-3">
-                    <img  class="appicon" style="display: inline-block; margin: 0 26px 40px 20px;
-                                width: 120px; height: 120px; border-radius: 20px"
-                          ng-src="{{  oneAppInfo.artworkUrl100 }}" alt="App Icon"/>
+                    <div class="addTaskInfo">
+                        <p class="task-claim">1.App Store搜索关键字:
+                            <span class="color-ramp">{{oneAppInfo.searchKeyword}}</span>, 大概在第
+                            <span class="color-ramp">{{oneAppInfo.ranKing}}</span>位
+                            <span style="font-size: 12px; color: #67bdff">(+{{oneAppInfo.asoRank}}YB)</span>
+                        </p>
+
+                        <p class="task-claim">2.找到指定App后,
+                            <span class="glyphicon glyphicon-camera color-camera"></span>
+                            <span class="color-camera" style="font-size: 16px">截图</span>, 然后下载
+                <span class="" ng-show="oneAppInfo.needGet == true">
+                    (本任务需<span class="color-ramp">获取</span>按钮)
+                    <span class="color-ramp">(+5YB)</span>
+                </span>
+                        </p>
+                    </div>
                 </div>
-                <div class="col-sm-9" style="padding-left: 50px;">
-                    <p style="font-size: 24px; color: #ffffff;
-                                width: 330px; margin-top: 10px">
-                        {{ oneAppInfo.trackName.substr(0,12)+"..."  }}
-                    </p>
-                    <p style="color: #ffffff;
-                                width: 330px;" ng-show="oneAppInfo.latestReleaseDate.length > 0">
-                        更新日期: {{ oneAppInfo.latestReleaseDate | date: "yyyy/MM/dd" }}
-                    </p>
-                    <p style="color: #ffffff; font-size: 20px;">
-                        任务类型: <span style=" color:#fff727;">{{oneAppInfo.taskType}}</span>
-                    </p>
+
+                <!--截图二部分-->
+                <div class="capture">
+                    <span class="capture-info">任务截图需跳过引导页</span>
+
+                    <div class="capture-top">
+                        <img class="img-size" src="/images/taskInfor/screenshotImg.png">
+                        <span class="capture-tl">截图二</span>
+                    </div>
+
+                    <div class="addTaskInfo">
+                        <p class="task-claim">3.下载完毕,打开App,试用3分钟.
+                        <span class="" ng-show="oneAppInfo.registerStatus == 'third'">
+                            (本任务需<span class="color-ramp">第三方登陆</span>
+                            <span style="font-size: 12px; color: #67bdff">(+2YB)</span>)
+                        </span>
+                            <span class="glyphicon glyphicon-camera color-camera"></span>
+                            <span class="color-camera" style="font-size: 16px">截图</span>
+                        </p>
+                    </div>
+                </div>
+
+                <!--截图三部分-->
+                <div class="capture">
+                    <span class="capture-info">评论页截图不能有键盘</span>
+                    <div class="capture-top">
+                        <img class="img-size" src="/images/taskInfor/screenshotImg.png">
+                        <span class="capture-tl">截图三</span>
+                    </div>
+
+                    <div class="addTaskInfo">
+                        <p class="task-claim">4.打开App Store, 按下面要求评论</p>
+
+                        <!--标题部分-->
+                        <div style="margin-left: 44px;">
+                            <p class="comment-top">a.标题关键字(包含任意1个)</p>
+                            <p class="">{{oneAppInfo.titleKeyword}}</p>
+                            <p ng-show="oneAppInfo.reviewMustTitleKey != ''" class="comment-top">必须包含:
+                                <span class="color-ramp">{{oneAppInfo.reviewMustTitleKey}}&nbsp;(+2YB)</span>
+                            </p>
+
+                            <!--评论部分-->
+                            <p class="comment-top">b.评论内容关键字(包含任意2个)</p>
+                            <p class="">{{oneAppInfo.commentKeyword}}</p>
+                            <p ng-show="oneAppInfo.reviewMustContentKey != ''" class="comment-top">必须包含:
+                                <span class="color-ramp">{{oneAppInfo.reviewMustContentKey}}&nbsp;(+2YB)</span>
+                            </p>
+
+                        </div>
+                        <p class="">
+                        <span ng-show="oneAppInfo.needMoreReviewContent == true">
+                            <span class="task-claim">评论字数</span><span class="color-ramp">超过50字</span>
+                            <span style="font-size: 12px; color: #67bdff">(+3YB)</span>。
+                        </span>
+
+                            <span class="glyphicon glyphicon-camera color-camera"></span>
+                            <span class="color-camera" style="font-size: 16px">截图</span>
+                        </p>
+                    </div>
+                </div>
+
+                <div class="capture" ng-show="oneAppInfo.taskRemark != undefined && oneAppInfo.taskRemark != ''">
+                    <div class="capture-top">
+                        <img class="img-size" src="/images/taskInfor/screenshotImg.png">
+                        <span class="capture-tl">备&nbsp;&nbsp;&nbsp;注</span>
+                    </div>
+
+                    <div class="addTaskInfo">
+                        <P class="task-claim">5.{{oneAppInfo.taskRemark}}</P>
+                    </div>
                 </div>
             </div>
-
-            <ol style="font-size: 20px; color: #ffffff;
-                            list-style-position: inside; padding:0; margin:0;">
-                <li style="margin-bottom: 30px">
-                    <p><span style="color: #fff727">IOS App Store</span> 搜索"<span style="color:#fff727;">{{oneAppInfo.searchKeyword}}</span>"
-                        第<span class="synwords">{{oneAppInfo.ranKing}}</span>
-                        名左右, 找到应用,如上图图标, 下载.</p>
-                </li>
-                <li style="margin-bottom: 30px">
-                    <p> 打开app, 请务必过引导页.</p>
-                </li>
-                <li style="margin-bottom: 30px;color:#fff727;" ng-hide="oneAppInfo.taskType == '评论'">
-                    <p> 截图2张,一张搜索图,一张打开激活图.</p>
-                </li>
-                <li  style="margin-bottom: 30px" ng-hide="oneAppInfo.taskType == '下载'">
-                    <p  style="margin-bottom: 20px">
-                        返回app store, 好评"<span class="synwords">{{oneAppInfo.Score}}</span>星"
-                    </p>
-                    <p style="margin-bottom: 20px">
-                        &nbsp &nbsp &nbsp 标题关键词: <span style=" color:#fff727;">{{oneAppInfo.titleKeyword}}</span></p>
-                    <p style="margin-bottom: 20px">
-                        &nbsp &nbsp &nbsp评论关键词: <span style=" color:#fff727;">{{oneAppInfo.commentKeyword}}</span></p>
-                </li>
-                <li style="margin-bottom: 30px" ng-hide="oneAppInfo.taskType == '下载'">
-                    <p> 截图 <span style="color:#fff727">{{oneAppInfo.screenshotCount}}</span> 张, 详情见备注.</p>
-                </li>
-                <li  style="margin-bottom: 30px; " ng-show = "oneAppInfo.detailRem.length">
-                    <p> 备注:</p>
-                    <p style="border: 1px solid #cdf1ff; font-size: 18px;
-                                    margin-top: 20px; margin-bottom: 70px;
-                                    padding: 18px 20px 18px 20px; color:#fff727;">
-                        {{oneAppInfo.detailRem}}
-                    </p>
-                </li>
-            </ol>
-
-            <p style="font-size: 24px; color: #ffffff;">
-                手机评论, 不要无卡机, iPad, 一条以上用手机流量哦, 亲.
-                &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp;&nbsp &nbsp &nbsp
-                &nbsp &nbsp &nbsp&nbsp &nbsp &nbsp&nbsp &nbsp &nbsp
-                &nbsp &nbsp &nbsp&nbsp &nbsp &nbsp&nbsp
-                -友情提醒, 避免撕逼
-            </p>
         </div>
     </div>
     <hr/>
@@ -173,13 +211,19 @@
                     <div ng-if="task.status == '已过期'" class="completedTab">已过期</div>
                     <div ng-if="task.status == '拒绝'" style="height:36px; margin-left: 15px; margin-right: 15px;">
                         <div class="rejectedTab">被拒绝</div>
-                        <span style="height: 35px; width: 300px; font-size: 16px; color: #f7798b">{{task.detail}}</span>
+                        <span style="height: 35px;
+                                     width: 300px;
+                                     font-size: 16px;
+                                      color: #f7798b">
+                            {{task.detail}}
+                        </span>
                         <button class="btn btn-primary btn-primary-resubmit"  ng-class="{true: 'disabled'}[progressBarCtrl[$index]]"  ng-click="setUploaderName(task.uploadName, $index)">
                             重新上传
                             <input class="upload" type="file" ng-disabled="progressBarCtrl[$index]" nv-file-select="" uploader="uploader" multiple/>
                         </button>
                     </div>
                 </div>
+
                 <div style="padding-left: 10px; padding-right: 10px; padding-bottom: 20px;" ng-hide="progressBarCtrl[$index]">
                     <span class="submission-screenshot" ng-repeat="taskImg in task.taskImages">
                         <img ng-src="{{taskImg}}">
@@ -223,6 +267,8 @@
 
         </div>
     </div>
+
+
     <div style="margin-top: 30px;text-align: center;" >
         <button class="butt" ng-click="commitConfirm()">确认提交</button>
     </div>
