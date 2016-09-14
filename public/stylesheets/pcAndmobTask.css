@@ -5,8 +5,9 @@ body{
 
 /*页面头部部分样式*/
 .main{
-    margin-top: 100px;
+    margin-top: 80px;
 }
+
 
 .app-icon {
     /*display: inline-block;*/
@@ -83,15 +84,15 @@ body{
 }
 
 /*需求截图APP信息样式*/
-.need-capture{
-    width: 451px;
-    margin: auto;
+
+.taskAppInfo{
+    margin: 20px 0 10px 14px;
+    border-radius: 10px;
     border: 1px solid #999999;
-    background-color: white;
 }
 
-.app-img {
-    margin: 31px 19px 19px 31px;
+.color-mob{
+    margin: 50px 16px 50px 16px;
 }
 
 .appTrackName{
@@ -101,24 +102,23 @@ body{
 .trackName_one{
     font-size: 20px;
     color: #333333;
-    margin: 0 0 14px 35px;
+    margin-left: 19px;
 
 }
 
 .app_date{
     color: #f43446;
     font-size: 28px;
-    margin: 0 29px 14px 60px;
-}
-
-.synwords{
-    /*margin: 14px 0 31px 19px;*/
+    margin-top: 16px;
+    margin-right: 14px;
+    float: right;
 }
 
 .task-type{
     font-size: 16px;
     color: #3498db;
     margin-left:35px;
+
 
 }
 
@@ -132,13 +132,13 @@ body{
 
 .capture {
     border: 1px solid #999999;
+    margin-top: 20px;
     border-radius: 6px;
-    margin: 19px;
 }
 
 .capture-info {
     float: right;
-    font-size: 14px;
+    font-size: 16px;
     color: #b3b3b3;
     margin-right: 16px;
     margin-top: 6px;
@@ -152,7 +152,7 @@ body{
 
 .img-size {
     width: 78px;
-    height: 27px;
+    height: 30px;
 }
 
 .capture-tl {
@@ -163,13 +163,11 @@ body{
 
 .addTaskInfo {
     line-height: 24px;
-    width: 336px;
-    margin-left: auto;
-    margin-right: auto;
+    margin-left: 15px;
     margin-bottom: 14px;
+    margin-top: 10px;
 }
 
-/*任务要求*/
 .task-claim {
     font-size: 16px;
     color: #666666;
@@ -186,157 +184,172 @@ body{
     color: #fc7f6a;
 }
 
-
-
-
-
-
-
-
-
-/*手机端设置*/
-@media (max-width: 768px){
-
-    .media-body{
-        padding-left:2px;
-    }
-
-    .button_type{
-        background-color: #79c3f7;
-        border: 1px solid #79c3f7 ;
-        border-radius:2px;
-        height:20px;
-        color: white;
-        font-size: 16px;
-        width:40px;
-        padding: 0px;
-
-    }
-
-    .button_num{
-        background-color:white;
-        border: 1px solid #acddfe ;
-        border-radius:2px;
-        height:20px;
-        color: #acddfe;
-        font-size: 16px;
-        width:55px;
-        margin-left:4px;
-        text-align: center;
-        padding: 0px;
-    }
-
-    .button_surplus{
-        background-color:white;
-        border: 1px solid #acddfe ;
-        border-radius:2px;
-        height:20px;
-        color: #acddfe;
-        font-size: 16px;
-        width:60px;
-        margin-left:4px;
-        text-align: center;
-        padding: 0px;
-    }
-
-    .num{
-        text-decoration: none;
-        font-size: 10px;
-        color: #f55e5a;
-    }
-
-    /*需求截图部分样式*/
-    .need-capture{
-        width: 451px;
-        margin: auto;
-        border: 1px solid #999999;
-        background-color: white;
-    }
-
-    .app-img {
-        margin: 31px 19px 19px 31px;
-    }
-
-    .appTrackName{
-        margin-top: 39px;
-    }
-
-    .trackName_one{
-        font-size: 20px;
-        color: #333333;
-        margin: 0 0 14px 35px;
-
-    }
-
-    .app_date{
-        color: #f43446;
-        font-size: 28px;
-        margin: 0 29px 14px 60px;
-    }
-
-    .synwords{
-        /*margin: 14px 0 31px 19px;*/
-    }
-
-    .task-type{
-        font-size: 16px;
-        color: #3498db;
-        margin-left:35px;
-
-    }
-
-    .app-price {
-        font-size: 14px;
-        color: #999999;
-        margin-left: 202px;
-    }
+.comment-top{
+    font-size: 14px;
+    color: #999999;
 }
 
 
-@media screen and (min-width: 800px) and (max-width: 1800px){
-    /*需求截图部分样式*/
-    .need-capture{
-        width: 451px;
-        margin: auto;
-        border: 1px solid #999999;
-        background-color: white;
-    }
 
-    .app-img {
-        margin: 31px 19px 19px 31px;
-    }
+/*上传图片css样式*/
+.progress{
+    width: 94%;
+    margin-top: 10px;
+    margin-left:10px;
+}
 
-    .appTrackName{
-        margin-top: 39px;
-    }
 
-    .trackName_one{
-        font-size: 20px;
-        color: #333333;
-        margin: 0 0 14px 35px;
+/*按钮美化*/
 
-    }
+.text-center{
+    font-size: 26px;
+}
 
-    .app_date{
-        color: #f43446;
-        font-size: 28px;
-        margin: 0 29px 14px 60px;
-    }
+.screenshot{
+    border: 1px solid #e0e0e0;
+}
 
-    .synwords{
-        /*margin: 14px 0 31px 19px;*/
-    }
+.image-center img{
+    margin: 10px auto;
+}
+.submission-screenshot {
+    margin-left: 2%;
+}
 
-    .task-type{
-        font-size: 16px;
-        color: #3498db;
-        margin-left:35px;
+.submission-screenshot img{
 
-    }
+    border: 2px solid #e0e0e0;
+    width: 100px;
+    height: 200px;
+    object-fit: contain;
 
-    .app-price {
-        font-size: 14px;
-        color: #999999;
-        margin-left: 202px;
-    }
+}
+.cust1,.cust2{
+    margin-top: 10px;
+    margin-bottom: 10px;
+    width: 94%;
+    height: 5%;
+    font-size: 24px;
+    border-radius: 8px;
+    background-color: #3498db;
+    color: #ffffff;
+    border: 2px solid #3498db;
+}
+.cust1 a{
+    text-decoration: none;
+}
+.text-right{
+    font-size: 18px;
+}
+/*需求截图PC端*/
+.needImg{
+    margin-bottom: 30px;
+}
+#screenShot{
+    /*background:url(/images/appDetail/screenshot-background.png);*/
+    width: 640px;
+    padding: 36px 54px 60px 30px;
+    margin: auto;
+    border: 1px solid #999999;
+    background-color: #00a5ff;
+    /*box-shadow:2px 2px 3px #aaaaaa;*/
+}
+.appicon{
+    display: inline-block;
+    margin: 0 26px 40px 20px;
+    width: 120px;
+    height: 120px;
+    border-radius: 20px
+}
+.trackName{
+    padding-left: 19px;
+}
+.trackName_one{
+    font-size: 24px;
+    color: #333333;
+    width: 330px;
+    margin-top: 10px
+}
+
+.taskType{
+    color: #ffffff; font-size: 20px;
+}
+.synwords{
+    color: #fff727;
+}
+
+.serach_app{
+    font-size: 20px; color: #ffffff;
+    list-style-position: inside;
+    padding:0;
+    margin:0;
+}
+
+.serach_app li{
+    margin-bottom: 30px;
+}
+
+.serach_app p{
+    margin-bottom: 20px;
+}
+
+.beizhu{
+    border: 1px solid #cdf1ff; font-size: 18px;
+    margin-top: 20px; margin-bottom: 70px;
+    padding: 18px 20px 18px 20px;"
+}
+
+.a-upload {
+    padding: 5px 10px;
+    width: 94%;
+    font-size: 24px;
+    line-height: 30px;
+    position: relative;
+    top: 10px;
+    cursor: pointer;
+    color:white ;
+    background:#3498db ;
+    border: 2px solid #3498db;
+    border-radius: 8px;
+    overflow: hidden;
+    display: inline-block;
+    *display: inline;
+    bottom: 10px;
+    /**zoom: 1*/
+}
+
+.a-upload  input {
+    position: absolute;
+    font-size: 24px;
+    height: 80px;
+    width: 80px;
+    right: 0;
+    opacity: 0;
+    filter: alpha(opacity=0);
+    cursor: pointer;
+}
+
+.a-upload:hover {
+    color: black;
+    background: #e0e0e0;
+    border-color: lightgray;
+    text-decoration: none
+}
+.submit{
+    margin-top: 30px
+}
+.btn_primary{
+    margin-bottom: 30px;
+    background-color: #3498db;
+    color: white;
+    width: 95%;
+    font-size: 24px;
+    line-height: 30px;
+    border: 2px solid #3498db;
+    border-radius: 8px;
+}
+
+.warning{
+    background-color: #eb3030;
+    border: 2px solid #eb3030;
 }

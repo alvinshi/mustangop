@@ -96,10 +96,11 @@ router.post('/claim/:excTaskId', function(req, res){
         retObject.commentKeyword = taskInfo.get('commentKeyword'); // 评论关键词
         retObject.needGet = taskInfo.get('needGet'); // 是否需要获取
         retObject.registerStatus = taskInfo.get('registerStatus'); // 第三方登陆
+        retObject.needMoreReviewContent = taskInfo.get('needMoreReviewContent'); // 评论是否超过50个字
 
         retObject.reviewMustTitleKey = taskInfo.get('reviewMustTitleKey'); // 是否需要标题必选
         retObject.reviewMustContentKey = taskInfo.get('reviewMustContentKey'); // 是否需要评论必选
-        retObject.taskRemark = taskInfo.get('taskRemark'); // 备注详情
+        retObject.taskRemark = taskInfo.get('detailRem'); // 备注详情
 
         retObject.rateUnitPrice = taskInfo.get('rateUnitPrice'); // 汇率后的任务单价
 

@@ -215,8 +215,9 @@
             <span style="font-size: 25px; color:black">{{ selectedApp.trackName.substr(0,30) }}</span>
             <div style="margin-left: 28em;margin-top: 0.8em; margin-bottom: 0.5em;">
                 <p class="text1">类别: {{ selectedApp.formattedPrice }}
-                    <span  class="text1" ng-show="selectedApp.latestReleaseDate.length > 0">更新日期 {{  selectedApp.latestReleaseDate| date: 'yy/MM/dd'}}
-                        <span class="text1">版本号 {{ selectedApp.version.substr() }}</span>
+                    <span  class="text1" ng-show="selectedApp.latestReleaseDate.length > 0">更新日期:
+                        <span style="color: red; font-size: 14px">{{selectedApp.latestReleaseDate| date: 'yy/MM/dd'}}</span>
+                        <span class="text1">版本号: {{ selectedApp.version.substr() }}</span>
                     </span>
                 </p>
             </div>
@@ -345,6 +346,10 @@
                                 <button disabled class="b4" style="margin-left:310px;"
                                         ng-show="rankExtraYCoin > 0">+{{rankExtraYCoin.toFixed(1)}}Y币
                                 </button>
+
+                                <button disabled class="b4" style="margin-left:310px;"
+                                        ng-show="displayDemandTemplate.asoRank > 0">+{{displayDemandTemplate.asoRank}}Y币
+                                </button>
                             </p>
                             <br>
                             <div class="checkbox" >
@@ -353,7 +358,7 @@
                                            ng-model="displayDemandTemplate.needGet" id="box1" ng-click="needGetFunc()">
                                     必须获取标志
                                 </label>
-                                <button disabled  ng-show="needGetYCoin == true" class="b4" style="margin-left:300px;">+5Y币</button>
+                                <button disabled  ng-show="needGetYCoin == true || displayDemandTemplate.needGet == true" class="b4" style="margin-left:300px;">+5Y币</button>
                             </div>
                         </div>
                     </div>
@@ -380,7 +385,8 @@
                             <!--<input ng-hide="true" type="radio" value="3" id="rad6Input" name="radio3" >-->
                             <!--<label for="rad6Input" style="border-bottom-right-radius: 4px;border-top-right-radius: 4px;">手机注册</label>-->
                             <!--</div>-->
-                            <button disabled class="b4" style="margin-left:163px;" ng-show="showYCoin == true">+2Y币</button>
+                            <button disabled class="b4" style="margin-left:163px;"
+                                    ng-show="showYCoin == true || displayDemandTemplate.registerStatus == 'third'">+2Y币</button>
                             <!--<button disabled class="b4"  id="i2"  style="margin-left:163px;">+10Y币-->
                             <!--</button>-->
                         </div>
@@ -421,7 +427,10 @@
 
                                         <input type="text" ng-model="displayDemandTemplate.reviewMustTitleKey" name="reviewMustTitleKey" class="input2" id="reviewMustTitle"
                                                maxlength="5" placeholder="请输入小于6字符">
-                                        <button disabled class="b4" style="margin-left:234px;" ng-show="reviewTitleTem == true">+1Y币</button>
+
+                                        <button disabled class="b4" style="margin-left:234px;"
+                                                ng-show="reviewTitleTem == true || displayDemandTemplate.reviewMustTitleKey != undefined">+1Y币
+                                        </button>
                                     </p><br>
 
                                     <p>评论关键词<br><br>
@@ -435,19 +444,23 @@
 
                                         </span>/40<br><br>
 
-                                        <span  style="color:#adadad;font-size: 16px;">必选</span>
+                                        <span style="color:#adadad;font-size: 16px;">必选</span>
                                         <input type="text" ng-model="displayDemandTemplate.reviewMustContentKey" id="reviewMustContent"
                                                maxlength="5" placeholder="请输入小于6字符"
                                                name="reviewMustContentKey" class="field" style="margin-left:14px;">
 
-                                        <button disabled class="b4" style="margin-left:229px;" ng-show="commentMustContent == true">+1Y币</button>
+                                        <button disabled class="b4" style="margin-left:229px;"
+                                                ng-show="commentMustContent == true || displayDemandTemplate.reviewMustContentKey != undefined">+1Y币
+                                        </button>
                                     </p><br>
 
-                                    <div class="checkbox" >
-                                        <label >
+                                    <div class="checkbox" style="padding-bottom: 20px">
+                                        <label>
                                             <input type="checkbox" ng-model="displayDemandTemplate.needMoreReviewContent" name="needMoreReviewContent" value=true  id="box2" ng-click="commenOver50()">
                                             评论需满50字
-                                            <button disabled ng-show="commentYCoin == true" class="b4" style="margin-left:305px;">+3Y币</button>
+                                            <button disabled ng-show="commentYCoin == true || displayDemandTemplate.needMoreReviewContent == true"
+                                                    class="b4" style="margin-left:305px;">+3Y币
+                                            </button>
                                         </label>
                                     </div>
                                 </div>
@@ -471,15 +484,15 @@
                                 </span>
                                 </h4>
 
-                                <textarea name="detailRem" class="input3" cols='10' rows="10" maxlength="140"
+                                <textarea name="detailRem" class="input3" rows="10" maxlength="40"
                                           ng-model="displayDemandTemplate.detailRem"
-                                          placeholder="请在备注中填写您的对评论要求的解释，但请不要增加非野马标准的要求。例如：手机注册、发布一条信息流、截取特殊界面的打开图等等"
+                                          placeholder="请在备注中填写您的对评论要求的解释，但请不要增加非野马标准的要求。例如：手机注册、发布一条信息流、截取特殊界面的打开图等等均不支持"
                                           style="font-size:14px;">
                                 </textarea>
                                 <span ng-bind="displayDemandTemplate.detailRem.length+0"
                                       style="margin-left:15px;color:#00b7ff;font-size: 14px;">
 
-                                </span>/140<br><br>
+                                </span>/40<br><br>
                                 <!--备注:<input type="text" class="task-remark" name="taskRemark" ng-model="displayDemandTemplate.taskRemark">-->
 
 

@@ -17,9 +17,9 @@ var tempUserSQL = AV.Object.extend('tempUser');
 var YCoinToRMBRate = 0.45;
 var masterRMBRate = 0.2;    //师徒获取Y币比率
 
-//测试代码
-var debugUploadTask = 0;
-var debugRefusedTask = 0;
+//手动跑服务器代码
+var manualUploadTask = 1;
+var manualRefusedTask = 0;
 
 /**
  * 一个简单的云代码方法
@@ -49,24 +49,25 @@ function getTaskCheckQuery(){
     return query;
 }
 
-function dealReceiveTask(inReceTaskObject, doTaskObjects, taskUsers, locked, results)
+function dealReceiveTask(inReceTaskObject, doTaskObjects, taskUsers, changeDoTasks, locked, results)
 {
     var app = inReceTaskObject.get('appObject'); // 领取的任务App
     var task = inReceTaskObject.get('taskObject'); // 领取任务的object
 
     function retResponse()
     {
+        console.info('********** retResponse: ' + locked + 'all count:' + results.length);
         if(locked == results.length){
             //保存所有用户的数据改动
-            AV.Object.saveAll(taskUsers.concat(results)).then(function(){
-                console.log('!!!!! checkTask  modify journal succeed');
+            AV.Object.saveAll(taskUsers.concat(results).concat(changeDoTasks)).then(function(){
+                console.log('-------******------- taskCheckForDoTask do save succeed!');
             }, function (error) {
-                console.error('---------- save all user money error ' + error.message);
+                console.error('-------******------- save all user money error ' + error.message);
             });
         }
     }
 
-    if(task == undefined || app == undefined){
+    if(task == undefined || app == undefined || doTaskObjects == undefined){
         console.error('********** task or app is undefine in timer func');
         retResponse();
         return;
@@ -89,7 +90,7 @@ function dealReceiveTask(inReceTaskObject, doTaskObjects, taskUsers, locked, res
     var tempUser = inReceTaskObject.get('tempUserObject');
 
     var needDoneTimer = true;
-    var changeDoTasks = [];
+    var subChangeDoTasks = [];
     for (var r = 0; r < doTaskObjects.length; r++){
         var taskStatus = doTaskObjects[r].get('taskStatus');
         var usernameForMessage;
@@ -108,6 +109,7 @@ function dealReceiveTask(inReceTaskObject, doTaskObjects, taskUsers, locked, res
             }
 
             doTaskObjects[r].set('taskStatus', 'systemAccepted');
+            subChangeDoTasks.push(doTaskObjects[r]);
             changeDoTasks.push(doTaskObjects[r]);
 
             if (user != undefined)
@@ -116,7 +118,7 @@ function dealReceiveTask(inReceTaskObject, doTaskObjects, taskUsers, locked, res
                 usernameForMessage = user.get('username');
 
                 //新手任务
-                if(changeDoTasks.length == 1 && user.get('registerBonus') == 'register_upload_task'){
+                if(subChangeDoTasks.length == 1 && user.get('registerBonus') == 'register_upload_task'){
                     user.set('registerBonus', 'register_accept_task');
                 }
 
@@ -219,13 +221,13 @@ function dealReceiveTask(inReceTaskObject, doTaskObjects, taskUsers, locked, res
         }
     }
 
-    if(changeDoTasks.length > 0){
-        AV.Object.saveAll(changeDoTasks).then(function(){
-            console.log(inReceTaskObject.id + ' ______ task status for systemAccepted Saved succeed');
-        },function(error){
-            console.error(inReceTaskObject.id + ' ______ task status for systemAccepted Saved error');
-        });
-    }
+    //if(changeDoTasks.length > 0){
+    //    AV.Object.saveAll(changeDoTasks).then(function(){
+    //        console.log(inReceTaskObject.id + ' ______ task status for systemAccepted Saved succeed');
+    //    },function(error){
+    //        console.error(inReceTaskObject.id + ' ______ task status for systemAccepted Saved error');
+    //    });
+    //}
 
     //还得减去已过期,不再重新结算
     var undoTask = inReceTaskObject.get('receiveCount') - doTaskObjects.length - inReceTaskObject.get('expiredCount');
@@ -267,10 +269,15 @@ AV.Cloud.define('taskCheckForDoTask', function(request, response){
             return;
         }
 
-        var remain = totalCount % 1000;
-        var totalForCount = totalCount/1000 + remain > 0 ? 1 : 0;
+        console.log('!!!!! need deal task count ' + totalCount);
+        var eachBatchDealCount = 100;
+
+        var remain = totalCount % eachBatchDealCount;
+        var totalForCount = totalCount/eachBatchDealCount + (remain > 0 ? 1 : 0);
+        console.log('!!!!! need deal task count ' + totalForCount);
         for (var i = 0; i < totalForCount; i++){
             //receiveTaskObject
+            console.log('!!!!! batch deal task ' + i);
             var query_a = getTaskCheckQuery();
             query_a.include('userObject');
             query_a.include('tempUserObject');
@@ -278,31 +285,43 @@ AV.Cloud.define('taskCheckForDoTask', function(request, response){
             query_a.include('taskObject');
             query_a.include('appObject');
             query_a.include('taskObject.userObject');
-            query_a.limit(1000);
-            query_a.skip(i * 1000);
+            query_a.limit(eachBatchDealCount);
+            query_a.skip(i * eachBatchDealCount);
             query_a.find().then(function(results){ // 查找出所有没有完成的任务
 
                 var locked = 0;
+                var testLocked = 0;
+
                 var taskUsers = Array();
+                var changeDoTasks = Array();
 
                 for (var e = 0; e < results.length; e++){
 
                     //小马用户
                     var tempUser = results[e].get('tempUserObject');
-                    if(tempUser != undefined){
+                    if(tempUser != undefined)
+                    {
                         //小马用户
+                        testLocked++;
                         locked++;
                         var tempMackTask = results[e].get('tempMackTask');
                         if(tempMackTask == undefined){
-                            dealReceiveTask(results[e], [], taskUsers, locked);
+                            dealReceiveTask(results[e], [], taskUsers, changeDoTasks, locked);
                         }else {
-                            dealReceiveTask(results[e], [tempMackTask], taskUsers, locked, results);
+                            dealReceiveTask(results[e], [tempMackTask], taskUsers, changeDoTasks, locked, results);
                         }
-                    }else{
+                    }
+                    else
+                    {
                         //换评用户
                         (function(receTaskObject){
+
                             // 修改任务为已经接收 最多可以做1000个任务
                             var relation = receTaskObject.relation('mackTask');
+                            if(relation == undefined){
+                                testLocked++;
+                                console.info('----- testLocked: ' + testLocked);
+                            }
                             var query = relation.query();
                             query.notEqualTo('taskStatus', 'expired');
                             query.include('receiveTaskObject');
@@ -312,8 +331,14 @@ AV.Cloud.define('taskCheckForDoTask', function(request, response){
                             query.limit(1000);
                             query.find().then(function(doTaskObjects){
                                 locked++;
+                                console.info('-------- test -------- ' + locked + 'all count:' + results.length);
                                 //闭包
-                                dealReceiveTask(receTaskObject, doTaskObjects, taskUsers, locked, results);
+                                dealReceiveTask(receTaskObject, doTaskObjects, taskUsers, changeDoTasks, locked, results);
+                            },function(error){
+                                //BUGBUG
+                                locked++;
+                                dealReceiveTask(receTaskObject, undefined, taskUsers, changeDoTasks, locked, results);
+                                console.error(receTaskObject.id + ' mackTask error: ' + error.message);
                             });
                         })(results[e]);
                     }
@@ -450,13 +475,17 @@ AV.Cloud.define('refuseTaskTimerForRelease', function(request, response){
     });
 });
 
+//测试代码
+var debugUploadTask = 0;
+var debugRefusedTask = 0;
+
 module.exports = AV.Cloud;
 
 var paramsJson = {
     movie: "夏洛特烦恼"
 };
 
-if(debugUploadTask == 1){
+if(debugUploadTask == 1 || manualUploadTask == 1){
     AV.Cloud.run('taskCheckForDoTask', paramsJson, {
         success: function(data) {
             // 调用成功，得到成功的应答data
@@ -469,7 +498,7 @@ if(debugUploadTask == 1){
     });
 }
 
-if(debugRefusedTask == 1){
+if(debugRefusedTask == 1 || manualRefusedTask == 1){
     AV.Cloud.run('refuseTaskTimerForRelease', paramsJson, {
         success: function(data) {
             // 调用成功，得到成功的应答data

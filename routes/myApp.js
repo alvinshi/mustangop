@@ -439,21 +439,24 @@ router.post('/task', function(req, res){
                         var freezing_money = excCount * excUnitPrice;  // 发布总条数 * 发布的单价 = 冻结的钱
                         userObject.increment('totalMoney', - freezing_money);
                         userObject.increment('freezingMoney', freezing_money);
-                        userObject.save().then(function(){
-                            saveDemands(res, userObject, appObject, taskType, String(excCount), excUnitPrice, searchKeyword,
-                                String(asoRank), extraRetObject.needGet, registerStatus, parseInt(Score), reviewTitleKey, reviewMustTitleKey,
-                                reviewContentKey, reviewMustContentKey, extraRetObject.needMoreReviewContent, needOfficialAudit);
-                            messager.freezeMsg(appObject.get('trackName'), freezing_money, userObject.id);
-                        }, function(error){
-                            console.error('------ user: ' + userObject.id + ' release task,minus YB error,and task send succeed');
-                        });
 
                         //每日任务
                         if( myDate.getHours() < 10){
                             util.dayTaskIncrement(userId, 'releaseTaskY', 5);
                         }
 
-                        res.json({'errorId': 0, 'errorMsg':''});
+                        userObject.save().then(function(){
+                            //发布任务成功
+                            saveDemands(res, userObject, appObject, taskType, String(excCount), excUnitPrice, searchKeyword,
+                                String(asoRank), extraRetObject.needGet, registerStatus, parseInt(Score), reviewTitleKey, reviewMustTitleKey,
+                                reviewContentKey, reviewMustContentKey, extraRetObject.needMoreReviewContent, needOfficialAudit);
+                            messager.freezeMsg(appObject.get('trackName'), freezing_money, userObject.id);
+
+                            res.render('homePageSx');
+                            //res.json({'errorId': 0, 'errorMsg':''});
+                        }, function(error){
+                            console.error('------ user: ' + userObject.id + ' release task,minus YB error,and task send succeed');
+                        });
                     },function(error){
                         res.json({'errorMsg':error.message, 'errorId': error.code});
                     });
@@ -529,7 +532,7 @@ function saveDemands(res, userObject, appObject, task_type, excCount, excUnitPri
         //2个都会保存
         dealIOSAppBilderObject.save();
     }, function(error){
-        res.json({'errorMsg':error.message, 'errorId': error.code});
+        console.error('save app demand when send task error:' + error.message);
     });
 }
 
@@ -564,7 +567,15 @@ router.get('/getNeed/:appObjectId', function(req, res){
                     appDemandInfo.excCount = taskDemandObject.get('excCount');
 
                     appDemandInfo.searchKeyword = taskDemandObject.get('searchKeyword');
-                    appDemandInfo.ranKing = taskDemandObject.get('ranKing'); // 排名YCoin
+                    appDemandInfo.ranKing = taskDemandObject.get('ranKing');
+                    var asoRank = taskDemandObject.get('ranKing'); // 排名YCoin
+                    if (asoRank >= 21 && asoRank <= 50){
+                        appDemandInfo.asoRank = (asoRank / 10 - 2).toFixed(1);
+                    }
+                    else {
+                        appDemandInfo.asoRank = (3 + (asoRank - 50) * 0.5).toFixed(1);
+                    }
+
 
                     //兼容老的保存需求
                     if(taskDemandObject.get('screenshotCount') != undefined && taskDemandObject.get('screenshotCount') > 0){

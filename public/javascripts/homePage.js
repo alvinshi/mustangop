@@ -23,13 +23,13 @@ app.controller('homePageCtrl', function($scope, $http){
     $scope.noviceTaskObject.hasFirstRecharge = 0;
 
     // 任务
-    var noviceTaskUrl = 'homePage/noviceTask';
+    var noviceTaskUrl = '/homePage/noviceTask';
     $http.get(noviceTaskUrl).success(function(response){
         $scope.noviceTaskObject = response.noviceTaskObject;
     });
 
     $scope.LuxuryUser = function(){
-        var luxuryURL = 'homePage/LuxuryUser';
+        var luxuryURL = '/homePage/LuxuryUser';
         $http.post(luxuryURL, {}).success(function(response){
             $scope.luxuryMessage = response.errorMsg;
             $scope.luxurySucceed = response.errorId;
@@ -45,13 +45,13 @@ app.controller('homePageCtrl', function($scope, $http){
     });
 
         // banner
-    var bannerurl = 'homePage/banner';
+    var bannerurl = '/homePage/banner';
     $http.get(bannerurl).success(function(response){
         $scope.bannerUrl = response.bannerUrl;
     });
 
     // 签到
-    var ischeckinsUrl = 'homePage/ischeckins';
+    var ischeckinsUrl = '/homePage/ischeckins';
     $scope.isCheckIns = 0;
     $scope.todayYB = 1;
     $scope.continueCheck = 2;
@@ -65,7 +65,7 @@ app.controller('homePageCtrl', function($scope, $http){
         }
     });
 
-    $http.get('homePage/dayTask').success(function(response){
+    $http.get('/homePage/dayTask').success(function(response){
         if(response.errorId == 0){
             $scope.releaseTaskY = response.releaseTaskY;
             $scope.doTaskY = response.doTaskY;
@@ -80,7 +80,7 @@ app.controller('homePageCtrl', function($scope, $http){
             return
         }
         $scope.dayTaskLock = 1;
-        var checkInsURL = 'homePage/dayTask';
+        var checkInsURL = '/homePage/dayTask';
         $http.post(checkInsURL, {'actionId':actionId}).success(function(response){
             $scope.dayTaskLock = 0;
             if (response.errorId == 0){
@@ -98,7 +98,7 @@ app.controller('homePageCtrl', function($scope, $http){
             return;
         }
         $scope.checkInLock = 1;
-        var checkInsURL = 'homePage/checkIns';
+        var checkInsURL = '/homePage/checkIns';
         $http.post(checkInsURL, {}).success(function(response){
             $scope.checkInLock = 0;
             $scope.errorId = response.errorId;
@@ -141,7 +141,7 @@ app.controller('homePageCtrl', function($scope, $http){
     });
 
     // 我的发布
-    var myReleaseTaskUrl = 'homePage/myReleaseTask';
+    var myReleaseTaskUrl = '/homePage/myReleaseTask';
     $http.get(myReleaseTaskUrl).success(function(response){
         $scope.myReleaseTask = response.myReleaseTaskInfo;
         if ($scope.myReleaseTask.length <= 0){
@@ -157,7 +157,7 @@ app.controller('homePageCtrl', function($scope, $http){
         }
         $scope.receInLock = 1;
         var actionId = button.getAttribute("data-id");
-        var userReceiveAwardUrl = 'homePage/userReceiveAward';
+        var userReceiveAwardUrl = '/homePage/userReceiveAward';
         var transferMoney = {'actionId': actionId};
 
         $http.post(userReceiveAwardUrl, transferMoney).success(function(response){

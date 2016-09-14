@@ -618,6 +618,7 @@ router.post('/myTask', function(req, res) {
                 if(receTaskObject.get('expiredCount') == 0){
                     undoTask++;
                     willGetRmb += myTaskDic.doTaskPrice;
+                    myTaskDic.statusDes = '未完成';
                 }else {
                     //超时未做过期
                     myTaskDic.statusDes = '任务超时';
