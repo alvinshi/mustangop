@@ -96,7 +96,7 @@
                     <img src="/images/app/screenShotS.png" style="height: 0.8em;">
                     <span  style="color:#fc7f6a">截图</span></p>
                 </div>
-                <div class="example">
+                <div class="example" >
                     <img src="/images/app/example.png" style="height: 0.8em;" >
                     <span style="font-size: 1em;color: #b2b2b2">示例三</span>
                 </div>
@@ -124,7 +124,7 @@
         <button ng-show="lockTaskId != undefined && progressNum <= 0 && (taskDetail.doTaskStatus != 'accepted' && taskDetail.doTaskStatus != 'systemAccepted'&& taskDetail.doTaskStatus != 'refused')"
              class="upload-pic-button" >
             <!--accept="image/*"-->
-            <input class="upload" type="file" id="up"  nv-file-select="" uploader="uploader" multiple/>
+            <input class="upload" type="file" id="up"  nv-file-select="" uploader="uploader" id="timer" multiple/>
             {{uploadButtonTitle}}
         </button>
 
