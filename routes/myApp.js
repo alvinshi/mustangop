@@ -567,7 +567,15 @@ router.get('/getNeed/:appObjectId', function(req, res){
                     appDemandInfo.excCount = taskDemandObject.get('excCount');
 
                     appDemandInfo.searchKeyword = taskDemandObject.get('searchKeyword');
-                    appDemandInfo.ranKing = taskDemandObject.get('ranKing'); // 排名YCoin
+                    appDemandInfo.ranKing = taskDemandObject.get('ranKing');
+                    var asoRank = taskDemandObject.get('ranKing'); // 排名YCoin
+                    if (asoRank >= 21 && asoRank <= 50){
+                        appDemandInfo.asoRank = (asoRank / 10 - 2).toFixed(1);
+                    }
+                    else {
+                        appDemandInfo.asoRank = (3 + (asoRank - 50) * 0.5).toFixed(1);
+                    }
+
 
                     //兼容老的保存需求
                     if(taskDemandObject.get('screenshotCount') != undefined && taskDemandObject.get('screenshotCount') > 0){
