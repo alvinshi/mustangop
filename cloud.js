@@ -67,7 +67,7 @@ function dealReceiveTask(inReceTaskObject, doTaskObjects, taskUsers, changeDoTas
         }
     }
 
-    if(task == undefined || app == undefined){
+    if(task == undefined || app == undefined || doTaskObjects == undefined){
         console.error('********** task or app is undefine in timer func');
         retResponse();
         return;
@@ -221,7 +221,7 @@ function dealReceiveTask(inReceTaskObject, doTaskObjects, taskUsers, changeDoTas
         }
     }
 
-    //if(subChangeDoTasks.length > 0){
+    //if(changeDoTasks.length > 0){
     //    AV.Object.saveAll(changeDoTasks).then(function(){
     //        console.log(inReceTaskObject.id + ' ______ task status for systemAccepted Saved succeed');
     //    },function(error){
@@ -335,7 +335,9 @@ AV.Cloud.define('taskCheckForDoTask', function(request, response){
                                 //闭包
                                 dealReceiveTask(receTaskObject, doTaskObjects, taskUsers, changeDoTasks, locked, results);
                             },function(error){
+                                //BUGBUG
                                 locked++;
+                                dealReceiveTask(receTaskObject, undefined, taskUsers, changeDoTasks, locked, results);
                                 console.error(receTaskObject.id + ' mackTask error: ' + error.message);
                             });
                         })(results[e]);
