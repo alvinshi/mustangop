@@ -200,7 +200,7 @@ body{
 }
 
 .addTaskInfo {
-    line-height: 24px;
+    /*line-height: 24px;*/
     margin-left: 15px;
     padding-bottom: 14px;
     margin-top: 10px;

@@ -164,19 +164,23 @@
 
                         <!--标题部分-->
                         <div style="margin-left: 44px;">
-                            <p class="comment-top">a.标题关键字(包含任意1个)</p>
-                            <p class="">{{oneAppInfo.titleKeyword}}</p>
-                            <p ng-show="oneAppInfo.reviewMustTitleKey != ''" class="comment-top">必须包含:
-                                <span class="color-ramp">{{oneAppInfo.reviewMustTitleKey}}&nbsp;(+2YB)</span>
-                            </p>
+                            <p style="color: #666666;font-size: 14px">评分{{oneAppInfo.Score}}星</p>
+                            <div style="">
+                                <p class="comment-top">a.标题关键字(包含任意1个)</p>
+                                <p class="" style="">{{oneAppInfo.titleKeyword}}</p>
+                                <p ng-show="oneAppInfo.reviewMustTitleKey != ''" class="comment-top">必须包含:
+                                    <span class="color-ramp">{{oneAppInfo.reviewMustTitleKey}}&nbsp;(+2YB)</span>
+                                </p>
+                            </div>
 
                             <!--评论部分-->
-                            <p class="comment-top">b.评论内容关键字(包含任意2个)</p>
-                            <p class="">{{oneAppInfo.commentKeyword}}</p>
-                            <p ng-show="oneAppInfo.reviewMustContentKey != ''" class="comment-top">必须包含:
-                                <span class="color-ramp">{{oneAppInfo.reviewMustContentKey}}&nbsp;(+2YB)</span>
-                            </p>
-
+                            <div style="margin-top: 20px">
+                                <p class="comment-top">b.评论内容关键字(包含任意2个)</p>
+                                <p class="">{{oneAppInfo.commentKeyword}}</p>
+                                <p ng-show="oneAppInfo.reviewMustContentKey != ''" class="comment-top">必须包含:
+                                    <span class="color-ramp">{{oneAppInfo.reviewMustContentKey}}&nbsp;(+2YB)</span>
+                                </p>
+                            </div>
                         </div>
                         <p class="">
                         <span ng-show="oneAppInfo.needMoreReviewContent == true">

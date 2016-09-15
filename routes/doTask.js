@@ -89,15 +89,31 @@ function taskObjectToDic(results, TaskObjects, isMyTask)
         appObject.rateUnitPrice = results[i].get('rateUnitPrice');
 
         // 任务详情信息
-        appObject.taskType = results[i].get('taskType');
-        appObject.ranking = results[i].get('ranKing');
-        appObject.score = results[i].get('Score');
-        appObject.searchKeyword = results[i].get('searchKeyword');
+        appObject.taskType = results[i].get('taskType'); // 任务类型
+        appObject.ranking = results[i].get('ranKing');  // 任务排名
+        appObject.score = results[i].get('Score');      // 任务评分
+        appObject.searchKeyword = results[i].get('searchKeyword');  // 搜索关键词
         appObject.screenshotCount = results[i].get('screenshotCount');
-        appObject.titleKeyword = results[i].get('titleKeyword');
-        appObject.commentKeyword = results[i].get('commentKeyword');
-        appObject.detailRem = results[i].get('detailRem');
 
+        appObject.needGet = results[i].get('needGet'); // 是否需要获取
+        appObject.registerStatus = results[i].get('registerStatus'); // 第三方登陆
+        appObject.needMoreReviewContent = results[i].get('needMoreReviewContent'); // 评论是否超过50个字
+
+        appObject.titleKeyword = results[i].get('titleKeyword');  // 标题关键词
+        appObject.reviewMustTitleKey = results[i].get('reviewMustTitleKey'); // 是否需要标题必选
+        appObject.commentKeyword = results[i].get('commentKeyword');  // 评论关键词
+        appObject.reviewMustContentKey = results[i].get('reviewMustContentKey'); // 是否需要评论必选
+        appObject.detailRem = results[i].get('detailRem');  // 备注详情
+
+        if (results[i].get('ranKing') <= 20){
+            appObject.asoRank = 0;
+        }
+        else if (results[i].get('ranKing') >= 21 && results[i].get('ranKing') <= 50){
+            appObject.asoRank = (results[i].get('ranKing') / 10 - 2).toFixed(1);
+        }
+        else {
+            appObject.asoRank = (3 + (results[i].get('ranKing') - 50) * 0.5).toFixed(1);
+        }
 
         if(isMyTask){
             TaskObjects.unshift(appObject);
